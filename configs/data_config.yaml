@@ -1,0 +1,40 @@
+# VietVLM-Finetune Data Configuration
+data:
+  train_path: "data/train.json"
+  val_path: "data/val.json"
+  image_dir: "data/images"
+  
+preprocessing:
+  image_size: 448
+  max_tiles: 12
+  normalize:
+    mean: [0.485, 0.456, 0.406]
+    std: [0.229, 0.224, 0.225]
+
+tokenizer:
+  model_name: "Qwen/Qwen2-1.5B-Instruct"
+  max_length: 2048
+  padding: "longest"
+  truncation: true
+
+dataloader:
+  train_batch_size: 4
+  eval_batch_size: 8
+  num_workers: 4
+  pin_memory: true
+
+# Prompt template for Vietnamese VQA
+prompt_template: |
+  <|im_start|>system
+  Bạn là một trợ lý AI thông minh, có khả năng phân tích hình ảnh và trả lời câu hỏi bằng tiếng Việt.<|im_end|>
+  <|im_start|>user
+  <image>
+  {question}<|im_end|>
+  <|im_start|>assistant
+  {answer}<|im_end|>
+
+# Label masking config
+label_masking:
+  mask_prompt: true
+  mask_image_tokens: true
+  ignore_index: -100

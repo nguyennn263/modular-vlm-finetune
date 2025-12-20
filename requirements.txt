@@ -1,0 +1,12 @@
+torch>=2.0.0
+transformers>=4.40.0
+peft>=0.10.0
+accelerate>=0.27.0
+bitsandbytes>=0.42.0
+flash-attn>=2.5.0
+pillow>=10.0.0
+pyyaml>=6.0
+wandb>=0.16.0
+datasets>=2.18.0
+sacrebleu>=2.4.0
+rouge-score>=0.1.2

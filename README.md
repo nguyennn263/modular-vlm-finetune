@@ -94,11 +94,4 @@ T4 GPU has 16GB VRAM. Config optimizations:
 - Disable wandb: `use_wandb: false`
 - Enable gradient checkpointing: `gradient_checkpointing: true`
 
-## 📝 Changes Made
-
-- Removed unused `src/utils/loss.py`
-- Moved legacy code to `src/models/legacy/`
-- Refactored metrics to use `metrics/` module
-- Cleaned up duplicate code
-- Ready for production training
 

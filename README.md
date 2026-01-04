@@ -1,116 +1,104 @@
 # VLM Fine-tuning Framework
 
-Modular Vision-Language Model fine-tuning framework, optimized for Kaggle T4 GPU.
+Modular Vision-Language Model fine-tuning framework with easy model swapping. Optimized for Kaggle T4 GPU.
 
 ## 🚀 Quick Start
 
 ```bash
-# Install dependencies
 pip install -r requirements.txt
-
-# Train with default config
-python run_train.py --config configs/config.yaml
-
-# Train with Kaggle T4 optimized config
 python run_train.py --config configs/kaggle_t4.yaml
 ```
 
-## 📁 Project Structure
+## 📁 Structure
 
 ```
-VLM-Benchmark/
-├── configs/
-│   ├── config.yaml          # Default config
-│   └── kaggle_t4.yaml       # T4 GPU optimized
-├── src/
-│   ├── models/
-│   │   ├── registry.py      # Model registry (swap models easily)
-│   │   ├── vision_encoders.py
-│   │   ├── projectors.py
-│   │   └── vlm.py           # Main VLM architecture
-│   ├── data/
-│   │   ├── processor.py     # Dynamic HR tiling
-│   │   ├── dataset.py
-│   │   └── collator.py
-│   └── utils/
-├── data/                    # Your training data
-├── run_train.py            # Main training script
-└── kaggle_notebook.py      # Kaggle notebook entry
+src/
+├── models/           # Modular components
+│   ├── vlm.py        # Main VLMModel class
+│   ├── vision_encoders.py
+│   ├── projectors.py
+│   ├── registry.py   # Model configs
+│   └── legacy/       # Old code (reference only)
+├── data/             # Dataset + preprocessing
+└── utils/            # Logging, checkpoints, metrics
+
+configs/
+├── config.yaml       # Default settings
+└── kaggle_t4.yaml    # T4 optimized
+
+metrics/              # 9 evaluation metrics
+data/                 # Training data (images + JSON)
 ```
 
-## 🔧 Configuration - Swap Models Easily
+## ⚙️ Config - Swap Models Easily
 
 ```yaml
 model:
-  # Vision Encoder: "internvit", "siglip", "clip"
-  vision_encoder_type: "internvit"
-  
-  # Projector: "mlp", "mlp_gelu", "linear", "downsample"
-  projector_type: "mlp"
-  
-  # LLM: "qwen2-0.5b", "qwen2-1.5b", "qwen2-7b", "phi-2"
-  llm_type: "qwen2-0.5b"
+  vision_encoder_type: "internvit"  # or: siglip, clip
+  projector_type: "mlp"              # or: linear, mlp_gelu, downsample
+  llm_type: "qwen2-0.5b"             # or: qwen2-1.5b, phi-2
+
+lora:
+  enabled: true  # LoRA fine-tuning
+  r: 16
 ```
 
-### Available Models
-
-| Vision Encoder | Model | Hidden Size |
-|---------------|-------|-------------|
-| `internvit` | InternViT-300M-448px | 1024 |
-| `siglip` | SigLIP-SO400M-384 | 1152 |
-| `clip` | CLIP-ViT-L-336 | 1024 |
-
-| LLM | Model | Size |
-|-----|-------|------|
-| `qwen2-0.5b` | Qwen2-0.5B-Instruct | 0.5B |
-| `qwen2-1.5b` | Qwen2-1.5B-Instruct | 1.5B |
-| `phi-2` | Phi-2 | 2.7B |
+**Available Models:**
+- Vision: InternViT (1024), SigLIP (1152), CLIP (1024)
+- LLM: Qwen2-0.5B, Qwen2-1.5B, Phi-2
 
 ## 📊 Data Format
 
 ```json
 [
   {
-    "image": "image_001.jpg",
-    "question": "Mô tả hình ảnh này?",
-    "answer": "Đây là một bức ảnh..."
+    "image": "img_001.jpg",
+    "question": "Describe this",
+    "answer": "This is..."
   }
 ]
 ```
 
+Place images in `data/images/`, JSON in `data/`
+
 ## 🏃 Training
 
 ```bash
-# Basic training
-python run_train.py --config configs/config.yaml
+# Train
+python run_train.py --config configs/kaggle_t4.yaml
 
-# Override parameters
+# Override args
 python run_train.py --config configs/config.yaml \
-    --batch_size 2 \
-    --learning_rate 1e-5 \
-    --epochs 5
+    --batch_size 2 --learning_rate 1e-5 --epochs 5
 
-# Resume from checkpoint
-python run_train.py --config configs/config.yaml --resume outputs/checkpoint-100
+# Resume
+python run_train.py --config configs/config.yaml --resume latest
 ```
 
-## 💡 Tips for Kaggle T4 (16GB VRAM)
+## 💾 Key Features
 
-1. Use `qwen2-0.5b` (smallest LLM)
-2. Set `max_tiles: 4` (fewer image patches)
-3. Set `max_length: 512` (shorter sequences)
-4. Use `batch_size: 1` with `gradient_accumulation: 16`
-5. Disable wandb: `use_wandb: false`
+- **Modular**: Swap vision encoder, projector, LLM via config
+- **Registry**: Pre-configured LLM models
+- **Dynamic Tiling**: Auto-split large images into 448×448 tiles
+- **LoRA**: Memory-efficient fine-tuning
+- **Label Masking**: Loss only on assistant responses
+- **Checkpoints**: Auto-save best models
+- **Metrics**: 9 evaluation metrics (BLEU, ROUGE, F1, etc.)
 
-## 🔑 Key Features
+## 🔥 Kaggle T4 Tips
 
-- **Modular Design**: Easily swap vision encoder, projector, LLM
-- **Model Registry**: Pre-configured model combinations
-- **Dynamic HR Tiling**: Auto-split large images into 448x448 tiles
-- **LoRA Fine-tuning**: Memory-efficient training
-- **Label Masking**: Only compute loss on assistant responses
-- **Kaggle Ready**: Optimized configs for T4 GPU
+T4 GPU has 16GB VRAM. Config optimizations:
+- Use `qwen2-0.5b` LLM
+- `batch_size: 1`, `gradient_accumulation: 16`
+- `max_tiles: 4`, `max_length: 512`
+- Disable wandb: `use_wandb: false`
+- Enable gradient checkpointing: `gradient_checkpointing: true`
 
-## 📝 License
+## 📝 Changes Made
 
-MIT
+- Removed unused `src/utils/loss.py`
+- Moved legacy code to `src/models/legacy/`
+- Refactored metrics to use `metrics/` module
+- Cleaned up duplicate code
+- Ready for production training
+

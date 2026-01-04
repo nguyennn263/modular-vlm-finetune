@@ -1,99 +1,118 @@
 """
-VQA Metrics cho đánh giá Vision-Language Model
+VQA Metrics - Wrapper around metrics/ module
+Sử dụng ScoreCalculator từ metrics/ module cho evaluation
 """
-import re
-from typing import List, Dict, Optional
-import torch
+import sys
+from pathlib import Path
+from typing import List, Dict, Optional, Union
+import numpy as np
+
+# Add metrics/ to path for importing
+METRICS_PATH = Path(__file__).parent.parent.parent / "metrics"
+if str(METRICS_PATH) not in sys.path:
+    sys.path.insert(0, str(METRICS_PATH))
+    # Add subdirectories for proper imports
+    for subdir in METRICS_PATH.iterdir():
+        if subdir.is_dir() and not subdir.name.startswith('.'):
+            sys.path.insert(0, str(subdir))
 
 
-def normalize_answer(text: str) -> str:
-    """Chuẩn hóa câu trả lời để so sánh"""
-    text = text.lower().strip()
-    text = re.sub(r'[.,!?;:]', '', text)
-    text = re.sub(r'\s+', ' ', text)
-    return text
-
-
-def exact_match(prediction: str, reference: str) -> float:
-    """Exact match score"""
-    return 1.0 if normalize_answer(prediction) == normalize_answer(reference) else 0.0
-
-
-def contains_match(prediction: str, reference: str) -> float:
-    """Check if reference is contained in prediction"""
-    pred_norm = normalize_answer(prediction)
-    ref_norm = normalize_answer(reference)
-    return 1.0 if ref_norm in pred_norm else 0.0
-
-
-def compute_vqa_accuracy(
-    predictions: List[str],
-    references: List[str],
-) -> Dict[str, float]:
+def contains_match(prediction: str, references: Union[str, List[str]]) -> float:
     """
-    Compute VQA accuracy metrics
-    Returns: dict với exact_match và contains_match scores
+    Simple check if any reference is contained in prediction
+    Lightweight utility function
     """
-    exact_scores = []
-    contains_scores = []
+    if isinstance(references, str):
+        references = [references]
     
-    for pred, ref in zip(predictions, references):
-        exact_scores.append(exact_match(pred, ref))
-        contains_scores.append(contains_match(pred, ref))
-    
-    return {
-        "exact_match": sum(exact_scores) / len(exact_scores),
-        "contains_match": sum(contains_scores) / len(contains_scores),
-    }
-
-
-def compute_bleu(predictions: List[str], references: List[str]) -> float:
-    """Compute BLEU score (requires sacrebleu)"""
-    try:
-        import sacrebleu
-        bleu = sacrebleu.corpus_bleu(predictions, [references])
-        return bleu.score / 100.0
-    except ImportError:
-        return 0.0
-
-
-def compute_rouge(predictions: List[str], references: List[str]) -> Dict[str, float]:
-    """Compute ROUGE scores (requires rouge_score)"""
-    try:
-        from rouge_score import rouge_scorer
-        scorer = rouge_scorer.RougeScorer(['rouge1', 'rouge2', 'rougeL'], use_stemmer=True)
-        
-        scores = {'rouge1': [], 'rouge2': [], 'rougeL': []}
-        for pred, ref in zip(predictions, references):
-            result = scorer.score(ref, pred)
-            for key in scores:
-                scores[key].append(result[key].fmeasure)
-        
-        return {k: sum(v) / len(v) for k, v in scores.items()}
-    except ImportError:
-        return {'rouge1': 0.0, 'rouge2': 0.0, 'rougeL': 0.0}
+    pred_lower = prediction.lower().strip()
+    for ref in references:
+        ref_lower = ref.lower().strip()
+        if ref_lower in pred_lower or pred_lower in ref_lower:
+            return 1.0
+    return 0.0
 
 
 class VQAMetrics:
-    """Class để tính toán và theo dõi VQA metrics"""
+    """
+    Wrapper around metrics/ module ScoreCalculator
+    """
     
-    def __init__(self):
-        self.predictions = []
-        self.references = []
+    def __init__(self, use_full_metrics: bool = False):
+        """
+        Args:
+            use_full_metrics: Sử dụng full metrics từ metrics/ module
+        """
+        self.use_full_metrics = use_full_metrics
+        self._score_calculator = None
+        
+        if use_full_metrics:
+            self._init_calculator()
     
-    def add_batch(self, predictions: List[str], references: List[str]):
-        """Thêm batch predictions và references"""
-        self.predictions.extend(predictions)
-        self.references.extend(references)
+    def _init_calculator(self):
+        """Initialize ScoreCalculator từ metrics/ module"""
+        try:
+            from compute_score import ScoreCalculator
+            self._score_calculator = ScoreCalculator()
+        except ImportError as e:
+            print(f"Warning: Could not import metrics module: {e}")
+            self.use_full_metrics = False
     
-    def compute(self) -> Dict[str, float]:
-        """Compute tất cả metrics"""
-        results = compute_vqa_accuracy(self.predictions, self.references)
-        results.update(compute_rouge(self.predictions, self.references))
-        results["bleu"] = compute_bleu(self.predictions, self.references)
+    def compute(
+        self,
+        predictions: List[str],
+        references: List[List[str]],
+        metrics: Optional[List[str]] = None,
+    ) -> Dict[str, float]:
+        """
+        Compute metrics sử dụng ScoreCalculator
+        """
+        if not self.use_full_metrics or not self._score_calculator:
+            return {}
+        
+        if metrics is None:
+            metrics = ["accuracy", "bleu", "f1_token", "rouge"]
+        
+        results = {}
+        
+        metric_methods = {
+            "accuracy": "accuracy_score",
+            "bleu": "bleu_score",
+            "cider": "cider_score",
+            "f1_token": "f1_token",
+            "meteor": "meteor_score",
+            "precision": "precision_score",
+            "recall": "recall_score",
+            "rouge": "rouge_score",
+            "wup": "wup",
+        }
+        
+        for metric_name in metrics:
+            if metric_name not in metric_methods:
+                continue
+                
+            method_name = metric_methods[metric_name]
+            try:
+                method = getattr(self._score_calculator, method_name)
+                scores = [
+                    method(refs, pred) 
+                    for pred, refs in zip(predictions, references)
+                ]
+                results[metric_name] = float(np.mean(scores)) if scores else 0.0
+            except Exception as e:
+                print(f"Warning: Failed to compute {metric_name}: {e}")
+                results[metric_name] = 0.0
+        
         return results
-    
-    def reset(self):
-        """Reset metrics"""
-        self.predictions = []
-        self.references = []
+
+
+def evaluate_model_outputs(
+    predictions: List[str],
+    references: List[List[str]],
+    metrics: Optional[List[str]] = None,
+) -> Dict[str, float]:
+    """
+    Evaluate model outputs với full metrics từ metrics/ module
+    """
+    calculator = VQAMetrics(use_full_metrics=True)
+    return calculator.compute(predictions, references, metrics)

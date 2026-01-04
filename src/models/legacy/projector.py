@@ -8,7 +8,6 @@ import torch.nn as nn
 
 class MLPProjector(nn.Module):
     """
-    2-layer MLP Projector để chuyển đổi vision features sang LLM embedding space
     Architecture: Linear -> GELU -> Linear
     """
     
@@ -53,7 +52,6 @@ class MLPProjector(nn.Module):
 class DownsampleProjector(nn.Module):
     """
     Projector với pixel shuffle để giảm số tokens
-    Dùng khi cần giảm sequence length cho LLM
     """
     
     def __init__(

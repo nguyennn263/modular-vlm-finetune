@@ -21,7 +21,6 @@ class VLMDataCollator:
     ignore_index: int = -100
     pad_to_multiple_of: Optional[int] = 8
     
-    # Markers để xác định vùng assistant response
     assistant_start: str = "<|im_start|>assistant"
     assistant_end: str = "<|im_end|>"
     
@@ -41,7 +40,6 @@ class VLMDataCollator:
             input_ids = feat["input_ids"]
             attention_mask = feat["attention_mask"]
             
-            # Tạo labels với masking
             labels = self._create_labels_with_masking(input_ids)
             
             batch["input_ids"].append(input_ids)
@@ -52,10 +50,8 @@ class VLMDataCollator:
                 batch["pixel_values"].append(feat["pixel_values"])
                 batch["num_patches"].append(feat["num_patches"])
         
-        # Pad text inputs
         batch = self._pad_sequences(batch)
         
-        # Stack pixel values nếu có
         if batch["pixel_values"]:
             batch["pixel_values"] = self._pad_pixel_values(batch["pixel_values"])
         else:
@@ -72,10 +68,8 @@ class VLMDataCollator:
         """
         labels = input_ids.clone()
         
-        # Decode để tìm vị trí assistant
         text = self.tokenizer.decode(input_ids)
         
-        # Tìm tất cả các vùng assistant
         assistant_ranges = self._find_assistant_ranges(text, input_ids)
         
         # Mặc định mask tất cả
@@ -85,7 +79,7 @@ class VLMDataCollator:
         for start, end in assistant_ranges:
             labels[start:end] = input_ids[start:end]
         
-        # Mask image tokens (nếu có)
+        # Mask image tokens 
         image_mask = input_ids == self.image_token_id
         labels[image_mask] = self.ignore_index
         
@@ -99,26 +93,21 @@ class VLMDataCollator:
         """Tìm các vùng assistant response trong text"""
         ranges = []
         
-        # Tìm tất cả positions của assistant markers
         start_marker = self.assistant_start
         end_marker = self.assistant_end
         
         pos = 0
         while True:
-            # Tìm bắt đầu của assistant response
             start_pos = text.find(start_marker, pos)
             if start_pos == -1:
                 break
             
-            # Tìm kết thúc (sau newline của assistant header)
             content_start = text.find("\n", start_pos) + 1
             
-            # Tìm end marker
             end_pos = text.find(end_marker, content_start)
             if end_pos == -1:
                 end_pos = len(text)
             
-            # Convert character positions sang token positions
             prefix_tokens = len(self.tokenizer.encode(
                 text[:content_start], add_special_tokens=False
             ))
@@ -134,10 +123,8 @@ class VLMDataCollator:
     def _pad_sequences(self, batch: Dict) -> Dict:
         """Pad input_ids, attention_mask, labels"""
         
-        # Tìm max length
         max_len = max(len(ids) for ids in batch["input_ids"])
         
-        # Round up nếu cần
         if self.pad_to_multiple_of:
             max_len = (
                 (max_len + self.pad_to_multiple_of - 1) 
@@ -204,23 +191,19 @@ def create_label_mask(
     """
     labels = input_ids.clone()
     
-    # Encode assistant token
     assistant_ids = tokenizer.encode(assistant_token, add_special_tokens=False)
     
-    # Tìm vị trí của assistant token
     seq_len = len(input_ids)
     assistant_len = len(assistant_ids)
     
     found = False
     for i in range(seq_len - assistant_len + 1):
         if input_ids[i:i+assistant_len].tolist() == assistant_ids:
-            # Mask từ đầu đến hết assistant marker + newline
             labels[:i+assistant_len+1] = ignore_index
             found = True
             break
     
     if not found:
-        # Không tìm thấy assistant, mask tất cả
         labels[:] = ignore_index
     
     return labels

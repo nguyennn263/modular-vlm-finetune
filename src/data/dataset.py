@@ -123,12 +123,24 @@ class ConversationDataset(Dataset):
         return len(self.data)
     
     def format_conversation(self, conversations: List[Dict]) -> str:
-        """Format multi-turn conversation"""
-        text = "<|im_start|>system\nBạn là trợ lý AI.<|im_end|>\n"
+        """Format multi-turn conversation theo Qwen2 format"""
+        text = "<|im_start|>system\nYou are a helpful AI assistant that can analyze images.<|im_end|>\n"
         
         for turn in conversations:
-            role = turn["role"]
-            content = turn["content"]
+            # Handle both 'role' and 'from' field names
+            role = turn.get("role") or turn.get("from", "user")
+            # Map role names: "human" -> "user", "gpt" -> "assistant"
+            if role == "human":
+                role = "user"
+            elif role == "gpt":
+                role = "assistant"
+            
+            content = turn.get("content") or turn.get("value", "")
+            
+            # Insert <image> token in first user message if not present
+            if role == "user" and "<image>" not in content and "image" in str(turn):
+                content = "<image>\n" + content
+            
             text += f"<|im_start|>{role}\n{content}<|im_end|>\n"
         
         return text

@@ -1,12 +1,26 @@
+# Core dependencies
 torch>=2.0.0
 transformers>=4.40.0
 peft>=0.10.0
 accelerate>=0.27.0
-bitsandbytes>=0.42.0
-flash-attn>=2.5.0
+
+# Image processing
 pillow>=10.0.0
+torchvision>=0.15.0
+
+# Config
 pyyaml>=6.0
-wandb>=0.16.0
-datasets>=2.18.0
-sacrebleu>=2.4.0
-rouge-score>=0.1.2
+
+# Optional - Logging (comment out for Kaggle)
+# wandb>=0.16.0
+
+# Optional - Metrics
+# sacrebleu>=2.4.0
+# rouge-score>=0.1.2
+
+# Optional - Quantization (uncomment if needed)
+# bitsandbytes>=0.42.0
+
+# Optional - Flash Attention (only if GPU supports)
+# flash-attn>=2.5.0
+

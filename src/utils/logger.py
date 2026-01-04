@@ -1,7 +1,3 @@
-"""
-Logger utilities cho VLM training
-Hỗ trợ logging lên W&B với image samples
-"""
 import os
 from typing import Optional, Dict, Any, List
 from pathlib import Path
@@ -11,7 +7,6 @@ from PIL import Image
 
 class VLMLogger:
     """Logger cho VLM training với W&B support"""
-    
     def __init__(
         self,
         project_name: str = "vietvlm-finetune",

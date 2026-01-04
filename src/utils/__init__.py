@@ -1,4 +1,29 @@
-from .metrics import VQAMetrics, compute_vqa_accuracy
+from .metrics import (
+    VQAMetrics, 
+    evaluate_model_outputs,
+    contains_match,
+)
 from .logger import VLMLogger, setup_logging
+from .checkpoint import (
+    CheckpointManager,
+    CheckpointCallback,
+    CheckpointMetadata,
+    find_latest_checkpoint,
+    auto_resume,
+)
 
-__all__ = ["VQAMetrics", "compute_vqa_accuracy", "VLMLogger", "setup_logging"]
+__all__ = [
+    # Metrics
+    "VQAMetrics", 
+    "evaluate_model_outputs",
+    "contains_match",
+    # Logger
+    "VLMLogger", 
+    "setup_logging",
+    # Checkpoint
+    "CheckpointManager",
+    "CheckpointCallback", 
+    "CheckpointMetadata",
+    "find_latest_checkpoint",
+    "auto_resume",
+]

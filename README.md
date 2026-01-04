@@ -1,53 +1,73 @@
-# VietVLM-Finetune
+# VLM Fine-tuning Framework
 
-Fine-tune Vision-Language Model (VLM) cho tiếng Việt dựa trên kiến trúc InternVL2/Vintern.
+Modular Vision-Language Model fine-tuning framework, optimized for Kaggle T4 GPU.
 
-## Kiến trúc
+## 🚀 Quick Start
 
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Train with default config
+python run_train.py --config configs/config.yaml
+
+# Train with Kaggle T4 optimized config
+python run_train.py --config configs/kaggle_t4.yaml
 ```
-┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│  Vision Tower   │────▶│  MLP Projector  │────▶│      LLM        │
-│  (InternViT)    │     │  (2-layer MLP)  │     │  (Qwen2/BartPho)│
-└─────────────────┘     └─────────────────┘     └─────────────────┘
-        ▲
-        │
-┌─────────────────┐
-│ Dynamic Tiling  │  ← Chia ảnh thành max 12 tiles 448x448 + thumbnail
-└─────────────────┘
-```
 
-## Cấu trúc thư mục
+## 📁 Project Structure
 
 ```
 VLM-Benchmark/
 ├── configs/
-│   ├── model_config.yaml    # Cấu hình model, LoRA
-│   └── data_config.yaml     # Cấu hình data, preprocessing
+│   ├── config.yaml          # Default config
+│   └── kaggle_t4.yaml       # T4 GPU optimized
 ├── src/
 │   ├── models/
-│   │   ├── vision_tower.py  # InternViT wrapper
-│   │   ├── projector.py     # MLP Projector
-│   │   └── architecture.py  # VinternVLM chính
+│   │   ├── registry.py      # Model registry (swap models easily)
+│   │   ├── vision_encoders.py
+│   │   ├── projectors.py
+│   │   └── vlm.py           # Main VLM architecture
 │   ├── data/
-│   │   ├── processor.py     # Dynamic High Resolution tiling
-│   │   ├── dataset.py       # VLM Dataset
-│   │   └── collator.py      # Data collator với Label Masking
+│   │   ├── processor.py     # Dynamic HR tiling
+│   │   ├── dataset.py
+│   │   └── collator.py
 │   └── utils/
-│       ├── metrics.py       # VQA metrics
-│       └── logger.py        # W&B logger
-├── train.py                 # Entry point training
-└── requirements.txt
+├── data/                    # Your training data
+├── run_train.py            # Main training script
+└── kaggle_notebook.py      # Kaggle notebook entry
 ```
 
-## Cài đặt
+## 🔧 Configuration - Swap Models Easily
 
-```bash
-pip install -r requirements.txt
+```yaml
+model:
+  # Vision Encoder: "internvit", "siglip", "clip"
+  vision_encoder_type: "internvit"
+  
+  # Projector: "mlp", "mlp_gelu", "linear", "downsample"
+  projector_type: "mlp"
+  
+  # LLM: "qwen2-0.5b", "qwen2-1.5b", "qwen2-7b", "phi-2"
+  llm_type: "qwen2-0.5b"
 ```
 
-## Chuẩn bị data
+### Available Models
 
-Format data JSON:
+| Vision Encoder | Model | Hidden Size |
+|---------------|-------|-------------|
+| `internvit` | InternViT-300M-448px | 1024 |
+| `siglip` | SigLIP-SO400M-384 | 1152 |
+| `clip` | CLIP-ViT-L-336 | 1024 |
+
+| LLM | Model | Size |
+|-----|-------|------|
+| `qwen2-0.5b` | Qwen2-0.5B-Instruct | 0.5B |
+| `qwen2-1.5b` | Qwen2-1.5B-Instruct | 1.5B |
+| `phi-2` | Phi-2 | 2.7B |
+
+## 📊 Data Format
+
 ```json
 [
   {
@@ -58,45 +78,39 @@ Format data JSON:
 ]
 ```
 
-## Training
+## 🏃 Training
 
 ```bash
-# Training với cấu hình mặc định
-python train.py
+# Basic training
+python run_train.py --config configs/config.yaml
 
-# Custom config
-python train.py \
-    --model_config configs/model_config.yaml \
-    --data_config configs/data_config.yaml \
-    --output_dir outputs/exp1
+# Override parameters
+python run_train.py --config configs/config.yaml \
+    --batch_size 2 \
+    --learning_rate 1e-5 \
+    --epochs 5
 
-# Resume training
-python train.py --resume outputs/checkpoint-1000
+# Resume from checkpoint
+python run_train.py --config configs/config.yaml --resume outputs/checkpoint-100
 ```
 
-## Tính năng chính
+## 💡 Tips for Kaggle T4 (16GB VRAM)
 
-- **Dynamic High Resolution**: Tự động chia ảnh thành tối đa 12 tiles 448x448 dựa trên aspect ratio
-- **LoRA/QLoRA**: Fine-tune hiệu quả với PEFT, chỉ train ~0.5% parameters
-- **Label Masking**: Chỉ tính loss trên phần Assistant response
-- **Gradient Checkpointing**: Giảm memory usage
-- **W&B Integration**: Theo dõi metrics và sample predictions
+1. Use `qwen2-0.5b` (smallest LLM)
+2. Set `max_tiles: 4` (fewer image patches)
+3. Set `max_length: 512` (shorter sequences)
+4. Use `batch_size: 1` with `gradient_accumulation: 16`
+5. Disable wandb: `use_wandb: false`
 
-## Cấu hình LoRA
+## 🔑 Key Features
 
-```yaml
-lora:
-  enabled: true
-  r: 64
-  alpha: 128
-  dropout: 0.05
-  target_modules:
-    - q_proj
-    - k_proj
-    - v_proj
-    - o_proj
-```
+- **Modular Design**: Easily swap vision encoder, projector, LLM
+- **Model Registry**: Pre-configured model combinations
+- **Dynamic HR Tiling**: Auto-split large images into 448x448 tiles
+- **LoRA Fine-tuning**: Memory-efficient training
+- **Label Masking**: Only compute loss on assistant responses
+- **Kaggle Ready**: Optimized configs for T4 GPU
 
-## License
+## 📝 License
 
 MIT

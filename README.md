@@ -8,7 +8,7 @@
 
 **Train only bridge modules that convert vision embeddings to language model embeddings**
 
-[Quick Start](#-quick-start) • [Architecture](#-architecture) • [5 Experiments](#-5-bridge-experiments) • [Installation](#-installation)
+[Quick Start](#-quick-start) • [Architecture](#-architecture) • [5 Experiments](#-5-bridge-experiments) • [Installation](#-installation) • [Training Comparison](#-training-experiments--comparison)
 
 </div>
 
@@ -340,20 +340,148 @@ ls -lh checkpoints/better_mlp/
 
 ---
 
-## 🔍 Comparing Results
+## 🧪 Training Experiments & Comparison
 
-After running all 5 experiments:
+**Compare 6 training configurations:** 5 bridge architectures + 1 full Vintern freeze baseline.
+
+### Quick Start: Xem danh sách experiments (Dry Run)
 
 ```bash
-# (Coming soon: comparison script)
-python scripts/compare_experiments.py
+source activate_vlm.sh
+python scripts/training_runner.py --dry-run
 ```
 
-This will show:
-- Best validation loss per architecture
-- Training time comparison  
-- Model size comparison
-- Recommendations
+Kết quả: Hiện danh sách 6 training cases:
+```
+======================================================================
+  DRY RUN: bridge_training_comparison
+  Total experiments: 6
+======================================================================
+  [ 1] Exp 1: BetterMLP            — better_mlp
+  [ 2] Exp 2: MultiToken           — multi_token
+  [ 3] Exp 3: AttentionBridge      — attention_bridge
+  [ 4] Exp 4: MiniQFormer          — mini_qformer
+  [ 5] Exp 5: QFormer              — qformer
+  [ 6] Baseline: Full Vintern Freeze (no bridge) — full_freeze
+```
+
+### Run All Training Cases
+
+```bash
+# Tự động chạy tất cả 6 cases
+python scripts/training_runner.py
+```
+
+Tự động:
+- ✅ Chạy tất cả 5 bridge experiments (exp1-5)
+- ✅ Chạy "Full Vintern Freeze" baseline (no trainable bridge)
+- ✅ Lưu progress trong `outputs/training/progress.json`
+- ✅ Bỏ qua experiments đã hoàn thành (auto-resume)
+
+**Thời gian:** ~34 giờ trên GPU (như `run_all_experiments.py`)
+
+### Run Specific Cases
+
+```bash
+# Chạy case cụ thể: #2, #4, #6 (MultiToken, MiniQFormer, Full Freeze)
+python scripts/training_runner.py --experiments 2,4,6
+
+# Chạy range: #1-3 (BetterMLP, MultiToken, AttentionBridge)
+python scripts/training_runner.py --experiments 1-3
+
+# Chạy lại case từ đầu (xóa kết quả cũ)
+python scripts/training_runner.py --rerun 1,6
+```
+
+### Resume & Control
+
+```bash
+# Tiếp tục từ progress đã lưu (bỏ qua completed)
+python scripts/training_runner.py
+
+# Chạy lại từ đầu (bỏ qua progress cũ)
+python scripts/training_runner.py --no-resume
+
+# Xem progress chi tiết
+cat outputs/training/progress.json
+```
+
+### Compare Results
+
+```bash
+# In bảng so sánh chi tiết
+python scripts/collect_ablation_results.py
+
+# Export sang CSV để phân tích
+python scripts/collect_ablation_results.py --export-csv training_comparison.csv
+```
+
+Bảng output:
+```
+Experiment                         Bridge Type       Status
+─────────────────────────────────────────────────────────────────────
+Exp 1: BetterMLP                  better_mlp        ✓ Ready
+Exp 2: MultiToken                 multi_token       ✓ Ready
+Exp 3: AttentionBridge            attention_bridge  ⏳ Pending
+Exp 4: MiniQFormer                mini_qformer      ✓ Ready
+Exp 5: QFormer                    qformer           ✓ Ready
+Baseline: Full Vintern Freeze     no_bridge         ✓ Ready
+─────────────────────────────────────────────────────────────────────
+Completed: 5/6 experiments
+```
+
+### View Detailed Results
+
+```bash
+# Results JSON
+cat outputs/training/results.json
+
+# Progress tracking
+cat outputs/training/progress.json
+
+# Model checkpoints
+ls checkpoints/{better_mlp,multi_token,attention_bridge,mini_qformer,qformer,full_freeze}/best_model.pt
+
+# Training logs from all runs
+find logs -name "log_*.txt" -type f | head -10
+```
+
+### Configuration
+
+Chỉnh tùy chỉnh trong `configs/ablation_config.yaml`:
+
+```yaml
+training:
+  num_epochs: 10
+  batch_size: 8
+  learning_rate: 2e-4
+  patience: 3
+  
+cases:
+  - exp1_better_mlp
+  - exp2_multi_token
+  - exp3_attention_bridge
+  - exp4_mini_qformer
+  - exp5_qformer
+  - baseline_full_freeze
+```
+
+### Key Directories
+
+```
+checkpoints/
+├── better_mlp/              # Exp 1
+├── multi_token/             # Exp 2
+├── attention_bridge/        # Exp 3
+├── mini_qformer/            # Exp 4
+├── qformer/                 # Exp 5
+└── full_freeze/             # Baseline: Full Vintern Freeze
+
+outputs/training/
+├── progress.json            # Real-time tracking
+├── results.json             # Summary results
+└── detailed_logs/           # Per-experiment logs
+```
 
 ---
 

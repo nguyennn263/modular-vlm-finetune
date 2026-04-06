@@ -1,0 +1,86 @@
+# =============================================================================
+# Model Configuration for Bridge Module Fine-Tuning
+# =============================================================================
+
+# Data Configuration (for backward compatibility with config.py loader)
+data:
+  batch_size: 8              # Per-GPU batch size
+  num_workers: 4
+  train_ratio: 0.9
+  val_ratio: 0.1
+  test_ratio: 0.0
+  image_size: [384, 384]
+
+# Tokenizer Configuration (for backward compatibility)
+tokenizer_config:
+  model_name: "Qwen/Qwen2-0.5B"
+  max_len: 512
+
+# Normalization Settings (for backward compatibility)
+coco_normalize:
+  mean: [0.485, 0.456, 0.406]
+  std: [0.229, 0.224, 0.225]
+
+imagenet_normalize:
+  mean: [0.485, 0.456, 0.406]
+  std: [0.229, 0.224, 0.225]
+
+# =============================================================================
+# Bridge Module Configuration
+# =============================================================================
+
+# Vision Model (FROZEN - InternVL-Chat)
+vision_model:
+  model_name: "5CD-AI/Vintern-1B-v3_5"
+  output_dim: 4096
+  frozen: true
+
+# Language Model (FROZEN - Qwen2)
+language_model:
+  model_name: "Qwen/Qwen2-0.5B"
+  input_dim: 896
+  frozen: true
+
+# Bridge Module Configurations (TRAINABLE)
+bridge_modules:
+  # Exp 1: BetterMLP - Simple MLP with skip connection
+  better_mlp:
+    type: "better_mlp"
+    input_dim: 4096
+    output_dim: 896
+    hidden_dim: 2048
+    dropout: 0.1
+    use_skip_connection: true
+    parameters: ~300K
+
+  # Exp 2: MultiTokenMLP - Multiple output tokens
+  multi_token:
+    type: "multi_token"
+    input_dim: 4096
+    output_dim: 896
+    num_tokens: 8
+    parameters: ~3.6M
+
+  # Exp 3: AttentionBridge - Multi-head attention
+  attention:
+    type: "attention"
+    input_dim: 4096
+    output_dim: 896
+    num_heads: 8
+    parameters: ~1.2M
+
+  # Exp 4: MiniQFormer - 2-layer transformer
+  mini_qformer:
+    type: "mini_qformer"
+    input_dim: 4096
+    output_dim: 896
+    num_layers: 2
+    parameters: ~2.4M
+
+  # Exp 5: QFormer - 4-layer transformer
+  qformer:
+    type: "qformer"
+    input_dim: 4096
+    output_dim: 896
+    num_layers: 4
+    parameters: ~4.8M

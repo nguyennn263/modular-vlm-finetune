@@ -1,0 +1,78 @@
+"""
+Run all 5 bridge experiments sequentially.
+
+This script trains all 5 bridge variants:
+1. Exp1: BetterMLP - Simple MLP with skip connection
+2. Exp2: MultiTokenMLP - Multiple output tokens
+3. Exp3: AttentionBridge - Learnable queries + multi-head attention
+4. Exp4: MiniQFormer - 2 transformer layers
+5. Exp5: QFormer - 4 transformer layers (most powerful)
+
+Usage:
+    python scripts/run_all_experiments.py
+
+Results will be saved in checkpoints/exp{1-5}_*/
+"""
+
+import sys
+import torch
+from pathlib import Path
+
+# Import experiment modules
+from exp1_better_mlp import main as exp1_main
+from exp2_multi_token import main as exp2_main
+from exp3_attention_bridge import main as exp3_main
+from exp4_mini_qformer import main as exp4_main
+from exp5_qformer import main as exp5_main
+
+
+def run_all_experiments():
+    """Run all 5 experiments sequentially."""
+    
+    experiments = [
+        ("Exp1: BetterMLP", exp1_main),
+        ("Exp2: MultiTokenMLP", exp2_main),
+        ("Exp3: AttentionBridge", exp3_main),
+        ("Exp4: MiniQFormer", exp4_main),
+        ("Exp5: QFormer", exp5_main),
+    ]
+    
+    results = {}
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    
+    print("=" * 80)
+    print("Running all 5 bridge experiments")
+    print("=" * 80)
+    print(f"Device: {device}\n")
+    
+    for idx, (exp_name, exp_func) in enumerate(experiments, 1):
+        print(f"\n{'=' * 80}")
+        print(f"Running {exp_name} ({idx}/5)")
+        print("=" * 80)
+        
+        try:
+            exp_func()
+            results[exp_name] = "✓ Completed"
+            print(f"✓ {exp_name} completed successfully")
+        except Exception as e:
+            results[exp_name] = f"✗ Failed: {str(e)}"
+            print(f"✗ {exp_name} failed: {e}")
+    
+    # Print summary
+    print("\n" + "=" * 80)
+    print("SUMMARY")
+    print("=" * 80)
+    
+    for exp_name, status in results.items():
+        print(f"{exp_name:<30} {status}")
+    
+    # Final info
+    print("\n" + "=" * 80)
+    print("Experiment results saved in:")
+    for i in range(1, 6):
+        print(f"  checkpoints/exp{i}_*/best_model.pt")
+    print("=" * 80)
+
+
+if __name__ == "__main__":
+    run_all_experiments()

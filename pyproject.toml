@@ -1,0 +1,93 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vlm-benchmark"
+version = "0.1.0"
+description = "Modular Vision-Language Model fine-tuning framework optimized for resource-constrained environments"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "VLM Team", email = "team@example.com"}
+]
+requires-python = ">=3.11"
+
+dependencies = [
+    # Core dependencies
+    "torch>=2.0.0",
+    "transformers>=4.40.0",
+    "peft>=0.10.0",
+    "accelerate>=0.27.0",
+    
+    # Image processing
+    "pillow>=10.0.0",
+    "torchvision>=0.15.0",
+    
+    # Utilities
+    "pyyaml>=6.0",
+    "numpy>=1.24.0",
+    "tqdm>=4.65.0",
+    "nltk>=3.8.0",
+    "kagglehub>=0.1.0",
+    
+    # Development
+    "ipython>=8.0.0",
+]
+
+[project.optional-dependencies]
+kaggle = [
+    # Kaggle-specific optimizations
+]
+
+logging = [
+    "wandb>=0.16.0",
+]
+
+metrics = [
+    "sacrebleu>=2.4.0",
+    "rouge-score>=0.1.2",
+]
+
+quantization = [
+    "bitsandbytes>=0.42.0",
+]
+
+flash-attn = [
+    "flash-attn>=2.5.0",
+]
+
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+]
+
+all = [
+    "vlm-benchmark[logging,metrics,quantization,flash-attn,dev]",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/vlm-benchmark"
+Repository = "https://github.com/yourusername/vlm-benchmark"
+Issues = "https://github.com/yourusername/vlm-benchmark/issues"
+
+[tool.uv]
+# uv configuration
+python-version = "3.11"
+
+[tool.setuptools]
+packages = ["src"]
+
+[tool.black]
+line-length = 100
+target-version = ['py311']
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

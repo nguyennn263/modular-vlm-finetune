@@ -1,6 +1,6 @@
 from . import data
-from . import models
+from . import modeling
 from . import utils
 
 __version__ = "0.1.0"
-__all__ = ["data", "models", "utils"]
+__all__ = ["data", "modeling", "utils"]

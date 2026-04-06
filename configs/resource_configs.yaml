@@ -1,0 +1,33 @@
+# =============================================================================
+# Resource Configuration for Bridge Module Fine-Tuning
+# =============================================================================
+
+# Device Configuration
+device:
+  device_type: "auto"               # Device: auto, cuda, mps, cpu
+  cuda_device: 0                    # CUDA device ID (if cuda selected)
+  mixed_precision: "fp32"           # Mixed precision: fp32, fp16, bf16
+
+# Data Loading
+data_loading:
+  num_workers: 4                    # Number of data loading workers
+  pin_memory: true                  # Pin memory for faster GPU transfer
+  prefetch_factor: 2                # Prefetch factor
+  
+# GPU Memory Management (T4 Kaggle Optimized)
+gpu_memory:
+  max_batch_size: 8                 # Maximum batch size for T4 (15GB)
+  gradient_accumulation_steps: 1    # Gradient accumulation
+  gradient_checkpointing: false     # Enable gradient checkpointing if OOM
+
+# System Monitoring
+monitoring:
+  enable_monitoring: false          # Disable heavy monitoring
+  log_memory_usage: false           # Log memory stats
+  log_interval_seconds: 60          # Logging interval (if enabled)
+
+# Checkpoint Management
+checkpointing:
+  checkpoint_dir: "checkpoints"
+  save_best_only: true
+  max_checkpoints: 3

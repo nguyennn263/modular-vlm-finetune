@@ -1,0 +1,81 @@
+# =============================================================================
+# Training Configuration for Bridge Module Fine-Tuning
+# =============================================================================
+
+# Optimizer Configuration
+optimizer:
+  name: "adamw"
+  learning_rate: 2.0e-4        # Learning rate for bridge module
+  weight_decay: 0.01            # L2 regularization
+  betas: [0.9, 0.999]           # Adam betas
+  eps: 1.0e-8                   # Numerical stability
+
+# Learning Rate Scheduler
+scheduler:
+  name: "cosine"
+  warmup_steps: 500
+  warmup_ratio: 0.0             # Not used if warmup_steps > 0
+  num_cycles: 1
+  min_lr: 1.0e-7
+
+# Training Loop Configuration
+training:
+  num_epochs: 10                # Total training epochs
+  batch_size: 8                 # Per-GPU batch size
+  eval_batch_size: 16           # Evaluation batch size
+  
+  # Gradient settings
+  gradient_accumulation_steps: 1
+  max_grad_norm: 1.0            # Gradient clipping
+  
+  # Device management
+  device: "auto"                # auto | cuda | mps | cpu
+  num_workers: 4
+  pin_memory: true
+  seed: 42
+
+# Checkpointing Configuration
+checkpointing:
+  output_dir: "checkpoints"
+  save_steps: 500
+  save_interval: 1              # Save every N epochs
+  save_best_model: true
+  max_checkpoints: 3            # Keep only N best checkpoints
+
+# Early Stopping Configuration
+early_stopping:
+  enabled: true
+  patience: 5                   # Stop if no improvement for N evals
+  min_delta: 0.001              # Minimum improvement threshold
+  metric: "val_loss"            # Metric to monitor
+  mode: "min"                   # min (lower is better), max (higher is better)
+
+# Evaluation Configuration
+evaluation:
+  eval_steps: 100               # Evaluate every N steps
+  eval_interval: 1              # Evaluate every N epochs
+  compute_metrics: true
+
+# Logging Configuration
+logging:
+  log_dir: "logs"
+  log_level: "INFO"
+  log_interval: 50              # Log every N steps
+  use_tensorboard: false
+  use_wandb: false
+
+# Data Configuration
+data:
+  train_data_path: "data/vintern.json"
+  image_dir: "data/raw/images"
+  val_ratio: 0.1                # Validation split ratio
+  max_samples: null             # None = use all data
+
+# FP16 / Mixed Precision (optional)
+mixed_precision: "fp32"         # fp32, fp16, bf16
+
+# Model Freezing Configuration
+freezing:
+  freeze_vision_model: true     # Always freeze vision model
+  freeze_language_model: true   # Always freeze language model
+  trainable_params_only: true   # Only bridge params trainable

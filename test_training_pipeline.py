@@ -93,6 +93,7 @@ def test_trainer_initialization():
             torch_dtype=torch.bfloat16,
             low_cpu_mem_usage=False,
             trust_remote_code=True,
+            _fast_init=False,
         ).eval().to(device)
         
         # Create fine-tune model
@@ -171,6 +172,7 @@ def test_evaluate_method():
             torch_dtype=torch.bfloat16,
             low_cpu_mem_usage=False,
             trust_remote_code=True,
+            _fast_init=False,
         ).eval().to(device)
         
         model = create_finetune_model(

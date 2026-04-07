@@ -214,6 +214,7 @@ base_model = AutoModel.from_pretrained(
     torch_dtype=torch.bfloat16,
     low_cpu_mem_usage=False,
     trust_remote_code=True,
+    _fast_init=False,
 ).eval().to(device)
 
 # Create minimal wrapper (no bridge = frozen models only)

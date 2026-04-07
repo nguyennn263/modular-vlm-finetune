@@ -52,6 +52,7 @@ class BaseExperiment(ABC):
         """
         Load base model using notebook-compatible approach.
         Uses low_cpu_mem_usage=False and avoids device_map="auto".
+        Disables fast_init to prevent meta tensor loading from accelerate.
         """
         data_loader_logger.info(f"Loading base model: {self.config.base_model_name}")
         
@@ -63,6 +64,7 @@ class BaseExperiment(ABC):
                 low_cpu_mem_usage=self.config.low_cpu_mem_usage,
                 trust_remote_code=True,
                 use_flash_attn=self.config.use_flash_attn,
+                _fast_init=False,  # CRITICAL: Prevents meta tensor loading from accelerate
             ).eval()
         except Exception as e:
             # Fallback without specific attention implementation
@@ -72,6 +74,7 @@ class BaseExperiment(ABC):
                 torch_dtype=self.config.torch_dtype,
                 low_cpu_mem_usage=self.config.low_cpu_mem_usage,
                 trust_remote_code=True,
+                _fast_init=False,  # CRITICAL: Prevents meta tensor loading from accelerate
             ).eval()
         
         # Move to device (works on Kaggle and local)

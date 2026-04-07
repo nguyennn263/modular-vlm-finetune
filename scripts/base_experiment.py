@@ -2,10 +2,14 @@
 Base experiment class for all ablation studies.
 Standardizes model loading, data loading, and training setup.
 """
+import os
 import torch
 from pathlib import Path
 from abc import ABC, abstractmethod
 from typing import Optional, Tuple, List
+
+# Disable meta device to prevent meta tensor issues
+os.environ["TRANSFORMERS_NO_META_DEVICE"] = "1"
 
 from transformers import AutoModel
 from src.schema.data_schema import OneSample
@@ -50,9 +54,8 @@ class BaseExperiment(ABC):
     
     def load_model(self) -> torch.nn.Module:
         """
-        Load base model using notebook-compatible approach.
-        Uses low_cpu_mem_usage=False and avoids device_map="auto".
-        Disables fast_init to prevent meta tensor loading from accelerate.
+        Load base model with transformers>=4.38.2 (has Qwen2Config for Vintern).
+        TRANSFORMERS_NO_META_DEVICE=1 env var prevents meta tensor issues.
         """
         data_loader_logger.info(f"Loading base model: {self.config.base_model_name}")
         
@@ -61,23 +64,21 @@ class BaseExperiment(ABC):
             self.model = AutoModel.from_pretrained(
                 self.config.base_model_name,
                 torch_dtype=self.config.torch_dtype,
-                low_cpu_mem_usage=self.config.low_cpu_mem_usage,
+                low_cpu_mem_usage=False,
                 trust_remote_code=True,
                 use_flash_attn=self.config.use_flash_attn,
-                _fast_init=False,  # CRITICAL: Prevents meta tensor loading from accelerate
             ).eval()
         except Exception as e:
-            # Fallback without specific attention implementation
+            # Fallback without flash attention
             data_loader_logger.warning(f"Flash attention failed: {e}, retrying without it")
             self.model = AutoModel.from_pretrained(
                 self.config.base_model_name,
                 torch_dtype=self.config.torch_dtype,
-                low_cpu_mem_usage=self.config.low_cpu_mem_usage,
+                low_cpu_mem_usage=False,
                 trust_remote_code=True,
-                _fast_init=False,  # CRITICAL: Prevents meta tensor loading from accelerate
             ).eval()
         
-        # Move to device (works on Kaggle and local)
+        # Move to device
         self.model = self.model.to(self.device)
         data_loader_logger.info("Model loaded successfully")
         

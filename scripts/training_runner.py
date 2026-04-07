@@ -207,6 +207,10 @@ from src.training import BridgeTrainer, TrainConfig
 from src.data.loaders import load_datasets
 from utils.path_management import RAW_TEXT_CSV, RAW_IMAGES_DIR
 
+# Disable meta device to prevent meta tensor issues
+import os
+os.environ["TRANSFORMERS_NO_META_DEVICE"] = "1"
+
 # Load base model
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 base_model = AutoModel.from_pretrained(
@@ -214,7 +218,6 @@ base_model = AutoModel.from_pretrained(
     torch_dtype=torch.bfloat16,
     low_cpu_mem_usage=False,
     trust_remote_code=True,
-    _fast_init=False,
 ).eval().to(device)
 
 # Create minimal wrapper (no bridge = frozen models only)

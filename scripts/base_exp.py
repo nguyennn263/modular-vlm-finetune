@@ -59,7 +59,6 @@ def run_experiment(exp_config: ExpConfig):
         torch_dtype=torch.bfloat16,
         low_cpu_mem_usage=False,
         trust_remote_code=True,
-        _fast_init=False,  # Prevents meta tensor loading from accelerate
     ).eval()
     base_model = base_model.to(device)
     

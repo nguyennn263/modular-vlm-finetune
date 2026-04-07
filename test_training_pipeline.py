@@ -5,6 +5,11 @@ Test script to verify the complete training/validation/testing workflow.
 
 import torch
 from pathlib import Path
+
+# Disable meta device to prevent meta tensor issues
+import os
+os.environ["TRANSFORMERS_NO_META_DEVICE"] = "1"
+
 from transformers import AutoModel
 
 from src.training import create_finetune_model, BridgeTrainer, TrainConfig
@@ -93,7 +98,6 @@ def test_trainer_initialization():
             torch_dtype=torch.bfloat16,
             low_cpu_mem_usage=False,
             trust_remote_code=True,
-            _fast_init=False,
         ).eval().to(device)
         
         # Create fine-tune model
@@ -172,7 +176,6 @@ def test_evaluate_method():
             torch_dtype=torch.bfloat16,
             low_cpu_mem_usage=False,
             trust_remote_code=True,
-            _fast_init=False,
         ).eval().to(device)
         
         model = create_finetune_model(

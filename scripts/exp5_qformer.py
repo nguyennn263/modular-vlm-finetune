@@ -6,7 +6,7 @@ Architecture:
 - Learnable queries: (16, 896)
 - 4 Transformer layers with:
   - Self-attention on queries
-  - Cross-attention (queries ↔ vision)
+  - Cross-attention (queries <-> vision)
   - Feed-forward network
   - Residual connections, layer normalization
 - Output: (B, 16, 896)
@@ -19,18 +19,17 @@ Why:
 """
 
 import torch
-from pathlib import Path
-from transformers import AutoModel
-
 from src.training import create_finetune_model, BridgeTrainer, TrainConfig
-from src.data.loaders import load_datasets
-from utils.path_management import RAW_TEXT_CSV, RAW_IMAGES_DIR
+from scripts.base_experiment import BaseExperiment, ExperimentConfig
 
 
-class Exp5Config:
-    """Exp5 configuration."""
+class Exp5Config(ExperimentConfig):
+    """Experiment 5 configuration."""
     
     base_model_name = "5CD-AI/Vintern-1B-v3_5"
+    torch_dtype = torch.bfloat16
+    use_flash_attn = False
+    
     bridge_type = "qformer"
     bridge_config = {
         "num_queries": 16,
@@ -47,57 +46,51 @@ class Exp5Config:
     output_dir = "checkpoints/exp5_qformer"
 
 
-def load_datasets_exp5():
-    """Load training and validation datasets."""
-    return load_datasets(
-        csv_path=str(RAW_TEXT_CSV),
-        images_dir=str(RAW_IMAGES_DIR),
-        val_ratio=0.1
-    )
+class Experiment5(BaseExperiment):
+    """QFormer bridge experiment."""
+    
+    def __init__(self, config: Exp5Config):
+        super().__init__(config)
+        self.config = config
+        self.bridge_model = None
+    
+    def create_model(self) -> torch.nn.Module:
+        """Create QFormer bridge model."""
+        print("Creating QFormer bridge (4 transformer layers, 16 queries)...")
+        self.bridge_model = create_finetune_model(
+            self.model,
+            bridge_type=self.config.bridge_type,
+            bridge_config=self.config.bridge_config
+        )
+        return self.bridge_model
+    
+    def train(self):
+        """Run training."""
+        print("Starting training...\n")
+        
+        config = TrainConfig(
+            output_dir=self.config.output_dir,
+            num_epochs=self.config.num_epochs,
+            batch_size=self.config.batch_size,
+            learning_rate=self.config.learning_rate,
+            eval_steps=self.config.eval_steps,
+            save_steps=self.config.save_steps,
+        )
+        
+        trainer = BridgeTrainer(
+            self.bridge_model,
+            self.train_samples,
+            self.val_samples,
+            config
+        )
+        trainer.train()
 
 
 def main():
     """Run Experiment 5."""
-    
-    print("=" * 80)
-    print("EXPERIMENT 5: QFormer (4-Layer Transformer)")
-    print("=" * 80)
-    
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    print(f"Device: {device}\n")
-    
-    print("Loading base model...")
-    base_model = AutoModel.from_pretrained(
-        Exp5Config.base_model_name,
-        trust_remote_code=True,
-        device_map="auto"
-    )
-    
-    print("Creating QFormer bridge (4 transformer layers, 16 queries)...")
-    model = create_finetune_model(
-        base_model,
-        bridge_type=Exp5Config.bridge_type,
-        bridge_config=Exp5Config.bridge_config
-    )
-    
-    print("Loading datasets...")
-    train_dataset, val_dataset = load_datasets_exp5()
-    
-    print("Starting training...\n")
-    config = TrainConfig(
-        output_dir=Exp5Config.output_dir,
-        num_epochs=Exp5Config.num_epochs,
-        batch_size=Exp5Config.batch_size,
-        learning_rate=Exp5Config.learning_rate,
-        eval_steps=Exp5Config.eval_steps,
-        save_steps=Exp5Config.save_steps,
-    )
-    
-    trainer = BridgeTrainer(model, train_dataset, val_dataset, config)
-    trainer.train()
-    
-    print(f"\n✓ Experiment 5 completed!")
-    print(f"  Best model: {trainer.best_model_path}")
+    config = Exp5Config()
+    experiment = Experiment5(config)
+    experiment.run(max_samples=None)
 
 
 if __name__ == "__main__":

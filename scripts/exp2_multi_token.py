@@ -2,7 +2,7 @@
 Experiment 2: MultiTokenMLP
 
 Architecture:
-- Linear(4096 → 896*8)
+- Linear(4096 -> 896*8)
 - Reshape to (B, 8, 896)
 
 Why:
@@ -12,18 +12,17 @@ Why:
 """
 
 import torch
-from pathlib import Path
-from transformers import AutoModel
-
 from src.training import create_finetune_model, BridgeTrainer, TrainConfig
-from src.data.loaders import load_datasets
-from utils.path_management import RAW_TEXT_CSV, RAW_IMAGES_DIR
+from scripts.base_experiment import BaseExperiment, ExperimentConfig
 
 
-class Exp2Config:
-    """Exp2 configuration."""
+class Exp2Config(ExperimentConfig):
+    """Experiment 2 configuration."""
     
     base_model_name = "5CD-AI/Vintern-1B-v3_5"
+    torch_dtype = torch.bfloat16
+    use_flash_attn = False
+    
     bridge_type = "multi_token"
     bridge_config = {"num_tokens": 8}
     
@@ -36,57 +35,51 @@ class Exp2Config:
     output_dir = "checkpoints/exp2_multi_token"
 
 
-def load_datasets_exp2():
-    """Load training and validation datasets."""
-    return load_datasets(
-        csv_path=str(RAW_TEXT_CSV),
-        images_dir=str(RAW_IMAGES_DIR),
-        val_ratio=0.1
-    )
+class Experiment2(BaseExperiment):
+    """MultiTokenMLP bridge experiment."""
+    
+    def __init__(self, config: Exp2Config):
+        super().__init__(config)
+        self.config = config
+        self.bridge_model = None
+    
+    def create_model(self) -> torch.nn.Module:
+        """Create MultiTokenMLP bridge model."""
+        print("Creating MultiTokenMLP bridge (8 tokens)...")
+        self.bridge_model = create_finetune_model(
+            self.model,
+            bridge_type=self.config.bridge_type,
+            bridge_config=self.config.bridge_config
+        )
+        return self.bridge_model
+    
+    def train(self):
+        """Run training."""
+        print("Starting training...\n")
+        
+        config = TrainConfig(
+            output_dir=self.config.output_dir,
+            num_epochs=self.config.num_epochs,
+            batch_size=self.config.batch_size,
+            learning_rate=self.config.learning_rate,
+            eval_steps=self.config.eval_steps,
+            save_steps=self.config.save_steps,
+        )
+        
+        trainer = BridgeTrainer(
+            self.bridge_model,
+            self.train_samples,
+            self.val_samples,
+            config
+        )
+        trainer.train()
 
 
 def main():
     """Run Experiment 2."""
-    
-    print("=" * 80)
-    print("EXPERIMENT 2: MultiTokenMLP")
-    print("=" * 80)
-    
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    print(f"Device: {device}\n")
-    
-    print("Loading base model...")
-    base_model = AutoModel.from_pretrained(
-        Exp2Config.base_model_name,
-        trust_remote_code=True,
-        device_map="auto"
-    )
-    
-    print("Creating MultiTokenMLP bridge (8 tokens)...")
-    model = create_finetune_model(
-        base_model,
-        bridge_type=Exp2Config.bridge_type,
-        bridge_config=Exp2Config.bridge_config
-    )
-    
-    print("Loading datasets...")
-    train_dataset, val_dataset = load_datasets_exp2()
-    
-    print("Starting training...\n")
-    config = TrainConfig(
-        output_dir=Exp2Config.output_dir,
-        num_epochs=Exp2Config.num_epochs,
-        batch_size=Exp2Config.batch_size,
-        learning_rate=Exp2Config.learning_rate,
-        eval_steps=Exp2Config.eval_steps,
-        save_steps=Exp2Config.save_steps,
-    )
-    
-    trainer = BridgeTrainer(model, train_dataset, val_dataset, config)
-    trainer.train()
-    
-    print(f"\n✓ Experiment 2 completed!")
-    print(f"  Best model: {trainer.best_model_path}")
+    config = Exp2Config()
+    experiment = Experiment2(config)
+    experiment.run(max_samples=None)
 
 
 if __name__ == "__main__":

@@ -631,13 +631,36 @@ class BridgeTrainer:
         
         try:
             for epoch in range(self.config.num_epochs):
+                epoch_start = datetime.now()
+                
+                # Train one epoch
                 avg_loss, should_stop = self.train_epoch(epoch)
-                logger.info(f"Epoch {epoch+1} completed: avg_loss={avg_loss:.4f}")
+                
+                # Run validation at end of epoch
+                val_loss = self.validate()
+                
+                # Compute metrics
+                epoch_elapsed = (datetime.now() - epoch_start).total_seconds()
+                perplexity = torch.exp(torch.tensor(avg_loss)).item()
+                current_lr = self.scheduler.get_last_lr()[0] if hasattr(self.scheduler, 'get_last_lr') else self.config.learning_rate
+                
+                # Log epoch summary with metrics
+                logger.info(f"\n{'='*80}")
+                logger.info(f"Epoch {epoch+1}/{self.config.num_epochs}")
+                logger.info(f"{'='*80}")
+                logger.info(f"  Train Loss: {avg_loss:.4f}")
+                logger.info(f"  Val Loss:   {val_loss:.4f}")
+                logger.info(f"  Perplexity: {perplexity:.4f}")
+                logger.info(f"  Learning Rate: {current_lr:.2e}")
+                logger.info(f"  Early Stop Counter: {self.early_stop_counter}/{self.config.patience}")
+                logger.info(f"  Time: {epoch_elapsed:.1f}s")
+                logger.info(f"  Best Val Loss: {self.best_val_loss:.4f}")
                 
                 # Show sample inference
                 self._sample_inference(epoch, num_samples=3)
                 
                 if should_stop:
+                    logger.warning(f"Early stopping triggered at epoch {epoch+1}")
                     break
             
             # Save final model
@@ -650,7 +673,8 @@ class BridgeTrainer:
         
         finally:
             elapsed = datetime.now() - start_time
-            logger.info(f"Training completed in {elapsed}")
+            total_hours = elapsed.total_seconds() / 3600
+            logger.info(f"Training completed in {elapsed} ({total_hours:.2f}h)")
 
 
 # Backward compatibility

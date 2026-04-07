@@ -67,17 +67,27 @@ upgrade_pip() {
 install_base_deps() {
     print_info "Installing base dependencies..."
     
+    # Uninstall old transformers version
+    pip uninstall -y transformers --quiet || true
+    
     # Core packages
     pip install --upgrade \
         torch \
         torchvision \
-        transformers \
         pydantic \
         pyyaml \
         pandas \
         numpy \
         tqdm \
         --quiet
+    
+    # Install specific transformers version for Vintern
+    print_info "Installing transformers==4.38.2 (required for Vintern)..."
+    pip install --upgrade transformers==4.38.2 --quiet
+    
+    # Install vision libraries
+    print_info "Installing timm and einops..."
+    pip install --upgrade timm einops --quiet
     
     print_success "Base dependencies installed"
 }
@@ -94,6 +104,7 @@ install_optional_deps() {
         scikit-learn \
         --quiet 2>/dev/null || print_info "Some optional packages may already be installed"
     
+    # Note: transformers handle in base_deps due to version requirement
     print_success "Optional dependencies installed"
 }
 

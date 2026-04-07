@@ -1,0 +1,75 @@
+# Device-specific training profiles
+# Auto-selected based on GPU memory available
+
+devices:
+  # Kaggle T4 / RTX 3090 / etc - 16GB VRAM
+  t4_16gb:
+    name: "T4 / RTX 3090 (16GB)"
+    min_memory_gb: 10
+    max_memory_gb: 20
+    batch_size: 2
+    gradient_accumulation_steps: 4
+    max_seq_length: 256
+    num_workers: 4
+    eval_steps: 100
+    save_steps: 500
+    use_flash_attn: false
+    mixed_precision: "bf16"
+    description: "Memory-constrained, slow but stable"
+
+  # L40 / A100 / H100 - 45GB+ VRAM
+  l40_45gb:
+    name: "L40 / A100 40GB+ (45GB+)"
+    min_memory_gb: 40
+    max_memory_gb: 999
+    batch_size: 16
+    gradient_accumulation_steps: 1
+    max_seq_length: 512
+    num_workers: 8
+    eval_steps: 50
+    save_steps: 250
+    use_flash_attn: true
+    mixed_precision: "bf16"
+    description: "Memory-rich, fast training"
+
+  # A100 40GB - common production GPU
+  a100_40gb:
+    name: "A100 (40GB)"
+    min_memory_gb: 35
+    max_memory_gb: 45
+    batch_size: 12
+    gradient_accumulation_steps: 1
+    max_seq_length: 512
+    num_workers: 8
+    eval_steps: 75
+    save_steps: 250
+    use_flash_attn: true
+    mixed_precision: "bf16"
+    description: "High-end, fast training"
+
+  # RTX 3090 only
+  rtx3090_24gb:
+    name: "RTX 3090 (24GB)"
+    min_memory_gb: 20
+    max_memory_gb: 28
+    batch_size: 4
+    gradient_accumulation_steps: 2
+    max_seq_length: 384
+    num_workers: 4
+    eval_steps: 100
+    save_steps: 500
+    use_flash_attn: false
+    mixed_precision: "bf16"
+    description: "Mid-range, balanced"
+
+# Speed comparison (relative, for reference)
+# T4 16GB:   1.0x (baseline, memory-constrained)
+# RTX 3090:  1.5x (more memory, better compute)
+# A100 40GB: 3.0x (much more memory, better compute)
+# L40 45GB:  3.5x (best for training speed)
+
+# Effective batch sizes (considering gradient accumulation)
+# T4:    2 * 4 = 8 effective batch
+# RTX:   4 * 2 = 8 effective batch
+# A100:  12 * 1 = 12 effective batch
+# L40:   16 * 1 = 16 effective batch

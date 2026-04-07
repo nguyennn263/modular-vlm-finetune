@@ -1,6 +1,7 @@
 """
 Base experiment class for all ablation studies.
 Standardizes model loading, data loading, and training setup.
+Includes device auto-detection and optimization.
 """
 import os
 import torch
@@ -15,6 +16,7 @@ from transformers import AutoModel
 from src.schema.data_schema import OneSample
 from src.middleware.logger import data_loader_logger
 from utils.data_loader_helper import AblationDataLoader
+from utils.device_detector import DeviceDetector
 
 
 class ExperimentConfig:
@@ -44,9 +46,38 @@ class BaseExperiment(ABC):
     Handles model loading, data loading, and common setup.
     """
     
-    def __init__(self, config: ExperimentConfig):
+    def __init__(self, config: ExperimentConfig, auto_optimize: bool = True):
+        """
+        Initialize experiment with optional device auto-optimization.
+        
+        Args:
+            config: ExperimentConfig instance
+            auto_optimize: If True, auto-detect GPU and optimize training config
+        """
         self.config = config
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        
+        # Auto-detect and optimize for available GPU memory
+        if auto_optimize:
+            try:
+                detector = DeviceDetector()
+                detector.print_info()
+                
+                # Override config with device-optimized values
+                device_config = detector.get_training_config()
+                self.config.batch_size = device_config['batch_size']
+                self.config.gradient_accumulation_steps = device_config['gradient_accumulation_steps']
+                self.config.eval_steps = device_config['eval_steps']
+                self.config.save_steps = device_config['save_steps']
+                self.config.use_flash_attn = device_config['use_flash_attn']
+                
+                data_loader_logger.info(f"✓ Auto-optimized config for {self.device}")
+                data_loader_logger.info(f"  Batch size: {self.config.batch_size}")
+                data_loader_logger.info(f"  Gradient accumulation: {self.config.gradient_accumulation_steps}")
+                
+            except Exception as e:
+                data_loader_logger.warning(f"Auto-optimization failed: {e}, using default config")
+        
         self.model = None
         self.train_samples: List[OneSample] = []
         self.val_samples: List[OneSample] = []

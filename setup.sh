@@ -88,6 +88,15 @@ install_deps() {
     # Upgrade pip
     pip install --upgrade pip setuptools wheel
     
+    # Install specific transformer version for Vintern compatibility
+    print_info "Installing transformers==4.38.2 (required for Vintern support)..."
+    pip uninstall -y transformers || true
+    pip install transformers==4.38.2
+    
+    # Install vision/attention libraries
+    print_info "Installing vision and attention libraries..."
+    pip install timm einops
+    
     # Install from requirements.txt
     if [ -f "$PROJECT_DIR/requirements.txt" ]; then
         pip install -r "$PROJECT_DIR/requirements.txt"

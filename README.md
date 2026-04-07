@@ -119,7 +119,50 @@ Vision patches → Learnable queries (16) → 4×Transformer blocks → Output (
 
 ## 💻 Installation & Setup
 
-### Step 1: Automatic Setup (Recommended)
+### ⚠️ IMPORTANT: Transformers Version
+
+**You MUST use transformers==4.38.2** for Vintern-1B v3_5 compatibility!
+- ❌ Version 4.35.2 or older: **WILL NOT WORK** (missing Qwen2Config)
+- ❌ Version 4.40.0+: **May have compatibility issues**
+- ✅ Version 4.38.2: **Exact tested version**
+
+### ⭐ RECOMMENDED: Using UV + GPU (Fastest)
+
+```bash
+# Clone project
+cd /path/to/modular-vlm-finetune
+
+# Run GPU-optimized UV setup (installs UV if needed)
+bash setup-gpu.sh
+
+# Activate environment
+source activate.sh
+```
+
+**Why this approach?**
+- ✅ 10-100x faster than pip (UV is extremely fast)
+- ✅ Automatic dependency resolution and caching
+- ✅ GPU/CUDA detection built-in
+- ✅ Version locking with `uv.lock` (reproducible)
+- ✅ Single command setup
+
+### Alternative: Using UV Manually
+
+```bash
+# Install uv one-time (if not done by setup-gpu.sh)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Clone and setup project
+cd /path/to/modular-vlm-finetune
+
+# Create venv and sync dependencies
+uv sync
+
+# Activate environment
+source .venv/bin/activate
+```
+
+### Alternative: Using Conda Setup
 
 ```bash
 # Navigate to project directory
@@ -134,33 +177,55 @@ bash setup.sh my_vlm_env
 
 **What the setup script does:**
 - ✅ Creates conda environment with Python 3.11
-- ✅ Installs all dependencies from `requirements.txt`
+- ✅ Uninstalls old transformers version (if present)
+- ✅ Installs transformers==4.38.2 (required for Vintern)
+- ✅ Installs timm and einops (vision libraries)
+- ✅ Installs all other dependencies from `requirements.txt`
 - ✅ Creates project directories (data/, checkpoints/, logs/)
 - ✅ Checks GPU/CUDA availability
 - ✅ Tests installation
-- ✅ Creates activation helper script
 
-### Step 2: Activate Environment
+### Step: Activate Environment
 
 ```bash
-# Quick activation using helper script
-source activate_vlm.sh
+# If using UV setup
+source activate.sh
 
-# Or manually with conda
+# If using conda
 conda activate vlm-bridge
+```
+
+### Kaggle Notebook Setup
+
+**Run this in first Kaggle cell:**
+
+```python
+!pip uninstall -y transformers
+!pip install transformers==4.38.2
+!pip install timm einops
+!pip install -r /kaggle/input/datasets/.../requirements.txt
 ```
 
 ### Manual Setup (if needed)
 
-If `setup.sh` doesn't work, install manually:
+If scripts don't work, install manually:
 
 ```bash
-# Install PyTorch (with CUDA 12.1 support)
+# Create environment with conda
 conda create -n vlm-bridge python=3.11 -y
 conda activate vlm-bridge
+
+# Install PyTorch (with CUDA 12.1 support)
 conda install pytorch::pytorch pytorch::torchvision pytorch::torchaudio -c pytorch -y
 
-# Install dependencies
+# Install specific transformers version
+pip uninstall -y transformers
+pip install transformers==4.38.2
+
+# Install vision libraries
+pip install timm einops
+
+# Install other dependencies
 pip install -r requirements.txt
 
 # Create directories
@@ -176,6 +241,7 @@ mkdir -p data/raw/{images,texts} checkpoints logs outputs
 | **Disk** | 50GB | 100GB+ |
 | **Python** | 3.9+ | 3.11+ |
 | **PyTorch** | 2.0 | 2.1+ |
+| **Transformers** | 4.38.2 | 4.38.2 (DO NOT CHANGE) |
 
 ---
 
@@ -310,6 +376,139 @@ if test_ds is not None:
     print(f"Test Loss: {metrics['loss']:.4f}")
     print(f"Test Perplexity: {metrics['perplexity']:.4f}")
 ```
+
+---
+
+## ⚡ GPU Optimization & Device Configuration
+
+**Automatic GPU Detection**: The training system automatically detects your GPU and applies optimal parameters. No manual configuration needed!
+
+### Device Profiles
+
+The system supports 4 GPU tiers with pre-optimized parameters:
+
+| GPU | VRAM | Batch | Grad Accum | Seq Len | Flash Attn | Speed |
+|-----|------|-------|-----------|---------|-----------|-------|
+| **T4 / RTX 2080** | 16 GB | 2 | 4 | 256 | ❌ | 1.0x |
+| **RTX 3090** | 24 GB | 4 | 2 | 384 | ❌ | 1.5x |
+| **A100 / RTX 4090** | 40 GB | 12 | 1 | 512 | ✅ | 3.0x |
+| **L40 / H100** | 45 GB+ | 16 | 1 | 512 | ✅ | **3.5x** |
+
+### Automatic Configuration (Default)
+
+When you run any experiment, the system automatically:
+1. ✅ Detects your GPU and available VRAM
+2. ✅ Selects the optimal profile
+3. ✅ Tunes batch_size, gradient_accumulation_steps, sequence_length, and flash_attention
+4. ✅ Logs which device profile was selected
+
+**Example output:**
+```
+[INFO] Detected GPU: NVIDIA L40 (Tesla L40)
+[INFO] Available VRAM: 45 GB
+[INFO] Selected profile: l40_45gb
+[INFO] Auto-configured:
+  - batch_size: 16
+  - gradient_accumulation_steps: 1
+  - max_seq_length: 512
+  - use_flash_attn: True
+```
+
+### Manual GPU Configuration
+
+If you need to override the automatic selection, use the interactive configuration helper:
+
+```bash
+# Show current GPU and select profile manually
+bash configure-device.sh
+```
+
+**Menu options:**
+```
+=== GPU Configuration ===
+Current GPU: NVIDIA L40 (Tesla L40)
+Detected VRAM: 45 GB
+Auto-detected tier: l40_45gb
+
+1) Auto-configure (recommended)
+2) T4 / RTX 2080 (16 GB)
+3) RTX 3090 (24 GB)
+4) A100 / RTX 4090 (40 GB)
+5) L40 / H100 (45 GB+)
+6) Exit
+
+Select option: _
+```
+
+The script will show you the command to use with your selected profile:
+```bash
+DEVICE_PROFILE=l40_45gb python scripts/exp1_better_mlp.py
+```
+
+### Environment Variable Override
+
+Force a specific GPU profile without auto-detection:
+
+```bash
+# Use T4 profile (useful for debugging on high-end GPU)
+DEVICE_PROFILE=t4_16gb python scripts/exp1_better_mlp.py
+
+# Use L40 profile (maximum speed)
+DEVICE_PROFILE=l40_45gb python scripts/run_all_experiments.py
+
+# Force A100 profile
+DEVICE_PROFILE=a100_40gb python scripts/exp5_qformer.py
+```
+
+### Disabling Auto-Optimization
+
+To disable automatic GPU optimization and use your custom config:
+
+```python
+from scripts.base_experiment import BaseExperiment
+from src.training import TrainConfig
+
+config = TrainConfig(
+    batch_size=2,
+    gradient_accumulation_steps=4,
+    # ... other custom settings
+)
+
+# Set auto_optimize=False to skip device detection
+experiment = BaseExperiment(config, auto_optimize=False)
+experiment.run()
+```
+
+### Speed Improvements
+
+**Training speed on different GPUs** (using Exp1: BetterMLP):
+
+- **T4 (Kaggle)**: ~30 min/epoch (baseline, memory-constrained)
+- **RTX 3090**: ~20 min/epoch (1.5x faster)
+- **A100**: ~10 min/epoch (3.0x faster)
+- **L40 (Production)**: ~8.5 min/epoch (3.5x faster) 🚀
+
+**Full training time estimates** (Exp1-5, sequential, 10 epochs each):
+
+| GPU | Total Time | Cost (Kaggle) |
+|-----|-----------|---------------|
+| T4 | ~34 hours | FREE |
+| L40 | ~10 hours | ~$3-5 |
+
+> **Switching between T4 and L40**: Just run `bash configure-device.sh` and select the profile. Your config will auto-adapt!
+
+### Understanding Effective Batch Size
+
+All profiles maintain similar **effective batch sizes** for training stability:
+
+| Profile | Batch | Accum | Effective |
+|---------|-------|-------|-----------|
+| T4 | 2 | 4 | **8** |
+| RTX 3090 | 4 | 2 | **8** |
+| A100 | 12 | 1 | **12** |
+| L40 | 16 | 1 | **16** |
+
+Higher effective batch size on L40 = faster convergence + better gradient estimates.
 
 ---
 

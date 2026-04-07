@@ -1,8 +1,14 @@
 # Core dependencies
 torch>=2.0.0
-transformers>=4.40.0
+# IMPORTANT: transformers==4.38.2 is required for Vintern-1B v3_5 compatibility
+# Do NOT use version 4.35.2 or older - will cause model loading errors
+transformers==4.38.2
 peft>=0.10.0
 accelerate>=0.27.0
+
+# Vision and attention libraries
+timm>=0.9.0  # For InternVIT models
+einops>=0.7.0  # For efficient tensor operations
 
 # Image processing
 pillow>=10.0.0
@@ -14,6 +20,7 @@ numpy>=1.24.0
 tqdm>=4.65.0
 nltk>=3.8.0
 kagglehub>=0.1.0
+pandas>=1.5.0
 
 # Optional - Logging (uncomment to use)
 # wandb>=0.16.0

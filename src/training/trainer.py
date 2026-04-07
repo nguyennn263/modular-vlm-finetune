@@ -303,9 +303,14 @@ class BridgeTrainer:
         
         logits = outputs.logits
         
-        # Compute loss (next-token prediction)
-        shift_logits = logits[..., :-1, :].contiguous()
-        shift_labels = input_ids[..., 1:].contiguous()
+        # Compute loss (next-token prediction) on text tokens only
+        # logits has shape [batch_size, 1 + text_len, vocab_size]
+        # Skip the vision token (first token) and use only text logits
+        text_logits = logits[:, 1:, :]  # [batch_size, text_len, vocab_size]
+        
+        # Shift for next-token prediction
+        shift_logits = text_logits[..., :-1, :].contiguous()  # [batch_size, text_len-1, vocab_size]
+        shift_labels = input_ids[..., 1:].contiguous()  # [batch_size, text_len-1]
         
         loss = F.cross_entropy(
             shift_logits.view(-1, shift_logits.shape[-1]),

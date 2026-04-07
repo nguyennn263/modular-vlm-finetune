@@ -233,7 +233,11 @@ class BridgeTrainer:
         Returns:
             Loss tensor
         """
-        pixel_values = batch['pixel_values'].to(self.device)
+        # Get model dtype (check vision model dtype)
+        model_dtype = next(self.model.vision_model.parameters()).dtype
+        
+        # Convert pixel_values to model dtype and device (matching notebook pattern)
+        pixel_values = batch['pixel_values'].to(dtype=model_dtype, device=self.device)
         input_ids = batch['input_ids'].to(self.device)
         attention_mask = batch['attention_mask'].to(self.device)
         

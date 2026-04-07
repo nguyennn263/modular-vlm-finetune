@@ -210,8 +210,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import torch
 from transformers import AutoModel
 from src.training import BridgeTrainer, TrainConfig
-from src.data.lazy_loaders import load_lazy_datasets
-from utils.path_management import get_raw_data_paths
+from src.data.onesample_dataset import OneSampleDataset
+from utils.data_loader_helper import load_ablation_data
 
 # Disable meta device to prevent meta tensor issues
 import os
@@ -233,6 +233,7 @@ class LinearBridgeBaseline(torch.nn.Module):
     def __init__(self, vision_dim=1024, hidden_dim=896):
         super().__init__()
         self.proj = torch.nn.Linear(vision_dim, hidden_dim, dtype=torch.bfloat16)
+        self.bridge_type = 'better_mlp'  # Same output shape as BetterMLP
     
     def forward(self, x):
         # x is [batch, 1024] pooled vision features
@@ -249,14 +250,16 @@ for name, param in base_model.named_parameters():
     if 'bridge' not in name:
         param.requires_grad = False
 
-# Load data using lazy-loading (memory-efficient)
-images_dir, text_csv = get_raw_data_paths()
-train_ds, val_ds = load_lazy_datasets(
-    csv_path=str(text_csv),
-    images_dir=str(images_dir),
+# Load data as OneSample objects (needed for trainer's collate function)
+train_samples, val_samples = load_ablation_data(
+    max_samples=10000,
     val_ratio=0.1,
-    max_samples=10000  # Reduce for faster ablation
+    project_root=str(Path(__file__).parent.parent)
 )
+
+# Wrap in OneSampleDataset
+train_ds = OneSampleDataset(train_samples)
+val_ds = OneSampleDataset(val_samples)
 
 # Train config (memory-optimized matching other experiments)
 config = TrainConfig(
@@ -269,6 +272,7 @@ config = TrainConfig(
 )
 
 # Trainer (only bridge params are trainable)
+# Trainer auto-detects OneSample objects and uses correct collate function
 trainer = BridgeTrainer(base_model, train_ds, val_ds, config)
 trainer.train()
 

@@ -22,18 +22,37 @@ class EnvironmentDetector:
         if not cls.is_kaggle():
             return None
         
-        # Kaggle datasets are named by their slug (e.g., 'nguynrichard/auto-vqabest' -> 'auto-vqabest')
+        # Try multiple paths for Kaggle datasets
+        # 1. Direct path: /kaggle/input/auto-vqabest (old format)
         project_name = kaggle_project.split('/')[-1]
         project_path = cls.KAGGLE_INPUT_PATH / project_name
         
-        if not project_path.exists():
-            raise FileNotFoundError(
-                f"Kaggle project '{project_name}' not found at {project_path}\n"
-                f"Available datasets in /kaggle/input/:\n"
-                f"{list(cls.KAGGLE_INPUT_PATH.iterdir())}"
-            )
+        if project_path.exists():
+            return project_path
         
-        return project_path
+        # 2. Nested path: /kaggle/input/datasets/username/auto-vqabest (new format)
+        project_path = cls.KAGGLE_INPUT_PATH / "datasets" / kaggle_project
+        
+        if project_path.exists():
+            return project_path
+        
+        # 3. Search in /kaggle/input/datasets/ for the dataset
+        datasets_dir = cls.KAGGLE_INPUT_PATH / "datasets"
+        if datasets_dir.exists():
+            for user_dir in datasets_dir.iterdir():
+                if user_dir.is_dir() and user_dir.name == kaggle_project.split('/')[0]:
+                    for dataset_dir in user_dir.iterdir():
+                        if dataset_dir.is_dir() and dataset_dir.name == project_name:
+                            return dataset_dir
+        
+        raise FileNotFoundError(
+            f"Kaggle project '{kaggle_project}' not found.\n"
+            f"Tried paths:\n"
+            f"  - {cls.KAGGLE_INPUT_PATH / project_name}\n"
+            f"  - {cls.KAGGLE_INPUT_PATH / 'datasets' / kaggle_project}\n"
+            f"Available datasets in /kaggle/input/:\n"
+            f"{list(cls.KAGGLE_INPUT_PATH.iterdir())}"
+        )
 
 
 class DataPathResolver:

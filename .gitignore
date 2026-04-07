@@ -215,5 +215,9 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-data/
+# Ignore data folder (raw images/texts) but not src/data/
+/data/
 ref/
+
+# Include source data modules
+!src/data/

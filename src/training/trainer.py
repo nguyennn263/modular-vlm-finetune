@@ -22,6 +22,8 @@ from pathlib import Path
 from dataclasses import dataclass
 
 from src.middleware.logger import data_loader_logger as logger
+from src.schema.data_schema import OneSample
+from src.data.collator_onesample import create_collate_fn
 
 
 @dataclass
@@ -84,12 +86,19 @@ class BridgeTrainer:
         Path(self.config.output_dir).mkdir(parents=True, exist_ok=True)
         
         # Data loaders
+        # Use custom collate function if datasets contain OneSample objects
+        collate_fn = None
+        if train_dataset and len(train_dataset) > 0:
+            if isinstance(train_dataset[0], OneSample):
+                collate_fn = create_collate_fn(image_size=(336, 336))
+        
         self.train_loader = DataLoader(
             train_dataset,
             batch_size=config.batch_size,
             shuffle=True,
             num_workers=config.num_workers,
-            pin_memory=(self.device.type == 'cuda')
+            pin_memory=(self.device.type == 'cuda'),
+            collate_fn=collate_fn
         )
         
         self.val_loader = DataLoader(
@@ -97,7 +106,8 @@ class BridgeTrainer:
             batch_size=config.batch_size,
             shuffle=False,
             num_workers=config.num_workers,
-            pin_memory=(self.device.type == 'cuda')
+            pin_memory=(self.device.type == 'cuda'),
+            collate_fn=collate_fn
         )
         
         # Optional test loader
@@ -107,7 +117,8 @@ class BridgeTrainer:
                 batch_size=config.batch_size,
                 shuffle=False,
                 num_workers=config.num_workers,
-                pin_memory=(self.device.type == 'cuda')
+                pin_memory=(self.device.type == 'cuda'),
+                collate_fn=collate_fn
             )
         
         # Setup optimization

@@ -285,8 +285,9 @@ class BridgeTrainer:
             pooler = None
         
         # Decide which to use based on bridge type
-        if bridge_type == 'better_mlp':
-            # BetterMLP expects single pooled vector [batch, 1024]
+        if bridge_type in ['better_mlp', 'multi_token']:
+            # BetterMLP + MultiTokenMLP expect single pooled vector [batch, 1024]
+            # Both expand to multiple tokens internally
             if pooler is not None:
                 vision_embeddings = pooler
             elif last_hidden is not None:
@@ -294,7 +295,7 @@ class BridgeTrainer:
             else:
                 vision_embeddings = vision_output
         else:
-            # MultiToken, Attention, MiniQFormer, QFormer need full sequence [batch, num_patches, 1024]
+            # AttentionBridge, MiniQFormer, QFormer need full sequence [batch, num_patches, 1024]
             if last_hidden is not None and last_hidden.dim() == 3:
                 vision_embeddings = last_hidden  # Full sequence
             elif last_hidden is not None and last_hidden.dim() == 2:
@@ -318,8 +319,14 @@ class BridgeTrainer:
         vision_embeddings = vision_embeddings.detach()
         
         # Validate shapes before passing to bridge
-        if bridge_type != 'better_mlp':
-            # Non-BetterMLP bridges expect 3D input [batch, seq, dim]
+        if bridge_type in ['better_mlp', 'multi_token']:
+            # These expect 2D pooled vectors [batch, 1024]
+            assert vision_embeddings.dim() == 2, (
+                f"Bridge {bridge_type} expects 2D vision_embeddings [batch, dim], "
+                f"got shape {vision_embeddings.shape} (dim={vision_embeddings.dim()})"
+            )
+        else:
+            # Others expect 3D sequences [batch, seq, dim]
             assert vision_embeddings.dim() == 3, (
                 f"Bridge {bridge_type} expects 3D vision_embeddings [batch, seq, dim], "
                 f"got shape {vision_embeddings.shape} (dim={vision_embeddings.dim()})"

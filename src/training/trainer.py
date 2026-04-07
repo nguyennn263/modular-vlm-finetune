@@ -263,11 +263,16 @@ class BridgeTrainer:
         # Get text embeddings (frozen)
         with torch.no_grad():
             text_embeddings = self.model.language_model.model.embed_tokens(input_ids)
+            # Convert to model dtype (embeddings are float32 by default)
+            text_embeddings = text_embeddings.to(dtype=model_dtype)
         
         # Ensure bridged_embeddings has sequence dimension [batch_size, 1, text_dim]
         # So it can be concatenated with text_embeddings [batch_size, seq_len, text_dim]
+        # Also convert to model dtype
         if bridged_embeddings.dim() == 2:
-            bridged_embeddings = bridged_embeddings.unsqueeze(1)
+            bridged_embeddings = bridged_embeddings.unsqueeze(1).to(dtype=model_dtype)
+        else:
+            bridged_embeddings = bridged_embeddings.to(dtype=model_dtype)
         
         # Combine vision and text embeddings
         combined_embeddings = torch.cat([bridged_embeddings, text_embeddings], dim=1)

@@ -247,19 +247,22 @@ class BridgeTrainer:
         input_ids = batch['input_ids'].to(self.device)
         attention_mask = batch['attention_mask'].to(self.device)
         
-        # Get vision embeddings (frozen)
-        with torch.no_grad():
-            vision_output = self.model.vision_model(pixel_values)
-            # Extract tensor from BaseModelOutputWithPooling
-            if hasattr(vision_output, 'pooler_output'):
-                # Use pooled output if available (shape: [batch_size, hidden_dim])
-                vision_embeddings = vision_output.pooler_output
-            elif hasattr(vision_output, 'last_hidden_state'):
-                # Use CLS token (first token of sequence) as image representation
-                # Shape: [batch_size, seq_len, hidden_dim] -> [batch_size, hidden_dim]
-                vision_embeddings = vision_output.last_hidden_state[:, 0, :]
-            else:
-                vision_embeddings = vision_output
+        # Get vision embeddings (frozen model, but no_grad not needed for bridge input)
+        vision_output = self.model.vision_model(pixel_values)
+        # Extract tensor from BaseModelOutputWithPooling
+        if hasattr(vision_output, 'pooler_output'):
+            # Use pooled output if available (shape: [batch_size, hidden_dim])
+            vision_embeddings = vision_output.pooler_output
+        elif hasattr(vision_output, 'last_hidden_state'):
+            # Use CLS token (first token of sequence) as image representation
+            # Shape: [batch_size, seq_len, hidden_dim] -> [batch_size, hidden_dim]
+            vision_embeddings = vision_output.last_hidden_state[:, 0, :]
+        else:
+            vision_embeddings = vision_output
+        
+        # Detach vision embeddings since vision model is frozen
+        # This prevents any gradient computation in the vision model
+        vision_embeddings = vision_embeddings.detach()
         
         # Apply bridge module (trainable)
         # Bridge handles both shape conversion and augmentation
@@ -267,10 +270,13 @@ class BridgeTrainer:
         bridged_embeddings = self.model.bridge(vision_embeddings)
         
         # Get text embeddings (frozen)
-        with torch.no_grad():
-            text_embeddings = self.model.language_model.model.embed_tokens(input_ids)
-            # Convert to model dtype (embeddings are float32 by default)
-            text_embeddings = text_embeddings.to(dtype=model_dtype)
+        text_embeddings = self.model.language_model.model.embed_tokens(input_ids)
+        # Convert to model dtype (embeddings are float32 by default)
+        text_embeddings = text_embeddings.to(dtype=model_dtype)
+        
+        # Detach text embeddings since language model is frozen
+        # This prevents any gradient computation in the language model embeddings
+        text_embeddings = text_embeddings.detach()
         
         # Ensure bridged_embeddings has sequence dimension [batch_size, 1, text_dim]
         # So it can be concatenated with text_embeddings [batch_size, seq_len, text_dim]
@@ -293,13 +299,12 @@ class BridgeTrainer:
         )
         combined_attention_mask = torch.cat([vision_attention, attention_mask], dim=1)
         
-        # Forward through LLM (frozen)
-        with torch.no_grad():
-            outputs = self.model.language_model(
-                inputs_embeds=combined_embeddings,
-                attention_mask=combined_attention_mask,
-                return_dict=True
-            )
+        # Forward through LLM (frozen model, but compute logits to backprop through bridge)
+        outputs = self.model.language_model(
+            inputs_embeds=combined_embeddings,
+            attention_mask=combined_attention_mask,
+            return_dict=True
+        )
         
         logits = outputs.logits
         

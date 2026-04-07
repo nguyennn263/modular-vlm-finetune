@@ -226,13 +226,28 @@ base_model = AutoModel.from_pretrained(
     trust_remote_code=True,
 ).eval().to(device)
 
-# Create minimal wrapper (no bridge = frozen models only)
-class NoOpBridge(torch.nn.Module):
+# Baseline: Simple linear projection (learnable bridge for comparison)
+# This is minimal: pooled vision features → projected to embedding dimension
+class LinearBridgeBaseline(torch.nn.Module):
+    """Minimal baseline: just linear projection of pooled vision features"""
+    def __init__(self, vision_dim=1024, hidden_dim=896):
+        super().__init__()
+        self.proj = torch.nn.Linear(vision_dim, hidden_dim, dtype=torch.bfloat16)
+    
     def forward(self, x):
-        return torch.zeros(x.shape[0], 896, device=x.device)
+        # x is [batch, 1024] pooled vision features
+        # Output: [batch, 1, 896] to match other bridges
+        batch_size = x.shape[0]
+        projected = self.proj(x)  # [batch, 896]
+        return projected.unsqueeze(1)  # [batch, 1, 896]
 
 if not hasattr(base_model, 'bridge'):
-    base_model.bridge = NoOpBridge()
+    base_model.bridge = LinearBridgeBaseline()
+
+# Freeze vision and language models (only bridge is trainable)
+for name, param in base_model.named_parameters():
+    if 'bridge' not in name:
+        param.requires_grad = False
 
 # Load data using lazy-loading (memory-efficient)
 images_dir, text_csv = get_raw_data_paths()
@@ -243,13 +258,9 @@ train_ds, val_ds = load_lazy_datasets(
     max_samples=10000  # Reduce for faster ablation
 )
 
-# Freeze all
-for param in base_model.parameters():
-    param.requires_grad = False
-
 # Train config (memory-optimized matching other experiments)
 config = TrainConfig(
-    output_dir="checkpoints/ablation_no_bridge",
+    output_dir="checkpoints/ablation_linear_baseline",
     num_epochs=10,
     batch_size=2,  # Memory-optimized for 16GB GPU
     learning_rate=2e-4,
@@ -257,11 +268,11 @@ config = TrainConfig(
     gradient_accumulation_steps=4  # Effective batch = 8
 )
 
-# Trainer
+# Trainer (only bridge params are trainable)
 trainer = BridgeTrainer(base_model, train_ds, val_ds, config)
 trainer.train()
 
-print("✓ No-bridge ablation completed")
+print("✓ Linear baseline ablation completed")
 '''
         
         # Create ablation script in workspace root

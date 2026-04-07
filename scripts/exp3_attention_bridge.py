@@ -33,7 +33,8 @@ class Exp3Config(ExperimentConfig):
     }
     
     num_epochs = 10
-    batch_size = 8
+    batch_size = 2  # Memory-optimized for 14GB GPU
+    gradient_accumulation_steps = 4  # Effective batch size = 2 * 4 = 8
     learning_rate = 2e-4
     eval_steps = 100
     save_steps = 500
@@ -68,6 +69,7 @@ class Experiment3(BaseExperiment):
             output_dir=self.config.output_dir,
             num_epochs=self.config.num_epochs,
             batch_size=self.config.batch_size,
+            gradient_accumulation_steps=self.config.gradient_accumulation_steps,
             learning_rate=self.config.learning_rate,
             eval_steps=self.config.eval_steps,
             save_steps=self.config.save_steps,

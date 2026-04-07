@@ -93,6 +93,12 @@ class BridgeTrainer:
         if hasattr(self.model, 'bridge'):
             self.model.bridge = self.model.bridge.to(dtype=model_dtype)
         
+        # Disable gradient checkpointing on frozen models to eliminate warnings
+        if hasattr(self.model.vision_model, 'gradient_checkpointing_disable'):
+            self.model.vision_model.gradient_checkpointing_disable()
+        if hasattr(self.model.language_model, 'gradient_checkpointing_disable'):
+            self.model.language_model.gradient_checkpointing_disable()
+        
         self.train_dataset = train_dataset
         self.val_dataset = val_dataset
         self.test_dataset = test_dataset
@@ -302,10 +308,11 @@ class BridgeTrainer:
         combined_embeddings = torch.cat([bridged_embeddings, text_embeddings], dim=1)
         
         # Create attention mask for combined embeddings
-        # Vision contribution is 1 token, text is rest
+        # Vision contribution is num_vision_tokens, text is rest
+        num_vision_tokens = bridged_embeddings.shape[1]
         vision_attention = torch.ones(
             bridged_embeddings.shape[0],
-            bridged_embeddings.shape[1],
+            num_vision_tokens,
             device=self.device,
             dtype=attention_mask.dtype
         )
@@ -321,9 +328,9 @@ class BridgeTrainer:
         logits = outputs.logits
         
         # Compute loss (next-token prediction) on text tokens only
-        # logits has shape [batch_size, 1 + text_len, vocab_size]
-        # Skip the vision token (first token) and use only text logits
-        text_logits = logits[:, 1:, :]  # [batch_size, text_len, vocab_size]
+        # logits has shape [batch_size, num_vision_tokens + text_len, vocab_size]
+        # Skip all vision tokens and use only text logits
+        text_logits = logits[:, num_vision_tokens:, :]  # [batch_size, text_len, vocab_size]
         
         # Shift for next-token prediction
         shift_logits = text_logits[..., :-1, :].contiguous()  # [batch_size, text_len-1, vocab_size]

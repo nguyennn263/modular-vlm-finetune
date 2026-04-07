@@ -28,7 +28,8 @@ class ExperimentConfig:
     
     # Training
     num_epochs: int = 10
-    batch_size: int = 8
+    batch_size: int = 2  # Memory-optimized for 14GB GPU
+    gradient_accumulation_steps: int = 4  # Effective batch size = 2 * 4 = 8
     learning_rate: float = 2e-4
     eval_steps: int = 100
     save_steps: int = 500
@@ -77,6 +78,10 @@ class BaseExperiment(ABC):
                 low_cpu_mem_usage=False,
                 trust_remote_code=True,
             ).eval()
+        
+        # Disable gradient checkpointing on frozen models (eliminates torch.utils.checkpoint warnings)
+        if hasattr(self.model, 'gradient_checkpointing_disable'):
+            self.model.gradient_checkpointing_disable()
         
         # Move to device
         self.model = self.model.to(self.device)

@@ -34,7 +34,8 @@ class TrainConfig:
     model_name: str = "5CD-AI/Vintern-1B-v3_5"  # Model identifier for tokenizer
     output_dir: str = "checkpoints/bridge_experiments"
     num_epochs: int = 10
-    batch_size: int = 8
+    batch_size: int = 2  # Reduced from 8 to fit in 14GB GPU memory
+    gradient_accumulation_steps: int = 4  # Accumulate 4 batches for effective batch size of 8
     learning_rate: float = 2e-4
     weight_decay: float = 0.01
     warmup_steps: int = 500
@@ -79,6 +80,11 @@ class BridgeTrainer:
         self.config = config
         self.device = self._get_device()
         
+        # Optimize CUDA memory allocations
+        if self.device.type == "cuda":
+            torch.cuda.empty_cache()
+            torch.cuda.reset_peak_memory_stats()
+        
         # Model and data
         self.model = model.to(self.device)
         
@@ -114,7 +120,13 @@ class BridgeTrainer:
                     logger.error(f"Failed to load tokenizer: {e}")
                     raise
                 
-                collate_fn = create_collate_fn(tokenizer=tokenizer, image_size=(336, 336))
+                # Use max_length=256 for memory efficiency (reduces memory usage by ~50%)
+                # This is still plenty for Q&A pairs
+                collate_fn = create_collate_fn(
+                    tokenizer=tokenizer,
+                    image_size=(336, 336),
+                    max_length=256  # Reduced from default 512
+                )
         
         self.train_loader = DataLoader(
             train_dataset,
@@ -327,7 +339,7 @@ class BridgeTrainer:
     
     def train_epoch(self, epoch: int) -> Tuple[float, bool]:
         """
-        Train for one epoch.
+        Train for one epoch with gradient accumulation.
         
         Returns:
             (avg_loss, should_stop)
@@ -335,6 +347,8 @@ class BridgeTrainer:
         self.model.train()
         total_loss = 0.0
         num_batches = 0
+        accumulation_counter = 0
+        accumulated_loss = 0.0
         
         pbar = tqdm(
             self.train_loader,
@@ -342,55 +356,82 @@ class BridgeTrainer:
             leave=False
         )
         
-        for batch in pbar:
+        for batch_idx, batch in enumerate(pbar):
             # Forward pass
             loss = self.forward_pass(batch)
             
-            # Backward pass
-            self.optimizer.zero_grad()
-            loss.backward()
+            # Scale loss by accumulation steps (gradient accumulation divides loss)
+            loss = loss / self.config.gradient_accumulation_steps
             
-            # Gradient clipping
+            # Backward pass (accumulate gradients)
+            loss.backward()
+            accumulated_loss += loss.item()
+            accumulation_counter += 1
+            
+            # Update weights every N accumulation steps
+            if accumulation_counter % self.config.gradient_accumulation_steps == 0:
+                # Gradient clipping
+                nn.utils.clip_grad_norm_(
+                    [p for p in self.model.bridge.parameters() if p.requires_grad],
+                    max_norm=self.config.max_grad_norm
+                )
+                
+                # Optimizer step
+                self.optimizer.step()
+                self.scheduler.step()
+                self.optimizer.zero_grad()
+                
+                # Logging
+                total_loss += accumulated_loss
+                num_batches += 1
+                self.global_step += 1
+                
+                pbar.set_postfix({'loss': f'{accumulated_loss:.4f}'})
+                
+                # Validation and checkpoint
+                if self.global_step % self.config.eval_steps == 0:
+                    val_loss = self.validate()
+                    logger.info(f"Step {self.global_step}: train_loss={accumulated_loss:.4f}, val_loss={val_loss:.4f}")
+                    
+                    # Check for improvement
+                    is_best = val_loss < self.best_val_loss - self.config.min_delta
+                    
+                    if is_best:
+                        self.best_val_loss = val_loss
+                        self.early_stop_counter = 0
+                        self.save_checkpoint(is_best=True)
+                        logger.info(f"✓ New best: val_loss={val_loss:.4f}")
+                    else:
+                        self.early_stop_counter += 1
+                        if self.config.early_stopping and self.early_stop_counter >= self.config.patience:
+                            logger.warning(f"⚠ Early stopping at step {self.global_step}")
+                            return total_loss / num_batches if num_batches > 0 else 0.0, True
+                    
+                    # Clear cache after validation to free memory for training
+                    if self.device.type == "cuda":
+                        torch.cuda.empty_cache()
+                
+                # Regular checkpoint
+                if self.global_step % self.config.save_steps == 0:
+                    self.save_checkpoint()
+                
+                # Reset accumulation
+                accumulated_loss = 0.0
+        
+        # Handle remaining accumulated gradients
+        if accumulation_counter % self.config.gradient_accumulation_steps != 0:
             nn.utils.clip_grad_norm_(
                 [p for p in self.model.bridge.parameters() if p.requires_grad],
                 max_norm=self.config.max_grad_norm
             )
-            
-            # Optimizer step
             self.optimizer.step()
             self.scheduler.step()
-            
-            # Logging
-            total_loss += loss.item()
+            self.optimizer.zero_grad()
+            total_loss += accumulated_loss
             num_batches += 1
             self.global_step += 1
-            
-            pbar.set_postfix({'loss': f'{loss.item():.4f}'})
-            
-            # Validation and checkpoint
-            if self.global_step % self.config.eval_steps == 0:
-                val_loss = self.validate()
-                logger.info(f"Step {self.global_step}: train_loss={loss.item():.4f}, val_loss={val_loss:.4f}")
-                
-                # Check for improvement
-                is_best = val_loss < self.best_val_loss - self.config.min_delta
-                
-                if is_best:
-                    self.best_val_loss = val_loss
-                    self.early_stop_counter = 0
-                    self.save_checkpoint(is_best=True)
-                    logger.info(f"✓ New best: val_loss={val_loss:.4f}")
-                else:
-                    self.early_stop_counter += 1
-                    if self.config.early_stopping and self.early_stop_counter >= self.config.patience:
-                        logger.warning(f"⚠ Early stopping at step {self.global_step}")
-                        return total_loss / num_batches, True
-            
-            # Regular checkpoint
-            if self.global_step % self.config.save_steps == 0:
-                self.save_checkpoint()
         
-        return total_loss / num_batches, False
+        return total_loss / num_batches if num_batches > 0 else 0.0, False
     
     @torch.no_grad()
     def validate(self) -> float:

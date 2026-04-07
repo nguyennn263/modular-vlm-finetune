@@ -261,14 +261,15 @@ trainer.train()
 print("✓ No-bridge ablation completed")
 '''
         
-        ablation_script = Path("scripts/_ablation_no_bridge.py")
+        # Create ablation script in workspace root
+        workspace_root = Path(__file__).parent.parent
+        ablation_script = workspace_root / "scripts" / "_ablation_no_bridge.py"
         ablation_script.write_text(script_content)
 
         try:
             # Run from workspace root so imports work correctly
-            workspace_root = Path(__file__).parent.parent
             result = subprocess.run(
-                ["python", str(ablation_script.relative_to(workspace_root))],
+                ["python", "scripts/_ablation_no_bridge.py"],
                 cwd=workspace_root,
                 check=True
             )

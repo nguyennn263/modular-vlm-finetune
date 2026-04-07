@@ -81,6 +81,12 @@ class BridgeTrainer:
         
         # Model and data
         self.model = model.to(self.device)
+        
+        # Ensure bridge module is in same dtype as vision model (bfloat16)
+        model_dtype = next(self.model.vision_model.parameters()).dtype
+        if hasattr(self.model, 'bridge'):
+            self.model.bridge = self.model.bridge.to(dtype=model_dtype)
+        
         self.train_dataset = train_dataset
         self.val_dataset = val_dataset
         self.test_dataset = test_dataset

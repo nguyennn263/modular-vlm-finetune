@@ -58,39 +58,44 @@ class VisionLanguageBridge(nn.Module):
         """Create bridge module based on type."""
         config = self.bridge_config
         
+        # Vision encoder outputs 1024-dimensional embeddings (Vintern-1B)
+        vision_dim = 1024
+        # LLM expects 896-dimensional embeddings (Qwen2)
+        hidden_dim = 896
+        
         if self.bridge_type == 'better_mlp':
             return BetterMLP(
-                in_features=4096,
-                out_features=896
+                in_features=vision_dim,
+                out_features=hidden_dim
             )
         
         elif self.bridge_type == 'multi_token':
             return MultiTokenMLP(
-                in_features=4096,
-                out_features=896,
+                in_features=vision_dim,
+                out_features=hidden_dim,
                 num_tokens=config.get('num_tokens', 8)
             )
         
         elif self.bridge_type == 'attention':
             return AttentionBridge(
-                vision_dim=1024,
-                hidden_dim=896,
+                vision_dim=vision_dim,
+                hidden_dim=hidden_dim,
                 num_tokens=config.get('num_tokens', 8),
                 num_heads=config.get('num_heads', 8)
             )
         
         elif self.bridge_type == 'mini_qformer':
             return MiniQFormer(
-                vision_dim=1024,
-                hidden_dim=896,
+                vision_dim=vision_dim,
+                hidden_dim=hidden_dim,
                 num_tokens=config.get('num_tokens', 8),
                 num_heads=config.get('num_heads', 8)
             )
         
         elif self.bridge_type == 'qformer':
             return QFormer(
-                vision_dim=1024,
-                hidden_dim=896,
+                vision_dim=vision_dim,
+                hidden_dim=hidden_dim,
                 num_queries=config.get('num_queries', 16),
                 num_heads=config.get('num_heads', 8),
                 num_layers=config.get('num_layers', 4)

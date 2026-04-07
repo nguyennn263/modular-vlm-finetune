@@ -245,23 +245,35 @@ class BridgeTrainer:
         with torch.no_grad():
             vision_output = self.model.vision_model(pixel_values)
             # Extract tensor from BaseModelOutputWithPooling
-            if hasattr(vision_output, 'last_hidden_state'):
-                vision_embeddings = vision_output.last_hidden_state
+            if hasattr(vision_output, 'pooler_output'):
+                # Use pooled output if available (shape: [batch_size, hidden_dim])
+                vision_embeddings = vision_output.pooler_output
+            elif hasattr(vision_output, 'last_hidden_state'):
+                # Use CLS token (first token of sequence) as image representation
+                # Shape: [batch_size, seq_len, hidden_dim] -> [batch_size, hidden_dim]
+                vision_embeddings = vision_output.last_hidden_state[:, 0, :]
             else:
                 vision_embeddings = vision_output
         
         # Apply bridge module (trainable)
         # Bridge handles both shape conversion and augmentation
+        # Input: [batch_size, vision_dim] -> Output: [batch_size, text_dim]
         bridged_embeddings = self.model.bridge(vision_embeddings)
         
         # Get text embeddings (frozen)
         with torch.no_grad():
             text_embeddings = self.model.language_model.model.embed_tokens(input_ids)
         
+        # Ensure bridged_embeddings has sequence dimension [batch_size, 1, text_dim]
+        # So it can be concatenated with text_embeddings [batch_size, seq_len, text_dim]
+        if bridged_embeddings.dim() == 2:
+            bridged_embeddings = bridged_embeddings.unsqueeze(1)
+        
         # Combine vision and text embeddings
         combined_embeddings = torch.cat([bridged_embeddings, text_embeddings], dim=1)
         
         # Create attention mask for combined embeddings
+        # Vision contribution is 1 token, text is rest
         vision_attention = torch.ones(
             bridged_embeddings.shape[0],
             bridged_embeddings.shape[1],

@@ -56,9 +56,11 @@ def run_experiment(exp_config: ExpConfig):
     print("Loading base model...")
     base_model = AutoModel.from_pretrained(
         exp_config.base_model_name,
+        torch_dtype=torch.bfloat16,
+        low_cpu_mem_usage=False,
         trust_remote_code=True,
-        device_map="auto"
-    )
+    ).eval()
+    base_model = base_model.to(device)
     
     # Create fine-tune model with selected bridge
     print(f"Creating fine-tune model with {exp_config.bridge_type} bridge...")

@@ -88,9 +88,20 @@ class BridgeTrainer:
         # Data loaders
         # Use custom collate function if datasets contain OneSample objects
         collate_fn = None
+        tokenizer = None
+        
         if train_dataset and len(train_dataset) > 0:
             if isinstance(train_dataset[0], OneSample):
-                collate_fn = create_collate_fn(image_size=(336, 336))
+                # Try to get tokenizer from model
+                try:
+                    if hasattr(model, 'language_model') and hasattr(model.language_model, 'tokenizer'):
+                        tokenizer = model.language_model.tokenizer
+                    elif hasattr(model, 'tokenizer'):
+                        tokenizer = model.tokenizer
+                except Exception as e:
+                    logger.warning(f"Could not extract tokenizer from model: {e}")
+                
+                collate_fn = create_collate_fn(tokenizer=tokenizer, image_size=(336, 336))
         
         self.train_loader = DataLoader(
             train_dataset,

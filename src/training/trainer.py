@@ -332,12 +332,7 @@ class BridgeTrainer:
                 f"got shape {vision_embeddings.shape} (dim={vision_embeddings.dim()})"
             )
         
-        # Apply bridge module (trainable)
-        # Bridge handles both shape conversion and augmentation
-        # Input: [batch_size, vision_dim] -> Output: [batch_size, text_dim]
-        bridged_embeddings = self.model.bridge(vision_embeddings)
-        
-        # Get text embeddings (frozen)
+        # Get text embeddings early (needed for QFormer and concatenation)
         text_embeddings = self.model.language_model.model.embed_tokens(input_ids)
         # Convert to model dtype (embeddings are float32 by default)
         text_embeddings = text_embeddings.to(dtype=model_dtype)
@@ -346,7 +341,16 @@ class BridgeTrainer:
         # This prevents any gradient computation in the language model embeddings
         text_embeddings = text_embeddings.detach()
         
-        # Ensure bridged_embeddings has sequence dimension [batch_size, 1, text_dim]
+        # Apply bridge module (trainable)
+        # Bridge handles both shape conversion and augmentation
+        if bridge_type == 'qformer':
+            # QFormer requires both vision features and question embeddings
+            bridged_embeddings = self.model.bridge(vision_embeddings, text_embeddings)
+        else:
+            # All other bridges just take vision embeddings
+            bridged_embeddings = self.model.bridge(vision_embeddings)
+        
+        # Ensure bridged_embeddings has sequence dimension [batch_size, num_tokens, text_dim]
         # So it can be concatenated with text_embeddings [batch_size, seq_len, text_dim]
         # Also convert to model dtype
         if bridged_embeddings.dim() == 2:

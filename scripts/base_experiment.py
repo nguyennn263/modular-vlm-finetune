@@ -81,6 +81,7 @@ class BaseExperiment(ABC):
         self.model = None
         self.train_samples: List[OneSample] = []
         self.val_samples: List[OneSample] = []
+        self.test_samples: List[OneSample] = []
         
         data_loader_logger.info(f"Initializing experiment on device: {self.device}")
     
@@ -123,22 +124,37 @@ class BaseExperiment(ABC):
     def load_data(
         self,
         max_samples: Optional[int] = None,
-        val_ratio: float = 0.1
-    ) -> Tuple[List[OneSample], List[OneSample]]:
-        """Load training and validation data."""
-        data_loader_logger.info(f"Loading data (max_samples={max_samples}, val_ratio={val_ratio})")
+        train_ratio: float = 0.8,
+        val_ratio: float = 0.1,
+        test_ratio: float = 0.1,
+        use_test_split: bool = True
+    ) -> Tuple[List[OneSample], List[OneSample], List[OneSample]]:
+        """Load training, validation, and test data."""
+        data_loader_logger.info(
+            f"Loading data (max_samples={max_samples}, "
+            f"train={train_ratio:.1%}, val={val_ratio:.1%}, test={test_ratio:.1%})"
+        )
         
         loader = AblationDataLoader()
-        self.train_samples, self.val_samples = loader.load_train_val_split(
+        self.train_samples, self.val_samples, self.test_samples = loader.load_train_val_test_split(
             max_samples=max_samples,
-            val_ratio=val_ratio
+            train_ratio=train_ratio,
+            val_ratio=val_ratio,
+            test_ratio=test_ratio
+        ) if use_test_split else (
+            *loader.load_train_val_split(
+                max_samples=max_samples,
+                val_ratio=val_ratio + test_ratio
+            ),
+            []
         )
         
         data_loader_logger.info(
-            f"Data loaded: {len(self.train_samples)} train, {len(self.val_samples)} val"
+            f"Data loaded: {len(self.train_samples)} train, "
+            f"{len(self.val_samples)} val, {len(self.test_samples)} test"
         )
         
-        return self.train_samples, self.val_samples
+        return self.train_samples, self.val_samples, self.test_samples
     
     def print_config(self):
         """Print configuration."""
@@ -163,7 +179,14 @@ class BaseExperiment(ABC):
         """Run training. Must be implemented by subclass."""
         pass
     
-    def run(self, max_samples: Optional[int] = None, val_ratio: float = 0.1):
+    def run(
+        self,
+        max_samples: Optional[int] = None,
+        train_ratio: float = 0.8,
+        val_ratio: float = 0.1,
+        test_ratio: float = 0.1,
+        use_test_split: bool = True
+    ):
         """Complete experiment pipeline."""
         self.print_config()
         
@@ -173,8 +196,14 @@ class BaseExperiment(ABC):
         # Create fine-tuned model
         model = self.create_model()
         
-        # Load data
-        self.load_data(max_samples=max_samples, val_ratio=val_ratio)
+        # Load data with optional test split
+        self.load_data(
+            max_samples=max_samples,
+            train_ratio=train_ratio,
+            val_ratio=val_ratio,
+            test_ratio=test_ratio,
+            use_test_split=use_test_split
+        )
         
         # Train
         self.train()

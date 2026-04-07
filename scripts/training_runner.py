@@ -251,15 +251,19 @@ for name, param in base_model.named_parameters():
         param.requires_grad = False
 
 # Load data as OneSample objects (needed for trainer's collate function)
-train_samples, val_samples = load_ablation_data(
+train_samples, val_samples, test_samples = load_ablation_data(
     max_samples=10000,
+    train_ratio=0.8,
     val_ratio=0.1,
-    project_root=str(Path(__file__).parent.parent)
+    test_ratio=0.1,
+    project_root=str(Path(__file__).parent.parent),
+    use_test_split=True
 )
 
 # Wrap in OneSampleDataset
 train_ds = OneSampleDataset(train_samples)
 val_ds = OneSampleDataset(val_samples)
+test_ds = OneSampleDataset(test_samples)
 
 # Train config (memory-optimized matching other experiments)
 config = TrainConfig(
@@ -276,7 +280,18 @@ config = TrainConfig(
 trainer = BridgeTrainer(base_model, train_ds, val_ds, config)
 trainer.train()
 
-print("✓ Linear baseline ablation completed")
+# Evaluate on test set
+print("\n✓ Training completed. Evaluating on [TEST] set...")
+test_loader = torch.utils.data.DataLoader(
+    test_ds,
+    batch_size=config.batch_size,
+    shuffle=False,
+    collate_fn=trainer.get_collate_fn(test_ds)
+)
+
+test_metrics = trainer.evaluate(test_loader)
+print(f"✓ [TEST] Metrics: Loss={test_metrics.get('loss', 'N/A'):.4f}")
+print(f"✓ Linear baseline ablation completed")
 '''
         
         # Create ablation script in workspace root

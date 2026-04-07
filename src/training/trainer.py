@@ -106,6 +106,9 @@ class BridgeTrainer:
         # Create output directory
         Path(self.config.output_dir).mkdir(parents=True, exist_ok=True)
         
+        # Setup result tracking (per-epoch and logs)
+        self._setup_result_tracking()
+        
         # Data loaders
         # Use custom collate function if datasets contain OneSample objects
         collate_fn = None
@@ -171,6 +174,9 @@ class BridgeTrainer:
         self.best_val_loss = float('inf')
         self.early_stop_counter = 0
         self.best_model_path = None
+        
+        # Checkpoint management: track recent checkpoints for cleanup
+        self.recent_checkpoints = []  # Keep only 2 most recent
         
         # Resume if specified
         if config.resume_from and os.path.exists(config.resume_from):
@@ -246,6 +252,119 @@ class BridgeTrainer:
             logger.info(f"  Patience: {self.config.patience}")
             logger.info(f"  Min delta: {self.config.min_delta}")
         logger.info("=" * 80)
+    
+    def _setup_result_tracking(self):
+        """Setup per-epoch result tracking and log files."""
+        import csv
+        from datetime import datetime
+        
+        # Create results directory
+        results_dir = Path(self.config.output_dir) / "results"
+        results_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Per-epoch results CSV
+        self.epoch_results_file = results_dir / "epoch_results.csv"
+        self.epoch_results_writer = None
+        self.epoch_results_csv = None
+        
+        # Training logs file
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        self.log_file = results_dir / f"training_{timestamp}.log"
+        
+        # Write header to CSV
+        try:
+            with open(self.epoch_results_file, 'w', newline='') as f:
+                writer = csv.DictWriter(
+                    f,
+                    fieldnames=[
+                        'epoch', 'global_step',
+                        'train_loss', 'val_loss',
+                        'perplexity', 'learning_rate',
+                        'early_stop_counter', 'is_best',
+                        'time_seconds'
+                    ]
+                )
+                writer.writeheader()
+        except Exception as e:
+            logger.warning(f"Failed to create epoch results CSV: {e}")
+        
+        logger.info(f"✓ Results will be saved to: {results_dir}")
+        logger.info(f"✓ Epoch results: {self.epoch_results_file}")
+        logger.info(f"✓ Training logs: {self.log_file}")
+    
+    def _log_to_file(self, message: str):
+        """Write message to both logger and log file."""
+        logger.info(message)
+        try:
+            with open(self.log_file, 'a') as f:
+                f.write(message + '\n')
+        except Exception as e:
+            pass  # Silently fail if file write fails
+    
+    def _save_epoch_results(self, epoch: int, epoch_metrics: Dict):
+        """Save per-epoch results to CSV."""
+        import csv
+        from datetime import datetime
+        
+        try:
+            with open(self.epoch_results_file, 'a', newline='') as f:
+                writer = csv.DictWriter(
+                    f,
+                    fieldnames=[
+                        'epoch', 'global_step',
+                        'train_loss', 'val_loss',
+                        'perplexity', 'learning_rate',
+                        'early_stop_counter', 'is_best',
+                        'time_seconds'
+                    ]
+                )
+                writer.writerow({
+                    'epoch': epoch + 1,
+                    'global_step': self.global_step,
+                    'train_loss': epoch_metrics.get('train_loss', 0),
+                    'val_loss': epoch_metrics.get('val_loss', 0),
+                    'perplexity': epoch_metrics.get('perplexity', 0),
+                    'learning_rate': epoch_metrics.get('learning_rate', 0),
+                    'early_stop_counter': self.early_stop_counter,
+                    'is_best': epoch_metrics.get('is_best', False),
+                    'time_seconds': epoch_metrics.get('time_seconds', 0)
+                })
+        except Exception as e:
+            logger.warning(f"Failed to save epoch results: {e}")
+    
+    def _save_final_summary(self, elapsed_timedelta, total_hours: float):
+        """Save final training summary to JSON."""
+        import json
+        
+        try:
+            results_dir = Path(self.config.output_dir) / "results"
+            summary_file = results_dir / "summary.json"
+            
+            summary = {
+                'experiment': Path(self.config.output_dir).name,
+                'best_val_loss': float(self.best_val_loss),
+                'best_model_path': str(self.best_model_path) if self.best_model_path else None,
+                'global_step': self.global_step,
+                'training_duration': str(elapsed_timedelta),
+                'training_duration_hours': total_hours,
+                'epochs_trained': self.config.num_epochs,
+                'batch_size': self.config.batch_size,
+                'learning_rate': self.config.learning_rate,
+                'early_stopping_enabled': self.config.early_stopping,
+                'results_files': {
+                    'epoch_results': str(self.epoch_results_file),
+                    'training_logs': str(self.log_file),
+                    'summary': str(summary_file)
+                }
+            }
+            
+            with open(summary_file, 'w') as f:
+                json.dump(summary, f, indent=2)
+            
+            logger.info(f"✓ Final summary saved to: {summary_file}")
+        except Exception as e:
+            logger.warning(f"Failed to save final summary: {e}")
+    
     
     def forward_pass(self, batch: Dict) -> torch.Tensor:
         """
@@ -452,7 +571,7 @@ class BridgeTrainer:
                 # Validation and checkpoint
                 if self.global_step % self.config.eval_steps == 0:
                     val_loss = self.validate()
-                    logger.info(f"Step {self.global_step}: train_loss={accumulated_loss:.4f}, val_loss={val_loss:.4f}")
+                    logger.info(f"Step {self.global_step}: train_loss={accumulated_loss:.4f}, [VAL] val_loss={val_loss:.4f}")
                     
                     # Check for improvement
                     is_best = val_loss < self.best_val_loss - self.config.min_delta
@@ -461,7 +580,7 @@ class BridgeTrainer:
                         self.best_val_loss = val_loss
                         self.early_stop_counter = 0
                         self.save_checkpoint(is_best=True)
-                        logger.info(f"✓ New best: val_loss={val_loss:.4f}")
+                        logger.info(f"✓ New best [VAL]: val_loss={val_loss:.4f}")
                     else:
                         self.early_stop_counter += 1
                         if self.config.early_stopping and self.early_stop_counter >= self.config.patience:
@@ -573,6 +692,25 @@ class BridgeTrainer:
         
         torch.save(checkpoint, path)
         logger.info(f"✓ Saved {'best ' if is_best else ''}checkpoint: {path}")
+        
+        # Cleanup old checkpoints if not the best one
+        if not is_best:
+            self._cleanup_old_checkpoints(path)
+    
+    def _cleanup_old_checkpoints(self, new_checkpoint_path: str, keep_last_n: int = 1):
+        """Keep only the N most recent checkpoints (besides best_model.pt)."""
+        try:
+            # Add the new checkpoint to the list
+            self.recent_checkpoints.append(new_checkpoint_path)
+            
+            # Keep only the last N checkpoints
+            if len(self.recent_checkpoints) > keep_last_n:
+                old_checkpoint = self.recent_checkpoints.pop(0)
+                if os.path.exists(old_checkpoint):
+                    os.remove(old_checkpoint)
+                    logger.info(f"✓ Removed old checkpoint: {old_checkpoint}")
+        except Exception as e:
+            logger.warning(f"Failed to cleanup old checkpoints: {e}")
     
     def _load_checkpoint(self, checkpoint_path: str):
         """Load checkpoint."""
@@ -648,13 +786,25 @@ class BridgeTrainer:
                 logger.info(f"\n{'='*80}")
                 logger.info(f"Epoch {epoch+1}/{self.config.num_epochs}")
                 logger.info(f"{'='*80}")
-                logger.info(f"  Train Loss: {avg_loss:.4f}")
-                logger.info(f"  Val Loss:   {val_loss:.4f}")
-                logger.info(f"  Perplexity: {perplexity:.4f}")
-                logger.info(f"  Learning Rate: {current_lr:.2e}")
+                logger.info(f"  Train Loss:        {avg_loss:.4f}")
+                logger.info(f"  [VAL] Val Loss:    {val_loss:.4f}")
+                logger.info(f"  Perplexity:        {perplexity:.4f}")
+                logger.info(f"  Learning Rate:     {current_lr:.2e}")
                 logger.info(f"  Early Stop Counter: {self.early_stop_counter}/{self.config.patience}")
-                logger.info(f"  Time: {epoch_elapsed:.1f}s")
-                logger.info(f"  Best Val Loss: {self.best_val_loss:.4f}")
+                logger.info(f"  Time:              {epoch_elapsed:.1f}s")
+                logger.info(f"  Best Val Loss:     {self.best_val_loss:.4f}")
+                
+                # Save epoch results to CSV
+                is_best = val_loss < self.best_val_loss - self.config.min_delta
+                epoch_metrics = {
+                    'train_loss': avg_loss,
+                    'val_loss': val_loss,
+                    'perplexity': perplexity,
+                    'learning_rate': current_lr,
+                    'is_best': is_best,
+                    'time_seconds': epoch_elapsed
+                }
+                self._save_epoch_results(epoch, epoch_metrics)
                 
                 # Show sample inference
                 self._sample_inference(epoch, num_samples=3)
@@ -675,6 +825,9 @@ class BridgeTrainer:
             elapsed = datetime.now() - start_time
             total_hours = elapsed.total_seconds() / 3600
             logger.info(f"Training completed in {elapsed} ({total_hours:.2f}h)")
+            
+            # Save final summary
+            self._save_final_summary(elapsed, total_hours)
 
 
 # Backward compatibility

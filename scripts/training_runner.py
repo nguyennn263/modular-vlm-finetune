@@ -211,7 +211,7 @@ import torch
 from transformers import AutoModel
 from src.training import BridgeTrainer, TrainConfig
 from src.data.loaders import load_datasets
-from utils.path_management import RAW_TEXT_CSV, RAW_IMAGES_DIR
+from utils.path_management import get_raw_data_paths
 
 # Disable meta device to prevent meta tensor issues
 import os
@@ -234,10 +234,11 @@ class NoOpBridge(torch.nn.Module):
 if not hasattr(base_model, 'bridge'):
     base_model.bridge = NoOpBridge()
 
-# Load data
+# Load data using environment-aware path resolver
+images_dir, text_csv = get_raw_data_paths()
 train_ds, val_ds = load_datasets(
-    csv_path=str(RAW_TEXT_CSV),
-    images_dir=str(RAW_IMAGES_DIR),
+    csv_path=str(text_csv),
+    images_dir=str(images_dir),
     val_ratio=0.1
 )
 

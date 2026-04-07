@@ -20,6 +20,7 @@ import logging
 from datetime import datetime
 from pathlib import Path
 from dataclasses import dataclass
+from transformers import AutoTokenizer
 
 from src.middleware.logger import data_loader_logger as logger
 from src.schema.data_schema import OneSample
@@ -29,6 +30,7 @@ from src.data.collator_onesample import create_collate_fn
 @dataclass
 class TrainConfig:
     """Training configuration."""
+    model_name: str = "5CD-AI/Vintern-1B-v3_5"  # Model identifier for tokenizer
     output_dir: str = "checkpoints/bridge_experiments"
     num_epochs: int = 10
     batch_size: int = 8
@@ -92,14 +94,18 @@ class BridgeTrainer:
         
         if train_dataset and len(train_dataset) > 0:
             if isinstance(train_dataset[0], OneSample):
-                # Try to get tokenizer from model
+                # Load tokenizer from model_name (like in the notebook)
                 try:
-                    if hasattr(model, 'language_model') and hasattr(model.language_model, 'tokenizer'):
-                        tokenizer = model.language_model.tokenizer
-                    elif hasattr(model, 'tokenizer'):
-                        tokenizer = model.tokenizer
+                    logger.info(f"Loading tokenizer from: {self.config.model_name}")
+                    tokenizer = AutoTokenizer.from_pretrained(
+                        self.config.model_name,
+                        trust_remote_code=True,
+                        use_fast=False
+                    )
+                    logger.info("✓ Tokenizer loaded successfully")
                 except Exception as e:
-                    logger.warning(f"Could not extract tokenizer from model: {e}")
+                    logger.error(f"Failed to load tokenizer: {e}")
+                    raise
                 
                 collate_fn = create_collate_fn(tokenizer=tokenizer, image_size=(336, 336))
         

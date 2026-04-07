@@ -58,6 +58,7 @@ class Experiment2(BaseExperiment):
         print("Starting training...\n")
         
         config = TrainConfig(
+            model_name=self.config.base_model_name,
             output_dir=self.config.output_dir,
             num_epochs=self.config.num_epochs,
             batch_size=self.config.batch_size,

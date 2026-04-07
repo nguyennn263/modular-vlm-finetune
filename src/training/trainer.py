@@ -273,30 +273,57 @@ class BridgeTrainer:
         # - Others (MultiTokenMLP, AttentionBridge, etc): full sequence [batch, num_patches, 1024]
         bridge_type = getattr(self.model, 'bridge_type', 'unknown')
         
+        # Extract vision features - debug what we have
+        if hasattr(vision_output, 'last_hidden_state'):
+            last_hidden = vision_output.last_hidden_state  # Often [batch, num_patches, dim]
+            pooler = vision_output.pooler_output if hasattr(vision_output, 'pooler_output') else None
+        elif hasattr(vision_output, 'pooler_output'):
+            last_hidden = None
+            pooler = vision_output.pooler_output
+        else:
+            last_hidden = vision_output if isinstance(vision_output, torch.Tensor) else None
+            pooler = None
+        
+        # Decide which to use based on bridge type
         if bridge_type == 'better_mlp':
-            # BetterMLP expects pooled single vector
-            if hasattr(vision_output, 'pooler_output'):
-                vision_embeddings = vision_output.pooler_output
-            elif hasattr(vision_output, 'last_hidden_state'):
-                vision_embeddings = vision_output.last_hidden_state[:, 0, :]  # CLS token
+            # BetterMLP expects single pooled vector [batch, 1024]
+            if pooler is not None:
+                vision_embeddings = pooler
+            elif last_hidden is not None:
+                vision_embeddings = last_hidden[:, 0, :]  # Use CLS token
             else:
                 vision_embeddings = vision_output
         else:
-            # MultiToken, Attention, MiniQFormer, QFormer need full patch sequence
-            if hasattr(vision_output, 'last_hidden_state'):
-                vision_embeddings = vision_output.last_hidden_state  # [batch, num_patches, 1024]
-            elif hasattr(vision_output, 'pooler_output'):
-                # Fallback: unsqueeze pooler output to create sequence format
-                vision_embeddings = vision_output.pooler_output.unsqueeze(1)
+            # MultiToken, Attention, MiniQFormer, QFormer need full sequence [batch, num_patches, 1024]
+            if last_hidden is not None and last_hidden.dim() == 3:
+                vision_embeddings = last_hidden  # Full sequence
+            elif last_hidden is not None and last_hidden.dim() == 2:
+                # If last_hidden is 2D, unsqueeze it
+                vision_embeddings = last_hidden.unsqueeze(1)
+            elif pooler is not None:
+                # Use pooler and unsqueeze to create sequence
+                vision_embeddings = pooler.unsqueeze(1)
             else:
-                if vision_output.dim() == 2:
-                    vision_embeddings = vision_output.unsqueeze(1)
+                # Fallback
+                if isinstance(vision_output, torch.Tensor):
+                    if vision_output.dim() == 2:
+                        vision_embeddings = vision_output.unsqueeze(1)
+                    else:
+                        vision_embeddings = vision_output
                 else:
-                    vision_embeddings = vision_output
+                    raise ValueError(f"Cannot extract vision embeddings from {type(vision_output)}")
         
         # Detach vision embeddings since vision model is frozen
         # This prevents any gradient computation in the vision model
         vision_embeddings = vision_embeddings.detach()
+        
+        # Validate shapes before passing to bridge
+        if bridge_type != 'better_mlp':
+            # Non-BetterMLP bridges expect 3D input [batch, seq, dim]
+            assert vision_embeddings.dim() == 3, (
+                f"Bridge {bridge_type} expects 3D vision_embeddings [batch, seq, dim], "
+                f"got shape {vision_embeddings.shape} (dim={vision_embeddings.dim()})"
+            )
         
         # Apply bridge module (trainable)
         # Bridge handles both shape conversion and augmentation

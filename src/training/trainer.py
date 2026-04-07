@@ -243,7 +243,12 @@ class BridgeTrainer:
         
         # Get vision embeddings (frozen)
         with torch.no_grad():
-            vision_embeddings = self.model.vision_model(pixel_values)
+            vision_output = self.model.vision_model(pixel_values)
+            # Extract tensor from BaseModelOutputWithPooling
+            if hasattr(vision_output, 'last_hidden_state'):
+                vision_embeddings = vision_output.last_hidden_state
+            else:
+                vision_embeddings = vision_output
         
         # Apply bridge module (trainable)
         # Bridge handles both shape conversion and augmentation

@@ -19,6 +19,7 @@ class ExperimentConfig:
     # Model
     base_model_name: str = "5CD-AI/Vintern-1B-v3_5"
     torch_dtype: torch.dtype = torch.bfloat16
+    low_cpu_mem_usage: bool = False
     use_flash_attn: bool = False
     
     # Training
@@ -50,7 +51,7 @@ class BaseExperiment(ABC):
     def load_model(self) -> torch.nn.Module:
         """
         Load base model using notebook-compatible approach.
-        Avoids device_map="auto" and low_cpu_mem_usage which cause meta tensor issues.
+        Uses low_cpu_mem_usage=False and avoids device_map="auto".
         """
         data_loader_logger.info(f"Loading base model: {self.config.base_model_name}")
         
@@ -59,6 +60,7 @@ class BaseExperiment(ABC):
             self.model = AutoModel.from_pretrained(
                 self.config.base_model_name,
                 torch_dtype=self.config.torch_dtype,
+                low_cpu_mem_usage=self.config.low_cpu_mem_usage,
                 trust_remote_code=True,
                 use_flash_attn=self.config.use_flash_attn,
             ).eval()
@@ -68,6 +70,7 @@ class BaseExperiment(ABC):
             self.model = AutoModel.from_pretrained(
                 self.config.base_model_name,
                 torch_dtype=self.config.torch_dtype,
+                low_cpu_mem_usage=self.config.low_cpu_mem_usage,
                 trust_remote_code=True,
             ).eval()
         

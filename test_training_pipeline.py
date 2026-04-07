@@ -91,6 +91,7 @@ def test_trainer_initialization():
         base_model = AutoModel.from_pretrained(
             "5CD-AI/Vintern-1B-v3_5",
             torch_dtype=torch.bfloat16,
+            low_cpu_mem_usage=False,
             trust_remote_code=True,
         ).eval().to(device)
         
@@ -168,6 +169,7 @@ def test_evaluate_method():
         base_model = AutoModel.from_pretrained(
             "5CD-AI/Vintern-1B-v3_5",
             torch_dtype=torch.bfloat16,
+            low_cpu_mem_usage=False,
             trust_remote_code=True,
         ).eval().to(device)
         

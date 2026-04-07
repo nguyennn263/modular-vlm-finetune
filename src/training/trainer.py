@@ -587,6 +587,44 @@ class BridgeTrainer:
         
         logger.info(f"✓ Resumed from checkpoint (step {self.global_step})")
     
+    def _sample_inference(self, epoch: int, num_samples: int = 3):
+        """Generate sample outputs on random validation samples."""
+        import random
+        from PIL import Image
+        
+        if not hasattr(self, 'val_dataset') or len(self.val_dataset) == 0:
+            return
+        
+        try:
+            # Select random samples
+            indices = random.sample(range(len(self.val_dataset)), min(num_samples, len(self.val_dataset)))
+            
+            logger.info(f"\n{'='*80}")
+            logger.info(f"Sample Inference - Epoch {epoch + 1}")
+            logger.info(f"{'='*80}")
+            
+            self.model.eval()
+            
+            for i, idx in enumerate(indices, 1):
+                sample = self.val_dataset[idx]
+                
+                # Get question and answer
+                question = sample.question if hasattr(sample, 'question') else 'N/A'
+                answer = sample.answer if hasattr(sample, 'answer') else 'N/A'
+                
+                logger.info(f"\n[Sample {i}]")
+                logger.info(f"Question: {question}")
+                logger.info(f"Ground truth: {answer}")
+                
+                # TODO: Add model prediction here if needed
+                # For now, just log Q&A to monitor dataset quality
+        
+        except Exception as e:
+            logger.warning(f"Sample inference failed: {e}")
+        
+        finally:
+            self.model.train()
+    
     def train(self):
         """Main training loop."""
         start_time = datetime.now()
@@ -595,6 +633,9 @@ class BridgeTrainer:
             for epoch in range(self.config.num_epochs):
                 avg_loss, should_stop = self.train_epoch(epoch)
                 logger.info(f"Epoch {epoch+1} completed: avg_loss={avg_loss:.4f}")
+                
+                # Show sample inference
+                self._sample_inference(epoch, num_samples=3)
                 
                 if should_stop:
                     break

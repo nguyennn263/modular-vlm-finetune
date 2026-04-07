@@ -117,7 +117,7 @@ class AblationStudy:
 
         if train_cfg.get("include_no_bridge", True):
             exps.append(AblationExperiment(
-                "Baseline: Full Vintern Freeze",
+                "Exp 6: Linear Baseline",
                 "full_freeze",
                 {"experiment_name": "baseline_full_freeze"}
             ))

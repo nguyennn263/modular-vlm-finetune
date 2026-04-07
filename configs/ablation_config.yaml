@@ -1,13 +1,14 @@
 name: bridge_training_comparison
-description: "Training comparison: 5 bridge architectures + Full Vintern Freeze baseline"
+description: "Bridge Training Ablation: Compare 5 bridge architectures + Linear Baseline (Exp 6)"
 
 # Output configuration
 output_dir: "outputs/training"
 resume: true
 
-# Training configuration
+# Bridge Training Comparison
+# Trains 6 different bridge modules (only bridge trainable, vision+language frozen)
 training:
-  include_no_bridge: true   # Baseline: Full Vintern Freeze (freeze all)
+  include_no_bridge: true   # Exp 6: Linear Baseline - minimal Linear(1024→896) bridge
   
 # Training configuration (per experiment)
 num_epochs: 10

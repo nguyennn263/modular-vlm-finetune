@@ -342,7 +342,7 @@ ls -lh checkpoints/better_mlp/
 
 ## 🧪 Training Experiments & Comparison
 
-**Compare 6 training configurations:** 5 bridge architectures + 1 full Vintern freeze baseline.
+**Compare 6 training configurations:** 5 bridge architectures + 1 linear baseline (Exp 6).
 
 ### Quick Start: Xem danh sách experiments (Dry Run)
 
@@ -362,7 +362,7 @@ Kết quả: Hiện danh sách 6 training cases:
   [ 3] Exp 3: AttentionBridge      — attention_bridge
   [ 4] Exp 4: MiniQFormer          — mini_qformer
   [ 5] Exp 5: QFormer              — qformer
-  [ 6] Baseline: Full Vintern Freeze (no bridge) — full_freeze
+  [ 6] Exp 6: Linear Baseline (Linear(1024→896)) — linear_baseline
 ```
 
 ### Run All Training Cases
@@ -374,7 +374,7 @@ python scripts/training_runner.py
 
 Tự động:
 - ✅ Chạy tất cả 5 bridge experiments (exp1-5)
-- ✅ Chạy "Full Vintern Freeze" baseline (no trainable bridge)
+- ✅ Chạy "Linear Baseline" (Exp 6) với minimal Linear bridge
 - ✅ Lưu progress trong `outputs/training/progress.json`
 - ✅ Bỏ qua experiments đã hoàn thành (auto-resume)
 
@@ -425,7 +425,7 @@ Exp 2: MultiToken                 multi_token       ✓ Ready
 Exp 3: AttentionBridge            attention_bridge  ⏳ Pending
 Exp 4: MiniQFormer                mini_qformer      ✓ Ready
 Exp 5: QFormer                    qformer           ✓ Ready
-Baseline: Full Vintern Freeze     no_bridge         ✓ Ready
+Exp 6: Linear Baseline           linear_baseline  ✓ Ready
 ─────────────────────────────────────────────────────────────────────
 Completed: 5/6 experiments
 ```
@@ -475,7 +475,7 @@ checkpoints/
 ├── attention_bridge/        # Exp 3
 ├── mini_qformer/            # Exp 4
 ├── qformer/                 # Exp 5
-└── full_freeze/             # Baseline: Full Vintern Freeze
+└── linear_baseline/         # Exp 6: Linear Baseline
 
 outputs/training/
 ├── progress.json            # Real-time tracking

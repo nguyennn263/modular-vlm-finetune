@@ -19,7 +19,7 @@ class ExperimentConfig:
     # Model
     base_model_name: str = "5CD-AI/Vintern-1B-v3_5"
     torch_dtype: torch.dtype = torch.bfloat16
-    low_cpu_mem_usage: bool = True
+    low_cpu_mem_usage: bool = False
     use_flash_attn: bool = False
     
     # Training

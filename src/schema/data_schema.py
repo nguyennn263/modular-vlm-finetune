@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import Optional, List, Dict, Any
 from pydantic import BaseModel, ConfigDict
 
 
@@ -10,3 +10,8 @@ class OneSample(BaseModel):
     question: str
     answer: str  # Single answer for VLM training
     metadata: Optional[dict] = None
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert sample to dictionary."""
+        return self.model_dump()
+

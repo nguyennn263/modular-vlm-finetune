@@ -20,6 +20,7 @@ from transformers import AutoModel
 
 from src.training import create_finetune_model, BridgeTrainer, TrainConfig
 from src.data.loaders import load_datasets
+from utils.data_loader_helper import AblationDataLoader
 from utils.path_management import RAW_TEXT_CSV, RAW_IMAGES_DIR
 
 
@@ -40,12 +41,14 @@ class Exp1Config:
 
 
 def load_datasets_exp1():
-    """Load training and validation datasets."""
-    return load_datasets(
-        csv_path=str(RAW_TEXT_CSV),
-        images_dir=str(RAW_IMAGES_DIR),
-        val_ratio=0.1
-    )
+    """Load training and validation datasets using unified loader."""
+    # Use new unified loader that handles both Kaggle and local
+    ablation_loader = AblationDataLoader()
+    train_samples, val_samples = ablation_loader.load_train_val_split(val_ratio=0.1)
+    
+    # Convert OneSample objects to VLMDataset format if needed
+    # Can also pass the OneSample list directly to VLMDataset
+    return train_samples, val_samples
 
 
 def main():
@@ -76,7 +79,7 @@ def main():
     
     # Load datasets
     print("Loading datasets...")
-    train_dataset, val_dataset = load_datasets_exp1()
+    train_samples, val_samples = load_datasets_exp1()
     
     # Training
     print("Starting training...\n")
@@ -89,7 +92,7 @@ def main():
         save_steps=Exp1Config.save_steps,
     )
     
-    trainer = BridgeTrainer(model, train_dataset, val_dataset, config)
+    trainer = BridgeTrainer(model, train_samples, val_samples, config)
     trainer.train()
     
     print(f"\n✓ Experiment 1 completed!")
@@ -98,3 +101,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

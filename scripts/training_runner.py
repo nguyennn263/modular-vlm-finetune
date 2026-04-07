@@ -75,7 +75,7 @@ class AblationExperiment:
         }
 
 class AblationStudy:
-    def __init__(self, config_path: str = "configs/ablation_config.yaml"):
+    def __init__(self, config_path: str = "configs/bridge_config.yaml"):
         self.config_path = Path(config_path)
         self.config = self._load_config()
         self.experiments = self._create_experiments()
@@ -367,7 +367,7 @@ print("✓ Linear baseline ablation completed")
 
 def main():
     parser = argparse.ArgumentParser(description="Bridge Ablation Study Runner")
-    parser.add_argument("--config", default="configs/ablation_config.yaml",
+    parser.add_argument("--config", default="configs/bridge_config.yaml",
                         help="Ablation config file")
     parser.add_argument("--dry-run", action="store_true",
                         help="List experiments without running")

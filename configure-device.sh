@@ -92,22 +92,22 @@ manual_config() {
     case $choice in
         1)
             print_success "Selected: T4 (16GB) profile"
-            echo "Update configs/ablation_config.yaml or use environment variable:"
+            echo "Update configs/bridge_config.yaml or use environment variable:"
             echo "  DEVICE_PROFILE=t4_16gb python scripts/training_runner.py"
             ;;
         2)
             print_success "Selected: RTX 3090 profile"
-            echo "Update configs/ablation_config.yaml or use environment variable:"
+            echo "Update configs/bridge_config.yaml or use environment variable:"
             echo "  DEVICE_PROFILE=rtx3090_24gb python scripts/training_runner.py"
             ;;
         3)
             print_success "Selected: A100 40GB profile"
-            echo "Update configs/ablation_config.yaml or use environment variable:"
+            echo "Update configs/bridge_config.yaml or use environment variable:"
             echo "  DEVICE_PROFILE=a100_40gb python scripts/training_runner.py"
             ;;
         4)
             print_success "Selected: L40 45GB+ profile"
-            echo "Update configs/ablation_config.yaml or use environment variable:"
+            echo "Update configs/bridge_config.yaml or use environment variable:"
             echo "  DEVICE_PROFILE=l40_45gb python scripts/training_runner.py"
             ;;
         auto)

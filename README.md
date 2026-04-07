@@ -647,7 +647,7 @@ find logs -name "log_*.txt" -type f | head -10
 
 ### Configuration
 
-Chỉnh tùy chỉnh trong `configs/ablation_config.yaml`:
+Chỉnh tùy chỉnh trong `configs/bridge_config.yaml`:
 
 ```yaml
 training:

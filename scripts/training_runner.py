@@ -201,6 +201,12 @@ class AblationStudy:
         exp.start_time = time.time()
 
         script_content = '''
+import sys
+from pathlib import Path
+
+# Add workspace root to path so src module can be imported
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 import torch
 from transformers import AutoModel
 from src.training import BridgeTrainer, TrainConfig
@@ -259,7 +265,13 @@ print("✓ No-bridge ablation completed")
         ablation_script.write_text(script_content)
 
         try:
-            result = subprocess.run(["python", str(ablation_script)], check=True)
+            # Run from workspace root so imports work correctly
+            workspace_root = Path(__file__).parent.parent
+            result = subprocess.run(
+                ["python", str(ablation_script.relative_to(workspace_root))],
+                cwd=workspace_root,
+                check=True
+            )
             exp.status = "completed"
             ablation_script.unlink()
             print_success(f"{exp.name} completed ({exp.duration:.1f}m)")

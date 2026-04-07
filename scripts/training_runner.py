@@ -210,7 +210,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import torch
 from transformers import AutoModel
 from src.training import BridgeTrainer, TrainConfig
-from src.data.loaders import load_datasets
+from src.data.lazy_loaders import load_lazy_datasets
 from utils.path_management import get_raw_data_paths
 
 # Disable meta device to prevent meta tensor issues
@@ -234,25 +234,27 @@ class NoOpBridge(torch.nn.Module):
 if not hasattr(base_model, 'bridge'):
     base_model.bridge = NoOpBridge()
 
-# Load data using environment-aware path resolver
+# Load data using lazy-loading (memory-efficient)
 images_dir, text_csv = get_raw_data_paths()
-train_ds, val_ds = load_datasets(
+train_ds, val_ds = load_lazy_datasets(
     csv_path=str(text_csv),
     images_dir=str(images_dir),
-    val_ratio=0.1
+    val_ratio=0.1,
+    max_samples=10000  # Reduce for faster ablation
 )
 
 # Freeze all
 for param in base_model.parameters():
     param.requires_grad = False
 
-# Train config
+# Train config (memory-optimized matching other experiments)
 config = TrainConfig(
     output_dir="checkpoints/ablation_no_bridge",
     num_epochs=10,
-    batch_size=8,
+    batch_size=2,  # Memory-optimized for 16GB GPU
     learning_rate=2e-4,
-    eval_steps=100
+    eval_steps=500,  # Reduce eval frequency to save memory
+    gradient_accumulation_steps=4  # Effective batch = 8
 )
 
 # Trainer

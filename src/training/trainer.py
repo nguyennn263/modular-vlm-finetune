@@ -268,15 +268,31 @@ class BridgeTrainer:
         # Get vision embeddings (frozen model, but no_grad not needed for bridge input)
         vision_output = self.model.vision_model(pixel_values)
         # Extract tensor from BaseModelOutputWithPooling
-        if hasattr(vision_output, 'pooler_output'):
-            # Use pooled output if available (shape: [batch_size, hidden_dim])
-            vision_embeddings = vision_output.pooler_output
-        elif hasattr(vision_output, 'last_hidden_state'):
-            # Use CLS token (first token of sequence) as image representation
-            # Shape: [batch_size, seq_len, hidden_dim] -> [batch_size, hidden_dim]
-            vision_embeddings = vision_output.last_hidden_state[:, 0, :]
+        # Different bridges need different input shapes:
+        # - BetterMLP: pooled vector [batch, 1024]
+        # - Others (MultiTokenMLP, AttentionBridge, etc): full sequence [batch, num_patches, 1024]
+        bridge_type = getattr(self.model, 'bridge_type', 'unknown')
+        
+        if bridge_type == 'better_mlp':
+            # BetterMLP expects pooled single vector
+            if hasattr(vision_output, 'pooler_output'):
+                vision_embeddings = vision_output.pooler_output
+            elif hasattr(vision_output, 'last_hidden_state'):
+                vision_embeddings = vision_output.last_hidden_state[:, 0, :]  # CLS token
+            else:
+                vision_embeddings = vision_output
         else:
-            vision_embeddings = vision_output
+            # MultiToken, Attention, MiniQFormer, QFormer need full patch sequence
+            if hasattr(vision_output, 'last_hidden_state'):
+                vision_embeddings = vision_output.last_hidden_state  # [batch, num_patches, 1024]
+            elif hasattr(vision_output, 'pooler_output'):
+                # Fallback: unsqueeze pooler output to create sequence format
+                vision_embeddings = vision_output.pooler_output.unsqueeze(1)
+            else:
+                if vision_output.dim() == 2:
+                    vision_embeddings = vision_output.unsqueeze(1)
+                else:
+                    vision_embeddings = vision_output
         
         # Detach vision embeddings since vision model is frozen
         # This prevents any gradient computation in the vision model

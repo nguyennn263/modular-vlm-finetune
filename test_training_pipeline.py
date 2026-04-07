@@ -87,11 +87,13 @@ def test_trainer_initialization():
         
         # Load model
         print("✓ Loading base model...")
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         base_model = AutoModel.from_pretrained(
             "5CD-AI/Vintern-1B-v3_5",
+            torch_dtype=torch.bfloat16,
+            low_cpu_mem_usage=False,
             trust_remote_code=True,
-            device_map="auto"
-        )
+        ).eval().to(device)
         
         # Create fine-tune model
         print("✓ Creating fine-tune model with better_mlp bridge...")
@@ -163,11 +165,13 @@ def test_evaluate_method():
         
         # Load model
         print("✓ Loading model...")
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         base_model = AutoModel.from_pretrained(
             "5CD-AI/Vintern-1B-v3_5",
+            torch_dtype=torch.bfloat16,
+            low_cpu_mem_usage=False,
             trust_remote_code=True,
-            device_map="auto"
-        )
+        ).eval().to(device)
         
         model = create_finetune_model(
             base_model,

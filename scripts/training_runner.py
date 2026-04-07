@@ -208,11 +208,13 @@ from src.data.loaders import load_datasets
 from utils.path_management import RAW_TEXT_CSV, RAW_IMAGES_DIR
 
 # Load base model
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 base_model = AutoModel.from_pretrained(
     "5CD-AI/Vintern-1B-v3_5",
+    torch_dtype=torch.bfloat16,
+    low_cpu_mem_usage=False,
     trust_remote_code=True,
-    device_map="auto"
-)
+).eval().to(device)
 
 # Create minimal wrapper (no bridge = frozen models only)
 class NoOpBridge(torch.nn.Module):

@@ -25,6 +25,7 @@ from transformers import AutoTokenizer
 from src.middleware.logger import data_loader_logger as logger
 from src.schema.data_schema import OneSample
 from src.data.collator_onesample import create_collate_fn
+from transformers import AutoTokenizer
 
 
 @dataclass

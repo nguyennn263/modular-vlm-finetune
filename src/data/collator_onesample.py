@@ -83,10 +83,10 @@ def custom_collate_fn(
     
     # Tokenize text if tokenizer is provided
     if tokenizer is not None:
-        # Combine question and answer for tokenization
-        # Format: "Question: {question}\nAnswer: {answer}"
+        # Format following Vintern's pattern: <image>\nQuestion prompt\nAnswer
+        # This matches the format used in the inference notebook
         texts = [
-            f"Question: {q}\nAnswer: {a}"
+            f"<image>\nQuestion: {q}\nAnswer: {a}"
             for q, a in zip(questions, answers)
         ]
         

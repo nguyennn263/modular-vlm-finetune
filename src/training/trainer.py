@@ -986,28 +986,39 @@ class BridgeTrainer:
                 model_output = None
                 try:
                     # Load image using notebook preprocessing
+                    # load_image returns [num_patches, 3, 448, 448]
                     pixel_values = load_image(
                         sample.image_path, 
                         input_size=448, 
                         max_num=6
                     ).to(self.device, dtype=model_dtype)
                     
+                    # Add batch dimension if needed: [num_patches, 3, 448, 448] → [num_patches, 3, 448, 448]
+                    # Vision model will process as batch of patches, so this is fine
+                    
                     # Prepare question prompt
                     question_text = f"<image>\nQuestion: {question}\nAnswer:"
                     
                     with torch.no_grad():
-                        # Get vision embeddings
+                        # Get vision embeddings: [num_patches, num_tokens, 1024]
                         vision_output = self.model.vision_model(pixel_values)
                         if hasattr(vision_output, 'last_hidden_state'):
-                            vision_embeddings = vision_output.last_hidden_state
+                            vision_embeddings = vision_output.last_hidden_state  # [num_patches, num_tokens, 1024]
                         else:
                             vision_embeddings = vision_output.pooler_output.unsqueeze(1)
                         
+                        # Average across patches: [num_patches, 1024] → [1, 1024]
+                        if vision_embeddings.dim() == 3:
+                            # Pool across patches
+                            vision_embeddings = vision_embeddings.mean(dim=1, keepdim=False)  # [num_patches, 1024]
+                        
+                        # Average across patches to get single representation
+                        vision_embeddings = vision_embeddings.mean(dim=0, keepdim=True)  # [1, 1024]
+                        
                         # Apply bridge
-                        vision_embeddings = vision_embeddings.mean(dim=1) if vision_embeddings.dim() == 3 else vision_embeddings
-                        bridged_embeddings = self.model.bridge(vision_embeddings)
+                        bridged_embeddings = self.model.bridge(vision_embeddings)  # [1, 1024]
                         if bridged_embeddings.dim() == 2:
-                            bridged_embeddings = bridged_embeddings.unsqueeze(1)
+                            bridged_embeddings = bridged_embeddings.unsqueeze(1)  # [1, 1, 896]
                         
                         # Tokenize question
                         inputs = self.tokenizer(
@@ -1016,35 +1027,36 @@ class BridgeTrainer:
                             max_length=256,
                             truncation=True
                         )
-                        input_ids = inputs['input_ids'].to(self.device)
-                        attention_mask = inputs['attention_mask'].to(self.device)
+                        input_ids = inputs['input_ids'].to(self.device)  # [1, seq_len]
+                        attention_mask = inputs['attention_mask'].to(self.device)  # [1, seq_len]
                         
-                        # Get text embeddings
+                        # Get text embeddings [1, seq_len, 896]
                         text_embeddings = self.model.language_model.model.embed_tokens(input_ids)
                         text_embeddings = text_embeddings.to(dtype=model_dtype)
                         
-                        # Combine embeddings
+                        # Combine embeddings: [1, 1 + seq_len, 896]
                         combined = torch.cat([bridged_embeddings, text_embeddings], dim=1)
+                        
+                        # Create attention mask for combined embeddings
                         vision_attention = torch.ones(
-                            bridged_embeddings.shape[0],
-                            bridged_embeddings.shape[1],
+                            1, 1,
                             device=self.device,
                             dtype=attention_mask.dtype
                         )
                         combined_attention = torch.cat([vision_attention, attention_mask], dim=1)
                         
-                        # Generate tokens (greedy, 100 token max for speed)
+                        # Generate tokens (greedy, 50 token max for speed in inference)
                         generated_tokens = []
                         outputs = self.model.language_model(
                             inputs_embeds=combined,
                             attention_mask=combined_attention,
                             return_dict=True
                         )
-                        logits = outputs.logits
+                        logits = outputs.logits  # [1, seq_len, vocab_size]
                         
-                        for step in range(100):  # Limit to 100 for faster inference
-                            last_logits = logits[:, -1, :]
-                            next_token = torch.argmax(last_logits, dim=-1, keepdim=True)
+                        for step in range(50):  # Limit to 50 for faster inference
+                            last_logits = logits[:, -1, :]  # [1, vocab_size]
+                            next_token = torch.argmax(last_logits, dim=-1, keepdim=True)  # [1, 1]
                             generated_tokens.append(next_token)
                             
                             # Stop at EOS/PAD
@@ -1052,11 +1064,15 @@ class BridgeTrainer:
                                 break
                             
                             # Continue generation
-                            next_embedding = self.model.language_model.model.embed_tokens(next_token)
+                            next_embedding = self.model.language_model.model.embed_tokens(next_token)  # [1, 1, 896]
                             next_embedding = next_embedding.to(dtype=model_dtype)
-                            combined = torch.cat([combined, next_embedding], dim=1)
+                            combined = torch.cat([combined, next_embedding], dim=1)  # [1, seq_len+1, 896]
                             
-                            next_attention = torch.ones(1, 1, device=self.device, dtype=attention_mask.dtype)
+                            next_attention = torch.ones(
+                                1, 1,
+                                device=self.device,
+                                dtype=attention_mask.dtype
+                            )
                             combined_attention = torch.cat([combined_attention, next_attention], dim=1)
                             
                             outputs = self.model.language_model(
@@ -1068,19 +1084,19 @@ class BridgeTrainer:
                         
                         # Decode answer
                         if generated_tokens:
-                            generated_ids = torch.cat(generated_tokens, dim=1)
+                            generated_ids = torch.cat(generated_tokens, dim=1)  # [1, num_generated]
                             model_output = self.tokenizer.decode(
                                 generated_ids[0],
                                 skip_special_tokens=True
                             ).strip()
                 except Exception as e:
-                    model_output = f"[Generation error: {str(e)[:50]}]"
+                    model_output = f"[Generation error: {str(e)[:60]}]"
                 
                 # Log output
                 logger.info(f"\n[Sample {i}]")
                 logger.info(f"Question: {question}")
                 if model_output:
-                    logger.info(f"Model Output: {model_output[:200]}...")
+                    logger.info(f"Model Output: {model_output[:150]}...")
                 logger.info(f"Ground truth: {answer}")
         
         except Exception as e:

@@ -38,17 +38,13 @@ print_error() {
     echo -e "${RED}✗ $1${NC}"
 }
 
-print_warning() {
-    echo -e "${YELLOW}⚠ $1${NC}"
-}
-
 # Check if running on Kaggle
 check_kaggle() {
     if [ -d "/kaggle/input" ]; then
         print_success "Running on Kaggle detected"
         return 0
     else
-        print_warning "Not running on Kaggle. This script is optimized for Kaggle."
+        print_info "Not running on Kaggle. This script is optimized for Kaggle."
         print_info "If running locally, use: bash setup.sh"
         return 1
     fi
@@ -206,6 +202,7 @@ setup_project_link() {
         print_info "Kaggle input datasets available at: /kaggle/input/"
         print_info "Your code should reference: /kaggle/input/{dataset_name}"
     fi
+}
 }
 
 # Show usage

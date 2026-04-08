@@ -8,6 +8,36 @@ import torch.nn as nn
 import math
 
 
+class LinearBridge(nn.Module):
+    """
+    Simplest bridge: single linear projection.
+    
+    Architecture:
+    - Linear(4096 → 896)
+    
+    Rationale:
+    - Baseline for ablation study
+    - Shows importance of bridge complexity
+    - Minimal parameters for comparison
+    - Fastest inference and training
+    - No hidden layers, no activation functions
+    """
+    
+    def __init__(self, in_features: int = 1024, out_features: int = 896, **kwargs):
+        super().__init__()
+        self.fc = nn.Linear(in_features, out_features)
+    
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        """
+        Args:
+            x: (batch_size, seq_len, in_features) or (batch_size, in_features)
+        
+        Returns:
+            (batch_size, seq_len, out_features) or (batch_size, out_features)
+        """
+        return self.fc(x)
+
+
 class BetterMLP(nn.Module):
     """
     Improved MLP with residual connection for vision-to-language bridging.

@@ -47,7 +47,7 @@ class AblationExperiment:
         self.end_time = None
         
     def _get_script_path(self) -> str:
-        if self.bridge_type == "full_freeze":
+        if self.bridge_type == "linear_bridge":
             return None
         script_map = {
             "better_mlp": "scripts/exp1_better_mlp.py",
@@ -115,11 +115,11 @@ class AblationStudy:
             AblationExperiment("Exp 5: QFormer", "qformer"),
         ])
 
-        if train_cfg.get("include_no_bridge", True):
+        if train_cfg.get("include_linear_bridge", True):
             exps.append(AblationExperiment(
-                "Exp 6: Linear Baseline",
-                "full_freeze",
-                {"experiment_name": "baseline_full_freeze"}
+                "Exp 6: Linear",
+                "linear_bridge",
+                {"experiment_name": "linear_bridge"}
             ))
 
         return exps
@@ -164,7 +164,7 @@ class AblationStudy:
             exp.status = "skipped"
             return True
 
-        if exp.bridge_type == "full_freeze":
+        if exp.bridge_type == "linear_bridge":
             return self._run_ablation_no_bridge(exp)
         else:
             return self._run_bridge_experiment(exp)
@@ -267,7 +267,7 @@ test_ds = OneSampleDataset(test_samples)
 
 # Train config (memory-optimized matching other experiments)
 config = TrainConfig(
-    output_dir="checkpoints/ablation_linear_baseline",
+    output_dir="checkpoints/linear_bridge",
     num_epochs=10,
     batch_size=2,  # Memory-optimized for 16GB GPU
     learning_rate=2e-4,
@@ -291,7 +291,7 @@ test_loader = torch.utils.data.DataLoader(
 
 test_metrics = trainer.evaluate(test_loader)
 print(f"✓ [TEST] Metrics: Loss={test_metrics.get('loss', 'N/A'):.4f}")
-print(f"✓ Linear baseline ablation completed")
+print(f"✓ Linear bridge training completed")
 '''
         
         # Create ablation script in workspace root

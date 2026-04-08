@@ -52,7 +52,7 @@ early_stopping:
 
 # Evaluation Configuration
 evaluation:
-  eval_steps: 100               # Evaluate every N steps
+  eval_steps: 500               # Evaluate every N steps (increased for L40S GPU)
   eval_interval: 1              # Evaluate every N epochs
   compute_metrics: true
 

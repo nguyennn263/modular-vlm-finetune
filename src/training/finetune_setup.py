@@ -13,6 +13,7 @@ import torch.nn as nn
 from typing import Optional, Literal
 
 from src.modeling.bridge_modules import (
+    LinearBridge,
     BetterMLP,
     MultiTokenMLP,
     AttentionBridge,
@@ -21,7 +22,7 @@ from src.modeling.bridge_modules import (
 )
 
 
-BRIDGE_TYPE = Literal['better_mlp', 'multi_token', 'attention', 'mini_qformer', 'qformer']
+BRIDGE_TYPE = Literal['linear_bridge', 'better_mlp', 'multi_token', 'attention', 'mini_qformer', 'qformer']
 
 
 class VisionLanguageBridge(nn.Module):
@@ -63,7 +64,13 @@ class VisionLanguageBridge(nn.Module):
         # LLM expects 896-dimensional embeddings (Qwen2)
         hidden_dim = 896
         
-        if self.bridge_type == 'better_mlp':
+        if self.bridge_type == 'linear_bridge':
+            return LinearBridge(
+                in_features=vision_dim,
+                out_features=hidden_dim
+            )
+        
+        elif self.bridge_type == 'better_mlp':
             return BetterMLP(
                 in_features=vision_dim,
                 out_features=hidden_dim
@@ -137,7 +144,7 @@ class VisionLanguageBridge(nn.Module):
         # Apply bridge (converts to LLM embedding space)
         if self.bridge_type in ['multi_token', 'attention', 'mini_qformer', 'qformer']:
             bridge_output = self.bridge(vision_embeddings)
-        else:  # better_mlp
+        else:  # better_mlp, linear_bridge
             # Pool vision embeddings to single vector
             vision_pool = vision_embeddings.mean(dim=1)  # (B, 1024)
             bridge_output = self.bridge(vision_pool)  # (B, 896)

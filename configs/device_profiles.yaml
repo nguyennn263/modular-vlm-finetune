@@ -26,7 +26,7 @@ devices:
     gradient_accumulation_steps: 1
     max_seq_length: 512
     num_workers: 8
-    eval_steps: 50
+    eval_steps: 500
     save_steps: 250
     use_flash_attn: true
     mixed_precision: "bf16"
@@ -41,7 +41,7 @@ devices:
     gradient_accumulation_steps: 1
     max_seq_length: 512
     num_workers: 8
-    eval_steps: 75
+    eval_steps: 500
     save_steps: 250
     use_flash_attn: true
     mixed_precision: "bf16"

@@ -39,7 +39,7 @@ class Exp4Config(ExperimentConfig):
     batch_size = 2  # Memory-optimized for 14GB GPU
     gradient_accumulation_steps = 4  # Effective batch size = 2 * 4 = 8
     learning_rate = 2e-4
-    eval_steps = 100
+    eval_steps = 500
     save_steps = 500
     
     output_dir = "checkpoints/exp4_mini_qformer"

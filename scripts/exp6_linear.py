@@ -1,21 +1,17 @@
 """
-Experiment 5: QFormer (Full 4-Layer Transformer)
+Experiment 6: Linear Bridge
 
 Architecture:
-- Based on BLIP-2 Q-Former
-- Learnable queries: (16, 896)
-- 4 Transformer layers with:
-  - Self-attention on queries
-  - Cross-attention (queries <-> vision)
-  - Feed-forward network
-  - Residual connections, layer normalization
-- Output: (B, 16, 896)
+- Simplest baseline: Linear(1024 → 896)
+- Single learnable linear projection
+- No hidden layers, no activation functions
+- Minimal parameters for comparison
 
 Why:
-- Most expressive and powerful bridge design
-- 4 layers allow deep feature transformation
-- 16 queries provide better representation capacity
-- Q-Former architecture proven effective in BLIP-2
+- Establishes performance baseline
+- Shows importance of bridge complexity
+- Fastest training time
+- Useful for ablation study
 """
 
 import torch
@@ -23,20 +19,18 @@ from src.training import create_finetune_model, BridgeTrainer, TrainConfig
 from scripts.base_experiment import BaseExperiment, ExperimentConfig
 
 
-class Exp5Config(ExperimentConfig):
-    """Experiment 5 configuration."""
+class Exp6Config(ExperimentConfig):
+    """Experiment 6 configuration."""
     
     base_model_name = "5CD-AI/Vintern-1B-v3_5"
     torch_dtype = torch.bfloat16
     use_flash_attn = False
     
-    bridge_type = "qformer"
-    bridge_config = {
-        "num_queries": 16,
-        "num_heads": 8,
-        "num_layers": 4
-    }
+    # Bridge config
+    bridge_type = "linear_bridge"
+    bridge_config = {}
     
+    # Training
     num_epochs = 10
     batch_size = 2  # Memory-optimized for 14GB GPU
     gradient_accumulation_steps = 4  # Effective batch size = 2 * 4 = 8
@@ -44,20 +38,20 @@ class Exp5Config(ExperimentConfig):
     eval_steps = 500
     save_steps = 500
     
-    output_dir = "checkpoints/exp5_qformer"
+    output_dir = "checkpoints/exp6_linear"
 
 
-class Experiment5(BaseExperiment):
-    """QFormer bridge experiment."""
+class Experiment6(BaseExperiment):
+    """Linear bridge experiment (baseline)."""
     
-    def __init__(self, config: Exp5Config):
+    def __init__(self, config: Exp6Config):
         super().__init__(config)
         self.config = config
         self.bridge_model = None
     
     def create_model(self) -> torch.nn.Module:
-        """Create QFormer bridge model."""
-        print("Creating QFormer bridge (4 transformer layers, 16 queries)...")
+        """Create Linear bridge model."""
+        print("Creating Linear bridge (baseline)...")
         self.bridge_model = create_finetune_model(
             self.model,
             bridge_type=self.config.bridge_type,
@@ -90,10 +84,10 @@ class Experiment5(BaseExperiment):
 
 
 def main():
-    """Run Experiment 5."""
-    config = Exp5Config()
-    experiment = Experiment5(config)
-    experiment.run(max_samples=None)
+    """Run Experiment 6."""
+    config = Exp6Config()
+    experiment = Experiment6(config)
+    experiment.run(max_samples=None)  # Use all data
 
 
 if __name__ == "__main__":

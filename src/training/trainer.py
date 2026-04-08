@@ -404,8 +404,8 @@ class BridgeTrainer:
             pooler = None
         
         # Decide which to use based on bridge type
-        if bridge_type in ['better_mlp', 'multi_token']:
-            # BetterMLP + MultiTokenMLP expect single pooled vector [batch, 1024]
+        if bridge_type in ['linear_bridge', 'better_mlp', 'multi_token']:
+            # LinearBridge, BetterMLP + MultiTokenMLP expect single pooled vector [batch, 1024]
             # Both expand to multiple tokens internally
             if pooler is not None:
                 vision_embeddings = pooler
@@ -438,7 +438,7 @@ class BridgeTrainer:
         vision_embeddings = vision_embeddings.detach()
         
         # Validate shapes before passing to bridge
-        if bridge_type in ['better_mlp', 'multi_token']:
+        if bridge_type in ['linear_bridge', 'better_mlp', 'multi_token']:
             # These expect 2D pooled vectors [batch, 1024]
             assert vision_embeddings.dim() == 2, (
                 f"Bridge {bridge_type} expects 2D vision_embeddings [batch, dim], "
@@ -572,6 +572,25 @@ class BridgeTrainer:
                 if self.global_step % self.config.eval_steps == 0:
                     val_loss = self.validate()
                     logger.info(f"Step {self.global_step}: train_loss={accumulated_loss:.4f}, [VAL] val_loss={val_loss:.4f}")
+                    
+                    # Show sample inference results every validation
+                    import random
+                    if hasattr(self, 'val_dataset') and len(self.val_dataset) > 0:
+                        try:
+                            indices = random.sample(range(len(self.val_dataset)), min(3, len(self.val_dataset)))
+                            logger.info(f"\n{'='*80}")
+                            logger.info(f"Sample Inference - Step {self.global_step}")
+                            logger.info(f"{'='*80}")
+                            
+                            for i, idx in enumerate(indices, 1):
+                                sample = self.val_dataset[idx]
+                                question = sample.question if hasattr(sample, 'question') else 'N/A'
+                                answer = sample.answer if hasattr(sample, 'answer') else 'N/A'
+                                logger.info(f"\n[Sample {i}]")
+                                logger.info(f"Input: {question}")
+                                logger.info(f"Expected Output: {answer}")
+                        except Exception as e:
+                            logger.warning(f"Sample inference display failed: {e}")
                     
                     # Check for improvement
                     is_best = val_loss < self.best_val_loss - self.config.min_delta

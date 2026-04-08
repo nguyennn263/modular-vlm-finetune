@@ -1,5 +1,5 @@
 name: bridge_training_comparison
-description: "Bridge Training Ablation: Compare 5 bridge architectures + Linear Baseline (Exp 6)"
+description: "Bridge Training Ablation: Compare 5 bridge architectures + Linear Bridge (Exp 6)"
 
 # Output configuration
 output_dir: "outputs/training"
@@ -8,7 +8,7 @@ resume: true
 # Bridge Training Comparison
 # Trains 6 different bridge modules (only bridge trainable, vision+language frozen)
 training:
-  include_no_bridge: true   # Exp 6: Linear Baseline - minimal Linear(1024→896) bridge
+  include_linear_bridge: true   # Exp 6: Linear - minimal Linear(1024→896) bridge
   
 # Training configuration (per experiment)
 num_epochs: 10
@@ -22,7 +22,7 @@ patience: 3
 min_delta: 0.0001
 
 # Evaluation
-eval_steps: 100
+eval_steps: 500
 save_steps: 500
 
 # Device

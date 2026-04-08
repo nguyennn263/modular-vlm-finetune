@@ -102,9 +102,6 @@ setup_venv() {
     
     print_success "Virtual environment created"
     
-    # Activate venv for this session
-    source "$VENV_DIR/bin/activate"
-    
     # Upgrade pip, setuptools, wheel using uv pip (UV manages pip automatically)
     print_info "Upgrading pip, setuptools, wheel..."
     uv pip install --upgrade pip setuptools wheel --quiet
@@ -303,6 +300,11 @@ main() {
     # Step 3: Setup venv
     print_header "Step 3: Setting Up Virtual Environment"
     setup_venv
+    
+    # Activate venv for all remaining steps
+    print_info "Activating virtual environment..."
+    source "$VENV_DIR/bin/activate"
+    print_success "Virtual environment activated"
     
     # Step 4: Create directories
     print_header "Step 4: Creating Project Directories"

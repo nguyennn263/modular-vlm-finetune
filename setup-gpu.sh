@@ -249,7 +249,7 @@ download_data() {
         print_info "Or download from: https://www.kaggle.com/datasets/vintern"
         return 1
     fi
-}}
+}
 
 # Create activation script
 create_activation_script() {

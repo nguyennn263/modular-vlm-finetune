@@ -957,7 +957,7 @@ class BridgeTrainer:
         logger.info(f"✓ Resumed from checkpoint (step {self.global_step})")
     
     def _sample_inference(self, epoch: int, num_samples: int = 3):
-        """Generate sample outputs on random validation samples using model.chat()."""
+        """Generate sample outputs on random validation samples."""
         import random
         
         if not hasattr(self, 'val_dataset') or len(self.val_dataset) == 0:
@@ -980,7 +980,7 @@ class BridgeTrainer:
                 question = sample.question if hasattr(sample, 'question') else 'N/A'
                 answer = sample.answer if hasattr(sample, 'answer') else 'N/A'
                 
-                # Try to generate model output using model.chat()
+                # Try to generate model output
                 model_output = None
                 try:
                     # Load image using notebook preprocessing
@@ -990,33 +990,54 @@ class BridgeTrainer:
                         max_num=6
                     )
                     
-                    # Convert to model dtype and move to device (matching notebook pattern)
+                    # Convert to model dtype and move to device
                     model_dtype = next(self.model.vision_model.parameters()).dtype
                     pixel_values = pixel_values.to(dtype=model_dtype, device=self.device)
                     
-                    # Prepare question prompt (simplified for clarity)
+                    # Tokenize question
                     question_text = f"Question: {question}\nAnswer:"
-                    
-                    # Use model.chat() API for cleaner interface (matching notebook)
-                    # Generation config: greedy for speed during training, but could use beam search
-                    generation_config = dict(
-                        max_new_tokens=50,    # Shorter for cleaner inference during training
-                        do_sample=False,      # Greedy decoding
-                        num_beams=1,          # No beam search during training (too slow)
-                        repetition_penalty=1.5  # Penalize token repetition
-                    )
-                    
-                    # Generate using model's chat interface
-                    response = self.model.chat(
-                        self.tokenizer,
-                        pixel_values,
+                    inputs = self.tokenizer(
                         question_text,
-                        generation_config
+                        return_tensors="pt",
+                        padding=True,
+                        truncation=True
                     )
-                    model_output = response if response else "[No response generated]"
+                    input_ids = inputs['input_ids'].to(self.device)
+                    
+                    # Get bridge model's inference output
+                    with torch.no_grad():
+                        # Get vision embeddings
+                        vision_embeddings = self.model.vision_model(pixel_values.unsqueeze(0))
+                        
+                        # Apply bridge
+                        if self.model.bridge_type in ['multi_token', 'attention', 'mini_qformer', 'qformer']:
+                            bridge_output = self.model.bridge(vision_embeddings)
+                        else:
+                            vision_pool = vision_embeddings.mean(dim=1)
+                            bridge_output = self.model.bridge(vision_pool)
+                            bridge_output = bridge_output.unsqueeze(1)
+                        
+                        # Get text embeddings
+                        text_embeddings = self.model.language_model.model.embed_tokens(input_ids)
+                        
+                        # Combine embeddings
+                        combined_embeddings = torch.cat([bridge_output, text_embeddings], dim=1)
+                        
+                        # Generate with language model
+                        outputs = self.model.language_model.generate(
+                            inputs_embeds=combined_embeddings,
+                            max_new_tokens=50,
+                            do_sample=False,
+                            num_beams=1,
+                            pad_token_id=self.tokenizer.eos_token_id
+                        )
+                        
+                        # Decode output (skip input tokens)
+                        output_ids = outputs[0, combined_embeddings.shape[1]:]
+                        model_output = self.tokenizer.decode(output_ids, skip_special_tokens=True)
                     
                 except Exception as e:
-                    model_output = f"[Generation error: {str(e)[:60]}]"
+                    model_output = f"[Generation error: {str(e)[:80]}]"
                 
                 # Log output
                 logger.info(f"\n[Sample {i}]")

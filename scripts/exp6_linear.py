@@ -14,9 +14,10 @@ Why:
 - Useful for ablation study
 """
 
+import argparse
 import torch
 from src.training import create_finetune_model, BridgeTrainer, TrainConfig
-from scripts.base_experiment import BaseExperiment, ExperimentConfig
+from scripts.base_experiment import BaseExperiment, ExperimentConfig, is_kaggle
 
 
 class Exp6Config(ExperimentConfig):
@@ -85,9 +86,18 @@ class Experiment6(BaseExperiment):
 
 def main():
     """Run Experiment 6."""
+    parser = argparse.ArgumentParser(description="Run Experiment 6: Linear Bridge")
+    parser.add_argument("--max-samples", type=int, default=None, help="Max samples to use (e.g., 100 for testing)")
+    args = parser.parse_args()
+    
+    # Auto-detect Kaggle and limit to 100 samples if not specified
+    if args.max_samples is None and is_kaggle():
+        args.max_samples = 100
+        print("🔍 Kaggle detected → Auto-limit to 100 samples")
+    
     config = Exp6Config()
     experiment = Experiment6(config)
-    experiment.run(max_samples=None)  # Use all data
+    experiment.run(max_samples=args.max_samples)
 
 
 if __name__ == "__main__":

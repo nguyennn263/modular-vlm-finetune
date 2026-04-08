@@ -74,7 +74,7 @@ class AblationExperiment:
         }
 
 class AblationStudy:
-    def __init__(self, config_path: str = "configs/bridge_config.yaml"):
+    def __init__(self, config_path: str = "configs/bridge_config.yaml", max_samples: int = None):
         self.config_path = Path(config_path)
         self.config = self._load_config()
         self.experiments = self._create_experiments()
@@ -82,6 +82,7 @@ class AblationStudy:
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.results_file = self.output_dir / "results.json"
         self.progress_file = self.output_dir / "progress.json"
+        self.max_samples = max_samples
 
     def _load_config(self) -> Dict:
         if self.config_path.exists():
@@ -175,8 +176,12 @@ class AblationStudy:
             env = os.environ.copy()
             env['PYTHONPATH'] = str(Path.cwd())
             
+            cmd = ["python", exp.script]
+            if self.max_samples:
+                cmd.extend(["--max-samples", str(self.max_samples)])
+            
             result = subprocess.run(
-                ["python", exp.script],
+                cmd,
                 check=True,
                 capture_output=False,
                 env=env
@@ -264,10 +269,17 @@ def main():
     parser.add_argument("--rerun", help="Rerun specific experiments from scratch: 1,3,5")
     parser.add_argument("--no-resume", action="store_true",
                         help="Ignore previous progress, run all from scratch")
+    parser.add_argument("--max-samples", type=int, default=None,
+                        help="Max samples to use (e.g., 100 for testing)")
     
     args = parser.parse_args()
     
-    study = AblationStudy(args.config)
+    # Auto-detect Kaggle environment and limit samples if not specified
+    if args.max_samples is None and os.path.exists('/kaggle/working'):
+        args.max_samples = 100
+        print_info(f"🔍 Kaggle detected → Auto-limit to 100 samples (override with --max-samples)")
+    
+    study = AblationStudy(args.config, max_samples=args.max_samples)
     
     if args.dry_run:
         study.dry_run()

@@ -19,6 +19,11 @@ from utils.data_loader_helper import AblationDataLoader
 from utils.device_detector import DeviceDetector
 
 
+def is_kaggle() -> bool:
+    """Check if running on Kaggle platform."""
+    return os.path.exists('/kaggle/working')
+
+
 class ExperimentConfig:
     """Base configuration for experiments."""
     

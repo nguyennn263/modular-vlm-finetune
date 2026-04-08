@@ -13,19 +13,116 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from torch.optim import AdamW
-from typing import Tuple, Dict, Optional
+from typing import Tuple, Dict, Optional, List
 from torch.optim.lr_scheduler import CosineAnnealingLR
 from tqdm import tqdm
-import logging
 from datetime import datetime
 from pathlib import Path
 from dataclasses import dataclass
 from transformers import AutoTokenizer
+import torchvision.transforms as T
+from PIL import Image
+from torchvision.transforms.functional import InterpolationMode
 
 from src.middleware.logger import data_loader_logger as logger
 from src.schema.data_schema import OneSample
 from src.data.collator_onesample import create_collate_fn
-from transformers import AutoTokenizer
+
+
+# ============================================================================
+# IMAGE PREPROCESSING FROM NOTEBOOK
+# ============================================================================
+IMAGENET_MEAN = (0.485, 0.456, 0.406)
+IMAGENET_STD = (0.229, 0.224, 0.225)
+
+
+def build_transform(input_size: int = 448):
+    """Build image transformation pipeline with ImageNet normalization."""
+    MEAN, STD = IMAGENET_MEAN, IMAGENET_STD
+    transform = T.Compose([
+        T.Lambda(lambda img: img.convert('RGB') if img.mode != 'RGB' else img),
+        T.Resize((input_size, input_size), interpolation=InterpolationMode.BICUBIC),
+        T.ToTensor(),
+        T.Normalize(mean=MEAN, std=STD)
+    ])
+    return transform
+
+
+def find_closest_aspect_ratio(aspect_ratio, target_ratios, width, height, image_size):
+    """Find the closest aspect ratio for image tiling."""
+    best_ratio_diff = float('inf')
+    best_ratio = (1, 1)
+    area = width * height
+    for ratio in target_ratios:
+        target_aspect_ratio = ratio[0] / ratio[1]
+        ratio_diff = abs(aspect_ratio - target_aspect_ratio)
+        if ratio_diff < best_ratio_diff:
+            best_ratio_diff = ratio_diff
+            best_ratio = ratio
+        elif ratio_diff == best_ratio_diff:
+            if area > 0.5 * image_size * image_size * ratio[0] * ratio[1]:
+                best_ratio = ratio
+    return best_ratio
+
+
+def dynamic_preprocess(image: Image.Image, min_num: int = 1, max_num: int = 12, 
+                      image_size: int = 448, use_thumbnail: bool = False) -> List[Image.Image]:
+    """Dynamically preprocess image by dividing into patches."""
+    orig_width, orig_height = image.size
+    aspect_ratio = orig_width / orig_height
+
+    # Calculate target ratios
+    target_ratios = set(
+        (i, j) for n in range(min_num, max_num + 1) 
+        for i in range(1, n + 1) for j in range(1, n + 1) 
+        if i * j <= max_num and i * j >= min_num
+    )
+    target_ratios = sorted(target_ratios, key=lambda x: x[0] * x[1])
+
+    # Find closest aspect ratio
+    target_aspect_ratio = find_closest_aspect_ratio(
+        aspect_ratio, target_ratios, orig_width, orig_height, image_size
+    )
+
+    # Calculate target dimensions
+    target_width = image_size * target_aspect_ratio[0]
+    target_height = image_size * target_aspect_ratio[1]
+    blocks = target_aspect_ratio[0] * target_aspect_ratio[1]
+
+    # Resize image
+    resized_img = image.resize((target_width, target_height))
+    processed_images = []
+    
+    # Extract patches
+    for i in range(blocks):
+        box = (
+            (i % (target_width // image_size)) * image_size,
+            (i // (target_width // image_size)) * image_size,
+            ((i % (target_width // image_size)) + 1) * image_size,
+            ((i // (target_width // image_size)) + 1) * image_size
+        )
+        split_img = resized_img.crop(box)
+        processed_images.append(split_img)
+    
+    # Add thumbnail if needed
+    if use_thumbnail and len(processed_images) != 1:
+        thumbnail_img = image.resize((image_size, image_size))
+        processed_images.append(thumbnail_img)
+    
+    return processed_images
+
+
+def load_image(image_file: str, input_size: int = 448, max_num: int = 12) -> torch.Tensor:
+    """Load and preprocess image for model input."""
+    image = Image.open(image_file).convert('RGB')
+    transform = build_transform(input_size=input_size)
+    images = dynamic_preprocess(
+        image, image_size=input_size, use_thumbnail=True, max_num=max_num
+    )
+    pixel_values = [transform(image) for image in images]
+    pixel_values = torch.stack(pixel_values)
+    return pixel_values
+# ============================================================================
 
 
 @dataclass
@@ -128,6 +225,9 @@ class BridgeTrainer:
                 except Exception as e:
                     logger.error(f"Failed to load tokenizer: {e}")
                     raise
+                
+                # Store tokenizer for inference
+                self.tokenizer = tokenizer
                 
                 # Use max_length=256 for memory efficiency (reduces memory usage by ~50%)
                 # This is still plenty for Q&A pairs
@@ -582,13 +682,125 @@ class BridgeTrainer:
                             logger.info(f"Sample Inference - Step {self.global_step}")
                             logger.info(f"{'='*80}")
                             
+                            self.model.eval()
                             for i, idx in enumerate(indices, 1):
                                 sample = self.val_dataset[idx]
                                 question = sample.question if hasattr(sample, 'question') else 'N/A'
                                 answer = sample.answer if hasattr(sample, 'answer') else 'N/A'
+                                
+                                # Try to get model prediction using notebook approach
+                                try:
+                                    # Load image using dynamic preprocessing from notebook
+                                    pixel_values = load_image(
+                                        sample.image_path, 
+                                        input_size=448, 
+                                        max_num=6
+                                    ).to(self.model.device)
+                                    
+                                    # Get model dtype from vision model
+                                    model_dtype = next(self.model.vision_model.parameters()).dtype
+                                    pixel_values = pixel_values.to(dtype=model_dtype)
+                                    
+                                    # Prepare question with prompt format (from notebook)
+                                    question_text = f"<image>\nQuestion: {question}\nAnswer:"
+                                    
+                                    # Generate answer - custom inference with bridge
+                                    with torch.no_grad():
+                                        # Get vision embeddings via bridge (respects training)
+                                        vision_output = self.model.vision_model(pixel_values)
+                                        if hasattr(vision_output, 'last_hidden_state'):
+                                            vision_embeddings = vision_output.last_hidden_state
+                                        else:
+                                            vision_embeddings = vision_output.pooler_output.unsqueeze(1)
+                                        
+                                        # Apply bridge module
+                                        vision_embeddings = vision_embeddings.mean(dim=1) if vision_embeddings.dim() == 3 else vision_embeddings
+                                        bridged_embeddings = self.model.bridge(vision_embeddings)
+                                        if bridged_embeddings.dim() == 2:
+                                            bridged_embeddings = bridged_embeddings.unsqueeze(1)
+                                        
+                                        # Tokenize question
+                                        inputs = self.tokenizer(
+                                            question_text, 
+                                            return_tensors='pt',
+                                            max_length=256,
+                                            truncation=True
+                                        )
+                                        input_ids = inputs['input_ids'].to(self.device)
+                                        attention_mask = inputs['attention_mask'].to(self.device)
+                                        
+                                        # Get text embeddings
+                                        text_embeddings = self.model.language_model.model.embed_tokens(input_ids)
+                                        text_embeddings = text_embeddings.to(dtype=model_dtype)
+                                        
+                                        # Combine vision + text embeddings
+                                        combined = torch.cat([bridged_embeddings, text_embeddings], dim=1)
+                                        vision_attention = torch.ones(
+                                            bridged_embeddings.shape[0], 
+                                            bridged_embeddings.shape[1], 
+                                            device=self.device, 
+                                            dtype=attention_mask.dtype
+                                        )
+                                        combined_attention = torch.cat([vision_attention, attention_mask], dim=1)
+                                        
+                                        # Generate tokens greedily (200 token max)
+                                        generated_tokens = []
+                                        max_new_tokens = 200
+                                        
+                                        outputs = self.model.language_model(
+                                            inputs_embeds=combined,
+                                            attention_mask=combined_attention,
+                                            return_dict=True
+                                        )
+                                        logits = outputs.logits
+                                        
+                                        for step in range(max_new_tokens):
+                                            last_logits = logits[:, -1, :]
+                                            next_token = torch.argmax(last_logits, dim=-1, keepdim=True)
+                                            generated_tokens.append(next_token)
+                                            
+                                            # Stop at EOS/PAD
+                                            if next_token.item() == self.tokenizer.eos_token_id or next_token.item() == self.tokenizer.pad_token_id:
+                                                break
+                                            
+                                            # Continue generation
+                                            next_embedding = self.model.language_model.model.embed_tokens(next_token)
+                                            next_embedding = next_embedding.to(dtype=model_dtype)
+                                            combined = torch.cat([combined, next_embedding], dim=1)
+                                            
+                                            next_attention = torch.ones(
+                                                1, 1, 
+                                                device=self.device, 
+                                                dtype=attention_mask.dtype
+                                            )
+                                            combined_attention = torch.cat([combined_attention, next_attention], dim=1)
+                                            
+                                            outputs = self.model.language_model(
+                                                inputs_embeds=combined,
+                                                attention_mask=combined_attention,
+                                                return_dict=True
+                                            )
+                                            logits = outputs.logits
+                                        
+                                        # Decode answer
+                                        if generated_tokens:
+                                            generated_ids = torch.cat(generated_tokens, dim=1)
+                                            model_output = self.tokenizer.decode(
+                                                generated_ids[0], 
+                                                skip_special_tokens=True
+                                            ).strip()
+                                        else:
+                                            model_output = "[No answer generated]"
+                                    
+                                except Exception as e:
+                                    model_output = f"[Generation failed: {str(e)[:80]}]"
+                                
                                 logger.info(f"\n[Sample {i}]")
                                 logger.info(f"Input: {question}")
+                                logger.info(f"Model Output: {model_output}")
                                 logger.info(f"Expected Output: {answer}")
+                            
+                            self.model.train()
                         except Exception as e:
                             logger.warning(f"Sample inference display failed: {e}")
                     

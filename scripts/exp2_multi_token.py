@@ -11,9 +11,10 @@ Why:
 - Each token can specialize in different visual aspects
 """
 
+import argparse
 import torch
 from src.training import create_finetune_model, BridgeTrainer, TrainConfig
-from scripts.base_experiment import BaseExperiment, ExperimentConfig
+from scripts.base_experiment import BaseExperiment, ExperimentConfig, is_kaggle
 
 
 class Exp2Config(ExperimentConfig):
@@ -80,9 +81,18 @@ class Experiment2(BaseExperiment):
 
 def main():
     """Run Experiment 2."""
+    parser = argparse.ArgumentParser(description="Run Experiment 2: MultiToken")
+    parser.add_argument("--max-samples", type=int, default=None, help="Max samples to use (e.g., 100 for testing)")
+    args = parser.parse_args()
+    
+    # Auto-detect Kaggle and limit to 100 samples if not specified
+    if args.max_samples is None and is_kaggle():
+        args.max_samples = 100
+        print("🔍 Kaggle detected → Auto-limit to 100 samples")
+    
     config = Exp2Config()
     experiment = Experiment2(config)
-    experiment.run(max_samples=None)
+    experiment.run(max_samples=args.max_samples)
 
 
 if __name__ == "__main__":

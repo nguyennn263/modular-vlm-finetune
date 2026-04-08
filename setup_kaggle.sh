@@ -81,7 +81,7 @@ install_base_deps() {
         pydantic \
         pyyaml \
         pandas \
-        numpy \
+        'numpy<2' \
         tqdm \
         --quiet
     
@@ -93,7 +93,7 @@ install_base_deps() {
     print_info "Installing timm and einops..."
     pip install --upgrade timm einops --quiet
     
-    print_success "Base dependencies installed"
+    print_success "Base dependencies installed (numpy<2 for PyTorch compatibility)"
 }
 
 # Install optional dependencies
@@ -108,7 +108,10 @@ install_optional_deps() {
         scikit-learn \
         --quiet 2>/dev/null || print_info "Some optional packages may already be installed"
     
-    # Note: transformers handle in base_deps due to version requirement
+    # Ensure numpy<2 for PyTorch 2.2.2 compatibility (explicit downgrade if needed)
+    print_info "Ensuring numpy<2 for PyTorch 2.2.2 compatibility..."
+    pip install 'numpy<2' --force-reinstall --quiet
+    
     print_success "Optional dependencies installed"
 }
 

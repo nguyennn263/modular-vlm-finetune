@@ -957,9 +957,8 @@ class BridgeTrainer:
         logger.info(f"✓ Resumed from checkpoint (step {self.global_step})")
     
     def _sample_inference(self, epoch: int, num_samples: int = 3):
-        """Generate sample outputs on random validation samples."""
+        """Generate sample outputs on random validation samples using model.chat()."""
         import random
-        from PIL import Image
         
         if not hasattr(self, 'val_dataset') or len(self.val_dataset) == 0:
             return
@@ -973,7 +972,6 @@ class BridgeTrainer:
             logger.info(f"{'='*80}")
             
             self.model.eval()
-            model_dtype = next(self.model.vision_model.parameters()).dtype
             
             for i, idx in enumerate(indices, 1):
                 sample = self.val_dataset[idx]
@@ -982,113 +980,41 @@ class BridgeTrainer:
                 question = sample.question if hasattr(sample, 'question') else 'N/A'
                 answer = sample.answer if hasattr(sample, 'answer') else 'N/A'
                 
-                # Try to generate model output
+                # Try to generate model output using model.chat()
                 model_output = None
                 try:
                     # Load image using notebook preprocessing
-                    # load_image returns [num_patches, 3, 448, 448]
                     pixel_values = load_image(
                         sample.image_path, 
                         input_size=448, 
                         max_num=6
-                    ).to(self.device, dtype=model_dtype)
+                    )
                     
-                    # Add batch dimension if needed: [num_patches, 3, 448, 448] → [num_patches, 3, 448, 448]
-                    # Vision model will process as batch of patches, so this is fine
+                    # Convert to model dtype and move to device (matching notebook pattern)
+                    model_dtype = next(self.model.vision_model.parameters()).dtype
+                    pixel_values = pixel_values.to(dtype=model_dtype, device=self.device)
                     
-                    # Prepare question prompt
-                    question_text = f"<image>\nQuestion: {question}\nAnswer:"
+                    # Prepare question prompt (simplified for clarity)
+                    question_text = f"Question: {question}\nAnswer:"
                     
-                    with torch.no_grad():
-                        # Get vision embeddings: [num_patches, num_tokens, 1024]
-                        vision_output = self.model.vision_model(pixel_values)
-                        if hasattr(vision_output, 'last_hidden_state'):
-                            vision_embeddings = vision_output.last_hidden_state  # [num_patches, num_tokens, 1024]
-                        else:
-                            vision_embeddings = vision_output.pooler_output.unsqueeze(1)
-                        
-                        # Average across patches: [num_patches, 1024] → [1, 1024]
-                        if vision_embeddings.dim() == 3:
-                            # Pool across patches
-                            vision_embeddings = vision_embeddings.mean(dim=1, keepdim=False)  # [num_patches, 1024]
-                        
-                        # Average across patches to get single representation
-                        vision_embeddings = vision_embeddings.mean(dim=0, keepdim=True)  # [1, 1024]
-                        
-                        # Apply bridge
-                        bridged_embeddings = self.model.bridge(vision_embeddings)  # [1, 1024]
-                        if bridged_embeddings.dim() == 2:
-                            bridged_embeddings = bridged_embeddings.unsqueeze(1)  # [1, 1, 896]
-                        
-                        # Tokenize question
-                        inputs = self.tokenizer(
-                            question_text,
-                            return_tensors='pt',
-                            max_length=256,
-                            truncation=True
-                        )
-                        input_ids = inputs['input_ids'].to(self.device)  # [1, seq_len]
-                        attention_mask = inputs['attention_mask'].to(self.device)  # [1, seq_len]
-                        
-                        # Get text embeddings [1, seq_len, 896]
-                        text_embeddings = self.model.language_model.model.embed_tokens(input_ids)
-                        text_embeddings = text_embeddings.to(dtype=model_dtype)
-                        
-                        # Combine embeddings: [1, 1 + seq_len, 896]
-                        combined = torch.cat([bridged_embeddings, text_embeddings], dim=1)
-                        
-                        # Create attention mask for combined embeddings
-                        vision_attention = torch.ones(
-                            1, 1,
-                            device=self.device,
-                            dtype=attention_mask.dtype
-                        )
-                        combined_attention = torch.cat([vision_attention, attention_mask], dim=1)
-                        
-                        # Generate tokens (greedy, 50 token max for speed in inference)
-                        generated_tokens = []
-                        outputs = self.model.language_model(
-                            inputs_embeds=combined,
-                            attention_mask=combined_attention,
-                            return_dict=True
-                        )
-                        logits = outputs.logits  # [1, seq_len, vocab_size]
-                        
-                        for step in range(50):  # Limit to 50 for faster inference
-                            last_logits = logits[:, -1, :]  # [1, vocab_size]
-                            next_token = torch.argmax(last_logits, dim=-1, keepdim=True)  # [1, 1]
-                            generated_tokens.append(next_token)
-                            
-                            # Stop at EOS/PAD
-                            if next_token.item() == self.tokenizer.eos_token_id or next_token.item() == self.tokenizer.pad_token_id:
-                                break
-                            
-                            # Continue generation
-                            next_embedding = self.model.language_model.model.embed_tokens(next_token)  # [1, 1, 896]
-                            next_embedding = next_embedding.to(dtype=model_dtype)
-                            combined = torch.cat([combined, next_embedding], dim=1)  # [1, seq_len+1, 896]
-                            
-                            next_attention = torch.ones(
-                                1, 1,
-                                device=self.device,
-                                dtype=attention_mask.dtype
-                            )
-                            combined_attention = torch.cat([combined_attention, next_attention], dim=1)
-                            
-                            outputs = self.model.language_model(
-                                inputs_embeds=combined,
-                                attention_mask=combined_attention,
-                                return_dict=True
-                            )
-                            logits = outputs.logits
-                        
-                        # Decode answer
-                        if generated_tokens:
-                            generated_ids = torch.cat(generated_tokens, dim=1)  # [1, num_generated]
-                            model_output = self.tokenizer.decode(
-                                generated_ids[0],
-                                skip_special_tokens=True
-                            ).strip()
+                    # Use model.chat() API for cleaner interface (matching notebook)
+                    # Generation config: greedy for speed during training, but could use beam search
+                    generation_config = dict(
+                        max_new_tokens=100,  # Reasonable limit during training (not 512 for speed)
+                        do_sample=False,      # Greedy decoding
+                        num_beams=1,          # No beam search during training (too slow)
+                        repetition_penalty=1.0
+                    )
+                    
+                    # Generate using model's chat interface
+                    response = self.model.chat(
+                        self.tokenizer,
+                        pixel_values,
+                        question_text,
+                        generation_config
+                    )
+                    model_output = response if response else "[No response generated]"
+                    
                 except Exception as e:
                     model_output = f"[Generation error: {str(e)[:60]}]"
                 

@@ -973,6 +973,7 @@ class BridgeTrainer:
             logger.info(f"{'='*80}")
             
             self.model.eval()
+            model_dtype = next(self.model.vision_model.parameters()).dtype
             
             for i, idx in enumerate(indices, 1):
                 sample = self.val_dataset[idx]
@@ -981,12 +982,106 @@ class BridgeTrainer:
                 question = sample.question if hasattr(sample, 'question') else 'N/A'
                 answer = sample.answer if hasattr(sample, 'answer') else 'N/A'
                 
+                # Try to generate model output
+                model_output = None
+                try:
+                    # Load image using notebook preprocessing
+                    pixel_values = load_image(
+                        sample.image_path, 
+                        input_size=448, 
+                        max_num=6
+                    ).to(self.device, dtype=model_dtype)
+                    
+                    # Prepare question prompt
+                    question_text = f"<image>\nQuestion: {question}\nAnswer:"
+                    
+                    with torch.no_grad():
+                        # Get vision embeddings
+                        vision_output = self.model.vision_model(pixel_values)
+                        if hasattr(vision_output, 'last_hidden_state'):
+                            vision_embeddings = vision_output.last_hidden_state
+                        else:
+                            vision_embeddings = vision_output.pooler_output.unsqueeze(1)
+                        
+                        # Apply bridge
+                        vision_embeddings = vision_embeddings.mean(dim=1) if vision_embeddings.dim() == 3 else vision_embeddings
+                        bridged_embeddings = self.model.bridge(vision_embeddings)
+                        if bridged_embeddings.dim() == 2:
+                            bridged_embeddings = bridged_embeddings.unsqueeze(1)
+                        
+                        # Tokenize question
+                        inputs = self.tokenizer(
+                            question_text,
+                            return_tensors='pt',
+                            max_length=256,
+                            truncation=True
+                        )
+                        input_ids = inputs['input_ids'].to(self.device)
+                        attention_mask = inputs['attention_mask'].to(self.device)
+                        
+                        # Get text embeddings
+                        text_embeddings = self.model.language_model.model.embed_tokens(input_ids)
+                        text_embeddings = text_embeddings.to(dtype=model_dtype)
+                        
+                        # Combine embeddings
+                        combined = torch.cat([bridged_embeddings, text_embeddings], dim=1)
+                        vision_attention = torch.ones(
+                            bridged_embeddings.shape[0],
+                            bridged_embeddings.shape[1],
+                            device=self.device,
+                            dtype=attention_mask.dtype
+                        )
+                        combined_attention = torch.cat([vision_attention, attention_mask], dim=1)
+                        
+                        # Generate tokens (greedy, 100 token max for speed)
+                        generated_tokens = []
+                        outputs = self.model.language_model(
+                            inputs_embeds=combined,
+                            attention_mask=combined_attention,
+                            return_dict=True
+                        )
+                        logits = outputs.logits
+                        
+                        for step in range(100):  # Limit to 100 for faster inference
+                            last_logits = logits[:, -1, :]
+                            next_token = torch.argmax(last_logits, dim=-1, keepdim=True)
+                            generated_tokens.append(next_token)
+                            
+                            # Stop at EOS/PAD
+                            if next_token.item() == self.tokenizer.eos_token_id or next_token.item() == self.tokenizer.pad_token_id:
+                                break
+                            
+                            # Continue generation
+                            next_embedding = self.model.language_model.model.embed_tokens(next_token)
+                            next_embedding = next_embedding.to(dtype=model_dtype)
+                            combined = torch.cat([combined, next_embedding], dim=1)
+                            
+                            next_attention = torch.ones(1, 1, device=self.device, dtype=attention_mask.dtype)
+                            combined_attention = torch.cat([combined_attention, next_attention], dim=1)
+                            
+                            outputs = self.model.language_model(
+                                inputs_embeds=combined,
+                                attention_mask=combined_attention,
+                                return_dict=True
+                            )
+                            logits = outputs.logits
+                        
+                        # Decode answer
+                        if generated_tokens:
+                            generated_ids = torch.cat(generated_tokens, dim=1)
+                            model_output = self.tokenizer.decode(
+                                generated_ids[0],
+                                skip_special_tokens=True
+                            ).strip()
+                except Exception as e:
+                    model_output = f"[Generation error: {str(e)[:50]}]"
+                
+                # Log output
                 logger.info(f"\n[Sample {i}]")
                 logger.info(f"Question: {question}")
+                if model_output:
+                    logger.info(f"Model Output: {model_output[:200]}...")
                 logger.info(f"Ground truth: {answer}")
-                
-                # TODO: Add model prediction here if needed
-                # For now, just log Q&A to monitor dataset quality
         
         except Exception as e:
             logger.warning(f"Sample inference failed: {e}")

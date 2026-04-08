@@ -203,7 +203,6 @@ setup_project_link() {
         print_info "Your code should reference: /kaggle/input/{dataset_name}"
     fi
 }
-}
 
 # Show usage
 show_usage() {

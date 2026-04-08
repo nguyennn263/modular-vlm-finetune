@@ -82,7 +82,7 @@ Issues = "https://github.com/yourusername/vlm-benchmark/issues"
 
 [tool.uv]
 # uv configuration
-python-version = "3.11"
+target-version = "py311"
 
 [tool.setuptools]
 packages = ["src"]

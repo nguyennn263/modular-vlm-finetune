@@ -117,6 +117,11 @@ setup_venv() {
     print_info "Installing PyTorch 2.2.2 with CUDA 12.1 support (for L40S GPU)..."
     uv pip install --upgrade torch==2.2.2 torchvision==0.17.2 \
         --index-url https://download.pytorch.org/whl/cu121 --quiet
+    
+    # Fix NumPy compatibility - PyTorch 2.2.2 requires NumPy 1.x
+    print_info "Downgrading NumPy to 1.x for PyTorch 2.2.2 compatibility..."
+    uv pip install "numpy<2" --quiet
+    
     print_success "PyTorch 2.2.2 with CUDA 12.1 installed successfully"
     
     print_success "Dependencies installed successfully"

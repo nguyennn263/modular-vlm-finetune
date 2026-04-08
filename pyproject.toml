@@ -35,6 +35,7 @@ dependencies = [
     "torchvision>=0.15.0",
     
     # Utilities
+    "numpy<2",  # PyTorch 2.2.2 requires NumPy 1.x - do NOT pin to numpy==2.x
     "pyyaml>=6.0",
     "numpy>=1.24.0",
     "tqdm>=4.65.0",

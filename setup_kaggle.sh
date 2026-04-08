@@ -94,7 +94,7 @@ install_base_deps() {
     pip install --upgrade timm einops --quiet
     
     print_success "Base dependencies installed"
-
+}
 
 # Install optional dependencies
 install_optional_deps() {

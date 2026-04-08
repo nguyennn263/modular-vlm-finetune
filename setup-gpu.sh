@@ -224,11 +224,9 @@ print()
 download_data() {
     print_header "Downloading Dataset"
     
-    # Check if kagglehub is available
-    if ! "$VENV_DIR/bin/python" -c "import kagglehub" 2>/dev/null; then
-        print_info "kagglehub not installed. Installing..."
-        uv pip install --quiet kagglehub
-    fi
+    # Ensure pydantic and kagglehub are installed (may be missing from initial uv sync)
+    print_info "Ensuring pydantic and kagglehub are installed..."
+    uv pip install --quiet pydantic kagglehub
     
     # Check if data already exists
     if [ -f "$PROJECT_DIR/data/raw/texts/vintern.json" ] && [ "$(ls -A "$PROJECT_DIR/data/raw/images/" 2>/dev/null | wc -l)" -gt 0 ]; then

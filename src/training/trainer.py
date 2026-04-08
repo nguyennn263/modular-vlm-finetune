@@ -1000,10 +1000,10 @@ class BridgeTrainer:
                     # Use model.chat() API for cleaner interface (matching notebook)
                     # Generation config: greedy for speed during training, but could use beam search
                     generation_config = dict(
-                        max_new_tokens=100,  # Reasonable limit during training (not 512 for speed)
+                        max_new_tokens=50,    # Shorter for cleaner inference during training
                         do_sample=False,      # Greedy decoding
                         num_beams=1,          # No beam search during training (too slow)
-                        repetition_penalty=1.0
+                        repetition_penalty=1.5  # Penalize token repetition
                     )
                     
                     # Generate using model's chat interface
@@ -1022,7 +1022,7 @@ class BridgeTrainer:
                 logger.info(f"\n[Sample {i}]")
                 logger.info(f"Question: {question}")
                 if model_output:
-                    logger.info(f"Model Output: {model_output[:150]}...")
+                    logger.info(f"Model Output: {model_output}")
                 logger.info(f"Ground truth: {answer}")
         
         except Exception as e:

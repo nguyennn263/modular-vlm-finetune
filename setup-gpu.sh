@@ -102,20 +102,13 @@ setup_venv() {
     
     print_success "Virtual environment created"
     
-    # Upgrade pip
+    # Upgrade pip using python -m pip (pip may not be available directly)
     print_info "Upgrading pip, setuptools, wheel..."
-    if [ ! -f "$VENV_DIR/bin/pip" ]; then
-        print_error "pip not found in venv at $VENV_DIR/bin/pip"
-        print_info "Available files in $VENV_DIR/bin:"
-        ls -la "$VENV_DIR/bin/" || true
-        exit 1
-    fi
-    
-    "$VENV_DIR/bin/pip" install --upgrade pip setuptools wheel --quiet
+    "$VENV_DIR/bin/python" -m pip install --upgrade pip setuptools wheel --quiet
     
     # Install PyTorch with CUDA 12.1 support (for L40S GPU) BEFORE uv sync
     print_info "Installing PyTorch 2.2.2 with CUDA 12.1 support (for L40S GPU)..."
-    "$VENV_DIR/bin/pip" install --upgrade torch==2.2.2 torchvision==0.17.2 \
+    "$VENV_DIR/bin/python" -m pip install --upgrade torch==2.2.2 torchvision==0.17.2 \
         --index-url https://download.pytorch.org/whl/cu121 --quiet
     print_success "PyTorch 2.2.2 installed with CUDA 12.1"
     

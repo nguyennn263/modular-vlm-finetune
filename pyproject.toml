@@ -80,10 +80,6 @@ Homepage = "https://github.com/yourusername/vlm-benchmark"
 Repository = "https://github.com/yourusername/vlm-benchmark"
 Issues = "https://github.com/yourusername/vlm-benchmark/issues"
 
-[tool.uv]
-# uv configuration
-target-version = "py311"
-
 [tool.setuptools]
 packages = ["src"]
 

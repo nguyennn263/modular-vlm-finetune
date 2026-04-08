@@ -119,7 +119,8 @@ check_gpu() {
     gpu_status=$(python -c "import torch; print('Available' if torch.cuda.is_available() else 'Not available')" 2>/dev/null)
     print_info "CUDA status: $gpu_status"
     
-    if python -c "import torch; exit(0 if torch.cuda.is_available() else 1)" 2>/dev/null; then
+    if python -c "import torch; exit(0 if torch.cuda.is_available() else 1)" 2>/dev/null
+    then
         gpu_count=$(python -c "import torch; print(torch.cuda.device_count())" 2>/dev/null)
         gpu_name=$(python -c "import torch; print(torch.cuda.get_device_name(0))" 2>/dev/null)
         print_success "GPU count: $gpu_count"

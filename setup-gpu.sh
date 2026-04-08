@@ -102,6 +102,9 @@ setup_venv() {
     
     print_success "Virtual environment created"
     
+    # Activate venv for this session
+    source "$VENV_DIR/bin/activate"
+    
     # Upgrade pip, setuptools, wheel using uv pip (UV manages pip automatically)
     print_info "Upgrading pip, setuptools, wheel..."
     uv pip install --upgrade pip setuptools wheel --quiet
@@ -139,13 +142,13 @@ create_dirs() {
 check_gpu() {
     print_header "GPU/CUDA Status"
     
-    if "$VENV_DIR/bin/python" -c "import torch" 2>/dev/null; then
-        cuda_available=$("$VENV_DIR/bin/python" -c "import torch; print(torch.cuda.is_available())")
+    if python -c "import torch" 2>/dev/null; then
+        cuda_available=$(python -c "import torch; print(torch.cuda.is_available())")
         
         if [ "$cuda_available" = "True" ]; then
-            gpu_count=$("$VENV_DIR/bin/python" -c "import torch; print(torch.cuda.device_count())")
-            gpu_name=$("$VENV_DIR/bin/python" -c "import torch; print(torch.cuda.get_device_name(0))" 2>/dev/null)
-            cuda_version=$("$VENV_DIR/bin/python" -c "import torch; print(torch.version.cuda)")
+            gpu_count=$(python -c "import torch; print(torch.cuda.device_count())")
+            gpu_name=$(python -c "import torch; print(torch.cuda.get_device_name(0))" 2>/dev/null)
+            cuda_version=$(python -c "import torch; print(torch.version.cuda)")
             
             print_success "CUDA is available"
             print_success "CUDA Version: $cuda_version"
@@ -153,7 +156,7 @@ check_gpu() {
             print_success "GPU name: $gpu_name"
             
             # Show GPU memory
-            gpu_memory=$("$VENV_DIR/bin/python" -c "import torch; print(f'{torch.cuda.get_device_properties(0).total_memory / 1024**3:.1f} GB')" 2>/dev/null)
+            gpu_memory=$(python -c "import torch; print(f'{torch.cuda.get_device_properties(0).total_memory / 1024**3:.1f} GB')" 2>/dev/null)
             print_success "GPU Memory: $gpu_memory"
         else
             print_info "✗ CUDA not available - training will use CPU (slower)"
@@ -168,7 +171,7 @@ check_gpu() {
 check_transformers() {
     print_header "Transformers Version Check"
     
-    transformers_version=$("$VENV_DIR/bin/python" -c "import transformers; print(transformers.__version__)" 2>/dev/null)
+    transformers_version=$(python -c "import transformers; print(transformers.__version__)" 2>/dev/null)
     
     if [ "$transformers_version" = "4.38.2" ]; then
         print_success "Transformers version: $transformers_version (CORRECT)"
@@ -212,7 +215,7 @@ for d in required:
 print()
 '
     
-    if "$VENV_DIR/bin/python" -c "$test_script"; then
+    if python -c "$test_script"; then
         print_success "All tests passed"
     else
         print_error "Some tests failed"
@@ -238,15 +241,15 @@ download_data() {
     print_info "Downloading dataset from Kaggle..."
     print_command "python -m src.data.download_data"
     
-    if "$VENV_DIR/bin/python" -m src.data.download_data; then
+    if python -m src.data.download_data; then
         print_success "Dataset downloaded successfully"
     else
         print_error "Failed to download dataset"
-        print_info "You can download manually later by running: source activate.sh && python -m src.data.download_data"
+        print_info "You can download manually later by running: python -m src.data.download_data"
         print_info "Or download from: https://www.kaggle.com/datasets/vintern"
         return 1
     fi
-}
+}}
 
 # Create activation script
 create_activation_script() {

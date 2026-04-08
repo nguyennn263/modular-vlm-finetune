@@ -1,5 +1,8 @@
 # Core dependencies
-torch>=2.0.0
+# IMPORTANT: PyTorch 2.2.2 with CUDA 12.1 support for L40S GPU
+# Do NOT change version - 2.2.2 is stable and well-tested for Vintern-1B
+torch==2.2.2
+torchvision==0.17.2
 # IMPORTANT: transformers==4.38.2 is required for Vintern-1B v3_5 compatibility
 # Do NOT use version 4.35.2 or older - will cause model loading errors
 transformers==4.38.2

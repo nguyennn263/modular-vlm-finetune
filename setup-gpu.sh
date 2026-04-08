@@ -106,17 +106,18 @@ setup_venv() {
     print_info "Upgrading pip, setuptools, wheel..."
     uv pip install --upgrade pip setuptools wheel --quiet
     
-    # Install PyTorch with CUDA 12.1 support (for L40S GPU) using uv pip
-    print_info "Installing PyTorch 2.2.2 with CUDA 12.1 support (for L40S GPU)..."
-    uv pip install --upgrade torch==2.2.2 torchvision==0.17.2 \
-        --index-url https://download.pytorch.org/whl/cu121 --quiet
-    print_success "PyTorch 2.2.2 installed with CUDA 12.1"
-    
-    # Sync dependencies from pyproject.toml
-    print_info "Installing remaining dependencies with UV (this may take a minute)..."
+    # Sync all dependencies from pyproject.toml first
+    print_info "Installing dependencies with UV (this may take a minute)..."
     print_command "uv sync"
     
     uv sync --quiet
+    
+    # Override PyTorch installation to use cu121 index (for L40S GPU compatibility)
+    # This ensures we get the correct CUDA 12.1 wheels even though pyproject.toml has torch==2.2.2
+    print_info "Installing PyTorch 2.2.2 with CUDA 12.1 support (for L40S GPU)..."
+    uv pip install --upgrade torch==2.2.2 torchvision==0.17.2 \
+        --index-url https://download.pytorch.org/whl/cu121 --quiet
+    print_success "PyTorch 2.2.2 with CUDA 12.1 installed successfully"
     
     print_success "Dependencies installed successfully"
 }

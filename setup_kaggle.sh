@@ -67,13 +67,17 @@ upgrade_pip() {
 install_base_deps() {
     print_info "Installing base dependencies..."
     
-    # Uninstall old transformers version
-    pip uninstall -y transformers --quiet || true
+    # Uninstall old versions
+    pip uninstall -y torch torchvision torchaudio transformers --quiet || true
     
-    # Core packages
+    # Install PyTorch 2.2.2 with CUDA 12.1 support (for L40S GPU)
+    print_info "Installing PyTorch 2.2.2 with CUDA 12.1 support..."
+    pip install --upgrade torch==2.2.2 torchvision==0.17.2 \
+        --index-url https://download.pytorch.org/whl/cu121 --quiet
+    print_success "PyTorch 2.2.2 installed with CUDA 12.1"
+    
+    # Install other core packages
     pip install --upgrade \
-        torch \
-        torchvision \
         pydantic \
         pyyaml \
         pandas \
@@ -90,7 +94,7 @@ install_base_deps() {
     pip install --upgrade timm einops --quiet
     
     print_success "Base dependencies installed"
-}
+
 
 # Install optional dependencies
 install_optional_deps() {

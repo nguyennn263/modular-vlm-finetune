@@ -88,6 +88,13 @@ install_deps() {
     # Upgrade pip
     pip install --upgrade pip setuptools wheel
     
+    # Install PyTorch with CUDA 12.1 support (for L40S GPU)
+    print_info "Installing PyTorch 2.2.2 with CUDA 12.1 support..."
+    pip uninstall -y torch torchvision torchaudio || true
+    pip install --upgrade torch==2.2.2 torchvision==0.17.2 \
+        --index-url https://download.pytorch.org/whl/cu121
+    print_success "PyTorch 2.2.2 installed with CUDA 12.1"
+    
     # Install specific transformer version for Vintern compatibility
     print_info "Installing transformers==4.38.2 (required for Vintern support)..."
     pip uninstall -y transformers || true
@@ -149,6 +156,35 @@ download_models() {
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         print_info "Models will be automatically downloaded on first training run"
         print_info "This requires ~25GB disk space for Vintern-1B"
+    fi
+}
+
+# Download data from Kaggle
+download_data() {
+    print_header "Downloading Dataset"
+    
+    # Check if kagglehub is available
+    if ! python -c "import kagglehub" 2>/dev/null; then
+        print_error "kagglehub not installed. Attempting to install..."
+        pip install --quiet kagglehub
+    fi
+    
+    # Check if data already exists
+    if [ -f "$PROJECT_DIR/data/raw/texts/vintern.json" ] && [ "$(ls -A "$PROJECT_DIR/data/raw/images/" 2>/dev/null | wc -l)" -gt 0 ]; then
+        print_info "✓ Data already exists, skipping download"
+        return 0
+    fi
+    
+    # Run Python data download script
+    print_info "Downloading dataset from Kaggle..."
+    
+    if python -m src.data.download_data; then
+        print_success "Dataset downloaded successfully"
+    else
+        print_error "Failed to download dataset"
+        print_info "You can download manually later by running: python -m src.data.download_data"
+        print_info "Or download from: https://www.kaggle.com/datasets/vintern"
+        return 1
     fi
 }
 
@@ -240,17 +276,21 @@ main() {
     print_header "Step 4: Creating Project Directories"
     create_dirs
     
-    # Step 5: Check GPU
+    # Step 5: Download data
+    print_header "Step 5: Downloading Data"
+    download_data
+    
+    # Step 6: Check GPU
     check_gpu
     
-    # Step 6: Model setup
+    # Step 7: Model setup
     download_models
     
-    # Step 7: Test installation
+    # Step 8: Test installation
     cd "$PROJECT_DIR"
     test_installation
     
-    # Step 8: Create activation script
+    # Step 9: Create activation script
     print_header "Step 5: Creating Helper Scripts"
     create_activation_script
     

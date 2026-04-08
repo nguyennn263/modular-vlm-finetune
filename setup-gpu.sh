@@ -100,14 +100,20 @@ setup_venv() {
     print_info "Upgrading pip, setuptools, wheel..."
     "$VENV_DIR/bin/pip" install --upgrade pip setuptools wheel --quiet
     
+    # Install PyTorch with CUDA 12.1 support (for L40S GPU) BEFORE uv sync
+    print_info "Installing PyTorch 2.2.2 with CUDA 12.1 support (for L40S GPU)..."
+    "$VENV_DIR/bin/pip" install --upgrade torch==2.2.2 torchvision==0.17.2 \
+        --index-url https://download.pytorch.org/whl/cu121 --quiet
+    print_success "PyTorch 2.2.2 installed with CUDA 12.1"
+    
     # Sync dependencies from pyproject.toml
-    print_info "Installing dependencies with UV (this may take a minute)..."
+    print_info "Installing remaining dependencies with UV (this may take a minute)..."
     print_command "uv sync"
     
     uv sync --quiet
     
     print_success "Dependencies installed successfully"
-}
+
 
 # Create project directories
 create_dirs() {
@@ -215,6 +221,38 @@ print()
     fi
 }
 
+# Download data from Kaggle
+download_data() {
+    print_header "Downloading Dataset"
+    
+    source "$VENV_DIR/bin/activate"
+    
+    # Check if kagglehub is available
+    if ! python -c "import kagglehub" 2>/dev/null; then
+        print_error "kagglehub not installed. Attempting to install..."
+        pip install --quiet kagglehub
+    fi
+    
+    # Check if data already exists
+    if [ -f "$PROJECT_DIR/data/raw/texts/vintern.json" ] && [ "$(ls -A "$PROJECT_DIR/data/raw/images/" 2>/dev/null | wc -l)" -gt 0 ]; then
+        print_info "✓ Data already exists, skipping download"
+        return 0
+    fi
+    
+    # Run Python data download script
+    print_info "Downloading dataset from Kaggle..."
+    print_command "python -m src.data.download_data"
+    
+    if python -m src.data.download_data; then
+        print_success "Dataset downloaded successfully"
+    else
+        print_error "Failed to download dataset"
+        print_info "You can download manually later by running: python -m src.data.download_data"
+        print_info "Or download from: https://www.kaggle.com/datasets/vintern"
+        return 1
+    fi
+}
+
 # Create activation script
 create_activation_script() {
     activation_script="$PROJECT_DIR/activate.sh"
@@ -272,18 +310,22 @@ main() {
     print_header "Step 4: Creating Project Directories"
     create_dirs
     
-    # Step 5: Check GPU
+    # Step 5: Download data
+    print_header "Step 5: Downloading Data"
+    download_data
+    
+    # Step 6: Check GPU
     check_gpu
     
-    # Step 6: Verify transformers version
+    # Step 7: Verify transformers version
     check_transformers
     
-    # Step 7: Test installation
+    # Step 8: Test installation
     cd "$PROJECT_DIR"
     test_installation
     
-    # Step 8: Create activation script
-    print_header "Step 5: Creating Helper Scripts"
+    # Step 9: Create activation script
+    print_header "Step 6: Creating Helper Scripts"
     create_activation_script
     
     # Final summary

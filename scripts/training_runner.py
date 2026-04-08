@@ -47,14 +47,13 @@ class AblationExperiment:
         self.end_time = None
         
     def _get_script_path(self) -> str:
-        if self.bridge_type == "linear_bridge":
-            return None
         script_map = {
             "better_mlp": "scripts/exp1_better_mlp.py",
             "multi_token": "scripts/exp2_multi_token.py",
             "attention_bridge": "scripts/exp3_attention_bridge.py",
             "mini_qformer": "scripts/exp4_mini_qformer.py",
-            "qformer": "scripts/exp5_qformer.py"
+            "qformer": "scripts/exp5_qformer.py",
+            "linear_bridge": "scripts/exp6_linear.py"
         }
         return script_map.get(self.bridge_type)
 
@@ -164,10 +163,7 @@ class AblationStudy:
             exp.status = "skipped"
             return True
 
-        if exp.bridge_type == "linear_bridge":
-            return self._run_ablation_no_bridge(exp)
-        else:
-            return self._run_bridge_experiment(exp)
+        return self._run_bridge_experiment(exp)
 
     def _run_bridge_experiment(self, exp: AblationExperiment) -> bool:
         """Run bridge experiment script"""
@@ -195,128 +191,6 @@ class AblationStudy:
             print_error(f"{exp.name} failed")
             return False
 
-    def _run_ablation_no_bridge(self, exp: AblationExperiment) -> bool:
-        """Create and run no-bridge ablation (frozen models only)"""
-        print_header(f"Running: {exp.name}")
-        exp.start_time = time.time()
-
-        script_content = '''
-import sys
-from pathlib import Path
-
-# Add workspace root to path so src module can be imported
-sys.path.insert(0, str(Path(__file__).parent.parent))
-
-import torch
-from transformers import AutoModel
-from src.training import BridgeTrainer, TrainConfig
-from src.data.onesample_dataset import OneSampleDataset
-from utils.data_loader_helper import load_ablation_data
-
-# Disable meta device to prevent meta tensor issues
-import os
-os.environ["TRANSFORMERS_NO_META_DEVICE"] = "1"
-
-# Load base model
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-base_model = AutoModel.from_pretrained(
-    "5CD-AI/Vintern-1B-v3_5",
-    torch_dtype=torch.bfloat16,
-    low_cpu_mem_usage=False,
-    trust_remote_code=True,
-).eval().to(device)
-
-# Baseline: Simple linear projection (learnable bridge for comparison)
-# This is minimal: pooled vision features → projected to embedding dimension
-class LinearBridgeBaseline(torch.nn.Module):
-    """Minimal baseline: just linear projection of pooled vision features"""
-    def __init__(self, vision_dim=1024, hidden_dim=896):
-        super().__init__()
-        self.proj = torch.nn.Linear(vision_dim, hidden_dim, dtype=torch.bfloat16)
-        self.bridge_type = 'better_mlp'  # Same output shape as BetterMLP
-    
-    def forward(self, x):
-        # x is [batch, 1024] pooled vision features
-        # Output: [batch, 1, 896] to match other bridges
-        batch_size = x.shape[0]
-        projected = self.proj(x)  # [batch, 896]
-        return projected.unsqueeze(1)  # [batch, 1, 896]
-
-if not hasattr(base_model, 'bridge'):
-    base_model.bridge = LinearBridgeBaseline()
-
-# Freeze vision and language models (only bridge is trainable)
-for name, param in base_model.named_parameters():
-    if 'bridge' not in name:
-        param.requires_grad = False
-
-# Load data as OneSample objects (needed for trainer's collate function)
-train_samples, val_samples, test_samples = load_ablation_data(
-    max_samples=10000,
-    train_ratio=0.8,
-    val_ratio=0.1,
-    test_ratio=0.1,
-    project_root=str(Path(__file__).parent.parent),
-    use_test_split=True
-)
-
-# Wrap in OneSampleDataset
-train_ds = OneSampleDataset(train_samples)
-val_ds = OneSampleDataset(val_samples)
-test_ds = OneSampleDataset(test_samples)
-
-# Train config (memory-optimized matching other experiments)
-config = TrainConfig(
-    output_dir="checkpoints/linear_bridge",
-    num_epochs=10,
-    batch_size=2,  # Memory-optimized for 16GB GPU
-    learning_rate=2e-4,
-    eval_steps=500,  # Reduce eval frequency to save memory
-    gradient_accumulation_steps=4  # Effective batch = 8
-)
-
-# Trainer (only bridge params are trainable)
-# Trainer auto-detects OneSample objects and uses correct collate function
-trainer = BridgeTrainer(base_model, train_ds, val_ds, config)
-trainer.train()
-
-# Evaluate on test set
-print("\n✓ Training completed. Evaluating on [TEST] set...")
-test_loader = torch.utils.data.DataLoader(
-    test_ds,
-    batch_size=config.batch_size,
-    shuffle=False,
-    collate_fn=trainer.get_collate_fn(test_ds)
-)
-
-test_metrics = trainer.evaluate(test_loader)
-print(f"✓ [TEST] Metrics: Loss={test_metrics.get('loss', 'N/A'):.4f}")
-print(f"✓ Linear bridge training completed")
-'''
-        
-        # Create ablation script in workspace root
-        workspace_root = Path(__file__).parent.parent
-        ablation_script = workspace_root / "scripts" / "_ablation_no_bridge.py"
-        ablation_script.write_text(script_content)
-
-        try:
-            # Run from workspace root so imports work correctly
-            result = subprocess.run(
-                ["python", "scripts/_ablation_no_bridge.py"],
-                cwd=workspace_root,
-                check=True
-            )
-            exp.status = "completed"
-            ablation_script.unlink()
-            print_success(f"{exp.name} completed ({exp.duration:.1f}m)")
-            return True
-        except Exception as e:
-            exp.status = "failed"
-            print_error(f"{exp.name} failed: {e}")
-            ablation_script.unlink(missing_ok=True)
-            return False
-        finally:
-            exp.end_time = time.time()
 
     def run(self, experiment_ids: str = None, rerun_ids: str = None, resume: bool = True):
         """Run selected experiments"""

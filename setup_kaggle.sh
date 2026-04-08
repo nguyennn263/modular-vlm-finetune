@@ -38,6 +38,10 @@ print_error() {
     echo -e "${RED}✗ $1${NC}"
 }
 
+print_warning() {
+    echo -e "${YELLOW}⚠ $1${NC}"
+}
+
 # Check if running on Kaggle
 check_kaggle() {
     if [ -d "/kaggle/input" ]; then

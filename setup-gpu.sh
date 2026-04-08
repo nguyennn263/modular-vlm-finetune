@@ -113,7 +113,7 @@ setup_venv() {
     uv sync --quiet
     
     print_success "Dependencies installed successfully"
-
+}
 
 # Create project directories
 create_dirs() {

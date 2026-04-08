@@ -139,16 +139,13 @@ create_dirs() {
 check_gpu() {
     print_header "GPU/CUDA Status"
     
-    # Source venv
-    source "$VENV_DIR/bin/activate"
-    
-    if python -c "import torch" 2>/dev/null; then
-        cuda_available=$(python -c "import torch; print(torch.cuda.is_available())")
+    if "$VENV_DIR/bin/python" -c "import torch" 2>/dev/null; then
+        cuda_available=$("$VENV_DIR/bin/python" -c "import torch; print(torch.cuda.is_available())")
         
         if [ "$cuda_available" = "True" ]; then
-            gpu_count=$(python -c "import torch; print(torch.cuda.device_count())")
-            gpu_name=$(python -c "import torch; print(torch.cuda.get_device_name(0))" 2>/dev/null)
-            cuda_version=$(python -c "import torch; print(torch.version.cuda)")
+            gpu_count=$("$VENV_DIR/bin/python" -c "import torch; print(torch.cuda.device_count())")
+            gpu_name=$("$VENV_DIR/bin/python" -c "import torch; print(torch.cuda.get_device_name(0))" 2>/dev/null)
+            cuda_version=$("$VENV_DIR/bin/python" -c "import torch; print(torch.version.cuda)")
             
             print_success "CUDA is available"
             print_success "CUDA Version: $cuda_version"
@@ -156,7 +153,7 @@ check_gpu() {
             print_success "GPU name: $gpu_name"
             
             # Show GPU memory
-            gpu_memory=$(python -c "import torch; print(f'{torch.cuda.get_device_properties(0).total_memory / 1024**3:.1f} GB')" 2>/dev/null)
+            gpu_memory=$("$VENV_DIR/bin/python" -c "import torch; print(f'{torch.cuda.get_device_properties(0).total_memory / 1024**3:.1f} GB')" 2>/dev/null)
             print_success "GPU Memory: $gpu_memory"
         else
             print_info "✗ CUDA not available - training will use CPU (slower)"
@@ -171,16 +168,14 @@ check_gpu() {
 check_transformers() {
     print_header "Transformers Version Check"
     
-    source "$VENV_DIR/bin/activate"
-    
-    transformers_version=$(python -c "import transformers; print(transformers.__version__)" 2>/dev/null)
+    transformers_version=$("$VENV_DIR/bin/python" -c "import transformers; print(transformers.__version__)" 2>/dev/null)
     
     if [ "$transformers_version" = "4.38.2" ]; then
         print_success "Transformers version: $transformers_version (CORRECT)"
     else
         print_error "Transformers version: $transformers_version (should be 4.38.2)"
         print_info "Fixing transformers version..."
-        pip install transformers==4.38.2 --upgrade --quiet
+        uv pip install transformers==4.38.2 --upgrade --quiet
         print_success "Transformers downgraded to 4.38.2"
     fi
 }
@@ -188,8 +183,6 @@ check_transformers() {
 # Test installation
 test_installation() {
     print_header "Testing Installation"
-    
-    source "$VENV_DIR/bin/activate"
     
     test_script='
 import sys
@@ -219,7 +212,7 @@ for d in required:
 print()
 '
     
-    if python -c "$test_script"; then
+    if "$VENV_DIR/bin/python" -c "$test_script"; then
         print_success "All tests passed"
     else
         print_error "Some tests failed"
@@ -231,12 +224,10 @@ print()
 download_data() {
     print_header "Downloading Dataset"
     
-    source "$VENV_DIR/bin/activate"
-    
     # Check if kagglehub is available
-    if ! python -c "import kagglehub" 2>/dev/null; then
-        print_error "kagglehub not installed. Attempting to install..."
-        pip install --quiet kagglehub
+    if ! "$VENV_DIR/bin/python" -c "import kagglehub" 2>/dev/null; then
+        print_info "kagglehub not installed. Installing..."
+        uv pip install --quiet kagglehub
     fi
     
     # Check if data already exists
@@ -249,11 +240,11 @@ download_data() {
     print_info "Downloading dataset from Kaggle..."
     print_command "python -m src.data.download_data"
     
-    if python -m src.data.download_data; then
+    if "$VENV_DIR/bin/python" -m src.data.download_data; then
         print_success "Dataset downloaded successfully"
     else
         print_error "Failed to download dataset"
-        print_info "You can download manually later by running: python -m src.data.download_data"
+        print_info "You can download manually later by running: source activate.sh && python -m src.data.download_data"
         print_info "Or download from: https://www.kaggle.com/datasets/vintern"
         return 1
     fi
@@ -327,7 +318,7 @@ main() {
     check_transformers
     
     # Step 8: Test installation
-    cd "$PROJECT_DIR"
+    cd "$PROJECT_DIR" || exit 1
     test_installation
     
     # Step 9: Create activation script

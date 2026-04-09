@@ -707,22 +707,44 @@ class BridgeTrainer:
                                     # Generate answer - custom inference with bridge
                                     with torch.no_grad():
                                         # Get vision embeddings via bridge (respects training)
-                                        # pixel_values shape: [num_patches, 3, 448, 448] - add batch dim but keep patches
-                                        # Reshape to [num_patches*3, 448, 448] then [num_patches*3, 448, 448] or process patches individually
-                                        # For now, process the first patch only to get embeddings
+                                        # pixel_values shape: [num_patches, 3, 448, 448] - process first patch only
                                         if pixel_values.dim() == 4:
-                                            # Take first patch for single-sample inference
                                             pixel_values_input = pixel_values[0:1, :, :, :]  # [1, 3, 448, 448]
                                         else:
                                             pixel_values_input = pixel_values.unsqueeze(0)
                                         vision_output = self.model.vision_model(pixel_values_input)
-                                        if hasattr(vision_output, 'last_hidden_state'):
-                                            vision_embeddings = vision_output.last_hidden_state
-                                        else:
-                                            vision_embeddings = vision_output.pooler_output.unsqueeze(1)
                                         
-                                        # Apply bridge module
-                                        vision_embeddings = vision_embeddings.mean(dim=1) if vision_embeddings.dim() == 3 else vision_embeddings
+                                        # Extract tensor from BaseModelOutputWithPooling using same logic as forward_pass
+                                        bridge_type = getattr(self.model, 'bridge_type', 'unknown')
+                                        if hasattr(vision_output, 'last_hidden_state'):
+                                            last_hidden = vision_output.last_hidden_state
+                                            pooler = vision_output.pooler_output if hasattr(vision_output, 'pooler_output') else None
+                                        elif hasattr(vision_output, 'pooler_output'):
+                                            last_hidden = None
+                                            pooler = vision_output.pooler_output
+                                        else:
+                                            last_hidden = vision_output if isinstance(vision_output, torch.Tensor) else None
+                                            pooler = None
+                                        
+                                        # Decide which to use based on bridge type
+                                        if bridge_type in ['linear_bridge', 'better_mlp', 'multi_token']:
+                                            if pooler is not None:
+                                                vision_embeddings = pooler
+                                            elif last_hidden is not None:
+                                                vision_embeddings = last_hidden[:, 0, :]
+                                            else:
+                                                raise ValueError(f"Cannot extract vision embeddings for {bridge_type}")
+                                        else:
+                                            if last_hidden is not None and last_hidden.dim() == 3:
+                                                vision_embeddings = last_hidden
+                                            elif last_hidden is not None and last_hidden.dim() == 2:
+                                                vision_embeddings = last_hidden.unsqueeze(1)
+                                            elif pooler is not None:
+                                                vision_embeddings = pooler.unsqueeze(1)
+                                            else:
+                                                raise ValueError(f"Cannot extract vision embeddings for {bridge_type}")
+                                        
+                                        vision_embeddings = vision_embeddings.detach()
                                         bridged_embeddings = self.model.bridge(vision_embeddings)
                                         if bridged_embeddings.dim() == 2:
                                             bridged_embeddings = bridged_embeddings.unsqueeze(1)
@@ -1017,18 +1039,46 @@ class BridgeTrainer:
                         # Get vision embeddings
                         # pixel_values shape: [num_patches, 3, 448, 448] - process first patch for inference
                         if pixel_values.dim() == 4:
-                            # Take first patch only for single-sample inference
                             pixel_values_input = pixel_values[0:1, :, :, :]  # [1, 3, 448, 448]
                         else:
                             pixel_values_input = pixel_values.unsqueeze(0)
-                        vision_embeddings = self.model.vision_model(pixel_values_input)
+                        vision_output = self.model.vision_model(pixel_values_input)
+                        
+                        # Extract tensor from BaseModelOutputWithPooling using same logic as forward_pass
+                        bridge_type = getattr(self.model, 'bridge_type', 'unknown')
+                        if hasattr(vision_output, 'last_hidden_state'):
+                            last_hidden = vision_output.last_hidden_state
+                            pooler = vision_output.pooler_output if hasattr(vision_output, 'pooler_output') else None
+                        elif hasattr(vision_output, 'pooler_output'):
+                            last_hidden = None
+                            pooler = vision_output.pooler_output
+                        else:
+                            last_hidden = vision_output if isinstance(vision_output, torch.Tensor) else None
+                            pooler = None
+                        
+                        # Decide which to use based on bridge type
+                        if bridge_type in ['linear_bridge', 'better_mlp', 'multi_token']:
+                            if pooler is not None:
+                                vision_embeddings = pooler
+                            elif last_hidden is not None:
+                                vision_embeddings = last_hidden[:, 0, :]
+                            else:
+                                raise ValueError(f"Cannot extract vision embeddings for {bridge_type}")
+                        else:
+                            if last_hidden is not None and last_hidden.dim() == 3:
+                                vision_embeddings = last_hidden
+                            elif last_hidden is not None and last_hidden.dim() == 2:
+                                vision_embeddings = last_hidden.unsqueeze(1)
+                            elif pooler is not None:
+                                vision_embeddings = pooler.unsqueeze(1)
+                            else:
+                                raise ValueError(f"Cannot extract vision embeddings for {bridge_type}")
+                        
+                        vision_embeddings = vision_embeddings.detach()
                         
                         # Apply bridge
-                        if self.model.bridge_type in ['multi_token', 'attention', 'mini_qformer', 'qformer']:
-                            bridge_output = self.model.bridge(vision_embeddings)
-                        else:
-                            vision_pool = vision_embeddings.mean(dim=1)
-                            bridge_output = self.model.bridge(vision_pool)
+                        bridge_output = self.model.bridge(vision_embeddings)
+                        if bridge_output.dim() == 2:
                             bridge_output = bridge_output.unsqueeze(1)
                         
                         # Get text embeddings

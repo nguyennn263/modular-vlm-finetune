@@ -707,7 +707,15 @@ class BridgeTrainer:
                                     # Generate answer - custom inference with bridge
                                     with torch.no_grad():
                                         # Get vision embeddings via bridge (respects training)
-                                        vision_output = self.model.vision_model(pixel_values)
+                                        # pixel_values shape: [num_patches, 3, 448, 448] - add batch dim but keep patches
+                                        # Reshape to [num_patches*3, 448, 448] then [num_patches*3, 448, 448] or process patches individually
+                                        # For now, process the first patch only to get embeddings
+                                        if pixel_values.dim() == 4:
+                                            # Take first patch for single-sample inference
+                                            pixel_values_input = pixel_values[0:1, :, :, :]  # [1, 3, 448, 448]
+                                        else:
+                                            pixel_values_input = pixel_values.unsqueeze(0)
+                                        vision_output = self.model.vision_model(pixel_values_input)
                                         if hasattr(vision_output, 'last_hidden_state'):
                                             vision_embeddings = vision_output.last_hidden_state
                                         else:
@@ -1007,7 +1015,13 @@ class BridgeTrainer:
                     # Get bridge model's inference output
                     with torch.no_grad():
                         # Get vision embeddings
-                        vision_embeddings = self.model.vision_model(pixel_values.unsqueeze(0))
+                        # pixel_values shape: [num_patches, 3, 448, 448] - process first patch for inference
+                        if pixel_values.dim() == 4:
+                            # Take first patch only for single-sample inference
+                            pixel_values_input = pixel_values[0:1, :, :, :]  # [1, 3, 448, 448]
+                        else:
+                            pixel_values_input = pixel_values.unsqueeze(0)
+                        vision_embeddings = self.model.vision_model(pixel_values_input)
                         
                         # Apply bridge
                         if self.model.bridge_type in ['multi_token', 'attention', 'mini_qformer', 'qformer']:

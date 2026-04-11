@@ -660,6 +660,22 @@ class BridgeTrainer:
             # Get baseline (frozen) and bridge embeddings via dedicated method
             base_embeddings, bridge_embeddings = self.model.get_base_and_bridge_embeddings(pixel_values)
             
+            # Handle shape mismatch: multi-token bridges may output multiple tokens
+            # Pool them to compare with baseline (single token)
+            if bridge_embeddings.dim() == 4 and bridge_embeddings.shape[2] > 1:
+                # Multi-token bridge: (B, 1, num_tokens, 896) → pool to (B, 1, 896)
+                bridge_embeddings = bridge_embeddings.mean(dim=2)
+            elif bridge_embeddings.dim() == 4:
+                # Already in right shape, just squeeze
+                bridge_embeddings = bridge_embeddings.squeeze(2)
+            
+            # Ensure both are (B, 1, 896) for comparison
+            if bridge_embeddings.shape != base_embeddings.shape:
+                # Fallback: use only first token or pool as needed
+                if bridge_embeddings.numel() > base_embeddings.numel():
+                    # Bridge has more tokens, pool it
+                    bridge_embeddings = bridge_embeddings.view(bridge_embeddings.shape[0], bridge_embeddings.shape[1], -1).mean(dim=2, keepdim=True)
+            
             # MSE loss: keep bridge embeddings close to baseline distribution
             # This forces the bridge to work within the manifold the LLM understands
             distill_loss = F.mse_loss(bridge_embeddings, base_embeddings, reduction='mean')

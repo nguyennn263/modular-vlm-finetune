@@ -194,6 +194,8 @@ class BridgeTrainer:
         model_dtype = next(self.model.vision_model.parameters()).dtype
         if hasattr(self.model, 'bridge'):
             self.model.bridge = self.model.bridge.to(dtype=model_dtype)
+        if hasattr(self.model, 'baseline_bridge'):
+            self.model.baseline_bridge = self.model.baseline_bridge.to(dtype=model_dtype)
         
         # Disable gradient checkpointing on frozen models to eliminate warnings
         if hasattr(self.model.vision_model, 'gradient_checkpointing_disable'):

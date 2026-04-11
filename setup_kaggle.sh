@@ -225,7 +225,7 @@ show_usage() {
     echo "  train, val = provider.get_train_val_split()"
     echo ""
     echo "Running Experiments:"
-    echo "  python scripts/exp1_better_mlp.py"
+    echo "  python scripts/exp1_residual_bridge.py"
     echo "  python scripts/exp2_multi_token.py"
     echo "  python scripts/training_runner.py"
     echo ""

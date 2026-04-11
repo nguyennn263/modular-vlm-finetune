@@ -48,12 +48,14 @@ class AblationExperiment:
         
     def _get_script_path(self) -> str:
         script_map = {
-            "better_mlp": "scripts/exp1_better_mlp.py",
+            "residual": "scripts/exp1_residual_bridge.py",
+            "better_mlp": "scripts/exp1_residual_bridge.py",  # Backward compat
             "multi_token": "scripts/exp2_multi_token.py",
             "attention_bridge": "scripts/exp3_attention_bridge.py",
             "mini_qformer": "scripts/exp4_mini_qformer.py",
             "qformer": "scripts/exp5_qformer.py",
-            "linear_bridge": "scripts/exp6_linear.py"
+            "gated_fusion": "scripts/exp6_gated_fusion.py",
+            "linear_bridge": "scripts/exp6_gated_fusion.py"  # Backward compat
         }
         return script_map.get(self.bridge_type)
 

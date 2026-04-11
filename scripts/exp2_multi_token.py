@@ -1,14 +1,17 @@
 """
-Experiment 2: MultiTokenMLP
+Experiment 2: Multi-Token Bridge (Multiple View Tokens)
 
 Architecture:
-- Linear(4096 -> 896*8)
-- Reshape to (B, 8, 896)
+- Baseline: Linear(1024 → 896) generates anchor token
+- Improvement: Linear(1024 → 896*(k-1)) generates additional tokens
+- Output: [baseline_token, improvement_tokens_1, ..., improvement_tokens_(k-1)]
+  Shape: (B, k, 896)
 
 Why:
 - Single token creates information bottleneck
-- Multiple tokens increase representation capacity
-- Each token can specialize in different visual aspects
+- Multiple tokens capture different visual aspects
+- Baseline anchors alignment, improvements add capacity
+- LLM process richer representation
 """
 
 import argparse
@@ -38,7 +41,7 @@ class Exp2Config(ExperimentConfig):
 
 
 class Experiment2(BaseExperiment):
-    """MultiTokenMLP bridge experiment."""
+    """Multi-Token bridge experiment."""
     
     def __init__(self, config: Exp2Config):
         super().__init__(config)
@@ -46,8 +49,8 @@ class Experiment2(BaseExperiment):
         self.bridge_model = None
     
     def create_model(self) -> torch.nn.Module:
-        """Create MultiTokenMLP bridge model."""
-        print("Creating MultiTokenMLP bridge (8 tokens)...")
+        """Create Multi-Token bridge model."""
+        print("Creating Multi-Token Bridge (8 tokens with baseline anchor)...")
         self.bridge_model = create_finetune_model(
             self.model,
             bridge_type=self.config.bridge_type,
@@ -77,6 +80,7 @@ class Experiment2(BaseExperiment):
             config
         )
         trainer.train()
+
 
 
 def main():

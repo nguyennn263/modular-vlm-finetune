@@ -1,17 +1,18 @@
 """
-Experiment 1: BetterMLP with Skip Connection
+Experiment 6: Gated Fusion Bridge (Adaptive Blending)
 
 Architecture:
-- LayerNorm(4096)
-- Linear(4096 → 2048) + GELU
-- Linear(2048 → 896)
-- Skip: Linear(4096 → 896)
-- Output = main + skip
+- Baseline: Linear(1024 → 896)
+- Improvement: LayerNorm → Linear(1024 → 2048) → GELU → Linear(2048 → 896)
+- Gate: sigmoid(Linear(1024 → 896)) - learned per-element
+- Output: baseline + gate * improvement
 
 Why:
-- LayerNorm stabilizes large vision features
-- Bottleneck reduces computational cost
-- Skip connections improve gradient flow
+- Simple residual can push baseline out of optimal range
+- Gating learns when to trust baseline vs improvement
+- High gate = apply improvement, Low gate = keep baseline
+- More stable blending prevents saturation
+- Prevents catastrophic forgetting of baseline alignment
 """
 
 import argparse
@@ -20,18 +21,16 @@ from src.training import create_finetune_model, BridgeTrainer, TrainConfig
 from scripts.base_experiment import BaseExperiment, ExperimentConfig, is_kaggle
 
 
-class Exp1Config(ExperimentConfig):
-    """Experiment 1 configuration."""
+class Exp6Config(ExperimentConfig):
+    """Experiment 6 configuration."""
     
     base_model_name = "5CD-AI/Vintern-1B-v3_5"
     torch_dtype = torch.bfloat16
     use_flash_attn = False
     
-    # Bridge config
-    bridge_type = "better_mlp"
+    bridge_type = "gated_fusion"
     bridge_config = {}
     
-    # Training
     num_epochs = 10
     batch_size = 2  # Memory-optimized for 14GB GPU
     gradient_accumulation_steps = 4  # Effective batch size = 2 * 4 = 8
@@ -39,20 +38,20 @@ class Exp1Config(ExperimentConfig):
     eval_steps = 500
     save_steps = 500
     
-    output_dir = "checkpoints/exp1_better_mlp"
+    output_dir = "checkpoints/exp6_gated_fusion"
 
 
-class Experiment1(BaseExperiment):
-    """BetterMLP bridge experiment."""
+class Experiment6(BaseExperiment):
+    """Gated Fusion bridge experiment."""
     
-    def __init__(self, config: Exp1Config):
+    def __init__(self, config: Exp6Config):
         super().__init__(config)
         self.config = config
         self.bridge_model = None
     
     def create_model(self) -> torch.nn.Module:
-        """Create BetterMLP bridge model."""
-        print("Creating BetterMLP bridge...")
+        """Create Gated Fusion bridge model."""
+        print("Creating Gated Fusion Bridge (adaptive blending with learned gate)...")
         self.bridge_model = create_finetune_model(
             self.model,
             bridge_type=self.config.bridge_type,
@@ -85,8 +84,8 @@ class Experiment1(BaseExperiment):
 
 
 def main():
-    """Run Experiment 1."""
-    parser = argparse.ArgumentParser(description="Run Experiment 1: BetterMLP")
+    """Run Experiment 6."""
+    parser = argparse.ArgumentParser(description="Run Experiment 6: Linear Bridge (Minimal Baseline)")
     parser.add_argument("--max-samples", type=int, default=None, help="Max samples to use (e.g., 100 for testing)")
     args = parser.parse_args()
     
@@ -95,11 +94,10 @@ def main():
         args.max_samples = 100
         print("🔍 Kaggle detected → Auto-limit to 100 samples")
     
-    config = Exp1Config()
-    experiment = Experiment1(config)
+    config = Exp6Config()
+    experiment = Experiment6(config)
     experiment.run(max_samples=args.max_samples)
 
 
 if __name__ == "__main__":
     main()
-

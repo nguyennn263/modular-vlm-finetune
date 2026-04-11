@@ -3,9 +3,11 @@ Clean fine-tuning setup for Vision-Language models.
 
 Strategy:
 - Freeze Vision Model completely
-- Freeze Language Model completely  
+- Freeze Language Model completely
 - Train only the Bridge module
-- Bridge converts Vision embeddings (4096 dims) → LLM embeddings (896 dims)
+- Bridge IMPROVES the baseline projection, not replaces it
+- Baseline: Linear(1024 → 896)
+- Improvements: residual, multi-token, attention, gated, qformer
 """
 
 import torch
@@ -14,24 +16,49 @@ from typing import Optional, Literal
 
 from src.modeling.bridge_modules import (
     LinearBridge,
+    LinearBridgeBaseline,
+    ResidualBridge,
     BetterMLP,
     MultiTokenMLP,
     AttentionBridge,
+    TileAttentionBridge,
+    GatedFusionBridge,
     MiniQFormer,
     QFormer
 )
 
 
-BRIDGE_TYPE = Literal['linear_bridge', 'better_mlp', 'multi_token', 'attention', 'mini_qformer', 'qformer']
+BRIDGE_TYPE = Literal[
+    'linear_bridge',        # Baseline: simple residual
+    'residual',             # Explicit residual
+    'better_mlp',           # MLP with skip connection
+    'multi_token',          # Multiple tokens from baseline
+    'attention',            # Tile attention
+    'tile_attention',       # Alias for attention
+    'gated_fusion',         # Gated residual
+    'mini_qformer',         # 2-layer lightweight qformer
+    'qformer'               # 4-layer full qformer
+]
+
+
+# Bridge types that need full vision patches (not pooled)
+PATCH_BASED_BRIDGES = {'attention', 'tile_attention', 'mini_qformer', 'qformer'}
+
+# Bridge types that need text embeddings (for semantic filtering)
+TEXT_CONDITIONING_BRIDGES = {'qformer'}
 
 
 class VisionLanguageBridge(nn.Module):
     """
-    Unified wrapper for vision-language fine-tuning.
+    Unified wrapper for vision-language fine-tuning with IMPROVEMENT strategy.
+    
+    Philosophy:
+    - Baseline: simple linear projection (4096 → 896 or 1024 → 896)
+    - Add improvements on top via residual, attention, gating, etc.
+    - Never destroy the baseline alignment
     
     Freezes both vision_model and language_model.
-    Only trains the bridge module that converts:
-    Vision embeddings (4096 dims) → LLM embeddings (896 dims)
+    Only trains the bridge module.
     """
     
     def __init__(
@@ -52,7 +79,11 @@ class VisionLanguageBridge(nn.Module):
         # Create trainable bridge module
         self.bridge = self._create_bridge()
         
-        # Freeze both models
+        # Whether this bridge works with patches or pooled features
+        self.uses_patches = bridge_type in PATCH_BASED_BRIDGES
+        self.uses_text = bridge_type in TEXT_CONDITIONING_BRIDGES
+        
+        # Freeze both base models
         self._freeze_models()
     
     def _create_bridge(self) -> nn.Module:
@@ -65,16 +96,13 @@ class VisionLanguageBridge(nn.Module):
         hidden_dim = 896
         
         if self.bridge_type == 'linear_bridge':
-            return LinearBridge(
-                in_features=vision_dim,
-                out_features=hidden_dim
-            )
+            return LinearBridge(in_features=vision_dim, out_features=hidden_dim)
+        
+        elif self.bridge_type == 'residual':
+            return ResidualBridge(in_features=vision_dim, out_features=hidden_dim)
         
         elif self.bridge_type == 'better_mlp':
-            return BetterMLP(
-                in_features=vision_dim,
-                out_features=hidden_dim
-            )
+            return BetterMLP(in_features=vision_dim, out_features=hidden_dim)
         
         elif self.bridge_type == 'multi_token':
             return MultiTokenMLP(
@@ -83,13 +111,16 @@ class VisionLanguageBridge(nn.Module):
                 num_tokens=config.get('num_tokens', 8)
             )
         
-        elif self.bridge_type == 'attention':
+        elif self.bridge_type in ['attention', 'tile_attention']:
             return AttentionBridge(
                 vision_dim=vision_dim,
                 hidden_dim=hidden_dim,
                 num_tokens=config.get('num_tokens', 8),
                 num_heads=config.get('num_heads', 8)
             )
+        
+        elif self.bridge_type == 'gated_fusion':
+            return GatedFusionBridge(in_features=vision_dim, out_features=hidden_dim)
         
         elif self.bridge_type == 'mini_qformer':
             return MiniQFormer(
@@ -127,7 +158,7 @@ class VisionLanguageBridge(nn.Module):
         **kwargs
     ) -> torch.Tensor:
         """
-        Forward pass.
+        Forward pass with IMPROVEMENT strategy.
         
         Args:
             pixel_values: Vision input (B, C, H, W) or (B, num_tiles, C, H, W)
@@ -141,14 +172,26 @@ class VisionLanguageBridge(nn.Module):
         with torch.no_grad():
             vision_embeddings = self.vision_model(pixel_values)
         
-        # Apply bridge (converts to LLM embedding space)
-        if self.bridge_type in ['multi_token', 'attention', 'mini_qformer', 'qformer']:
+        # Apply bridge based on type
+        if self.uses_text and self.bridge_type == 'qformer':
+            # QFormer needs text embeddings
+            with torch.no_grad():
+                text_embeddings = self.language_model.model.embed_tokens(input_ids)
+            bridge_output = self.bridge(vision_embeddings, text_embeddings)
+            
+        elif self.uses_patches:
+            # Patch-based bridges (attention, mini_qformer, qformer)
             bridge_output = self.bridge(vision_embeddings)
-        else:  # better_mlp, linear_bridge
-            # Pool vision embeddings to single vector
+            
+        else:
+            # Pooled-based bridges (linear, residual, gated, etc)
             vision_pool = vision_embeddings.mean(dim=1)  # (B, 1024)
             bridge_output = self.bridge(vision_pool)  # (B, 896)
             bridge_output = bridge_output.unsqueeze(1)  # (B, 1, 896)
+        
+        # Ensure bridge_output is (B, num_vision_tokens, 896)
+        if len(bridge_output.shape) == 2:
+            bridge_output = bridge_output.unsqueeze(1)
         
         # Get text embeddings (B, seq_len, 896) [frozen]
         with torch.no_grad():

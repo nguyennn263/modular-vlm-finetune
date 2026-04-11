@@ -1,17 +1,17 @@
 """
-Experiment 3: AttentionBridge
+Experiment 3: Tile Attention Bridge (Patch Interactions)
 
 Architecture:
-- Project vision features: Linear(1024 -> 896)
-- Learnable queries: (8, 896)
-- Multi-head attention: queries attend to vision features
-- Output: (B, 8, 896)
+- Baseline: Linear projection on each patch
+- Improvement: Self-attention between patches for spatial awareness
+- Queries: learnable tokens attend to enhanced patches
+- Output: (B, 8, 896) with patch relationship modeling
 
 Why:
-- Attention enables dynamic selection of relevant visual features
-- Multiple heads capture different visual aspects independently
-- Learnable queries serve as "information slots"
-- Soft selection is differentiable and learns with task
+- Patches currently processed independently
+- Self-attention reveals relationships between visual regions
+- Learnable queries filter and aggregate spatial information
+- Learns which patches are important for the task
 """
 
 import argparse
@@ -27,7 +27,7 @@ class Exp3Config(ExperimentConfig):
     torch_dtype = torch.bfloat16
     use_flash_attn = False
     
-    bridge_type = "attention"
+    bridge_type = "tile_attention"
     bridge_config = {
         "num_tokens": 8,
         "num_heads": 8
@@ -40,11 +40,11 @@ class Exp3Config(ExperimentConfig):
     eval_steps = 500
     save_steps = 500
     
-    output_dir = "checkpoints/exp3_attention_bridge"
+    output_dir = "checkpoints/exp3_tile_attention"
 
 
 class Experiment3(BaseExperiment):
-    """AttentionBridge experiment."""
+    """Tile Attention bridge experiment."""
     
     def __init__(self, config: Exp3Config):
         super().__init__(config)
@@ -52,8 +52,8 @@ class Experiment3(BaseExperiment):
         self.bridge_model = None
     
     def create_model(self) -> torch.nn.Module:
-        """Create AttentionBridge model."""
-        print("Creating AttentionBridge (learnable queries + multi-head attention)...")
+        """Create Tile Attention bridge model."""
+        print("Creating Tile Attention Bridge (patch self-attention + cross-attention)...")
         self.bridge_model = create_finetune_model(
             self.model,
             bridge_type=self.config.bridge_type,

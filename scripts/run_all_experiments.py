@@ -2,11 +2,11 @@
 Run all 5 bridge experiments sequentially.
 
 This script trains all 5 bridge variants:
-1. Exp1: BetterMLP - Simple MLP with skip connection
-2. Exp2: MultiTokenMLP - Multiple output tokens
+1. Exp1: Residual Bridge - Baseline + improvement path with residual connection
+2. Exp2: MultiTokenMLP - Multiple output tokens (baseline + improvements)
 3. Exp3: AttentionBridge - Learnable queries + multi-head attention
-4. Exp4: MiniQFormer - 2 transformer layers
-5. Exp5: QFormer - 4 transformer layers (most powerful)
+4. Exp4: MiniQFormer - 2 transformer layers with baseline + improvement tokens
+5. Exp5: QFormer - 4 transformer layers with text-aware semantic filtering
 
 Usage:
     python scripts/run_all_experiments.py
@@ -19,7 +19,7 @@ import torch
 from pathlib import Path
 
 # Import experiment modules
-from exp1_better_mlp import main as exp1_main
+from exp1_residual_bridge import main as exp1_main
 from exp2_multi_token import main as exp2_main
 from exp3_attention_bridge import main as exp3_main
 from exp4_mini_qformer import main as exp4_main
@@ -30,7 +30,7 @@ def run_all_experiments():
     """Run all 5 experiments sequentially."""
     
     experiments = [
-        ("Exp1: BetterMLP", exp1_main),
+        ("Exp1: ResidualBridge", exp1_main),
         ("Exp2: MultiTokenMLP", exp2_main),
         ("Exp3: AttentionBridge", exp3_main),
         ("Exp4: MiniQFormer", exp4_main),

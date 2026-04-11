@@ -1,20 +1,21 @@
 """
-Experiment 4: MiniQFormer (2 Transformer Layers)
+Experiment 4: Lightweight Q-Former (Minimal Transformer)
 
 Architecture:
-- Learnable queries: (8, 896)
-- 2 Transformer layers with:
-  - Self-attention on queries
-  - Cross-attention (queries <-> vision)
-  - Feed-forward network
-  - Residual connections, layer normalization
-- Output: (B, 8, 896)
+- Baseline: Linear(1024 → 896) from pooled vision
+- Improvement:
+  * Project all patches: Linear(1024 → 896)
+  * Learnable queries: (7, 896) - 7 improvement tokens
+  * 2 Transformer layers for refinement
+  * Self-attention + Cross-attention + FFN
+- Output: (B, 8, 896) = [baseline_token, 7_improvement_tokens]
 
 Why:
-- Self-attention allows tokens to communicate and refine representations
-- Cross-attention enables vision-to-query information flow
-- 2 layers balance expressiveness vs computational cost
-- Skip connections improve optimization
+- Baseline ensures stable anchor
+- 2 layers = lightweight (not 4 like full QFormer)
+- Transformer allows tokens to reason together
+- Good balance: expressiveness vs speed
+- Only 2 layers prevent overfitting
 """
 
 import argparse
@@ -56,7 +57,7 @@ class Experiment4(BaseExperiment):
     
     def create_model(self) -> torch.nn.Module:
         """Create MiniQFormer bridge model."""
-        print("Creating MiniQFormer bridge (2 transformer layers)...")
+        print("Creating Lightweight Q-Former (2 transformer layers, +7 improvement tokens)...")
         self.bridge_model = create_finetune_model(
             self.model,
             bridge_type=self.config.bridge_type,

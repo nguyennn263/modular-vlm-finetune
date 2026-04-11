@@ -1,17 +1,16 @@
 """
-Experiment 6: Linear Bridge
+Experiment 1: Residual Bridge (Improvement over Baseline)
 
 Architecture:
-- Simplest baseline: Linear(1024 → 896)
-- Single learnable linear projection
-- No hidden layers, no activation functions
-- Minimal parameters for comparison
+- Baseline: Linear(1024 → 896)
+- Improvement: LayerNorm → Linear(1024 → 2048) → GELU → Linear(2048 → 896)
+- Output: baseline(x) + improvement(x)
 
 Why:
-- Establishes performance baseline
-- Shows importance of bridge complexity
-- Fastest training time
-- Useful for ablation study
+- Keeps baseline alignment intact
+- Learns "adjustment" not replacement
+- Improves upon MLP1 rather than destroying it
+- Stable training with residual connections
 """
 
 import argparse
@@ -20,15 +19,15 @@ from src.training import create_finetune_model, BridgeTrainer, TrainConfig
 from scripts.base_experiment import BaseExperiment, ExperimentConfig, is_kaggle
 
 
-class Exp6Config(ExperimentConfig):
-    """Experiment 6 configuration."""
+class Exp1Config(ExperimentConfig):
+    """Experiment 1 configuration."""
     
     base_model_name = "5CD-AI/Vintern-1B-v3_5"
     torch_dtype = torch.bfloat16
     use_flash_attn = False
     
-    # Bridge config
-    bridge_type = "linear_bridge"
+    # Bridge config - improved residual approach
+    bridge_type = "residual"
     bridge_config = {}
     
     # Training
@@ -39,20 +38,20 @@ class Exp6Config(ExperimentConfig):
     eval_steps = 500
     save_steps = 500
     
-    output_dir = "checkpoints/exp6_linear"
+    output_dir = "checkpoints/exp1_residual_bridge"
 
 
-class Experiment6(BaseExperiment):
-    """Linear bridge experiment (baseline)."""
+class Experiment1(BaseExperiment):
+    """Residual Bridge experiment."""
     
-    def __init__(self, config: Exp6Config):
+    def __init__(self, config: Exp1Config):
         super().__init__(config)
         self.config = config
         self.bridge_model = None
     
     def create_model(self) -> torch.nn.Module:
-        """Create Linear bridge model."""
-        print("Creating Linear bridge (baseline)...")
+        """Create Residual Bridge model."""
+        print("Creating Residual Bridge (improvement-based)...")
         self.bridge_model = create_finetune_model(
             self.model,
             bridge_type=self.config.bridge_type,
@@ -85,8 +84,8 @@ class Experiment6(BaseExperiment):
 
 
 def main():
-    """Run Experiment 6."""
-    parser = argparse.ArgumentParser(description="Run Experiment 6: Linear Bridge")
+    """Run Experiment 1."""
+    parser = argparse.ArgumentParser(description="Run Experiment 1: Residual Bridge")
     parser.add_argument("--max-samples", type=int, default=None, help="Max samples to use (e.g., 100 for testing)")
     args = parser.parse_args()
     
@@ -95,10 +94,11 @@ def main():
         args.max_samples = 100
         print("🔍 Kaggle detected → Auto-limit to 100 samples")
     
-    config = Exp6Config()
-    experiment = Experiment6(config)
+    config = Exp1Config()
+    experiment = Experiment1(config)
     experiment.run(max_samples=args.max_samples)
 
 
 if __name__ == "__main__":
     main()
+

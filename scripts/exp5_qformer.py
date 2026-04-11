@@ -1,21 +1,26 @@
 """
-Experiment 5: QFormer (Full 4-Layer Transformer)
+Experiment 5: Full Q-Former (Advanced Semantic Filtering)
 
 Architecture:
-- Based on BLIP-2 Q-Former
-- Learnable queries: (16, 896)
-- 4 Transformer layers with:
-  - Self-attention on queries
-  - Cross-attention (queries <-> vision)
-  - Feed-forward network
-  - Residual connections, layer normalization
-- Output: (B, 16, 896)
+- Baseline: Linear(1024 → 896) from pooled vision
+- Improvement:
+  * Project patches: Linear(1024 → 896)
+  * Learnable queries: (15, 896) - 15 improvement tokens
+  * 4 Q-Former layers with semantic filtering:
+    - Vision cross-attention: queries ↔ patches
+    - Question cross-attention: queries ↔ text
+    - Gating: adaptive fusion of vision vs text signals
+    - Self-attention: refine queries
+    - FFN: non-linear transformation
+- Output: (B, 16, 896) = [baseline_token, 15_improvement_tokens]
 
 Why:
-- Most expressive and powerful bridge design
-- 4 layers allow deep feature transformation
-- 16 queries provide better representation capacity
-- Q-Former architecture proven effective in BLIP-2
+- Baseline anchors to stable alignment
+- Vision cross-attn extracts visual features
+- Question cross-attn provides semantic context
+- Gating prevents over-reliance on one modality
+- 4 layers with full semantic awareness
+- Most expressive but still maintains baseline stability
 """
 
 import argparse
@@ -58,7 +63,7 @@ class Experiment5(BaseExperiment):
     
     def create_model(self) -> torch.nn.Module:
         """Create QFormer bridge model."""
-        print("Creating QFormer bridge (4 transformer layers, 16 queries)...")
+        print("Creating Full Q-Former (4 layers, vision+text fusion, +15 improvement tokens)...")
         self.bridge_model = create_finetune_model(
             self.model,
             bridge_type=self.config.bridge_type,

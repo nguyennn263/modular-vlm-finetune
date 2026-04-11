@@ -101,10 +101,10 @@ def test_trainer_initialization():
         ).eval().to(device)
         
         # Create fine-tune model
-        print("✓ Creating fine-tune model with better_mlp bridge...")
+        print("✓ Creating fine-tune model with residual bridge...")
         model = create_finetune_model(
             base_model,
-            bridge_type="better_mlp",
+            bridge_type="residual",
             bridge_config={}
         )
         
@@ -180,7 +180,7 @@ def test_evaluate_method():
         
         model = create_finetune_model(
             base_model,
-            bridge_type="better_mlp"
+            bridge_type="residual"
         )
         
         # Initialize trainer

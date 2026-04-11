@@ -43,10 +43,10 @@ language_model:
 
 # Bridge Module Configurations (TRAINABLE)
 bridge_modules:
-  # Exp 1: BetterMLP - Simple MLP with skip connection
-  better_mlp:
-    type: "better_mlp"
-    input_dim: 4096
+  # Exp 1: ResidualBridge - Improvement-based with residual connection
+  residual:
+    type: "residual"
+    input_dim: 1024
     output_dim: 896
     hidden_dim: 2048
     dropout: 0.1
@@ -56,31 +56,41 @@ bridge_modules:
   # Exp 2: MultiTokenMLP - Multiple output tokens
   multi_token:
     type: "multi_token"
-    input_dim: 4096
+    input_dim: 1024
     output_dim: 896
     num_tokens: 8
     parameters: ~3.6M
 
-  # Exp 3: AttentionBridge - Multi-head attention
-  attention:
-    type: "attention"
-    input_dim: 4096
+  # Exp 3: TileAttention - Self-attention over patches
+  tile_attention:
+    type: "tile_attention"
+    input_dim: 1024
     output_dim: 896
     num_heads: 8
     parameters: ~1.2M
 
-  # Exp 4: MiniQFormer - 2-layer transformer
+  # Exp 4: MiniQFormer - 2-layer lightweight transformer
   mini_qformer:
     type: "mini_qformer"
-    input_dim: 4096
+    input_dim: 1024
     output_dim: 896
     num_layers: 2
     parameters: ~2.4M
 
-  # Exp 5: QFormer - 4-layer transformer
+  # Exp 5: QFormer - 4-layer transformer with semantic filtering
   qformer:
     type: "qformer"
-    input_dim: 4096
+    input_dim: 1024
     output_dim: 896
     num_layers: 4
+    parameters: ~4.8M
+
+  # Exp 6: GatedFusion - Adaptive blending with learned gating
+  gated_fusion:
+    type: "gated_fusion"
+    input_dim: 1024
+    output_dim: 896
+    hidden_dim: 2048
+    dropout: 0.1
+    parameters: ~300K
     parameters: ~4.8M

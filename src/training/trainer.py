@@ -489,7 +489,7 @@ class BridgeTrainer:
         # Extract tensor from BaseModelOutputWithPooling
         # Different bridges need different input shapes:
         # - BetterMLP: pooled vector [batch, 1024]
-        # - Others (MultiTokenMLP, AttentionBridge, etc): full sequence [batch, num_patches, 1024]
+        # - Patch-based (TileAttention, MiniQFormer, QFormer): full sequence [batch, num_patches, 1024]
         bridge_type = getattr(self.model, 'bridge_type', 'unknown')
         
         # Extract vision features - debug what we have
@@ -506,7 +506,7 @@ class BridgeTrainer:
         # Decide which to use based on bridge type
         # Pooled-based bridges: residual, multi_token, gated_fusion (+ legacy names for compat)
         # Patch-based bridges: tile_attention, attention, mini_qformer, qformer
-        pooled_bridges = ['residual', 'better_mlp', 'linear_bridge', 'multi_token', 'gated_fusion']
+        pooled_bridges = ['residual', 'linear_bridge', 'multi_token', 'gated_fusion']
         if bridge_type in pooled_bridges:
             # Residual, MultiTokenMLP, GatedFusion expect single pooled vector [batch, 1024]
             # They expand to multiple tokens internally
@@ -544,7 +544,7 @@ class BridgeTrainer:
         # Validate shapes before passing to bridge
         # 2D bridges expect pooled vectors [batch, dim]
         # 3D bridges expect patch sequences [batch, num_patches, dim]
-        pooled_bridges_2d = ['residual', 'linear_bridge', 'better_mlp', 'multi_token', 'gated_fusion']
+        pooled_bridges_2d = ['residual', 'linear_bridge', 'multi_token', 'gated_fusion']
         patch_bridges_3d = ['tile_attention', 'mini_qformer', 'qformer']
         
         if bridge_type in pooled_bridges_2d:
@@ -738,7 +738,7 @@ class BridgeTrainer:
                                             pooler = None
                                         
                                         # Decide which to use based on bridge type
-                                        if bridge_type in ['linear_bridge', 'better_mlp', 'multi_token']:
+                                        if bridge_type in ['linear_bridge', '', 'multi_token']:
                                             if pooler is not None:
                                                 vision_embeddings = pooler
                                             elif last_hidden is not None:
@@ -1075,7 +1075,7 @@ class BridgeTrainer:
                         # Decide which to use based on bridge type
                         # Pooled-based bridges: residual, multi_token, gated_fusion (+ legacy names for compat)
                         # Patch-based bridges: tile_attention, attention, mini_qformer, qformer
-                        pooled_bridges = ['residual', 'better_mlp', 'linear_bridge', 'multi_token', 'gated_fusion']
+                        pooled_bridges = ['residual', 'linear_bridge', 'multi_token', 'gated_fusion']
                         if bridge_type in pooled_bridges:
                             if pooler is not None:
                                 vision_embeddings = pooler

@@ -1,12 +1,13 @@
 """
 Run all 5 bridge experiments sequentially.
 
-This script trains all 5 bridge variants:
+This script trains all 6 bridge variants:
 1. Exp1: Residual Bridge - Baseline + improvement path with residual connection
 2. Exp2: MultiTokenMLP - Multiple output tokens (baseline + improvements)
-3. Exp3: AttentionBridge - Learnable queries + multi-head attention
+3. Exp3: TileAttention - Learnable queries + multi-head attention over patches
 4. Exp4: MiniQFormer - 2 transformer layers with baseline + improvement tokens
 5. Exp5: QFormer - 4 transformer layers with text-aware semantic filtering
+6. Exp6: GatedFusion - Adaptive blending with learned gating
 
 Usage:
     python scripts/run_all_experiments.py
@@ -21,7 +22,7 @@ from pathlib import Path
 # Import experiment modules
 from exp1_residual_bridge import main as exp1_main
 from exp2_multi_token import main as exp2_main
-from exp3_attention_bridge import main as exp3_main
+from exp3_tile_attention import main as exp3_main
 from exp4_mini_qformer import main as exp4_main
 from exp5_qformer import main as exp5_main
 
@@ -32,7 +33,7 @@ def run_all_experiments():
     experiments = [
         ("Exp1: ResidualBridge", exp1_main),
         ("Exp2: MultiTokenMLP", exp2_main),
-        ("Exp3: AttentionBridge", exp3_main),
+        ("Exp3: TileAttention", exp3_main),
         ("Exp4: MiniQFormer", exp4_main),
         ("Exp5: QFormer", exp5_main),
     ]

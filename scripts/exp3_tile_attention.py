@@ -87,7 +87,7 @@ class Experiment3(BaseExperiment):
 
 def main():
     """Run Experiment 3."""
-    parser = argparse.ArgumentParser(description="Run Experiment 3: AttentionBridge")
+    parser = argparse.ArgumentParser(description="Run Experiment 3: Tile Attention Bridge")
     parser.add_argument("--max-samples", type=int, default=None, help="Max samples to use (e.g., 100 for testing)")
     args = parser.parse_args()
     

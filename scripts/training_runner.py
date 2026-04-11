@@ -49,13 +49,11 @@ class AblationExperiment:
     def _get_script_path(self) -> str:
         script_map = {
             "residual": "scripts/exp1_residual_bridge.py",
-            "better_mlp": "scripts/exp1_residual_bridge.py",  # Backward compat
             "multi_token": "scripts/exp2_multi_token.py",
-            "attention_bridge": "scripts/exp3_attention_bridge.py",
+            "tile_attention": "scripts/exp3_tile_attention.py",
             "mini_qformer": "scripts/exp4_mini_qformer.py",
             "qformer": "scripts/exp5_qformer.py",
             "gated_fusion": "scripts/exp6_gated_fusion.py",
-            "linear_bridge": "scripts/exp6_gated_fusion.py"  # Backward compat
         }
         return script_map.get(self.bridge_type)
 
@@ -110,9 +108,9 @@ class AblationStudy:
         train_cfg = self.config.get("training", {})
 
         exps.extend([
-            AblationExperiment("Exp 1: BetterMLP", "better_mlp"),
+            AblationExperiment("Exp 1: ResidualBridge", "residual"),
             AblationExperiment("Exp 2: MultiToken", "multi_token"),
-            AblationExperiment("Exp 3: AttentionBridge", "attention_bridge"),
+            AblationExperiment("Exp 3: TileAttention", "tile_attention"),
             AblationExperiment("Exp 4: MiniQFormer", "mini_qformer"),
             AblationExperiment("Exp 5: QFormer", "qformer"),
         ])

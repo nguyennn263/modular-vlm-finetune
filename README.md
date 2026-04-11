@@ -109,8 +109,8 @@ python scripts/exp1_residual_bridge.py
 # Exp 2: MultiTokenMLP (8 tokens)
 python scripts/exp2_multi_token.py
 
-# Exp 3: AttentionBridge (with attention pooling)
-python scripts/exp3_attention_bridge.py
+# Exp 3: TileAttention (with attention pooling)
+python scripts/exp3_tile_attention.py
 
 # Exp 4: MiniQFormer (2-layer transformer)
 python scripts/exp4_mini_qformer.py
@@ -152,7 +152,7 @@ Input (4096) → Linear(4096 → 896×8) → Reshape(1,8,896)
 + More parameters
 + Multiple tokens for richer representation
 
-#### AttentionBridge
+#### TileAttention
 ```
 Vision patches (num_patches, 1024)
     ↓
@@ -211,7 +211,7 @@ Step 3: Train other experiments
 
 ```
 python scripts/exp2_multi_token.py          # Multi-token
-python scripts/exp3_attention_bridge.py     # Tile attention
+python scripts/exp3_tile_attention.py     # Tile attention
 python scripts/exp4_mini_qformer.py         # Lightweight transformer
 python scripts/exp5_qformer.py              # Full transformer
 python scripts/exp6_gated_fusion.py         # Gated fusion
@@ -441,7 +441,7 @@ All results auto-save to `checkpoints/exp*/best_model.pt`
 ```bash
 python scripts/exp1_residual_bridge.py     # Residual + 2 FC
 python scripts/exp2_multi_token.py          # 8 token outputs
-python scripts/exp3_attention_bridge.py     # Self-attention
+python scripts/exp3_tile_attention.py     # Self-attention
 python scripts/exp4_mini_qformer.py         # Lightweight transformer
 python scripts/exp5_qformer.py              # Full transformer
 python scripts/exp6_gated_fusion.py         # Gated fusion
@@ -673,7 +673,7 @@ src/training/finetune_setup.py        # Model wrapper with freezing
 src/training/trainer.py                # Training loop and checkpointing
 scripts/exp1_residual_bridge.py       # Experiment 1 (residual bridge)
 scripts/exp2_multi_token.py            # Experiment 2 (multi-token)
-scripts/exp3_attention_bridge.py       # Experiment 3 (tile attention)
+scripts/exp3_tile_attention.py       # Experiment 3 (tile attention)
 scripts/exp4_mini_qformer.py           # Experiment 4 (mini QFormer)
 scripts/exp5_qformer.py                # Experiment 5 (full QFormer)
 scripts/exp6_gated_fusion.py           # Experiment 6 (gated fusion)

@@ -29,20 +29,18 @@ from src.modeling.bridge_modules import (
 
 
 BRIDGE_TYPE = Literal[
-    'linear_bridge',        # Baseline: simple residual
-    'residual',             # Explicit residual
-    'better_mlp',           # MLP with skip connection
-    'multi_token',          # Multiple tokens from baseline
-    'attention',            # Tile attention
-    'tile_attention',       # Alias for attention
-    'gated_fusion',         # Gated residual
-    'mini_qformer',         # 2-layer lightweight qformer
-    'qformer'               # 4-layer full qformer
+    'linear_bridge',        # Baseline: simple linear
+    'residual',             # Exp 1: Residual improvement
+    'multi_token',          # Exp 2: Multiple tokens from baseline
+    'tile_attention',       # Exp 3: Tile attention
+    'gated_fusion',         # Exp 6: Gated residual
+    'mini_qformer',         # Exp 4: 2-layer lightweight qformer
+    'qformer',              # Exp 5: 4-layer full qformer
 ]
 
 
 # Bridge types that need full vision patches (not pooled)
-PATCH_BASED_BRIDGES = {'attention', 'tile_attention', 'mini_qformer', 'qformer'}
+PATCH_BASED_BRIDGES = {'tile_attention', 'mini_qformer', 'qformer', 'attention'}
 
 # Bridge types that need text embeddings (for semantic filtering)
 TEXT_CONDITIONING_BRIDGES = {'qformer'}
@@ -101,8 +99,8 @@ class VisionLanguageBridge(nn.Module):
         elif self.bridge_type == 'residual':
             return ResidualBridge(in_features=vision_dim, out_features=hidden_dim)
         
-        elif self.bridge_type == 'better_mlp':
-            return BetterMLP(in_features=vision_dim, out_features=hidden_dim)
+        elif self.bridge_type == 'residual':
+            return ResidualBridge(in_features=vision_dim, out_features=hidden_dim)
         
         elif self.bridge_type == 'multi_token':
             return MultiTokenMLP(
@@ -111,7 +109,8 @@ class VisionLanguageBridge(nn.Module):
                 num_tokens=config.get('num_tokens', 8)
             )
         
-        elif self.bridge_type in ['attention', 'tile_attention']:
+        elif self.bridge_type == 'tile_attention':
+            # tile_attention is the new name, attention is old alias
             return AttentionBridge(
                 vision_dim=vision_dim,
                 hidden_dim=hidden_dim,

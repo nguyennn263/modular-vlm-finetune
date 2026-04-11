@@ -16,7 +16,7 @@ class ExpConfig:
     
     # Model
     base_model_name: str = "5CD-AI/Vintern-1B-v3_5"
-    bridge_type: str = "better_mlp"
+    bridge_type: str = "residual"
     bridge_config: dict = None
     
     # Training

@@ -149,6 +149,11 @@ class TrainConfig:
     patience: int = 5
     min_delta: float = 0.001
     
+    # Distillation loss (critical for preventing embedding distribution collapse)
+    use_distillation: bool = True
+    distillation_loss_weight: float = 0.5  # λ for MSE loss: total = CE + λ*MSE
+    warm_start: bool = True  # Initialize bridge from baseline weights
+    
     # Checkpoint
     resume_from: Optional[str] = None
     save_best: bool = True
@@ -268,6 +273,10 @@ class BridgeTrainer:
         
         # Setup optimization
         self._setup_optimization()
+        
+        # Warm start: initialize bridge from baseline if enabled
+        if hasattr(self.model, 'warm_start_from_baseline') and self.config.warm_start:
+            self.model.warm_start_from_baseline()
         
         # Training state
         self.global_step = 0
@@ -620,7 +629,7 @@ class BridgeTrainer:
         
         logits = outputs.logits
         
-        # Compute loss (next-token prediction) on text tokens only
+        # Compute primary loss (next-token prediction) on text tokens only
         # logits has shape [batch_size, num_vision_tokens + text_len, vocab_size]
         # Skip all vision tokens and use only text logits
         text_logits = logits[:, num_vision_tokens:, :]  # [batch_size, text_len, vocab_size]
@@ -629,13 +638,36 @@ class BridgeTrainer:
         shift_logits = text_logits[..., :-1, :].contiguous()  # [batch_size, text_len-1, vocab_size]
         shift_labels = input_ids[..., 1:].contiguous()  # [batch_size, text_len-1]
         
-        loss = F.cross_entropy(
+        ce_loss = F.cross_entropy(
             shift_logits.view(-1, shift_logits.shape[-1]),
             shift_labels.view(-1),
             reduction='mean'
         )
         
-        return loss
+        # CRITICAL: Add distillation loss to prevent embedding collapse
+        # Without this, model "hacks" the loss by producing out-of-distribution embeddings
+        total_loss = ce_loss
+        
+        if self.config.use_distillation:
+            # Get baseline (frozen) and bridge embeddings via dedicated method
+            base_embeddings, bridge_embeddings = self.model.get_base_and_bridge_embeddings(pixel_values)
+            
+            # MSE loss: keep bridge embeddings close to baseline distribution
+            # This forces the bridge to work within the manifold the LLM understands
+            distill_loss = F.mse_loss(bridge_embeddings, base_embeddings, reduction='mean')
+            
+            # Combine losses: CE + λ * MSE
+            # λ typically 0.1-1.0 (starts with 0.5)
+            # As training progresses, can reduce λ to allow more deviation
+            total_loss = ce_loss + self.config.distillation_loss_weight * distill_loss
+            
+            # Log distillation metrics periodically
+            if self.global_step % 500 == 0:
+                logger.info(f"[Step {self.global_step}] CE_loss={ce_loss.item():.4f}, "
+                           f"Distill_loss={distill_loss.item():.4f}, "
+                           f"λ={self.config.distillation_loss_weight}")
+        
+        return total_loss
     
     def train_epoch(self, epoch: int) -> Tuple[float, bool]:
         """

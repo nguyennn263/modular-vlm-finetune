@@ -26,6 +26,7 @@ from src.modeling.bridge_modules import (
     MiniQFormer,
     QFormer
 )
+from src.middleware.logger import data_loader_logger as logger
 
 
 BRIDGE_TYPE = Literal[
@@ -63,12 +64,16 @@ class VisionLanguageBridge(nn.Module):
         self,
         base_model,
         bridge_type: BRIDGE_TYPE,
-        bridge_config: Optional[dict] = None
+        bridge_config: Optional[dict] = None,
+        use_distillation: bool = True,
+        alpha_scaling: float = 0.1  # Scale down residual to stay near base manifold
     ):
         super().__init__()
         
         self.bridge_type = bridge_type
         self.bridge_config = bridge_config or {}
+        self.use_distillation = use_distillation
+        self.alpha_scaling = alpha_scaling
         
         # Reference original models (will be frozen)
         self.vision_model = base_model.vision_model
@@ -77,9 +82,17 @@ class VisionLanguageBridge(nn.Module):
         # Create trainable bridge module
         self.bridge = self._create_bridge()
         
+        # Create baseline bridge for distillation (frozen after init)
+        self.baseline_bridge = LinearBridgeBaseline(in_features=1024, out_features=896)
+        self.baseline_bridge.requires_grad_(False)  # Frozen reference
+        
         # Whether this bridge works with patches or pooled features
         self.uses_patches = bridge_type in PATCH_BASED_BRIDGES
         self.uses_text = bridge_type in TEXT_CONDITIONING_BRIDGES
+        
+        # For ResidualBridge: learnable alpha to scale residual
+        if self.bridge_type == 'residual':
+            self.alpha = nn.Parameter(torch.tensor(alpha_scaling, dtype=torch.float32))
         
         # Freeze both base models
         self._freeze_models()
@@ -149,6 +162,46 @@ class VisionLanguageBridge(nn.Module):
         for param in self.language_model.parameters():
             param.requires_grad = False
     
+    def warm_start_from_baseline(self):
+        """Initialize bridge from baseline weights instead of random.
+        
+        Critical for preventing embeddings from going out-of-distribution!
+        """
+        if hasattr(self.bridge, 'fc'):
+            # For linear/residual bridges, copy baseline weights
+            self.bridge.fc.weight.data = self.baseline_bridge.fc.weight.data.clone()
+            self.bridge.fc.bias.data = self.baseline_bridge.fc.bias.data.clone()
+        logger.info("Bridge initialized from baseline weights (warm start)")
+    
+    def get_base_and_bridge_embeddings(self, pixel_values: torch.Tensor):
+        """Get both baseline and bridge embeddings for distillation.
+        
+        Returns:
+            base_embeddings: (B, 896) or (B, num_tokens, 896) - reference embedding
+            bridge_embeddings: (B, 896) or (B, num_tokens, 896) - trained embedding
+        """
+        # Get vision embeddings
+        vision_embeddings = self.vision_model(pixel_values)
+        
+        # Pool for non-patch bridges
+        if not self.uses_patches:
+            vision_pool = vision_embeddings.mean(dim=1)  # (B, 1024)
+        else:
+            vision_pool = vision_embeddings  # (B, num_patches, 1024)
+        
+        # Get baseline embedding (frozen reference)
+        if self.uses_patches:
+            base_emb = self.baseline_bridge(vision_pool)  # (B, num_patches, 896)
+        else:
+            base_emb = self.baseline_bridge(vision_pool).unsqueeze(1)  # (B, 1, 896)
+        
+        # Get bridge embedding
+        bridge_emb = self.bridge(vision_pool)  # Same shape as base_emb
+        if not self.uses_patches:
+            bridge_emb = bridge_emb.unsqueeze(1)  # (B, 1, 896)
+        
+        return base_emb.detach(), bridge_emb
+    
     def forward(
         self,
         pixel_values: torch.Tensor,
@@ -187,6 +240,14 @@ class VisionLanguageBridge(nn.Module):
             vision_pool = vision_embeddings.mean(dim=1)  # (B, 1024)
             bridge_output = self.bridge(vision_pool)  # (B, 896)
             bridge_output = bridge_output.unsqueeze(1)  # (B, 1, 896)
+            
+            # Scale down residual if using ResidualBridge (keep embeddings near base distribution)
+            if self.bridge_type == 'residual' and hasattr(self, 'alpha'):
+                # Get baseline for comparison
+                baseline_out = self.baseline_bridge(vision_pool)  # (B, 896)
+                baseline_out = baseline_out.unsqueeze(1)  # (B, 1, 896)
+                # Blend: new = base + alpha * (improvement)
+                bridge_output = baseline_out + self.alpha * (bridge_output - baseline_out)
         
         # Ensure bridge_output is (B, num_vision_tokens, 896)
         if len(bridge_output.shape) == 2:

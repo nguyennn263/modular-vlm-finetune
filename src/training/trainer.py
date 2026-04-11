@@ -197,11 +197,17 @@ class BridgeTrainer:
         if hasattr(self.model, 'baseline_bridge'):
             self.model.baseline_bridge = self.model.baseline_bridge.to(dtype=model_dtype)
         
-        # Disable gradient checkpointing on frozen models to eliminate warnings
-        if hasattr(self.model.vision_model, 'gradient_checkpointing_disable'):
-            self.model.vision_model.gradient_checkpointing_disable()
-        if hasattr(self.model.language_model, 'gradient_checkpointing_disable'):
-            self.model.language_model.gradient_checkpointing_disable()
+        # Disable gradient checkpointing on all models (both top-level and nested modules)
+        # This prevents checkpoint warnings since we're only training the bridge
+        for module in [self.model.vision_model, self.model.language_model]:
+            if module is not None:
+                # Disable on top-level module
+                if hasattr(module, 'gradient_checkpointing_disable'):
+                    module.gradient_checkpointing_disable()
+                # Also disable on all submodules (for nested architectures)
+                for submodule in module.modules():
+                    if hasattr(submodule, 'gradient_checkpointing'):
+                        submodule.gradient_checkpointing = False
         
         self.train_dataset = train_dataset
         self.val_dataset = val_dataset

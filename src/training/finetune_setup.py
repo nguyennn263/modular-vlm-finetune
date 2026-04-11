@@ -167,15 +167,15 @@ class VisionLanguageBridge(nn.Module):
         Returns:
             Logits or embeddings depending on use case
         """
-        # Get vision embeddings (B, num_patches, 1024) [frozen]
-        with torch.no_grad():
-            vision_embeddings = self.vision_model(pixel_values)
+        # Get vision embeddings (B, num_patches, 1024) [frozen model, trainable embeddings]
+        # NOTE: Don't use torch.no_grad()! Vision model is already frozen (requires_grad=False),
+        # but embeddings need to be on computation graph for bridge gradients.
+        vision_embeddings = self.vision_model(pixel_values)
         
         # Apply bridge based on type
         if self.uses_text and self.bridge_type == 'qformer':
-            # QFormer needs text embeddings
-            with torch.no_grad():
-                text_embeddings = self.language_model.model.embed_tokens(input_ids)
+            # QFormer needs text embeddings - keep on graph for semantic filtering
+            text_embeddings = self.language_model.model.embed_tokens(input_ids)
             bridge_output = self.bridge(vision_embeddings, text_embeddings)
             
         elif self.uses_patches:
@@ -192,9 +192,9 @@ class VisionLanguageBridge(nn.Module):
         if len(bridge_output.shape) == 2:
             bridge_output = bridge_output.unsqueeze(1)
         
-        # Get text embeddings (B, seq_len, 896) [frozen]
-        with torch.no_grad():
-            text_embeddings = self.language_model.model.embed_tokens(input_ids)
+        # Get text embeddings (B, seq_len, 896) [frozen model, trainable embeddings]
+        # NOTE: Keep on computation graph for full gradient flow through bridge
+        text_embeddings = self.language_model.model.embed_tokens(input_ids)
         
         # Combine vision and text embeddings
         combined_embeddings = torch.cat([bridge_output, text_embeddings], dim=1)
@@ -209,13 +209,13 @@ class VisionLanguageBridge(nn.Module):
             )
             attention_mask = torch.cat([vision_mask, attention_mask], dim=1)
         
-        # Forward through LLM [frozen]
-        with torch.no_grad():
-            outputs = self.language_model(
-                inputs_embeds=combined_embeddings,
-                attention_mask=attention_mask,
-                **kwargs
-            )
+        # Forward through LLM [frozen model, trainable input]
+        # Use no_grad only during inference, not during training
+        outputs = self.language_model(
+            inputs_embeds=combined_embeddings,
+            attention_mask=attention_mask,
+            **kwargs
+        )
         
         return outputs
     

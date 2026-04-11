@@ -180,14 +180,36 @@ class VisionLanguageBridge(nn.Module):
             base_embeddings: (B, 896) or (B, num_tokens, 896) - reference embedding
             bridge_embeddings: (B, 896) or (B, num_tokens, 896) - trained embedding
         """
-        # Get vision embeddings
-        vision_embeddings = self.vision_model(pixel_values)
+        # Get vision embeddings (extract from model output)
+        vision_output = self.vision_model(pixel_values)
+        
+        # Extract tensor from BaseModelOutputWithPooling
+        if hasattr(vision_output, 'last_hidden_state'):
+            vision_embeddings = vision_output.last_hidden_state  # (B, num_patches, 1024)
+            pooler = vision_output.pooler_output if hasattr(vision_output, 'pooler_output') else None
+        elif hasattr(vision_output, 'pooler_output'):
+            vision_embeddings = vision_output.pooler_output  # (B, 1024)
+            pooler = None
+        else:
+            # Fallback if it's already a tensor
+            vision_embeddings = vision_output if isinstance(vision_output, torch.Tensor) else vision_output.last_hidden_state
+            pooler = None
         
         # Pool for non-patch bridges
         if not self.uses_patches:
-            vision_pool = vision_embeddings.mean(dim=1)  # (B, 1024)
+            # Use pooler if available, otherwise use CLS token or mean pooling
+            if pooler is not None:
+                vision_pool = pooler  # (B, 1024)
+            elif vision_embeddings.dim() == 3:
+                vision_pool = vision_embeddings[:, 0, :]  # Use CLS token (B, 1024)
+            else:
+                vision_pool = vision_embeddings  # Already pooled (B, 1024)
         else:
-            vision_pool = vision_embeddings  # (B, num_patches, 1024)
+            # For patch-based bridges, use full sequence
+            if vision_embeddings.dim() == 2:
+                vision_pool = vision_embeddings.unsqueeze(1)  # (B, 1, 1024)
+            else:
+                vision_pool = vision_embeddings  # (B, num_patches, 1024)
         
         # Get baseline embedding (frozen reference)
         if self.uses_patches:
@@ -220,10 +242,19 @@ class VisionLanguageBridge(nn.Module):
         Returns:
             Logits or embeddings depending on use case
         """
-        # Get vision embeddings (B, num_patches, 1024) [frozen model, trainable embeddings]
-        # NOTE: Don't use torch.no_grad()! Vision model is already frozen (requires_grad=False),
-        # but embeddings need to be on computation graph for bridge gradients.
-        vision_embeddings = self.vision_model(pixel_values)
+        # Get vision embeddings (extract from model output)
+        vision_output = self.vision_model(pixel_values)
+        
+        # Extract tensor from BaseModelOutputWithPooling
+        if hasattr(vision_output, 'last_hidden_state'):
+            vision_embeddings = vision_output.last_hidden_state  # (B, num_patches, 1024)
+            pooler = vision_output.pooler_output if hasattr(vision_output, 'pooler_output') else None
+        elif hasattr(vision_output, 'pooler_output'):
+            vision_embeddings = vision_output.pooler_output  # (B, 1024)
+            pooler = None
+        else:
+            vision_embeddings = vision_output if isinstance(vision_output, torch.Tensor) else vision_output.last_hidden_state
+            pooler = None
         
         # Apply bridge based on type
         if self.uses_text and self.bridge_type == 'qformer':
@@ -237,7 +268,14 @@ class VisionLanguageBridge(nn.Module):
             
         else:
             # Pooled-based bridges (linear, residual, gated, etc)
-            vision_pool = vision_embeddings.mean(dim=1)  # (B, 1024)
+            # Extract pooled representation
+            if pooler is not None:
+                vision_pool = pooler  # (B, 1024)
+            elif vision_embeddings.dim() == 3:
+                vision_pool = vision_embeddings[:, 0, :]  # Use CLS token (B, 1024)
+            else:
+                vision_pool = vision_embeddings  # Already pooled (B, 1024)
+            
             bridge_output = self.bridge(vision_pool)  # (B, 896)
             bridge_output = bridge_output.unsqueeze(1)  # (B, 1, 896)
             

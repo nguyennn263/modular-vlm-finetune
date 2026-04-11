@@ -537,9 +537,10 @@ class BridgeTrainer:
                 else:
                     raise ValueError(f"Cannot extract vision embeddings from {type(vision_output)}")
         
-        # Detach vision embeddings since vision model is frozen
-        # This prevents any gradient computation in the vision model
-        vision_embeddings = vision_embeddings.detach()
+        # NOTE: Do NOT detach vision embeddings during training!
+        # Vision model is frozen (requires_grad=False), so gradients won't update it
+        # Detach would break gradient flow to bridge, preventing training
+        # vision_embeddings stays connected to computation graph for bridge training
         
         # Validate shapes before passing to bridge
         # 2D bridges expect pooled vectors [batch, dim]
@@ -567,9 +568,10 @@ class BridgeTrainer:
         # Convert to model dtype (embeddings are float32 by default)
         text_embeddings = text_embeddings.to(dtype=model_dtype)
         
-        # Detach text embeddings since language model is frozen
-        # This prevents any gradient computation in the language model embeddings
-        text_embeddings = text_embeddings.detach()
+        # NOTE: Do NOT detach text embeddings during training!
+        # LLM is frozen (requires_grad=False), so gradients won't update it
+        # Detach would break gradient flow to bridge
+        # text_embeddings stays connected for full gradient computation
         
         # Apply bridge module (trainable)
         # Bridge handles both shape conversion and augmentation
@@ -579,6 +581,13 @@ class BridgeTrainer:
         else:
             # All other bridges just take vision embeddings
             bridged_embeddings = self.model.bridge(vision_embeddings)
+        
+        # DEBUG: Verify gradients are flowing (log on first batch only)
+        if self.global_step == 0 or self.global_step % 1000 == 0:
+            bridge_params_trainable = sum(1 for p in self.model.bridge.parameters() if p.requires_grad)
+            logger.info(f"[Gradient Check] vision_emb.requires_grad={vision_embeddings.requires_grad}, "
+                       f"bridged_emb.requires_grad={bridged_embeddings.requires_grad}, "
+                       f"bridge_trainable_params={bridge_params_trainable}")
         
         # Ensure bridged_embeddings has sequence dimension [batch_size, num_tokens, text_dim]
         # So it can be concatenated with text_embeddings [batch_size, seq_len, text_dim]

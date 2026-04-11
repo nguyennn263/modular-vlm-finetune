@@ -110,9 +110,9 @@ class DeviceDetector:
     
     def print_info(self):
         """Print device and configuration info."""
-        logger.info("\n" + "="*80)
+        logger.info("\n" + "="*60)
         logger.info("DEVICE DETECTION & AUTO-OPTIMIZATION")
-        logger.info("="*80)
+        logger.info("="*60)
         logger.info(f"GPU: {self.device_info['gpu_name']}")
         logger.info(f"Memory: {self.device_info['memory_gb']} GB")
         logger.info(f"CUDA Available: {self.device_info['cuda_available']}")
@@ -127,7 +127,7 @@ class DeviceDetector:
             logger.info(f"Eval Steps: {config['eval_steps']}")
             logger.info(f"Use Flash Attention: {config['use_flash_attn']}")
         
-        logger.info("="*80 + "\n")
+        logger.info("="*60 + "\n")
 
 
 # Convenience functions

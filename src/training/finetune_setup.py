@@ -177,8 +177,8 @@ class VisionLanguageBridge(nn.Module):
         """Get both baseline and bridge embeddings for distillation.
         
         Returns:
-            base_embeddings: (B, 896) or (B, num_tokens, 896) - reference embedding
-            bridge_embeddings: (B, 896) or (B, num_tokens, 896) - trained embedding
+            base_embeddings: (B, 1, 896) - pooled reference embedding
+            bridge_embeddings: (B, 1, 896) or (B, num_tokens, 896) - trained embedding
         """
         # Get vision embeddings (extract from model output)
         vision_output = self.vision_model(pixel_values)
@@ -195,9 +195,22 @@ class VisionLanguageBridge(nn.Module):
             vision_embeddings = vision_output if isinstance(vision_output, torch.Tensor) else vision_output.last_hidden_state
             pooler = None
         
-        # Pool for non-patch bridges
+        # Get pooled vision representation for baseline comparison
+        # Baseline bridge always expects pooled input (B, 1024)
+        if pooler is not None:
+            vision_pool_for_baseline = pooler  # (B, 1024)
+        elif vision_embeddings.dim() == 3:
+            vision_pool_for_baseline = vision_embeddings[:, 0, :]  # Use CLS token (B, 1024)
+        else:
+            vision_pool_for_baseline = vision_embeddings  # Already pooled (B, 1024)
+        
+        # Get baseline embedding (frozen reference) - always pooled
+        base_emb = self.baseline_bridge(vision_pool_for_baseline)  # (B, 896)
+        base_emb = base_emb.unsqueeze(1)  # (B, 1, 896)
+        
+        # Prepare input for bridge based on its type
         if not self.uses_patches:
-            # Use pooler if available, otherwise use CLS token or mean pooling
+            # For non-patch bridges, use pooled input
             if pooler is not None:
                 vision_pool = pooler  # (B, 1024)
             elif vision_embeddings.dim() == 3:
@@ -211,14 +224,8 @@ class VisionLanguageBridge(nn.Module):
             else:
                 vision_pool = vision_embeddings  # (B, num_patches, 1024)
         
-        # Get baseline embedding (frozen reference)
-        if self.uses_patches:
-            base_emb = self.baseline_bridge(vision_pool)  # (B, num_patches, 896)
-        else:
-            base_emb = self.baseline_bridge(vision_pool).unsqueeze(1)  # (B, 1, 896)
-        
         # Get bridge embedding
-        bridge_emb = self.bridge(vision_pool)  # Same shape as base_emb
+        bridge_emb = self.bridge(vision_pool)  # Output shape depends on bridge type
         if not self.uses_patches:
             bridge_emb = bridge_emb.unsqueeze(1)  # (B, 1, 896)
         

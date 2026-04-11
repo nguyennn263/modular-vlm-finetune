@@ -542,18 +542,25 @@ class BridgeTrainer:
         vision_embeddings = vision_embeddings.detach()
         
         # Validate shapes before passing to bridge
-        if bridge_type in ['linear_bridge', 'better_mlp', 'multi_token']:
+        # 2D bridges expect pooled vectors [batch, dim]
+        # 3D bridges expect patch sequences [batch, num_patches, dim]
+        pooled_bridges_2d = ['residual', 'linear_bridge', 'better_mlp', 'multi_token', 'gated_fusion']
+        patch_bridges_3d = ['tile_attention', 'mini_qformer', 'qformer']
+        
+        if bridge_type in pooled_bridges_2d:
             # These expect 2D pooled vectors [batch, 1024]
             assert vision_embeddings.dim() == 2, (
                 f"Bridge {bridge_type} expects 2D vision_embeddings [batch, dim], "
                 f"got shape {vision_embeddings.shape} (dim={vision_embeddings.dim()})"
             )
-        else:
+        elif bridge_type in patch_bridges_3d:
             # Patch-based bridges expect 3D sequences [batch, seq, dim]
             assert vision_embeddings.dim() == 3, (
                 f"Bridge {bridge_type} expects 3D vision_embeddings [batch, seq, dim], "
                 f"got shape {vision_embeddings.shape} (dim={vision_embeddings.dim()})"
             )
+        else:
+            raise ValueError(f"Unknown bridge type: {bridge_type}")
         
         # Get text embeddings early (needed for QFormer and concatenation)
         text_embeddings = self.model.language_model.model.embed_tokens(input_ids)

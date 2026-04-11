@@ -504,9 +504,12 @@ class BridgeTrainer:
             pooler = None
         
         # Decide which to use based on bridge type
-        if bridge_type in ['linear_bridge', 'better_mlp', 'multi_token']:
-            # LinearBridge, BetterMLP + MultiTokenMLP expect single pooled vector [batch, 1024]
-            # Both expand to multiple tokens internally
+        # Pooled-based bridges: residual, multi_token, gated_fusion (+ legacy names for compat)
+        # Patch-based bridges: tile_attention, attention, mini_qformer, qformer
+        pooled_bridges = ['residual', 'better_mlp', 'linear_bridge', 'multi_token', 'gated_fusion']
+        if bridge_type in pooled_bridges:
+            # Residual, MultiTokenMLP, GatedFusion expect single pooled vector [batch, 1024]
+            # They expand to multiple tokens internally
             if pooler is not None:
                 vision_embeddings = pooler
             elif last_hidden is not None:
@@ -514,7 +517,8 @@ class BridgeTrainer:
             else:
                 vision_embeddings = vision_output
         else:
-            # AttentionBridge, MiniQFormer, QFormer need full sequence [batch, num_patches, 1024]
+            # Patch-based bridges: tile_attention, attention, mini_qformer, qformer
+            # These need full sequence [batch, num_patches, 1024]
             if last_hidden is not None and last_hidden.dim() == 3:
                 vision_embeddings = last_hidden  # Full sequence
             elif last_hidden is not None and last_hidden.dim() == 2:
@@ -545,7 +549,7 @@ class BridgeTrainer:
                 f"got shape {vision_embeddings.shape} (dim={vision_embeddings.dim()})"
             )
         else:
-            # Others expect 3D sequences [batch, seq, dim]
+            # Patch-based bridges expect 3D sequences [batch, seq, dim]
             assert vision_embeddings.dim() == 3, (
                 f"Bridge {bridge_type} expects 3D vision_embeddings [batch, seq, dim], "
                 f"got shape {vision_embeddings.shape} (dim={vision_embeddings.dim()})"
@@ -991,6 +995,11 @@ class BridgeTrainer:
         import random
         
         if not hasattr(self, 'val_dataset') or len(self.val_dataset) == 0:
+            logger.debug("No validation dataset for sample inference")
+            return
+        
+        if not hasattr(self, 'tokenizer') or self.tokenizer is None:
+            logger.warning("Tokenizer not initialized, skipping sample inference")
             return
         
         try:
@@ -1057,7 +1066,10 @@ class BridgeTrainer:
                             pooler = None
                         
                         # Decide which to use based on bridge type
-                        if bridge_type in ['linear_bridge', 'better_mlp', 'multi_token']:
+                        # Pooled-based bridges: residual, multi_token, gated_fusion (+ legacy names for compat)
+                        # Patch-based bridges: tile_attention, attention, mini_qformer, qformer
+                        pooled_bridges = ['residual', 'better_mlp', 'linear_bridge', 'multi_token', 'gated_fusion']
+                        if bridge_type in pooled_bridges:
                             if pooler is not None:
                                 vision_embeddings = pooler
                             elif last_hidden is not None:
@@ -1111,7 +1123,9 @@ class BridgeTrainer:
                 logger.info(f"Ground truth: {answer}")
         
         except Exception as e:
-            logger.warning(f"Sample inference failed: {e}")
+            import traceback
+            logger.error(f"Sample inference failed: {e}")
+            logger.error(f"Traceback: {traceback.format_exc()}")
         
         finally:
             self.model.train()

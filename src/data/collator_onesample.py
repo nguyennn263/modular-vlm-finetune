@@ -83,19 +83,33 @@ def custom_collate_fn(
     
     # Tokenize text if tokenizer is provided
     if tokenizer is not None:
-        # Format following notebook pattern: <image>\n{question}\nAnswer: {answer}
-        # Calculate where Answer begins for loss masking
+        # Using official Vintern format (from ref2/conversation.py)
+        system_message = "Bạn là một mô hình trí tuệ nhân tạo đa phương thức Tiếng Việt có tên gọi là Vintern, được phát triển bởi người Việt. Bạn là một trợ lý trí tuệ nhân tạo hữu ích và không gây hại."
         
+        # Calculate where Answer begins for loss masking
         input_ids_list = []
         attention_mask_list = []
         answer_start_positions = []
         
         for q, a in zip(questions, answers):
-            # Full text including answer
-            full_text = f"{q}\nAnswer: {a}"
+            # Extract clean question (remove <image>\n if present)
+            question_clean = q
+            if q.startswith("<image>\n"):
+                question_clean = q[8:]
             
-            # Text up to answer header (for masking)
-            question_part = f"{q}\nAnswer: "
+            # Full text including answer
+            full_text = (
+                f"<|im_start|>system\n{system_message}<|im_end|>\n"
+                f"<|im_start|>user\n<image>\n{question_clean}<|im_end|>\n"
+                f"<|im_start|>assistant\n{a}<|im_end|>"
+            )
+            
+            # Text up to assistant answer header (for masking)
+            question_part = (
+                f"<|im_start|>system\n{system_message}<|im_end|>\n"
+                f"<|im_start|>user\n<image>\n{question_clean}<|im_end|>\n"
+                f"<|im_start|>assistant\n"
+            )
             
             # Encode both
             full_enc = tokenizer(

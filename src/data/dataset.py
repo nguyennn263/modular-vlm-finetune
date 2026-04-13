@@ -74,11 +74,9 @@ class VLMDataset(Dataset):
             max_tiles=max_tiles,
         )
         
-        # Prompt template - SIMPLIFIED: output format only
-        # Format: <image>\n{question}\nAnswer: [model generates this]
-        # Note: question from data already has <image>\n at the start
-        # Loss computed ONLY on Answer tokens
-        self.answer_header = "Answer: "
+        # Prompt template - Using Vintern/InternVL official format (from ref2/conversation.py)
+        # Format: <|im_start|>system\n{system_msg}<|im_end|>\n<|im_start|>user\n<image>\n{question}<|im_end|>\n<|im_start|>assistant\n{answer}<|im_end|>
+        self.system_message = "Bạn là một mô hình trí tuệ nhân tạo đa phương thức Tiếng Việt có tên gọi là Vintern, được phát triển bởi người Việt. Bạn là một trợ lý trí tuệ nhân tạo hữu ích và không gây hại."
         
         data_loader_logger.info(f"VLMDataset initialized with {len(self.data)} samples")
     
@@ -156,13 +154,21 @@ class VLMDataset(Dataset):
         # Process image
         image_data = self.processor.preprocess(image)
         
-        # Format text with correct format matching notebook
-        # Question from data already has: "<image>\n{actual question}"
-        # So just append answer part
-        full_text = f"{question}\n{self.answer_header}{answer}"
+        # Build full prompt using official Vintern format
+        # Note: question from vintern.json already has "<image>\n" at the start
+        # Extract just the question part after "<image>\n"
+        question_clean = question
+        if question.startswith("<image>\n"):
+            question_clean = question[8:]  # Remove "<image>\n"
+        
+        # Build prompt in official format
+        full_text = (
+            f"<|im_start|>system\n{self.system_message}<|im_end|>\n"
+            f"<|im_start|>user\n<image>\n{question_clean}<|im_end|>\n"
+            f"<|im_start|>assistant\n{answer}<|im_end|>"
+        )
         
         # Tokenize FULL text including answer
-        # This will be used for loss computation (decoder mode)
         full_encoding = self.tokenizer(
             full_text,
             max_length=self.max_length,
@@ -172,9 +178,11 @@ class VLMDataset(Dataset):
         )
         
         # Now tokenize WITHOUT answer to find where answer begins
-        # This is: "<image>\n{question}\nAnswer: "
-        # IMPORTANT: Use same settings as full_encoding (with special tokens) for alignment
-        question_part = f"{question}\n{self.answer_header}"
+        question_part = (
+            f"<|im_start|>system\n{self.system_message}<|im_end|>\n"
+            f"<|im_start|>user\n<image>\n{question_clean}<|im_end|>\n"
+            f"<|im_start|>assistant\n"
+        )
         question_encoding = self.tokenizer(
             question_part,
             max_length=self.max_length,
@@ -184,7 +192,6 @@ class VLMDataset(Dataset):
         )
         
         # answer_start_pos: where answer begins in token stream
-        # Loss will only be computed from this position onwards
         answer_start_pos = question_encoding["input_ids"].shape[1]
         
         return {
@@ -194,7 +201,7 @@ class VLMDataset(Dataset):
             "num_patches": image_data["num_patches"],
             "question": question,
             "answer": answer,
-            "answer_start_pos": answer_start_pos,  # NEW: for loss masking
+            "answer_start_pos": answer_start_pos,
         }
 
 

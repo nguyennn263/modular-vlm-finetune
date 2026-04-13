@@ -151,7 +151,10 @@ class TrainConfig:
     
     # Distillation loss (critical for preventing embedding distribution collapse)
     use_distillation: bool = True
-    distillation_loss_weight: float = 0.3  # λ for MSE loss: total = CE + λ*MSE
+    distillation_loss_weight: float = 0.1  # λ for MSE loss: total = CE + λ*MSE
+    distill_all_tokens: bool = True  # CRITICAL FIX: Distill ALL tokens, not pooled
+    embedding_l2_weight: float = 0.01  # L2 regularization for embedding magnitude
+    normalize_embeddings: bool = True  # LayerNorm embeddings to prevent collapse
     warm_start: bool = True  # Initialize bridge from baseline weights
     
     # Checkpoint
@@ -291,6 +294,14 @@ class BridgeTrainer:
         self.best_val_loss = float('inf')
         self.early_stop_counter = 0
         self.best_model_path = None
+        
+        # Embedding normalization layer (shared across training)
+        # Used in distillation to prevent embedding distribution collapse
+        if config.normalize_embeddings:
+            self.embedding_norm = nn.LayerNorm(896).to(self.device)
+            logger.info("✓ Embedding normalization enabled (LayerNorm at 896-dim)")
+        else:
+            self.embedding_norm = None
         
         # Checkpoint management: track recent checkpoints for cleanup
         self.recent_checkpoints = []  # Keep only 2 most recent
@@ -725,8 +736,9 @@ class BridgeTrainer:
                         if any(p >= shift_labels.shape[1] for p in ans_pos_list):
                             logger.warning(f"  ⚠️ Some answer_start_pos exceed sequence length: {ans_pos_list}")
         
-        # CRITICAL: Add distillation loss to prevent embedding collapse
-        # Without this, model "hacks" the loss by producing out-of-distribution embeddings
+        # CRITICAL FIX: Distillation targeting ALL tokens (not pooled)
+        # Previous bug: only distilled 1 pooled token while bridge outputs 8 tokens
+        # → model learned to collapse 8 tokens to 1 reference → garbage output
         total_loss = ce_loss
         
         if self.config.use_distillation:
@@ -737,49 +749,62 @@ class BridgeTrainer:
                 text_embeddings=text_embeddings
             )
             
-            # Handle shape mismatches between different bridge architectures
-            # Patch-based bridges (TileAttention, MiniQFormer, QFormer) may output different token counts
-            # Solution: Pool both to (B, 1, 896) for fair semantic comparison
+            # ===== FIX 1: Distill ALL tokens (not pooled) =====
+            # Old bug: base_emb [B,1,896], bridge_emb [B,8,896] → pooled both to [B,1,896]
+            # New: Keep bridge_emb [B,8,896] and tile base_emb to match
             
-            # Pool base embeddings if needed
-            if base_embeddings.dim() == 3 and base_embeddings.shape[1] > 1:
-                # Multiple tokens: pool across sequence dimension
-                base_embeddings = base_embeddings.mean(dim=1, keepdim=True)
-            
-            # Pool bridge embeddings if needed
-            if bridge_embeddings.dim() == 4:
-                # 4D tensor (multi-token output): flatten and pool
-                # (B, 1, num_tokens, 896) → (B, 1, 896)
-                bridge_embeddings = bridge_embeddings.mean(dim=2)
-            elif bridge_embeddings.dim() == 3 and bridge_embeddings.shape[1] > 1:
-                # 3D tensor with multiple tokens: pool across sequence
-                # (B, num_tokens, 896) → (B, 1, 896)
-                bridge_embeddings = bridge_embeddings.mean(dim=1, keepdim=True)
-            
-            # Ensure both are now (B, 1, 896)
+            # Ensure base is 3D: (B, 1, 896)
             if base_embeddings.dim() == 2:
-                base_embeddings = base_embeddings.unsqueeze(1)
-            if bridge_embeddings.dim() == 2:
-                bridge_embeddings = bridge_embeddings.unsqueeze(1)
+                base_embeddings = base_embeddings.unsqueeze(1)  # (B, 896) → (B, 1, 896)
             
-            # MSE loss: keep bridge embeddings close to baseline distribution
-            # This forces the bridge to work within the manifold the LLM understands
-            distill_loss = F.mse_loss(bridge_embeddings, base_embeddings, reduction='mean')
+            # Ensure bridge is 3D: (B, seq_len, 896)
+            if bridge_embeddings.dim() == 4:
+                # 4D (multi-token architecture): (B, 1, num_tokens, 896) → (B, num_tokens, 896)
+                bridge_embeddings = bridge_embeddings.squeeze(1)
+            elif bridge_embeddings.dim() == 2:
+                bridge_embeddings = bridge_embeddings.unsqueeze(1)  # (B, 896) → (B, 1, 896)
+            
+            # Tile base embeddings to match bridge sequence length
+            # base: [B, 1, 896] → [B, seq_len, 896]
+            base_seq_len = bridge_embeddings.shape[1]
+            base_embeddings_expanded = base_embeddings.expand(-1, base_seq_len, -1)  # (B, seq_len, 896)
+            
+            # ===== FIX 2: Normalize embeddings to prevent distribution collapse =====
+            if self.config.normalize_embeddings:
+                # Apply LayerNorm: keeps embeddings in bounded range
+                bridge_embeddings_norm = self.embedding_norm(bridge_embeddings)
+                base_embeddings_norm = self.embedding_norm(base_embeddings_expanded)
+            else:
+                bridge_embeddings_norm = bridge_embeddings
+                base_embeddings_norm = base_embeddings_expanded
+            
+            # ===== FIX 3: Per-token distillation loss =====
+            # MSE loss across all tokens (not pooled)
+            # This ensures ALL tokens stay in LM embedding space
+            distill_loss = F.mse_loss(bridge_embeddings_norm, base_embeddings_norm, reduction='mean')
+            
+            # ===== FIX 4: L2 regularization on bridge embeddings =====
+            # Prevent embeddings from growing unbounded or collapsing to zero
+            l2_reg = (bridge_embeddings.norm(dim=-1) ** 2).mean()
+            
+            # Combined distillation loss
+            total_distill = (distill_loss + self.config.embedding_l2_weight * l2_reg)
             
             # VALIDATION: Check distillation loss sanity
             if self.global_step % 500 == 0:
-                logger.info(f"[Distillation Check] Step {self.global_step}:")
-                logger.info(f"  base_emb shape: {base_embeddings.shape}, dtype: {base_embeddings.dtype}")
-                logger.info(f"  bridge_emb shape: {bridge_embeddings.shape}, dtype: {bridge_embeddings.dtype}")
+                logger.info(f"[Distillation Check FIX] Step {self.global_step}:")
+                logger.info(f"  base_emb expanded: {base_embeddings_expanded.shape}")
+                logger.info(f"  bridge_emb: {bridge_embeddings.shape} (ALL TOKENS)")
                 logger.info(f"  CE loss: {ce_loss.item():.4f}")
-                logger.info(f"  Distil loss: {distill_loss.item():.4f}")
+                logger.info(f"  Distill loss (MSE): {distill_loss.item():.4f}")
+                logger.info(f"  L2 regularization: {l2_reg.item():.4f}")
+                logger.info(f"  Total distill: {total_distill.item():.4f}")
                 logger.info(f"  λ={self.config.distillation_loss_weight}")
-                logger.info(f"  Total loss: {(ce_loss + self.config.distillation_loss_weight * distill_loss).item():.4f}")
+                logger.info(f"  Total loss: {(ce_loss + self.config.distillation_loss_weight * total_distill).item():.4f}")
             
-            # Combine losses: CE + λ * MSE
-            # λ typically 0.1-1.0 (starts with 0.5)
-            # As training progresses, can reduce λ to allow more deviation
-            total_loss = ce_loss + self.config.distillation_loss_weight * distill_loss
+            # Combine losses: CE + λ * (MSE + L2)
+            # λ=0.1 allows bridge to deviate from baseline while staying in LM space
+            total_loss = ce_loss + self.config.distillation_loss_weight * total_distill
         
         return total_loss
     

@@ -650,22 +650,46 @@ class BridgeTrainer:
         # answer_start_pos tells us where Answer begins in the token stream
         # Set labels to -100 for question tokens (cross_entropy ignores -100)
         if 'answer_start_pos' in batch:
-            answer_start_pos = batch['answer_start_pos']
-            if isinstance(answer_start_pos, torch.Tensor):
-                answer_start_pos = answer_start_pos.item()
+            answer_start_positions = batch['answer_start_pos']
             
-            # answer_start_pos is position in FULL text_logits (after vision tokens removed)
-            # We want to mask all tokens BEFORE answer_start_pos
-            for i in range(shift_labels.shape[0]):
-                # Mask question part: set to -100 (ignored by cross_entropy)
-                if answer_start_pos > 0:
-                    shift_labels[i, :answer_start_pos-1] = -100
+            # Handle both single value and per-sample values
+            if isinstance(answer_start_positions, torch.Tensor):
+                # Could be [B] or scalar
+                if answer_start_positions.dim() == 0:
+                    # Scalar - same for all samples
+                    answer_start_pos = answer_start_positions.item()
+                    for i in range(shift_labels.shape[0]):
+                        if answer_start_pos > 0:
+                            shift_labels[i, :answer_start_pos-1] = -100
+                else:
+                    # Per-sample values [B]
+                    for i in range(shift_labels.shape[0]):
+                        answer_start_pos = answer_start_positions[i].item() if isinstance(answer_start_positions[i], torch.Tensor) else answer_start_positions[i]
+                        if answer_start_pos > 0:
+                            shift_labels[i, :answer_start_pos-1] = -100
+            else:
+                # Scalar int/float
+                answer_start_pos = int(answer_start_positions)
+                for i in range(shift_labels.shape[0]):
+                    if answer_start_pos > 0:
+                        shift_labels[i, :answer_start_pos-1] = -100
         
         ce_loss = F.cross_entropy(
             shift_logits.view(-1, shift_logits.shape[-1]),
             shift_labels.view(-1),
             reduction='mean'
         )
+        
+        # DEBUG: Log loss computation on first batch
+        if self.global_step == 0 or self.global_step % 500 == 0:
+            num_answer_tokens = (shift_labels != -100).sum().item()
+            logger.info(f"[Loss] CE Loss computed on {num_answer_tokens} answer tokens "
+                       f"(masked {(shift_labels == -100).sum().item()} question tokens)")
+            if 'answer_start_pos' in batch:
+                ans_pos = batch['answer_start_pos']
+                if isinstance(ans_pos, torch.Tensor):
+                    ans_pos = ans_pos.tolist() if ans_pos.dim() > 0 else [ans_pos.item()]
+                logger.info(f"[Loss] answer_start_positions: {ans_pos}")
         
         # CRITICAL: Add distillation loss to prevent embedding collapse
         # Without this, model "hacks" the loss by producing out-of-distribution embeddings

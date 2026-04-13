@@ -151,7 +151,7 @@ class TrainConfig:
     
     # Distillation loss (critical for preventing embedding distribution collapse)
     use_distillation: bool = True
-    distillation_loss_weight: float = 0.5  # λ for MSE loss: total = CE + λ*MSE
+    distillation_loss_weight: float = 0.3  # λ for MSE loss: total = CE + λ*MSE
     warm_start: bool = True  # Initialize bridge from baseline weights
     
     # Checkpoint

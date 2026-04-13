@@ -599,6 +599,19 @@ class BridgeTrainer:
             # All other bridges just take vision embeddings
             bridged_embeddings = self.model.bridge(vision_embeddings)
         
+        # VALIDATION: Check bridge output shape and dtype compatibility
+        # All bridges should output: [batch, seq_len, llm_hidden_size]
+        # dtype should match model dtype (bfloat16)
+        if self.global_step == 0:
+            logger.info(f"[Bridge Architecture Check] bridge_type={bridge_type}")
+            logger.info(f"  bridge output shape: {bridged_embeddings.shape}")
+            logger.info(f"  bridge output dtype: {bridged_embeddings.dtype}")
+            logger.info(f"  expected dtype: {model_dtype}")
+            
+            if bridged_embeddings.dtype != model_dtype:
+                logger.warning(f"  ⚠️ dtype mismatch! {bridged_embeddings.dtype} != {model_dtype}")
+                logger.info(f"  Converting bridge output to {model_dtype}")
+        
         # DEBUG: Verify gradients are flowing (log on first batch only)
         if self.global_step == 0 or self.global_step % 1000 == 0:
             bridge_params_trainable = sum(1 for p in self.model.bridge.parameters() if p.requires_grad)
@@ -647,8 +660,9 @@ class BridgeTrainer:
         shift_labels = input_ids[..., 1:].contiguous()  # [batch_size, text_len-1]
         
         # IMPORTANT: Mask question tokens - only compute loss on Answer part
-        # answer_start_pos tells us where Answer begins in the token stream
-        # Set labels to -100 for question tokens (cross_entropy ignores -100)
+        # answer_start_pos tells us where Answer HEADER begins in full sequence
+        # But shift_labels has indices shifted by 1 (due to shift for next-token prediction)
+        # So mask question tokens: indices 0 to (answer_start_pos - 2) in shift_labels
         if 'answer_start_pos' in batch:
             answer_start_positions = batch['answer_start_pos']
             
@@ -658,21 +672,24 @@ class BridgeTrainer:
                 if answer_start_positions.dim() == 0:
                     # Scalar - same for all samples
                     answer_start_pos = answer_start_positions.item()
-                    for i in range(shift_labels.shape[0]):
-                        if answer_start_pos > 0:
-                            shift_labels[i, :answer_start_pos-1] = -100
+                    if answer_start_pos > 1:
+                        # Mask all tokens before answer content
+                        # answer_start_pos includes the "<|im_start|>assistant\n" tokens
+                        # So mask up to (answer_start_pos - 2) because of shift
+                        for i in range(shift_labels.shape[0]):
+                            shift_labels[i, :answer_start_pos-2] = -100
                 else:
                     # Per-sample values [B]
                     for i in range(shift_labels.shape[0]):
                         answer_start_pos = answer_start_positions[i].item() if isinstance(answer_start_positions[i], torch.Tensor) else answer_start_positions[i]
-                        if answer_start_pos > 0:
-                            shift_labels[i, :answer_start_pos-1] = -100
+                        if answer_start_pos > 1:
+                            shift_labels[i, :answer_start_pos-2] = -100
             else:
                 # Scalar int/float
                 answer_start_pos = int(answer_start_positions)
-                for i in range(shift_labels.shape[0]):
-                    if answer_start_pos > 0:
-                        shift_labels[i, :answer_start_pos-1] = -100
+                if answer_start_pos > 1:
+                    for i in range(shift_labels.shape[0]):
+                        shift_labels[i, :answer_start_pos-2] = -100
         
         ce_loss = F.cross_entropy(
             shift_logits.view(-1, shift_logits.shape[-1]),
@@ -680,16 +697,33 @@ class BridgeTrainer:
             reduction='mean'
         )
         
-        # DEBUG: Log loss computation on first batch
+        # VALIDATION: Log loss computation details for debugging
+        # Track: total tokens, question tokens masked, answer tokens used
         if self.global_step == 0 or self.global_step % 500 == 0:
+            total_tokens = shift_labels.numel()
             num_answer_tokens = (shift_labels != -100).sum().item()
-            logger.info(f"[Loss] CE Loss computed on {num_answer_tokens} answer tokens "
-                       f"(masked {(shift_labels == -100).sum().item()} question tokens)")
+            num_question_tokens = (shift_labels == -100).sum().item()
+            answer_ratio = num_answer_tokens / total_tokens * 100 if total_tokens > 0 else 0
+            
+            logger.info(f"[Format Validation] Step {self.global_step}:")
+            logger.info(f"  Total tokens: {total_tokens}")
+            logger.info(f"  Answer tokens (used for loss): {num_answer_tokens} ({answer_ratio:.1f}%)")
+            logger.info(f"  Question tokens (masked): {num_question_tokens}")
+            logger.info(f"  CE Loss value: {ce_loss.item():.4f}")
+            
             if 'answer_start_pos' in batch:
                 ans_pos = batch['answer_start_pos']
                 if isinstance(ans_pos, torch.Tensor):
-                    ans_pos = ans_pos.tolist() if ans_pos.dim() > 0 else [ans_pos.item()]
-                logger.info(f"[Loss] answer_start_positions: {ans_pos}")
+                    if ans_pos.dim() == 0:
+                        logger.info(f"  answer_start_pos: {ans_pos.item()} (scalar)")
+                    else:
+                        ans_pos_list = ans_pos.tolist()
+                        logger.info(f"  answer_start_pos: {ans_pos_list} (per-batch)")
+                        # Verify answer_start_pos is reasonable (> 0 and < sequence length)
+                        if any(p <= 0 for p in ans_pos_list):
+                            logger.warning(f"  ⚠️ Some answer_start_pos values are ≤ 0: {ans_pos_list}")
+                        if any(p >= shift_labels.shape[1] for p in ans_pos_list):
+                            logger.warning(f"  ⚠️ Some answer_start_pos exceed sequence length: {ans_pos_list}")
         
         # CRITICAL: Add distillation loss to prevent embedding collapse
         # Without this, model "hacks" the loss by producing out-of-distribution embeddings
@@ -732,16 +766,20 @@ class BridgeTrainer:
             # This forces the bridge to work within the manifold the LLM understands
             distill_loss = F.mse_loss(bridge_embeddings, base_embeddings, reduction='mean')
             
+            # VALIDATION: Check distillation loss sanity
+            if self.global_step % 500 == 0:
+                logger.info(f"[Distillation Check] Step {self.global_step}:")
+                logger.info(f"  base_emb shape: {base_embeddings.shape}, dtype: {base_embeddings.dtype}")
+                logger.info(f"  bridge_emb shape: {bridge_embeddings.shape}, dtype: {bridge_embeddings.dtype}")
+                logger.info(f"  CE loss: {ce_loss.item():.4f}")
+                logger.info(f"  Distil loss: {distill_loss.item():.4f}")
+                logger.info(f"  λ={self.config.distillation_loss_weight}")
+                logger.info(f"  Total loss: {(ce_loss + self.config.distillation_loss_weight * distill_loss).item():.4f}")
+            
             # Combine losses: CE + λ * MSE
             # λ typically 0.1-1.0 (starts with 0.5)
             # As training progresses, can reduce λ to allow more deviation
             total_loss = ce_loss + self.config.distillation_loss_weight * distill_loss
-            
-            # Log distillation metrics periodically
-            if self.global_step % 500 == 0:
-                logger.info(f"[Step {self.global_step}] CE_loss={ce_loss.item():.4f}, "
-                           f"Distill_loss={distill_loss.item():.4f}, "
-                           f"λ={self.config.distillation_loss_weight}")
         
         return total_loss
     

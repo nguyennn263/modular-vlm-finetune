@@ -74,15 +74,11 @@ class VLMDataset(Dataset):
             max_tiles=max_tiles,
         )
         
-        # Prompt template
-        self.prompt_template = (
-            "<|im_start|>system\n"
-            "Bạn là một trợ lý AI thông minh, có khả năng phân tích hình ảnh.<|im_end|>\n"
-            "<|im_start|>user\n"
-            "<image>\n{question}<|im_end|>\n"
-            "<|im_start|>assistant\n"
-            "{answer}<|im_end|>"
-        )
+        # Prompt template - SIMPLIFIED: output format only
+        # Format: <image>\n{question}\nAnswer: [model generates this]
+        # Note: question from data already has <image>\n at the start
+        # Loss computed ONLY on Answer tokens
+        self.answer_header = "Answer: "
         
         data_loader_logger.info(f"VLMDataset initialized with {len(self.data)} samples")
     
@@ -160,28 +156,44 @@ class VLMDataset(Dataset):
         # Process image
         image_data = self.processor.preprocess(image)
         
-        # Format text
-        text = self.prompt_template.format(
-            question=question,
-            answer=answer,
-        )
+        # Format text with correct format matching notebook
+        # Question from data already has: "<image>\n{actual question}"
+        # So just append answer part
+        full_text = f"{question}\n{self.answer_header}{answer}"
         
-        # Tokenize
-        encoding = self.tokenizer(
-            text,
+        # Tokenize FULL text including answer
+        # This will be used for loss computation (decoder mode)
+        full_encoding = self.tokenizer(
+            full_text,
             max_length=self.max_length,
             truncation=True,
             padding=False,
             return_tensors="pt",
         )
         
+        # Now tokenize WITHOUT answer to find where answer begins
+        # This is: "<image>\n{question}\nAnswer: "
+        question_part = f"{question}\n{self.answer_header}"
+        question_encoding = self.tokenizer(
+            question_part,
+            add_special_tokens=False,  # Don't add <bos> etc
+            truncation=True,
+            padding=False,
+            return_tensors="pt",
+        )
+        
+        # answer_start_pos: where answer begins in token stream
+        # Loss will only be computed from this position onwards
+        answer_start_pos = question_encoding["input_ids"].shape[1]
+        
         return {
-            "input_ids": encoding["input_ids"].squeeze(0),
-            "attention_mask": encoding["attention_mask"].squeeze(0),
+            "input_ids": full_encoding["input_ids"].squeeze(0),
+            "attention_mask": full_encoding["attention_mask"].squeeze(0),
             "pixel_values": image_data["pixel_values"],
             "num_patches": image_data["num_patches"],
             "question": question,
             "answer": answer,
+            "answer_start_pos": answer_start_pos,  # NEW: for loss masking
         }
 
 

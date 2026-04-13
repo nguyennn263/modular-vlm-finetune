@@ -173,8 +173,16 @@ class VisionLanguageBridge(nn.Module):
             self.bridge.fc.bias.data = self.baseline_bridge.fc.bias.data.clone()
         logger.info("Bridge initialized from baseline weights (warm start)")
     
-    def get_base_and_bridge_embeddings(self, pixel_values: torch.Tensor):
+    def get_base_and_bridge_embeddings(
+        self, 
+        pixel_values: torch.Tensor,
+        text_embeddings: Optional[torch.Tensor] = None
+    ):
         """Get both baseline and bridge embeddings for distillation.
+        
+        Args:
+            pixel_values: Vision input (B, num_patches, 3, H, W)
+            text_embeddings: Optional text embeddings for QFormer (B, seq_len, hidden_dim)
         
         Returns:
             base_embeddings: (B, 1, 896) - pooled reference embedding
@@ -225,7 +233,12 @@ class VisionLanguageBridge(nn.Module):
                 vision_pool = vision_embeddings  # (B, num_patches, 1024)
         
         # Get bridge embedding
-        bridge_emb = self.bridge(vision_pool)  # Output shape depends on bridge type
+        # QFormer requires text embeddings for semantic filtering
+        if self.uses_text and text_embeddings is not None:
+            bridge_emb = self.bridge(vision_pool, text_embeddings)  # QFormer case
+        else:
+            bridge_emb = self.bridge(vision_pool)  # All other bridges
+        
         if not self.uses_patches:
             bridge_emb = bridge_emb.unsqueeze(1)  # (B, 1, 896)
         

@@ -151,7 +151,7 @@ class TrainConfig:
     
     # Distillation loss (critical for preventing embedding distribution collapse)
     use_distillation: bool = True
-    distillation_loss_weight: float = 0.5  # λ for MSE loss: total = CE + λ*MSE
+    distillation_loss_weight: float = 0.2  # λ for MSE loss: total = CE + λ*MSE
     warm_start: bool = True  # Initialize bridge from baseline weights
     
     # Checkpoint
@@ -637,7 +637,7 @@ class BridgeTrainer:
         
         logits = outputs.logits
         
-        # Compute primary loss (next-token prediction) on text tokens only
+        # Compute primary loss (next-token prediction) on ANSWER tokens only
         # logits has shape [batch_size, num_vision_tokens + text_len, vocab_size]
         # Skip all vision tokens and use only text logits
         text_logits = logits[:, num_vision_tokens:, :]  # [batch_size, text_len, vocab_size]
@@ -645,6 +645,21 @@ class BridgeTrainer:
         # Shift for next-token prediction
         shift_logits = text_logits[..., :-1, :].contiguous()  # [batch_size, text_len-1, vocab_size]
         shift_labels = input_ids[..., 1:].contiguous()  # [batch_size, text_len-1]
+        
+        # IMPORTANT: Mask question tokens - only compute loss on Answer part
+        # answer_start_pos tells us where Answer begins in the token stream
+        # Set labels to -100 for question tokens (cross_entropy ignores -100)
+        if 'answer_start_pos' in batch:
+            answer_start_pos = batch['answer_start_pos']
+            if isinstance(answer_start_pos, torch.Tensor):
+                answer_start_pos = answer_start_pos.item()
+            
+            # answer_start_pos is position in FULL text_logits (after vision tokens removed)
+            # We want to mask all tokens BEFORE answer_start_pos
+            for i in range(shift_labels.shape[0]):
+                # Mask question part: set to -100 (ignored by cross_entropy)
+                if answer_start_pos > 0:
+                    shift_labels[i, :answer_start_pos-1] = -100
         
         ce_loss = F.cross_entropy(
             shift_logits.view(-1, shift_logits.shape[-1]),
@@ -658,7 +673,11 @@ class BridgeTrainer:
         
         if self.config.use_distillation:
             # Get baseline (frozen) and bridge embeddings via dedicated method
-            base_embeddings, bridge_embeddings = self.model.get_base_and_bridge_embeddings(pixel_values)
+            # Pass text_embeddings for QFormer which needs semantic context
+            base_embeddings, bridge_embeddings = self.model.get_base_and_bridge_embeddings(
+                pixel_values, 
+                text_embeddings=text_embeddings
+            )
             
             # Handle shape mismatches between different bridge architectures
             # Patch-based bridges (TileAttention, MiniQFormer, QFormer) may output different token counts

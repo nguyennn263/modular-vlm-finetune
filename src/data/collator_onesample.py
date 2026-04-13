@@ -83,24 +83,60 @@ def custom_collate_fn(
     
     # Tokenize text if tokenizer is provided
     if tokenizer is not None:
-        # Format following Vintern's pattern: <image>\nQuestion prompt\nAnswer
-        # This matches the format used in the inference notebook
-        texts = [
-            f"<image>\nQuestion: {q}\nAnswer: {a}"
-            for q, a in zip(questions, answers)
-        ]
+        # Format following notebook pattern: <image>\n{question}\nAnswer: {answer}
+        # Calculate where Answer begins for loss masking
         
-        # Tokenize with padding and truncation
-        encoded = tokenizer(
-            texts,
-            padding='max_length',
-            truncation=True,
-            max_length=max_length,
-            return_tensors='pt'
-        )
+        input_ids_list = []
+        attention_mask_list = []
+        answer_start_positions = []
         
-        result['input_ids'] = encoded['input_ids']
-        result['attention_mask'] = encoded['attention_mask']
+        for q, a in zip(questions, answers):
+            # Full text including answer
+            full_text = f"{q}\nAnswer: {a}"
+            
+            # Text up to answer header (for masking)
+            question_part = f"{q}\nAnswer: "
+            
+            # Encode both
+            full_enc = tokenizer(
+                full_text,
+                padding='max_length',
+                truncation=True,
+                max_length=max_length,
+                return_tensors='pt'
+            )
+            
+            question_enc = tokenizer(
+                question_part,
+                padding=False,
+                truncation=True,
+                max_length=max_length,
+                return_tensors='pt'
+            )
+            
+            # answer_start_pos: where answer tokens begin
+            answer_start_pos = question_enc['input_ids'].shape[1]
+            
+            input_ids_list.append(full_enc['input_ids'].squeeze(0))
+            attention_mask_list.append(full_enc['attention_mask'].squeeze(0))
+            answer_start_positions.append(answer_start_pos)
+        
+        # Pad to same length for batch
+        max_seq_len = max(ids.shape[0] for ids in input_ids_list)
+        input_ids_batch = []
+        attention_mask_batch = []
+        
+        for ids, mask in zip(input_ids_list, attention_mask_list):
+            pad_len = max_seq_len - ids.shape[0]
+            if pad_len > 0:
+                ids = torch.cat([ids, torch.zeros(pad_len, dtype=torch.long)])
+                mask = torch.cat([mask, torch.zeros(pad_len, dtype=torch.long)])
+            input_ids_batch.append(ids)
+            attention_mask_batch.append(mask)
+        
+        result['input_ids'] = torch.stack(input_ids_batch)
+        result['attention_mask'] = torch.stack(attention_mask_batch)
+        result['answer_start_pos'] = torch.tensor(answer_start_positions, dtype=torch.long)
     else:
         # Return raw text if no tokenizer
         result['questions'] = questions

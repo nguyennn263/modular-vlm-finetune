@@ -173,10 +173,11 @@ class VLMDataset(Dataset):
         
         # Now tokenize WITHOUT answer to find where answer begins
         # This is: "<image>\n{question}\nAnswer: "
+        # IMPORTANT: Use same settings as full_encoding (with special tokens) for alignment
         question_part = f"{question}\n{self.answer_header}"
         question_encoding = self.tokenizer(
             question_part,
-            add_special_tokens=False,  # Don't add <bos> etc
+            max_length=self.max_length,
             truncation=True,
             padding=False,
             return_tensors="pt",

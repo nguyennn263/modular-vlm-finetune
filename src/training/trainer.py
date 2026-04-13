@@ -27,7 +27,6 @@ from torchvision.transforms.functional import InterpolationMode
 from src.middleware.logger import data_loader_logger as logger
 from src.schema.data_schema import OneSample
 from src.data.collator_onesample import create_collate_fn
-from src.data.collator_vlm import collate_vlm_batch
 
 
 # ============================================================================
@@ -221,16 +220,13 @@ class BridgeTrainer:
         self._setup_result_tracking()
         
         # Data loaders
-        # Use custom collate function based on dataset type
+        # Use custom collate function if datasets contain OneSample objects
         collate_fn = None
         tokenizer = None
         
         if train_dataset and len(train_dataset) > 0:
-            sample = train_dataset[0]
-            
-            # Check if it's VLMDataset (returns dict with input_ids) or OneSample
-            if isinstance(sample, OneSample):
-                # OneSample objects - use standard collator
+            if isinstance(train_dataset[0], OneSample):
+                # Load tokenizer from model_name (like in the notebook)
                 try:
                     logger.info(f"Loading tokenizer from: {self.config.model_name}")
                     tokenizer = AutoTokenizer.from_pretrained(
@@ -243,19 +239,16 @@ class BridgeTrainer:
                     logger.error(f"Failed to load tokenizer: {e}")
                     raise
                 
+                # Store tokenizer for inference
                 self.tokenizer = tokenizer
+                
+                # Use max_length=256 for memory efficiency (reduces memory usage by ~50%)
+                # This is still plenty for Q&A pairs
                 collate_fn = create_collate_fn(
                     tokenizer=tokenizer,
                     image_size=(336, 336),
-                    max_length=256
+                    max_length=256  # Reduced from default 512
                 )
-            elif isinstance(sample, dict) and 'input_ids' in sample:
-                # VLMDataset - already tokenized, use VLM collator
-                logger.info("Detected VLMDataset - using VLM collate function")
-                collate_fn = collate_vlm_batch
-            else:
-                logger.warning(f"Unknown dataset type: {type(sample)}")
-                collate_fn = None
         
         self.train_loader = DataLoader(
             train_dataset,

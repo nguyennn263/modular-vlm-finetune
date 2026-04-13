@@ -671,9 +671,13 @@ class BridgeTrainer:
         shift_labels = input_ids[..., 1:].contiguous()  # [batch_size, text_len-1]
         
         # IMPORTANT: Mask question tokens - only compute loss on Answer part
-        # answer_start_pos tells us where Answer HEADER begins in full sequence
-        # But shift_labels has indices shifted by 1 (due to shift for next-token prediction)
-        # So mask question tokens: indices 0 to (answer_start_pos - 2) in shift_labels
+        # Indexing explanation:
+        # - answer_start_pos = position of first answer token in ORIGINAL sequence (N)
+        # - shift_labels = input_ids[..., 1:] shifts by 1
+        # - Original position k → shift_labels index (k-1)
+        # - Question tokens at original [0, N-1] → shift_labels [?, 0, 1, ..., N-2]
+        # - Answer tokens at original [N, ...] → shift_labels [N-1, N, ...]
+        # - So mask shift_labels indices [0, N-2] = :answer_start_pos-1
         if 'answer_start_pos' in batch:
             answer_start_positions = batch['answer_start_pos']
             
@@ -683,24 +687,25 @@ class BridgeTrainer:
                 if answer_start_positions.dim() == 0:
                     # Scalar - same for all samples
                     answer_start_pos = answer_start_positions.item()
-                    if answer_start_pos > 1:
-                        # Mask all tokens before answer content
-                        # answer_start_pos includes the "<|im_start|>assistant\n" tokens
-                        # So mask up to (answer_start_pos - 2) because of shift
+                    if answer_start_pos > 0:
+                        # Mask ALL question tokens (everything before answer content)
+                        # Correct boundary: shift_labels[:, :answer_start_pos-1]
                         for i in range(shift_labels.shape[0]):
-                            shift_labels[i, :answer_start_pos-2] = -100
+                            shift_labels[i, :answer_start_pos-1] = -100
                 else:
                     # Per-sample values [B]
                     for i in range(shift_labels.shape[0]):
                         answer_start_pos = answer_start_positions[i].item() if isinstance(answer_start_positions[i], torch.Tensor) else answer_start_positions[i]
-                        if answer_start_pos > 1:
-                            shift_labels[i, :answer_start_pos-2] = -100
+                        if answer_start_pos > 0:
+                            # CRITICAL FIX: Changed from answer_start_pos-2 → answer_start_pos-1
+                            # -2 was leaving answer header tokens UNMASKED → spam "Answer:Answer:..."
+                            shift_labels[i, :answer_start_pos-1] = -100
             else:
                 # Scalar int/float
                 answer_start_pos = int(answer_start_positions)
-                if answer_start_pos > 1:
+                if answer_start_pos > 0:
                     for i in range(shift_labels.shape[0]):
-                        shift_labels[i, :answer_start_pos-2] = -100
+                        shift_labels[i, :answer_start_pos-1] = -100
         
         ce_loss = F.cross_entropy(
             shift_logits.view(-1, shift_logits.shape[-1]),

@@ -194,11 +194,11 @@ class BridgeTrainer:
         self.model = model.to(self.device)
         
         # Ensure bridge module is in same dtype as vision model (bfloat16)
-        model_dtype = next(self.model.vision_model.parameters()).dtype
+        self.model_dtype = next(self.model.vision_model.parameters()).dtype
         if hasattr(self.model, 'bridge'):
-            self.model.bridge = self.model.bridge.to(dtype=model_dtype)
+            self.model.bridge = self.model.bridge.to(dtype=self.model_dtype)
         if hasattr(self.model, 'baseline_bridge'):
-            self.model.baseline_bridge = self.model.baseline_bridge.to(dtype=model_dtype)
+            self.model.baseline_bridge = self.model.baseline_bridge.to(dtype=self.model_dtype)
         
         # Disable gradient checkpointing on all models (both top-level and nested modules)
         # This prevents checkpoint warnings since we're only training the bridge
@@ -298,8 +298,8 @@ class BridgeTrainer:
         # Embedding normalization layer (shared across training)
         # Used in distillation to prevent embedding distribution collapse
         if config.normalize_embeddings:
-            self.embedding_norm = nn.LayerNorm(896).to(self.device)
-            logger.info("✓ Embedding normalization enabled (LayerNorm at 896-dim)")
+            self.embedding_norm = nn.LayerNorm(896, dtype=self.model_dtype).to(self.device)
+            logger.info(f"✓ Embedding normalization enabled (LayerNorm at 896-dim, dtype={self.model_dtype})")
         else:
             self.embedding_norm = None
         

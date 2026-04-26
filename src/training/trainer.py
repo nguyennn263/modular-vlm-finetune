@@ -686,7 +686,12 @@ class BridgeTrainer:
                             for i, idx in enumerate(indices, 1):
                                 sample = self.val_dataset[idx]
                                 question = sample.question if hasattr(sample, 'question') else 'N/A'
-                                answer = sample.answer if hasattr(sample, 'answer') else 'N/A'
+                                # Handle answers list (new schema)
+                                if hasattr(sample, 'answers'):
+                                    answers = sample.answers if isinstance(sample.answers, list) else [sample.answers]
+                                    answer = ' | '.join(answers) if answers else 'N/A'
+                                else:
+                                    answer = 'N/A'
                                 
                                 # Try to get model prediction using notebook approach
                                 try:
@@ -1008,7 +1013,12 @@ class BridgeTrainer:
                 
                 # Get question and answer
                 question = sample.question if hasattr(sample, 'question') else 'N/A'
-                answer = sample.answer if hasattr(sample, 'answer') else 'N/A'
+                # Handle answers list (new schema)
+                if hasattr(sample, 'answers'):
+                    answers = sample.answers if isinstance(sample.answers, list) else [sample.answers]
+                    answer = ' | '.join(answers) if answers else 'N/A'
+                else:
+                    answer = 'N/A'
                 
                 # Try to generate model output
                 model_output = None

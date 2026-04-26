@@ -792,26 +792,41 @@ class BridgeTrainer:
                                         )
                                         combined_attention = torch.cat([vision_attention, attention_mask], dim=1)
                                         
-                                        # Use generate() to get output
+                                        # Verify tokenizer has eos_token_id
+                                        eos_id = getattr(self.tokenizer, 'eos_token_id', None)
+                                        if eos_id is None:
+                                            eos_id = 2  # Default for most transformers
+                                        
+                                        # Use generate() with proper parameters for inputs_embeds
                                         outputs = self.model.language_model.generate(
                                             inputs_embeds=combined,
                                             attention_mask=combined_attention,
                                             max_new_tokens=50,
                                             do_sample=False,
                                             num_beams=1,
-                                            pad_token_id=self.tokenizer.eos_token_id,
-                                            eos_token_id=self.tokenizer.eos_token_id,
-                                            temperature=1.0,
-                                            top_p=1.0
+                                            pad_token_id=eos_id,
+                                            eos_token_id=eos_id,
+                                            # Remove temperature and top_p when do_sample=False
+                                            # Remove top_p for greedy decoding
+                                            # Force stopping at EOS
+                                            early_stopping=True
                                         )
                                         
-                                        # Decode answer robustly for inputs_embeds generation.
+                                        # Decode answer robustly for inputs_embeds generation
                                         generated_ids = outputs[0]
-                                        prompt_len = input_ids.shape[1]
+                                        prompt_len = input_ids.shape[1] + bridged_embeddings.shape[1]
+                                        
+                                        # Extract new tokens only (skip prompt tokens)
                                         if generated_ids.shape[0] > prompt_len:
                                             output_ids = generated_ids[prompt_len:]
                                         else:
+                                            # Fallback: try to find first new token by searching for EOS
                                             output_ids = generated_ids
+                                        
+                                        # Remove EOS token if present at end
+                                        if len(output_ids) > 0 and output_ids[-1] == eos_id:
+                                            output_ids = output_ids[:-1]
+                                        
                                         model_output = self.tokenizer.decode(output_ids, skip_special_tokens=True).strip()
                                         if not model_output:
                                             model_output = "[Empty output]"
@@ -1101,110 +1116,54 @@ class BridgeTrainer:
                         
                         # Get text embeddings from prompt
                         text_embeddings = self.model.language_model.model.embed_tokens(input_ids)
-                        
-                        # Combine vision + text embeddings
-                        combined_embeddings = torch.cat([bridge_output, text_embeddings], dim=1)
-                        
-                        # Create attention mask for combined embeddings
-                        vision_attention = torch.ones(
-                            bridge_output.shape[0],
-                            bridge_output.shape[1],
-                            device=self.device,
-                            dtype=attention_mask.dtype
-                        )
-                        combined_attention_mask = torch.cat([vision_attention, attention_mask], dim=1)
-                        
-                        # Generate with language model
-                        # Pass BOTH inputs_embeds AND attention_mask to guide generation
-                        outputs = self.model.language_model.generate(
-                            inputs_embeds=combined_embeddings,
-                            attention_mask=combined_attention_mask,
-                            max_new_tokens=50,
-                            do_sample=False,
-                            num_beams=1,
-                            pad_token_id=self.tokenizer.eos_token_id,
-                            eos_token_id=self.tokenizer.eos_token_id,
-                            top_p=1.0,
-                            temperature=1.0
-                        )
-                        
-                        # Decode output robustly for inputs_embeds generation.
-                        generated_ids = outputs[0]
-                        prompt_len = input_ids.shape[1]
-                        if generated_ids.shape[0] > prompt_len:
-                            output_ids = generated_ids[prompt_len:]
-                        else:
-                            output_ids = generated_ids
-                        model_output = self.tokenizer.decode(output_ids, skip_special_tokens=True).strip()
-                        if not model_output:
-                            model_output = "[Empty output]"
-                    
-                except Exception as e:
-                    model_output = f"[Generation error: {str(e)[:80]}]"
-                
-                # Log output
-                logger.info(f"\n[Sample {i}]")
-                logger.info(f"Question: {question}")
-                logger.info(f"Model Output: {model_output}")
-                logger.info(f"Ground truth: {answer}")
-        
-        except Exception as e:
-            logger.warning(f"Sample inference failed: {e}")
-        
-        finally:
-            self.model.train()
-    
-    def train(self):
-        """Main training loop."""
-        start_time = datetime.now()
-        
-        try:
-            for epoch in range(self.config.num_epochs):
-                epoch_start = datetime.now()
-                
-                # Train one epoch
-                avg_loss, should_stop = self.train_epoch(epoch)
-                
-                # Run validation at end of epoch
-                val_loss = self.validate()
-                
-                # Compute metrics
-                epoch_elapsed = (datetime.now() - epoch_start).total_seconds()
-                perplexity = torch.exp(torch.tensor(avg_loss)).item()
-                current_lr = self.scheduler.get_last_lr()[0] if hasattr(self.scheduler, 'get_last_lr') else self.config.learning_rate
-                
-                # Log epoch summary with metrics
-                logger.info(f"\n{'='*80}")
-                logger.info(f"Epoch {epoch+1}/{self.config.num_epochs}")
-                logger.info(f"{'='*80}")
-                logger.info(f"  Train Loss:        {avg_loss:.4f}")
-                logger.info(f"  [VAL] Val Loss:    {val_loss:.4f}")
-                logger.info(f"  Perplexity:        {perplexity:.4f}")
-                logger.info(f"  Learning Rate:     {current_lr:.2e}")
-                logger.info(f"  Early Stop Counter: {self.early_stop_counter}/{self.config.patience}")
-                logger.info(f"  Time:              {epoch_elapsed:.1f}s")
-                logger.info(f"  Best Val Loss:     {self.best_val_loss:.4f}")
-                
-                # Save epoch results to CSV
-                is_best = val_loss < self.best_val_loss - self.config.min_delta
-                epoch_metrics = {
-                    'train_loss': avg_loss,
-                    'val_loss': val_loss,
-                    'perplexity': perplexity,
-                    'learning_rate': current_lr,
-                    'is_best': is_best,
-                    'time_seconds': epoch_elapsed
-                }
-                self._save_epoch_results(epoch, epoch_metrics)
-                
-                # Show sample inference
-                self._sample_inference(epoch, num_samples=3)
-                
-                if should_stop:
-                    logger.warning(f"Early stopping triggered at epoch {epoch+1}")
-                    break
-            
-            # Save final model
+                            text_embeddings = text_embeddings.to(dtype=model_dtype)
+                            
+                            # Combine vision + text embeddings
+                            combined_embeddings = torch.cat([bridge_output, text_embeddings], dim=1)
+                            
+                            # Create attention mask for combined embeddings
+                            vision_attention = torch.ones(
+                                bridge_output.shape[0],
+                                bridge_output.shape[1],
+                                device=self.device,
+                                dtype=attention_mask.dtype
+                            )
+                            combined_attention_mask = torch.cat([vision_attention, attention_mask], dim=1)
+                            
+                            # Verify tokenizer has eos_token_id
+                            eos_id = getattr(self.tokenizer, 'eos_token_id', None)
+                            if eos_id is None:
+                                eos_id = 2  # Default for most transformers
+                            
+                            # Generate with language model using proper parameters
+                            outputs = self.model.language_model.generate(
+                                inputs_embeds=combined_embeddings,
+                                attention_mask=combined_attention_mask,
+                                max_new_tokens=50,
+                                do_sample=False,
+                                num_beams=1,
+                                pad_token_id=eos_id,
+                                eos_token_id=eos_id,
+                                # Remove temperature and top_p when do_sample=False
+                                # Force stopping at EOS
+                                early_stopping=True
+                            )
+                            
+                            # Decode output robustly for inputs_embeds generation
+                            generated_ids = outputs[0]
+                            prompt_len = input_ids.shape[1] + bridge_output.shape[1]
+                            
+                            # Extract new tokens only (skip prompt tokens)
+                            if generated_ids.shape[0] > prompt_len:
+                                output_ids = generated_ids[prompt_len:]
+                            else:
+                                # Fallback: use all generated tokens
+                                output_ids = generated_ids
+                            
+                            # Remove EOS token if present at end
+                            if len(output_ids) > 0 and output_ids[-1] == eos_id:
+                                output_ids = output_ids[:-1]
+                            
             if self.config.save_best and self.best_model_path:
                 logger.info(f"✓ Best model at: {self.best_model_path}")
         

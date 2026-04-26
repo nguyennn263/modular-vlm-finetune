@@ -714,20 +714,16 @@ class BridgeTrainer:
                                     model_dtype = next(self.model.vision_model.parameters()).dtype
                                     pixel_values = pixel_values.to(dtype=model_dtype)
                                     
-                                    # Prepare question with prompt format (from notebook)
-                                    question_text = f"<image>\nQuestion: {question}\nAnswer:"
-                                    
-                                    # Generate answer - custom inference with bridge
+                                    # Inference with no grad
                                     with torch.no_grad():
-                                        # Get vision embeddings via bridge (respects training)
-                                        # pixel_values shape: [num_patches, 3, 448, 448] - process first patch only
+                                        # Get vision embeddings via bridge
                                         if pixel_values.dim() == 4:
                                             pixel_values_input = pixel_values[0:1, :, :, :]  # [1, 3, 448, 448]
                                         else:
                                             pixel_values_input = pixel_values.unsqueeze(0)
                                         vision_output = self.model.vision_model(pixel_values_input)
                                         
-                                        # Extract tensor from BaseModelOutputWithPooling using same logic as forward_pass
+                                        # Extract tensor from BaseModelOutputWithPooling
                                         bridge_type = getattr(self.model, 'bridge_type', 'unknown')
                                         if hasattr(vision_output, 'last_hidden_state'):
                                             last_hidden = vision_output.last_hidden_state
@@ -761,13 +757,23 @@ class BridgeTrainer:
                                         bridged_embeddings = self.model.bridge(vision_embeddings)
                                         if bridged_embeddings.dim() == 2:
                                             bridged_embeddings = bridged_embeddings.unsqueeze(1)
-                                        
-                                        # Tokenize question
+                                    
+                                    # Prepare prompt matching training format
+                                    system_message = "Bạn là một mô hình trí tuệ nhân tạo đa phương thức Tiếng Việt có tên gọi là Vintern, được phát triển bởi người Việt. Bạn là một trợ lý trí tuệ nhân tạo hữu ích và không gây hại."
+                                    prompt_text = (
+                                        f"<|im_start|>system\n{system_message}<|im_end|>\n"
+                                        f"<|im_start|>user\n<image>\n{question}<|im_end|>\n"
+                                        f"<|im_start|>assistant\n"
+                                    )
+                                    
+                                    with torch.no_grad():
+                                        # Tokenize prompt
                                         inputs = self.tokenizer(
-                                            question_text, 
+                                            prompt_text,
                                             return_tensors='pt',
-                                            max_length=256,
-                                            truncation=True
+                                            padding=False,
+                                            truncation=True,
+                                            max_length=512
                                         )
                                         input_ids = inputs['input_ids'].to(self.device)
                                         attention_mask = inputs['attention_mask'].to(self.device)
@@ -786,54 +792,22 @@ class BridgeTrainer:
                                         )
                                         combined_attention = torch.cat([vision_attention, attention_mask], dim=1)
                                         
-                                        # Generate tokens greedily (200 token max)
-                                        generated_tokens = []
-                                        max_new_tokens = 200
-                                        
-                                        outputs = self.model.language_model(
+                                        # Use generate() to get output
+                                        outputs = self.model.language_model.generate(
                                             inputs_embeds=combined,
                                             attention_mask=combined_attention,
-                                            return_dict=True
+                                            max_new_tokens=50,
+                                            do_sample=False,
+                                            num_beams=1,
+                                            pad_token_id=self.tokenizer.eos_token_id,
+                                            eos_token_id=self.tokenizer.eos_token_id,
+                                            temperature=1.0,
+                                            top_p=1.0
                                         )
-                                        logits = outputs.logits
                                         
-                                        for step in range(max_new_tokens):
-                                            last_logits = logits[:, -1, :]
-                                            next_token = torch.argmax(last_logits, dim=-1, keepdim=True)
-                                            generated_tokens.append(next_token)
-                                            
-                                            # Stop at EOS/PAD
-                                            if next_token.item() == self.tokenizer.eos_token_id or next_token.item() == self.tokenizer.pad_token_id:
-                                                break
-                                            
-                                            # Continue generation
-                                            next_embedding = self.model.language_model.model.embed_tokens(next_token)
-                                            next_embedding = next_embedding.to(dtype=model_dtype)
-                                            combined = torch.cat([combined, next_embedding], dim=1)
-                                            
-                                            next_attention = torch.ones(
-                                                1, 1, 
-                                                device=self.device, 
-                                                dtype=attention_mask.dtype
-                                            )
-                                            combined_attention = torch.cat([combined_attention, next_attention], dim=1)
-                                            
-                                            outputs = self.model.language_model(
-                                                inputs_embeds=combined,
-                                                attention_mask=combined_attention,
-                                                return_dict=True
-                                            )
-                                            logits = outputs.logits
-                                        
-                                        # Decode answer
-                                        if generated_tokens:
-                                            generated_ids = torch.cat(generated_tokens, dim=1)
-                                            model_output = self.tokenizer.decode(
-                                                generated_ids[0], 
-                                                skip_special_tokens=True
-                                            ).strip()
-                                        else:
-                                            model_output = "[No answer generated]"
+                                        # Decode answer (skip input tokens)
+                                        output_ids = outputs[0, combined.shape[1]:]
+                                        model_output = self.tokenizer.decode(output_ids, skip_special_tokens=True).strip()
                                     
                                 except Exception as e:
                                     model_output = f"[Generation failed: {str(e)[:80]}]"
@@ -1050,15 +1024,26 @@ class BridgeTrainer:
                     model_dtype = next(self.model.vision_model.parameters()).dtype
                     pixel_values = pixel_values.to(dtype=model_dtype, device=self.device)
                     
-                    # Tokenize question
-                    question_text = f"Question: {question}\nAnswer:"
+                    # Format text matching training format
+                    system_message = "Bạn là một mô hình trí tuệ nhân tạo đa phương thức Tiếng Việt có tên gọi là Vintern, được phát triển bởi người Việt. Bạn là một trợ lý trí tuệ nhân tạo hữu ích và không gây hại."
+                    
+                    # Full prompt format (matching training)
+                    prompt_text = (
+                        f"<|im_start|>system\n{system_message}<|im_end|>\n"
+                        f"<|im_start|>user\n<image>\n{question}<|im_end|>\n"
+                        f"<|im_start|>assistant\n"
+                    )
+                    
+                    # Tokenize prompt
                     inputs = self.tokenizer(
-                        question_text,
+                        prompt_text,
                         return_tensors="pt",
-                        padding=True,
-                        truncation=True
+                        padding=False,
+                        truncation=True,
+                        max_length=512
                     )
                     input_ids = inputs['input_ids'].to(self.device)
+                    attention_mask = inputs['attention_mask'].to(self.device)
                     
                     # Get bridge model's inference output
                     with torch.no_grad():
@@ -1107,24 +1092,38 @@ class BridgeTrainer:
                         if bridge_output.dim() == 2:
                             bridge_output = bridge_output.unsqueeze(1)
                         
-                        # Get text embeddings
+                        # Get text embeddings from prompt
                         text_embeddings = self.model.language_model.model.embed_tokens(input_ids)
                         
-                        # Combine embeddings
+                        # Combine vision + text embeddings
                         combined_embeddings = torch.cat([bridge_output, text_embeddings], dim=1)
                         
+                        # Create attention mask for combined embeddings
+                        vision_attention = torch.ones(
+                            bridge_output.shape[0],
+                            bridge_output.shape[1],
+                            device=self.device,
+                            dtype=attention_mask.dtype
+                        )
+                        combined_attention_mask = torch.cat([vision_attention, attention_mask], dim=1)
+                        
                         # Generate with language model
+                        # Pass BOTH inputs_embeds AND attention_mask to guide generation
                         outputs = self.model.language_model.generate(
                             inputs_embeds=combined_embeddings,
+                            attention_mask=combined_attention_mask,
                             max_new_tokens=50,
                             do_sample=False,
                             num_beams=1,
-                            pad_token_id=self.tokenizer.eos_token_id
+                            pad_token_id=self.tokenizer.eos_token_id,
+                            eos_token_id=self.tokenizer.eos_token_id,
+                            top_p=1.0,
+                            temperature=1.0
                         )
                         
                         # Decode output (skip input tokens)
                         output_ids = outputs[0, combined_embeddings.shape[1]:]
-                        model_output = self.tokenizer.decode(output_ids, skip_special_tokens=True)
+                        model_output = self.tokenizer.decode(output_ids, skip_special_tokens=True).strip()
                     
                 except Exception as e:
                     model_output = f"[Generation error: {str(e)[:80]}]"

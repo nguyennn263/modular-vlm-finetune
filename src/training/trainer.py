@@ -708,7 +708,7 @@ class BridgeTrainer:
                                         sample.image_path, 
                                         input_size=448, 
                                         max_num=6
-                                    ).to(self.model.device)
+                                    ).to(self.device)
                                     
                                     # Get model dtype from vision model
                                     model_dtype = next(self.model.vision_model.parameters()).dtype
@@ -805,9 +805,16 @@ class BridgeTrainer:
                                             top_p=1.0
                                         )
                                         
-                                        # Decode answer (skip input tokens)
-                                        output_ids = outputs[0, combined.shape[1]:]
+                                        # Decode answer robustly for inputs_embeds generation.
+                                        generated_ids = outputs[0]
+                                        prompt_len = input_ids.shape[1]
+                                        if generated_ids.shape[0] > prompt_len:
+                                            output_ids = generated_ids[prompt_len:]
+                                        else:
+                                            output_ids = generated_ids
                                         model_output = self.tokenizer.decode(output_ids, skip_special_tokens=True).strip()
+                                        if not model_output:
+                                            model_output = "[Empty output]"
                                     
                                 except Exception as e:
                                     model_output = f"[Generation failed: {str(e)[:80]}]"
@@ -1121,9 +1128,16 @@ class BridgeTrainer:
                             temperature=1.0
                         )
                         
-                        # Decode output (skip input tokens)
-                        output_ids = outputs[0, combined_embeddings.shape[1]:]
+                        # Decode output robustly for inputs_embeds generation.
+                        generated_ids = outputs[0]
+                        prompt_len = input_ids.shape[1]
+                        if generated_ids.shape[0] > prompt_len:
+                            output_ids = generated_ids[prompt_len:]
+                        else:
+                            output_ids = generated_ids
                         model_output = self.tokenizer.decode(output_ids, skip_special_tokens=True).strip()
+                        if not model_output:
+                            model_output = "[Empty output]"
                     
                 except Exception as e:
                     model_output = f"[Generation error: {str(e)[:80]}]"
@@ -1131,8 +1145,7 @@ class BridgeTrainer:
                 # Log output
                 logger.info(f"\n[Sample {i}]")
                 logger.info(f"Question: {question}")
-                if model_output:
-                    logger.info(f"Model Output: {model_output}")
+                logger.info(f"Model Output: {model_output}")
                 logger.info(f"Ground truth: {answer}")
         
         except Exception as e:

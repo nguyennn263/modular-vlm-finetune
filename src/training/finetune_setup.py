@@ -18,10 +18,8 @@ from src.modeling.bridge_modules import (
     LinearBridge,
     LinearBridgeBaseline,
     ResidualBridge,
-    BetterMLP,
     MultiTokenMLP,
     AttentionBridge,
-    TileAttentionBridge,
     GatedFusionBridge,
     MiniQFormer,
     QFormer
@@ -108,9 +106,6 @@ class VisionLanguageBridge(nn.Module):
         
         if self.bridge_type == 'linear_bridge':
             return LinearBridge(in_features=vision_dim, out_features=hidden_dim)
-        
-        elif self.bridge_type == 'residual':
-            return ResidualBridge(in_features=vision_dim, out_features=hidden_dim)
         
         elif self.bridge_type == 'residual':
             return ResidualBridge(in_features=vision_dim, out_features=hidden_dim)

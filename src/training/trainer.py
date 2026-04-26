@@ -8,6 +8,7 @@ Vision Model and Language Model are completely frozen.
 """
 
 import os
+import math
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -331,7 +332,9 @@ class BridgeTrainer:
         )
         
         # Scheduler
-        total_steps = len(self.train_loader) * self.config.num_epochs
+        # Scheduler should follow optimizer steps, not micro-batches.
+        steps_per_epoch = math.ceil(len(self.train_loader) / self.config.gradient_accumulation_steps)
+        total_steps = max(steps_per_epoch * self.config.num_epochs, 1)
         self.scheduler = CosineAnnealingLR(
             self.optimizer,
             T_max=total_steps,
@@ -356,7 +359,6 @@ class BridgeTrainer:
     def _setup_result_tracking(self):
         """Setup per-epoch result tracking and log files."""
         import csv
-        from datetime import datetime
         
         # Create results directory
         results_dir = Path(self.config.output_dir) / "results"
@@ -398,13 +400,12 @@ class BridgeTrainer:
         try:
             with open(self.log_file, 'a') as f:
                 f.write(message + '\n')
-        except Exception as e:
+        except Exception:
             pass  # Silently fail if file write fails
     
     def _save_epoch_results(self, epoch: int, epoch_metrics: Dict):
         """Save per-epoch results to CSV."""
         import csv
-        from datetime import datetime
         
         try:
             with open(self.epoch_results_file, 'a', newline='') as f:
@@ -608,10 +609,24 @@ class BridgeTrainer:
         # Shift for next-token prediction
         shift_logits = text_logits[..., :-1, :].contiguous()  # [batch_size, text_len-1, vocab_size]
         shift_labels = input_ids[..., 1:].contiguous()  # [batch_size, text_len-1]
-        
+
+        # Compute loss only on valid answer tokens (exclude padding and prompt tokens).
+        loss_mask = attention_mask[..., 1:].contiguous().bool()
+        if 'answer_start_pos' in batch:
+            answer_start_pos = batch['answer_start_pos'].to(self.device)
+            token_positions = torch.arange(1, input_ids.shape[1], device=self.device).unsqueeze(0)
+            answer_mask = token_positions >= answer_start_pos.unsqueeze(1)
+            loss_mask = loss_mask & answer_mask
+
+        if not loss_mask.any():
+            return shift_logits.sum() * 0.0
+
+        masked_labels = shift_labels.masked_fill(~loss_mask, -100)
+
         loss = F.cross_entropy(
             shift_logits.view(-1, shift_logits.shape[-1]),
-            shift_labels.view(-1),
+            masked_labels.view(-1),
+            ignore_index=-100,
             reduction='mean'
         )
         
@@ -635,17 +650,20 @@ class BridgeTrainer:
             desc=f"Epoch {epoch+1}/{self.config.num_epochs}",
             leave=False
         )
+
+        self.optimizer.zero_grad(set_to_none=True)
         
         for batch_idx, batch in enumerate(pbar):
             # Forward pass
             loss = self.forward_pass(batch)
-            
+            raw_loss = loss
+
             # Scale loss by accumulation steps (gradient accumulation divides loss)
             loss = loss / self.config.gradient_accumulation_steps
             
             # Backward pass (accumulate gradients)
             loss.backward()
-            accumulated_loss += loss.item()
+            accumulated_loss += raw_loss.item()
             accumulation_counter += 1
             
             # Update weights every N accumulation steps
@@ -659,19 +677,21 @@ class BridgeTrainer:
                 # Optimizer step
                 self.optimizer.step()
                 self.scheduler.step()
-                self.optimizer.zero_grad()
+                self.optimizer.zero_grad(set_to_none=True)
+
+                step_loss = accumulated_loss / self.config.gradient_accumulation_steps
                 
                 # Logging
-                total_loss += accumulated_loss
+                total_loss += step_loss
                 num_batches += 1
                 self.global_step += 1
                 
-                pbar.set_postfix({'loss': f'{accumulated_loss:.4f}'})
+                pbar.set_postfix({'loss': f'{step_loss:.4f}'})
                 
                 # Validation and checkpoint
                 if self.global_step % self.config.eval_steps == 0:
                     val_loss = self.validate()
-                    logger.info(f"Step {self.global_step}: train_loss={accumulated_loss:.4f}, [VAL] val_loss={val_loss:.4f}")
+                    logger.info(f"Step {self.global_step}: train_loss={step_loss:.4f}, [VAL] val_loss={val_loss:.4f}")
                     
                     # Show sample inference results every validation
                     import random
@@ -754,9 +774,6 @@ class BridgeTrainer:
                                                 raise ValueError(f"Cannot extract vision embeddings for {bridge_type}")
                                         
                                         vision_embeddings = vision_embeddings.detach()
-                                        bridged_embeddings = self.model.bridge(vision_embeddings)
-                                        if bridged_embeddings.dim() == 2:
-                                            bridged_embeddings = bridged_embeddings.unsqueeze(1)
                                     
                                     # Prepare prompt matching training format
                                     system_message = "Bạn là một mô hình trí tuệ nhân tạo đa phương thức Tiếng Việt có tên gọi là Vintern, được phát triển bởi người Việt. Bạn là một trợ lý trí tuệ nhân tạo hữu ích và không gây hại."
@@ -781,6 +798,14 @@ class BridgeTrainer:
                                         # Get text embeddings
                                         text_embeddings = self.model.language_model.model.embed_tokens(input_ids)
                                         text_embeddings = text_embeddings.to(dtype=model_dtype)
+
+                                        # QFormer needs question/text context for bridge generation.
+                                        if bridge_type == 'qformer':
+                                            bridged_embeddings = self.model.bridge(vision_embeddings, text_embeddings)
+                                        else:
+                                            bridged_embeddings = self.model.bridge(vision_embeddings)
+                                        if bridged_embeddings.dim() == 2:
+                                            bridged_embeddings = bridged_embeddings.unsqueeze(1)
                                         
                                         # Combine vision + text embeddings
                                         combined = torch.cat([bridged_embeddings, text_embeddings], dim=1)
@@ -861,8 +886,10 @@ class BridgeTrainer:
             )
             self.optimizer.step()
             self.scheduler.step()
-            self.optimizer.zero_grad()
-            total_loss += accumulated_loss
+            self.optimizer.zero_grad(set_to_none=True)
+            remaining_steps = accumulation_counter % self.config.gradient_accumulation_steps
+            step_loss = accumulated_loss / remaining_steps
+            total_loss += step_loss
             num_batches += 1
             self.global_step += 1
         
@@ -898,8 +925,6 @@ class BridgeTrainer:
         Returns:
             Dictionary of evaluation metrics
         """
-        from dataclasses import dataclass
-        
         self.model.eval()
         
         # Use test dataset if provided, otherwise use validation
@@ -1094,13 +1119,16 @@ class BridgeTrainer:
                         
                         vision_embeddings = vision_embeddings.detach()
                         
-                        # Apply bridge
-                        bridge_output = self.model.bridge(vision_embeddings)
-                        if bridge_output.dim() == 2:
-                            bridge_output = bridge_output.unsqueeze(1)
-                        
                         # Get text embeddings from prompt
                         text_embeddings = self.model.language_model.model.embed_tokens(input_ids)
+
+                        # Apply bridge (qformer requires text conditioning).
+                        if bridge_type == 'qformer':
+                            bridge_output = self.model.bridge(vision_embeddings, text_embeddings)
+                        else:
+                            bridge_output = self.model.bridge(vision_embeddings)
+                        if bridge_output.dim() == 2:
+                            bridge_output = bridge_output.unsqueeze(1)
                         
                         # Combine vision + text embeddings
                         combined_embeddings = torch.cat([bridge_output, text_embeddings], dim=1)

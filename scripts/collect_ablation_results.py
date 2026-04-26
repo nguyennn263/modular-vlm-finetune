@@ -15,13 +15,12 @@ def collect_results(ablation_dir: str = "outputs/ablation") -> pd.DataFrame:
 
     # Checkpoint mapping
     checkpoints = {
-        "baseline_full": ("Baseline: Full", "residual"),
-        "residual": ("Exp 1: ResidualBridge", "residual"),
-        "multi_token": ("Exp 2: MultiToken", "multi_token"),
-        "tile_attention": ("Exp 3: TileAttention", "tile_attention"),
-        "mini_qformer": ("Exp 4: MiniQFormer", "mini_qformer"),
-        "qformer": ("Exp 5: QFormer", "qformer"),
-        "ablation_no_bridge": ("Ablation: No Bridge", "no_bridge"),
+        "exp1_residual_bridge": ("Exp 1: ResidualBridge", "residual"),
+        "exp2_multi_token": ("Exp 2: MultiToken", "multi_token"),
+        "exp3_tile_attention": ("Exp 3: TileAttention", "tile_attention"),
+        "exp4_mini_qformer": ("Exp 4: MiniQFormer", "mini_qformer"),
+        "exp5_qformer": ("Exp 5: QFormer", "qformer"),
+        "exp6_gated_fusion": ("Exp 6: GatedFusion", "gated_fusion"),
     }
 
     for key, (name, bridge_type) in checkpoints.items():

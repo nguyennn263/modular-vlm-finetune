@@ -1,5 +1,5 @@
 """
-Run all 5 bridge experiments sequentially.
+Run all 6 bridge experiments sequentially.
 
 This script trains all 6 bridge variants:
 1. Exp1: Residual Bridge - Baseline + improvement path with residual connection
@@ -12,7 +12,7 @@ This script trains all 6 bridge variants:
 Usage:
     python scripts/run_all_experiments.py
 
-Results will be saved in checkpoints/exp{1-5}_*/
+Results will be saved in checkpoints/exp{1-6}_*/
 """
 
 import sys
@@ -25,10 +25,11 @@ from exp2_multi_token import main as exp2_main
 from exp3_tile_attention import main as exp3_main
 from exp4_mini_qformer import main as exp4_main
 from exp5_qformer import main as exp5_main
+from exp6_gated_fusion import main as exp6_main
 
 
 def run_all_experiments():
-    """Run all 5 experiments sequentially."""
+    """Run all 6 experiments sequentially."""
     
     experiments = [
         ("Exp1: ResidualBridge", exp1_main),
@@ -36,19 +37,20 @@ def run_all_experiments():
         ("Exp3: TileAttention", exp3_main),
         ("Exp4: MiniQFormer", exp4_main),
         ("Exp5: QFormer", exp5_main),
+        ("Exp6: GatedFusion", exp6_main),
     ]
     
     results = {}
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
     print("=" * 80)
-    print("Running all 5 bridge experiments")
+    print("Running all 6 bridge experiments")
     print("=" * 80)
     print(f"Device: {device}\n")
     
     for idx, (exp_name, exp_func) in enumerate(experiments, 1):
         print(f"\n{'=' * 80}")
-        print(f"Running {exp_name} ({idx}/5)")
+        print(f"Running {exp_name} ({idx}/6)")
         print("=" * 80)
         
         try:
@@ -70,7 +72,7 @@ def run_all_experiments():
     # Final info
     print("\n" + "=" * 80)
     print("Experiment results saved in:")
-    for i in range(1, 6):
+    for i in range(1, 7):
         print(f"  checkpoints/exp{i}_*/best_model.pt")
     print("=" * 80)
 

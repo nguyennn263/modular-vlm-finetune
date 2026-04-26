@@ -4,7 +4,6 @@ Bridge Ablation Study Runner
 Tự động chạy ablation experiments: full bridge → no bridge → components
 """
 
-import sys
 import argparse
 import json
 import time
@@ -13,7 +12,7 @@ from pathlib import Path
 from datetime import datetime
 import subprocess
 import yaml
-from typing import List, Dict, Tuple
+from typing import List, Dict
 
 BLUE = "\033[0;34m"
 GREEN = "\033[0;32m"
@@ -113,14 +112,19 @@ class AblationStudy:
             AblationExperiment("Exp 3: TileAttention", "tile_attention"),
             AblationExperiment("Exp 4: MiniQFormer", "mini_qformer"),
             AblationExperiment("Exp 5: QFormer", "qformer"),
+            AblationExperiment("Exp 6: GatedFusion", "gated_fusion"),
         ])
 
-        if train_cfg.get("include_linear_bridge", True):
-            exps.append(AblationExperiment(
-                "Exp 6: Linear",
+        if train_cfg.get("include_linear_bridge", False):
+            linear_exp = AblationExperiment(
+                "Exp 7: Linear",
                 "linear_bridge",
                 {"experiment_name": "linear_bridge"}
-            ))
+            )
+            if linear_exp.script and Path(linear_exp.script).exists():
+                exps.append(linear_exp)
+            else:
+                print_info("Skipping optional linear_bridge experiment (script not found)")
 
         return exps
 
@@ -170,6 +174,12 @@ class AblationStudy:
         """Run bridge experiment script"""
         print_header(f"Running: {exp.name}")
         exp.start_time = time.time()
+
+        if not exp.script:
+            exp.status = "failed"
+            exp.end_time = time.time()
+            print_error(f"{exp.name} failed: no script mapping for bridge_type={exp.bridge_type}")
+            return False
         
         try:
             # Set PYTHONPATH to project root so imports work
@@ -180,7 +190,7 @@ class AblationStudy:
             if self.max_samples:
                 cmd.extend(["--max-samples", str(self.max_samples)])
             
-            result = subprocess.run(
+            subprocess.run(
                 cmd,
                 check=True,
                 capture_output=False,
@@ -190,7 +200,7 @@ class AblationStudy:
             exp.end_time = time.time()
             print_success(f"{exp.name} completed ({exp.duration:.1f}m)")
             return True
-        except subprocess.CalledProcessError as e:
+        except subprocess.CalledProcessError:
             exp.status = "failed"
             exp.end_time = time.time()
             print_error(f"{exp.name} failed")
@@ -277,7 +287,7 @@ def main():
     # Auto-detect Kaggle environment and limit samples if not specified
     if args.max_samples is None and os.path.exists('/kaggle/working'):
         args.max_samples = 100
-        print_info(f"🔍 Kaggle detected → Auto-limit to 100 samples (override with --max-samples)")
+        print_info("🔍 Kaggle detected → Auto-limit to 100 samples (override with --max-samples)")
     
     study = AblationStudy(args.config, max_samples=args.max_samples)
     

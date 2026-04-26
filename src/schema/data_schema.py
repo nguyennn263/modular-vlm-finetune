@@ -8,7 +8,7 @@ class OneSample(BaseModel):
     
     image_path: str  # Store path instead of loaded image for memory efficiency
     question: str
-    answer: str  # Single answer for VLM training
+    answers: List[str]  # Multiple answers for VLM training (will pick one randomly or use majority vote)
     metadata: Optional[dict] = None
     
     def to_dict(self) -> Dict[str, Any]:

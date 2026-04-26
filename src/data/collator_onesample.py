@@ -3,9 +3,11 @@ Custom collate function for OneSample objects.
 Handles loading images, tokenizing text, and creating batches for VLM training.
 """
 import torch
+import random
 from PIL import Image
 from pathlib import Path
 from typing import List, Dict, Any, Optional
+from collections import Counter
 from src.schema.data_schema import OneSample
 from src.middleware.logger import data_loader_logger
 
@@ -64,7 +66,7 @@ def custom_collate_fn(
     """
     images = []
     questions = []
-    answers = []
+    answers_list = []
     
     for sample in batch:
         # Load and stack images
@@ -73,7 +75,18 @@ def custom_collate_fn(
         
         # Keep text data
         questions.append(sample.question)
-        answers.append(sample.answer)
+        
+        # Handle multiple answers: use majority vote like ref1/ does
+        # If only one answer, use it. Otherwise use the most common one.
+        sample_answers = sample.answers if sample.answers else ['']
+        if len(sample_answers) == 1:
+            selected_answer = sample_answers[0]
+        else:
+            # Majority vote: get most common answer
+            counter = Counter(sample_answers)
+            selected_answer = counter.most_common(1)[0][0]
+        
+        answers_list.append(selected_answer)
     
     # Stack images into batch tensor
     pixel_values = torch.stack(images, dim=0)  # (B, 3, H, W)
@@ -91,7 +104,7 @@ def custom_collate_fn(
         attention_mask_list = []
         answer_start_positions = []
         
-        for q, a in zip(questions, answers):
+        for q, a in zip(questions, answers_list):
             # Extract clean question (remove <image>\n if present)
             question_clean = q
             if q.startswith("<image>\n"):
@@ -154,7 +167,7 @@ def custom_collate_fn(
     else:
         # Return raw text if no tokenizer
         result['questions'] = questions
-        result['answers'] = answers
+        result['answers'] = answers_list
     
     return result
 

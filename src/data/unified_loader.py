@@ -111,26 +111,41 @@ class UnifiedDataLoader:
                     data_loader_logger.debug(f"Image not found for {image_col}={image_id}")
                     continue
                 
-                # Extract question and answer
+                # Extract question and answers
                 question = str(row.get('question', ''))
                 
-                # Handle answer - could be single value or JSON list
-                answer_val = row.get('answers', row.get('answer'))
-                if pd.isna(answer_val):
-                    answer = ''
-                elif isinstance(answer_val, str):
+                # Handle answers - should be list of answers (like ref1/)
+                answers_val = row.get('answers', row.get('answer', []))
+                answers_list = []
+                
+                if pd.isna(answers_val):
+                    answers_list = ['']
+                elif isinstance(answers_val, str):
                     try:
-                        # Try parsing as JSON list
-                        answer = json.loads(answer_val)[0] if answer_val.startswith('[') else answer_val
+                        # Try parsing as list representation string: "['answer1', 'answer2']"
+                        import ast
+                        answers_list = ast.literal_eval(answers_val)
+                        if not isinstance(answers_list, list):
+                            answers_list = [str(answers_list)]
                     except:
-                        answer = str(answer_val)
+                        # Fallback: treat as single answer
+                        answers_list = [str(answers_val)]
+                elif isinstance(answers_val, list):
+                    # Already a list
+                    answers_list = [str(a).strip() for a in answers_val]
                 else:
-                    answer = str(answer_val)
+                    # Single value
+                    answers_list = [str(answers_val)]
+                
+                # Filter out empty strings and strip whitespace
+                answers_list = [a.strip() for a in answers_list if a and str(a).strip()]
+                if not answers_list:
+                    answers_list = ['']
                 
                 sample = OneSample(
                     image_path=image_path,
                     question=question.strip(),
-                    answer=answer.strip()
+                    answers=answers_list
                 )
                 samples.append(sample)
                 

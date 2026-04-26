@@ -149,14 +149,6 @@ class TrainConfig:
     patience: int = 5
     min_delta: float = 0.001
     
-    # Distillation loss (critical for preventing embedding distribution collapse)
-    use_distillation: bool = True
-    distillation_loss_weight: float = 0.1  # λ for MSE loss: total = CE + λ*MSE
-    distill_all_tokens: bool = True  # CRITICAL FIX: Distill ALL tokens, not pooled
-    embedding_l2_weight: float = 0.01  # L2 regularization for embedding magnitude
-    normalize_embeddings: bool = True  # LayerNorm embeddings to prevent collapse
-    warm_start: bool = True  # Initialize bridge from baseline weights
-    
     # Checkpoint
     resume_from: Optional[str] = None
     save_best: bool = True
@@ -194,23 +186,15 @@ class BridgeTrainer:
         self.model = model.to(self.device)
         
         # Ensure bridge module is in same dtype as vision model (bfloat16)
-        self.model_dtype = next(self.model.vision_model.parameters()).dtype
+        model_dtype = next(self.model.vision_model.parameters()).dtype
         if hasattr(self.model, 'bridge'):
-            self.model.bridge = self.model.bridge.to(dtype=self.model_dtype)
-        if hasattr(self.model, 'baseline_bridge'):
-            self.model.baseline_bridge = self.model.baseline_bridge.to(dtype=self.model_dtype)
+            self.model.bridge = self.model.bridge.to(dtype=model_dtype)
         
-        # Disable gradient checkpointing on all models (both top-level and nested modules)
-        # This prevents checkpoint warnings since we're only training the bridge
-        for module in [self.model.vision_model, self.model.language_model]:
-            if module is not None:
-                # Disable on top-level module
-                if hasattr(module, 'gradient_checkpointing_disable'):
-                    module.gradient_checkpointing_disable()
-                # Also disable on all submodules (for nested architectures)
-                for submodule in module.modules():
-                    if hasattr(submodule, 'gradient_checkpointing'):
-                        submodule.gradient_checkpointing = False
+        # Disable gradient checkpointing on frozen models to eliminate warnings
+        if hasattr(self.model.vision_model, 'gradient_checkpointing_disable'):
+            self.model.vision_model.gradient_checkpointing_disable()
+        if hasattr(self.model.language_model, 'gradient_checkpointing_disable'):
+            self.model.language_model.gradient_checkpointing_disable()
         
         self.train_dataset = train_dataset
         self.val_dataset = val_dataset
@@ -285,23 +269,11 @@ class BridgeTrainer:
         # Setup optimization
         self._setup_optimization()
         
-        # Warm start: initialize bridge from baseline if enabled
-        if hasattr(self.model, 'warm_start_from_baseline') and self.config.warm_start:
-            self.model.warm_start_from_baseline()
-        
         # Training state
         self.global_step = 0
         self.best_val_loss = float('inf')
         self.early_stop_counter = 0
         self.best_model_path = None
-        
-        # Embedding normalization layer (shared across training)
-        # Used in distillation to prevent embedding distribution collapse
-        if config.normalize_embeddings:
-            self.embedding_norm = nn.LayerNorm(896, dtype=self.model_dtype).to(self.device)
-            logger.info(f"✓ Embedding normalization enabled (LayerNorm at 896-dim, dtype={self.model_dtype})")
-        else:
-            self.embedding_norm = None
         
         # Checkpoint management: track recent checkpoints for cleanup
         self.recent_checkpoints = []  # Keep only 2 most recent
@@ -517,7 +489,7 @@ class BridgeTrainer:
         # Extract tensor from BaseModelOutputWithPooling
         # Different bridges need different input shapes:
         # - BetterMLP: pooled vector [batch, 1024]
-        # - Patch-based (TileAttention, MiniQFormer, QFormer): full sequence [batch, num_patches, 1024]
+        # - Others (MultiTokenMLP, AttentionBridge, etc): full sequence [batch, num_patches, 1024]
         bridge_type = getattr(self.model, 'bridge_type', 'unknown')
         
         # Extract vision features - debug what we have
@@ -532,12 +504,9 @@ class BridgeTrainer:
             pooler = None
         
         # Decide which to use based on bridge type
-        # Pooled-based bridges: residual, multi_token, gated_fusion (+ legacy names for compat)
-        # Patch-based bridges: tile_attention, attention, mini_qformer, qformer
-        pooled_bridges = ['residual', 'linear_bridge', 'multi_token', 'gated_fusion']
-        if bridge_type in pooled_bridges:
-            # Residual, MultiTokenMLP, GatedFusion expect single pooled vector [batch, 1024]
-            # They expand to multiple tokens internally
+        if bridge_type in ['linear_bridge', 'better_mlp', 'multi_token']:
+            # LinearBridge, BetterMLP + MultiTokenMLP expect single pooled vector [batch, 1024]
+            # Both expand to multiple tokens internally
             if pooler is not None:
                 vision_embeddings = pooler
             elif last_hidden is not None:
@@ -545,8 +514,7 @@ class BridgeTrainer:
             else:
                 vision_embeddings = vision_output
         else:
-            # Patch-based bridges: tile_attention, attention, mini_qformer, qformer
-            # These need full sequence [batch, num_patches, 1024]
+            # AttentionBridge, MiniQFormer, QFormer need full sequence [batch, num_patches, 1024]
             if last_hidden is not None and last_hidden.dim() == 3:
                 vision_embeddings = last_hidden  # Full sequence
             elif last_hidden is not None and last_hidden.dim() == 2:
@@ -565,41 +533,32 @@ class BridgeTrainer:
                 else:
                     raise ValueError(f"Cannot extract vision embeddings from {type(vision_output)}")
         
-        # NOTE: Do NOT detach vision embeddings during training!
-        # Vision model is frozen (requires_grad=False), so gradients won't update it
-        # Detach would break gradient flow to bridge, preventing training
-        # vision_embeddings stays connected to computation graph for bridge training
+        # Detach vision embeddings since vision model is frozen
+        # This prevents any gradient computation in the vision model
+        vision_embeddings = vision_embeddings.detach()
         
         # Validate shapes before passing to bridge
-        # 2D bridges expect pooled vectors [batch, dim]
-        # 3D bridges expect patch sequences [batch, num_patches, dim]
-        pooled_bridges_2d = ['residual', 'linear_bridge', 'multi_token', 'gated_fusion']
-        patch_bridges_3d = ['tile_attention', 'mini_qformer', 'qformer']
-        
-        if bridge_type in pooled_bridges_2d:
+        if bridge_type in ['linear_bridge', 'better_mlp', 'multi_token']:
             # These expect 2D pooled vectors [batch, 1024]
             assert vision_embeddings.dim() == 2, (
                 f"Bridge {bridge_type} expects 2D vision_embeddings [batch, dim], "
                 f"got shape {vision_embeddings.shape} (dim={vision_embeddings.dim()})"
             )
-        elif bridge_type in patch_bridges_3d:
-            # Patch-based bridges expect 3D sequences [batch, seq, dim]
+        else:
+            # Others expect 3D sequences [batch, seq, dim]
             assert vision_embeddings.dim() == 3, (
                 f"Bridge {bridge_type} expects 3D vision_embeddings [batch, seq, dim], "
                 f"got shape {vision_embeddings.shape} (dim={vision_embeddings.dim()})"
             )
-        else:
-            raise ValueError(f"Unknown bridge type: {bridge_type}")
         
         # Get text embeddings early (needed for QFormer and concatenation)
         text_embeddings = self.model.language_model.model.embed_tokens(input_ids)
         # Convert to model dtype (embeddings are float32 by default)
         text_embeddings = text_embeddings.to(dtype=model_dtype)
         
-        # NOTE: Do NOT detach text embeddings during training!
-        # LLM is frozen (requires_grad=False), so gradients won't update it
-        # Detach would break gradient flow to bridge
-        # text_embeddings stays connected for full gradient computation
+        # Detach text embeddings since language model is frozen
+        # This prevents any gradient computation in the language model embeddings
+        text_embeddings = text_embeddings.detach()
         
         # Apply bridge module (trainable)
         # Bridge handles both shape conversion and augmentation
@@ -609,26 +568,6 @@ class BridgeTrainer:
         else:
             # All other bridges just take vision embeddings
             bridged_embeddings = self.model.bridge(vision_embeddings)
-        
-        # VALIDATION: Check bridge output shape and dtype compatibility
-        # All bridges should output: [batch, seq_len, llm_hidden_size]
-        # dtype should match model dtype (bfloat16)
-        if self.global_step == 0:
-            logger.info(f"[Bridge Architecture Check] bridge_type={bridge_type}")
-            logger.info(f"  bridge output shape: {bridged_embeddings.shape}")
-            logger.info(f"  bridge output dtype: {bridged_embeddings.dtype}")
-            logger.info(f"  expected dtype: {model_dtype}")
-            
-            if bridged_embeddings.dtype != model_dtype:
-                logger.warning(f"  ⚠️ dtype mismatch! {bridged_embeddings.dtype} != {model_dtype}")
-                logger.info(f"  Converting bridge output to {model_dtype}")
-        
-        # DEBUG: Verify gradients are flowing (log on first batch only)
-        if self.global_step == 0 or self.global_step % 1000 == 0:
-            bridge_params_trainable = sum(1 for p in self.model.bridge.parameters() if p.requires_grad)
-            logger.info(f"[Gradient Check] vision_emb.requires_grad={vision_embeddings.requires_grad}, "
-                       f"bridged_emb.requires_grad={bridged_embeddings.requires_grad}, "
-                       f"bridge_trainable_params={bridge_params_trainable}")
         
         # Ensure bridged_embeddings has sequence dimension [batch_size, num_tokens, text_dim]
         # So it can be concatenated with text_embeddings [batch_size, seq_len, text_dim]
@@ -661,7 +600,7 @@ class BridgeTrainer:
         
         logits = outputs.logits
         
-        # Compute primary loss (next-token prediction) on ANSWER tokens only
+        # Compute loss (next-token prediction) on text tokens only
         # logits has shape [batch_size, num_vision_tokens + text_len, vocab_size]
         # Skip all vision tokens and use only text logits
         text_logits = logits[:, num_vision_tokens:, :]  # [batch_size, text_len, vocab_size]
@@ -670,148 +609,13 @@ class BridgeTrainer:
         shift_logits = text_logits[..., :-1, :].contiguous()  # [batch_size, text_len-1, vocab_size]
         shift_labels = input_ids[..., 1:].contiguous()  # [batch_size, text_len-1]
         
-        # IMPORTANT: Mask question tokens - only compute loss on Answer part
-        # Indexing explanation:
-        # - answer_start_pos = position of first answer token in ORIGINAL sequence (N)
-        # - shift_labels = input_ids[..., 1:] shifts by 1
-        # - Original position k → shift_labels index (k-1)
-        # - Question tokens at original [0, N-1] → shift_labels [?, 0, 1, ..., N-2]
-        # - Answer tokens at original [N, ...] → shift_labels [N-1, N, ...]
-        # - So mask shift_labels indices [0, N-2] = :answer_start_pos-1
-        if 'answer_start_pos' in batch:
-            answer_start_positions = batch['answer_start_pos']
-            
-            # Handle both single value and per-sample values
-            if isinstance(answer_start_positions, torch.Tensor):
-                # Could be [B] or scalar
-                if answer_start_positions.dim() == 0:
-                    # Scalar - same for all samples
-                    answer_start_pos = answer_start_positions.item()
-                    if answer_start_pos > 0:
-                        # Mask ALL question tokens (everything before answer content)
-                        # Correct boundary: shift_labels[:, :answer_start_pos-1]
-                        for i in range(shift_labels.shape[0]):
-                            shift_labels[i, :answer_start_pos-1] = -100
-                else:
-                    # Per-sample values [B]
-                    for i in range(shift_labels.shape[0]):
-                        answer_start_pos = answer_start_positions[i].item() if isinstance(answer_start_positions[i], torch.Tensor) else answer_start_positions[i]
-                        if answer_start_pos > 0:
-                            # CRITICAL FIX: Changed from answer_start_pos-2 → answer_start_pos-1
-                            # -2 was leaving answer header tokens UNMASKED → spam "Answer:Answer:..."
-                            shift_labels[i, :answer_start_pos-1] = -100
-            else:
-                # Scalar int/float
-                answer_start_pos = int(answer_start_positions)
-                if answer_start_pos > 0:
-                    for i in range(shift_labels.shape[0]):
-                        shift_labels[i, :answer_start_pos-1] = -100
-        
-        ce_loss = F.cross_entropy(
+        loss = F.cross_entropy(
             shift_logits.view(-1, shift_logits.shape[-1]),
             shift_labels.view(-1),
             reduction='mean'
         )
         
-        # VALIDATION: Log loss computation details for debugging
-        # Track: total tokens, question tokens masked, answer tokens used
-        if self.global_step == 0 or self.global_step % 500 == 0:
-            total_tokens = shift_labels.numel()
-            num_answer_tokens = (shift_labels != -100).sum().item()
-            num_question_tokens = (shift_labels == -100).sum().item()
-            answer_ratio = num_answer_tokens / total_tokens * 100 if total_tokens > 0 else 0
-            
-            logger.info(f"[Format Validation] Step {self.global_step}:")
-            logger.info(f"  Total tokens: {total_tokens}")
-            logger.info(f"  Answer tokens (used for loss): {num_answer_tokens} ({answer_ratio:.1f}%)")
-            logger.info(f"  Question tokens (masked): {num_question_tokens}")
-            logger.info(f"  CE Loss value: {ce_loss.item():.4f}")
-            
-            if 'answer_start_pos' in batch:
-                ans_pos = batch['answer_start_pos']
-                if isinstance(ans_pos, torch.Tensor):
-                    if ans_pos.dim() == 0:
-                        logger.info(f"  answer_start_pos: {ans_pos.item()} (scalar)")
-                    else:
-                        ans_pos_list = ans_pos.tolist()
-                        logger.info(f"  answer_start_pos: {ans_pos_list} (per-batch)")
-                        # Verify answer_start_pos is reasonable (> 0 and < sequence length)
-                        if any(p <= 0 for p in ans_pos_list):
-                            logger.warning(f"  ⚠️ Some answer_start_pos values are ≤ 0: {ans_pos_list}")
-                        if any(p >= shift_labels.shape[1] for p in ans_pos_list):
-                            logger.warning(f"  ⚠️ Some answer_start_pos exceed sequence length: {ans_pos_list}")
-        
-        # CRITICAL FIX: Distillation targeting ALL tokens (not pooled)
-        # Previous bug: only distilled 1 pooled token while bridge outputs 8 tokens
-        # → model learned to collapse 8 tokens to 1 reference → garbage output
-        total_loss = ce_loss
-        
-        if self.config.use_distillation:
-            # Get baseline (frozen) and bridge embeddings via dedicated method
-            # Pass text_embeddings for QFormer which needs semantic context
-            base_embeddings, bridge_embeddings = self.model.get_base_and_bridge_embeddings(
-                pixel_values, 
-                text_embeddings=text_embeddings
-            )
-            
-            # ===== FIX 1: Distill ALL tokens (not pooled) =====
-            # Old bug: base_emb [B,1,896], bridge_emb [B,8,896] → pooled both to [B,1,896]
-            # New: Keep bridge_emb [B,8,896] and tile base_emb to match
-            
-            # Ensure base is 3D: (B, 1, 896)
-            if base_embeddings.dim() == 2:
-                base_embeddings = base_embeddings.unsqueeze(1)  # (B, 896) → (B, 1, 896)
-            
-            # Ensure bridge is 3D: (B, seq_len, 896)
-            if bridge_embeddings.dim() == 4:
-                # 4D (multi-token architecture): (B, 1, num_tokens, 896) → (B, num_tokens, 896)
-                bridge_embeddings = bridge_embeddings.squeeze(1)
-            elif bridge_embeddings.dim() == 2:
-                bridge_embeddings = bridge_embeddings.unsqueeze(1)  # (B, 896) → (B, 1, 896)
-            
-            # Tile base embeddings to match bridge sequence length
-            # base: [B, 1, 896] → [B, seq_len, 896]
-            base_seq_len = bridge_embeddings.shape[1]
-            base_embeddings_expanded = base_embeddings.expand(-1, base_seq_len, -1)  # (B, seq_len, 896)
-            
-            # ===== FIX 2: Normalize embeddings to prevent distribution collapse =====
-            if self.config.normalize_embeddings:
-                # Apply LayerNorm: keeps embeddings in bounded range
-                bridge_embeddings_norm = self.embedding_norm(bridge_embeddings)
-                base_embeddings_norm = self.embedding_norm(base_embeddings_expanded)
-            else:
-                bridge_embeddings_norm = bridge_embeddings
-                base_embeddings_norm = base_embeddings_expanded
-            
-            # ===== FIX 3: Per-token distillation loss =====
-            # MSE loss across all tokens (not pooled)
-            # This ensures ALL tokens stay in LM embedding space
-            distill_loss = F.mse_loss(bridge_embeddings_norm, base_embeddings_norm, reduction='mean')
-            
-            # ===== FIX 4: L2 regularization on bridge embeddings =====
-            # Prevent embeddings from growing unbounded or collapsing to zero
-            l2_reg = (bridge_embeddings.norm(dim=-1) ** 2).mean()
-            
-            # Combined distillation loss
-            total_distill = (distill_loss + self.config.embedding_l2_weight * l2_reg)
-            
-            # VALIDATION: Check distillation loss sanity
-            if self.global_step % 500 == 0:
-                logger.info(f"[Distillation Check FIX] Step {self.global_step}:")
-                logger.info(f"  base_emb expanded: {base_embeddings_expanded.shape}")
-                logger.info(f"  bridge_emb: {bridge_embeddings.shape} (ALL TOKENS)")
-                logger.info(f"  CE loss: {ce_loss.item():.4f}")
-                logger.info(f"  Distill loss (MSE): {distill_loss.item():.4f}")
-                logger.info(f"  L2 regularization: {l2_reg.item():.4f}")
-                logger.info(f"  Total distill: {total_distill.item():.4f}")
-                logger.info(f"  λ={self.config.distillation_loss_weight}")
-                logger.info(f"  Total loss: {(ce_loss + self.config.distillation_loss_weight * total_distill).item():.4f}")
-            
-            # Combine losses: CE + λ * (MSE + L2)
-            # λ=0.1 allows bridge to deviate from baseline while staying in LM space
-            total_loss = ce_loss + self.config.distillation_loss_weight * total_distill
-        
-        return total_loss
+        return loss
     
     def train_epoch(self, epoch: int) -> Tuple[float, bool]:
         """
@@ -923,7 +727,7 @@ class BridgeTrainer:
                                             pooler = None
                                         
                                         # Decide which to use based on bridge type
-                                        if bridge_type in ['linear_bridge', '', 'multi_token']:
+                                        if bridge_type in ['linear_bridge', 'better_mlp', 'multi_token']:
                                             if pooler is not None:
                                                 vision_embeddings = pooler
                                             elif last_hidden is not None:
@@ -1187,11 +991,6 @@ class BridgeTrainer:
         import random
         
         if not hasattr(self, 'val_dataset') or len(self.val_dataset) == 0:
-            logger.debug("No validation dataset for sample inference")
-            return
-        
-        if not hasattr(self, 'tokenizer') or self.tokenizer is None:
-            logger.warning("Tokenizer not initialized, skipping sample inference")
             return
         
         try:
@@ -1258,10 +1057,7 @@ class BridgeTrainer:
                             pooler = None
                         
                         # Decide which to use based on bridge type
-                        # Pooled-based bridges: residual, multi_token, gated_fusion (+ legacy names for compat)
-                        # Patch-based bridges: tile_attention, attention, mini_qformer, qformer
-                        pooled_bridges = ['residual', 'linear_bridge', 'multi_token', 'gated_fusion']
-                        if bridge_type in pooled_bridges:
+                        if bridge_type in ['linear_bridge', 'better_mlp', 'multi_token']:
                             if pooler is not None:
                                 vision_embeddings = pooler
                             elif last_hidden is not None:
@@ -1315,9 +1111,7 @@ class BridgeTrainer:
                 logger.info(f"Ground truth: {answer}")
         
         except Exception as e:
-            import traceback
-            logger.error(f"Sample inference failed: {e}")
-            logger.error(f"Traceback: {traceback.format_exc()}")
+            logger.warning(f"Sample inference failed: {e}")
         
         finally:
             self.model.train()

@@ -686,10 +686,18 @@ class BridgeTrainer:
                             for i, idx in enumerate(indices, 1):
                                 sample = self.val_dataset[idx]
                                 question = sample.question if hasattr(sample, 'question') else 'N/A'
-                                # Handle answers list (new schema)
+                                # Handle answers list (new schema) - use majority vote like collator does
                                 if hasattr(sample, 'answers'):
-                                    answers = sample.answers if isinstance(sample.answers, list) else [sample.answers]
-                                    answer = ' | '.join(answers) if answers else 'N/A'
+                                    sample_answers = sample.answers if isinstance(sample.answers, list) else [sample.answers]
+                                    if len(sample_answers) == 0:
+                                        answer = 'N/A'
+                                    elif len(sample_answers) == 1:
+                                        answer = sample_answers[0]
+                                    else:
+                                        # Majority vote: get most common answer (same as collator)
+                                        from collections import Counter
+                                        counter = Counter(sample_answers)
+                                        answer = counter.most_common(1)[0][0]
                                 else:
                                     answer = 'N/A'
                                 
@@ -1013,10 +1021,18 @@ class BridgeTrainer:
                 
                 # Get question and answer
                 question = sample.question if hasattr(sample, 'question') else 'N/A'
-                # Handle answers list (new schema)
+                # Handle answers list (new schema) - use majority vote like collator does
                 if hasattr(sample, 'answers'):
-                    answers = sample.answers if isinstance(sample.answers, list) else [sample.answers]
-                    answer = ' | '.join(answers) if answers else 'N/A'
+                    sample_answers = sample.answers if isinstance(sample.answers, list) else [sample.answers]
+                    if len(sample_answers) == 0:
+                        answer = 'N/A'
+                    elif len(sample_answers) == 1:
+                        answer = sample_answers[0]
+                    else:
+                        # Majority vote: get most common answer (same as collator)
+                        from collections import Counter
+                        counter = Counter(sample_answers)
+                        answer = counter.most_common(1)[0][0]
                 else:
                     answer = 'N/A'
                 

@@ -331,15 +331,27 @@ class BridgeTrainer:
             weight_decay=self.config.weight_decay
         )
         
-        # Scheduler
+        # Scheduler with warmup
         # Scheduler should follow optimizer steps, not micro-batches.
         steps_per_epoch = math.ceil(len(self.train_loader) / self.config.gradient_accumulation_steps)
         total_steps = max(steps_per_epoch * self.config.num_epochs, 1)
-        self.scheduler = CosineAnnealingLR(
-            self.optimizer,
-            T_max=total_steps,
-            eta_min=1e-6
-        )
+        warmup_steps = min(self.config.warmup_steps, total_steps // 10)  # Cap warmup at 10% of total
+        
+        # Use CosineAnnealingLR with warmup
+        from torch.optim.lr_scheduler import LambdaLR
+        
+        def lr_lambda(current_step):
+            """Linear warmup followed by cosine decay."""
+            if current_step < warmup_steps:
+                # Linear warmup: 0 to 1 over warmup_steps
+                return float(current_step) / float(max(1, warmup_steps))
+            # Cosine annealing: 1 to eta_min over remaining steps
+            progress = float(current_step - warmup_steps) / float(max(1, total_steps - warmup_steps))
+            return max(1e-6 / self.config.learning_rate, 0.5 * (1.0 + math.cos(math.pi * progress)))
+        
+        self.scheduler = LambdaLR(self.optimizer, lr_lambda)
+        logger.info(f"Warmup steps: {warmup_steps}/{total_steps}")
+        logger.info(f"Total training steps: {total_steps}")
     
     def _log_info(self):
         """Log training configuration."""
@@ -554,8 +566,8 @@ class BridgeTrainer:
         
         # Get text embeddings early (needed for QFormer and concatenation)
         text_embeddings = self.model.language_model.model.embed_tokens(input_ids)
-        # Convert to model dtype (embeddings are float32 by default)
-        text_embeddings = text_embeddings.to(dtype=model_dtype)
+        # Convert to model dtype immediately (embeddings are float32 by default)
+        text_embeddings = text_embeddings.to(dtype=model_dtype, device=self.device)
         
         # Detach text embeddings since language model is frozen
         # This prevents any gradient computation in the language model embeddings
@@ -797,7 +809,8 @@ class BridgeTrainer:
                                         
                                         # Get text embeddings
                                         text_embeddings = self.model.language_model.model.embed_tokens(input_ids)
-                                        text_embeddings = text_embeddings.to(dtype=model_dtype)
+                                        # Convert to model dtype immediately
+                                        text_embeddings = text_embeddings.to(dtype=model_dtype, device=self.device)
 
                                         # QFormer needs question/text context for bridge generation.
                                         if bridge_type == 'qformer':
@@ -1121,6 +1134,8 @@ class BridgeTrainer:
                         
                         # Get text embeddings from prompt
                         text_embeddings = self.model.language_model.model.embed_tokens(input_ids)
+                        # Convert to model dtype immediately
+                        text_embeddings = text_embeddings.to(dtype=model_dtype, device=self.device)
 
                         # Apply bridge (qformer requires text conditioning).
                         if bridge_type == 'qformer':

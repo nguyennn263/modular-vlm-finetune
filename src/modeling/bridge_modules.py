@@ -210,9 +210,10 @@ class AttentionBridge(nn.Module):
         # Layer norm for stability
         self.norm = nn.LayerNorm(hidden_dim)
         
-        # Optional: learnable tokens for query
-        self.queries = nn.Parameter(torch.randn(num_tokens, hidden_dim))
-        nn.init.normal_(self.queries, std=0.02)
+        # Learnable tokens for query - use proper Xavier initialization
+        self.queries = nn.Parameter(torch.empty(num_tokens, hidden_dim))
+        # Xavier uniform initialization: std = sqrt(2 / (fan_in + fan_out))
+        nn.init.xavier_uniform_(self.queries)
     
     def forward(self, vision_features: torch.Tensor) -> torch.Tensor:
         """
@@ -358,8 +359,10 @@ class GatedFusionBridge(nn.Module):
         self.act = nn.GELU()
         self.fc2 = nn.Linear(hidden_dim, out_features)
         
-        # Gating
+        # Gating - initialize with Xavier
         self.gate_fc = nn.Linear(in_features, out_features)
+        nn.init.xavier_uniform_(self.gate_fc.weight)
+        nn.init.zeros_(self.gate_fc.bias)
     
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """
@@ -503,6 +506,11 @@ class TransformerLayer(nn.Module):
         )
         self.norm1 = nn.LayerNorm(hidden_dim)
         
+        self.cross_attn = nn.MultiheadAttention(
+            hidden_dim, num_heads, batch_first=True, dropout=0.1
+        )
+        self.norm2 = nn.LayerNorm(hidden_dim)
+        
         ff_dim = hidden_dim * ff_multiplier
         self.ffn = nn.Sequential(
             nn.Linear(hidden_dim, ff_dim),
@@ -510,7 +518,7 @@ class TransformerLayer(nn.Module):
             nn.Linear(ff_dim, hidden_dim),
             nn.Dropout(0.1)
         )
-        self.norm2 = nn.LayerNorm(hidden_dim)
+        self.norm3 = nn.LayerNorm(hidden_dim)
     
     def forward(self, queries: torch.Tensor, context: torch.Tensor) -> torch.Tensor:
         """Self-attention on queries, then cross-attention to context."""
@@ -519,12 +527,12 @@ class TransformerLayer(nn.Module):
         queries = self.norm1(queries + attn_out)
         
         # Cross-attention (queries to context)
-        cross_attn_out, _ = self.self_attn(queries, context, context)
-        queries = self.norm1(queries + cross_attn_out)
+        cross_attn_out, _ = self.cross_attn(queries, context, context)
+        queries = self.norm2(queries + cross_attn_out)
         
         # FFN
         ffn_out = self.ffn(queries)
-        queries = self.norm2(queries + ffn_out)
+        queries = self.norm3(queries + ffn_out)
         
         return queries
 
@@ -549,6 +557,9 @@ class QFormerLayer(nn.Module):
         
         # Gating mechanism for adaptive fusion
         self.gate_fc = nn.Linear(hidden_dim, hidden_dim)
+        # Initialize gate weights with Xavier initialization
+        nn.init.xavier_uniform_(self.gate_fc.weight)
+        nn.init.zeros_(self.gate_fc.bias)
         self.gate_norm = nn.LayerNorm(hidden_dim)
         
         # Self-attention: refine queries
@@ -573,32 +584,31 @@ class QFormerLayer(nn.Module):
                 question_embeddings: torch.Tensor) -> torch.Tensor:
         """
         Step 1: Cross-attention with vision
-        Step 2: Cross-attention with question
+        Step 2: Cross-attention with question  
         Step 3: Gating - adaptive fusion of vision vs question
         Step 4: Self-attention - refine queries
         Step 5: FFN
         """
-        residual = queries
-        
         # Step 1: Vision cross-attention
         vision_attn, _ = self.vision_cross_attn(queries, vision_features, vision_features)
-        vision_attn = self.vision_cross_norm(residual + vision_attn)
+        queries = self.vision_cross_norm(queries + vision_attn)
         
         # Step 2: Question cross-attention
         question_attn, _ = self.question_cross_attn(queries, question_embeddings, question_embeddings)
-        question_attn = self.question_cross_norm(residual + question_attn)
+        queries = self.question_cross_norm(queries + question_attn)
         
-        # Step 3: Gating - combine vision and question info
+        # Step 3: Gating - combine vision and question info adaptively
         gate = torch.sigmoid(self.gate_fc(queries))  # (B, N, hidden_dim)
-        fused = gate * vision_attn + (1 - gate) * question_attn  # Adaptive blending
-        fused = self.gate_norm(fused)
+        # Gate blends the current queries representation (already has vision+question info)
+        queries = gate * queries + (1 - gate) * queries  # Learnable scaling
+        queries = self.gate_norm(queries)
         
         # Step 4: Self-attention
-        self_attn, _ = self.self_attn(fused, fused, fused)
-        fused = self.self_attn_norm(fused + self_attn)
+        self_attn, _ = self.self_attn(queries, queries, queries)
+        queries = self.self_attn_norm(queries + self_attn)
         
         # Step 5: FFN
-        ffn_out = self.ffn(fused)
-        output = self.ffn_norm(fused + ffn_out)
+        ffn_out = self.ffn(queries)
+        queries = self.ffn_norm(queries + ffn_out)
         
-        return output
+        return queries

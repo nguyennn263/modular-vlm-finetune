@@ -9,6 +9,7 @@ Vision Model and Language Model are completely frozen.
 
 import os
 import math
+import json
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -394,6 +395,10 @@ class BridgeTrainer:
                         'epoch', 'global_step',
                         'train_loss', 'val_loss',
                         'perplexity', 'learning_rate',
+                        'metric_bleu', 'metric_meteor', 'metric_rouge_l',
+                        'metric_cider', 'metric_exact_match',
+                        'metric_precision', 'metric_recall', 'metric_f1',
+                        'metric_wups',
                         'early_stop_counter', 'is_best',
                         'time_seconds'
                     ]
@@ -427,6 +432,10 @@ class BridgeTrainer:
                         'epoch', 'global_step',
                         'train_loss', 'val_loss',
                         'perplexity', 'learning_rate',
+                        'metric_bleu', 'metric_meteor', 'metric_rouge_l',
+                        'metric_cider', 'metric_exact_match',
+                        'metric_precision', 'metric_recall', 'metric_f1',
+                        'metric_wups',
                         'early_stop_counter', 'is_best',
                         'time_seconds'
                     ]
@@ -438,6 +447,15 @@ class BridgeTrainer:
                     'val_loss': epoch_metrics.get('val_loss', 0),
                     'perplexity': epoch_metrics.get('perplexity', 0),
                     'learning_rate': epoch_metrics.get('learning_rate', 0),
+                    'metric_bleu': epoch_metrics.get('metric_bleu', 0),
+                    'metric_meteor': epoch_metrics.get('metric_meteor', 0),
+                    'metric_rouge_l': epoch_metrics.get('metric_rouge_l', 0),
+                    'metric_cider': epoch_metrics.get('metric_cider', 0),
+                    'metric_exact_match': epoch_metrics.get('metric_exact_match', 0),
+                    'metric_precision': epoch_metrics.get('metric_precision', 0),
+                    'metric_recall': epoch_metrics.get('metric_recall', 0),
+                    'metric_f1': epoch_metrics.get('metric_f1', 0),
+                    'metric_wups': epoch_metrics.get('metric_wups', 0),
                     'early_stop_counter': self.early_stop_counter,
                     'is_best': epoch_metrics.get('is_best', False),
                     'time_seconds': epoch_metrics.get('time_seconds', 0)
@@ -446,12 +464,13 @@ class BridgeTrainer:
             logger.warning(f"Failed to save epoch results: {e}")
     
     def _save_final_summary(self, elapsed_timedelta, total_hours: float):
-        """Save final training summary to JSON."""
+        """Save final training summary to JSON with all metrics and results."""
         import json
         
         try:
             results_dir = Path(self.config.output_dir) / "results"
             summary_file = results_dir / "summary.json"
+            metrics_summary_file = results_dir / "final_metrics_summary.json"
             
             summary = {
                 'experiment': Path(self.config.output_dir).name,
@@ -467,14 +486,45 @@ class BridgeTrainer:
                 'results_files': {
                     'epoch_results': str(self.epoch_results_file),
                     'training_logs': str(self.log_file),
-                    'summary': str(summary_file)
+                    'summary': str(summary_file),
+                    'text_metrics_all_epochs': str(results_dir / "text_metrics_all_epochs.jsonl"),
+                    'metrics_summary': str(metrics_summary_file)
                 }
             }
             
             with open(summary_file, 'w') as f:
                 json.dump(summary, f, indent=2)
             
+            # Also create a metrics-only summary for quick reference
+            metrics_summary = {
+                'description': 'Final training metrics summary (ref/ref1-aligned)',
+                'metrics_format': {
+                    'bleu': 'BLEU-4 score',
+                    'meteor': 'METEOR score',
+                    'rouge_l': 'ROUGE-L score',
+                    'cider': 'CIDEr score',
+                    'exact_match': 'Exact match accuracy',
+                    'precision': 'Word-level precision',
+                    'recall': 'Word-level recall',
+                    'f1': 'Word-level F1 score',
+                    'wups': 'WUPS@0.9 score'
+                },
+                'output_files': {
+                    'epoch_results_csv': str(self.epoch_results_file),
+                    'per_epoch_metrics': str(results_dir / "text_metrics_epoch_*.json"),
+                    'per_sample_predictions': str(results_dir / "text_predictions_epoch_*.json"),
+                    'cumulative_metrics': str(results_dir / "text_metrics_all_epochs.jsonl"),
+                    'training_log': str(self.log_file)
+                }
+            }
+            
+            with open(metrics_summary_file, 'w') as f:
+                json.dump(metrics_summary, f, indent=2)
+            
             logger.info(f"✓ Final summary saved to: {summary_file}")
+            logger.info(f"✓ Metrics summary saved to: {metrics_summary_file}")
+            logger.info(f"✓ Training logs saved to: {self.log_file}")
+            logger.info(f"✓ All results saved to: {results_dir}")
         except Exception as e:
             logger.warning(f"Failed to save final summary: {e}")
     
@@ -1049,6 +1099,267 @@ class BridgeTrainer:
         self.early_stop_counter = checkpoint['early_stop_counter']
         
         logger.info(f"✓ Resumed from checkpoint (step {self.global_step})")
+
+    def _extract_sample_answers(self, sample) -> List[str]:
+        """Extract all valid ground-truth answers from a dataset sample."""
+        if not hasattr(sample, 'answers'):
+            return ['']
+        answers = sample.answers if isinstance(sample.answers, list) else [sample.answers]
+        answers = [str(a).strip() for a in answers if a is not None and str(a).strip()]
+        return answers if answers else ['']
+
+    def _build_prompt_text(self, question: str) -> str:
+        """Build prompt text in the same format as training/inference."""
+        system_message = (
+            "Bạn là một mô hình trí tuệ nhân tạo đa phương thức Tiếng Việt có tên gọi là Vintern, "
+            "được phát triển bởi người Việt. Bạn là một trợ lý trí tuệ nhân tạo hữu ích và không gây hại."
+        )
+        return (
+            f"<|im_start|>system\n{system_message}<|im_end|>\n"
+            f"<|im_start|>user\n<image>\n{question}<|im_end|>\n"
+            f"<|im_start|>assistant\n"
+        )
+
+    @torch.no_grad()
+    def _generate_answer_for_sample(self, sample) -> str:
+        """Generate one answer string for a validation sample."""
+        question = sample.question if hasattr(sample, 'question') else 'N/A'
+        pixel_values = load_image(sample.image_path, input_size=448, max_num=6)
+        model_dtype = next(self.model.vision_model.parameters()).dtype
+        pixel_values = pixel_values.to(dtype=model_dtype, device=self.device)
+
+        prompt_text = self._build_prompt_text(question)
+        inputs = self.tokenizer(
+            prompt_text,
+            return_tensors="pt",
+            padding=False,
+            truncation=True,
+            max_length=512
+        )
+        input_ids = inputs['input_ids'].to(self.device)
+        attention_mask = inputs['attention_mask'].to(self.device)
+
+        if pixel_values.dim() == 4:
+            pixel_values_input = pixel_values[0:1, :, :, :]
+        else:
+            pixel_values_input = pixel_values.unsqueeze(0)
+        vision_output = self.model.vision_model(pixel_values_input)
+
+        bridge_type = getattr(self.model, 'bridge_type', 'unknown')
+        if hasattr(vision_output, 'last_hidden_state'):
+            last_hidden = vision_output.last_hidden_state
+            pooler = vision_output.pooler_output if hasattr(vision_output, 'pooler_output') else None
+        elif hasattr(vision_output, 'pooler_output'):
+            last_hidden = None
+            pooler = vision_output.pooler_output
+        else:
+            last_hidden = vision_output if isinstance(vision_output, torch.Tensor) else None
+            pooler = None
+
+        if bridge_type in ['linear_bridge', 'better_mlp', 'multi_token']:
+            if pooler is not None:
+                vision_embeddings = pooler
+            elif last_hidden is not None:
+                vision_embeddings = last_hidden[:, 0, :]
+            else:
+                raise ValueError(f"Cannot extract vision embeddings for {bridge_type}")
+        else:
+            if last_hidden is not None and last_hidden.dim() == 3:
+                vision_embeddings = last_hidden
+            elif last_hidden is not None and last_hidden.dim() == 2:
+                vision_embeddings = last_hidden.unsqueeze(1)
+            elif pooler is not None:
+                vision_embeddings = pooler.unsqueeze(1)
+            else:
+                raise ValueError(f"Cannot extract vision embeddings for {bridge_type}")
+
+        vision_embeddings = vision_embeddings.detach()
+        text_embeddings = self.model.language_model.model.embed_tokens(input_ids)
+        text_embeddings = text_embeddings.to(dtype=model_dtype, device=self.device)
+
+        if bridge_type == 'qformer':
+            bridge_output = self.model.bridge(vision_embeddings, text_embeddings)
+        else:
+            bridge_output = self.model.bridge(vision_embeddings)
+        if bridge_output.dim() == 2:
+            bridge_output = bridge_output.unsqueeze(1)
+
+        combined_embeddings = torch.cat([bridge_output, text_embeddings], dim=1)
+        vision_attention = torch.ones(
+            bridge_output.shape[0],
+            bridge_output.shape[1],
+            device=self.device,
+            dtype=attention_mask.dtype
+        )
+        combined_attention_mask = torch.cat([vision_attention, attention_mask], dim=1)
+
+        outputs = self.model.language_model.generate(
+            inputs_embeds=combined_embeddings,
+            attention_mask=combined_attention_mask,
+            max_new_tokens=50,
+            do_sample=False,
+            num_beams=1,
+            pad_token_id=self.tokenizer.eos_token_id,
+            eos_token_id=self.tokenizer.eos_token_id,
+            top_p=1.0,
+            temperature=1.0
+        )
+
+        generated_ids = outputs[0]
+        prompt_len = input_ids.shape[1]
+        output_ids = generated_ids[prompt_len:] if generated_ids.shape[0] > prompt_len else generated_ids
+        model_output = self.tokenizer.decode(output_ids, skip_special_tokens=True).strip()
+        return model_output if model_output else "[Empty output]"
+
+    @torch.no_grad()
+    def _compute_epoch_text_metrics(self, epoch: int) -> Dict[str, float]:
+        """Compute ref/ref1-aligned text metrics on full validation dataset."""
+        import numpy as np
+        from metrics.vqa_metrics import (
+            BLEUScore, METEORScore, ROUGEScore, CIDErScore,
+            PrecisionRecallF1, ExactMatchAccuracy, WUPS
+        )
+
+        if not hasattr(self, 'val_dataset') or len(self.val_dataset) == 0:
+            return {}
+
+        all_ground_truths: List[List[str]] = []
+        all_generations: List[str] = []
+        per_sample_records = []
+
+        self.model.eval()
+        pbar = tqdm(range(len(self.val_dataset)), desc=f"Epoch {epoch + 1} metrics", leave=False)
+        for idx in pbar:
+            sample = self.val_dataset[idx]
+            question = sample.question if hasattr(sample, 'question') else 'N/A'
+            gt_answers = self._extract_sample_answers(sample)
+
+            try:
+                generation = self._generate_answer_for_sample(sample)
+            except Exception as e:
+                generation = f"[Generation error: {str(e)[:80]}]"
+
+            all_ground_truths.append(gt_answers)
+            all_generations.append(generation)
+            per_sample_records.append({
+                'index': idx,
+                'question': question,
+                'prediction': generation,
+                'ground_truths': gt_answers
+            })
+
+        bleu_metric = BLEUScore(n_gram=4)
+        meteor_metric = METEORScore()
+        rouge_metric = ROUGEScore(rouge_type='rougeL')
+        cider_metric = CIDErScore(n_gram=4)
+        prf_metric = PrecisionRecallF1()
+        exact_match_metric = ExactMatchAccuracy(normalize=True)
+
+        bleu_metric.update(all_generations, all_ground_truths)
+        meteor_metric.update(all_generations, all_ground_truths)
+        rouge_metric.update(all_generations, all_ground_truths)
+        cider_metric.update(all_generations, all_ground_truths)
+        prf_metric.update(all_generations, all_ground_truths)
+        exact_match_metric.update(all_generations, all_ground_truths)
+
+        bleu_result = bleu_metric.compute()
+        meteor_result = meteor_metric.compute()
+        rouge_result = rouge_metric.compute()
+        cider_result = cider_metric.compute()
+        prf_result = prf_metric.compute()
+        exact_match_result = exact_match_metric.compute()
+
+        # Simple accuracy (case-insensitive string match)
+        simple_accuracy_scores = []
+        for pred, refs in zip(all_generations, all_ground_truths):
+            pred_lower = pred.lower().strip()
+            match = any(pred_lower == ref.lower().strip() for ref in refs)
+            simple_accuracy_scores.append(1.0 if match else 0.0)
+        simple_accuracy = float(np.mean(simple_accuracy_scores)) if simple_accuracy_scores else 0.0
+
+        # WUPS is available in vqa_metrics but not part of default ref/ref1 validation bundle.
+        # We still compute it for side-by-side comparison requested in this repo.
+        wups_scores = []
+        try:
+            wups_metric = WUPS(threshold=0.9)
+            for pred, refs in zip(all_generations, all_ground_truths):
+                best = 0.0
+                for ref in refs:
+                    sim = wups_metric._wup_similarity(pred.lower(), ref.lower())
+                    score = wups_metric._threshold_wups(sim)
+                    best = max(best, score)
+                wups_scores.append(best)
+            wups_avg = float(np.mean(wups_scores)) if wups_scores else 0.0
+        except Exception as e:
+            logger.warning(f"WUPS computation failed: {e}")
+            wups_avg = 0.0
+            wups_scores = []
+
+        avg_metrics = {
+            'accuracy': simple_accuracy,
+            'exact_match': float(exact_match_result.value),
+            'bleu': float(bleu_result.value),
+            'rouge_l': float(rouge_result.value),
+            'meteor': float(meteor_result.value),
+            'cider': float(cider_result.value),
+            'precision': float(prf_result.metadata.get('precision', 0.0)),
+            'recall': float(prf_result.metadata.get('recall', 0.0)),
+            'f1': float(prf_result.value),
+            'wups': wups_avg,
+        }
+
+        results_dir = Path(self.config.output_dir) / "results"
+        metrics_file = results_dir / f"text_metrics_epoch_{epoch + 1}.json"
+        samples_file = results_dir / f"text_predictions_epoch_{epoch + 1}.json"
+        aggregate_file = results_dir / "text_metrics_all_epochs.jsonl"
+
+        with open(metrics_file, 'w', encoding='utf-8') as f:
+            json.dump({
+                'epoch': epoch + 1,
+                'num_samples': len(all_generations),
+                'averages': avg_metrics,
+                'details': {
+                    'bleu': {'value': float(bleu_result.value), 'metadata': bleu_result.metadata},
+                    'meteor': {'value': float(meteor_result.value), 'per_sample': meteor_result.per_sample},
+                    'rouge_l': {'value': float(rouge_result.value), 'per_sample': rouge_result.per_sample},
+                    'cider': {'value': float(cider_result.value), 'per_sample': cider_result.per_sample},
+                    'exact_match': {'value': float(exact_match_result.value), 'per_sample': exact_match_result.per_sample},
+                    'precision_recall_f1': {'value': float(prf_result.value), 'metadata': prf_result.metadata},
+                    'wups@0.9': {'value': wups_avg, 'per_sample': wups_scores},
+                }
+            }, f, ensure_ascii=False, indent=2)
+
+        with open(samples_file, 'w', encoding='utf-8') as f:
+            json.dump({
+                'epoch': epoch + 1,
+                'samples': per_sample_records
+            }, f, ensure_ascii=False, indent=2)
+
+        with open(aggregate_file, 'a', encoding='utf-8') as f:
+            f.write(json.dumps({
+                'epoch': epoch + 1,
+                'num_samples': len(all_generations),
+                **avg_metrics
+            }, ensure_ascii=False) + "\n")
+
+        logger.info("\n" + "=" * 80)
+        logger.info(f"Epoch {epoch + 1} Text Metrics")
+        logger.info("=" * 80)
+        logger.info(f"  Accuracy:        {avg_metrics.get('accuracy', 0.0):.4f}")
+        logger.info(f"  Exact Match:     {avg_metrics.get('exact_match', 0.0):.4f}")
+        logger.info(f"  BLEU:            {avg_metrics.get('bleu', 0.0):.4f}")
+        logger.info(f"  ROUGE-L:         {avg_metrics.get('rouge_l', 0.0):.4f}")
+        logger.info(f"  METEOR:          {avg_metrics.get('meteor', 0.0):.4f}")
+        logger.info(f"  CIDEr:           {avg_metrics.get('cider', 0.0):.4f}")
+        logger.info(f"  Precision:       {avg_metrics.get('precision', 0.0):.4f}")
+        logger.info(f"  Recall:          {avg_metrics.get('recall', 0.0):.4f}")
+        logger.info(f"  F1:              {avg_metrics.get('f1', 0.0):.4f}")
+        logger.info(f"  WUPS@0.9:        {avg_metrics.get('wups', 0.0):.4f}")
+        logger.info(f"  Saved:      {metrics_file}")
+        logger.info(f"  Samples:    {samples_file}")
+        logger.info("=" * 80)
+
+        return avg_metrics
     
     def _sample_inference(self, epoch: int, num_samples: int = 3):
         """Generate sample outputs on random validation samples."""
@@ -1088,132 +1399,8 @@ class BridgeTrainer:
                     answer = 'N/A'
                 
                 # Try to generate model output
-                model_output = None
                 try:
-                    # Load image using notebook preprocessing
-                    pixel_values = load_image(
-                        sample.image_path, 
-                        input_size=448, 
-                        max_num=6
-                    )
-                    
-                    # Convert to model dtype and move to device
-                    model_dtype = next(self.model.vision_model.parameters()).dtype
-                    pixel_values = pixel_values.to(dtype=model_dtype, device=self.device)
-                    
-                    # Format text matching training format
-                    system_message = "Bạn là một mô hình trí tuệ nhân tạo đa phương thức Tiếng Việt có tên gọi là Vintern, được phát triển bởi người Việt. Bạn là một trợ lý trí tuệ nhân tạo hữu ích và không gây hại."
-                    
-                    # Full prompt format (matching training)
-                    prompt_text = (
-                        f"<|im_start|>system\n{system_message}<|im_end|>\n"
-                        f"<|im_start|>user\n<image>\n{question}<|im_end|>\n"
-                        f"<|im_start|>assistant\n"
-                    )
-                    
-                    # Tokenize prompt
-                    inputs = self.tokenizer(
-                        prompt_text,
-                        return_tensors="pt",
-                        padding=False,
-                        truncation=True,
-                        max_length=512
-                    )
-                    input_ids = inputs['input_ids'].to(self.device)
-                    attention_mask = inputs['attention_mask'].to(self.device)
-                    
-                    # Get bridge model's inference output
-                    with torch.no_grad():
-                        # Get vision embeddings
-                        # pixel_values shape: [num_patches, 3, 448, 448] - process first patch for inference
-                        if pixel_values.dim() == 4:
-                            pixel_values_input = pixel_values[0:1, :, :, :]  # [1, 3, 448, 448]
-                        else:
-                            pixel_values_input = pixel_values.unsqueeze(0)
-                        vision_output = self.model.vision_model(pixel_values_input)
-                        
-                        # Extract tensor from BaseModelOutputWithPooling using same logic as forward_pass
-                        bridge_type = getattr(self.model, 'bridge_type', 'unknown')
-                        if hasattr(vision_output, 'last_hidden_state'):
-                            last_hidden = vision_output.last_hidden_state
-                            pooler = vision_output.pooler_output if hasattr(vision_output, 'pooler_output') else None
-                        elif hasattr(vision_output, 'pooler_output'):
-                            last_hidden = None
-                            pooler = vision_output.pooler_output
-                        else:
-                            last_hidden = vision_output if isinstance(vision_output, torch.Tensor) else None
-                            pooler = None
-                        
-                        # Decide which to use based on bridge type
-                        if bridge_type in ['linear_bridge', 'better_mlp', 'multi_token']:
-                            if pooler is not None:
-                                vision_embeddings = pooler
-                            elif last_hidden is not None:
-                                vision_embeddings = last_hidden[:, 0, :]
-                            else:
-                                raise ValueError(f"Cannot extract vision embeddings for {bridge_type}")
-                        else:
-                            if last_hidden is not None and last_hidden.dim() == 3:
-                                vision_embeddings = last_hidden
-                            elif last_hidden is not None and last_hidden.dim() == 2:
-                                vision_embeddings = last_hidden.unsqueeze(1)
-                            elif pooler is not None:
-                                vision_embeddings = pooler.unsqueeze(1)
-                            else:
-                                raise ValueError(f"Cannot extract vision embeddings for {bridge_type}")
-                        
-                        vision_embeddings = vision_embeddings.detach()
-                        
-                        # Get text embeddings from prompt
-                        text_embeddings = self.model.language_model.model.embed_tokens(input_ids)
-                        # Convert to model dtype immediately
-                        text_embeddings = text_embeddings.to(dtype=model_dtype, device=self.device)
-
-                        # Apply bridge (qformer requires text conditioning).
-                        if bridge_type == 'qformer':
-                            bridge_output = self.model.bridge(vision_embeddings, text_embeddings)
-                        else:
-                            bridge_output = self.model.bridge(vision_embeddings)
-                        if bridge_output.dim() == 2:
-                            bridge_output = bridge_output.unsqueeze(1)
-                        
-                        # Combine vision + text embeddings
-                        combined_embeddings = torch.cat([bridge_output, text_embeddings], dim=1)
-                        
-                        # Create attention mask for combined embeddings
-                        vision_attention = torch.ones(
-                            bridge_output.shape[0],
-                            bridge_output.shape[1],
-                            device=self.device,
-                            dtype=attention_mask.dtype
-                        )
-                        combined_attention_mask = torch.cat([vision_attention, attention_mask], dim=1)
-                        
-                        # Generate with language model
-                        # Pass BOTH inputs_embeds AND attention_mask to guide generation
-                        outputs = self.model.language_model.generate(
-                            inputs_embeds=combined_embeddings,
-                            attention_mask=combined_attention_mask,
-                            max_new_tokens=50,
-                            do_sample=False,
-                            num_beams=1,
-                            pad_token_id=self.tokenizer.eos_token_id,
-                            eos_token_id=self.tokenizer.eos_token_id,
-                            top_p=1.0,
-                            temperature=1.0
-                        )
-                        
-                        # Decode output robustly for inputs_embeds generation.
-                        generated_ids = outputs[0]
-                        prompt_len = input_ids.shape[1]
-                        if generated_ids.shape[0] > prompt_len:
-                            output_ids = generated_ids[prompt_len:]
-                        else:
-                            output_ids = generated_ids
-                        model_output = self.tokenizer.decode(output_ids, skip_special_tokens=True).strip()
-                        if not model_output:
-                            model_output = "[Empty output]"
-                    
+                    model_output = self._generate_answer_for_sample(sample)
                 except Exception as e:
                     model_output = f"[Generation error: {str(e)[:80]}]"
                 
@@ -1247,18 +1434,35 @@ class BridgeTrainer:
                 epoch_elapsed = (datetime.now() - epoch_start).total_seconds()
                 perplexity = torch.exp(torch.tensor(avg_loss)).item()
                 current_lr = self.scheduler.get_last_lr()[0] if hasattr(self.scheduler, 'get_last_lr') else self.config.learning_rate
+                text_metrics = self._compute_epoch_text_metrics(epoch)
                 
                 # Log epoch summary with metrics
-                logger.info(f"\n{'='*80}")
-                logger.info(f"Epoch {epoch+1}/{self.config.num_epochs}")
-                logger.info(f"{'='*80}")
-                logger.info(f"  Train Loss:        {avg_loss:.4f}")
-                logger.info(f"  [VAL] Val Loss:    {val_loss:.4f}")
-                logger.info(f"  Perplexity:        {perplexity:.4f}")
-                logger.info(f"  Learning Rate:     {current_lr:.2e}")
-                logger.info(f"  Early Stop Counter: {self.early_stop_counter}/{self.config.patience}")
-                logger.info(f"  Time:              {epoch_elapsed:.1f}s")
-                logger.info(f"  Best Val Loss:     {self.best_val_loss:.4f}")
+                epoch_log = []
+                epoch_log.append(f"\n{'='*80}")
+                epoch_log.append(f"Epoch {epoch+1}/{self.config.num_epochs}")
+                epoch_log.append(f"{'='*80}")
+                epoch_log.append(f"  Train Loss:        {avg_loss:.4f}")
+                epoch_log.append(f"  [VAL] Val Loss:    {val_loss:.4f}")
+                epoch_log.append(f"  Perplexity:        {perplexity:.4f}")
+                epoch_log.append(f"  Learning Rate:     {current_lr:.2e}")
+                epoch_log.append(f"  Early Stop Counter: {self.early_stop_counter}/{self.config.patience}")
+                epoch_log.append(f"  Time:              {epoch_elapsed:.1f}s")
+                epoch_log.append(f"  Best Val Loss:     {self.best_val_loss:.4f}")
+                
+                if text_metrics:
+                    epoch_log.append("  Text Metrics (ref/ref1-aligned):")
+                    epoch_log.append(f"    - BLEU:         {text_metrics.get('bleu', 0.0):.4f}")
+                    epoch_log.append(f"    - METEOR:       {text_metrics.get('meteor', 0.0):.4f}")
+                    epoch_log.append(f"    - ROUGE-L:      {text_metrics.get('rouge_l', 0.0):.4f}")
+                    epoch_log.append(f"    - CIDEr:        {text_metrics.get('cider', 0.0):.4f}")
+                    epoch_log.append(f"    - Exact Match:  {text_metrics.get('exact_match', 0.0):.4f}")
+                    epoch_log.append(f"    - F1:           {text_metrics.get('f1', 0.0):.4f}")
+                    epoch_log.append(f"    - WUPS@0.9:     {text_metrics.get('wups', 0.0):.4f}")
+                
+                # Log and save to file
+                for line in epoch_log:
+                    logger.info(line)
+                    self._log_to_file(line)
                 
                 # Save epoch results to CSV
                 is_best = val_loss < self.best_val_loss - self.config.min_delta
@@ -1267,6 +1471,15 @@ class BridgeTrainer:
                     'val_loss': val_loss,
                     'perplexity': perplexity,
                     'learning_rate': current_lr,
+                    'metric_bleu': text_metrics.get('bleu', 0.0),
+                    'metric_meteor': text_metrics.get('meteor', 0.0),
+                    'metric_rouge_l': text_metrics.get('rouge_l', 0.0),
+                    'metric_cider': text_metrics.get('cider', 0.0),
+                    'metric_exact_match': text_metrics.get('exact_match', 0.0),
+                    'metric_precision': text_metrics.get('precision', 0.0),
+                    'metric_recall': text_metrics.get('recall', 0.0),
+                    'metric_f1': text_metrics.get('f1', 0.0),
+                    'metric_wups': text_metrics.get('wups', 0.0),
                     'is_best': is_best,
                     'time_seconds': epoch_elapsed
                 }

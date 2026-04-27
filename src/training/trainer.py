@@ -1342,23 +1342,6 @@ class BridgeTrainer:
                 **avg_metrics
             }, ensure_ascii=False) + "\n")
 
-        logger.info("\n" + "=" * 80)
-        logger.info(f"Epoch {epoch + 1} Text Metrics")
-        logger.info("=" * 80)
-        logger.info(f"  Accuracy:        {avg_metrics.get('accuracy', 0.0):.4f}")
-        logger.info(f"  Exact Match:     {avg_metrics.get('exact_match', 0.0):.4f}")
-        logger.info(f"  BLEU:            {avg_metrics.get('bleu', 0.0):.4f}")
-        logger.info(f"  ROUGE-L:         {avg_metrics.get('rouge_l', 0.0):.4f}")
-        logger.info(f"  METEOR:          {avg_metrics.get('meteor', 0.0):.4f}")
-        logger.info(f"  CIDEr:           {avg_metrics.get('cider', 0.0):.4f}")
-        logger.info(f"  Precision:       {avg_metrics.get('precision', 0.0):.4f}")
-        logger.info(f"  Recall:          {avg_metrics.get('recall', 0.0):.4f}")
-        logger.info(f"  F1:              {avg_metrics.get('f1', 0.0):.4f}")
-        logger.info(f"  WUPS@0.9:        {avg_metrics.get('wups', 0.0):.4f}")
-        logger.info(f"  Saved:      {metrics_file}")
-        logger.info(f"  Samples:    {samples_file}")
-        logger.info("=" * 80)
-
         return avg_metrics
     
     def _sample_inference(self, epoch: int, num_samples: int = 3):

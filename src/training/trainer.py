@@ -660,6 +660,7 @@ class BridgeTrainer:
                 else:
                     vision_pool_baseline = vision_embeddings
                 baseline_output = self.model.baseline_bridge(vision_pool_baseline)  # (B, 896)
+                baseline_output = baseline_output.to(dtype=model_dtype, device=self.device)
             
             # For distillation, compare first token of bridge output (which is the main output)
             if bridged_embeddings.dim() == 3:

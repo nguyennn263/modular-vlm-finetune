@@ -81,7 +81,8 @@ class VisionLanguageBridge(nn.Module):
         self.bridge = self._create_bridge()
         
         # Create baseline bridge for distillation (frozen after init)
-        self.baseline_bridge = LinearBridgeBaseline(in_features=1024, out_features=896)
+        vision_dtype = next(self.vision_model.parameters()).dtype
+        self.baseline_bridge = LinearBridgeBaseline(in_features=1024, out_features=896).to(dtype=vision_dtype)
         self.baseline_bridge.requires_grad_(False)  # Frozen reference
         
         # Whether this bridge works with patches or pooled features

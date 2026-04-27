@@ -1444,7 +1444,6 @@ class BridgeTrainer:
                 
                 # Log and save to file
                 for line in epoch_log:
-                    logger.info(line)
                     self._log_to_file(line)
                 
                 # Save epoch results to CSV

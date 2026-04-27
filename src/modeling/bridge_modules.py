@@ -591,19 +591,20 @@ class QFormerLayer(nn.Module):
         """
         # Step 1: Vision cross-attention
         vision_attn, _ = self.vision_cross_attn(queries, vision_features, vision_features)
-        queries = self.vision_cross_norm(queries + vision_attn)
+        queries_vision = self.vision_cross_norm(queries + vision_attn)
         
         # Step 2: Question cross-attention
         question_attn, _ = self.question_cross_attn(queries, question_embeddings, question_embeddings)
-        queries = self.question_cross_norm(queries + question_attn)
+        queries_question = self.question_cross_norm(queries + question_attn)
         
-        # Step 3: Gating - combine vision and question info adaptively
+        # Step 3: Gating - adaptive blend of vision-conditioned vs question-conditioned
+        # Learn to balance: when to trust vision info vs semantic question info
         gate = torch.sigmoid(self.gate_fc(queries))  # (B, N, hidden_dim)
-        # Gate blends the current queries representation (already has vision+question info)
-        queries = gate * queries + (1 - gate) * queries  # Learnable scaling
+        # CORRECT: Blend two different representations using learned gate
+        queries = gate * queries_vision + (1 - gate) * queries_question
         queries = self.gate_norm(queries)
         
-        # Step 4: Self-attention
+        # Step 4: Self-attention - refine queries after gating
         self_attn, _ = self.self_attn(queries, queries, queries)
         queries = self.self_attn_norm(queries + self_attn)
         

@@ -569,9 +569,13 @@ class BridgeTrainer:
         # Convert to model dtype immediately (embeddings are float32 by default)
         text_embeddings = text_embeddings.to(dtype=model_dtype, device=self.device)
         
-        # Detach text embeddings since language model is frozen
-        # This prevents any gradient computation in the language model embeddings
-        text_embeddings = text_embeddings.detach()
+        # IMPORTANT: Only detach for non-QFormer bridges!
+        # QFormer needs gradients through text embeddings for semantic understanding
+        if bridge_type != 'qformer':
+            # Detach text embeddings since language model is frozen
+            # This prevents any gradient computation in the language model embeddings
+            text_embeddings = text_embeddings.detach()
+        # For QFormer: keep text embeddings on computation graph so bridge learns semantics
         
         # Apply bridge module (trainable)
         # Bridge handles both shape conversion and augmentation
@@ -641,6 +645,33 @@ class BridgeTrainer:
             ignore_index=-100,
             reduction='mean'
         )
+        
+        # Add distillation loss to prevent embedding collapse
+        # This keeps embeddings on the valid LLM manifold during training
+        use_distillation = True  # Can be made configurable
+        distillation_weight = 0.5  # Default weight for MSE loss
+        
+        if use_distillation:
+            # Get baseline embeddings (frozen reference)
+            with torch.no_grad():
+                # Baseline always uses pooled vision features
+                if vision_embeddings.dim() == 3:
+                    vision_pool_baseline = vision_embeddings[:, 0, :]  # CLS token
+                else:
+                    vision_pool_baseline = vision_embeddings
+                baseline_output = self.model.baseline_bridge(vision_pool_baseline)  # (B, 896)
+            
+            # For distillation, compare first token of bridge output (which is the main output)
+            if bridged_embeddings.dim() == 3:
+                bridge_first_token = bridged_embeddings[:, 0, :]  # (B, 896)
+            else:
+                bridge_first_token = bridged_embeddings
+            
+            # MSE loss to keep bridge output close to baseline
+            distillation_loss = F.mse_loss(bridge_first_token, baseline_output)
+            
+            # Total loss = CE + lambda * MSE
+            loss = loss + distillation_weight * distillation_loss
         
         return loss
     

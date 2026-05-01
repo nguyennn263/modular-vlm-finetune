@@ -124,35 +124,37 @@ python scripts/exp6_gated_fusion.py
 
 ### Architecture Comparison
 
-#### LinearBridge (Minimal Baseline)
+#### LinearBridge (Baseline)
 ```
-Input (4096) → Linear(4096 → 896)
+Input (1024) → ResidualBridge(1024 → 896)
+               Baseline: Linear(1024 → 896)
+               + Improvement: LayerNorm → FC → GELU → FC
                Output (896)
 ```
-+ Minimal parameters (ablation baseline)
-+ Fastest training/inference
-- Limited capacity (validates bridge importance)
++ Minimal experiment baseline
++ Fast training/inference
 
-#### BetterMLP (Baseline with Skip Connection)
+#### Exp 1: ResidualBridge
 ```
-Input (4096) → LayerNorm → Linear(4096→2048)+GELU → Linear(2048→896)
-                                 ↓
-           Skip connection: Linear(4096→896)
-                                 ↓
-                         Output (896)
+Input (1024) → LayerNorm → Linear(1024→2048) + GELU → Linear(2048→896)
+                                  ↓
+           Baseline: Linear(1024→896)
+                                  ↓
+                 Output = baseline + improvement (896)
 ```
-+ Simple, fast
-+ Better than LinearBridge
-- Limited capacity vs transformers
++ Stable training with residual connections
++ Learns adjustment on top of baseline
 
-#### MultiTokenMLP
+#### Exp 2: MultiTokenMLP
 ```
-Input (4096) → Linear(4096 → 896×8) → Reshape(1,8,896)
+Input (1024) → Baseline: Linear(1024 → 896) → token 1 (anchor)
+             → Improvement: Linear(1024 → 896×7) → tokens 2-8
+             → Combined: (B, 8, 896)
 ```
-+ More parameters
 + Multiple tokens for richer representation
++ Baseline token anchors alignment
 
-#### TileAttention
+#### Exp 3: TileAttention
 ```
 Vision patches (num_patches, 1024)
     ↓
@@ -165,19 +167,30 @@ Output (8, 896)
 + Interpretable attention
 + Learns to focus on important patches
 
-#### MiniQFormer (2 layers)
+#### Exp 4: MiniQFormer (2 layers)
 ```
 Vision patches → Learnable queries (8) → 2×Transformer blocks → Output (8, 896)
 ```
 + Transformer-based
 + Lightweight (2 layers)
 
-#### QFormer (4 layers - Best)
+#### Exp 5: QFormer (4 layers)
 ```
 Vision patches → Learnable queries (16) → 4×Transformer blocks → Output (16, 896)
+                 + Text conditioning via gated vision-question fusion
 ```
 + Most expressive
-+ Best performance (slowest training)
++ Text-aware semantic filtering
+
+#### Exp 6: GatedFusion
+```
+Input (1024) → Baseline: Linear(1024 → 896)
+             → Improvement: LayerNorm → FC → GELU → FC
+             → Gate: sigmoid(Linear(1024 → 896))
+             → Output = baseline + gate * improvement (896)
+```
++ Adaptive blending with learned gating
++ Prevents saturation: gate learns optimal blend
 
 ## Quick Start: Running Training
 

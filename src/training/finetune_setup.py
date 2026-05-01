@@ -39,7 +39,7 @@ BRIDGE_TYPE = Literal[
 
 
 # Bridge types that need full vision patches (not pooled)
-PATCH_BASED_BRIDGES = {'tile_attention', 'mini_qformer', 'qformer', 'attention'}
+PATCH_BASED_BRIDGES = {'tile_attention', 'mini_qformer', 'qformer'}
 
 # Bridge types that need text embeddings (for semantic filtering)
 TEXT_CONDITIONING_BRIDGES = {'qformer'}

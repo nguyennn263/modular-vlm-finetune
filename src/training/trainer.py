@@ -551,8 +551,8 @@ class BridgeTrainer:
         vision_output = self.model.vision_model(pixel_values)
         # Extract tensor from BaseModelOutputWithPooling
         # Different bridges need different input shapes:
-        # - BetterMLP: pooled vector [batch, 1024]
-        # - Others (MultiTokenMLP, AttentionBridge, etc): full sequence [batch, num_patches, 1024]
+        # - Pooled bridges (linear_bridge, residual, multi_token, gated_fusion): pooled vector [batch, 1024]
+        # - Patch bridges (tile_attention, mini_qformer, qformer): full sequence [batch, num_patches, 1024]
         bridge_type = getattr(self.model, 'bridge_type', 'unknown')
         
         # Extract vision features - debug what we have
@@ -567,8 +567,8 @@ class BridgeTrainer:
             pooler = None
         
         # Decide which to use based on bridge type
-        if bridge_type in ['linear_bridge', 'better_mlp', 'multi_token']:
-            # LinearBridge, BetterMLP + MultiTokenMLP expect single pooled vector [batch, 1024]
+        if bridge_type in ['linear_bridge', 'residual', 'multi_token', 'gated_fusion']:
+            # Pooled bridges expect single pooled vector [batch, 1024]
             # Both expand to multiple tokens internally
             if pooler is not None:
                 vision_embeddings = pooler
@@ -577,7 +577,7 @@ class BridgeTrainer:
             else:
                 vision_embeddings = vision_output
         else:
-            # AttentionBridge, MiniQFormer, QFormer need full sequence [batch, num_patches, 1024]
+            # Patch-based bridges (tile_attention, mini_qformer, qformer) need full sequence [batch, num_patches, 1024]
             if last_hidden is not None and last_hidden.dim() == 3:
                 vision_embeddings = last_hidden  # Full sequence
             elif last_hidden is not None and last_hidden.dim() == 2:
@@ -601,7 +601,7 @@ class BridgeTrainer:
         vision_embeddings = vision_embeddings.detach()
         
         # Validate shapes before passing to bridge
-        if bridge_type in ['linear_bridge', 'better_mlp', 'multi_token']:
+        if bridge_type in ['linear_bridge', 'residual', 'multi_token', 'gated_fusion']:
             # These expect 2D pooled vectors [batch, 1024]
             assert vision_embeddings.dim() == 2, (
                 f"Bridge {bridge_type} expects 2D vision_embeddings [batch, dim], "
@@ -850,7 +850,7 @@ class BridgeTrainer:
                                             pooler = None
                                         
                                         # Decide which to use based on bridge type
-                                        if bridge_type in ['linear_bridge', 'better_mlp', 'multi_token']:
+                                        if bridge_type in ['linear_bridge', 'residual', 'multi_token', 'gated_fusion']:
                                             if pooler is not None:
                                                 vision_embeddings = pooler
                                             elif last_hidden is not None:
@@ -1156,7 +1156,7 @@ class BridgeTrainer:
             last_hidden = vision_output if isinstance(vision_output, torch.Tensor) else None
             pooler = None
 
-        if bridge_type in ['linear_bridge', 'better_mlp', 'multi_token']:
+        if bridge_type in ['linear_bridge', 'residual', 'multi_token', 'gated_fusion']:
             if pooler is not None:
                 vision_embeddings = pooler
             elif last_hidden is not None:

@@ -50,7 +50,7 @@ class VisionLanguageBridge(nn.Module):
     Unified wrapper for vision-language fine-tuning with IMPROVEMENT strategy.
     
     Philosophy:
-    - Baseline: simple linear projection (4096 → 896 or 1024 → 896)
+    - Baseline: simple linear projection (1024 → 896)
     - Add improvements on top via residual, attention, gating, etc.
     - Never destroy the baseline alignment
     
@@ -279,7 +279,7 @@ class VisionLanguageBridge(nn.Module):
             bridge_output = self.bridge(vision_embeddings, text_embeddings)
             
         elif self.uses_patches:
-            # Patch-based bridges (attention, mini_qformer, qformer)
+            # Patch-based bridges (tile_attention, mini_qformer, qformer)
             bridge_output = self.bridge(vision_embeddings)
             
         else:

@@ -14,29 +14,35 @@ from src.middleware.logger import data_loader_logger
 
 def load_image(image_path: str, size: tuple = (336, 336)) -> torch.Tensor:
     """
-    Load and convert image to tensor.
+    Load and convert image to tensor with ImageNet normalization.
+    
+    Matches the normalization used in trainer.py inference pipeline
+    (build_transform with ImageNet mean/std) to avoid train-test mismatch.
     
     Args:
         image_path: Path to image file
         size: Target image size (default: 336x336 for Vintern)
     
     Returns:
-        Tensor of shape (3, H, W) in range [0, 1]
+        Tensor of shape (3, H, W), ImageNet-normalized
     """
+    import torchvision.transforms as T
+    from torchvision.transforms.functional import InterpolationMode
+    
+    IMAGENET_MEAN = (0.485, 0.456, 0.406)
+    IMAGENET_STD = (0.229, 0.224, 0.225)
+    
     try:
         image = Image.open(image_path).convert('RGB')
-        image = image.resize(size, Image.Resampling.LANCZOS)
-        # Convert to tensor: [0, 1] range
-        image_tensor = torch.tensor(
-            [*image.getdata()],
-            dtype=torch.float32
-        ).reshape(size[1], size[0], 3) / 255.0
-        # Convert to (C, H, W) format
-        image_tensor = image_tensor.permute(2, 0, 1)
-        return image_tensor
+        transform = T.Compose([
+            T.Resize(size, interpolation=InterpolationMode.BICUBIC),
+            T.ToTensor(),
+            T.Normalize(mean=IMAGENET_MEAN, std=IMAGENET_STD)
+        ])
+        return transform(image)
     except Exception as e:
         data_loader_logger.warning(f"Failed to load image {image_path}: {e}")
-        # Return black image as fallback
+        # Return zero image as fallback (same shape as normalized output)
         return torch.zeros((3, size[1], size[0]), dtype=torch.float32)
 
 

@@ -2,7 +2,7 @@
 Clean training pipeline for Vision-Language fine-tuning.
 
 Only trains bridge modules that convert:
-  Vision embeddings (4096 dims) → LLM embeddings (896 dims)
+  Vision embeddings (1024 dims) → LLM embeddings (896 dims)
 
 Vision Model and Language Model are completely frozen.
 """
@@ -10,6 +10,7 @@ Vision Model and Language Model are completely frozen.
 import os
 import math
 import json
+import random
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -276,6 +277,8 @@ class BridgeTrainer:
         self.best_val_loss = float('inf')
         self.early_stop_counter = 0
         self.best_model_path = None
+        self.start_epoch = 0
+        self.current_epoch = 0
         
         # Checkpoint management: track recent checkpoints for cleanup
         self.recent_checkpoints = []  # Keep only 2 most recent
@@ -549,66 +552,21 @@ class BridgeTrainer:
         
         # Get vision embeddings (frozen model, but no_grad not needed for bridge input)
         vision_output = self.model.vision_model(pixel_values)
-        # Extract tensor from BaseModelOutputWithPooling
-        # Different bridges need different input shapes:
-        # - Pooled bridges (linear_bridge, residual, multi_token, gated_fusion): pooled vector [batch, 1024]
-        # - Patch bridges (tile_attention, mini_qformer, qformer): full sequence [batch, num_patches, 1024]
         bridge_type = getattr(self.model, 'bridge_type', 'unknown')
         
-        # Extract vision features - debug what we have
-        if hasattr(vision_output, 'last_hidden_state'):
-            last_hidden = vision_output.last_hidden_state  # Often [batch, num_patches, dim]
-            pooler = vision_output.pooler_output if hasattr(vision_output, 'pooler_output') else None
-        elif hasattr(vision_output, 'pooler_output'):
-            last_hidden = None
-            pooler = vision_output.pooler_output
-        else:
-            last_hidden = vision_output if isinstance(vision_output, torch.Tensor) else None
-            pooler = None
-        
-        # Decide which to use based on bridge type
-        if bridge_type in ['linear_bridge', 'residual', 'multi_token', 'gated_fusion']:
-            # Pooled bridges expect single pooled vector [batch, 1024]
-            # Both expand to multiple tokens internally
-            if pooler is not None:
-                vision_embeddings = pooler
-            elif last_hidden is not None:
-                vision_embeddings = last_hidden[:, 0, :]  # Use CLS token
-            else:
-                vision_embeddings = vision_output
-        else:
-            # Patch-based bridges (tile_attention, mini_qformer, qformer) need full sequence [batch, num_patches, 1024]
-            if last_hidden is not None and last_hidden.dim() == 3:
-                vision_embeddings = last_hidden  # Full sequence
-            elif last_hidden is not None and last_hidden.dim() == 2:
-                # If last_hidden is 2D, unsqueeze it
-                vision_embeddings = last_hidden.unsqueeze(1)
-            elif pooler is not None:
-                # Use pooler and unsqueeze to create sequence
-                vision_embeddings = pooler.unsqueeze(1)
-            else:
-                # Fallback
-                if isinstance(vision_output, torch.Tensor):
-                    if vision_output.dim() == 2:
-                        vision_embeddings = vision_output.unsqueeze(1)
-                    else:
-                        vision_embeddings = vision_output
-                else:
-                    raise ValueError(f"Cannot extract vision embeddings from {type(vision_output)}")
+        # Extract vision embeddings based on bridge type (single source of truth)
+        vision_embeddings = self._extract_vision_embeddings(vision_output, bridge_type)
         
         # Detach vision embeddings since vision model is frozen
-        # This prevents any gradient computation in the vision model
         vision_embeddings = vision_embeddings.detach()
         
         # Validate shapes before passing to bridge
         if bridge_type in ['linear_bridge', 'residual', 'multi_token', 'gated_fusion']:
-            # These expect 2D pooled vectors [batch, 1024]
             assert vision_embeddings.dim() == 2, (
                 f"Bridge {bridge_type} expects 2D vision_embeddings [batch, dim], "
                 f"got shape {vision_embeddings.shape} (dim={vision_embeddings.dim()})"
             )
         else:
-            # Others expect 3D sequences [batch, seq, dim]
             assert vision_embeddings.dim() == 3, (
                 f"Bridge {bridge_type} expects 3D vision_embeddings [batch, seq, dim], "
                 f"got shape {vision_embeddings.shape} (dim={vision_embeddings.dim()})"
@@ -698,18 +656,17 @@ class BridgeTrainer:
         
         # Add distillation loss to prevent embedding collapse
         # This keeps embeddings on the valid LLM manifold during training
+        # Only apply for pooled bridges where bridge output is directly comparable to baseline.
+        # For patch-based bridges (tile_attention, mini_qformer, qformer), the bridge transforms
+        # features through attention/transformer layers, making token-level comparison meaningless.
         use_distillation = True  # Can be made configurable
         distillation_weight = 0.5  # Default weight for MSE loss
         
-        if use_distillation:
+        if use_distillation and bridge_type in ['linear_bridge', 'residual', 'multi_token', 'gated_fusion']:
             # Get baseline embeddings (frozen reference)
             with torch.no_grad():
-                # Baseline always uses pooled vision features
-                if vision_embeddings.dim() == 3:
-                    vision_pool_baseline = vision_embeddings[:, 0, :]  # CLS token
-                else:
-                    vision_pool_baseline = vision_embeddings
-                baseline_output = self.model.baseline_bridge(vision_pool_baseline)  # (B, 896)
+                # vision_embeddings is already 2D [batch, dim] for pooled bridges
+                baseline_output = self.model.baseline_bridge(vision_embeddings)  # (B, 896)
                 baseline_output = baseline_output.to(dtype=model_dtype, device=self.device)
             
             # For distillation, compare first token of bridge output (which is the main output)
@@ -788,165 +745,7 @@ class BridgeTrainer:
                     logger.info(f"Step {self.global_step}: train_loss={step_loss:.4f}, [VAL] val_loss={val_loss:.4f}")
                     
                     # Show sample inference results every validation
-                    import random
-                    if hasattr(self, 'val_dataset') and len(self.val_dataset) > 0:
-                        try:
-                            indices = random.sample(range(len(self.val_dataset)), min(3, len(self.val_dataset)))
-                            logger.info(f"\n{'='*80}")
-                            logger.info(f"Sample Inference - Step {self.global_step}")
-                            logger.info(f"{'='*80}")
-                            
-                            self.model.eval()
-                            for i, idx in enumerate(indices, 1):
-                                sample = self.val_dataset[idx]
-                                question = sample.question if hasattr(sample, 'question') else 'N/A'
-                                # Handle answers list (new schema) - use majority vote like collator does
-                                if hasattr(sample, 'answers'):
-                                    sample_answers = sample.answers if isinstance(sample.answers, list) else [sample.answers]
-                                    if len(sample_answers) == 0:
-                                        answer = 'N/A'
-                                    elif len(sample_answers) == 1:
-                                        answer = sample_answers[0]
-                                    else:
-                                        # Majority vote: get most common answer (same as collator)
-                                        from collections import Counter
-                                        counter = Counter(sample_answers)
-                                        answer = counter.most_common(1)[0][0]
-                                else:
-                                    answer = 'N/A'
-                                
-                                # Try to get model prediction using notebook approach
-                                try:
-                                    # Load image using dynamic preprocessing from notebook
-                                    pixel_values = load_image(
-                                        sample.image_path, 
-                                        input_size=448, 
-                                        max_num=6
-                                    ).to(self.device)
-                                    
-                                    # Get model dtype from vision model
-                                    model_dtype = next(self.model.vision_model.parameters()).dtype
-                                    pixel_values = pixel_values.to(dtype=model_dtype)
-                                    
-                                    # Inference with no grad
-                                    with torch.no_grad():
-                                        # Get vision embeddings via bridge
-                                        if pixel_values.dim() == 4:
-                                            pixel_values_input = pixel_values[0:1, :, :, :]  # [1, 3, 448, 448]
-                                        else:
-                                            pixel_values_input = pixel_values.unsqueeze(0)
-                                        vision_output = self.model.vision_model(pixel_values_input)
-                                        
-                                        # Extract tensor from BaseModelOutputWithPooling
-                                        bridge_type = getattr(self.model, 'bridge_type', 'unknown')
-                                        if hasattr(vision_output, 'last_hidden_state'):
-                                            last_hidden = vision_output.last_hidden_state
-                                            pooler = vision_output.pooler_output if hasattr(vision_output, 'pooler_output') else None
-                                        elif hasattr(vision_output, 'pooler_output'):
-                                            last_hidden = None
-                                            pooler = vision_output.pooler_output
-                                        else:
-                                            last_hidden = vision_output if isinstance(vision_output, torch.Tensor) else None
-                                            pooler = None
-                                        
-                                        # Decide which to use based on bridge type
-                                        if bridge_type in ['linear_bridge', 'residual', 'multi_token', 'gated_fusion']:
-                                            if pooler is not None:
-                                                vision_embeddings = pooler
-                                            elif last_hidden is not None:
-                                                vision_embeddings = last_hidden[:, 0, :]
-                                            else:
-                                                raise ValueError(f"Cannot extract vision embeddings for {bridge_type}")
-                                        else:
-                                            if last_hidden is not None and last_hidden.dim() == 3:
-                                                vision_embeddings = last_hidden
-                                            elif last_hidden is not None and last_hidden.dim() == 2:
-                                                vision_embeddings = last_hidden.unsqueeze(1)
-                                            elif pooler is not None:
-                                                vision_embeddings = pooler.unsqueeze(1)
-                                            else:
-                                                raise ValueError(f"Cannot extract vision embeddings for {bridge_type}")
-                                        
-                                        vision_embeddings = vision_embeddings.detach()
-                                    
-                                    # Prepare prompt matching training format
-                                    system_message = "Bạn là một mô hình trí tuệ nhân tạo đa phương thức Tiếng Việt có tên gọi là Vintern, được phát triển bởi người Việt. Bạn là một trợ lý trí tuệ nhân tạo hữu ích và không gây hại."
-                                    prompt_text = (
-                                        f"<|im_start|>system\n{system_message}<|im_end|>\n"
-                                        f"<|im_start|>user\n<image>\n{question}<|im_end|>\n"
-                                        f"<|im_start|>assistant\n"
-                                    )
-                                    
-                                    with torch.no_grad():
-                                        # Tokenize prompt
-                                        inputs = self.tokenizer(
-                                            prompt_text,
-                                            return_tensors='pt',
-                                            padding=False,
-                                            truncation=True,
-                                            max_length=512
-                                        )
-                                        input_ids = inputs['input_ids'].to(self.device)
-                                        attention_mask = inputs['attention_mask'].to(self.device)
-                                        
-                                        # Get text embeddings
-                                        text_embeddings = self.model.language_model.model.embed_tokens(input_ids)
-                                        # Convert to model dtype immediately
-                                        text_embeddings = text_embeddings.to(dtype=model_dtype, device=self.device)
-
-                                        # QFormer needs question/text context for bridge generation.
-                                        if bridge_type == 'qformer':
-                                            bridged_embeddings = self.model.bridge(vision_embeddings, text_embeddings)
-                                        else:
-                                            bridged_embeddings = self.model.bridge(vision_embeddings)
-                                        if bridged_embeddings.dim() == 2:
-                                            bridged_embeddings = bridged_embeddings.unsqueeze(1)
-                                        
-                                        # Combine vision + text embeddings
-                                        combined = torch.cat([bridged_embeddings, text_embeddings], dim=1)
-                                        vision_attention = torch.ones(
-                                            bridged_embeddings.shape[0], 
-                                            bridged_embeddings.shape[1], 
-                                            device=self.device, 
-                                            dtype=attention_mask.dtype
-                                        )
-                                        combined_attention = torch.cat([vision_attention, attention_mask], dim=1)
-                                        
-                                        # Use generate() to get output
-                                        outputs = self.model.language_model.generate(
-                                            inputs_embeds=combined,
-                                            attention_mask=combined_attention,
-                                            max_new_tokens=50,
-                                            do_sample=False,
-                                            num_beams=1,
-                                            pad_token_id=self.tokenizer.eos_token_id,
-                                            eos_token_id=self.tokenizer.eos_token_id,
-                                            temperature=1.0,
-                                            top_p=1.0
-                                        )
-                                        
-                                        # Decode answer robustly for inputs_embeds generation.
-                                        generated_ids = outputs[0]
-                                        prompt_len = input_ids.shape[1]
-                                        if generated_ids.shape[0] > prompt_len:
-                                            output_ids = generated_ids[prompt_len:]
-                                        else:
-                                            output_ids = generated_ids
-                                        model_output = self.tokenizer.decode(output_ids, skip_special_tokens=True).strip()
-                                        if not model_output:
-                                            model_output = "[Empty output]"
-                                    
-                                except Exception as e:
-                                    model_output = f"[Generation failed: {str(e)[:80]}]"
-                                
-                                logger.info(f"\n[Sample {i}]")
-                                logger.info(f"Input: {question}")
-                                logger.info(f"Model Output: {model_output}")
-                                logger.info(f"Expected Output: {answer}")
-                            
-                            self.model.train()
-                        except Exception as e:
-                            logger.warning(f"Sample inference display failed: {e}")
+                    self._sample_inference(step=self.global_step)
                     
                     # Check for improvement
                     is_best = val_loss < self.best_val_loss - self.config.min_delta
@@ -1051,6 +850,7 @@ class BridgeTrainer:
     def save_checkpoint(self, is_best: bool = False):
         """Save checkpoint."""
         checkpoint = {
+            'epoch': self.current_epoch,
             'global_step': self.global_step,
             'bridge_state': self.model.bridge.state_dict(),
             'optimizer_state': self.optimizer.state_dict(),
@@ -1097,8 +897,58 @@ class BridgeTrainer:
         self.global_step = checkpoint['global_step']
         self.best_val_loss = checkpoint['best_val_loss']
         self.early_stop_counter = checkpoint['early_stop_counter']
+        self.start_epoch = checkpoint.get('epoch', 0) + 1
+        self.current_epoch = self.start_epoch
         
-        logger.info(f"✓ Resumed from checkpoint (step {self.global_step})")
+        logger.info(f"✓ Resumed from checkpoint (step {self.global_step}, will resume from epoch {self.start_epoch + 1})")
+
+    def _extract_vision_embeddings(self, vision_output, bridge_type: str) -> torch.Tensor:
+        """Extract vision embeddings from vision model output based on bridge type.
+        
+        Single source of truth for vision embedding extraction logic.
+        
+        Args:
+            vision_output: Output from vision model (BaseModelOutputWithPooling or tensor)
+            bridge_type: Bridge type string
+        
+        Returns:
+            vision_embeddings tensor:
+              - Pooled bridges (linear_bridge, residual, multi_token, gated_fusion): [batch, dim] (2D)
+              - Patch bridges (tile_attention, mini_qformer, qformer): [batch, num_patches, dim] (3D)
+        """
+        # Extract raw features from vision model output
+        if hasattr(vision_output, 'last_hidden_state'):
+            last_hidden = vision_output.last_hidden_state
+            pooler = vision_output.pooler_output if hasattr(vision_output, 'pooler_output') else None
+        elif hasattr(vision_output, 'pooler_output'):
+            last_hidden = None
+            pooler = vision_output.pooler_output
+        else:
+            last_hidden = vision_output if isinstance(vision_output, torch.Tensor) else None
+            pooler = None
+        
+        # Pooled bridges expect single vector [batch, dim]
+        if bridge_type in ['linear_bridge', 'residual', 'multi_token', 'gated_fusion']:
+            if pooler is not None:
+                return pooler
+            elif last_hidden is not None:
+                return last_hidden[:, 0, :]  # CLS token
+            else:
+                if isinstance(vision_output, torch.Tensor):
+                    return vision_output
+                raise ValueError(f"Cannot extract vision embeddings for {bridge_type}")
+        
+        # Patch-based bridges need full sequence [batch, num_patches, dim]
+        if last_hidden is not None and last_hidden.dim() == 3:
+            return last_hidden
+        elif last_hidden is not None and last_hidden.dim() == 2:
+            return last_hidden.unsqueeze(1)
+        elif pooler is not None:
+            return pooler.unsqueeze(1)
+        elif isinstance(vision_output, torch.Tensor):
+            return vision_output.unsqueeze(1) if vision_output.dim() == 2 else vision_output
+        else:
+            raise ValueError(f"Cannot extract vision embeddings from {type(vision_output)}")
 
     def _extract_sample_answers(self, sample) -> List[str]:
         """Extract all valid ground-truth answers from a dataset sample."""
@@ -1146,33 +996,7 @@ class BridgeTrainer:
         vision_output = self.model.vision_model(pixel_values_input)
 
         bridge_type = getattr(self.model, 'bridge_type', 'unknown')
-        if hasattr(vision_output, 'last_hidden_state'):
-            last_hidden = vision_output.last_hidden_state
-            pooler = vision_output.pooler_output if hasattr(vision_output, 'pooler_output') else None
-        elif hasattr(vision_output, 'pooler_output'):
-            last_hidden = None
-            pooler = vision_output.pooler_output
-        else:
-            last_hidden = vision_output if isinstance(vision_output, torch.Tensor) else None
-            pooler = None
-
-        if bridge_type in ['linear_bridge', 'residual', 'multi_token', 'gated_fusion']:
-            if pooler is not None:
-                vision_embeddings = pooler
-            elif last_hidden is not None:
-                vision_embeddings = last_hidden[:, 0, :]
-            else:
-                raise ValueError(f"Cannot extract vision embeddings for {bridge_type}")
-        else:
-            if last_hidden is not None and last_hidden.dim() == 3:
-                vision_embeddings = last_hidden
-            elif last_hidden is not None and last_hidden.dim() == 2:
-                vision_embeddings = last_hidden.unsqueeze(1)
-            elif pooler is not None:
-                vision_embeddings = pooler.unsqueeze(1)
-            else:
-                raise ValueError(f"Cannot extract vision embeddings for {bridge_type}")
-
+        vision_embeddings = self._extract_vision_embeddings(vision_output, bridge_type)
         vision_embeddings = vision_embeddings.detach()
         text_embeddings = self.model.language_model.model.embed_tokens(input_ids)
         text_embeddings = text_embeddings.to(dtype=model_dtype, device=self.device)
@@ -1212,6 +1036,108 @@ class BridgeTrainer:
         return model_output if model_output else "[Empty output]"
 
     @torch.no_grad()
+    def _batch_generate_answers(self, samples: list) -> List[str]:
+        """Generate answers for multiple samples simultaneously.
+        
+        Same logic and prompt format as _generate_answer_for_sample(),
+        but processes a batch at once through vision model, bridge, and LLM.
+        
+        Args:
+            samples: List of OneSample objects
+            
+        Returns:
+            List of generated answer strings (one per sample)
+        """
+        if not samples:
+            return []
+        
+        model_dtype = next(self.model.vision_model.parameters()).dtype
+        bridge_type = getattr(self.model, 'bridge_type', 'unknown')
+        
+        # 1. Load and stack images (take first tile from each, same as single-sample)
+        pixel_values_list = []
+        for sample in samples:
+            pv = load_image(sample.image_path, input_size=448, max_num=6)
+            if pv.dim() == 4:
+                pv = pv[0:1, :, :, :]  # First tile [1, 3, 448, 448]
+            else:
+                pv = pv.unsqueeze(0)
+            pixel_values_list.append(pv.squeeze(0))  # [3, 448, 448]
+        
+        pixel_values_batch = torch.stack(pixel_values_list).to(dtype=model_dtype, device=self.device)
+        
+        # 2. Run vision model on batch
+        vision_output = self.model.vision_model(pixel_values_batch)
+        vision_embeddings = self._extract_vision_embeddings(vision_output, bridge_type)
+        vision_embeddings = vision_embeddings.detach()
+        
+        # 3. Build prompts and tokenize with LEFT padding (required for batch generation)
+        questions = [sample.question if hasattr(sample, 'question') else 'N/A' for sample in samples]
+        prompt_texts = [self._build_prompt_text(q) for q in questions]
+        
+        original_padding_side = getattr(self.tokenizer, 'padding_side', 'right')
+        self.tokenizer.padding_side = "left"
+        if self.tokenizer.pad_token is None:
+            self.tokenizer.pad_token = self.tokenizer.eos_token
+        
+        inputs = self.tokenizer(
+            prompt_texts,
+            return_tensors="pt",
+            padding=True,
+            truncation=True,
+            max_length=512
+        )
+        input_ids = inputs['input_ids'].to(self.device)
+        attention_mask = inputs['attention_mask'].to(self.device)
+        
+        self.tokenizer.padding_side = original_padding_side
+        
+        # 4. Get text embeddings and run bridge
+        text_embeddings = self.model.language_model.model.embed_tokens(input_ids)
+        text_embeddings = text_embeddings.to(dtype=model_dtype, device=self.device)
+        
+        if bridge_type == 'qformer':
+            bridge_output = self.model.bridge(vision_embeddings, text_embeddings)
+        else:
+            bridge_output = self.model.bridge(vision_embeddings)
+        if bridge_output.dim() == 2:
+            bridge_output = bridge_output.unsqueeze(1)
+        
+        # 5. Combine vision + text embeddings
+        combined_embeddings = torch.cat([bridge_output, text_embeddings], dim=1)
+        vision_attention = torch.ones(
+            bridge_output.shape[0],
+            bridge_output.shape[1],
+            device=self.device,
+            dtype=attention_mask.dtype
+        )
+        combined_attention_mask = torch.cat([vision_attention, attention_mask], dim=1)
+        
+        # 6. Batch generate (same parameters as single-sample)
+        outputs = self.model.language_model.generate(
+            inputs_embeds=combined_embeddings,
+            attention_mask=combined_attention_mask,
+            max_new_tokens=50,
+            do_sample=False,
+            num_beams=1,
+            pad_token_id=self.tokenizer.eos_token_id,
+            eos_token_id=self.tokenizer.eos_token_id,
+            top_p=1.0,
+            temperature=1.0
+        )
+        
+        # 7. Decode each output (same logic as single-sample)
+        results = []
+        prompt_len = input_ids.shape[1]
+        for b_idx in range(outputs.shape[0]):
+            generated_ids = outputs[b_idx]
+            output_ids = generated_ids[prompt_len:] if generated_ids.shape[0] > prompt_len else generated_ids
+            model_output = self.tokenizer.decode(output_ids, skip_special_tokens=True).strip()
+            results.append(model_output if model_output else "[Empty output]")
+        
+        return results
+
+    @torch.no_grad()
     def _compute_epoch_text_metrics(self, epoch: int) -> Dict[str, float]:
         """Compute ref/ref1-aligned text metrics on full validation dataset."""
         import numpy as np
@@ -1228,25 +1154,62 @@ class BridgeTrainer:
         per_sample_records = []
 
         self.model.eval()
-        pbar = tqdm(range(len(self.val_dataset)), desc=f"Epoch {epoch + 1} metrics", leave=False)
-        for idx in pbar:
-            sample = self.val_dataset[idx]
-            question = sample.question if hasattr(sample, 'question') else 'N/A'
-            gt_answers = self._extract_sample_answers(sample)
-
+        
+        # Batch generation for speed (same results as per-sample, just faster)
+        # Lower than training batch_size since generate() uses more memory than forward
+        eval_batch_size = max(1, self.config.batch_size // 4) if self.config.batch_size > 4 else 2
+        dataset_len = len(self.val_dataset)
+        num_batches = math.ceil(dataset_len / eval_batch_size)
+        
+        pbar = tqdm(range(num_batches), desc=f"Epoch {epoch + 1} metrics (batch={eval_batch_size})", leave=False)
+        
+        for batch_idx in pbar:
+            batch_start = batch_idx * eval_batch_size
+            batch_end = min(batch_start + eval_batch_size, dataset_len)
+            batch_samples = [self.val_dataset[i] for i in range(batch_start, batch_end)]
+            
+            # Extract ground truths
+            batch_questions = []
+            batch_gt_answers = []
+            for sample in batch_samples:
+                question = sample.question if hasattr(sample, 'question') else 'N/A'
+                gt_answers = self._extract_sample_answers(sample)
+                batch_questions.append(question)
+                batch_gt_answers.append(gt_answers)
+            
+            # Generate answers in batch
             try:
-                generation = self._generate_answer_for_sample(sample)
+                batch_generations = self._batch_generate_answers(batch_samples)
             except Exception as e:
-                generation = f"[Generation error: {str(e)[:80]}]"
-
-            all_ground_truths.append(gt_answers)
-            all_generations.append(generation)
-            per_sample_records.append({
-                'index': idx,
-                'question': question,
-                'prediction': generation,
-                'ground_truths': gt_answers
-            })
+                # Fallback to per-sample if batch fails (e.g., CUDA OOM)
+                logger.warning(f"Batch generation failed ({e}), falling back to per-sample")
+                batch_generations = []
+                for sample in batch_samples:
+                    try:
+                        gen = self._generate_answer_for_sample(sample)
+                    except Exception as e2:
+                        gen = f"[Generation error: {str(e2)[:80]}]"
+                    batch_generations.append(gen)
+            
+            # Collect results
+            for i, (question, gt_answers, generation) in enumerate(
+                zip(batch_questions, batch_gt_answers, batch_generations)
+            ):
+                idx = batch_start + i
+                all_ground_truths.append(gt_answers)
+                all_generations.append(generation)
+                per_sample_records.append({
+                    'index': idx,
+                    'question': question,
+                    'prediction': generation,
+                    'ground_truths': gt_answers
+                })
+            
+            pbar.set_postfix({'generated': f'{batch_end}/{dataset_len}'})
+            
+            # Free memory between batches
+            if self.device.type == "cuda":
+                torch.cuda.empty_cache()
 
         bleu_metric = BLEUScore(n_gram=4)
         meteor_metric = METEORScore()
@@ -1344,10 +1307,8 @@ class BridgeTrainer:
 
         return avg_metrics
     
-    def _sample_inference(self, epoch: int, num_samples: int = 3):
+    def _sample_inference(self, epoch: int = None, step: int = None, num_samples: int = 3):
         """Generate sample outputs on random validation samples."""
-        import random
-        
         if not hasattr(self, 'val_dataset') or len(self.val_dataset) == 0:
             return
         
@@ -1355,8 +1316,13 @@ class BridgeTrainer:
             # Select random samples
             indices = random.sample(range(len(self.val_dataset)), min(num_samples, len(self.val_dataset)))
             
+            # Header: show step or epoch depending on call site
+            if step is not None:
+                header = f"Sample Inference - Step {step}"
+            else:
+                header = f"Sample Inference - Epoch {epoch + 1}" if epoch is not None else "Sample Inference"
             logger.info(f"\n{'='*80}")
-            logger.info(f"Sample Inference - Epoch {epoch + 1}")
+            logger.info(header)
             logger.info(f"{'='*80}")
             
             self.model.eval()
@@ -1385,16 +1351,16 @@ class BridgeTrainer:
                 try:
                     model_output = self._generate_answer_for_sample(sample)
                 except Exception as e:
-                    model_output = f"[Generation error: {str(e)[:80]}]"
+                    model_output = f"[Generation failed: {str(e)[:80]}]"
                 
                 # Log output
                 logger.info(f"\n[Sample {i}]")
-                logger.info(f"Question: {question}")
+                logger.info(f"Input: {question}")
                 logger.info(f"Model Output: {model_output}")
-                logger.info(f"Ground truth: {answer}")
+                logger.info(f"Expected Output: {answer}")
         
         except Exception as e:
-            logger.warning(f"Sample inference failed: {e}")
+            logger.warning(f"Sample inference display failed: {e}")
         
         finally:
             self.model.train()
@@ -1404,7 +1370,8 @@ class BridgeTrainer:
         start_time = datetime.now()
         
         try:
-            for epoch in range(self.config.num_epochs):
+            for epoch in range(self.start_epoch, self.config.num_epochs):
+                self.current_epoch = epoch
                 epoch_start = datetime.now()
                 
                 # Train one epoch

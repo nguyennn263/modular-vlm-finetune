@@ -20,7 +20,7 @@ scheduler:
 
 # Training Loop Configuration
 training:
-  num_epochs: 10                # Total training epochs
+  num_epochs: 20                # Total training epochs
   batch_size: 8                 # Per-GPU batch size
   eval_batch_size: 16           # Evaluation batch size
   

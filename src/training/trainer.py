@@ -133,7 +133,7 @@ class TrainConfig:
     """Training configuration."""
     model_name: str = "5CD-AI/Vintern-1B-v3_5"  # Model identifier for tokenizer
     output_dir: str = "checkpoints/bridge_experiments"
-    num_epochs: int = 10
+    num_epochs: int = 20
     batch_size: int = 2  # Reduced from 8 to fit in 14GB GPU memory
     gradient_accumulation_steps: int = 4  # Accumulate 4 batches for effective batch size of 8
     learning_rate: float = 2e-4

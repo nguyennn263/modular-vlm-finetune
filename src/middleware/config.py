@@ -53,7 +53,7 @@ imagenet_normalize = model_config.get('imagenet_normalize', {
 
 # 4. Training parameters
 learning_rate = model_config.get('training_config', {}).get('learning_rate', 1e-4)
-num_epochs = model_config.get('training_config', {}).get('num_epochs', 10)
+num_epochs = model_config.get('training_config', {}).get('num_epochs', 20)
 weight_decay = model_config.get('training_config', {}).get('weight_decay', 1e-5)
 early_stopping_patience = model_config.get('training_config', {}).get('early_stopping_patience', 5)
 gradient_clip_value = model_config.get('training_config', {}).get('gradient_clip_value', 1.0)

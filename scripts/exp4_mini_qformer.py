@@ -37,7 +37,7 @@ class Exp4Config(ExperimentConfig):
         "num_heads": 8
     }
     
-    num_epochs = 10
+    num_epochs = 20
     batch_size = 2  # Memory-optimized for 14GB GPU
     gradient_accumulation_steps = 4  # Effective batch size = 2 * 4 = 8
     learning_rate = 2e-4

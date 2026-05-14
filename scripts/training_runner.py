@@ -92,7 +92,7 @@ class AblationStudy:
     def _default_config(self) -> Dict:
         return {
             "name": "bridge_training_comparison",
-            "num_epochs": 10,
+            "num_epochs": 20,
             "batch_size": 8,
             "learning_rate": 2e-4,
             "output_dir": "outputs/training",

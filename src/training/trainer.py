@@ -140,8 +140,8 @@ class TrainConfig:
     weight_decay: float = 0.01
     warmup_steps: int = 500
     max_grad_norm: float = 1.0
-    eval_steps: int = 100
-    save_steps: int = 500
+    eval_steps: int = 1000
+    save_steps: int = 1000
     seed: int = 42
     device: str = "auto"
     fp16: bool = False

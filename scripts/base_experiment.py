@@ -38,8 +38,8 @@ class ExperimentConfig:
     batch_size: int = 2  # Memory-optimized for 14GB GPU
     gradient_accumulation_steps: int = 4  # Effective batch size = 2 * 4 = 8
     learning_rate: float = 2e-4
-    eval_steps: int = 100
-    save_steps: int = 500
+    eval_steps: int = 1000
+    save_steps: int = 1000
     
     # Output
     output_dir: str = "checkpoints/exp_base"

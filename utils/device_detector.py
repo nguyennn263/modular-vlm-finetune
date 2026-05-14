@@ -102,8 +102,8 @@ class DeviceDetector:
             'gradient_accumulation_steps': self.selected_profile.get('gradient_accumulation_steps', 1),
             'max_seq_length': self.selected_profile.get('max_seq_length', 256),
             'num_workers': self.selected_profile.get('num_workers', 4),
-            'eval_steps': self.selected_profile.get('eval_steps', 100),
-            'save_steps': self.selected_profile.get('save_steps', 500),
+            'eval_steps': self.selected_profile.get('eval_steps', 1000),
+            'save_steps': self.selected_profile.get('save_steps', 1000),
             'use_flash_attn': self.selected_profile.get('use_flash_attn', False),
             'mixed_precision': self.selected_profile.get('mixed_precision', 'bf16'),
         }

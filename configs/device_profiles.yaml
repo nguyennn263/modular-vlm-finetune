@@ -12,7 +12,7 @@ devices:
     max_seq_length: 256
     num_workers: 4
     eval_steps: 1000
-    save_steps: 500
+    save_steps: 1000
     use_flash_attn: false
     mixed_precision: "bf16"
     description: "Memory-constrained, slow but stable"
@@ -26,8 +26,8 @@ devices:
     gradient_accumulation_steps: 1
     max_seq_length: 512
     num_workers: 8
-    eval_steps: 500
-    save_steps: 250
+    eval_steps: 1000
+    save_steps: 1000
     use_flash_attn: true
     mixed_precision: "bf16"
     description: "Memory-rich, fast training"
@@ -41,8 +41,8 @@ devices:
     gradient_accumulation_steps: 1
     max_seq_length: 512
     num_workers: 8
-    eval_steps: 500
-    save_steps: 250
+    eval_steps: 1000
+    save_steps: 1000
     use_flash_attn: true
     mixed_precision: "bf16"
     description: "High-end, fast training"
@@ -56,8 +56,8 @@ devices:
     gradient_accumulation_steps: 2
     max_seq_length: 384
     num_workers: 4
-    eval_steps: 100
-    save_steps: 500
+    eval_steps: 1000
+    save_steps: 1000
     use_flash_attn: false
     mixed_precision: "bf16"
     description: "Mid-range, balanced"

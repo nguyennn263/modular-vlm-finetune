@@ -11,7 +11,7 @@ devices:
     gradient_accumulation_steps: 4
     max_seq_length: 256
     num_workers: 4
-    eval_steps: 100
+    eval_steps: 1000
     save_steps: 500
     use_flash_attn: false
     mixed_precision: "bf16"

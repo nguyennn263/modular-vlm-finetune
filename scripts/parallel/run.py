@@ -87,6 +87,70 @@ def expa_worker(bridge: str, seed: int, branch: str, resume_ds: str | None, epoc
     ]
 
 
+def oracle_worker(shard: int, nshards: int, bridges: str, branch: str,
+                  ckpt_ds: str, split: str, subset: int, out: str) -> list[dict]:
+    ds = ckpt_ds.split("/")[-1]
+    return [
+        _code("import os", "os.chdir('/kaggle/working')",
+              f"os.system('git clone -q {REPO_URL} repo || (cd repo && git fetch -q)')",
+              "os.chdir('/kaggle/working/repo')",
+              f"os.system('git checkout -q {branch} && git pull -q')"),
+        _code("!bash setup_kaggle.sh 2>&1 | tail -5"),
+        _code("!python scripts/phase0_build_data.py 2>&1 | tail -4"),
+        _code(f"!mkdir -p checkpoints/expA/seed42 && cp -r /kaggle/input/{ds}/* checkpoints/expA/seed42/ && "
+              f"ls -R checkpoints/expA/seed42 | tail"),
+        _code(f"!python -m src.cli.oracle --bridges {bridges} --n-tiles 1,3,6 "
+              f"--split {split} --subset {subset} --shard {shard}/{nshards} "
+              f"--ckpt-dir checkpoints/expA/seed42 --out {out}"),
+        _code(f"!mkdir -p /kaggle/working/out && cp {out}/*.parquet /kaggle/working/out/ && ls -la /kaggle/working/out"),
+    ]
+
+
+def fiq_worker(branch: str, splits: str) -> list[dict]:
+    return [
+        _code("import os", "os.chdir('/kaggle/working')",
+              f"os.system('git clone -q {REPO_URL} repo || (cd repo && git fetch -q)')",
+              "os.chdir('/kaggle/working/repo')",
+              f"os.system('git checkout -q {branch} && git pull -q')"),
+        _code("!bash setup_kaggle.sh 2>&1 | tail -5"),
+        _code("!python scripts/phase0_build_data.py 2>&1 | tail -4"),
+        _code(f"!python -m src.cli.build_fiq --split-dir data/splits --splits {splits} --pca 64"),
+        _code("!python -m src.cli.train_router --split-dir data/splits --epochs 3 "
+              "--predict-splits train,val,test"),
+        _code("!mkdir -p /kaggle/working/out && cp -r outputs/fiq outputs/router checkpoints/router "
+              "/kaggle/working/out/ && ls -R /kaggle/working/out | tail -20"),
+    ]
+
+
+def cmd_bundle(args) -> None:
+    """Package Exp A checkpoints into a public Kaggle dataset for the oracle workers."""
+    seed = args.seed
+    bridges = args.bridges.split(",") if args.bridges else BRIDGES
+    d = ROOT / "outputs" / "parallel" / "bundle"
+    if d.exists():
+        for f in d.iterdir():
+            f.unlink()
+    d.mkdir(parents=True, exist_ok=True)
+    got = []
+    for b in bridges:
+        src = ROOT / "checkpoints" / "expA" / f"seed{seed}" / b / "best_model.pt"
+        if src.exists():
+            (d / b).mkdir(exist_ok=True)
+            (d / b / "best_model.pt").write_bytes(src.read_bytes())   # <bridge>/best_model.pt
+            got.append(b)
+    if not got:
+        raise SystemExit("no checkpoints in checkpoints/expA — run `poll` first")
+    user = _user("acc1")
+    ds_id = f"{user}/mvlm-expa-ckpt"
+    (d / "dataset-metadata.json").write_text(json.dumps(
+        {"id": ds_id, "title": "mvlm-expa-ckpt", "licenses": [{"name": "unknown"}]}))
+    try:
+        _kaggle("acc1", "datasets", "create", "-p", str(d), "--public")
+    except RuntimeError:
+        _kaggle("acc1", "datasets", "version", "-p", str(d), "-m", "update")
+    print(f"[bundle] {got} -> dataset {ds_id}  (wait ~1 min for Kaggle to process)")
+
+
 def _push_worker(acc: str, slug: str, cells: list[dict], resume_ds: str | None) -> str:
     user = _user(acc)
     kid = f"{user}/{slug}"
@@ -106,27 +170,54 @@ def _push_worker(acc: str, slug: str, cells: list[dict], resume_ds: str | None) 
 
 
 # ------------------------------------------------------------------ commands
+def _register(led, job, acc, kid, extra):
+    led["jobs"][job] = {"account": acc, "kernel": kid, "status": "running",
+                        "pushed_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                        "collected": False, **extra}
+    print(f"[launch] {job} -> {acc} ({kid})")
+    save_ledger(led)
+
+
 def cmd_launch(args) -> None:
-    phase = args.phase
     led = load_ledger()
-    if phase == "expa":
-        branch = _current_branch()
-        for i, bridge in enumerate(BRIDGES):
+    branch = _current_branch()
+
+    if args.phase == "expa":
+        seeds = [int(s) for s in str(args.seed).split(",")]
+        combos = [(b, s) for s in seeds for b in BRIDGES]
+        for i, (bridge, seed) in enumerate(combos):
             acc = ACCOUNTS[i % len(ACCOUNTS)]
-            job = f"expa:{bridge}:s{args.seed}"
-            if job in led["jobs"] and led["jobs"][job].get("status") not in ("failed", None):
-                print(f"[skip] {job} already {led['jobs'][job]['status']}")
+            job = f"expa:{bridge}:s{seed}"
+            if led["jobs"].get(job, {}).get("status") not in (None, "failed", "error", "incomplete"):
+                print(f"[skip] {job} = {led['jobs'][job]['status']}")
                 continue
-            slug = f"mvlm-expa-{bridge.replace('_','-')}-s{args.seed}"
-            cells = expa_worker(bridge, args.seed, branch, None, args.epochs)
-            kid = _push_worker(acc, slug, cells, None)
-            led["jobs"][job] = {"account": acc, "kernel": kid, "bridge": bridge,
-                                "seed": args.seed, "status": "running",
-                                "pushed_at": time.strftime("%Y-%m-%dT%H:%M:%S"), "collected": False}
-            print(f"[launch] {job} -> {acc} ({kid})")
-            save_ledger(led)
+            slug = f"mvlm-expa-{bridge.replace('_','-')}-s{seed}"
+            kid = _push_worker(acc, slug, expa_worker(bridge, seed, branch, None, args.epochs), None)
+            _register(led, job, acc, kid, {"bridge": bridge, "seed": seed})
+
+    elif args.phase == "oracle":
+        ds = f"{_user('acc1')}/mvlm-expa-ckpt"
+        n = args.shards
+        for i in range(n):
+            acc = ACCOUNTS[i % len(ACCOUNTS)]
+            job = f"oracle:{args.split}:shard{i}of{n}"
+            if led["jobs"].get(job, {}).get("status") not in (None, "failed", "error", "incomplete"):
+                print(f"[skip] {job} = {led['jobs'][job]['status']}")
+                continue
+            slug = f"mvlm-oracle-{args.split}-{i}of{n}"
+            cells = oracle_worker(i, n, args.bridges, branch, ds, args.split,
+                                  args.subset, f"outputs/oracle_{args.split}")
+            kid = _push_worker(acc, slug, cells, ds)
+            _register(led, job, acc, kid, {"split": args.split, "shard": f"{i}/{n}"})
+
+    elif args.phase == "fiq":
+        acc = args.account or "acc1"
+        job = "fiq:all"
+        kid = _push_worker(acc, "mvlm-fiq", fiq_worker(branch, "train,val,test"), None)
+        _register(led, job, acc, kid, {})
+
     else:
-        raise SystemExit(f"unknown phase {phase!r}")
+        raise SystemExit(f"unknown phase {args.phase!r}")
 
 
 def cmd_poll(args) -> None:
@@ -146,34 +237,56 @@ def cmd_poll(args) -> None:
     save_ledger(led)
 
 
+def _copytree(src: Path, dst: Path) -> None:
+    dst.mkdir(parents=True, exist_ok=True)
+    for f in src.rglob("*"):
+        if f.is_file():
+            rel = f.relative_to(src)
+            (dst / rel).parent.mkdir(parents=True, exist_ok=True)
+            (dst / rel).write_bytes(f.read_bytes())
+
+
 def _collect(job: str, j: dict) -> None:
-    dst = ROOT / "outputs" / "parallel" / "pulled" / job.replace(":", "_")
+    dst = ROOT / "outputs" / "parallel" / "pulled" / job.replace(":", "_").replace("/", "-")
     dst.mkdir(parents=True, exist_ok=True)
     _kaggle(j["account"], "kernels", "output", j["kernel"], "-p", str(dst), check=False)
+    ok = False
 
-    # checkpoints + eval samples -> repo layout
-    for pt in dst.rglob("best_model.pt"):
-        tgt = ROOT / "checkpoints" / "expA" / f"seed{j['seed']}" / j["bridge"]
-        tgt.mkdir(parents=True, exist_ok=True)
-        for f in pt.parent.iterdir():
-            if f.is_file():
-                (tgt / f.name).write_bytes(f.read_bytes())
-    for sm in dst.rglob("eval_val_samples.jsonl"):
-        tgt = ROOT / "outputs" / "expA" / j["bridge"]
-        tgt.mkdir(parents=True, exist_ok=True)
-        (tgt / "eval_val_samples.jsonl").write_bytes(sm.read_bytes())
-    for sj in dst.rglob("summary.json"):
-        try:
-            s = json.loads(sj.read_text())
-            j["epochs_trained"] = s.get("epochs_trained")
-            j["best_val_loss"] = s.get("best_val_loss")
-        except Exception:
-            pass
+    if job.startswith("expa:"):
+        for pt in dst.rglob("best_model.pt"):
+            tgt = ROOT / "checkpoints" / "expA" / f"seed{j['seed']}" / j["bridge"]
+            tgt.mkdir(parents=True, exist_ok=True)
+            for f in pt.parent.iterdir():
+                if f.is_file():
+                    (tgt / f.name).write_bytes(f.read_bytes())
+        for sm in dst.rglob("eval_val_samples.jsonl"):
+            t = ROOT / "outputs" / "expA" / j["bridge"]; t.mkdir(parents=True, exist_ok=True)
+            (t / "eval_val_samples.jsonl").write_bytes(sm.read_bytes())
+        for sj in dst.rglob("summary.json"):
+            try:
+                s = json.loads(sj.read_text())
+                j["epochs_trained"], j["best_val_loss"] = s.get("epochs_trained"), s.get("best_val_loss")
+            except Exception:
+                pass
+        ok = (ROOT / "checkpoints" / "expA" / f"seed{j['seed']}" / j["bridge"] / "best_model.pt").exists()
 
-    got_ckpt = (ROOT / "checkpoints" / "expA" / f"seed{j['seed']}" / j["bridge"] / "best_model.pt").exists()
-    j["collected"] = bool(got_ckpt)
-    j["status"] = "done" if got_ckpt else ("error" if j["status"] == "error" else "incomplete")
-    print(f"   -> {j['status']}  (checkpoint: {'yes' if got_ckpt else 'NO'})")
+    elif job.startswith("oracle:"):
+        t = ROOT / "outputs" / f"oracle_{j['split']}"; t.mkdir(parents=True, exist_ok=True)
+        for p in dst.rglob("table.shard*.parquet"):
+            (t / p.name).write_bytes(p.read_bytes()); ok = True
+
+    elif job.startswith("fiq:"):
+        for sub in ("fiq", "router"):
+            src = next((p for p in dst.rglob(sub) if p.is_dir()), None)
+            if src:
+                _copytree(src, ROOT / "outputs" / sub); ok = True
+        src = next((p for p in dst.rglob("router") if p.is_dir() and (p / "best.pt").exists()), None)
+        if src:
+            _copytree(src, ROOT / "checkpoints" / "router")
+
+    j["collected"] = bool(ok)
+    j["status"] = "done" if ok else ("error" if j["status"] == "error" else "incomplete")
+    print(f"   -> {j['status']}  (artifacts: {'yes' if ok else 'NO'})")
 
 
 def cmd_status(args) -> None:
@@ -225,10 +338,24 @@ def _current_branch() -> str:
 def main() -> None:
     p = argparse.ArgumentParser(prog="run.py")
     sub = p.add_subparsers(dest="cmd", required=True)
-    lp = sub.add_parser("launch"); lp.add_argument("phase"); lp.add_argument("--seed", type=int, default=42)
-    lp.add_argument("--epochs", type=int, default=10); lp.set_defaults(fn=cmd_launch)
+
+    lp = sub.add_parser("launch")
+    lp.add_argument("phase", choices=["expa", "oracle", "fiq"])
+    lp.add_argument("--seed", default="42", help="expa: comma list e.g. 43,44")
+    lp.add_argument("--epochs", type=int, default=10)
+    lp.add_argument("--shards", type=int, default=5)
+    lp.add_argument("--split", default="train", help="oracle: train|val|test")
+    lp.add_argument("--subset", type=int, default=7500)
+    lp.add_argument("--bridges", default=",".join(BRIDGES), help="oracle: top-3 from Exp B")
+    lp.add_argument("--account", default=None)
+    lp.set_defaults(fn=cmd_launch)
+
     sub.add_parser("poll").set_defaults(fn=cmd_poll)
     sub.add_parser("status").set_defaults(fn=cmd_status)
+
+    bp = sub.add_parser("bundle"); bp.add_argument("--seed", type=int, default=42)
+    bp.add_argument("--bridges", default=""); bp.set_defaults(fn=cmd_bundle)
+
     rp = sub.add_parser("resume"); rp.add_argument("job"); rp.add_argument("--epochs", type=int, default=10)
     rp.set_defaults(fn=cmd_resume)
     args = p.parse_args()

@@ -32,9 +32,11 @@
       "kernel": "nguyennn251/mvlm-expa-mini-qformer-s42",
       "bridge": "mini_qformer",
       "seed": 42,
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-01T19:51:59",
-      "collected": false
+      "collected": true,
+      "epochs_trained": 10,
+      "best_val_loss": 1.6424695657617259
     },
     "expa:qformer:s42": {
       "account": "acc5",

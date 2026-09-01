@@ -155,13 +155,15 @@ def run(cfg: dict[str, Any]) -> None:
 
     from src.training import BridgeTrainer, TrainConfig, create_finetune_model
     limit = cfg.get("limit")
+    limit = None if limit is None else max(1, int(limit))
     if cfg.get("split_dir"):
         from src.data.split import load_split
 
         d = cfg["split_dir"]
-        train_samples = load_split("train", d)[: limit or None]
-        val_samples = load_split("val", d)[: (limit // 5) if limit else None]
-        test_samples = load_split("test", d)[: (limit // 5) if limit else None]
+        sub = None if limit is None else max(1, limit // 5)
+        train_samples = load_split("train", d)[:limit]
+        val_samples = load_split("val", d)[:sub]
+        test_samples = load_split("test", d)[:sub]
         print(f"[data] grouped split '{d}' -> train={len(train_samples)} "
               f"val={len(val_samples)} test={len(test_samples)}")
     else:

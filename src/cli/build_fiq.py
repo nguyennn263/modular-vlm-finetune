@@ -92,6 +92,7 @@ def run(args: argparse.Namespace) -> None:
             df = df.merge(meta.reset_index(), on="sample_id", how="left")
             df[[c for c in meta.columns]] = df[[c for c in meta.columns]].fillna(0.0)
 
+        df = df.drop_duplicates("sample_id").reset_index(drop=True)
         out = repo_root() / args.out
         out.mkdir(parents=True, exist_ok=True)
         df.to_parquet(out / f"{split}.parquet", index=False)

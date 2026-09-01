@@ -40,21 +40,27 @@ def _parser() -> argparse.ArgumentParser:
     return p
 
 
-def _assemble(labels_p, prq_p, feat_p):
+def _assemble(labels_p, prq_p, feat_p, actions: list | None = None):
+    """actions: pass the TRAIN action list so val labels map to the same index space."""
     import numpy as np
     import pandas as pd
 
-    lab = pd.read_parquet(repo_root() / labels_p if not Path(labels_p).is_absolute() else labels_p)
-    prq = pd.read_parquet(repo_root() / prq_p if not Path(prq_p).is_absolute() else prq_p)
+    def rp(p):
+        return pd.read_parquet(p if Path(p).is_absolute() else repo_root() / p)
+
+    lab = rp(labels_p)
+    prq = rp(prq_p).drop_duplicates("sample_id")
     df = lab.merge(prq, on="sample_id", how="inner")
     feat_cols = []
     if feat_p:
-        f = pd.read_parquet(repo_root() / feat_p if not Path(feat_p).is_absolute() else feat_p)
+        f = rp(feat_p).drop_duplicates("sample_id")
         feat_cols = [c for c in f.columns if c != "sample_id"]
         df = df.merge(f, on="sample_id", how="inner")
 
-    actions = sorted(df["a_star"].unique())
+    if actions is None:
+        actions = sorted(df["a_star"].unique())
     a2i = {a: i for i, a in enumerate(actions)}
+    df = df[df["a_star"].isin(a2i)]  # drop val rows whose a* never appeared in train
     prq_cols = [f"p_{c}" for c in CATEGORIES]
     X_prq = df[prq_cols].to_numpy(np.float32)
     X_lam = df["lambda"].to_numpy(np.float32)
@@ -90,7 +96,7 @@ def run(args: argparse.Namespace) -> dict:
 
     train_dl = loader(X_prq, X_lam, X_fiq, y, True)
     try:
-        vp, vl, vf, vy, _ = _assemble(args.val_labels, args.val_prq, args.val_features)
+        vp, vl, vf, vy, _ = _assemble(args.val_labels, args.val_prq, args.val_features, actions=actions)
         if args.no_prq:
             vp = np.zeros((len(vy), 0), np.float32)
         val_dl = loader(vp, vl, vf, vy, False)

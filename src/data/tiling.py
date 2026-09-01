@@ -80,7 +80,10 @@ def load_image_tiles(image_path: str, n_tiles: int = 1, image_size: int = 448) -
     truncated to n_tiles so every sample in a batch has the same tile count.
     """
     transform = build_transform(image_size)
-    image = Image.open(image_path).convert("RGB")
+    try:
+        image = Image.open(image_path).convert("RGB")
+    except Exception:  # noqa: BLE001 — one unreadable image must not kill a sweep
+        return torch.zeros((n_tiles, 3, image_size, image_size), dtype=torch.float32)
 
     if n_tiles <= 1:
         return transform(image).unsqueeze(0)

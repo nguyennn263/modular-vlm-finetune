@@ -48,12 +48,13 @@ def _policy_picks(ckpt: str, prq_df, fiq_df, actions_ref):
     model.load_state_dict(ck["state_dict"])
     model.eval()
 
+    prq_df = prq_df.drop_duplicates("sample_id")
     ids = list(prq_df["sample_id"])
     prq = torch.tensor(prq_df[[f"p_{c}" for c in CATEGORIES]].to_numpy(np.float32)) if pdim else None
     fiq = None
     if vdim:
-        f = fiq_df.set_index("sample_id").loc[ids]
-        fiq = torch.tensor(f[[c for c in f.columns]].to_numpy(np.float32))
+        f = fiq_df.drop_duplicates("sample_id").set_index("sample_id").reindex(ids)
+        fiq = torch.tensor(f[[c for c in f.columns]].fillna(0.0).to_numpy(np.float32))
 
     picks = {}
     for lam in LAMBDA_GRID:

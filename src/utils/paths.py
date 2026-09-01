@@ -1,9 +1,9 @@
 from pathlib import Path
 
-# Root directory
-ROOT_DIR = Path(__file__).resolve().parents[1]
+# Repo root (src/utils/paths.py -> src/utils -> src -> repo root)
+ROOT_DIR = Path(__file__).resolve().parents[2]
 
-# Legacy paths (for backward compatibility - assumes local environment)
+# Convenience paths (local environment)
 RAW_TEXT_CSV = ROOT_DIR / 'data' / 'raw' / 'texts' / 'evaluate_60k_data_balanced_preprocessed.csv'
 RAW_IMAGES_DIR = ROOT_DIR / 'data' / 'raw' / 'images'
 PROCESSED_DATA_DIR = ROOT_DIR / 'data' / 'processed'
@@ -17,9 +17,9 @@ def get_raw_data_paths():
         Tuple of (images_dir, texts_file) Path objects
     """
     from src.data.environment import DataPathResolver
-    from utils.config_loader import load_config
+    from src.config.loader import load_config
     
-    data_config = load_config(str(ROOT_DIR / 'configs/data_configs.yaml'))
+    data_config = load_config(str(ROOT_DIR / 'configs/data.yaml'))
     
     resolver = DataPathResolver(
         data_config,

@@ -1,0 +1,43 @@
+"""Unit tests for the data-prep helpers (no dataset download needed)."""
+import pandas as pd
+import pytest
+
+from src.data.labeled_table import CANONICAL, _norm_label, _norm_q, _parse_answers
+from src.data.split import assign
+
+
+def test_label_normalisation_maps_to_8_codes():
+    codes = {CANONICAL[_norm_label(k)] for k in CANONICAL}
+    assert codes == {
+        "relational", "recognition", "spatial", "causal",
+        "action", "counting", "context", "yesno",
+    }
+
+
+def test_norm_q_collapses_whitespace():
+    assert _norm_q("  a   b\n c ") == "a b c"
+
+
+@pytest.mark.parametrize("raw,expected", [
+    (["x", "y"], ["x", "y"]),
+    ("['a', 'b']", ["a", "b"]),
+    ("plain", ["plain"]),
+])
+def test_parse_answers(raw, expected):
+    assert _parse_answers(raw) == expected
+
+
+def test_split_is_grouped_and_deterministic():
+    rows = []
+    for img in range(200):
+        cat = ["relational", "recognition", "spatial", "causal"][img % 4]
+        for _ in range(3):
+            rows.append({"image_id": img, "category": cat})
+    df = pd.DataFrame(rows)
+
+    a = assign(df, (0.7, 0.15, 0.15), seed=42)
+    b = assign(df, (0.7, 0.15, 0.15), seed=42)
+    assert a["split"].tolist() == b["split"].tolist()          # deterministic
+    assert (a.groupby("image_id")["split"].nunique() == 1).all()  # no leak
+    frac = a.drop_duplicates("image_id")["split"].value_counts(normalize=True)
+    assert abs(frac["train"] - 0.70) < 0.05

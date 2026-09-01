@@ -8,7 +8,7 @@ import torch
 from typing import List, Dict, Tuple, Optional
 from pathlib import Path
 
-from vqa_metrics import (
+from metrics.vqa_metrics import (
     VQAAccuracy, VQASoftAccuracy, TopKAccuracy, F1Score,
     MetricCollection, MetricResult
 )

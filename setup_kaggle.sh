@@ -106,7 +106,14 @@ install_optional_deps() {
         opencv-python \
         Pillow \
         scikit-learn \
+        scipy \
+        pyarrow \
+        sacrebleu \
+        rouge-score \
         --quiet 2>/dev/null || print_info "Some optional packages may already be installed"
+
+    # Editable install so `mvlm-*` console scripts and `python -m src.*` resolve.
+    pip install -e . --no-deps --quiet 2>/dev/null || print_info "Editable install skipped"
     
     # Ensure numpy<2 for PyTorch 2.2.2 compatibility (explicit downgrade if needed)
     print_info "Ensuring numpy<2 for PyTorch 2.2.2 compatibility..."
@@ -215,19 +222,13 @@ show_usage() {
     echo "Python version: $PYTHON_VERSION"
     echo "Project directory: $PROJECT_DIR"
     echo ""
-    echo "Data Loading (auto-detects Kaggle environment):"
-    echo "  from utils.data_loader_helper import load_ablation_data"
-    echo "  train_samples, val_samples = load_ablation_data(max_samples=1000)"
+    echo "Train a bridge (full dataset, no implicit sample cap):"
+    echo "  python -m src.cli.train --bridge residual --output-dir /kaggle/working/checkpoints"
+    echo "  python -m src.cli.train --bridge qformer --limit 2000 --epochs 5   # short run"
+    echo "  python -m src.cli.train --bridge residual --resume   # auto-resume newest checkpoint"
     echo ""
-    echo "Or specific to Kaggle:"
-    echo "  from src.data.training_data_provider import create_training_provider"
-    echo "  provider = create_training_provider()"
-    echo "  train, val = provider.get_train_val_split()"
-    echo ""
-    echo "Running Experiments:"
-    echo "  python scripts/exp1_residual_bridge.py"
-    echo "  python scripts/exp2_multi_token.py"
-    echo "  python scripts/training_runner.py"
+    echo "Evaluate:"
+    echo "  python -m src.cli.evaluate --bridge residual --checkpoint <path> --split val"
     echo ""
     echo "📖 See README.md for full documentation"
     echo ""

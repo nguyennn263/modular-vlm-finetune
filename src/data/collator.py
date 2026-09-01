@@ -1,209 +1,211 @@
 """
-VLM Data Collator với Label Masking
-Xử lý padding và masking loss cho multimodal data
+Custom collate function for OneSample objects.
+Handles loading images, tokenizing text, and creating batches for VLM training.
 """
 import torch
+import random
+from PIL import Image
+from pathlib import Path
 from typing import List, Dict, Any, Optional
-from dataclasses import dataclass
-from transformers import PreTrainedTokenizer
+from collections import Counter
+from src.schema.data_schema import OneSample
+from src.utils.logging import data_loader_logger
 
 
-@dataclass
-class VLMDataCollator:
+def load_image(image_path: str, size: tuple = (336, 336)) -> torch.Tensor:
     """
-    Data Collator cho Vision-Language Model
-    - Padding multimodal inputs
-    - Label Masking: chỉ tính loss trên phần Assistant response
+    Load and convert image to tensor with ImageNet normalization.
+    
+    Matches the normalization used in trainer.py inference pipeline
+    (build_transform with ImageNet mean/std) to avoid train-test mismatch.
+    
+    Args:
+        image_path: Path to image file
+        size: Target image size (default: 336x336 for Vintern)
+    
+    Returns:
+        Tensor of shape (3, H, W), ImageNet-normalized
     """
+    import torchvision.transforms as T
+    from torchvision.transforms.functional import InterpolationMode
     
-    tokenizer: PreTrainedTokenizer
-    image_token_id: int = 151667
-    ignore_index: int = -100
-    pad_to_multiple_of: Optional[int] = 8
+    IMAGENET_MEAN = (0.485, 0.456, 0.406)
+    IMAGENET_STD = (0.229, 0.224, 0.225)
     
-    assistant_start: str = "<|im_start|>assistant"
-    assistant_end: str = "<|im_end|>"
+    try:
+        image = Image.open(image_path).convert('RGB')
+        transform = T.Compose([
+            T.Resize(size, interpolation=InterpolationMode.BICUBIC),
+            T.ToTensor(),
+            T.Normalize(mean=IMAGENET_MEAN, std=IMAGENET_STD)
+        ])
+        return transform(image)
+    except Exception as e:
+        data_loader_logger.warning(f"Failed to load image {image_path}: {e}")
+        # Return zero image as fallback (same shape as normalized output)
+        return torch.zeros((3, size[1], size[0]), dtype=torch.float32)
+
+
+def custom_collate_fn(
+    batch: List[OneSample],
+    tokenizer: Optional[Any] = None,
+    image_size: tuple = (336, 336),
+    max_length: int = 512
+) -> Dict[str, Any]:
+    """
+    Custom collate function for batches of OneSample objects.
     
-    def __call__(self, features: List[Dict[str, Any]]) -> Dict[str, torch.Tensor]:
-        """Collate batch với label masking"""
+    Loads images and tokenizes text for VLM training.
+    
+    Args:
+        batch: List of OneSample objects
+        tokenizer: Tokenizer for text (if None, returns raw text)
+        image_size: Target image size (H, W)
+        max_length: Maximum sequence length for tokenization
+    
+    Returns:
+        Dictionary with batched data:
+        - 'pixel_values': Stacked tensor of shape (B, 3, H, W)
+        - 'input_ids': Tokenized text (if tokenizer provided)
+        - 'attention_mask': Attention mask (if tokenizer provided)
+        - Otherwise returns 'questions' and 'answers' as lists
+    """
+    images = []
+    questions = []
+    answers_list = []
+    
+    for sample in batch:
+        # Load and stack images
+        image = load_image(sample.image_path, size=image_size)
+        images.append(image)
         
-        batch = {
-            "input_ids": [],
-            "attention_mask": [],
-            "labels": [],
-            "pixel_values": [],
-            "num_patches": [],
-        }
+        # Keep text data
+        questions.append(sample.question)
         
-        # Process từng sample
-        for feat in features:
-            input_ids = feat["input_ids"]
-            attention_mask = feat["attention_mask"]
-            
-            labels = self._create_labels_with_masking(input_ids)
-            
-            batch["input_ids"].append(input_ids)
-            batch["attention_mask"].append(attention_mask)
-            batch["labels"].append(labels)
-            
-            if "pixel_values" in feat:
-                batch["pixel_values"].append(feat["pixel_values"])
-                batch["num_patches"].append(feat["num_patches"])
-        
-        batch = self._pad_sequences(batch)
-        
-        if batch["pixel_values"]:
-            batch["pixel_values"] = self._pad_pixel_values(batch["pixel_values"])
+        # Handle multiple answers: use majority vote like ref1/ does
+        # If only one answer, use it. Otherwise use the most common one.
+        sample_answers = sample.answers if sample.answers else ['']
+        if len(sample_answers) == 1:
+            selected_answer = sample_answers[0]
         else:
-            del batch["pixel_values"]
-            del batch["num_patches"]
+            # Majority vote: get most common answer
+            counter = Counter(sample_answers)
+            selected_answer = counter.most_common(1)[0][0]
         
-        return batch
+        answers_list.append(selected_answer)
     
-    def _create_labels_with_masking(self, input_ids: torch.Tensor) -> torch.Tensor:
-        """
-        Tạo labels với masking:
-        - Set -100 cho prompt và image tokens
-        - Chỉ giữ loss cho phần assistant response
-        """
-        labels = input_ids.clone()
-        
-        text = self.tokenizer.decode(input_ids)
-        
-        assistant_ranges = self._find_assistant_ranges(text, input_ids)
-        
-        # Mặc định mask tất cả
-        labels[:] = self.ignore_index
-        
-        # Unmask chỉ phần assistant response
-        for start, end in assistant_ranges:
-            labels[start:end] = input_ids[start:end]
-        
-        # Mask image tokens 
-        image_mask = input_ids == self.image_token_id
-        labels[image_mask] = self.ignore_index
-        
-        return labels
+    # Stack images into batch tensor
+    pixel_values = torch.stack(images, dim=0)  # (B, 3, H, W)
     
-    def _find_assistant_ranges(
-        self, 
-        text: str, 
-        input_ids: torch.Tensor
-    ) -> List[tuple]:
-        """Tìm các vùng assistant response trong text"""
-        ranges = []
-        
-        start_marker = self.assistant_start
-        end_marker = self.assistant_end
-        
-        pos = 0
-        while True:
-            start_pos = text.find(start_marker, pos)
-            if start_pos == -1:
-                break
-            
-            content_start = text.find("\n", start_pos) + 1
-            
-            end_pos = text.find(end_marker, content_start)
-            if end_pos == -1:
-                end_pos = len(text)
-            
-            prefix_tokens = len(self.tokenizer.encode(
-                text[:content_start], add_special_tokens=False
-            ))
-            content_tokens = len(self.tokenizer.encode(
-                text[:end_pos], add_special_tokens=False
-            ))
-            
-            ranges.append((prefix_tokens, content_tokens))
-            pos = end_pos + len(end_marker)
-        
-        return ranges
+    result = {}
+    result['pixel_values'] = pixel_values
     
-    def _pad_sequences(self, batch: Dict) -> Dict:
-        """Pad input_ids, attention_mask, labels"""
+    # Tokenize text if tokenizer is provided
+    if tokenizer is not None:
+        # Using official Vintern format (from ref2/conversation.py)
+        system_message = "Bạn là một mô hình trí tuệ nhân tạo đa phương thức Tiếng Việt có tên gọi là Vintern, được phát triển bởi người Việt. Bạn là một trợ lý trí tuệ nhân tạo hữu ích và không gây hại."
         
-        max_len = max(len(ids) for ids in batch["input_ids"])
+        # Calculate where Answer begins for loss masking
+        input_ids_list = []
+        attention_mask_list = []
+        answer_start_positions = []
         
-        if self.pad_to_multiple_of:
-            max_len = (
-                (max_len + self.pad_to_multiple_of - 1) 
-                // self.pad_to_multiple_of 
-                * self.pad_to_multiple_of
-            )
-        
-        padded_input_ids = []
-        padded_attention = []
-        padded_labels = []
-        
-        pad_id = self.tokenizer.pad_token_id or 0
-        
-        for input_ids, attn, labels in zip(
-            batch["input_ids"], 
-            batch["attention_mask"], 
-            batch["labels"]
-        ):
-            pad_len = max_len - len(input_ids)
+        for q, a in zip(questions, answers_list):
+            # Extract clean question (remove <image>\n if present)
+            question_clean = q
+            if q.startswith("<image>\n"):
+                question_clean = q[8:]
             
-            # Pad bên phải
-            padded_input_ids.append(
-                torch.cat([input_ids, torch.full((pad_len,), pad_id, dtype=input_ids.dtype)])
+            # Full text including answer
+            full_text = (
+                f"<|im_start|>system\n{system_message}<|im_end|>\n"
+                f"<|im_start|>user\n<image>\n{question_clean}<|im_end|>\n"
+                f"<|im_start|>assistant\n{a}<|im_end|>"
             )
-            padded_attention.append(
-                torch.cat([attn, torch.zeros(pad_len, dtype=attn.dtype)])
+            
+            # Text up to assistant answer header (for masking)
+            question_part = (
+                f"<|im_start|>system\n{system_message}<|im_end|>\n"
+                f"<|im_start|>user\n<image>\n{question_clean}<|im_end|>\n"
+                f"<|im_start|>assistant\n"
             )
-            padded_labels.append(
-                torch.cat([labels, torch.full((pad_len,), self.ignore_index, dtype=labels.dtype)])
+            
+            # Encode both
+            full_enc = tokenizer(
+                full_text,
+                padding='max_length',
+                truncation=True,
+                max_length=max_length,
+                return_tensors='pt'
             )
+            
+            question_enc = tokenizer(
+                question_part,
+                padding=False,
+                truncation=True,
+                max_length=max_length,
+                return_tensors='pt'
+            )
+            
+            # answer_start_pos: where answer tokens begin
+            answer_start_pos = question_enc['input_ids'].shape[1]
+            
+            input_ids_list.append(full_enc['input_ids'].squeeze(0))
+            attention_mask_list.append(full_enc['attention_mask'].squeeze(0))
+            answer_start_positions.append(answer_start_pos)
         
-        batch["input_ids"] = torch.stack(padded_input_ids)
-        batch["attention_mask"] = torch.stack(padded_attention)
-        batch["labels"] = torch.stack(padded_labels)
+        # Pad to same length for batch
+        max_seq_len = max(ids.shape[0] for ids in input_ids_list)
+        input_ids_batch = []
+        attention_mask_batch = []
         
-        return batch
+        for ids, mask in zip(input_ids_list, attention_mask_list):
+            pad_len = max_seq_len - ids.shape[0]
+            if pad_len > 0:
+                ids = torch.cat([ids, torch.zeros(pad_len, dtype=torch.long)])
+                mask = torch.cat([mask, torch.zeros(pad_len, dtype=torch.long)])
+            input_ids_batch.append(ids)
+            attention_mask_batch.append(mask)
+        
+        result['input_ids'] = torch.stack(input_ids_batch)
+        result['attention_mask'] = torch.stack(attention_mask_batch)
+        result['answer_start_pos'] = torch.tensor(answer_start_positions, dtype=torch.long)
+    else:
+        # Return raw text if no tokenizer
+        result['questions'] = questions
+        result['answers'] = answers_list
     
-    def _pad_pixel_values(self, pixel_values_list: List[torch.Tensor]) -> torch.Tensor:
-        """Pad pixel values về cùng số patches"""
-        max_patches = max(pv.shape[0] for pv in pixel_values_list)
-        
-        padded = []
-        for pv in pixel_values_list:
-            if pv.shape[0] < max_patches:
-                pad_size = max_patches - pv.shape[0]
-                pad = torch.zeros(
-                    pad_size, *pv.shape[1:], dtype=pv.dtype
-                )
-                pv = torch.cat([pv, pad], dim=0)
-            padded.append(pv)
-        
-        return torch.stack(padded)
+    return result
 
 
-def create_label_mask(
-    input_ids: torch.Tensor,
-    tokenizer: PreTrainedTokenizer,
-    assistant_token: str = "assistant",
-    ignore_index: int = -100,
-) -> torch.Tensor:
+def create_collate_fn(
+    tokenizer: Optional[Any] = None,
+    image_size: tuple = (336, 336),
+    max_length: int = 512
+):
     """
-    Utility function để tạo label mask
-    Mask tất cả tokens trước và bao gồm assistant marker
+    Factory function to create a collate_fn with specific configuration.
+    
+    Usage:
+        from transformers import AutoTokenizer
+        tokenizer = AutoTokenizer.from_pretrained('model_name')
+        collate_fn = create_collate_fn(tokenizer=tokenizer)
+        dataloader = DataLoader(dataset, batch_size=8, collate_fn=collate_fn)
+    
+    Args:
+        tokenizer: Tokenizer instance (if None, returns raw text)
+        image_size: Target image size (H, W)
+        max_length: Maximum sequence length
+    
+    Returns:
+        Collate function
     """
-    labels = input_ids.clone()
+    def _collate(batch: List[OneSample]) -> Dict[str, Any]:
+        return custom_collate_fn(
+            batch,
+            tokenizer=tokenizer,
+            image_size=image_size,
+            max_length=max_length
+        )
     
-    assistant_ids = tokenizer.encode(assistant_token, add_special_tokens=False)
-    
-    seq_len = len(input_ids)
-    assistant_len = len(assistant_ids)
-    
-    found = False
-    for i in range(seq_len - assistant_len + 1):
-        if input_ids[i:i+assistant_len].tolist() == assistant_ids:
-            labels[:i+assistant_len+1] = ignore_index
-            found = True
-            break
-    
-    if not found:
-        labels[:] = ignore_index
-    
-    return labels
+    return _collate

@@ -5,15 +5,15 @@ import string
 import numpy as np
 from typing import List
 
-from accuracy import Accuracy
-from bleu import Bleu
-from cider import Cider
-from f1 import F1
-from meteor import Meteor
-from precision import Precision
-from recall import Recall
-from rouge import Rouge 
-from wup import Wup
+from metrics.accuracy import Accuracy
+from metrics.bleu import Bleu
+from metrics.cider import Cider
+from metrics.f1 import F1
+from metrics.meteor import Meteor
+from metrics.precision import Precision
+from metrics.recall import Recall
+from metrics.rouge import Rouge
+from metrics.wup import Wup
 
 
 from tqdm import tqdm 

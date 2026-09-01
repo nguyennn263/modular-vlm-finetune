@@ -1,0 +1,37 @@
+# Shared training defaults for `python -m src.cli.train`.
+# Precedence (low -> high): this file  <  configs/bridges/<bridge>.yaml  <  CLI flags.
+
+model_name: "5CD-AI/Vintern-1B-v3_5"
+
+num_epochs: 20
+batch_size: 2                    # memory-optimized for a 14-16 GB GPU
+gradient_accumulation_steps: 4   # effective batch size = batch_size * this
+learning_rate: 2.0e-4
+weight_decay: 0.01
+warmup_steps: 500
+max_grad_norm: 1.0
+eval_steps: 1000
+save_steps: 1000
+seed: 42
+device: auto
+fp16: false
+num_workers: 4
+
+early_stopping: true
+patience: 5
+min_delta: 0.001
+save_best: true
+
+# Legacy random 3-way split used by Exp A. The final-plan grouped split is produced
+# separately by `python -m src.data.split` and written to data/splits/.
+split:
+  train_ratio: 0.8
+  val_ratio: 0.1
+  test_ratio: 0.1
+
+# `--smoke` applies this preset on top of everything else (still overridable by explicit flags).
+smoke:
+  limit: 50
+  num_epochs: 1
+  eval_steps: 10
+  save_steps: 10

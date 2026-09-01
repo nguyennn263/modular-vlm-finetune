@@ -9,7 +9,7 @@ from typing import List, Optional, Dict, Union
 from tqdm import tqdm
 
 from src.schema.data_schema import OneSample
-from src.middleware.logger import data_loader_logger
+from src.utils.logging import data_loader_logger
 from .data_actions import get_all_image_paths
 from .environment import DataPathResolver, EnvironmentDetector
 

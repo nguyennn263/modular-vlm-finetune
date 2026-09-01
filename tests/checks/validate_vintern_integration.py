@@ -19,8 +19,8 @@ project_root = Path(__file__).parent
 sys.path.insert(0, str(project_root))
 
 from src.data.dataset import VLMDataset
-from src.data.collator_onesample import create_collate_fn
-from utils.data_loader_helper import AblationDataLoader
+from src.data.collator import create_collate_fn
+from src.utils.data_loader_helper import AblationDataLoader
 from transformers import AutoTokenizer
 
 def check_template_format():
@@ -186,7 +186,7 @@ def check_bridge_compatibility():
     print("=" * 80)
     
     try:
-        from src.training.finetune_setup import VisionLanguageBridge
+        from src.training.setup import VisionLanguageBridge
         
         # Dummy config
         class DummyConfig:

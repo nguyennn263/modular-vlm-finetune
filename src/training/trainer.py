@@ -27,9 +27,9 @@ import torchvision.transforms as T
 from PIL import Image
 from torchvision.transforms.functional import InterpolationMode
 
-from src.middleware.logger import data_loader_logger as logger
+from src.utils.logging import data_loader_logger as logger
 from src.schema.data_schema import OneSample
-from src.data.collator_onesample import create_collate_fn
+from src.data.collator import create_collate_fn
 
 
 # ============================================================================

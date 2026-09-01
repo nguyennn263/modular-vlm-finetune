@@ -6,10 +6,10 @@ from pathlib import Path
 from typing import List, Optional, Tuple
 
 from src.schema.data_schema import OneSample
-from src.middleware.logger import data_loader_logger
-from src.data.unified_loader import UnifiedDataLoader
+from src.utils.logging import data_loader_logger
+from src.data.loader import UnifiedDataLoader
 from src.data.environment import EnvironmentDetector
-from utils.config_loader import load_config
+from src.config.loader import load_config
 
 
 class AblationDataLoader:
@@ -21,7 +21,7 @@ class AblationDataLoader:
     def __init__(self, project_root: str = "."):
         """Initialize loader with automatic environment detection."""
         self.project_root = Path(project_root)
-        self.data_config = load_config(str(self.project_root / 'configs/data_configs.yaml'))
+        self.data_config = load_config(str(self.project_root / 'configs/data.yaml'))
         self.is_kaggle = EnvironmentDetector.is_kaggle()
         self.loader = UnifiedDataLoader(
             self.data_config,

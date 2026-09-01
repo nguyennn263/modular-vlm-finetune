@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 """P0 - environment & data: labelled table + 70/15/15 grouped split."""
 import sys
+from pathlib import Path
 
 from _phase import Step, run_phase
 
 PY = sys.executable
+ON_KAGGLE = Path("/kaggle/input").exists()
 
-STEPS = [
-    Step("Download AutoViVQA into data/raw/ (skip on Kaggle)",
-         [PY, "-m", "src.cli.download"]),
+STEPS = []
+if not ON_KAGGLE:
+    STEPS.append(Step("Download AutoViVQA into data/raw/", [PY, "-m", "src.cli.download"]))
+STEPS += [
     Step("Build labelled table (join final_vqa_dataset.json + CSV)",
          [PY, "-m", "src.data.labeled_table", "--out", "data/labeled.parquet"]),
     Step("Build 70/15/15 split grouped by image, stratified by category",

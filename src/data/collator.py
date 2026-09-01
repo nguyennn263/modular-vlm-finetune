@@ -50,7 +50,9 @@ def custom_collate_fn(
     batch: List[OneSample],
     tokenizer: Optional[Any] = None,
     image_size: tuple = (336, 336),
-    max_length: int = 512
+    max_length: int = 512,
+    n_tiles: int = 1,
+    tile_choices: Optional[List[int]] = None,
 ) -> Dict[str, Any]:
     """
     Custom collate function for batches of OneSample objects.
@@ -73,10 +75,19 @@ def custom_collate_fn(
     images = []
     questions = []
     answers_list = []
-    
+
+    # Batch-level tile-count augmentation (final-plan P1): same T for the whole
+    # batch so tensors stack; T varies batch to batch.
+    t = random.choice(tile_choices) if tile_choices else n_tiles
+    if t > 1:
+        from src.data.tiling import load_image_tiles
+
     for sample in batch:
         # Load and stack images
-        image = load_image(sample.image_path, size=image_size)
+        if t > 1:
+            image = load_image_tiles(sample.image_path, n_tiles=t)  # (T, 3, 448, 448)
+        else:
+            image = load_image(sample.image_path, size=image_size)  # (3, H, W)
         images.append(image)
         
         # Keep text data
@@ -181,7 +192,9 @@ def custom_collate_fn(
 def create_collate_fn(
     tokenizer: Optional[Any] = None,
     image_size: tuple = (336, 336),
-    max_length: int = 512
+    max_length: int = 512,
+    n_tiles: int = 1,
+    tile_choices: Optional[List[int]] = None,
 ):
     """
     Factory function to create a collate_fn with specific configuration.
@@ -205,7 +218,9 @@ def create_collate_fn(
             batch,
             tokenizer=tokenizer,
             image_size=image_size,
-            max_length=max_length
+            max_length=max_length,
+            n_tiles=n_tiles,
+            tile_choices=tile_choices,
         )
-    
+
     return _collate

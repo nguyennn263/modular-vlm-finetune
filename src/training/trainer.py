@@ -156,6 +156,11 @@ class TrainConfig:
     resume_from: Optional[str] = None
     save_best: bool = True
 
+    # Multi-tile visual budget (final-plan P1). n_tiles=1 -> single 336px image
+    # (unchanged). tile_choices -> batch-level tile-count augmentation.
+    n_tiles: int = 1
+    tile_choices: Optional[List[int]] = None
+
 
 class BridgeTrainer:
     """
@@ -237,6 +242,8 @@ class BridgeTrainer:
                 collate_fn = create_collate_fn(
                     tokenizer=tokenizer,
                     image_size=(336, 336),
+                    n_tiles=getattr(config, "n_tiles", 1),
+                    tile_choices=getattr(config, "tile_choices", None),
                     max_length=256  # Reduced from default 512
                 )
         
@@ -550,15 +557,10 @@ class BridgeTrainer:
         input_ids = batch['input_ids'].to(self.device)
         attention_mask = batch['attention_mask'].to(self.device)
         
-        # Get vision embeddings (frozen model, but no_grad not needed for bridge input)
-        vision_output = self.model.vision_model(pixel_values)
+        # Get vision embeddings (frozen model, but no_grad not needed for bridge input).
+        # Handles 4D single-image and 5D multi-tile pixel_values.
         bridge_type = getattr(self.model, 'bridge_type', 'unknown')
-        
-        # Extract vision embeddings based on bridge type (single source of truth)
-        vision_embeddings = self._extract_vision_embeddings(vision_output, bridge_type)
-        
-        # Detach vision embeddings since vision model is frozen
-        vision_embeddings = vision_embeddings.detach()
+        vision_embeddings = self._vision_embeds(pixel_values, bridge_type).detach()
         
         # Validate shapes before passing to bridge
         if bridge_type in ['linear_bridge', 'residual', 'multi_token', 'gated_fusion']:
@@ -950,6 +952,34 @@ class BridgeTrainer:
         else:
             raise ValueError(f"Cannot extract vision embeddings from {type(vision_output)}")
 
+    _POOLED_BRIDGES = ('linear_bridge', 'residual', 'multi_token', 'gated_fusion')
+
+    def _vision_embeds(self, pixel_values: torch.Tensor, bridge_type: str) -> torch.Tensor:
+        """Vision embeddings for 4D (B,C,H,W) or 5D (B,T,C,H,W) multi-tile input.
+
+        5D: every tile through InternViT, patch tokens concatenated -> (B, T*P, D);
+        pooled bridges get the mean over T*P (they cannot exploit extra tiles - the
+        point of the P1 lever experiment).
+        """
+        if pixel_values.dim() == 5:
+            from src.data.tiling import encode_tiles
+            hs = encode_tiles(self.model.vision_model, pixel_values)  # (B, T*P, D)
+            return hs.mean(dim=1) if bridge_type in self._POOLED_BRIDGES else hs
+        return self._extract_vision_embeddings(
+            self.model.vision_model(pixel_values), bridge_type
+        )
+
+    def _load_pixels_for_generation(self, image_path: str) -> torch.Tensor:
+        """(1, C, H, W) at n_tiles=1 (unchanged), else (1, T, C, H, W)."""
+        model_dtype = next(self.model.vision_model.parameters()).dtype
+        n = getattr(self.config, 'n_tiles', 1)
+        if n > 1:
+            from src.data.tiling import load_image_tiles
+            pv = load_image_tiles(image_path, n_tiles=n).unsqueeze(0)  # (1, T, C, H, W)
+        else:
+            pv = load_image(image_path, input_size=448, max_num=6)[0:1]  # (1, C, H, W)
+        return pv.to(dtype=model_dtype, device=self.device)
+
     def _extract_sample_answers(self, sample) -> List[str]:
         """Extract all valid ground-truth answers from a dataset sample."""
         if not hasattr(sample, 'answers'):
@@ -974,9 +1004,8 @@ class BridgeTrainer:
     def _generate_answer_for_sample(self, sample) -> str:
         """Generate one answer string for a validation sample."""
         question = sample.question if hasattr(sample, 'question') else 'N/A'
-        pixel_values = load_image(sample.image_path, input_size=448, max_num=6)
         model_dtype = next(self.model.vision_model.parameters()).dtype
-        pixel_values = pixel_values.to(dtype=model_dtype, device=self.device)
+        pixel_values_input = self._load_pixels_for_generation(sample.image_path)
 
         prompt_text = self._build_prompt_text(question)
         inputs = self.tokenizer(
@@ -989,15 +1018,8 @@ class BridgeTrainer:
         input_ids = inputs['input_ids'].to(self.device)
         attention_mask = inputs['attention_mask'].to(self.device)
 
-        if pixel_values.dim() == 4:
-            pixel_values_input = pixel_values[0:1, :, :, :]
-        else:
-            pixel_values_input = pixel_values.unsqueeze(0)
-        vision_output = self.model.vision_model(pixel_values_input)
-
         bridge_type = getattr(self.model, 'bridge_type', 'unknown')
-        vision_embeddings = self._extract_vision_embeddings(vision_output, bridge_type)
-        vision_embeddings = vision_embeddings.detach()
+        vision_embeddings = self._vision_embeds(pixel_values_input, bridge_type).detach()
         text_embeddings = self.model.language_model.model.embed_tokens(input_ids)
         text_embeddings = text_embeddings.to(dtype=model_dtype, device=self.device)
 
@@ -1054,22 +1076,14 @@ class BridgeTrainer:
         model_dtype = next(self.model.vision_model.parameters()).dtype
         bridge_type = getattr(self.model, 'bridge_type', 'unknown')
         
-        # 1. Load and stack images (take first tile from each, same as single-sample)
-        pixel_values_list = []
-        for sample in samples:
-            pv = load_image(sample.image_path, input_size=448, max_num=6)
-            if pv.dim() == 4:
-                pv = pv[0:1, :, :, :]  # First tile [1, 3, 448, 448]
-            else:
-                pv = pv.unsqueeze(0)
-            pixel_values_list.append(pv.squeeze(0))  # [3, 448, 448]
-        
-        pixel_values_batch = torch.stack(pixel_values_list).to(dtype=model_dtype, device=self.device)
-        
-        # 2. Run vision model on batch
-        vision_output = self.model.vision_model(pixel_values_batch)
-        vision_embeddings = self._extract_vision_embeddings(vision_output, bridge_type)
-        vision_embeddings = vision_embeddings.detach()
+        # 1. Load and stack images: (B,C,H,W) at n_tiles=1, else (B,T,C,H,W).
+        pixel_values_list = [
+            self._load_pixels_for_generation(s.image_path).squeeze(0) for s in samples
+        ]
+        pixel_values_batch = torch.stack(pixel_values_list)
+
+        # 2. Vision embeddings (handles 4D and 5D multi-tile)
+        vision_embeddings = self._vision_embeds(pixel_values_batch, bridge_type).detach()
         
         # 3. Build prompts and tokenize with LEFT padding (required for batch generation)
         questions = [sample.question if hasattr(sample, 'question') else 'N/A' for sample in samples]

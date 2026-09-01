@@ -258,20 +258,25 @@ class VisionLanguageBridge(nn.Module):
         Returns:
             Logits or embeddings depending on use case
         """
-        # Get vision embeddings (extract from model output)
-        vision_output = self.vision_model(pixel_values)
-        
-        # Extract tensor from BaseModelOutputWithPooling
-        if hasattr(vision_output, 'last_hidden_state'):
-            vision_embeddings = vision_output.last_hidden_state  # (B, num_patches, 1024)
-            pooler = vision_output.pooler_output if hasattr(vision_output, 'pooler_output') else None
-        elif hasattr(vision_output, 'pooler_output'):
-            vision_embeddings = vision_output.pooler_output  # (B, 1024)
+        # Multi-tile input (B, T, C, H, W): run every tile through InternViT and
+        # concatenate their patch tokens -> (B, T*P, D). This is the P1 compute lever.
+        multitile = pixel_values.dim() == 5
+        if multitile:
+            from src.data.tiling import encode_tiles
+            vision_embeddings = encode_tiles(self.vision_model, pixel_values)  # (B, T*P, D)
             pooler = None
         else:
-            vision_embeddings = vision_output if isinstance(vision_output, torch.Tensor) else vision_output.last_hidden_state
-            pooler = None
-        
+            vision_output = self.vision_model(pixel_values)
+            if hasattr(vision_output, 'last_hidden_state'):
+                vision_embeddings = vision_output.last_hidden_state  # (B, num_patches, 1024)
+                pooler = vision_output.pooler_output if hasattr(vision_output, 'pooler_output') else None
+            elif hasattr(vision_output, 'pooler_output'):
+                vision_embeddings = vision_output.pooler_output  # (B, 1024)
+                pooler = None
+            else:
+                vision_embeddings = vision_output if isinstance(vision_output, torch.Tensor) else vision_output.last_hidden_state
+                pooler = None
+
         # Apply bridge based on type
         if self.uses_text and self.bridge_type == 'qformer':
             # QFormer needs text embeddings - keep on graph for semantic filtering
@@ -287,6 +292,8 @@ class VisionLanguageBridge(nn.Module):
             # Extract pooled representation
             if pooler is not None:
                 vision_pool = pooler  # (B, 1024)
+            elif multitile:
+                vision_pool = vision_embeddings.mean(dim=1)  # mean over T*P tokens (B, 1024)
             elif vision_embeddings.dim() == 3:
                 vision_pool = vision_embeddings[:, 0, :]  # Use CLS token (B, 1024)
             else:

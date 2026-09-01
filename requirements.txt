@@ -36,8 +36,8 @@ rouge-score>=0.1.2
 # METEOR also needs Java + metrics/meteor/meteor-1.5.jar (bundled)
 
 # Router P(r|Q) — PhoBERT (final-plan P4)
+pyvi>=0.1.1               # Vietnamese word segmentation for PhoBERT
 sentence-transformers>=2.2.0
-underthesea>=6.0.0        # Vietnamese word segmentation for PhoBERT
 
 # Optional - Logging (uncomment to use)
 # wandb>=0.16.0

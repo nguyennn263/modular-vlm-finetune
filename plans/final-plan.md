@@ -192,7 +192,9 @@ Lưới `λ ∈ {0, 0.05, 0.1, 0.2, 0.4, 0.7, 1.0}` (7 điểm). `M` và `C` cù
 
 Dải động 1→6: **FLOPs ×6.0, latency ×4.0, throughput ×5.2** — vượt xa ngưỡng 15%. → **`n_tiles` là lever chính, giữ `action = (n_tiles, bridge)`, `C(a) = n_tiles/6` (β=0).** Lưới `{1, 3, 6}` chốt trong `configs/action_space.yaml`. Trục wall-clock: latency đơn mẫu (dải ×4, dùng trực tiếp).
 
-**Còn lại của P1** (chưa làm): nối multi-tile vào collator + `trainer` forward/generate (hiện `profile.py` chạy đường multi-tile độc lập); retrain bridge lever với tile-count augmentation.
+**Multi-tile training path DONE (kernel v9):** collator sinh `(B,T,3,448,448)` khi `n_tiles>1` (đường `n_tiles=1` không đổi); `trainer._vision_embeds` xử lý 4D/5D (pooled bridge mean-pool T·P); `forward_pass` + 2 hàm generate route qua nó; `--n-tiles N`. Smoke `mini_qformer --n-tiles 3 --split-dir`: train loss 2.91, val 2.33, CIDEr 0.43, checkpoint OK.
+
+**Còn lại của P1** (dependency của P4): train 1 lever bridge (`mini_qformer`) với `tile_choices=[1,3,6]` (tile-count augmentation) để oracle sweep dùng được ở mọi n_tiles.
 
 **Mục tiêu.** Pipeline tiêu thụ được `n_tiles` tile thực; số đo FLOPs/latency hiệu chỉnh giá trị lưới và chọn trục wall-clock để báo cáo. Action space `(n_tiles, bridge)` đã chốt ở §5.2, P1 không thay đổi điều đó.
 

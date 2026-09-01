@@ -27,6 +27,12 @@ save_best: true
 n_tiles: 1
 tile_choices: null
 
+# Per-epoch val text-metric generation (CIDEr/BLEU/...) is the dominant wall-clock
+# cost on a slow GPU. Defaults below reproduce the historical behaviour (every
+# epoch, full val). `python -m src.cli.evaluate` always scores the whole split.
+text_metrics_every: 1          # run generation every N epochs (last epoch always runs)
+text_metrics_max_samples: 0    # 0 = full val; else a seeded N-sample subset per epoch
+
 # Legacy random 3-way split used by Exp A. The final-plan grouped split is produced
 # separately by `python -m src.data.split` and written to data/splits/.
 split:

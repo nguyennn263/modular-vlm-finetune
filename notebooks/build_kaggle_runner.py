@@ -44,15 +44,16 @@ CELLS = [
          "!python -m src.cli.train --bridge residual --smoke --output-dir /kaggle/working/checkpoints"),
     code("!python -m src.cli.evaluate --bridge residual \\",
          "    --checkpoint /kaggle/working/checkpoints/residual/best_model.pt --split val --limit 200"),
-    code("# FULL training run (whole dataset, ~hours). Uncomment when ready.",
+    md("### P1 — is n_tiles a real compute lever? (final-plan section 5.2)"),
+    code("!python -m src.cli.profile --n-tiles 1 2 4 6 --samples 48 --bridge tile_attention",
+         "import json; print(json.load(open('outputs/profile/pipeline_cost.json'))['dynamic_range'])"),
+    md("### FULL training run",
+       "",
+       "`--bridge {residual,multi_token,tile_attention,mini_qformer,qformer,gated_fusion}`"),
+    code("# whole dataset, ~hours. Uncomment when ready.",
          "# !python -m src.cli.train --bridge residual --output-dir /kaggle/working/checkpoints",
          "# resume in a later session (auto-picks newest step_*.pt):",
          "# !python -m src.cli.train --bridge residual --output-dir /kaggle/working/checkpoints --resume"),
-    md("### Other bridges",
-       "",
-       "`--bridge {residual,multi_token,tile_attention,mini_qformer,qformer,gated_fusion}`",
-       "",
-       "Short experiment: `!python -m src.cli.train --bridge qformer --limit 2000 --epochs 5`"),
 ]
 
 NB = {

@@ -49,7 +49,7 @@ CELLS = [
     code("!python -m src.cli.train --bridge residual --split-dir data/splits --smoke \\",
          "    --output-dir /kaggle/working/ckpt_split"),
     md("### P1 — is n_tiles a real compute lever? (final-plan section 5.2)"),
-    code("!python -m src.cli.profile --n-tiles 1 2 4 6 --samples 48 --bridge tile_attention"),
+    code("!python -m src.cli.profile --n-tiles 1 2 4 6 --samples 32"),
     code("import json, pathlib",
          "p = pathlib.Path('outputs/profile/pipeline_cost.json')",
          "print(json.loads(p.read_text()) if p.exists() else 'profile did not produce output')"),

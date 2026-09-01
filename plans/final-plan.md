@@ -179,7 +179,20 @@ Lưới `λ ∈ {0, 0.05, 0.1, 0.2, 0.4, 0.7, 1.0}` (7 điểm). `M` và `C` cù
 
 ---
 
-### P1 — Multi-tile pipeline và hiệu chỉnh lưới
+### P1 — Multi-tile pipeline và hiệu chỉnh lưới  ·  **profiling DONE (kernel v8)**
+
+**Kết quả đo (P100-16GB, mini_qformer, 32 mẫu, `outputs/profile/pipeline_cost.json`):**
+
+| n_tiles | InternViT GFLOPs | latency (ms) | throughput (img/s) |
+|---|---|---|---|
+| 1 | 362 | 229 | 6.0 |
+| 2 | 724 | 374 | 3.3 |
+| 4 | 1448 | 648 | 1.7 |
+| 6 | 2172 | 922 | 1.15 |
+
+Dải động 1→6: **FLOPs ×6.0, latency ×4.0, throughput ×5.2** — vượt xa ngưỡng 15%. → **`n_tiles` là lever chính, giữ `action = (n_tiles, bridge)`, `C(a) = n_tiles/6` (β=0).** Lưới `{1, 3, 6}` chốt trong `configs/action_space.yaml`. Trục wall-clock: latency đơn mẫu (dải ×4, dùng trực tiếp).
+
+**Còn lại của P1** (chưa làm): nối multi-tile vào collator + `trainer` forward/generate (hiện `profile.py` chạy đường multi-tile độc lập); retrain bridge lever với tile-count augmentation.
 
 **Mục tiêu.** Pipeline tiêu thụ được `n_tiles` tile thực; số đo FLOPs/latency hiệu chỉnh giá trị lưới và chọn trục wall-clock để báo cáo. Action space `(n_tiles, bridge)` đã chốt ở §5.2, P1 không thay đổi điều đó.
 

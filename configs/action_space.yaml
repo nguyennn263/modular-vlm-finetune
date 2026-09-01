@@ -1,15 +1,24 @@
 # Discrete action space for the policy (final-plan section 5.2).
-# n_tiles grid is calibrated in P1; bridges are filled in after the P3 fork.
+#
+# P1 CALIBRATION (kernel v8, Tesla P100-16GB, mini_qformer, 32 samples):
+#   n_tiles   InternViT GFLOPs   latency ms   throughput img/s
+#   1         362               229          6.0
+#   3        ~1086              ~560         ~2.4   (interpolated)
+#   6         2172              922          1.15
+#   dynamic range 1->6:  FLOPs 6.0x   latency 4.0x   throughput 5.2x
+# => n_tiles is a real compute lever (>> the 15% threshold). Keep it primary.
 
-n_tiles: [1, 3, 6]          # InternViT forward count (primary compute lever)
-bridges: []                 # top-3 from Exp B fork (P3); e.g. [residual, tile_attention, qformer]
+n_tiles: [1, 3, 6]          # InternViT forward count — PRIMARY compute lever (P1 confirmed)
+bridges: []                 # top-3 from Exp B fork (P3); e.g. [residual, mini_qformer, qformer]
 
 lambda_grid: [0.0, 0.05, 0.1, 0.2, 0.4, 0.7, 1.0]   # oracle utility-cost sweep
 
 # C(a) = alpha * n_tiles/max(n_tiles) + beta * k/max(k)   (k = bridge vision-token count)
 cost:
   alpha: 1.0
-  beta: 0.0                 # raised only if P1 shows the bridge axis carries real FLOPs
+  beta: 0.0                 # P1 shows n_tiles alone carries the frontier; bridge axis stays cosmetic
 
 metric: cider               # M(a; x), continuous
 decoding: greedy
+
+profile_ref: outputs/profile/pipeline_cost.json

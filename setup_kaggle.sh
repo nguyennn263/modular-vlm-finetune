@@ -105,8 +105,6 @@ install_optional_deps() {
         kagglehub \
         opencv-python \
         Pillow \
-        scikit-learn \
-        scipy \
         pyarrow \
         sacrebleu \
         rouge-score \
@@ -114,10 +112,12 @@ install_optional_deps() {
 
     # Editable install so `mvlm-*` console scripts and `python -m src.*` resolve.
     pip install -e . --no-deps --quiet 2>/dev/null || print_info "Editable install skipped"
-    
-    # Ensure numpy<2 for PyTorch 2.2.2 compatibility (explicit downgrade if needed)
-    print_info "Ensuring numpy<2 for PyTorch 2.2.2 compatibility..."
-    pip install 'numpy<2' --force-reinstall --quiet
+
+    # numpy<2 for torch 2.2.2; scipy/scikit-learn pinned to the last releases that
+    # still support numpy 1.x (Kaggle ships newer ones that break on `np.long`).
+    print_info "Pinning numpy<2 + compatible scipy/scikit-learn..."
+    pip install --force-reinstall --quiet \
+        'numpy<2' 'scipy>=1.10,<1.13' 'scikit-learn>=1.3,<1.5'
     
     print_success "Optional dependencies installed"
 }

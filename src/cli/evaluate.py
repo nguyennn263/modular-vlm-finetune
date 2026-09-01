@@ -71,13 +71,17 @@ def run(args: argparse.Namespace) -> dict:
     model.bridge.load_state_dict(state)
     print(f"[ckpt] loaded bridge weights from {args.checkpoint}")
 
-    # The trainer wires tokenizer + loaders + the generation-metric routines.
-    # Put the chosen split in the val slot so its eval helpers operate on it.
+    # BridgeTrainer only builds the tokenizer + collate_fn when train_dataset is
+    # non-empty, and its generation-metric helper reads self.val_dataset — so pass
+    # `chosen` in both slots. We never call trainer.train() here.
     tc = TrainConfig(model_name=train_cfg["model_name"], output_dir=str(Path(args.checkpoint).parent))
-    trainer = BridgeTrainer(model, [], chosen, tc)
+    trainer = BridgeTrainer(model, chosen, chosen, tc)
 
     report = {"split": args.split, "n": len(chosen), "checkpoint": args.checkpoint}
-    report.update(trainer.evaluate())
+    try:
+        report.update(trainer.evaluate())
+    except Exception as exc:
+        report["loss_eval_error"] = repr(exc)
     try:
         report.update(trainer._compute_epoch_text_metrics(0))
     except Exception as exc:  # generation metrics are best-effort

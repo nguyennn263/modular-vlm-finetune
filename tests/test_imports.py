@@ -14,6 +14,7 @@ LIGHT_MODULES = [
     "src.cli.evaluate",
     "src.cli.download",
     "src.cli.profile",
+    "src.cli.train_router",
     "src.config.loader",
     "src.utils.logging",
     "src.utils.paths",

@@ -109,6 +109,7 @@ install_optional_deps() {
         sacrebleu \
         rouge-score \
         fvcore \
+        pyvi \
         --quiet 2>/dev/null || print_info "Some optional packages may already be installed"
 
     # Editable install so `mvlm-*` console scripts and `python -m src.*` resolve.

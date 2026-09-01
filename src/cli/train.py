@@ -79,17 +79,16 @@ def build_run_config(args: argparse.Namespace) -> dict[str, Any]:
         "eval_steps": args.eval_steps,
         "save_steps": args.save_steps,
         "seed": args.seed,
-        "output_dir": args.output_dir,
         "resume_from": args.resume,
     }
     for key, value in cli_overrides.items():
         if value is not None:
             cfg[key] = value
 
-    # Kaggle: only the default output location changes.
-    if args.output_dir is None and _is_kaggle():
-        cfg["output_dir"] = f"/kaggle/working/checkpoints/{args.bridge}"
-    cfg.setdefault("output_dir", f"checkpoints/{args.bridge}")
+    # Checkpoint dir is always <base>/<bridge>. --output-dir sets the base;
+    # default base is /kaggle/working/checkpoints on Kaggle, else ./checkpoints.
+    base = args.output_dir or ("/kaggle/working/checkpoints" if _is_kaggle() else "checkpoints")
+    cfg["output_dir"] = str(Path(base) / args.bridge)
 
     cfg["bridge"] = args.bridge
     cfg.setdefault("resume_from", None)

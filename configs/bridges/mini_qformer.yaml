@@ -3,4 +3,3 @@ bridge_type: mini_qformer
 bridge_config:
   num_tokens: 8
   num_heads: 8
-output_dir: checkpoints/mini_qformer

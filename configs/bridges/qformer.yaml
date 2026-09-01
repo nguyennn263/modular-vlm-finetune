@@ -4,4 +4,3 @@ bridge_config:
   num_queries: 16
   num_heads: 8
   num_layers: 4
-output_dir: checkpoints/qformer

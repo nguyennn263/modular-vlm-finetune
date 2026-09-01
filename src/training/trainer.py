@@ -1433,7 +1433,14 @@ class BridgeTrainer:
                     'time_seconds': epoch_elapsed
                 }
                 self._save_epoch_results(epoch, epoch_metrics)
-                
+
+                # End-of-epoch checkpoint: guarantees a resumable/best checkpoint
+                # even for runs shorter than eval_steps (e.g. --smoke).
+                if is_best:
+                    self.best_val_loss = val_loss
+                    self.early_stop_counter = 0
+                self.save_checkpoint(is_best=is_best)
+
                 # Show sample inference
                 self._sample_inference(epoch, num_samples=3)
                 

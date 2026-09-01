@@ -1,4 +1,3 @@
 # Exp 6 — Gated Fusion Bridge (baseline + gate * improvement).
 bridge_type: gated_fusion
 bridge_config: {}
-output_dir: checkpoints/gated_fusion

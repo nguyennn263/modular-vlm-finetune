@@ -65,7 +65,8 @@ def run(args: argparse.Namespace) -> dict:
     from torch.utils.data import DataLoader, TensorDataset
     from transformers import AutoTokenizer
 
-    from src.modeling.router import CAT2IDX, CATEGORIES, PrQHead
+    from src.modeling.router import PrQHead
+    from src.reasoning_types import CAT2IDX, CATEGORIES
 
     seg = _segmenter(args.segment)
     tok = AutoTokenizer.from_pretrained(args.encoder)
@@ -124,7 +125,7 @@ def run(args: argparse.Namespace) -> dict:
 def _f1_report(gts, preds) -> dict:
     import numpy as np
 
-    from src.modeling.router import CATEGORIES
+    from src.reasoning_types import CATEGORIES
 
     n = len(CATEGORIES)
     cm = np.zeros((n, n), dtype=int)

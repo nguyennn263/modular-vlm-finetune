@@ -9,13 +9,7 @@ from __future__ import annotations
 import torch
 import torch.nn as nn
 
-# Canonical reasoning-type set (must match src/data/labeled_table.CANONICAL values).
-CATEGORIES = [
-    "relational", "recognition", "spatial", "causal",
-    "action", "counting", "context", "yesno",
-]
-CAT2IDX = {c: i for i, c in enumerate(CATEGORIES)}
-IDX2CAT = {i: c for c, i in CAT2IDX.items()}
+from src.reasoning_types import CAT2IDX, CATEGORIES, IDX2CAT  # noqa: F401 (re-export)
 
 
 class PrQHead(nn.Module):

@@ -34,6 +34,7 @@ HEAVY_MODULES = [
     "src.training.trainer",
     "src.data.loader",
     "src.data.collator",
+    "src.data.tiling",
     "metrics.vqa_metrics",
 ]
 
@@ -53,4 +54,5 @@ def test_import_src_is_torch_free():
 @pytest.mark.parametrize("name", HEAVY_MODULES)
 def test_heavy_import(name):
     pytest.importorskip("torch")
+    pytest.importorskip("transformers")
     importlib.import_module(name)

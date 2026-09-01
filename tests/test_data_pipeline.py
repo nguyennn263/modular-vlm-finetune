@@ -27,6 +27,21 @@ def test_parse_answers(raw, expected):
     assert _parse_answers(raw) == expected
 
 
+def test_load_image_tiles_shape(tmp_path):
+    pytest.importorskip("torch")
+    pytest.importorskip("torchvision")
+    from PIL import Image
+
+    from src.data.tiling import load_image_tiles
+
+    img = tmp_path / "x.jpg"
+    Image.new("RGB", (900, 300), "red").save(img)
+
+    assert load_image_tiles(str(img), n_tiles=1).shape == (1, 3, 448, 448)
+    for n in (2, 4, 6):
+        assert load_image_tiles(str(img), n_tiles=n).shape == (n, 3, 448, 448)
+
+
 def test_split_is_grouped_and_deterministic():
     rows = []
     for img in range(200):

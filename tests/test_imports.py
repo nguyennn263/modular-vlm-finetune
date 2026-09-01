@@ -17,6 +17,7 @@ LIGHT_MODULES = [
     "src.cli.train_router",
     "src.cli.train_policy",
     "src.cli.oracle",
+    "src.cli.build_fiq",
     "src.reasoning_types",
     "src.analysis.stats",
     "src.analysis.expB",

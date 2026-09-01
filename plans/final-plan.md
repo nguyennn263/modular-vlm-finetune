@@ -230,7 +230,10 @@ Dải động 1→6: **FLOPs ×6.0, latency ×4.0, throughput ×5.2** — vượ
 
 ---
 
-### P3 — Exp B: bridge × category và quyết định fork
+### P3 — Exp B: bridge × category và quyết định fork  ·  **code sẵn, chờ Exp A**
+
+`src/analysis/stats.py` (`paired_bootstrap`, `permutation_test`, `holm` — thuần numpy, đã unit-test) + `src/analysis/expB.py` (`analyse()` — heatmap bridge×category, bootstrap best-vs-2nd mỗi category, Holm-adjust, chọn top-3 theo CIDEr weighted phân phối TRAIN). `src/cli/evaluate.py --split-dir` dump `eval_<split>_samples.jsonl` (per-sample cider/meteor/rouge_l + category). Chạy được ngay khi có checkpoint Exp A.
+
 
 **Mục tiêu.** Xác định bridge nào mạnh ở loại suy luận nào; chốt top-3 bridge cho oracle.
 

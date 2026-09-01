@@ -26,6 +26,10 @@ def _parser() -> argparse.ArgumentParser:
     p.add_argument("--bridge", required=True, choices=BRIDGES)
     p.add_argument("--checkpoint", required=True, help="Path to a *.pt checkpoint (bridge_state).")
     p.add_argument("--split", default="val", choices=["train", "val", "test"])
+    p.add_argument("--split-dir", default=None, dest="split_dir",
+                   help="Use data/splits/<split>.jsonl (grouped split, carries `category`) "
+                        "instead of a random split of the raw CSV.")
+    p.add_argument("--n-tiles", type=int, default=1, dest="n_tiles")
     p.add_argument("--limit", type=int, default=None, help="Evaluate at most N samples.")
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--output", default=None, help="Where to write the JSON report.")
@@ -44,15 +48,19 @@ def run(args: argparse.Namespace) -> dict:
     bridge_cfg = _load_yaml(REPO_ROOT / "configs" / "bridges" / f"{args.bridge}.yaml")
     split_cfg = train_cfg.get("split", {})
 
-    loader = AblationDataLoader(str(REPO_ROOT))
-    train_s, val_s, test_s = loader.load_train_val_test_split(
-        max_samples=None,
-        train_ratio=split_cfg.get("train_ratio", 0.8),
-        val_ratio=split_cfg.get("val_ratio", 0.1),
-        test_ratio=split_cfg.get("test_ratio", 0.1),
-        seed=args.seed,
-    )
-    chosen = {"train": train_s, "val": val_s, "test": test_s}[args.split]
+    if args.split_dir:
+        from src.data.split import load_split
+        chosen = load_split(args.split, args.split_dir)
+    else:
+        loader = AblationDataLoader(str(REPO_ROOT))
+        parts = loader.load_train_val_test_split(
+            max_samples=None,
+            train_ratio=split_cfg.get("train_ratio", 0.8),
+            val_ratio=split_cfg.get("val_ratio", 0.1),
+            test_ratio=split_cfg.get("test_ratio", 0.1),
+            seed=args.seed,
+        )
+        chosen = dict(zip(("train", "val", "test"), parts))[args.split]
     if args.limit:
         chosen = chosen[: args.limit]
     print(f"[data] evaluating on {len(chosen)} {args.split} samples")
@@ -74,10 +82,12 @@ def run(args: argparse.Namespace) -> dict:
     # BridgeTrainer only builds the tokenizer + collate_fn when train_dataset is
     # non-empty, and its generation-metric helper reads self.val_dataset — so pass
     # `chosen` in both slots. We never call trainer.train() here.
-    tc = TrainConfig(model_name=train_cfg["model_name"], output_dir=str(Path(args.checkpoint).parent))
+    tc = TrainConfig(model_name=train_cfg["model_name"],
+                     output_dir=str(Path(args.checkpoint).parent), n_tiles=args.n_tiles)
     trainer = BridgeTrainer(model, chosen, chosen, tc)
 
-    report = {"split": args.split, "n": len(chosen), "checkpoint": args.checkpoint}
+    report = {"split": args.split, "n": len(chosen), "bridge": args.bridge,
+              "n_tiles": args.n_tiles, "checkpoint": args.checkpoint}
     try:
         report.update(trainer.evaluate())
     except Exception as exc:
@@ -87,10 +97,39 @@ def run(args: argparse.Namespace) -> dict:
     except Exception as exc:  # generation metrics are best-effort
         report["generation_metrics_error"] = repr(exc)
 
-    out = Path(args.output or Path(args.checkpoint).parent / f"eval_{args.split}.json")
+    ckpt_dir = Path(args.checkpoint).parent
+    out = Path(args.output or ckpt_dir / f"eval_{args.split}.json")
     out.write_text(json.dumps(report, indent=2, default=str))
-    print(f"[report] {out}\n" + json.dumps(report, indent=2, default=str))
+
+    # Per-sample scores + category (for Exp B). Aligns with `chosen` order.
+    _dump_per_sample(ckpt_dir, chosen, args)
+
+    print(f"[report] {out}\n" + json.dumps(
+        {k: v for k, v in report.items() if not isinstance(v, (list, dict))}, indent=2))
     return report
+
+
+def _dump_per_sample(ckpt_dir: Path, chosen, args) -> None:
+    metrics_file = ckpt_dir / "results" / "text_metrics_epoch_1.json"
+    if not metrics_file.exists():
+        return
+    details = json.loads(metrics_file.read_text()).get("details", {})
+    per = {m: details.get(m, {}).get("per_sample", []) for m in
+           ("meteor", "rouge_l", "cider", "exact_match", "wups@0.9")}
+    out = ckpt_dir / f"eval_{args.split}_samples.jsonl"
+    with open(out, "w", encoding="utf-8") as fh:
+        for i, s in enumerate(chosen):
+            rec = {
+                "image_id": (s.metadata or {}).get("image_id"),
+                "question": s.question,
+                "category": (s.metadata or {}).get("category"),
+                "bridge": args.bridge,
+                "n_tiles": args.n_tiles,
+            }
+            for m, arr in per.items():
+                rec[m.replace("@0.9", "")] = float(arr[i]) if i < len(arr) else None
+            fh.write(json.dumps(rec, ensure_ascii=False) + "\n")
+    print(f"[per-sample] {out}")
 
 
 def main(argv: list[str] | None = None) -> None:

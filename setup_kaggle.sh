@@ -115,11 +115,12 @@ install_optional_deps() {
     # Editable install so `mvlm-*` console scripts and `python -m src.*` resolve.
     pip install -e . --no-deps --quiet 2>/dev/null || print_info "Editable install skipped"
 
-    # numpy<2 for torch 2.2.2; scipy/scikit-learn pinned to the last releases that
-    # still support numpy 1.x (Kaggle ships newer ones that break on `np.long`).
-    print_info "Pinning numpy<2 + compatible scipy/scikit-learn..."
+    # numpy<2 for torch 2.2.2; scipy/scikit-learn/pandas pinned to the last releases
+    # that still support numpy 1.x (Kaggle ships newer ones -> `import pandas` and
+    # `np.long` break after the numpy downgrade).
+    print_info "Pinning numpy<2 + compatible scipy/scikit-learn/pandas..."
     pip install --force-reinstall --quiet \
-        'numpy<2' 'scipy>=1.10,<1.13' 'scikit-learn>=1.3,<1.5'
+        'numpy<2' 'scipy>=1.10,<1.13' 'scikit-learn>=1.3,<1.5' 'pandas>=2.0,<2.2' 'pyarrow>=14,<17'
     
     print_success "Optional dependencies installed"
 }

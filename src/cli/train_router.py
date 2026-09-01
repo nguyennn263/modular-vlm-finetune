@@ -29,6 +29,10 @@ def _parser() -> argparse.ArgumentParser:
     p.add_argument("--segment", choices=["pyvi", "none"], default="pyvi",
                    help="Vietnamese word segmentation for PhoBERT (pyvi if installed).")
     p.add_argument("--output-dir", default="checkpoints/router", dest="output_dir")
+    p.add_argument("--predict-splits", default="train,val", dest="predict_splits",
+                   help="After training, dump P(r|Q) for these splits -> outputs/router/prq_<split>.parquet")
+    p.add_argument("--from-checkpoint", default=None, dest="from_checkpoint",
+                   help="Skip training, load this router checkpoint and only predict.")
     p.add_argument("--dry-run", action="store_true")
     return p
 
@@ -79,6 +83,17 @@ def run(args: argparse.Namespace) -> dict:
         return TensorDataset(enc["input_ids"], enc["attention_mask"], y)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    out_dir = repo_root() / args.output_dir
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    if args.from_checkpoint:
+        ck = torch.load(args.from_checkpoint, map_location=device, weights_only=False)
+        model = PrQHead(ck.get("encoder", args.encoder)).to(device)
+        model.load_state_dict(ck["state_dict"])
+        print(f"[router] loaded {args.from_checkpoint} (skip training)")
+        _dump_predictions(args, model, tok, seg, device)
+        return {}
+
     train_ds, val_ds = encode(tr_rows), encode(va_rows)
     train_dl = DataLoader(train_ds, batch_size=args.batch_size, shuffle=True)
     val_dl = DataLoader(val_ds, batch_size=args.batch_size)
@@ -90,9 +105,6 @@ def run(args: argparse.Namespace) -> dict:
     model = PrQHead(args.encoder).to(device)
     opt = torch.optim.AdamW(model.parameters(), lr=args.lr)
     loss_fn = torch.nn.CrossEntropyLoss(weight=weights)
-
-    out_dir = repo_root() / args.output_dir
-    out_dir.mkdir(parents=True, exist_ok=True)
     best_f1, best_report = -1.0, {}
 
     for epoch in range(1, args.epochs + 1):
@@ -119,7 +131,41 @@ def run(args: argparse.Namespace) -> dict:
     (out_dir / "metrics.json").write_text(json.dumps(best_report, indent=2))
     print(f"[router] best val macro-F1 = {best_f1:.4f} -> {out_dir}")
     print(json.dumps(best_report["per_class_f1"], indent=2, ensure_ascii=False))
+
+    # reload best + dump P(r|Q) predictions for the policy
+    model.load_state_dict(torch.load(out_dir / "best.pt", map_location=device)["state_dict"])
+    _dump_predictions(args, model, tok, seg, device)
     return best_report
+
+
+def _dump_predictions(args, model, tok, seg, device) -> None:
+    import pandas as pd
+    import torch
+
+    from src.data.split import load_split
+    from src.reasoning_types import CATEGORIES
+
+    model.eval()
+    out = repo_root() / "outputs" / "router"
+    out.mkdir(parents=True, exist_ok=True)
+    for split in [s.strip() for s in args.predict_splits.split(",") if s.strip()]:
+        samples = load_split(split, args.split_dir)
+        ids = [f"{(s.metadata or {}).get('image_id')}::{s.question}" for s in samples]
+        texts = [seg(s.question) for s in samples]
+        probs = []
+        for i in range(0, len(texts), 256):
+            enc = tok(texts[i:i + 256], padding="max_length", truncation=True,
+                      max_length=args.max_len, return_tensors="pt")
+            with torch.no_grad():
+                p = torch.softmax(model(enc["input_ids"].to(device),
+                                        enc["attention_mask"].to(device)), -1)
+            probs.append(p.cpu())
+        P = torch.cat(probs).numpy()
+        df = pd.DataFrame({"sample_id": ids})
+        for j, c in enumerate(CATEGORIES):
+            df[f"p_{c}"] = P[:, j]
+        df.to_parquet(out / f"prq_{split}.parquet", index=False)
+        print(f"[router] P(r|Q) for {split}: {len(df)} rows -> {out}/prq_{split}.parquet")
 
 
 def _f1_report(gts, preds) -> dict:

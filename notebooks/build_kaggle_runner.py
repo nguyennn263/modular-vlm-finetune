@@ -58,7 +58,7 @@ CELLS = [
          "print(json.loads(p.read_text()) if p.exists() else 'profile did not produce output')"),
     md("### FULL training run",
        "",
-       "`--bridge {residual,multi_token,tile_attention,mini_qformer,qformer,gated_fusion}`"),
+       "`--bridge {residual,multi_token,tile_attention,mini_qformer,qformer}`"),
     code("# whole dataset, ~hours. Uncomment when ready.",
          "# !python -m src.cli.train --bridge residual --output-dir /kaggle/working/checkpoints",
          "# resume in a later session (auto-picks newest step_*.pt):",

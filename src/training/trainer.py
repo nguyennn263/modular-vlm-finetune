@@ -161,6 +161,13 @@ class TrainConfig:
     n_tiles: int = 1
     tile_choices: Optional[List[int]] = None
 
+    # Per-epoch text-metric generation cost control. Defaults reproduce the old
+    # behaviour (generate on the full val set every epoch). Raise `every` and/or
+    # cap `max_samples` to cut the dominant wall-clock cost on slow GPUs; the
+    # final `python -m src.cli.evaluate` pass still scores the whole split.
+    text_metrics_every: int = 1
+    text_metrics_max_samples: int = 0  # 0 = full val set
+
 
 class BridgeTrainer:
     """
@@ -1172,15 +1179,21 @@ class BridgeTrainer:
         # Batch generation for speed (same results as per-sample, just faster)
         # Lower than training batch_size since generate() uses more memory than forward
         eval_batch_size = max(1, self.config.batch_size // 4) if self.config.batch_size > 4 else 2
-        dataset_len = len(self.val_dataset)
+        cap = int(getattr(self.config, "text_metrics_max_samples", 0) or 0)
+        if 0 < cap < len(self.val_dataset):
+            rng = random.Random(getattr(self.config, "seed", 42))
+            indices = sorted(rng.sample(range(len(self.val_dataset)), cap))
+        else:
+            indices = list(range(len(self.val_dataset)))
+        dataset_len = len(indices)
         num_batches = math.ceil(dataset_len / eval_batch_size)
-        
-        pbar = tqdm(range(num_batches), desc=f"Epoch {epoch + 1} metrics (batch={eval_batch_size})", leave=False)
-        
+
+        pbar = tqdm(range(num_batches), desc=f"Epoch {epoch + 1} metrics (batch={eval_batch_size}, n={dataset_len})", leave=False)
+
         for batch_idx in pbar:
             batch_start = batch_idx * eval_batch_size
             batch_end = min(batch_start + eval_batch_size, dataset_len)
-            batch_samples = [self.val_dataset[i] for i in range(batch_start, batch_end)]
+            batch_samples = [self.val_dataset[i] for i in indices[batch_start:batch_end]]
             
             # Extract ground truths
             batch_questions = []
@@ -1398,7 +1411,14 @@ class BridgeTrainer:
                 epoch_elapsed = (datetime.now() - epoch_start).total_seconds()
                 perplexity = torch.exp(torch.tensor(avg_loss)).item()
                 current_lr = self.scheduler.get_last_lr()[0] if hasattr(self.scheduler, 'get_last_lr') else self.config.learning_rate
-                text_metrics = self._compute_epoch_text_metrics(epoch)
+                every = max(1, int(getattr(self.config, "text_metrics_every", 1) or 1))
+                is_last_epoch = (epoch + 1) == self.config.num_epochs
+                if (epoch + 1) % every == 0 or is_last_epoch:
+                    text_metrics = self._compute_epoch_text_metrics(epoch)
+                else:
+                    text_metrics = {}
+                    logger.info(f"Epoch {epoch + 1}: skipping text-metric generation "
+                                f"(text_metrics_every={every})")
                 
                 # Log epoch summary with metrics
                 epoch_log = []

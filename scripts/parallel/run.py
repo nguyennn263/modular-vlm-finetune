@@ -79,6 +79,7 @@ def expa_worker(bridge: str, seed: int, branch: str, resume_ds: str | None, epoc
         _code(resume_cp),
         _code(f"!python -m src.cli.train --bridge {bridge} --split-dir data/splits --seed {seed} "
               f"--epochs {epochs} --batch-size 8 --grad-accum 1 --eval-steps 800 --save-steps 800 "
+              f"--text-metrics-every 2 --text-metrics-max-samples 1000 "
               f"--output-dir {ck} --resume"),
         _code(f"!python -m src.cli.evaluate --bridge {bridge} --split-dir data/splits --split val "
               f"--checkpoint {ck}/{bridge}/best_model.pt"),

@@ -85,6 +85,8 @@ def build_run_config(args: argparse.Namespace) -> dict[str, Any]:
         "seed": args.seed,
         "split_dir": args.split_dir,
         "n_tiles": args.n_tiles,
+        "text_metrics_every": args.text_metrics_every,
+        "text_metrics_max_samples": args.text_metrics_max_samples,
         "resume_from": args.resume,
     }
     for key, value in cli_overrides.items():
@@ -134,6 +136,12 @@ def _parser() -> argparse.ArgumentParser:
     p.add_argument("--seed", type=int, default=None)
     p.add_argument("--n-tiles", type=int, default=None, dest="n_tiles",
                    help="Visual budget: InternViT tiles per image (1 = single 336px image).")
+    p.add_argument("--text-metrics-every", type=int, default=None, dest="text_metrics_every",
+                   help="Generate val text metrics (CIDEr/BLEU/...) every N epochs (default 1). "
+                        "The last epoch always runs regardless.")
+    p.add_argument("--text-metrics-max-samples", type=int, default=None, dest="text_metrics_max_samples",
+                   help="Cap the per-epoch text-metric generation to a seeded N-sample "
+                        "subset of val (0 = full val). The final `evaluate` still scores all.")
     p.add_argument("--split-dir", default=None, dest="split_dir",
                    help="Use data/splits/{train,val,test}.jsonl (final-plan grouped split) "
                         "instead of a random split of the raw CSV.")
@@ -213,6 +221,8 @@ def run(cfg: dict[str, Any]) -> None:
         save_best=cfg["save_best"],
         n_tiles=cfg.get("n_tiles") or 1,
         tile_choices=cfg.get("tile_choices"),
+        text_metrics_every=cfg.get("text_metrics_every") or 1,
+        text_metrics_max_samples=cfg.get("text_metrics_max_samples") or 0,
         resume_from=cfg.get("resume_from"),
     )
     trainer = BridgeTrainer(model, train_samples, val_samples, train_config, test_dataset=test_samples or None)

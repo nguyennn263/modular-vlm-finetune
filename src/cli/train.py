@@ -80,16 +80,18 @@ def build_run_config(args: argparse.Namespace) -> dict[str, Any]:
         "save_steps": args.save_steps,
         "seed": args.seed,
         "split_dir": args.split_dir,
+        "n_tiles": args.n_tiles,
         "resume_from": args.resume,
     }
     for key, value in cli_overrides.items():
         if value is not None:
             cfg[key] = value
 
-    # Checkpoint dir is always <base>/<bridge>. --output-dir sets the base;
+    # Checkpoint dir is <base>/<bridge>[_t<n_tiles>]. --output-dir sets the base;
     # default base is /kaggle/working/checkpoints on Kaggle, else ./checkpoints.
     base = args.output_dir or ("/kaggle/working/checkpoints" if _is_kaggle() else "checkpoints")
-    cfg["output_dir"] = str(Path(base) / args.bridge)
+    nt = cfg.get("n_tiles") or 1
+    cfg["output_dir"] = str(Path(base) / (args.bridge if nt == 1 else f"{args.bridge}_t{nt}"))
 
     cfg["bridge"] = args.bridge
     cfg.setdefault("resume_from", None)
@@ -125,6 +127,8 @@ def _parser() -> argparse.ArgumentParser:
     p.add_argument("--eval-steps", type=int, default=None, dest="eval_steps")
     p.add_argument("--save-steps", type=int, default=None, dest="save_steps")
     p.add_argument("--seed", type=int, default=None)
+    p.add_argument("--n-tiles", type=int, default=None, dest="n_tiles",
+                   help="Visual budget: InternViT tiles per image (1 = single 336px image).")
     p.add_argument("--split-dir", default=None, dest="split_dir",
                    help="Use data/splits/{train,val,test}.jsonl (final-plan grouped split) "
                         "instead of a random split of the raw CSV.")
@@ -200,6 +204,8 @@ def run(cfg: dict[str, Any]) -> None:
         patience=cfg["patience"],
         min_delta=cfg["min_delta"],
         save_best=cfg["save_best"],
+        n_tiles=cfg.get("n_tiles") or 1,
+        tile_choices=cfg.get("tile_choices"),
         resume_from=cfg.get("resume_from"),
     )
     trainer = BridgeTrainer(model, train_samples, val_samples, train_config, test_dataset=test_samples or None)

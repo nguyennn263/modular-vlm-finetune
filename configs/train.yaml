@@ -22,6 +22,11 @@ patience: 5
 min_delta: 0.001
 save_best: true
 
+# Visual budget (final-plan P1). 1 = single 336px image (default, verified).
+# >1 = that many InternViT tiles/image. tile_choices (list) = batch-level augmentation.
+n_tiles: 1
+tile_choices: null
+
 # Legacy random 3-way split used by Exp A. The final-plan grouped split is produced
 # separately by `python -m src.data.split` and written to data/splits/.
 split:

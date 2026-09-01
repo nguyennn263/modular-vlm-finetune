@@ -42,6 +42,26 @@ def test_load_image_tiles_shape(tmp_path):
         assert load_image_tiles(str(img), n_tiles=n).shape == (n, 3, 448, 448)
 
 
+def test_collator_multitile_shape(tmp_path):
+    pytest.importorskip("torch")
+    pytest.importorskip("torchvision")
+    from PIL import Image
+
+    from src.data.collator import custom_collate_fn
+    from src.schema.data_schema import OneSample
+
+    for i in range(3):
+        Image.new("RGB", (600, 400), "blue").save(tmp_path / f"{i}.jpg")
+    batch = [OneSample(image_path=str(tmp_path / f"{i}.jpg"), question="q?", answers=["a"])
+             for i in range(3)]
+
+    assert custom_collate_fn(batch, n_tiles=1)["pixel_values"].shape == (3, 3, 336, 336)
+    assert custom_collate_fn(batch, n_tiles=4)["pixel_values"].shape == (3, 4, 3, 448, 448)
+    # batch-level augmentation: T is one of the choices, same for the whole batch
+    pv = custom_collate_fn(batch, tile_choices=[2, 6])["pixel_values"]
+    assert pv.shape[0] == 3 and pv.shape[1] in (2, 6)
+
+
 def test_split_is_grouped_and_deterministic():
     rows = []
     for img in range(200):

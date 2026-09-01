@@ -61,6 +61,17 @@ def dynamic_preprocess(image: Image.Image, min_num: int = 1, max_num: int = 12,
     return tiles
 
 
+def encode_tiles(vision_model, pixel_values: torch.Tensor) -> torch.Tensor:
+    """(B, T, C, H, W) -> (B, T*P, D): every tile through the vision encoder,
+    patch tokens concatenated. Used by both training forward and generation so
+    the multi-tile path is defined once."""
+    b, t = pixel_values.shape[:2]
+    vo = vision_model(pixel_values.flatten(0, 1))
+    hs = vo.last_hidden_state if hasattr(vo, "last_hidden_state") else (
+        vo[0] if isinstance(vo, (tuple, list)) else vo)
+    return hs.reshape(b, t * hs.shape[1], hs.shape[2])
+
+
 def load_image_tiles(image_path: str, n_tiles: int = 1, image_size: int = 448) -> torch.Tensor:
     """Return exactly ``(n_tiles, 3, image_size, image_size)``.
 

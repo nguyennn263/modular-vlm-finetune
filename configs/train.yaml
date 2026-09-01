@@ -31,7 +31,7 @@ split:
 
 # `--smoke` applies this preset on top of everything else (still overridable by explicit flags).
 smoke:
-  limit: 50
+  limit: 64
   num_epochs: 1
-  eval_steps: 10
-  save_steps: 10
+  eval_steps: 4
+  save_steps: 4

@@ -2,4 +2,3 @@
 bridge_type: multi_token
 bridge_config:
   num_tokens: 8
-output_dir: checkpoints/multi_token

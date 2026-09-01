@@ -3,4 +3,3 @@ bridge_type: tile_attention
 bridge_config:
   num_tokens: 8
   num_heads: 8
-output_dir: checkpoints/tile_attention

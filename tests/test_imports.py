@@ -22,6 +22,8 @@ LIGHT_MODULES = [
     "src.analysis.stats",
     "src.analysis.expB",
     "src.analysis.oracle",
+    "src.analysis.ablation",
+    "src.cli.eval_ladder",
     "src.config.loader",
     "src.utils.logging",
     "src.utils.paths",

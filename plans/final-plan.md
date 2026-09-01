@@ -274,7 +274,11 @@ Code: `src/cli/{oracle,build_fiq,train_router,train_policy}.py`, `src/analysis/o
 
 ---
 
-### P5 — Đánh giá đầy đủ
+### P5 — Đánh giá đầy đủ  ·  **code sẵn, chờ Exp A**
+
+Code: `src/analysis/ablation.py` (`ladder`, `pareto_front` — thuần pandas, đã test: oracle trội fixed, oracle C↓ khi λ↑, Pareto non-dominated) + `src/cli/eval_ladder.py` (nạp bảng oracle TEST + checkpoint policy → picks per-λ → ladder + Pareto + behaviour theo category). `train_policy.py --no-prq` cho nhánh visual-state-only. `phase5_eval.py` nối full (predict TEST → oracle TEST → 3 nhánh policy → ladder).
+
+Nhánh ladder: `fixed:<action>` (9), `random`, `oracle` (cận trên) — không cần checkpoint; `ours` / `rt_only` (reasoning-type-only) / `visual_only` — policy đã train.
 
 **Mục tiêu.** Toàn bộ bảng kết quả và hình cho paper, đánh giá TEST một lần.
 

@@ -61,7 +61,7 @@ def run(args: argparse.Namespace) -> None:
         keep = [c for c in _META_COLS if c in m.columns]
         if keep:
             m["sample_id"] = m["image_id"].astype(str) + "::" + m["question"]
-            meta = m.set_index("sample_id")[keep]
+            meta = m.drop_duplicates("sample_id").set_index("sample_id")[keep]
 
     proj = None
     for split in splits:

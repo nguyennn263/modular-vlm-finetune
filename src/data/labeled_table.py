@@ -91,6 +91,7 @@ def build(texts_dir: Path, images_dir: Path, out: Path) -> pd.DataFrame:
     df = pd.read_csv(csv_path, low_memory=False)
     df["_q"] = df["question"].map(_norm_q)
     merged = df.merge(labels, left_on=["image_id", "_q"], right_on=["img_id", "_q"], how="inner")
+    merged = merged.drop_duplicates(["image_id", "question"]).reset_index(drop=True)
 
     merged["answers"] = merged["answers"].map(_parse_answers)
     # Store the basename only; the image dir is resolved per-environment at load time.

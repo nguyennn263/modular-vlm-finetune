@@ -41,10 +41,13 @@ def ladder(table: pd.DataFrame,
     rows = []
 
     def add(arm, lam, picks: dict):
-        ms = [M[(s, picks[s])] for s in samples if (s, picks[s]) in M]
-        cs = [C[picks[s]] for s in samples]
-        rows.append({"arm": arm, "lambda": lam, "mean_M": float(np.mean(ms)),
-                     "mean_C": float(np.mean(cs)), "n": len(ms)})
+        valid = [s for s in samples if (s, picks[s]) in M]  # same denominator for M and C
+        ms = [M[(s, picks[s])] for s in valid]
+        cs = [C[picks[s]] for s in valid]
+        rows.append({"arm": arm, "lambda": lam,
+                     "mean_M": float(np.mean(ms)) if ms else float("nan"),
+                     "mean_C": float(np.mean(cs)) if cs else float("nan"),
+                     "n": len(valid)})
 
     # fixed-budget sweep (one constant action)
     for a in actions:

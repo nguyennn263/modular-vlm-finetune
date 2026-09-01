@@ -78,6 +78,7 @@ def build_run_config(args: argparse.Namespace) -> dict[str, Any]:
         "limit": args.limit,
         "num_epochs": args.epochs,
         "batch_size": args.batch_size,
+        "gradient_accumulation_steps": args.grad_accum,
         "learning_rate": args.lr,
         "eval_steps": args.eval_steps,
         "save_steps": args.save_steps,
@@ -126,6 +127,7 @@ def _parser() -> argparse.ArgumentParser:
                    help="Fast sanity run: applies the 'smoke' preset from configs/train.yaml.")
     p.add_argument("--epochs", type=int, default=None, help="Override num_epochs.")
     p.add_argument("--batch-size", type=int, default=None, dest="batch_size")
+    p.add_argument("--grad-accum", type=int, default=None, dest="grad_accum")
     p.add_argument("--lr", type=float, default=None, help="Override learning_rate.")
     p.add_argument("--eval-steps", type=int, default=None, dest="eval_steps")
     p.add_argument("--save-steps", type=int, default=None, dest="save_steps")

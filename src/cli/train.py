@@ -79,6 +79,7 @@ def build_run_config(args: argparse.Namespace) -> dict[str, Any]:
         "eval_steps": args.eval_steps,
         "save_steps": args.save_steps,
         "seed": args.seed,
+        "split_dir": args.split_dir,
         "resume_from": args.resume,
     }
     for key, value in cli_overrides.items():
@@ -124,6 +125,9 @@ def _parser() -> argparse.ArgumentParser:
     p.add_argument("--eval-steps", type=int, default=None, dest="eval_steps")
     p.add_argument("--save-steps", type=int, default=None, dest="save_steps")
     p.add_argument("--seed", type=int, default=None)
+    p.add_argument("--split-dir", default=None, dest="split_dir",
+                   help="Use data/splits/{train,val,test}.jsonl (final-plan grouped split) "
+                        "instead of a random split of the raw CSV.")
     p.add_argument("--output-dir", default=None, dest="output_dir",
                    help="Checkpoint dir (default: checkpoints/<bridge>, or /kaggle/working/... on Kaggle).")
     p.add_argument("--resume", default=None, nargs="?", const="auto",
@@ -141,18 +145,30 @@ def run(cfg: dict[str, Any]) -> None:
     from transformers import AutoModel
 
     from src.training import BridgeTrainer, TrainConfig, create_finetune_model
-    from src.utils.data_loader_helper import AblationDataLoader
+    limit = cfg.get("limit")
+    if cfg.get("split_dir"):
+        from src.data.split import load_split
 
-    split = cfg.get("split", {})
-    loader = AblationDataLoader(str(REPO_ROOT))
-    train_samples, val_samples, test_samples = loader.load_train_val_test_split(
-        max_samples=cfg.get("limit"),
-        train_ratio=split.get("train_ratio", 0.8),
-        val_ratio=split.get("val_ratio", 0.1),
-        test_ratio=split.get("test_ratio", 0.1),
-        seed=cfg["seed"],
-    )
-    print(f"[data] train={len(train_samples)} val={len(val_samples)} test={len(test_samples)}")
+        d = cfg["split_dir"]
+        train_samples = load_split("train", d)[: limit or None]
+        val_samples = load_split("val", d)[: (limit // 5) if limit else None]
+        test_samples = load_split("test", d)[: (limit // 5) if limit else None]
+        print(f"[data] grouped split '{d}' -> train={len(train_samples)} "
+              f"val={len(val_samples)} test={len(test_samples)}")
+    else:
+        from src.utils.data_loader_helper import AblationDataLoader
+
+        split = cfg.get("split", {})
+        loader = AblationDataLoader(str(REPO_ROOT))
+        train_samples, val_samples, test_samples = loader.load_train_val_test_split(
+            max_samples=limit,
+            train_ratio=split.get("train_ratio", 0.8),
+            val_ratio=split.get("val_ratio", 0.1),
+            test_ratio=split.get("test_ratio", 0.1),
+            seed=cfg["seed"],
+        )
+        print(f"[data] random split -> train={len(train_samples)} "
+              f"val={len(val_samples)} test={len(test_samples)}")
 
     base_model = AutoModel.from_pretrained(
         cfg["model_name"],

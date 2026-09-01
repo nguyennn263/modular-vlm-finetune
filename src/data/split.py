@@ -23,6 +23,33 @@ from src.config.loader import repo_root
 SPLITS = ("train", "val", "test")
 
 
+def load_split(name: str, splits_dir: str = "data/splits"):
+    """Read data/splits/<name>.jsonl into a list[OneSample], resolving image paths
+    against the current environment (local dir or Kaggle mount)."""
+    from src.schema.data_schema import OneSample
+
+    path = repo_root() / splits_dir / f"{name}.jsonl"
+    if not path.exists():
+        raise SystemExit(f"{path} missing — run `python -m src.data.split` (after labeled_table).")
+
+    from src.data.labeled_table import resolve_dirs
+    _, images_dir = resolve_dirs()
+
+    out = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        r = json.loads(line)
+        out.append(OneSample(
+            image_path=str(images_dir / r["image_name"]),
+            question=r["question"],
+            answers=list(r["answers"]),
+            metadata={"category": r["category"], "reason_depth": r.get("reason_depth"),
+                      "image_id": r["image_id"]},
+        ))
+    return out
+
+
 def assign(labeled: pd.DataFrame, ratios: tuple[float, float, float], seed: int) -> pd.DataFrame:
     assert abs(sum(ratios) - 1.0) < 1e-9, "ratios must sum to 1"
     rng = random.Random(seed)
@@ -73,7 +100,7 @@ def main(argv: list[str] | None = None) -> None:
 
     out_dir = root / args.out_dir
     out_dir.mkdir(parents=True, exist_ok=True)
-    keep = ["image_id", "image_path", "question", "answers", "category", "reason_depth"]
+    keep = ["image_id", "image_name", "question", "answers", "category", "reason_depth"]
     for name in SPLITS:
         rows = tagged[tagged["split"] == name][keep]
         with open(out_dir / f"{name}.jsonl", "w", encoding="utf-8") as fh:

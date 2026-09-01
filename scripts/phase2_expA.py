@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""P2 - Exp A: 6 bridge baselines x 3 seeds on the official grouped split.
+"""P2 - Exp A: 5 bridge baselines x 3 seeds on the official grouped split.
 
-This is a multi-hour job (18 training runs). Launch deliberately; each run
+This is a multi-hour job (15 training runs). Launch deliberately; each run
 checkpoints and can be resumed with `--resume`.
 """
 import sys
@@ -9,7 +9,7 @@ import sys
 from _phase import Step, run_phase
 
 PY = sys.executable
-BRIDGES = ["residual", "multi_token", "tile_attention", "mini_qformer", "qformer", "gated_fusion"]
+BRIDGES = ["residual", "multi_token", "tile_attention", "mini_qformer", "qformer"]
 SEEDS = [42, 43, 44]
 
 STEPS = [Step("Build the grouped split (idempotent)",

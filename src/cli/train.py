@@ -24,13 +24,16 @@ from typing import Any
 import yaml
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
+# The 5 bridges of the study (capacity ladder: 1-token -> multi-token -> patch
+# attention -> light transformer -> full transformer + text fusion). gated_fusion
+# is still a valid bridge_type in the model code but is not part of the suite
+# (it is a near-duplicate of `residual`, the weakest arm).
 BRIDGES = [
     "residual",
     "multi_token",
     "tile_attention",
     "mini_qformer",
     "qformer",
-    "gated_fusion",
 ]
 
 

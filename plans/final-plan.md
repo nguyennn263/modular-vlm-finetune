@@ -211,17 +211,20 @@ Dải động 1→6: **FLOPs ×6.0, latency ×4.0, throughput ×5.2** — vượ
 
 ### P2 — Split và Exp A (bridge baselines)
 
-**Mục tiêu.** Có split chính thức và bảng hiệu năng 6 bridge trên split đó.
+**Mục tiêu.** Có split chính thức và bảng hiệu năng **5 bridge** trên split đó.
+
+**5 bridge = một thang capacity** (không dùng `gated_fusion` — gần trùng `residual`, nhánh yếu nhất; đã có kết quả sơ bộ ở `plans/results-5bridge.md`):
+`residual` (1 token) → `multi_token` (nhiều token) → `tile_attention` (patch self-attn) → `mini_qformer` (2 lớp transformer nhẹ) → `qformer` (4 lớp + fusion văn bản).
 
 **Việc.**
-1. `scripts/data/build_split.py`: chia 70/15/15 nhóm theo ảnh, phân tầng `category`, `seed=42`. Xuất `data/splits/{train,val,test}.jsonl` + `outputs/dataset_stats.json`.
-2. Huấn luyện 6 bridge (`residual`, `multi_token`, `tile_attention`, `mini_qformer`, `qformer`, `gated_fusion`) trên TRAIN, chọn checkpoint theo VAL. `n_tiles=1` cho Exp A để so sánh bridge công bằng.
-3. Chạy **3 seed** mỗi bridge.
+1. `python -m src.data.split`: chia 70/15/15 nhóm theo ảnh, phân tầng `category`, `seed=42` → `data/splits/{train,val,test}.jsonl`.
+2. Huấn luyện 5 bridge trên TRAIN của split mới (`python -m src.cli.train --bridge <b> --split-dir data/splits --seed <s>`), chọn checkpoint theo VAL. `n_tiles=1` cho Exp A để so sánh bridge công bằng.
+3. Chạy **3 seed** (42/43/44) mỗi bridge → 15 lần train.
 4. Đánh giá trên VAL: CIDEr, BLEU-4, ROUGE-L, Accuracy, F1, METEOR, WUPS.
 
 **Đầu ra.** `data/splits/*`; `checkpoints/expA/<bridge>/seed<i>/`; `outputs/expA/results.json` (mean ± std mỗi bridge mỗi metric).
 
-**Tiêu chí hoàn thành.** 6 bridge × 3 seed hoàn tất, không NaN; bảng Exp A đầy đủ mean ± std trên split chính thức.
+**Tiêu chí hoàn thành.** 5 bridge × 3 seed hoàn tất, không NaN; bảng Exp A đầy đủ mean ± std trên split chính thức.
 
 ---
 
@@ -230,7 +233,7 @@ Dải động 1→6: **FLOPs ×6.0, latency ×4.0, throughput ×5.2** — vượ
 **Mục tiêu.** Xác định bridge nào mạnh ở loại suy luận nào; chốt top-3 bridge cho oracle.
 
 **Việc.**
-1. Load kết quả 6 bridge trên **VALIDATION** (không đụng TEST). Join `category`. Tính CIDEr/Acc/F1 trung bình mỗi bridge × mỗi `category` → heatmap `outputs/expB/heatmap.png`.
+1. Load kết quả 5 bridge trên **VALIDATION** (không đụng TEST). Join `category`. Tính CIDEr/Acc/F1 trung bình mỗi bridge × mỗi `category` → heatmap `outputs/expB/heatmap.png`.
 2. Với mỗi `category`: **paired bootstrap + permutation test** giữa bridge tốt nhất và tốt nhì. Đây là phép thử quyết định duy nhất.
 3. Kendall's W và "số category mà top-1 thay đổi" chỉ là số mô tả để đọc, không phải ngưỡng quyết định.
 4. Bốn cổng cho kết luận "có phân hoá theo category": (a) ổn định qua ≥ 3 seed, (b) paired bootstrap significant (p < 0.05, hiệu chỉnh đa so sánh), (c) hợp lý ngữ nghĩa, (d) lợi ích compute thực đo được.
@@ -308,7 +311,7 @@ Dải động 1→6: **FLOPs ×6.0, latency ×4.0, throughput ×5.2** — vượ
 ```
 src/
 ├── modeling/
-│   ├── bridge_modules.py         # 6 bridge (đã có)
+│   ├── bridge_modules.py         # 5 bridge của suite + GatedFusionBridge (không dùng)
 │   ├── router.py                 # P(r|Q) head (PhoBERT) + f(I,Q) probe
 │   └── policy.py                 # policy MLP: (P(r|Q), f(I,Q), λ) → action
 ├── training/
@@ -348,7 +351,7 @@ outputs/
 |---|---|---|
 | P1 profiling | 5 mức × 200 mẫu | thấp |
 | P1 bridge lever + tile augmentation | 1 bridge | — |
-| P2 Exp A | 6 bridge × 3 seed × 10 epoch | — |
+| P2 Exp A | 5 bridge × 3 seed × 10 epoch | — |
 | P3 Exp B eval | inference trên VAL | thấp |
 | P4 oracle sweep | 7.500 × 9 generate × 1 seed | — |
 | P4 router + policy | nhẹ | thấp |
@@ -386,7 +389,7 @@ Ràng buộc thực thi trên Kaggle 16 GB: VRAM dư (bridge fine-tune đỉnh ~
 ## 11. Điểm mấu chốt để "nhìn perfect"
 
 - Thesis là câu hỏi nghiên cứu, không phải claim phát minh.
-- 6-bridge là instrumentation, không phải đóng góp chính.
+- 5-bridge là instrumentation, không phải đóng góp chính.
 - Action space `(n_tiles, bridge)` đã chốt. P1 chỉ hiệu chỉnh giá trị lưới và chọn trục wall-clock báo cáo — không phải cổng go/no-go.
 - Nhãn reasoning-type: `category` từ `final_vqa_dataset.json`, 8 lớp nominal, phủ ~100% split.
 - `reason_depth` không vào model; chỉ stratify + phân tích.

@@ -87,8 +87,11 @@ def build_run_config(args: argparse.Namespace) -> dict[str, Any]:
         "n_tiles": args.n_tiles,
         "text_metrics_every": args.text_metrics_every,
         "text_metrics_max_samples": args.text_metrics_max_samples,
+        "patience": args.patience,
         "resume_from": args.resume,
     }
+    if args.no_early_stopping:
+        cfg["early_stopping"] = False
     for key, value in cli_overrides.items():
         if value is not None:
             cfg[key] = value
@@ -109,10 +112,14 @@ def build_run_config(args: argparse.Namespace) -> dict[str, Any]:
 
 
 def _latest_checkpoint(output_dir: Path) -> str | None:
-    """Newest ``step_*.pt`` in ``output_dir`` (falls back to ``best_model.pt``)."""
-    steps = sorted(output_dir.glob("step_*.pt"), key=lambda p: p.stat().st_mtime)
-    if steps:
-        return str(steps[-1])
+    """Newest resumable checkpoint: prefer the most recently modified of
+    ``last_model.pt`` / ``step_*.pt``, then fall back to ``best_model.pt``."""
+    cands = list(output_dir.glob("step_*.pt"))
+    last = output_dir / "last_model.pt"
+    if last.exists():
+        cands.append(last)
+    if cands:
+        return str(max(cands, key=lambda p: p.stat().st_mtime))
     best = output_dir / "best_model.pt"
     return str(best) if best.exists() else None
 
@@ -142,6 +149,13 @@ def _parser() -> argparse.ArgumentParser:
     p.add_argument("--text-metrics-max-samples", type=int, default=None, dest="text_metrics_max_samples",
                    help="Cap the per-epoch text-metric generation to a seeded N-sample "
                         "subset of val (0 = full val). The final `evaluate` still scores all.")
+    p.add_argument("--no-early-stopping", action="store_true", dest="no_early_stopping",
+                   help="Disable val-loss early stopping. Recommended for bridge training: "
+                        "teacher-forced CE bottoms out in ~1 epoch while greedy-decode CIDEr "
+                        "keeps climbing for many more.")
+    p.add_argument("--patience", type=int, default=None,
+                   help="Early-stopping patience (evals without val-loss improvement). "
+                        "Ignored when --no-early-stopping is set.")
     p.add_argument("--split-dir", default=None, dest="split_dir",
                    help="Use data/splits/{train,val,test}.jsonl (final-plan grouped split) "
                         "instead of a random split of the raw CSV.")

@@ -79,10 +79,10 @@ def expa_worker(bridge: str, seed: int, branch: str, resume_ds: str | None, epoc
         _code(resume_cp),
         _code(f"!python -m src.cli.train --bridge {bridge} --split-dir data/splits --seed {seed} "
               f"--epochs {epochs} --batch-size 8 --grad-accum 1 --eval-steps 800 --save-steps 800 "
-              f"--text-metrics-every 2 --text-metrics-max-samples 1000 "
+              f"--no-early-stopping --text-metrics-every 2 --text-metrics-max-samples 800 "
               f"--output-dir {ck} --resume"),
         _code(f"!python -m src.cli.evaluate --bridge {bridge} --split-dir data/splits --split val "
-              f"--checkpoint {ck}/{bridge}/best_model.pt"),
+              f"--checkpoint {ck}/{bridge}/last_model.pt"),
         _code(f"!mkdir -p /kaggle/working/out && cp -r {ck} /kaggle/working/out/ && "
               f"cp -r data/splits /kaggle/working/out/ 2>/dev/null; ls -R /kaggle/working/out | tail -20"),
     ]
@@ -134,10 +134,11 @@ def cmd_bundle(args) -> None:
     d.mkdir(parents=True, exist_ok=True)
     got = []
     for b in bridges:
-        src = ROOT / "checkpoints" / "expA" / f"seed{seed}" / b / "best_model.pt"
+        bdir = ROOT / "checkpoints" / "expA" / f"seed{seed}" / b
+        src = bdir / "last_model.pt" if (bdir / "last_model.pt").exists() else bdir / "best_model.pt"
         if src.exists():
             (d / b).mkdir(exist_ok=True)
-            (d / b / "best_model.pt").write_bytes(src.read_bytes())   # <bridge>/best_model.pt
+            (d / b / "best_model.pt").write_bytes(src.read_bytes())   # oracle expects <bridge>/best_model.pt
             got.append(b)
     if not got:
         raise SystemExit("no checkpoints in checkpoints/expA — run `poll` first")
@@ -344,7 +345,9 @@ def main() -> None:
     lp = sub.add_parser("launch")
     lp.add_argument("phase", choices=["expa", "oracle", "fiq"])
     lp.add_argument("--seed", default="42", help="expa: comma list e.g. 43,44")
-    lp.add_argument("--epochs", type=int, default=10)
+    lp.add_argument("--epochs", type=int, default=5,
+                    help="expa: ~1.5h/epoch/bridge on P100; 5 fits the 12h kernel cap with "
+                         "headroom for the final full-val eval. Resume top-3 later for more.")
     lp.add_argument("--shards", type=int, default=5)
     lp.add_argument("--split", default="train", help="oracle: train|val|test")
     lp.add_argument("--subset", type=int, default=7500)
@@ -358,7 +361,7 @@ def main() -> None:
     bp = sub.add_parser("bundle"); bp.add_argument("--seed", type=int, default=42)
     bp.add_argument("--bridges", default=""); bp.set_defaults(fn=cmd_bundle)
 
-    rp = sub.add_parser("resume"); rp.add_argument("job"); rp.add_argument("--epochs", type=int, default=10)
+    rp = sub.add_parser("resume"); rp.add_argument("job"); rp.add_argument("--epochs", type=int, default=5)
     rp.set_defaults(fn=cmd_resume)
     args = p.parse_args()
     args.fn(args)

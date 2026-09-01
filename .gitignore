@@ -222,10 +222,13 @@ ref/
 # Include source data modules
 !src/data/
 
-# Training artifacts — checkpoints local-only except Exp A results
+# Training artifacts — checkpoints local-only. For Exp A we version the eval
+# outputs / metrics / summaries but NOT the weight files (150+ MB each): those
+# live on disk here and on the Kaggle `mvlm-expa-ckpt` dataset.
 /checkpoints/*
 !/checkpoints/expA/
-/checkpoints/expA/**/optimizer_state*
+/checkpoints/expA/**/*.pt
+/checkpoints/router/*.pt
 /logs/
 
 # outputs/: keep results, ignore bulky/transient working dirs

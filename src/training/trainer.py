@@ -881,6 +881,21 @@ class BridgeTrainer:
         if not is_best:
             self._cleanup_old_checkpoints(path)
     
+    def save_checkpoint_as(self, filename: str):
+        """Save the current state under a fixed filename (no cleanup, no best tracking)."""
+        checkpoint = {
+            'epoch': self.current_epoch,
+            'global_step': self.global_step,
+            'bridge_state': self.model.bridge.state_dict(),
+            'optimizer_state': self.optimizer.state_dict(),
+            'scheduler_state': self.scheduler.state_dict(),
+            'best_val_loss': self.best_val_loss,
+            'early_stop_counter': self.early_stop_counter,
+        }
+        path = os.path.join(self.config.output_dir, filename)
+        torch.save(checkpoint, path)
+        logger.info(f"✓ Saved checkpoint: {path}")
+
     def _cleanup_old_checkpoints(self, new_checkpoint_path: str, keep_last_n: int = 1):
         """Keep only the N most recent checkpoints (besides best_model.pt)."""
         try:
@@ -1474,6 +1489,11 @@ class BridgeTrainer:
                     self.best_val_loss = val_loss
                     self.early_stop_counter = 0
                 self.save_checkpoint(is_best=is_best)
+                # Also keep an unconditional 'last_model.pt'. Val cross-entropy
+                # bottoms out within ~1 epoch on this task while greedy-decode
+                # CIDEr keeps rising, so best_model.pt (lowest val loss) is often
+                # under-trained; evaluate the last epoch instead.
+                self.save_checkpoint_as("last_model.pt")
 
                 # Show sample inference
                 self._sample_inference(epoch, num_samples=3)

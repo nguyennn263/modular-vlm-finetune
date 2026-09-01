@@ -41,7 +41,7 @@ def _rows(split_dir: str, name: str, limit: int | None):
     from src.data.split import load_split  # env-aware; category in metadata
 
     samples = load_split(name, split_dir)
-    if limit:
+    if limit is not None:
         samples = samples[:limit]
     return [(s.question, s.metadata["category"]) for s in samples]
 
@@ -57,8 +57,9 @@ def _segmenter(mode: str):
 
 
 def run(args: argparse.Namespace) -> dict:
-    tr_rows = _rows(args.split_dir, "train", args.limit)
-    va_rows = _rows(args.split_dir, "val", (args.limit // 5) if args.limit else None)
+    lim = None if args.limit is None else max(1, int(args.limit))
+    tr_rows = _rows(args.split_dir, "train", lim)
+    va_rows = _rows(args.split_dir, "val", None if lim is None else max(1, lim // 5))
     print(f"[data] train={len(tr_rows)} val={len(va_rows)}")
     print("[train dist] " + str(Counter(c for _, c in tr_rows)))
     if args.dry_run:

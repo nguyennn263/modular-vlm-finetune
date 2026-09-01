@@ -63,7 +63,15 @@ def run(args: argparse.Namespace) -> None:
             m["sample_id"] = m["image_id"].astype(str) + "::" + m["question"]
             meta = m.drop_duplicates("sample_id").set_index("sample_id")[keep]
 
-    proj = None
+    outdir = repo_root() / args.out
+    outdir.mkdir(parents=True, exist_ok=True)
+    pca_path = outdir / "pca.npz"
+    proj = mean = None
+    if args.pca and pca_path.exists():
+        z = np.load(pca_path)
+        proj, mean = z["proj"], z["mean"]
+        print(f"[fiq] loaded PCA basis {proj.shape} from {pca_path}")
+
     for split in splits:
         samples = load_split(split, args.split_dir)
         ids = [f"{(s.metadata or {}).get('image_id')}::{s.question}" for s in samples]
@@ -78,11 +86,12 @@ def run(args: argparse.Namespace) -> None:
         cls = np.concatenate(feats)  # (N, 1024)
 
         if args.pca:
-            if proj is None:  # fit once on the first (train) split
-                cls_c = cls - cls.mean(0)
-                _, _, vt = np.linalg.svd(cls_c, full_matrices=False)
-                proj = vt[: args.pca].T
+            if proj is None:  # fit once (on the first split seen, normally train) then persist
                 mean = cls.mean(0)
+                _, _, vt = np.linalg.svd(cls - mean, full_matrices=False)
+                proj = vt[: args.pca].T
+                np.savez(pca_path, proj=proj, mean=mean)
+                print(f"[fiq] fit PCA basis {proj.shape} on '{split}' -> {pca_path}")
             cls = (cls - mean) @ proj
 
         df = pd.DataFrame(cls, columns=[f"f{j}" for j in range(cls.shape[1])])
@@ -93,10 +102,8 @@ def run(args: argparse.Namespace) -> None:
             df[[c for c in meta.columns]] = df[[c for c in meta.columns]].fillna(0.0)
 
         df = df.drop_duplicates("sample_id").reset_index(drop=True)
-        out = repo_root() / args.out
-        out.mkdir(parents=True, exist_ok=True)
-        df.to_parquet(out / f"{split}.parquet", index=False)
-        print(f"[fiq] {split}: {df.shape} -> {out}/{split}.parquet")
+        df.to_parquet(outdir / f"{split}.parquet", index=False)
+        print(f"[fiq] {split}: {df.shape} -> {outdir}/{split}.parquet")
 
 
 def main(argv: list[str] | None = None) -> None:

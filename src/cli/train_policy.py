@@ -95,14 +95,23 @@ def run(args: argparse.Namespace) -> dict:
         return DataLoader(TensorDataset(*tensors), batch_size=args.batch_size, shuffle=shuffle)
 
     train_dl = loader(X_prq, X_lam, X_fiq, y, True)
+
+    val_features = args.val_features
+    if args.features and not val_features:  # mirror the train split by name
+        val_features = str(args.features).replace("train", "val")
+    val_dl = None
     try:
-        vp, vl, vf, vy, _ = _assemble(args.val_labels, args.val_prq, args.val_features, actions=actions)
+        vp, vl, vf, vy, _ = _assemble(args.val_labels, args.val_prq, val_features, actions=actions)
+    except FileNotFoundError as exc:
+        print(f"[policy] no val set ({exc!r}); reporting train accuracy only")
+    else:
+        if (X_fiq is not None) != (vf is not None):
+            raise SystemExit(
+                f"f(I,Q) mismatch: train fiq={'on' if X_fiq is not None else 'off'} "
+                f"but val fiq={'on' if vf is not None else 'off'} -- pass matching --val-features")
         if args.no_prq:
             vp = np.zeros((len(vy), 0), np.float32)
         val_dl = loader(vp, vl, vf, vy, False)
-    except Exception as exc:  # noqa: BLE001
-        print(f"[policy] no val set ({exc!r}); reporting train accuracy only")
-        val_dl = None
 
     model = PolicyMLP(prq_dim=pdim, visual_dim=vdim,
                       num_actions=len(actions), hidden=args.hidden).to(device)

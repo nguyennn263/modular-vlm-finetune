@@ -260,7 +260,8 @@ def _collect(job: str, j: dict) -> None:
                 if f.is_file():
                     (tgt / f.name).write_bytes(f.read_bytes())
         for sm in dst.rglob("eval_val_samples.jsonl"):
-            t = ROOT / "outputs" / "expA" / j["bridge"]; t.mkdir(parents=True, exist_ok=True)
+            t = ROOT / "outputs" / "expA" / f"seed{j['seed']}" / j["bridge"]
+            t.mkdir(parents=True, exist_ok=True)
             (t / "eval_val_samples.jsonl").write_bytes(sm.read_bytes())
         for sj in dst.rglob("summary.json"):
             try:

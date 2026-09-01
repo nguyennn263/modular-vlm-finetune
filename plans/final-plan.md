@@ -254,7 +254,7 @@ Dải động 1→6: **FLOPs ×6.0, latency ×4.0, throughput ×5.2** — vượ
 
 Code: `src/cli/{oracle,build_fiq,train_router,train_policy}.py`, `src/analysis/oracle.py`, `src/modeling/policy.PolicyMLP`. Logic thuần đã unit-test (14 test). `phase4_oracle_policy.py` nối full. Phần heavy (oracle sweep) chạy sau Exp A.
 
-**Router P(r|Q) — DONE (kernel v10):** PhoBERT-base-v2 + head 8 lớp, class-balanced, pyvi. Val (6k subset, 1 epoch): **macro-F1 = 0.94, accuracy = 0.96**; per-class F1: counting/yesno 1.0, relational 0.99, causal 0.97, context 0.79 (lớp hiếm, 33 mẫu). → `category` **gần như xác định được từ bề mặt câu hỏi** (nhãn do LLM sinh từ chính câu hỏi). Đây là điểm phải nói thẳng trong Method: "cognitive prior" là tín hiệu mạnh nhưng nông — tương đương "question-pattern prior". (Đã ghi ở §10 rủi ro.)
+**Router P(r|Q) — DONE (kernel v11, full VAL):** PhoBERT-base-v2 + head 8 lớp, class-balanced, pyvi, 3 epoch. **macro-F1 = 0.917, accuracy = 0.942** trên toàn VAL (5544). Per-class F1: counting 0.998, yesno 0.98, relational 0.97, causal 0.97 (rất cao — pattern lexical), recognition 0.93, spatial 0.90, action 0.90, **context 0.69** (155 mẫu, lẫn với recognition/spatial/action). → `category` **gần như xác định từ bề mặt câu hỏi** (nhãn do LLM sinh từ chính câu hỏi). Method phải nói thẳng: "cognitive prior" là tín hiệu mạnh nhưng nông — tương đương "question-pattern prior". `prq_{train,val}.parquet` đã sinh (25933 + 5544 dòng).
 
 **Mục tiêu.** Sinh nhãn action tối ưu và huấn luyện một policy.
 

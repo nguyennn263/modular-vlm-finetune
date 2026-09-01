@@ -29,6 +29,7 @@ def _parser() -> argparse.ArgumentParser:
     p.add_argument("--ckpt-dir", default="checkpoints/expA/seed42", dest="ckpt_dir",
                    help="<ckpt-dir>/<bridge>/best_model.pt (tile-augmented bridge preferred)")
     p.add_argument("--seed", type=int, default=42)
+    p.add_argument("--shard", default=None, help="I/N — process only shard I of N (0-indexed).")
     p.add_argument("--out", default="outputs/oracle")
     p.add_argument("--dry-run", action="store_true")
     return p
@@ -68,9 +69,14 @@ def run(args: argparse.Namespace) -> None:
     bridge_cfgs = {b: load_config(repo_root() / "configs" / "bridges" / f"{b}.yaml") for b in bridges}
 
     samples = _stratified_subset(load_split(args.split, args.split_dir), args.subset, args.seed)
+    out_name = "table.parquet"
+    if args.shard:
+        i, nsh = (int(x) for x in args.shard.split("/"))
+        samples = samples[i::nsh]                       # deterministic strided shard
+        out_name = f"table.shard{i}of{nsh}.parquet"
     sample_id = [f"{(s.metadata or {}).get('image_id')}::{s.question}" for s in samples]
     print(f"[oracle] {len(samples)} samples x {len(n_tiles)} n_tiles x {len(bridges)} bridges "
-          f"= {len(samples) * len(n_tiles) * len(bridges)} generate() calls")
+          f"= {len(samples) * len(n_tiles) * len(bridges)} generate() calls  (shard={args.shard})")
     if args.dry_run:
         return
 
@@ -102,9 +108,12 @@ def run(args: argparse.Namespace) -> None:
     table = pd.DataFrame(rows)
     out = repo_root() / args.out
     out.mkdir(parents=True, exist_ok=True)
-    table.to_parquet(out / "table.parquet", index=False)
-    oracle_labels(table).to_parquet(out / "labels.parquet", index=False)
-    print(f"[oracle] {len(table)} rows -> {out}/table.parquet + labels.parquet")
+    table.to_parquet(out / out_name, index=False)
+    if not args.shard:                       # full run -> also emit labels
+        oracle_labels(table).to_parquet(out / "labels.parquet", index=False)
+        print(f"[oracle] {len(table)} rows -> {out}/table.parquet + labels.parquet")
+    else:
+        print(f"[oracle] {len(table)} rows -> {out}/{out_name}  (merge shards with src.analysis.merge)")
 
 
 def _read_per_sample_cider(results_root: Path) -> list[float]:

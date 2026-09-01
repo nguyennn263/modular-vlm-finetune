@@ -78,6 +78,7 @@ def main(argv: list[str] | None = None) -> None:
                                     low_cpu_mem_usage=False, trust_remote_code=True).eval().to(device)
     model = create_finetune_model(base, bridge_type=args.bridge, bridge_config={}).eval().to(device)
     dtype = next(model.vision_model.parameters()).dtype
+    model.bridge = model.bridge.to(device=device, dtype=dtype)  # match the frozen stack (trainer does this)
 
     img_paths = _sample_image_paths(args.images_from, args.samples)
     text_emb = model.language_model.model.embed_tokens(

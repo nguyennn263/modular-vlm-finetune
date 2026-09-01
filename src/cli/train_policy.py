@@ -25,6 +25,8 @@ def _parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="python -m src.cli.train_policy", description=__doc__)
     p.add_argument("--labels", default="outputs/oracle/labels.parquet")
     p.add_argument("--prq", default="outputs/router/prq_train.parquet")
+    p.add_argument("--no-prq", action="store_true", dest="no_prq",
+                   help="Drop P(r|Q) -> visual-state-only ablation arm.")
     p.add_argument("--features", default=None, help="f(I,Q) parquet; omit for reasoning-type-only")
     p.add_argument("--val-labels", default="outputs/oracle/labels_val.parquet", dest="val_labels")
     p.add_argument("--val-prq", default="outputs/router/prq_val.parquet", dest="val_prq")
@@ -76,6 +78,9 @@ def run(args: argparse.Namespace) -> dict:
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     vdim = X_fiq.shape[1] if X_fiq is not None else 0
+    pdim = 0 if args.no_prq else len(CATEGORIES)
+    if args.no_prq:
+        X_prq = np.zeros((len(y), 0), np.float32)
 
     def loader(Xp, Xl, Xf, yy, shuffle):
         tensors = [torch.tensor(Xp), torch.tensor(Xl)]
@@ -86,23 +91,28 @@ def run(args: argparse.Namespace) -> dict:
     train_dl = loader(X_prq, X_lam, X_fiq, y, True)
     try:
         vp, vl, vf, vy, _ = _assemble(args.val_labels, args.val_prq, args.val_features)
+        if args.no_prq:
+            vp = np.zeros((len(vy), 0), np.float32)
         val_dl = loader(vp, vl, vf, vy, False)
     except Exception as exc:  # noqa: BLE001
         print(f"[policy] no val set ({exc!r}); reporting train accuracy only")
         val_dl = None
 
-    model = PolicyMLP(prq_dim=len(CATEGORIES), visual_dim=vdim,
+    model = PolicyMLP(prq_dim=pdim, visual_dim=vdim,
                       num_actions=len(actions), hidden=args.hidden).to(device)
     opt = torch.optim.AdamW(model.parameters(), lr=args.lr)
     lossf = torch.nn.CrossEntropyLoss()
+
+    def _split(prq, fiq):
+        return (prq.to(device) if pdim else None, fiq.to(device) if vdim else None)
 
     def evaluate(dl):
         model.eval()
         ok = tot = 0
         with torch.no_grad():
             for prq, lam, fiq, yy in dl:
-                fiq = fiq.to(device) if vdim else None
-                logits = model(prq.to(device), lam.to(device), fiq)
+                p, f = _split(prq, fiq)
+                logits = model(p, lam.to(device), f)
                 ok += (logits.argmax(-1).cpu() == yy).sum().item()
                 tot += len(yy)
         return ok / tot
@@ -114,17 +124,19 @@ def run(args: argparse.Namespace) -> dict:
         model.train()
         for prq, lam, fiq, yy in train_dl:
             opt.zero_grad()
-            fiq = fiq.to(device) if vdim else None
-            loss = lossf(model(prq.to(device), lam.to(device), fiq), yy.to(device))
+            p, f = _split(prq, fiq)
+            loss = lossf(model(p, lam.to(device), f), yy.to(device))
             loss.backward()
             opt.step()
         acc = evaluate(val_dl) if val_dl is not None else evaluate(train_dl)
         if acc > best:
             best = acc
             torch.save({"state_dict": model.state_dict(), "actions": actions,
-                        "visual_dim": vdim}, out / "best.pt")
+                        "prq_dim": pdim, "visual_dim": vdim}, out / "best.pt")
     report = {"best_action_accuracy_vs_oracle": round(best, 4), "actions": actions,
-              "n_rows": int(len(y)), "fiq": X_fiq is not None}
+              "arm": ("visual_state_only" if args.no_prq else
+                      "reasoning_type_only" if X_fiq is None else "ours"),
+              "n_rows": int(len(y)), "prq": not args.no_prq, "fiq": X_fiq is not None}
     (out / "metrics.json").write_text(json.dumps(report, indent=2))
     print(f"[policy] best a*-match = {best:.4f} -> {out}")
     return report

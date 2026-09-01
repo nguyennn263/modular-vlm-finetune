@@ -8,6 +8,7 @@ from __future__ import annotations
 import argparse
 import glob
 import json
+import re
 from pathlib import Path
 
 from src.analysis.oracle import oracle_labels
@@ -41,11 +42,14 @@ def merge_expB(in_dir: str) -> None:
         raise SystemExit(f"no eval_val_samples.jsonl under {d}")
     seen, out = set(), []
     for f in files:
+        m = re.search(r"seed(\d+)", f)
+        seed = m.group(1) if m else None
         for line in Path(f).read_text(encoding="utf-8").splitlines():
             if not line.strip():
                 continue
             r = json.loads(line)
-            key = (r.get("bridge"), r.get("image_id"), r.get("question"))
+            r.setdefault("seed", seed)
+            key = (r.get("bridge"), r.get("seed"), r.get("image_id"), r.get("question"))
             if key not in seen:
                 seen.add(key)
                 out.append(r)

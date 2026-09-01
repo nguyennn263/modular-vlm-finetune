@@ -24,7 +24,7 @@ from src.modeling.bridge_modules import (
     MiniQFormer,
     QFormer
 )
-from src.middleware.logger import data_loader_logger as logger
+from src.utils.logging import data_loader_logger as logger
 
 
 BRIDGE_TYPE = Literal[

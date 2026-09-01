@@ -1,6 +1,6 @@
-from .processor import VinternProcessor
-from .dataset import VLMDataset, ConversationDataset
-from .collator import VLMDataCollator
-from .loaders import load_datasets
+"""Data loading. Import submodules explicitly to avoid pulling optional deps.
 
-__all__ = ["VinternProcessor", "VLMDataset", "ConversationDataset", "VLMDataCollator", "load_datasets"]
+    from src.data.loader import UnifiedDataLoader
+    from src.data.collator import create_collate_fn
+    from src.data.environment import EnvironmentDetector
+"""

@@ -9,7 +9,7 @@ from typing import List, Dict, Union
 from tqdm import tqdm
 
 from src.schema.data_schema import OneSample
-from src.middleware.logger import data_loader_logger
+from src.utils.logging import data_loader_logger
 
 
 def load_image_path(image_path: str) -> str:

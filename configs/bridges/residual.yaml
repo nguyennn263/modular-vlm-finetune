@@ -1,0 +1,4 @@
+# Exp 1 — Residual Bridge (baseline linear + residual improvement path).
+bridge_type: residual
+bridge_config: {}
+output_dir: checkpoints/residual

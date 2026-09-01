@@ -1,14 +1,12 @@
-"""
-Training module for fine-tuning Vision-Language models.
-"""
+"""Training: frozen Vintern-1B + trainable bridge."""
 
-from .finetune_setup import create_finetune_model, VisionLanguageBridge
+from .setup import create_finetune_model, VisionLanguageBridge
 from .trainer import BridgeTrainer, BridgeFineTuner, TrainConfig
 
 __all__ = [
-    'create_finetune_model',
-    'VisionLanguageBridge',
-    'BridgeTrainer',
-    'BridgeFineTuner',
-    'TrainConfig',
+    "create_finetune_model",
+    "VisionLanguageBridge",
+    "BridgeTrainer",
+    "BridgeFineTuner",
+    "TrainConfig",
 ]

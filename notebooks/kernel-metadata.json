@@ -1,0 +1,17 @@
+{
+  "id": "nguyennn263/modular-vlm-finetune",
+  "title": "modular-vlm-finetune",
+  "code_file": "kaggle_runner.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_tpu": false,
+  "enable_internet": true,
+  "dataset_sources": [
+    "nguynrichard/auto-vqabest"
+  ],
+  "competition_sources": [],
+  "kernel_sources": [],
+  "model_sources": []
+}

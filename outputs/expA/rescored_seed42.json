@@ -1,0 +1,81 @@
+{
+  "seed": 42,
+  "metric": "corpus CIDEr-D (metrics/cider)",
+  "bridges": {
+    "mini_qformer": {
+      "cider_corpus": 0.84,
+      "n": 5463,
+      "by_category": {
+        "?": 0.84,
+        "action": 0.39,
+        "causal": 0.37,
+        "context": 0.42,
+        "counting": 1.09,
+        "recognition": 0.66,
+        "relational": 1.14,
+        "spatial": 0.66,
+        "yesno": 1.19
+      }
+    },
+    "multi_token": {
+      "cider_corpus": 0.94,
+      "n": 5463,
+      "by_category": {
+        "?": 0.94,
+        "action": 0.47,
+        "causal": 0.49,
+        "context": 0.44,
+        "counting": 1.22,
+        "recognition": 0.84,
+        "relational": 1.27,
+        "spatial": 0.74,
+        "yesno": 1.19
+      }
+    },
+    "qformer": {
+      "cider_corpus": 0.87,
+      "n": 5463,
+      "by_category": {
+        "?": 0.87,
+        "action": 0.44,
+        "causal": 0.4,
+        "context": 0.3,
+        "counting": 1.2,
+        "recognition": 0.7,
+        "relational": 1.19,
+        "spatial": 0.66,
+        "yesno": 0.82
+      }
+    },
+    "residual": {
+      "cider_corpus": 0.56,
+      "n": 5463,
+      "by_category": {
+        "?": 0.56,
+        "action": 0.3,
+        "causal": 0.19,
+        "context": 0.35,
+        "counting": 0.81,
+        "recognition": 0.58,
+        "relational": 0.76,
+        "spatial": 0.4,
+        "yesno": 0.83
+      }
+    },
+    "tile_attention": {
+      "cider_corpus": 0.83,
+      "n": 5463,
+      "by_category": {
+        "?": 0.83,
+        "action": 0.42,
+        "causal": 0.4,
+        "context": 0.22,
+        "counting": 1.11,
+        "recognition": 0.71,
+        "relational": 1.15,
+        "spatial": 0.56,
+        "yesno": 0.86
+      }
+    }
+  }
+}

@@ -46,6 +46,13 @@
       "status": "running",
       "pushed_at": "2026-09-01T19:52:01",
       "collected": false
+    },
+    "fiq:all": {
+      "account": "acc4",
+      "kernel": "nguyennn251/mvlm-fiq",
+      "status": "done",
+      "pushed_at": "2026-09-02T05:51:16",
+      "collected": true
     }
   }
 }

@@ -28,7 +28,40 @@ Chạy 5-account song song qua `scripts/parallel/run.py` (ledger: `outputs/paral
 ### ⚠️ Quota
 Wave 1 đốt ~12h/account (acc1/2/3/5). + wave 1b ~9h → ~21h/30h tuần này. Oracle sweep cần ~8h/account nữa → **có thể phải chờ Kaggle reset quota tuần** trước khi chạy oracle.
 
-### Còn lại: Exp B → oracle (train/val/test) → policy ×3 → eval_ladder → human eval → viết P6.
+### Exp A wave 1b — ✅ XONG (5 bridge, seed 42, n_tiles=1, distillation cũ)
+val CIDEr (corpus CIDEr-D, `scripts/rescore_expA.py`): multi_token 0.94 > qformer 0.87 > mini_qformer 0.84 > tile_attention 0.83 >> residual 0.56. Khớp bảng cũ (99.88 = ×100 convention, split cũ leak).
+
+### Exp B (P3) — ✅ XONG: **KHÔNG có bridge fork** ở n_tiles=1
+multi_token thắng cả 8 category (`outputs/expB/`). Nhưng regime n_tiles=1 không đánh giá được tile_attention/qformer. → action space giữ 2 bridge: **multi_token + tile_attention**, cả 2 retrain với `--tile-choices 1,3,6`. `configs/action_space.yaml` đã cập nhật (|A| = 6).
+
+### Bug fixes (no GPU, đã push)
+- `distillation` OFF mặc định — "CE explosion" là MSE term chỉ áp cho residual/multi_token (confound Exp B). `54de7fa`.
+- `_collect()` chỉ lấy file từ `out/seed<S>/<bridge>/`, bỏ qua `repo/` clone. `d45befc`.
+- `--tile-choices`, `--distillation`, `--answer-sampling`, `--no-early-stopping`, `--patience` thêm vào train CLI.
+- oracle.py dùng `last_model.pt`.
+
+### CHỜ QUOTA RESET (~2-4 ngày). Lệnh sẵn sàng:
+```
+# 1. retrain 2 bridge tile-aware (2 kernel, ~8h/kernel, distillation off)
+python scripts/parallel/run.py launch expa --bridges multi_token,tile_attention --tiles 1,3,6 --epochs 3
+python scripts/parallel/run.py poll     # -> checkpoints/expA-tiled/seed42/
+
+# 2. bundle + oracle sweep  A = 6 action (2 bridge x 3 n_tiles)
+python scripts/parallel/run.py bundle --bridges multi_token,tile_attention   # (sửa cmd_bundle -> expA-tiled)
+python scripts/parallel/run.py launch oracle --split val  --shards 5 --bridges multi_token,tile_attention
+python scripts/parallel/run.py launch oracle --split test --shards 5 --bridges multi_token,tile_attention
+python scripts/parallel/run.py launch oracle --split train --shards 5 --bridges multi_token,tile_attention --subset 6000
+python -m src.analysis.merge oracle --in outputs/oracle_val   # + _test + _train
+
+# 3. policy x3 arms (máy này, ~15p) + ladder
+python -m src.cli.train_policy --labels outputs/oracle_train/labels.parquet --prq outputs/router/prq_train.parquet --features outputs/fiq/train.parquet
+python -m src.cli.train_policy ... --no-prq            # visual_only
+python -m src.cli.train_policy ... (bỏ --features)     # rt_only
+python -m src.cli.eval_ladder --oracle outputs/oracle_test/table.parquet --prq outputs/router/prq_test.parquet --fiq outputs/fiq/test.parquet --policies ours=...,rt_only=...,visual_only=...
+```
+TODO trước khi chạy oracle: sửa `cmd_bundle` để đọc `checkpoints/expA-tiled/`; kiểm tra oracle_worker copy vào `checkpoints/expA-tiled/seed42/`.
+
+### Sau đó: human validation (~300-500 mẫu, 2 người, κ) + error analysis + P6.
 
 ---
 

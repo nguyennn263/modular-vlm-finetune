@@ -1,52 +1,5 @@
 {
   "jobs": {
-    "expa:residual:s42": {
-      "account": "acc1",
-      "kernel": "nguyennn263/mvlm-expa-residual-s42",
-      "bridge": "residual",
-      "seed": 42,
-      "status": "running",
-      "pushed_at": "2026-09-01T19:51:54",
-      "collected": false
-    },
-    "expa:multi_token:s42": {
-      "account": "acc2",
-      "kernel": "nguyennn2501/mvlm-expa-multi-token-s42",
-      "bridge": "multi_token",
-      "seed": 42,
-      "status": "running",
-      "pushed_at": "2026-09-01T19:51:55",
-      "collected": false
-    },
-    "expa:tile_attention:s42": {
-      "account": "acc3",
-      "kernel": "nguyennn2603/mvlm-expa-tile-attention-s42",
-      "bridge": "tile_attention",
-      "seed": 42,
-      "status": "running",
-      "pushed_at": "2026-09-01T19:51:57",
-      "collected": false
-    },
-    "expa:mini_qformer:s42": {
-      "account": "acc4",
-      "kernel": "nguyennn251/mvlm-expa-mini-qformer-s42",
-      "bridge": "mini_qformer",
-      "seed": 42,
-      "status": "done",
-      "pushed_at": "2026-09-01T19:51:59",
-      "collected": true,
-      "epochs_trained": 10,
-      "best_val_loss": 1.6424695657617259
-    },
-    "expa:qformer:s42": {
-      "account": "acc5",
-      "kernel": "nguyennguyen263/mvlm-expa-qformer-s42",
-      "bridge": "qformer",
-      "seed": 42,
-      "status": "running",
-      "pushed_at": "2026-09-01T19:52:01",
-      "collected": false
-    },
     "fiq:all": {
       "account": "acc4",
       "kernel": "nguyennn251/mvlm-fiq",

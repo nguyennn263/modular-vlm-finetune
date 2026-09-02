@@ -345,9 +345,10 @@ def main() -> None:
     lp = sub.add_parser("launch")
     lp.add_argument("phase", choices=["expa", "oracle", "fiq"])
     lp.add_argument("--seed", default="42", help="expa: comma list e.g. 43,44")
-    lp.add_argument("--epochs", type=int, default=5,
-                    help="expa: ~1.5h/epoch/bridge on P100; 5 fits the 12h kernel cap with "
-                         "headroom for the final full-val eval. Resume top-3 later for more.")
+    lp.add_argument("--epochs", type=int, default=4,
+                    help="expa: ~1.5-1.7h/epoch/bridge on P100 + ~2h final full-val eval. "
+                         "4 keeps even qformer comfortably under the 12h Kaggle cap (a CANCEL "
+                         "at 12h persists NOTHING). Resume top-3 later with --epochs 8 for more.")
     lp.add_argument("--shards", type=int, default=5)
     lp.add_argument("--split", default="train", help="oracle: train|val|test")
     lp.add_argument("--subset", type=int, default=7500)

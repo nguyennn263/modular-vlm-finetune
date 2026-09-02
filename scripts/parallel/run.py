@@ -72,6 +72,10 @@ def expa_worker(bridge: str, seed: int, branch: str, resume_ds: str | None, epoc
     resume_cp = (f"!mkdir -p {ck}/{bridge} && cp /kaggle/input/{resume_ds.split('/')[-1]}/* "
                  f"{ck}/{bridge}/ 2>/dev/null && echo RESUMED || echo FRESH") if resume_ds else "print('FRESH')"
     tc = f"--tile-choices {tile_choices} " if tile_choices else ""
+    # tile augmentation makes each step ~3x slower (avg InternViT tiles). Fewer
+    # mid-training val passes + a checkpoint every ~half epoch keeps the whole
+    # kernel well under the 12h Kaggle cap (a CANCEL there persists nothing).
+    step = 3000 if tile_choices else 800
     return [
         _code("import os",
               "os.chdir('/kaggle/working')",
@@ -82,8 +86,8 @@ def expa_worker(bridge: str, seed: int, branch: str, resume_ds: str | None, epoc
         _code("!python scripts/phase0_build_data.py 2>&1 | tail -6"),
         _code(resume_cp),
         _code(f"!python -m src.cli.train --bridge {bridge} --split-dir data/splits --seed {seed} "
-              f"--epochs {epochs} --batch-size 8 --grad-accum 1 --eval-steps 800 --save-steps 800 "
-              f"--no-early-stopping --text-metrics-every 2 --text-metrics-max-samples 800 "
+              f"--epochs {epochs} --batch-size 8 --grad-accum 1 --eval-steps {step} --save-steps {step} "
+              f"--no-early-stopping --text-metrics-every 2 --text-metrics-max-samples 600 "
               f"{tc}--output-dir {ck} --resume"),
         _code(f"!python -m src.cli.evaluate --bridge {bridge} --split-dir data/splits --split val "
               f"--checkpoint {ck}/{bridge}/last_model.pt"),
@@ -370,9 +374,9 @@ def main() -> None:
     lp.add_argument("phase", choices=["expa", "oracle", "fiq"])
     lp.add_argument("--seed", default="42", help="expa: comma list e.g. 43,44")
     lp.add_argument("--epochs", type=int, default=4,
-                    help="expa: ~1.5-1.7h/epoch/bridge on P100 + ~2h final full-val eval. "
-                         "4 keeps even qformer comfortably under the 12h Kaggle cap (a CANCEL "
-                         "at 12h persists NOTHING). Resume top-3 later with --epochs 8 for more.")
+                    help="expa n_tiles=1: 4 epochs ~10h. expa --tiles (each step ~3x slower): "
+                         "use 2 — CIDEr plateaus by epoch 2 and 2 keeps qformer under 12h. "
+                         "A CANCEL at the 12h cap persists NOTHING.")
     lp.add_argument("--shards", type=int, default=5)
     lp.add_argument("--split", default="train", help="oracle: train|val|test")
     lp.add_argument("--subset", type=int, default=7500)

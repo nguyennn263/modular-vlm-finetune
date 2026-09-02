@@ -188,6 +188,8 @@ def _register(led, job, acc, kid, extra):
 def cmd_launch(args) -> None:
     led = load_ledger()
     branch = _current_branch()
+    pool = [a.strip() for a in args.accounts.split(",")] if args.accounts else ACCOUNTS
+    print(f"[launch] account pool: {pool}")
 
     if args.phase == "expa":
         seeds = [int(s) for s in str(args.seed).split(",")]
@@ -195,7 +197,7 @@ def cmd_launch(args) -> None:
         combos = [(b, s) for s in seeds for b in blist]
         tag = "-tiled" if args.tiles else ""
         for i, (bridge, seed) in enumerate(combos):
-            acc = ACCOUNTS[i % len(ACCOUNTS)]
+            acc = pool[i % len(pool)]
             job = f"expa{tag}:{bridge}:s{seed}"
             if led["jobs"].get(job, {}).get("status") not in (None, "failed", "error", "incomplete"):
                 print(f"[skip] {job} = {led['jobs'][job]['status']}")
@@ -206,10 +208,10 @@ def cmd_launch(args) -> None:
             _register(led, job, acc, kid, {"bridge": bridge, "seed": seed, "tiles": args.tiles})
 
     elif args.phase == "oracle":
-        ds = f"{_user('acc1')}/mvlm-expa-ckpt"
+        ds = args.ckpt_ds or f"{_user(args.bundle_acc)}/mvlm-expa-ckpt"
         n = args.shards
         for i in range(n):
-            acc = ACCOUNTS[i % len(ACCOUNTS)]
+            acc = pool[i % len(pool)]
             job = f"oracle:{args.split}:shard{i}of{n}"
             if led["jobs"].get(job, {}).get("status") not in (None, "failed", "error", "incomplete"):
                 print(f"[skip] {job} = {led['jobs'][job]['status']}")
@@ -378,6 +380,12 @@ def main() -> None:
                     help="expa/oracle: comma list of bridges (expa default = all 5)")
     lp.add_argument("--tiles", default=None,
                     help="expa: '1,3,6' -> tile-count-augmented retrain (checkpoints/expA-tiled/)")
+    lp.add_argument("--accounts", default=None,
+                    help="comma list e.g. acc6,acc7 — restrict the account pool (default: all)")
+    lp.add_argument("--ckpt-ds", default=None, dest="ckpt_ds",
+                    help="oracle: override the checkpoint dataset id (user/slug)")
+    lp.add_argument("--bundle-acc", default="acc1", dest="bundle_acc",
+                    help="oracle: account whose user owns mvlm-expa-ckpt (default acc1)")
     lp.add_argument("--account", default=None)
     lp.set_defaults(fn=cmd_launch)
 

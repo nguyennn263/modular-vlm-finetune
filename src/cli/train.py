@@ -88,6 +88,7 @@ def build_run_config(args: argparse.Namespace) -> dict[str, Any]:
         "text_metrics_every": args.text_metrics_every,
         "text_metrics_max_samples": args.text_metrics_max_samples,
         "patience": args.patience,
+        "answer_sampling": args.answer_sampling,
         "resume_from": args.resume,
     }
     if args.no_early_stopping:
@@ -156,6 +157,10 @@ def _parser() -> argparse.ArgumentParser:
     p.add_argument("--patience", type=int, default=None,
                    help="Early-stopping patience (evals without val-loss improvement). "
                         "Ignored when --no-early-stopping is set.")
+    p.add_argument("--answer-sampling", choices=["first", "random", "majority"], default=None,
+                   dest="answer_sampling",
+                   help="Training target among a sample's ~5 references: first (default), "
+                        "random (per-batch paraphrase augmentation), majority.")
     p.add_argument("--split-dir", default=None, dest="split_dir",
                    help="Use data/splits/{train,val,test}.jsonl (final-plan grouped split) "
                         "instead of a random split of the raw CSV.")
@@ -235,6 +240,7 @@ def run(cfg: dict[str, Any]) -> None:
         save_best=cfg["save_best"],
         n_tiles=cfg.get("n_tiles") or 1,
         tile_choices=cfg.get("tile_choices"),
+        answer_sampling=cfg.get("answer_sampling") or "first",
         text_metrics_every=cfg.get("text_metrics_every") or 1,
         text_metrics_max_samples=cfg.get("text_metrics_max_samples") or 0,
         resume_from=cfg.get("resume_from"),

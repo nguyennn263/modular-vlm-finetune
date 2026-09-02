@@ -161,6 +161,11 @@ class TrainConfig:
     n_tiles: int = 1
     tile_choices: Optional[List[int]] = None
 
+    # Which of a sample's ~5 references to use as the training target each batch:
+    # "first" (default, deterministic) | "random" (per-batch paraphrase augmentation,
+    # aligns with the multi-reference eval) | "majority".
+    answer_sampling: str = "first"
+
     # Per-epoch text-metric generation cost control. Defaults reproduce the old
     # behaviour (generate on the full val set every epoch). Raise `every` and/or
     # cap `max_samples` to cut the dominant wall-clock cost on slow GPUs; the
@@ -251,6 +256,7 @@ class BridgeTrainer:
                     image_size=(336, 336),
                     n_tiles=getattr(config, "n_tiles", 1),
                     tile_choices=getattr(config, "tile_choices", None),
+                    answer_sampling=getattr(config, "answer_sampling", "first"),
                     max_length=256  # Reduced from default 512
                 )
         

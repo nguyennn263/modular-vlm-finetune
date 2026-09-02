@@ -1,0 +1,9 @@
+category,mini_qformer,multi_token,qformer,residual,tile_attention
+relational,1.32,1.44,1.34,0.99,1.31
+recognition,0.64,0.75,0.67,0.57,0.65
+spatial,0.77,0.92,0.79,0.47,0.72
+causal,0.40,0.46,0.42,0.29,0.42
+action,0.49,0.53,0.50,0.37,0.50
+counting,1.10,1.21,1.17,0.80,1.11
+context,0.43,0.52,0.48,0.46,0.42
+yesno,0.88,1.00,0.81,0.77,0.77

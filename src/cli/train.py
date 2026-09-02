@@ -93,6 +93,8 @@ def build_run_config(args: argparse.Namespace) -> dict[str, Any]:
     }
     if args.distillation:
         cfg["distillation"] = True
+    if args.tile_choices:
+        cfg["tile_choices"] = [int(x) for x in str(args.tile_choices).split(",") if x.strip()]
     if args.no_early_stopping:
         cfg["early_stopping"] = False
     for key, value in cli_overrides.items():
@@ -146,6 +148,9 @@ def _parser() -> argparse.ArgumentParser:
     p.add_argument("--seed", type=int, default=None)
     p.add_argument("--n-tiles", type=int, default=None, dest="n_tiles",
                    help="Visual budget: InternViT tiles per image (1 = single 336px image).")
+    p.add_argument("--tile-choices", default=None, dest="tile_choices",
+                   help="Comma list e.g. '1,3,6' — per-batch random tile count "
+                        "(tile-count augmentation, for a bridge the oracle sweeps over n_tiles).")
     p.add_argument("--text-metrics-every", type=int, default=None, dest="text_metrics_every",
                    help="Generate val text metrics (CIDEr/BLEU/...) every N epochs (default 1). "
                         "The last epoch always runs regardless.")

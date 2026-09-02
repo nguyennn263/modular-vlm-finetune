@@ -9,7 +9,12 @@
 # => n_tiles is a real compute lever (>> the 15% threshold). Keep it primary.
 
 n_tiles: [1, 3, 6]          # InternViT forward count — PRIMARY compute lever (P1 confirmed)
-bridges: []                 # top-3 from Exp B fork (P3); e.g. [residual, mini_qformer, qformer]
+# Exp B (P3) at n_tiles=1: NO bridge fork — multi_token best in all 8 categories.
+# That regime can't judge tile_attention/qformer (they need >1 tile to attend over),
+# so the oracle keeps 2 bridges, both retrained with --tile-choices 1,3,6:
+#   multi_token    — Exp B winner
+#   tile_attention — designed for multi-tile input; disadvantaged at n_tiles=1
+bridges: [multi_token, tile_attention]   # |A| = 3 n_tiles x 2 bridges = 6
 
 lambda_grid: [0.0, 0.05, 0.1, 0.2, 0.4, 0.7, 1.0]   # oracle utility-cost sweep
 

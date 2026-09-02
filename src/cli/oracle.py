@@ -86,9 +86,10 @@ def run(args: argparse.Namespace) -> None:
                                         low_cpu_mem_usage=False, trust_remote_code=True).eval()
         model = create_finetune_model(base, bridge_type=bridge_cfgs[b]["bridge_type"],
                                       bridge_config=bridge_cfgs[b].get("bridge_config") or {})
-        ckpt_path = Path(args.ckpt_dir) / b / "best_model.pt"
-        if not ckpt_path.is_absolute():
-            ckpt_path = repo_root() / ckpt_path
+        bdir = Path(args.ckpt_dir) / b
+        if not bdir.is_absolute():
+            bdir = repo_root() / bdir
+        ckpt_path = bdir / "last_model.pt" if (bdir / "last_model.pt").exists() else bdir / "best_model.pt"
         ck = torch.load(ckpt_path, map_location="cpu", weights_only=False)
         model.bridge.load_state_dict(ck.get("bridge_state", ck))
         print(f"[oracle] {b}: loaded {ckpt_path}")

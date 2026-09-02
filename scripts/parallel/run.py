@@ -64,10 +64,12 @@ def _code(*lines: str) -> dict:
     return {"cell_type": "code", "metadata": {}, "execution_count": None, "outputs": [], "source": src}
 
 
-def expa_worker(bridge: str, seed: int, branch: str, resume_ds: str | None, epochs: int) -> list[dict]:
-    ck = f"/kaggle/working/ck/seed{seed}"
+def expa_worker(bridge: str, seed: int, branch: str, resume_ds: str | None, epochs: int,
+                tile_choices: str | None = None) -> list[dict]:
+    ck = f"/kaggle/working/{'ck-tiled' if tile_choices else 'ck'}/seed{seed}"
     resume_cp = (f"!mkdir -p {ck}/{bridge} && cp /kaggle/input/{resume_ds.split('/')[-1]}/* "
                  f"{ck}/{bridge}/ 2>/dev/null && echo RESUMED || echo FRESH") if resume_ds else "print('FRESH')"
+    tc = f"--tile-choices {tile_choices} " if tile_choices else ""
     return [
         _code("import os",
               "os.chdir('/kaggle/working')",
@@ -80,7 +82,7 @@ def expa_worker(bridge: str, seed: int, branch: str, resume_ds: str | None, epoc
         _code(f"!python -m src.cli.train --bridge {bridge} --split-dir data/splits --seed {seed} "
               f"--epochs {epochs} --batch-size 8 --grad-accum 1 --eval-steps 800 --save-steps 800 "
               f"--no-early-stopping --text-metrics-every 2 --text-metrics-max-samples 800 "
-              f"--output-dir {ck} --resume"),
+              f"{tc}--output-dir {ck} --resume"),
         _code(f"!python -m src.cli.evaluate --bridge {bridge} --split-dir data/splits --split val "
               f"--checkpoint {ck}/{bridge}/last_model.pt"),
         _code(f"!mkdir -p /kaggle/working/out && cp -r {ck} /kaggle/working/out/ && "
@@ -186,16 +188,19 @@ def cmd_launch(args) -> None:
 
     if args.phase == "expa":
         seeds = [int(s) for s in str(args.seed).split(",")]
-        combos = [(b, s) for s in seeds for b in BRIDGES]
+        blist = [b.strip() for b in args.bridges.split(",")] if args.bridges != ",".join(BRIDGES) else BRIDGES
+        combos = [(b, s) for s in seeds for b in blist]
+        tag = "-tiled" if args.tiles else ""
         for i, (bridge, seed) in enumerate(combos):
             acc = ACCOUNTS[i % len(ACCOUNTS)]
-            job = f"expa:{bridge}:s{seed}"
+            job = f"expa{tag}:{bridge}:s{seed}"
             if led["jobs"].get(job, {}).get("status") not in (None, "failed", "error", "incomplete"):
                 print(f"[skip] {job} = {led['jobs'][job]['status']}")
                 continue
-            slug = f"mvlm-expa-{bridge.replace('_','-')}-s{seed}"
-            kid = _push_worker(acc, slug, expa_worker(bridge, seed, branch, None, args.epochs), None)
-            _register(led, job, acc, kid, {"bridge": bridge, "seed": seed})
+            slug = f"mvlm-expa{tag}-{bridge.replace('_','-')}-s{seed}"
+            cells = expa_worker(bridge, seed, branch, None, args.epochs, tile_choices=args.tiles or None)
+            kid = _push_worker(acc, slug, cells, None)
+            _register(led, job, acc, kid, {"bridge": bridge, "seed": seed, "tiles": args.tiles})
 
     elif args.phase == "oracle":
         ds = f"{_user('acc1')}/mvlm-expa-ckpt"
@@ -254,8 +259,9 @@ def _collect(job: str, j: dict) -> None:
     _kaggle(j["account"], "kernels", "output", j["kernel"], "-p", str(dst), check=False)
     ok = False
 
-    if job.startswith("expa:"):
+    if job.startswith("expa"):
         seed, bridge = j["seed"], j["bridge"]
+        exp = "expA-tiled" if j.get("tiles") else "expA"
         # Only the worker's own output tree (`out/seed<S>/<bridge>/` or `ck/...`);
         # NEVER files that rode along inside the cloned `repo/` checkout.
         def _own(name: str):
@@ -264,7 +270,7 @@ def _collect(job: str, j: dict) -> None:
             pref.sort(key=lambda p: (0 if f"{os.sep}out{os.sep}" in str(p) else 1))
             return pref
 
-        cdir = ROOT / "checkpoints" / "expA" / f"seed{seed}" / bridge
+        cdir = ROOT / "checkpoints" / exp / f"seed{seed}" / bridge
         srcs = _own("last_model.pt") or _own("best_model.pt")
         if srcs:
             cdir.mkdir(parents=True, exist_ok=True)
@@ -275,7 +281,7 @@ def _collect(job: str, j: dict) -> None:
             if rdir.is_dir():
                 _copytree(rdir, cdir / "results")
         for sm in _own("eval_val_samples.jsonl")[:1]:
-            t = ROOT / "outputs" / "expA" / f"seed{seed}" / bridge
+            t = ROOT / "outputs" / exp / f"seed{seed}" / bridge
             t.mkdir(parents=True, exist_ok=True)
             (t / "eval_val_samples.jsonl").write_bytes(sm.read_bytes())
         for sj in _own("summary.json")[:1]:
@@ -365,7 +371,10 @@ def main() -> None:
     lp.add_argument("--shards", type=int, default=5)
     lp.add_argument("--split", default="train", help="oracle: train|val|test")
     lp.add_argument("--subset", type=int, default=7500)
-    lp.add_argument("--bridges", default=",".join(BRIDGES), help="oracle: top-3 from Exp B")
+    lp.add_argument("--bridges", default=",".join(BRIDGES),
+                    help="expa/oracle: comma list of bridges (expa default = all 5)")
+    lp.add_argument("--tiles", default=None,
+                    help="expa: '1,3,6' -> tile-count-augmented retrain (checkpoints/expA-tiled/)")
     lp.add_argument("--account", default=None)
     lp.set_defaults(fn=cmd_launch)
 

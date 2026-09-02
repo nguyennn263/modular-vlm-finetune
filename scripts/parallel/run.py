@@ -255,23 +255,36 @@ def _collect(job: str, j: dict) -> None:
     ok = False
 
     if job.startswith("expa:"):
-        for pt in dst.rglob("best_model.pt"):
-            tgt = ROOT / "checkpoints" / "expA" / f"seed{j['seed']}" / j["bridge"]
-            tgt.mkdir(parents=True, exist_ok=True)
-            for f in pt.parent.iterdir():
+        seed, bridge = j["seed"], j["bridge"]
+        # Only the worker's own output tree (`out/seed<S>/<bridge>/` or `ck/...`);
+        # NEVER files that rode along inside the cloned `repo/` checkout.
+        def _own(name: str):
+            pref = [p for p in dst.rglob(name)
+                    if f"/seed{seed}/{bridge}/" in str(p) and "/repo/" not in str(p)]
+            pref.sort(key=lambda p: (0 if f"{os.sep}out{os.sep}" in str(p) else 1))
+            return pref
+
+        cdir = ROOT / "checkpoints" / "expA" / f"seed{seed}" / bridge
+        srcs = _own("last_model.pt") or _own("best_model.pt")
+        if srcs:
+            cdir.mkdir(parents=True, exist_ok=True)
+            for f in srcs[0].parent.iterdir():
                 if f.is_file():
-                    (tgt / f.name).write_bytes(f.read_bytes())
-        for sm in dst.rglob("eval_val_samples.jsonl"):
-            t = ROOT / "outputs" / "expA" / f"seed{j['seed']}" / j["bridge"]
+                    (cdir / f.name).write_bytes(f.read_bytes())
+            rdir = srcs[0].parent / "results"
+            if rdir.is_dir():
+                _copytree(rdir, cdir / "results")
+        for sm in _own("eval_val_samples.jsonl")[:1]:
+            t = ROOT / "outputs" / "expA" / f"seed{seed}" / bridge
             t.mkdir(parents=True, exist_ok=True)
             (t / "eval_val_samples.jsonl").write_bytes(sm.read_bytes())
-        for sj in dst.rglob("summary.json"):
+        for sj in _own("summary.json")[:1]:
             try:
                 s = json.loads(sj.read_text())
                 j["epochs_trained"], j["best_val_loss"] = s.get("epochs_trained"), s.get("best_val_loss")
             except Exception:
                 pass
-        ok = (ROOT / "checkpoints" / "expA" / f"seed{j['seed']}" / j["bridge"] / "best_model.pt").exists()
+        ok = (cdir / "last_model.pt").exists() or (cdir / "best_model.pt").exists()
 
     elif job.startswith("oracle:"):
         t = ROOT / "outputs" / f"oracle_{j['split']}"; t.mkdir(parents=True, exist_ok=True)

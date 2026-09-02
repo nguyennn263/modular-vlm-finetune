@@ -228,6 +228,9 @@ ref/
 /checkpoints/*
 !/checkpoints/expA/
 /checkpoints/expA/**/*.pt
+/checkpoints/expA/**/eval_val_samples.jsonl
+/checkpoints/expA/**/results/text_predictions_epoch_*.json
+/checkpoints/expA/**/results/text_metrics_epoch_*.json
 /checkpoints/router/*.pt
 /logs/
 

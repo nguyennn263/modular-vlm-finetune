@@ -1,0 +1,285 @@
+{
+  "metric": "cider",
+  "bridges": [
+    "mini_qformer",
+    "multi_token",
+    "qformer",
+    "residual",
+    "tile_attention"
+  ],
+  "heatmap": {
+    "relational": {
+      "mini_qformer": 1.322217695796479,
+      "multi_token": 1.4370392624998984,
+      "qformer": 1.3437025923719137,
+      "residual": 0.9876833640870231,
+      "tile_attention": 1.3103053825895918
+    },
+    "recognition": {
+      "mini_qformer": 0.6408298525358527,
+      "multi_token": 0.7494197982893792,
+      "qformer": 0.6669152770374033,
+      "residual": 0.5668224123616964,
+      "tile_attention": 0.648040765165338
+    },
+    "spatial": {
+      "mini_qformer": 0.7672079434422513,
+      "multi_token": 0.9227937730555873,
+      "qformer": 0.7908519947779052,
+      "residual": 0.4706558885745966,
+      "tile_attention": 0.7228747755954427
+    },
+    "causal": {
+      "mini_qformer": 0.40338928570078764,
+      "multi_token": 0.46233360735753176,
+      "qformer": 0.42233204802355157,
+      "residual": 0.2875745240972184,
+      "tile_attention": 0.4206312835842088
+    },
+    "action": {
+      "mini_qformer": 0.4907035923660627,
+      "multi_token": 0.5267488106647611,
+      "qformer": 0.503599945868332,
+      "residual": 0.3691899387885472,
+      "tile_attention": 0.4961518979204763
+    },
+    "counting": {
+      "mini_qformer": 1.098125450149981,
+      "multi_token": 1.2110663498202818,
+      "qformer": 1.1680124744418396,
+      "residual": 0.8044607938798469,
+      "tile_attention": 1.1093610685036859
+    },
+    "context": {
+      "mini_qformer": 0.434465902280677,
+      "multi_token": 0.5206637817038597,
+      "qformer": 0.47589789007955724,
+      "residual": 0.4576397017673861,
+      "tile_attention": 0.424129216242242
+    },
+    "yesno": {
+      "mini_qformer": 0.8838938716335507,
+      "multi_token": 0.9974075391250897,
+      "qformer": 0.8104780078762925,
+      "residual": 0.7651216898685657,
+      "tile_attention": 0.774384933826914
+    }
+  },
+  "fork": {
+    "relational": {
+      "top": "multi_token",
+      "second": "qformer",
+      "rank": [
+        "multi_token",
+        "qformer",
+        "mini_qformer",
+        "tile_attention",
+        "residual"
+      ],
+      "mean_cider": {
+        "multi_token": 1.44,
+        "qformer": 1.34,
+        "mini_qformer": 1.32,
+        "tile_attention": 1.31,
+        "residual": 0.99
+      },
+      "mean_diff": 0.0933,
+      "ci_low": 0.0602,
+      "ci_high": 0.1274,
+      "p_value": 0.0,
+      "prob_a_gt_b": 1.0,
+      "p_holm": 0.0,
+      "significant": true
+    },
+    "recognition": {
+      "top": "multi_token",
+      "second": "qformer",
+      "rank": [
+        "multi_token",
+        "qformer",
+        "tile_attention",
+        "mini_qformer",
+        "residual"
+      ],
+      "mean_cider": {
+        "multi_token": 0.75,
+        "qformer": 0.67,
+        "tile_attention": 0.65,
+        "mini_qformer": 0.64,
+        "residual": 0.57
+      },
+      "mean_diff": 0.0825,
+      "ci_low": 0.0287,
+      "ci_high": 0.1344,
+      "p_value": 0.0032,
+      "prob_a_gt_b": 0.9984,
+      "p_holm": 0.0192,
+      "significant": true
+    },
+    "spatial": {
+      "top": "multi_token",
+      "second": "qformer",
+      "rank": [
+        "multi_token",
+        "qformer",
+        "mini_qformer",
+        "tile_attention",
+        "residual"
+      ],
+      "mean_cider": {
+        "multi_token": 0.92,
+        "qformer": 0.79,
+        "mini_qformer": 0.77,
+        "tile_attention": 0.72,
+        "residual": 0.47
+      },
+      "mean_diff": 0.1319,
+      "ci_low": 0.0687,
+      "ci_high": 0.1941,
+      "p_value": 0.0,
+      "prob_a_gt_b": 1.0,
+      "p_holm": 0.0,
+      "significant": true
+    },
+    "causal": {
+      "top": "multi_token",
+      "second": "qformer",
+      "rank": [
+        "multi_token",
+        "qformer",
+        "tile_attention",
+        "mini_qformer",
+        "residual"
+      ],
+      "mean_cider": {
+        "multi_token": 0.46,
+        "qformer": 0.42,
+        "tile_attention": 0.42,
+        "mini_qformer": 0.4,
+        "residual": 0.29
+      },
+      "mean_diff": 0.04,
+      "ci_low": 0.0061,
+      "ci_high": 0.0734,
+      "p_value": 0.0184,
+      "prob_a_gt_b": 0.9908,
+      "p_holm": 0.092,
+      "significant": false
+    },
+    "action": {
+      "top": "multi_token",
+      "second": "qformer",
+      "rank": [
+        "multi_token",
+        "qformer",
+        "tile_attention",
+        "mini_qformer",
+        "residual"
+      ],
+      "mean_cider": {
+        "multi_token": 0.53,
+        "qformer": 0.5,
+        "tile_attention": 0.5,
+        "mini_qformer": 0.49,
+        "residual": 0.37
+      },
+      "mean_diff": 0.0231,
+      "ci_low": -0.0271,
+      "ci_high": 0.0741,
+      "p_value": 0.362,
+      "prob_a_gt_b": 0.819,
+      "p_holm": 1.0,
+      "significant": false
+    },
+    "counting": {
+      "top": "multi_token",
+      "second": "qformer",
+      "rank": [
+        "multi_token",
+        "qformer",
+        "tile_attention",
+        "mini_qformer",
+        "residual"
+      ],
+      "mean_cider": {
+        "multi_token": 1.21,
+        "qformer": 1.17,
+        "tile_attention": 1.11,
+        "mini_qformer": 1.1,
+        "residual": 0.8
+      },
+      "mean_diff": 0.0431,
+      "ci_low": -0.0034,
+      "ci_high": 0.0906,
+      "p_value": 0.0656,
+      "prob_a_gt_b": 0.9672,
+      "p_holm": 0.2624,
+      "significant": false
+    },
+    "context": {
+      "top": "multi_token",
+      "second": "qformer",
+      "rank": [
+        "multi_token",
+        "qformer",
+        "residual",
+        "mini_qformer",
+        "tile_attention"
+      ],
+      "mean_cider": {
+        "multi_token": 0.52,
+        "qformer": 0.48,
+        "residual": 0.46,
+        "mini_qformer": 0.43,
+        "tile_attention": 0.42
+      },
+      "mean_diff": 0.0448,
+      "ci_low": -0.0613,
+      "ci_high": 0.166,
+      "p_value": 0.451,
+      "prob_a_gt_b": 0.7745,
+      "p_holm": 1.0,
+      "significant": false
+    },
+    "yesno": {
+      "top": "multi_token",
+      "second": "mini_qformer",
+      "rank": [
+        "multi_token",
+        "mini_qformer",
+        "qformer",
+        "tile_attention",
+        "residual"
+      ],
+      "mean_cider": {
+        "multi_token": 1.0,
+        "mini_qformer": 0.88,
+        "qformer": 0.81,
+        "tile_attention": 0.77,
+        "residual": 0.77
+      },
+      "mean_diff": 0.1135,
+      "ci_low": -0.1403,
+      "ci_high": 0.3743,
+      "p_value": 0.3902,
+      "prob_a_gt_b": 0.8049,
+      "p_holm": 1.0,
+      "significant": false
+    }
+  },
+  "n_categories_significant": 3,
+  "distinct_top_bridges": 1,
+  "weighted_cider": {
+    "mini_qformer": 0.876,
+    "multi_token": 0.982,
+    "qformer": 0.903,
+    "residual": 0.657,
+    "tile_attention": 0.869
+  },
+  "top3_for_action_space": [
+    "multi_token",
+    "qformer",
+    "mini_qformer"
+  ],
+  "verdict": "bridge choice matters per reasoning-type (fork)"
+}

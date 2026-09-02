@@ -53,6 +53,7 @@ def custom_collate_fn(
     max_length: int = 512,
     n_tiles: int = 1,
     tile_choices: Optional[List[int]] = None,
+    answer_sampling: str = "first",
 ) -> Dict[str, Any]:
     """
     Custom collate function for batches of OneSample objects.
@@ -93,16 +94,20 @@ def custom_collate_fn(
         # Keep text data
         questions.append(sample.question)
         
-        # Handle multiple answers: use majority vote like ref1/ does
-        # If only one answer, use it. Otherwise use the most common one.
-        sample_answers = sample.answers if sample.answers else ['']
-        if len(sample_answers) == 1:
+        # Pick one training target from the (usually 5) references.
+        #   "first"    - answers[0] every time (deterministic, one canonical phrasing)
+        #   "random"   - a fresh random reference per batch => paraphrase augmentation,
+        #                aligns training with the multi-reference CIDEr/METEOR eval
+        #   "majority" - most common reference (degenerates to "first" here since the
+        #                5 AutoViVQA answers are always distinct paraphrases)
+        sample_answers = [a for a in (sample.answers or []) if a] or ['']
+        if answer_sampling == "random":
+            selected_answer = random.choice(sample_answers)
+        elif answer_sampling == "majority":
+            selected_answer = Counter(sample_answers).most_common(1)[0][0]
+        else:  # "first"
             selected_answer = sample_answers[0]
-        else:
-            # Majority vote: get most common answer
-            counter = Counter(sample_answers)
-            selected_answer = counter.most_common(1)[0][0]
-        
+
         answers_list.append(selected_answer)
     
     # Stack images into batch tensor
@@ -195,6 +200,7 @@ def create_collate_fn(
     max_length: int = 512,
     n_tiles: int = 1,
     tile_choices: Optional[List[int]] = None,
+    answer_sampling: str = "first",
 ):
     """
     Factory function to create a collate_fn with specific configuration.
@@ -221,6 +227,7 @@ def create_collate_fn(
             max_length=max_length,
             n_tiles=n_tiles,
             tile_choices=tile_choices,
+            answer_sampling=answer_sampling,
         )
 
     return _collate

@@ -23,7 +23,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 LEDGER = ROOT / "outputs" / "parallel" / "ledger.json"
 ACCT_DIR = Path.home() / ".kaggle-accounts"
-ACCOUNTS = [f"acc{i}" for i in range(1, 6)]
+# every ~/.kaggle-accounts/accN/ holding a kaggle.json, natural-sorted
+ACCOUNTS = sorted((p.name for p in ACCT_DIR.glob("acc*") if (p / "kaggle.json").exists()),
+                  key=lambda s: int(s[3:]) if s[3:].isdigit() else 0) or [f"acc{i}" for i in range(1, 6)]
 REPO_URL = "https://github.com/nguyennn263/modular-vlm-finetune.git"
 BRIDGES = ["residual", "multi_token", "tile_attention", "mini_qformer", "qformer"]
 
@@ -93,6 +95,7 @@ def expa_worker(bridge: str, seed: int, branch: str, resume_ds: str | None, epoc
 def oracle_worker(shard: int, nshards: int, bridges: str, branch: str,
                   ckpt_ds: str, split: str, subset: int, out: str) -> list[dict]:
     ds = ckpt_ds.split("/")[-1]
+    ckdir = "checkpoints/expA-tiled/seed42"
     return [
         _code("import os", "os.chdir('/kaggle/working')",
               f"os.system('git clone -q {REPO_URL} repo || (cd repo && git fetch -q)')",
@@ -100,11 +103,10 @@ def oracle_worker(shard: int, nshards: int, bridges: str, branch: str,
               f"os.system('git checkout -q {branch} && git pull -q')"),
         _code("!bash setup_kaggle.sh 2>&1 | tail -5"),
         _code("!python scripts/phase0_build_data.py 2>&1 | tail -4"),
-        _code(f"!mkdir -p checkpoints/expA/seed42 && cp -r /kaggle/input/{ds}/* checkpoints/expA/seed42/ && "
-              f"ls -R checkpoints/expA/seed42 | tail"),
+        _code(f"!mkdir -p {ckdir} && cp -r /kaggle/input/{ds}/* {ckdir}/ && ls -R {ckdir} | tail"),
         _code(f"!python -m src.cli.oracle --bridges {bridges} --n-tiles 1,3,6 "
               f"--split {split} --subset {subset} --shard {shard}/{nshards} "
-              f"--ckpt-dir checkpoints/expA/seed42 --out {out}"),
+              f"--ckpt-dir {ckdir} --out {out}"),
         _code(f"!mkdir -p /kaggle/working/out && cp {out}/*.parquet /kaggle/working/out/ && ls -la /kaggle/working/out"),
     ]
 
@@ -126,24 +128,25 @@ def fiq_worker(branch: str, splits: str) -> list[dict]:
 
 
 def cmd_bundle(args) -> None:
-    """Package Exp A checkpoints into a public Kaggle dataset for the oracle workers."""
+    """Package trained bridge checkpoints into a public Kaggle dataset for the oracle workers."""
     seed = args.seed
     bridges = args.bridges.split(",") if args.bridges else BRIDGES
+    exp = "expA-tiled" if args.tiled else "expA"
     d = ROOT / "outputs" / "parallel" / "bundle"
     if d.exists():
-        for f in d.iterdir():
-            f.unlink()
+        import shutil
+        shutil.rmtree(d)
     d.mkdir(parents=True, exist_ok=True)
     got = []
     for b in bridges:
-        bdir = ROOT / "checkpoints" / "expA" / f"seed{seed}" / b
+        bdir = ROOT / "checkpoints" / exp / f"seed{seed}" / b
         src = bdir / "last_model.pt" if (bdir / "last_model.pt").exists() else bdir / "best_model.pt"
         if src.exists():
             (d / b).mkdir(exist_ok=True)
             (d / b / "best_model.pt").write_bytes(src.read_bytes())   # oracle expects <bridge>/best_model.pt
             got.append(b)
     if not got:
-        raise SystemExit("no checkpoints in checkpoints/expA — run `poll` first")
+        raise SystemExit(f"no checkpoints in checkpoints/{exp}/seed{seed} — run `poll` first")
     user = _user("acc1")
     ds_id = f"{user}/mvlm-expa-ckpt"
     (d / "dataset-metadata.json").write_text(json.dumps(
@@ -382,7 +385,9 @@ def main() -> None:
     sub.add_parser("status").set_defaults(fn=cmd_status)
 
     bp = sub.add_parser("bundle"); bp.add_argument("--seed", type=int, default=42)
-    bp.add_argument("--bridges", default=""); bp.set_defaults(fn=cmd_bundle)
+    bp.add_argument("--bridges", default=""); bp.add_argument("--tiled", action="store_true",
+                    help="bundle from checkpoints/expA-tiled/ (the tile-augmented retrain)")
+    bp.set_defaults(fn=cmd_bundle)
 
     rp = sub.add_parser("resume"); rp.add_argument("job"); rp.add_argument("--epochs", type=int, default=5)
     rp.set_defaults(fn=cmd_resume)

@@ -5,6 +5,33 @@
 
 ---
 
+## EXECUTION LOG (cập nhật 2026-09-02)
+
+Chạy 5-account song song qua `scripts/parallel/run.py` (ledger: `outputs/parallel/ledger.json`).
+
+### P4 fiq — ✅ XONG (kernel `mvlm-fiq`, acc4, ~2h)
+- `outputs/fiq/{train,val,test}.parquet` + `pca.npz` (PCA basis persist).
+- `outputs/router/prq_{train,val,test}.parquet` + `best.pt` (515MB, không version).
+- **Router P(r|Q)**: val macro-F1 **0.913**, acc 0.946. Mạnh: counting 1.0, relational .98, causal .96. Yếu: context .66 (nhầm recognition).
+
+### Exp A wave 1 — ❌ HỎNG, chạy lại
+- Bug: **early stopping theo val-CE** dừng ở epoch 2 (CE chạm đáy <1 epoch, CIDEr còn lên dốc). `best_model.pt` = under-trained.
+- 4/5 kernel bị Kaggle **CANCEL ở 12h** (full-val generation mỗi epoch tốn ~1.7h) → Kaggle **không lưu output kernel bị cancel** → mất trắng.
+- Chỉ `mini_qformer` COMPLETE: mốc tham khảo 2-epoch, val CIDEr 0.853, BLEU .135, ROUGE-L .444.
+- Fix (`c9a2723`): `--no-early-stopping`, lưu `last_model.pt` mỗi epoch, evaluate `last_model.pt`, `--text-metrics-every 2 --text-metrics-max-samples 800`.
+
+### Exp A wave 1b — 🔄 ĐANG CHẠY (launch 2026-09-02 ~07:53, 5 bridge × seed 42)
+- `--epochs 4 --no-early-stopping --batch-size 8`. Dự kiến qformer ~9.3h (margin ~2.7h dưới cap 12h).
+- Xong → `run.py poll` gom về `checkpoints/expA/seed42/<b>/last_model.pt` + `outputs/expA/seed42/<b>/eval_val_samples.jsonl`.
+- Nếu chưa hội tụ → `run.py resume expa:<b>:s42 --epochs 8` (tiếp từ epoch 4).
+
+### ⚠️ Quota
+Wave 1 đốt ~12h/account (acc1/2/3/5). + wave 1b ~9h → ~21h/30h tuần này. Oracle sweep cần ~8h/account nữa → **có thể phải chờ Kaggle reset quota tuần** trước khi chạy oracle.
+
+### Còn lại: Exp B → oracle (train/val/test) → policy ×3 → eval_ladder → human eval → viết P6.
+
+---
+
 ## 0. Housekeeping (nhanh)
 
 - Merge `chore/repo-restructure` → `main` (hoặc `feat/master-plan`).

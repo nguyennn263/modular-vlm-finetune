@@ -236,7 +236,9 @@ ref/
 /outputs/oracle/table*.parquet
 /outputs/oracle_*/table*.parquet
 /outputs/router/*.parquet
-/outputs/fiq/
+/outputs/router/*.pt
+/outputs/fiq/*
+!/outputs/fiq/pca.npz
 /outputs/profile/pipeline_cost*.json.tmp
 /outputs/parallel/workers/
 /outputs/parallel/pulled/

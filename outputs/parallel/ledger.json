@@ -10,29 +10,35 @@
     "expa:residual:s42": {
       "account": "acc1",
       "kernel": "nguyennn263/mvlm-expa-residual-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-02T07:53:47",
-      "collected": false,
+      "collected": true,
       "bridge": "residual",
-      "seed": 42
+      "seed": 42,
+      "epochs_trained": 4,
+      "best_val_loss": 2.3542973839870136
     },
     "expa:multi_token:s42": {
       "account": "acc2",
       "kernel": "nguyennn2501/mvlm-expa-multi-token-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-02T07:53:49",
-      "collected": false,
+      "collected": true,
       "bridge": "multi_token",
-      "seed": 42
+      "seed": 42,
+      "epochs_trained": 4,
+      "best_val_loss": 1.4899013177716716
     },
     "expa:tile_attention:s42": {
       "account": "acc3",
       "kernel": "nguyennn2603/mvlm-expa-tile-attention-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-02T07:53:51",
-      "collected": false,
+      "collected": true,
       "bridge": "tile_attention",
-      "seed": 42
+      "seed": 42,
+      "epochs_trained": 4,
+      "best_val_loss": 1.624799686242686
     },
     "expa:mini_qformer:s42": {
       "account": "acc4",

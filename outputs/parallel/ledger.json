@@ -43,11 +43,13 @@
     "expa:mini_qformer:s42": {
       "account": "acc4",
       "kernel": "nguyennn251/mvlm-expa-mini-qformer-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-02T07:53:55",
-      "collected": false,
+      "collected": true,
       "bridge": "mini_qformer",
-      "seed": 42
+      "seed": 42,
+      "epochs_trained": 4,
+      "best_val_loss": 1.5853052330401074
     },
     "expa:qformer:s42": {
       "account": "acc5",

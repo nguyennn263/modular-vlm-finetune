@@ -228,21 +228,22 @@ class AttentionBridge(nn.Module):
         # Baseline: project each patch
         baseline_patches = self.baseline(vision_features)  # (B, num_patches, 896)
         
-        # Self-attention: patches attend to each other
+        # Self-attention: patches attend to each other. need_weights=False routes
+        # nn.MultiheadAttention through the fused SDPA kernel, which does NOT
+        # materialise the O(L^2) attention matrix -- required once L = n_tiles*P
+        # grows (1536 patches at n_tiles=6 would otherwise need ~4.5 GiB).
         attn_out, _ = self.attention(
-            baseline_patches,  # query
-            baseline_patches,  # key
-            baseline_patches   # value
+            baseline_patches, baseline_patches, baseline_patches, need_weights=False
         )
-        
+
         # Residual + norm
         enhanced_patches = self.norm(baseline_patches + attn_out)  # (B, num_patches, 896)
-        
+
         # Query with learnable tokens
         queries = self.queries.unsqueeze(0).expand(B, -1, -1)  # (B, num_tokens, 896)
-        
+
         # Cross-attention: queries attend to enhanced patches
-        output, _ = self.attention(queries, enhanced_patches, enhanced_patches)
+        output, _ = self.attention(queries, enhanced_patches, enhanced_patches, need_weights=False)
         output = self.norm(queries + output)
         
         return output

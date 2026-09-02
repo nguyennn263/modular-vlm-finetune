@@ -166,6 +166,11 @@ class TrainConfig:
     # aligns with the multi-reference eval) | "majority".
     answer_sampling: str = "first"
 
+    # Distillation MSE (bridge first token -> frozen linear baseline). Off by
+    # default; only ever affected residual / multi_token. See forward_pass().
+    distillation: bool = False
+    distillation_weight: float = 0.5
+
     # Per-epoch text-metric generation cost control. Defaults reproduce the old
     # behaviour (generate on the full val set every epoch). Raise `every` and/or
     # cap `max_samples` to cut the dominant wall-clock cost on slow GPUs; the
@@ -674,9 +679,15 @@ class BridgeTrainer:
         # Only apply for pooled bridges where bridge output is directly comparable to baseline.
         # For patch-based bridges (tile_attention, mini_qformer, qformer), the bridge transforms
         # features through attention/transformer layers, making token-level comparison meaningless.
-        use_distillation = True  # Can be made configurable
-        distillation_weight = 0.5  # Default weight for MSE loss
-        
+        self._last_ce = float(loss.detach())
+        self._last_distill = 0.0
+        # OFF by default: historically ON for only residual/multi_token, which made
+        # their reported loss CE+0.5*MSE (MSE grows as the bridge specialises ->
+        # "loss" balloons to ~12 while greedy-decode CIDEr is fine) and made the
+        # 5-bridge comparison use two different objectives.
+        use_distillation = getattr(self.config, "distillation", False)
+        distillation_weight = getattr(self.config, "distillation_weight", 0.5)
+
         if use_distillation and bridge_type in ['linear_bridge', 'residual', 'multi_token', 'gated_fusion']:
             # Get baseline embeddings (frozen reference)
             with torch.no_grad():
@@ -692,7 +703,8 @@ class BridgeTrainer:
             
             # MSE loss to keep bridge output close to baseline
             distillation_loss = F.mse_loss(bridge_first_token, baseline_output)
-            
+            self._last_distill = float(distillation_loss.detach())
+
             # Total loss = CE + lambda * MSE
             loss = loss + distillation_weight * distillation_loss
         
@@ -812,16 +824,21 @@ class BridgeTrainer:
         num_batches = 0
         
         pbar = tqdm(self.val_loader, desc="Validating", leave=False)
-        
+        ce_sum = 0.0
+
         for batch in pbar:
             loss = self.forward_pass(batch)
             total_loss += loss.item()
+            ce_sum += getattr(self, "_last_ce", loss.item())
             num_batches += 1
-            
+
             pbar.set_postfix({'val_loss': f'{loss.item():.4f}'})
-        
+
         self.model.train()
-        return total_loss / num_batches if num_batches > 0 else 0.0
+        if num_batches == 0:
+            return 0.0
+        self.last_val_ce = ce_sum / num_batches   # cross-entropy only (no distill MSE)
+        return total_loss / num_batches
     
     @torch.no_grad()
     def evaluate(self, test_dataset=None) -> Dict[str, float]:

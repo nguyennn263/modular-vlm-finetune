@@ -91,6 +91,8 @@ def build_run_config(args: argparse.Namespace) -> dict[str, Any]:
         "answer_sampling": args.answer_sampling,
         "resume_from": args.resume,
     }
+    if args.distillation:
+        cfg["distillation"] = True
     if args.no_early_stopping:
         cfg["early_stopping"] = False
     for key, value in cli_overrides.items():
@@ -161,6 +163,10 @@ def _parser() -> argparse.ArgumentParser:
                    dest="answer_sampling",
                    help="Training target among a sample's ~5 references: first (default), "
                         "random (per-batch paraphrase augmentation), majority.")
+    p.add_argument("--distillation", action="store_true",
+                   help="Re-enable the bridge->baseline MSE regulariser (residual/multi_token "
+                        "only). Off by default: it inflates the reported loss and makes the "
+                        "bridge comparison use two objectives.")
     p.add_argument("--split-dir", default=None, dest="split_dir",
                    help="Use data/splits/{train,val,test}.jsonl (final-plan grouped split) "
                         "instead of a random split of the raw CSV.")
@@ -241,6 +247,7 @@ def run(cfg: dict[str, Any]) -> None:
         n_tiles=cfg.get("n_tiles") or 1,
         tile_choices=cfg.get("tile_choices"),
         answer_sampling=cfg.get("answer_sampling") or "first",
+        distillation=bool(cfg.get("distillation", False)),
         text_metrics_every=cfg.get("text_metrics_every") or 1,
         text_metrics_max_samples=cfg.get("text_metrics_max_samples") or 0,
         resume_from=cfg.get("resume_from"),

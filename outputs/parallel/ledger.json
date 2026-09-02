@@ -59,6 +59,16 @@
       "collected": false,
       "bridge": "qformer",
       "seed": 42
+    },
+    "expa-tiled:multi_token:s42": {
+      "account": "acc6",
+      "kernel": "knull0d/mvlm-expa-tiled-multi-token-s42",
+      "status": "running",
+      "pushed_at": "2026-09-02T20:53:16",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 42,
+      "tiles": "1,3,6"
     }
   }
 }

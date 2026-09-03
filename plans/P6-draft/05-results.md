@@ -77,19 +77,29 @@ Three policy arms, all `PolicyMLP((·, λ) → a)` trained by cross-entropy agai
 - **rt_only** — P(r|Q) only
 - **visual_only** — f(I,Q) only
 
-**|A|=9, held-out (train on val 3 727 → eval on test 3 739)** [PRELIM]:
+**|A|=9, held-out (policy trained on the 5 547-sample train split, evaluated on
+test 3 739):**
 
-| arm | a*-match | mean CIDEr | mean cost | Δ vs fixed `mt\|t1` (paired bootstrap) |
+| arm | a*-match | mean CIDEr | mean cost | action picked (test, λ=0.2) |
 |---|---|---|---|---|
-| fixed `multi_token\|t1` | — | **0.902** | 0.167 | — |
-| ours | 0.25 | 0.851 | 0.177 | **−0.055** [−0.074, −0.037] — significantly worse |
-| rt_only | 0.18 | 0.845 | 0.167 | **−0.060** [−0.082, −0.039] — significantly worse |
-| visual_only | 0.22 | 0.820 | 0.225 | **−0.100** [−0.122, −0.079] — significantly worse |
-| majority-class a* | 0.43 | — | — | — |
+| **fixed `multi_token\|t1`** | — | **0.902** | 0.167 | — |
+| ours | 0.434 | 0.901 | 0.168 | `multi_token\|t1` 94.5% |
+| rt_only | 0.442 | 0.902 | 0.167 | `multi_token\|t1` **100%** |
+| visual_only | 0.437 | 0.901 | 0.168 | `multi_token\|t1` 97.3% |
+| majority-class a* | 0.433 | — | — | — |
+| oracle `a*(x, λ)` | 1.00 | 1.25 | 0.29 | — |
+
+With adequate training data, **all three policy arms converge exactly onto
+`fixed: multi_token|t1`** — mean CIDEr 0.901–0.902, identical to the fixed
+baseline (0.902), λ-independent, a*-match ≈ the majority-class rate (0.43). The
+policy correctly learns "use the best bridge at one tile", and *nothing more*.
+(Trained on the smaller 3 727-sample val split instead, the same policies
+*over-fit* and land *below* the fixed baseline — 0.82–0.85, all significantly
+worse by paired bootstrap — because they chase the non-transferable a* noise.)
 
 **|A|=6 (n_tiles only, bridge = qformer/mini_qformer), held-out** — same
-picture, all three arms collapse to *always `qformer|t1`*, λ-independent, mean
-CIDEr ≈ 0.842 (vs fixed `qformer|t3` 0.854, oracle 1.09).
+picture: all three arms collapse onto `fixed: qformer|t1`, λ-independent, mean
+CIDEr ≈ 0.842 (fixed `qformer|t3` 0.854, oracle 1.09).
 
 ### Findings
 
@@ -128,7 +138,11 @@ convert the extra visual detail into better answers, in any reasoning category.
 ---
 
 ### Pending
-- [ ] re-run 5.3 policies on the |A|=9 *train* split (5 547) — lock numbers
-- [ ] tile-augmented `multi_token` oracle sweep → redo 5.2 headroom analysis if
-      the pooled bridge trained *with* tiles exploits them
+- [x] re-run 5.3 policies on the |A|=9 *train* split (5 547) — **done, locked**:
+      all arms → `fixed: multi_token|t1` (0.901–0.902), a*-match ≈ majority 0.43
+- [ ] tile-augmented `multi_token` oracle sweep (retrain finishing ~23:00) →
+      redo 5.2 headroom analysis if the pooled bridge trained *with* tiles
+      exploits them; if it collapses like the n_tiles=1 checkpoint, no change
 - [ ] human validation of 300–500 answers (2 raters, Cohen's κ) — §5.1/§6
+- [ ] `--answer-sampling random` multi_token run (co-author) — F1 gap chase,
+      §5.1 only, does not touch the oracle

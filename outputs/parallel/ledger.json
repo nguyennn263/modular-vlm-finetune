@@ -206,6 +206,17 @@
       "collected": false,
       "split": "test",
       "shard": "2/5"
+    },
+    "expa-random:multi_token:s42": {
+      "account": "acc13",
+      "kernel": "avanrager/mvlm-expa-random-multi-token-s42",
+      "status": "running",
+      "pushed_at": "2026-09-03T19:39:33",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 42,
+      "tiles": null,
+      "answer_sampling": "random"
     }
   }
 }

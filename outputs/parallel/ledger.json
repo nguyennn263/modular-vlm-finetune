@@ -161,6 +161,51 @@
       "collected": false,
       "split": "val",
       "shard": "4/5"
+    },
+    "oracle:test:shard0of5": {
+      "account": "acc12",
+      "kernel": "trngtinanh/mvlm-oracle-test-0of5",
+      "status": "running",
+      "pushed_at": "2026-09-03T18:02:07",
+      "collected": false,
+      "split": "test",
+      "shard": "0/5"
+    },
+    "oracle:test:shard1of5": {
+      "account": "acc13",
+      "kernel": "avanrager/mvlm-oracle-test-1of5",
+      "status": "running",
+      "pushed_at": "2026-09-03T18:02:09",
+      "collected": false,
+      "split": "test",
+      "shard": "1/5"
+    },
+    "oracle:test:shard2of5": {
+      "account": "acc12",
+      "kernel": "trngtinanh/mvlm-oracle-test-2of5",
+      "status": "running",
+      "pushed_at": "2026-09-03T18:02:11",
+      "collected": false,
+      "split": "test",
+      "shard": "2/5"
+    },
+    "oracle:test:shard3of5": {
+      "account": "acc13",
+      "kernel": "avanrager/mvlm-oracle-test-3of5",
+      "status": "running",
+      "pushed_at": "2026-09-03T18:02:13",
+      "collected": false,
+      "split": "test",
+      "shard": "3/5"
+    },
+    "oracle:test:shard4of5": {
+      "account": "acc9",
+      "kernel": "masalamohammad/mvlm-oracle-test-4of5",
+      "status": "running",
+      "pushed_at": "2026-09-03T18:02:15",
+      "collected": false,
+      "split": "test",
+      "shard": "4/5"
     }
   }
 }

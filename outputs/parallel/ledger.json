@@ -116,6 +116,51 @@
       "bridge": "multi_token",
       "seed": 42,
       "tiles": "1,3,6"
+    },
+    "oracle:train:shard0of5": {
+      "account": "acc9",
+      "kernel": "masalamohammad/mvlm-oracle-train-0of5",
+      "status": "running",
+      "pushed_at": "2026-09-03T16:12:27",
+      "collected": false,
+      "split": "train",
+      "shard": "0/5"
+    },
+    "oracle:train:shard1of5": {
+      "account": "acc10",
+      "kernel": "giapht/mvlm-oracle-train-1of5",
+      "status": "running",
+      "pushed_at": "2026-09-03T16:12:29",
+      "collected": false,
+      "split": "train",
+      "shard": "1/5"
+    },
+    "oracle:train:shard2of5": {
+      "account": "acc11",
+      "kernel": "chalicetrncthnh/mvlm-oracle-train-2of5",
+      "status": "running",
+      "pushed_at": "2026-09-03T16:12:31",
+      "collected": false,
+      "split": "train",
+      "shard": "2/5"
+    },
+    "oracle:train:shard3of5": {
+      "account": "acc6",
+      "kernel": "knull0d/mvlm-oracle-train-3of5",
+      "status": "running",
+      "pushed_at": "2026-09-03T16:12:33",
+      "collected": false,
+      "split": "train",
+      "shard": "3/5"
+    },
+    "oracle:train:shard4of5": {
+      "account": "acc8",
+      "kernel": "lelynhan/mvlm-oracle-train-4of5",
+      "status": "running",
+      "pushed_at": "2026-09-03T16:12:35",
+      "collected": false,
+      "split": "train",
+      "shard": "4/5"
     }
   }
 }

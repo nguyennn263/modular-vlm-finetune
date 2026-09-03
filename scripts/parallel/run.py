@@ -67,15 +67,16 @@ def _code(*lines: str) -> dict:
 
 
 def _clone_cell(branch: str) -> dict:
-    """Robust clone: retry the transient 'Could not resolve host: github.com'."""
+    """Robust clone to /tmp (keeps it OUT of /kaggle/working so the kernel output
+    stays small -- otherwise every `kernels output` pull drags the ~200MB repo)."""
     return _code(
         "import os, subprocess, time",
-        "os.chdir('/kaggle/working')",
+        "os.makedirs('/tmp/wk', exist_ok=True); os.chdir('/tmp/wk')",
         "for _ in range(6):",
         f"    subprocess.call('git clone -q {REPO_URL} repo || (cd repo && git fetch -q)', shell=True)",
         "    if os.path.isdir('repo'): break",
         "    time.sleep(15)",
-        "os.chdir('/kaggle/working/repo')",
+        "os.chdir('/tmp/wk/repo')",
         f"os.system('git checkout -q {branch} && git pull -q')",
     )
 

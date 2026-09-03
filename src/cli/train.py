@@ -29,6 +29,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 # is still a valid bridge_type in the model code but is not part of the suite
 # (it is a near-duplicate of `residual`, the weakest arm).
 BRIDGES = [
+    "linear_bridge",
     "residual",
     "multi_token",
     "tile_attention",

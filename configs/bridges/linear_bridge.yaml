@@ -1,0 +1,5 @@
+# Simplest baseline connector: Linear(1024 -> 896) on raw InternViT patch output.
+# The "what you get with no bridge design" reference for the efficiency contrast
+# (does a rich bridge substitute for image tiles?).
+bridge_type: linear_bridge
+bridge_config: {}

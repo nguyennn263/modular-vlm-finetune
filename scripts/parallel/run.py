@@ -93,6 +93,9 @@ def expa_worker(bridge: str, seed: int, branch: str, resume_ds: str | None, epoc
     tc = f"--tile-choices {tile_choices} " if tile_choices else ""
     asamp = f"--answer-sampling {answer_sampling} " if answer_sampling else ""
     algn = f"--align-distill --align-type {align} " if align else ""
+    # align logit adds a full teacher Qwen2 forward (256 vision + text tokens) ->
+    # OOMs the 16GB P100 at bs 8. Halve the micro-batch, keep effective batch 8.
+    bs, ga = (4, 2) if align == "logit" else (8, 1)
     # tile augmentation makes each step ~3x slower (avg InternViT tiles). Fewer
     # mid-training val passes + a checkpoint every ~half epoch keeps the whole
     # kernel well under the 12h Kaggle cap (a CANCEL there persists nothing).
@@ -107,7 +110,7 @@ def expa_worker(bridge: str, seed: int, branch: str, resume_ds: str | None, epoc
         _code("!python scripts/phase0_build_data.py 2>&1 | tail -6"),
         _code(resume_cp),
         _code(f"!python -m src.cli.train --bridge {bridge} --split-dir data/splits --seed {seed} "
-              f"--epochs {epochs} --batch-size 8 --grad-accum 1 --eval-steps {step} --save-steps {step} "
+              f"--epochs {epochs} --batch-size {bs} --grad-accum {ga} --eval-steps {step} --save-steps {step} "
               f"--no-early-stopping {metrics} "
               f"{tc}{asamp}{algn}--output-dir {ck} --resume"),
     ]

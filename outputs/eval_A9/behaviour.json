@@ -1,0 +1,57 @@
+{
+  "relational": {
+    "qformer|t1": 180,
+    "multi_token|t1": 138,
+    "mini_qformer|t1": 44,
+    "multi_token|t3": 11
+  },
+  "?": {
+    "qformer|t1": 2166,
+    "multi_token|t1": 1428,
+    "mini_qformer|t1": 434,
+    "multi_token|t3": 121,
+    "qformer|t3": 3,
+    "mini_qformer|t3": 1
+  },
+  "counting": {
+    "qformer|t1": 169,
+    "multi_token|t1": 16,
+    "mini_qformer|t1": 23,
+    "multi_token|t3": 2
+  },
+  "action": {
+    "qformer|t1": 54,
+    "multi_token|t1": 22,
+    "mini_qformer|t1": 12,
+    "multi_token|t3": 3
+  },
+  "causal": {
+    "qformer|t1": 80,
+    "multi_token|t1": 48,
+    "multi_token|t3": 14,
+    "mini_qformer|t1": 13
+  },
+  "context": {
+    "mini_qformer|t1": 7,
+    "multi_token|t1": 15,
+    "qformer|t1": 22,
+    "multi_token|t3": 4
+  },
+  "recognition": {
+    "multi_token|t3": 8,
+    "mini_qformer|t1": 22,
+    "multi_token|t1": 86,
+    "qformer|t1": 108
+  },
+  "spatial": {
+    "multi_token|t1": 90,
+    "qformer|t1": 89,
+    "mini_qformer|t1": 14,
+    "multi_token|t3": 4
+  },
+  "yesno": {
+    "qformer|t1": 5,
+    "mini_qformer|t1": 4,
+    "multi_token|t1": 8
+  }
+}

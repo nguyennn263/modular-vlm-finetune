@@ -1,0 +1,37 @@
+{
+  "A9_heldout": "policy trained on |A|=9 val (3727), eval on |A|=9 test (3739)",
+  "a_star_match": {
+    "ours": 0.248,
+    "visual_only": 0.22,
+    "rt_only": 0.181,
+    "majority_baseline": 0.433
+  },
+  "eval_ladder_meanM_meanC": {
+    "oracle": [
+      1.246,
+      0.286
+    ],
+    "fixed:multi_token|t1": [
+      0.902,
+      0.167
+    ],
+    "ours": [
+      0.851,
+      0.177
+    ],
+    "rt_only": [
+      0.845,
+      0.167
+    ],
+    "visual_only": [
+      0.82,
+      0.225
+    ],
+    "random": [
+      0.772,
+      0.557
+    ]
+  },
+  "verdict": "NO learned policy (ours/rt_only/visual_only) beats fixed:multi_token|t1 (best bridge, min tiles). train=val a*-match was 0.95-0.97 but that was pure overfitting: held-out is 0.22-0.25, below the 0.43 majority baseline (val/test oracle-a* distributions differ due to per-sample CIDEr noise over 9 similar actions). The oracle upper bound (1.25) is inflated by the same noise. Definitive negative result: for lightweight VLMs, adaptive visual-compute allocation does not beat a well-chosen fixed policy; reasoning-type supervision adds nothing.",
+  "positive_headline": "multi_token bridge CIDEr 0.90 (test) / 0.94 (val) > Tuong-MoE 0.887"
+}

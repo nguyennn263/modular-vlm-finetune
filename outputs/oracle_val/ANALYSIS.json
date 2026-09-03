@@ -1,0 +1,26 @@
+{
+  "oracle_val": "3727 samples (equal-per-category cap 625), 6 actions (qformer/mini_qformer x n_tiles 1/3/6)",
+  "bridge_x_ntiles_meanM": {
+    "1": {
+      "mini_qformer": 0.842,
+      "qformer": 0.866
+    },
+    "3": {
+      "mini_qformer": 0.871,
+      "qformer": 0.878
+    },
+    "6": {
+      "mini_qformer": 0.843,
+      "qformer": 0.87
+    }
+  },
+  "key_numbers": {
+    "best_fixed_action": "qformer|t3 -> M 0.878",
+    "oracle_perfect_routing_lambda0": 1.131,
+    "oracle_headroom_over_best_fixed": 0.254,
+    "oracle_ntiles=1_only_bridge_choice": 1.006,
+    "value_of_adding_ntiles>1": 0.125
+  },
+  "per_category_ntiles_effect": "NOT significant in any category (paired bootstrap CIs all include 0). Per-category means flat ~0.02-0.04.",
+  "interpretation": "n_tiles gives no per-CATEGORY benefit (reasoning type does not predict visual-compute demand) BUT +0.125 per-SAMPLE oracle headroom -> visual state, not reasoning type, is the routing signal. Paper's research question ('does reasoning-type supervision help beyond model-internal signals?') answer trending NO -- confirm with the policy ablation (ours vs rt_only vs visual_only)."
+}

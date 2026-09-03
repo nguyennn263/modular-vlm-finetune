@@ -9,16 +9,16 @@
 # => n_tiles is a real compute lever (>> the 15% threshold). Keep it primary.
 
 n_tiles: [1, 3, 6]          # InternViT forward count — PRIMARY compute lever (P1 confirmed)
-# Exp B (P3) top-3 by TRAIN-weighted CIDEr: multi_token 0.98 > qformer 0.90 >
-# mini_qformer 0.88 (> tile_attention 0.87 > residual 0.66). All 3 retrained with
-# --tile-choices 1,3,6:
-#   multi_token  — POOLED (mean over T*P) => O(1) in tile count, Exp B winner
-#   qformer      — 16 queries x cross-attn  => LINEAR in tiles
-#   mini_qformer — 8 queries x cross-attn   => LINEAR in tiles
-# tile_attention DROPPED: its O((T*P)^2) patch self-attention needs 4.5 GiB at
-# n_tiles=6 and OOMs the 16GB P100 (need_weights=False / SDPA doesn't help --
-# sm_60 has no mem-efficient backend). It was Exp B #4 anyway.
-bridges: [multi_token, qformer, mini_qformer]   # |A| = 3 n_tiles x 3 bridges = 9
+# Oracle sweep uses the wave-1b n_tiles=1 checkpoints directly (Stage-1 tile-aware
+# retrain CANCELLED at the 12h cap 3x — see plans/next-steps.md). The oracle PILOT
+# (591 val, 2026-09-03) then showed:
+#   - multi_token is POOLED (mean over T*P): trained at n_tiles=1 it COLLAPSES at
+#     n_tiles>1 (CIDEr 0.91 -> 0.53). DROPPED from the tiled action space.
+#   - qformer / mini_qformer are cross-attention (queries x patches): ROBUST across
+#     n_tiles with the n_tiles=1 checkpoint, and spatial/context/recognition gain
+#     +0.11-0.14 CIDEr from more tiles while counting/relational don't -> the
+#     compute-routing signal is real.
+bridges: [qformer, mini_qformer]   # |A| = 3 n_tiles x 2 bridges = 6
 
 lambda_grid: [0.0, 0.05, 0.1, 0.2, 0.4, 0.7, 1.0]   # oracle utility-cost sweep
 

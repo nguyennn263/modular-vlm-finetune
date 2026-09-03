@@ -1,35 +1,39 @@
 {
   "relational": {
-    "qformer|t1": 363,
-    "mini_qformer|t1": 10
+    "qformer|t1": 365,
+    "mini_qformer|t1": 8
   },
   "?": {
-    "qformer|t1": 4111,
-    "mini_qformer|t1": 42
+    "qformer|t1": 4083,
+    "mini_qformer|t1": 67,
+    "qformer|t3": 2,
+    "mini_qformer|t3": 1
   },
   "counting": {
-    "qformer|t1": 208,
-    "mini_qformer|t1": 2
+    "qformer|t1": 207,
+    "mini_qformer|t1": 3
   },
   "action": {
-    "qformer|t1": 91
+    "qformer|t1": 88,
+    "mini_qformer|t1": 3
   },
   "causal": {
-    "qformer|t1": 155
+    "qformer|t1": 153,
+    "mini_qformer|t1": 2
   },
   "context": {
-    "qformer|t1": 46,
-    "mini_qformer|t1": 2
+    "qformer|t1": 48
   },
   "recognition": {
-    "qformer|t1": 222,
-    "mini_qformer|t1": 2
+    "qformer|t1": 223,
+    "mini_qformer|t1": 1
   },
   "spatial": {
-    "qformer|t1": 195,
-    "mini_qformer|t1": 2
+    "qformer|t1": 196,
+    "mini_qformer|t1": 1
   },
   "yesno": {
-    "qformer|t1": 17
+    "qformer|t1": 16,
+    "mini_qformer|t1": 1
   }
 }

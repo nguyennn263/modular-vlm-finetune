@@ -93,12 +93,6 @@ class VisionLanguageBridge(nn.Module):
             for p in self._teacher_mlp1.parameters():
                 p.requires_grad = False
 
-    @torch.no_grad()
-    def teacher_vision_tokens(self, pixel_values: torch.Tensor) -> torch.Tensor:
-        """Vintern's own aligned visual tokens: pixel_shuffle + mlp1.
-        pixel_values: (N, 3, H, W) already flattened over tiles. -> (N, 256, 896)."""
-        return self._teacher.extract_feature(pixel_values)
-        
         # Create trainable bridge module
         self.bridge = self._create_bridge()
         
@@ -117,7 +111,13 @@ class VisionLanguageBridge(nn.Module):
         
         # Freeze both base models
         self._freeze_models()
-    
+
+    @torch.no_grad()
+    def teacher_vision_tokens(self, pixel_values: torch.Tensor) -> torch.Tensor:
+        """Vintern's own aligned visual tokens: pixel_shuffle + mlp1.
+        pixel_values: (N, 3, H, W) already flattened over tiles -> (N, 256, 896)."""
+        return self._teacher.extract_feature(pixel_values)
+
     def _create_bridge(self) -> nn.Module:
         """Create bridge module based on type."""
         config = self.bridge_config

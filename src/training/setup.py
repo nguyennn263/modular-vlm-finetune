@@ -64,18 +64,40 @@ class VisionLanguageBridge(nn.Module):
         bridge_type: BRIDGE_TYPE,
         bridge_config: Optional[dict] = None,
         use_distillation: bool = True,
-        alpha_scaling: float = 0.1  # Scale down residual to stay near base manifold
+        alpha_scaling: float = 0.1,  # Scale down residual to stay near base manifold
+        align_teacher: bool = False,  # keep Vintern's original projector (mlp1) as a KD teacher
     ):
         super().__init__()
-        
+
         self.bridge_type = bridge_type
         self.bridge_config = bridge_config or {}
         self.use_distillation = use_distillation
         self.alpha_scaling = alpha_scaling
-        
+
         # Reference original models (will be frozen)
         self.vision_model = base_model.vision_model
         self.language_model = base_model.language_model
+
+        # Optional: keep the FULL base model (it owns `mlp1`, the pre-aligned
+        # Vintern projector, and `extract_feature` = pixel_shuffle + mlp1) so the
+        # trainer can distill the bridge toward the representation Qwen2 was
+        # pretrained to consume. vision_model / language_model are shared refs, so
+        # this only adds mlp1 (~4M params). Frozen.
+        self.align_teacher = bool(align_teacher)
+        if self.align_teacher:
+            # Unregistered ref (bypass nn.Module.__setattr__) so we do NOT double-
+            # register the shared vision_model / language_model. We DO register
+            # mlp1 (not otherwise held) so `.to(device)` moves it; it stays frozen.
+            object.__setattr__(self, "_teacher", base_model)
+            self._teacher_mlp1 = base_model.mlp1
+            for p in self._teacher_mlp1.parameters():
+                p.requires_grad = False
+
+    @torch.no_grad()
+    def teacher_vision_tokens(self, pixel_values: torch.Tensor) -> torch.Tensor:
+        """Vintern's own aligned visual tokens: pixel_shuffle + mlp1.
+        pixel_values: (N, 3, H, W) already flattened over tiles. -> (N, 256, 896)."""
+        return self._teacher.extract_feature(pixel_values)
         
         # Create trainable bridge module
         self.bridge = self._create_bridge()
@@ -353,7 +375,9 @@ class VisionLanguageBridge(nn.Module):
 def create_finetune_model(
     base_model,
     bridge_type: BRIDGE_TYPE,
-    bridge_config: Optional[dict] = None
+    bridge_config: Optional[dict] = None,
+    align_teacher: bool = False,
 ) -> VisionLanguageBridge:
     """Factory function to create fine-tune model."""
-    return VisionLanguageBridge(base_model, bridge_type, bridge_config)
+    return VisionLanguageBridge(base_model, bridge_type, bridge_config,
+                                align_teacher=align_teacher)

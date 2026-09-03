@@ -171,6 +171,16 @@ class TrainConfig:
     distillation: bool = False
     distillation_weight: float = 0.5
 
+    # Alignment KD from Vintern's own pre-aligned projector (mlp1 + pixel_shuffle).
+    # align_type "logit": KL between the answer-token distribution produced via the
+    # bridge path and via the teacher path (both through the frozen Qwen2).
+    # align_type "feat": cosine distance between the bridge's pooled output and the
+    # teacher's pooled visual tokens. Needs create_finetune_model(align_teacher=True).
+    align_distill: bool = False
+    align_weight: float = 1.0
+    align_type: str = "logit"
+    align_temp: float = 2.0
+
     # Per-epoch text-metric generation cost control. Defaults reproduce the old
     # behaviour (generate on the full val set every epoch). Raise `every` and/or
     # cap `max_samples` to cut the dominant wall-clock cost on slow GPUs; the
@@ -681,6 +691,47 @@ class BridgeTrainer:
         # features through attention/transformer layers, making token-level comparison meaningless.
         self._last_ce = float(loss.detach())
         self._last_distill = 0.0
+        self._last_align = 0.0
+
+        # --- Alignment KD from Vintern's own pre-aligned projector (mlp1) --------
+        # Push the bridge toward the visual representation Qwen2 was pretrained to
+        # consume. "logit": KL on answer-token distributions (bridge path vs
+        # teacher path through the same frozen Qwen2). "feat": cosine on pooled
+        # visual tokens (no teacher LLM forward -> cheaper).
+        if getattr(self.config, "align_distill", False) and getattr(self.model, "align_teacher", False):
+            align_type = getattr(self.config, "align_type", "logit")
+            align_w = float(getattr(self.config, "align_weight", 1.0))
+            # teacher sees a single tile — a fixed, cheap reference target
+            pv_teacher = pixel_values[:, 0] if pixel_values.dim() == 5 else pixel_values
+            with torch.no_grad():
+                t_vis = self.model.teacher_vision_tokens(pv_teacher).to(dtype=model_dtype)  # (B, 256, 896)
+
+            if align_type == "feat":
+                t_pool = t_vis.float().mean(dim=1)
+                s_pool = (bridged_embeddings.float().mean(dim=1)
+                          if bridged_embeddings.dim() == 3 else bridged_embeddings.float())
+                align_loss = (1.0 - F.cosine_similarity(s_pool, t_pool, dim=-1)).mean()
+            else:  # "logit"
+                T = float(getattr(self.config, "align_temp", 2.0))
+                t_len = t_vis.shape[1]
+                t_combined = torch.cat([t_vis, text_embeddings.to(model_dtype)], dim=1)
+                t_attn = torch.cat(
+                    [torch.ones(t_vis.shape[0], t_len, device=self.device, dtype=attention_mask.dtype),
+                     attention_mask], dim=1)
+                with torch.no_grad():
+                    t_logits = self.model.language_model(
+                        inputs_embeds=t_combined, attention_mask=t_attn, return_dict=True
+                    ).logits[:, t_len:, :]                       # (B, text_len, vocab)
+                    t_shift = t_logits[..., :-1, :].contiguous()  # (B, text_len-1, vocab)
+                kl = F.kl_div(
+                    F.log_softmax(shift_logits / T, dim=-1),
+                    F.softmax(t_shift / T, dim=-1),
+                    reduction="none",
+                ).sum(dim=-1)                                     # (B, text_len-1)
+                align_loss = (kl * loss_mask).sum() / loss_mask.sum().clamp(min=1) * (T * T)
+
+            self._last_align = float(align_loss.detach())
+            loss = loss + align_w * align_loss
         # OFF by default: historically ON for only residual/multi_token, which made
         # their reported loss CE+0.5*MSE (MSE grows as the bridge specialises ->
         # "loss" balloons to ~12 while greedy-decode CIDEr is fine) and made the
@@ -764,8 +815,12 @@ class BridgeTrainer:
                 num_batches += 1
                 self.global_step += 1
                 
-                pbar.set_postfix({'loss': f'{step_loss:.4f}'})
-                
+                _pf = {'loss': f'{step_loss:.4f}'}
+                if getattr(self, "_last_align", 0.0):
+                    _pf['ce'] = f'{getattr(self, "_last_ce", 0.0):.3f}'
+                    _pf['align'] = f'{self._last_align:.3f}'
+                pbar.set_postfix(_pf)
+
                 # Validation and checkpoint
                 if self.global_step % self.config.eval_steps == 0:
                     val_loss = self.validate()

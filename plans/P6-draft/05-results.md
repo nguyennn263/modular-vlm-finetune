@@ -6,10 +6,21 @@
 
 ## 5.1 Bridge architecture comparison
 
-(→ owned by co-author; see `plans/results-grouped-split.md`. One-line summary
-for cross-reference: on the grouped 70/15/15 split, `multi_token` is the
-strongest bridge — corpus CIDEr-D **0.94 val / 0.90 test**, above the reported
-ViMoE/Tuong-MoE 0.887 and GPT-5 0.842 — while trailing on word-level F1.)
+Full table and discussion in `05.1-bridge-baseline.md`. Cross-reference summary:
+on the grouped 70/15/15 split (single seed, epoch 1, pycocoevalcap corpus
+metrics), `multi_token` is the strongest bridge and **beats ViMoE-VQA on every
+generation metric** while trailing on token-F1:
+
+| | CIDEr-D | BLEU-4 | ROUGE-L | F1(tok) |
+|---|---|---|---|---|
+| ViMoE-VQA (reported) | 88.7 | 12.5 | 47.1 | **60.7** |
+| **multi_token** (0.78% trainable params) | **94.4** | **19.6** | **50.0** | 44.2 |
+| qformer | 86.7 | 17.5 | 47.1 | — |
+| mini_qformer | 83.8 | 16.8 | 46.0 | — |
+| residual | 56.3 | 8.1 | 36.0 | — |
+
+METEOR is omitted from cross-paper comparison — it is implementation-dependent
+(in-house 41.1 vs pycocoevalcap multi-ref 28.5 on identical predictions).
 
 ## 5.2 Is visual computation a useful lever? (oracle analysis)
 

@@ -93,6 +93,11 @@ def build_run_config(args: argparse.Namespace) -> dict[str, Any]:
     }
     if args.distillation:
         cfg["distillation"] = True
+    if args.align_distill:
+        cfg["align_distill"] = True
+        cfg["align_type"] = args.align_type
+        if args.align_weight is not None:
+            cfg["align_weight"] = args.align_weight
     if args.tile_choices:
         cfg["tile_choices"] = [int(x) for x in str(args.tile_choices).split(",") if x.strip()]
     if args.no_early_stopping:
@@ -168,6 +173,12 @@ def _parser() -> argparse.ArgumentParser:
                    dest="answer_sampling",
                    help="Training target among a sample's ~5 references: first (default), "
                         "random (per-batch paraphrase augmentation), majority.")
+    p.add_argument("--align-distill", action="store_true", dest="align_distill",
+                   help="KD the bridge toward Vintern's own pre-aligned projector (mlp1).")
+    p.add_argument("--align-type", default="logit", choices=["logit", "feat"], dest="align_type",
+                   help="logit: KL on answer-token distributions; feat: cosine on pooled visual tokens.")
+    p.add_argument("--align-weight", type=float, default=None, dest="align_weight",
+                   help="Weight on the alignment KD term (default 1.0).")
     p.add_argument("--distillation", action="store_true",
                    help="Re-enable the bridge->baseline MSE regulariser (residual/multi_token "
                         "only). Off by default: it inflates the reported loss and makes the "
@@ -229,6 +240,7 @@ def run(cfg: dict[str, Any]) -> None:
         base_model,
         bridge_type=cfg["bridge_type"],
         bridge_config=cfg.get("bridge_config") or {},
+        align_teacher=bool(cfg.get("align_distill", False)),
     )
 
     train_config = TrainConfig(
@@ -253,6 +265,9 @@ def run(cfg: dict[str, Any]) -> None:
         tile_choices=cfg.get("tile_choices"),
         answer_sampling=cfg.get("answer_sampling") or "first",
         distillation=bool(cfg.get("distillation", False)),
+        align_distill=bool(cfg.get("align_distill", False)),
+        align_weight=float(cfg.get("align_weight", 1.0)),
+        align_type=cfg.get("align_type", "logit"),
         text_metrics_every=cfg.get("text_metrics_every") or 1,
         text_metrics_max_samples=cfg.get("text_metrics_max_samples") or 0,
         resume_from=cfg.get("resume_from"),

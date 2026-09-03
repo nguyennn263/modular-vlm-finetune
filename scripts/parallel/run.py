@@ -107,7 +107,9 @@ def oracle_worker(shard: int, nshards: int, bridges: str, branch: str,
               f"os.system('git checkout -q {branch} && git pull -q')"),
         _code("!bash setup_kaggle.sh 2>&1 | tail -5"),
         _code("!python scripts/phase0_build_data.py 2>&1 | tail -4"),
-        _code(f"!mkdir -p {ckdir} && cp -r /kaggle/input/{ds}/* {ckdir}/ && ls -R {ckdir} | tail"),
+        _code(f"!mkdir -p {ckdir} && cp -r /kaggle/input/{ds}/* {ckdir}/ && "
+              f"(cd {ckdir} && for z in *.zip; do [ -e \"$z\" ] && unzip -oq \"$z\" && rm \"$z\"; done) ; "
+              f"ls -R {ckdir} | tail"),
         _code(f"!python -m src.cli.oracle --bridges {bridges} --n-tiles 1,3,6 "
               f"--split {split} --subset {subset} --shard {shard}/{nshards} "
               f"--ckpt-dir {ckdir} --out {out}"),

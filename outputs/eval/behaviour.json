@@ -1,0 +1,35 @@
+{
+  "relational": {
+    "qformer|t1": 363,
+    "mini_qformer|t1": 10
+  },
+  "?": {
+    "qformer|t1": 4111,
+    "mini_qformer|t1": 42
+  },
+  "counting": {
+    "qformer|t1": 208,
+    "mini_qformer|t1": 2
+  },
+  "action": {
+    "qformer|t1": 91
+  },
+  "causal": {
+    "qformer|t1": 155
+  },
+  "context": {
+    "qformer|t1": 46,
+    "mini_qformer|t1": 2
+  },
+  "recognition": {
+    "qformer|t1": 222,
+    "mini_qformer|t1": 2
+  },
+  "spatial": {
+    "qformer|t1": 195,
+    "mini_qformer|t1": 2
+  },
+  "yesno": {
+    "qformer|t1": 17
+  }
+}

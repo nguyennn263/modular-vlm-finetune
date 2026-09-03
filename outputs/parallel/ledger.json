@@ -117,15 +117,6 @@
       "split": "val",
       "shard": "4/5"
     },
-    "oracle:test:shard0of5": {
-      "account": "acc12",
-      "kernel": "trngtinanh/mvlm-oracle-test-0of5",
-      "status": "running",
-      "pushed_at": "2026-09-03T18:02:07",
-      "collected": false,
-      "split": "test",
-      "shard": "0/5"
-    },
     "oracle:test:shard1of5": {
       "account": "acc13",
       "kernel": "avanrager/mvlm-oracle-test-1of5",
@@ -134,15 +125,6 @@
       "collected": false,
       "split": "test",
       "shard": "1/5"
-    },
-    "oracle:test:shard2of5": {
-      "account": "acc12",
-      "kernel": "trngtinanh/mvlm-oracle-test-2of5",
-      "status": "running",
-      "pushed_at": "2026-09-03T18:02:11",
-      "collected": false,
-      "split": "test",
-      "shard": "2/5"
     },
     "oracle:test:shard3of5": {
       "account": "acc13",
@@ -206,6 +188,24 @@
       "collected": false,
       "split": "train",
       "shard": "4/5"
+    },
+    "oracle:test:shard0of5": {
+      "account": "acc4",
+      "kernel": "nguyennn251/mvlm-oracle-test-0of5",
+      "status": "running",
+      "pushed_at": "2026-09-03T18:13:51",
+      "collected": false,
+      "split": "test",
+      "shard": "0/5"
+    },
+    "oracle:test:shard2of5": {
+      "account": "acc7",
+      "kernel": "tinquc220300nguyn/mvlm-oracle-test-2of5",
+      "status": "running",
+      "pushed_at": "2026-09-03T18:13:53",
+      "collected": false,
+      "split": "test",
+      "shard": "2/5"
     }
   }
 }

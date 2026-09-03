@@ -130,17 +130,47 @@ question surface form (§4, router F1 0.91) — contribute nothing on top.
 
 ## 5.5 Compute–efficiency (P1 profiling)
 
-n_tiles is a genuine compute lever (InternViT GFLOPs ×6, P100 latency ×4 from
-n_tiles=1→6). The negative routing result is therefore *not* "the lever is too
-small to matter" — the lever is real, but the frozen 0.5 B language model cannot
-convert the extra visual detail into better answers, in any reasoning category.
+n_tiles is a genuine compute lever. Profiled on a Tesla P100-16GB
+(`mini_qformer`, 32 samples, `src.cli.profile`):
+
+| n_tiles | InternViT GFLOPs | latency (ms) | throughput (img/s) |
+|---|---|---|---|
+| 1 | 362 | 229 | 6.0 |
+| 2 | 724 | 374 | 3.3 |
+| 4 | 1 448 | 648 | 1.7 |
+| 6 | 2 172 | 922 | 1.15 |
+
+Dynamic range 1→6: **FLOPs ×6.0, latency ×4.0, throughput ×5.2** — far above the
+15 % threshold at which a lever is worth routing over. The InternViT encoder is
+linear in tile count (GFLOPs 362 · n_tiles); wall-clock scales sub-linearly
+(×4.0) because the frozen Qwen2-0.5B decode is a fixed per-sample cost that
+n_tiles does not touch.
+
+This matters for the efficiency claim: `multi_token` reaches its quality
+(§5.1) from **a single tile** — 362 GFLOPs of vision encode — where the
+Vintern-1B reference recipe full-finetunes the ViT and runs up to 12 dynamic
+tiles. The negative routing result (§5.2–5.4) is therefore *not* "the lever is
+too small to matter": the lever is real and 6× wide, but the frozen 0.5B
+language model cannot convert the extra visual detail into better answers, in
+any reasoning category — so the cheapest point on the lever is also the best.
 
 ---
 
 ### Pending
 - [x] re-run 5.3 policies on the |A|=9 *train* split (5 547) — **done, locked**:
       all arms → `fixed: multi_token|t1` (0.901–0.902), a*-match ≈ majority 0.43
-- [ ] tile-augmented `multi_token` oracle sweep (retrain finishing ~23:00) →
+- [x] 5.5 compute-efficiency table added (P1 v8 profiling)
+- [ ] **PIVOT (co-author, 2026-09-03): efficiency is now the primary story**,
+      routing/oracle result demoted to a supporting ablation ("1 tile is not a
+      compromise"), P(r|Q) reasoning-type demoted to a small ablation. §5 content
+      stays valid; needs section reorder + reframing once numbers re-lock.
+- [ ] **re-lock 5.2/5.3 on tile-CAPABLE checkpoints.** Current oracle uses the
+      n_tiles=1-trained bridges — the confound a reviewer hits. Tiled retrains
+      launched: `multi_token`→acc11, `qformer`→acc9, `mini_qformer`→acc10
+      (~2026-09-04). When they land: re-run oracle sweep (val+test) + policy
+      ladder on the tiled checkpoints, re-lock the tables. Expected: same
+      conclusion (no policy beats fixed), cleaner numbers.
+- [ ] tile-augmented `multi_token` oracle sweep (retrain on acc11) →
       redo 5.2 headroom analysis if the pooled bridge trained *with* tiles
       exploits them; if it collapses like the n_tiles=1 checkpoint, no change
 - [ ] human validation of 300–500 answers (2 raters, Cohen's κ) — §5.1/§6

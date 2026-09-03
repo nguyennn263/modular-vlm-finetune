@@ -66,6 +66,20 @@ def _code(*lines: str) -> dict:
     return {"cell_type": "code", "metadata": {}, "execution_count": None, "outputs": [], "source": src}
 
 
+def _clone_cell(branch: str) -> dict:
+    """Robust clone: retry the transient 'Could not resolve host: github.com'."""
+    return _code(
+        "import os, subprocess, time",
+        "os.chdir('/kaggle/working')",
+        "for _ in range(6):",
+        f"    subprocess.call('git clone -q {REPO_URL} repo || (cd repo && git fetch -q)', shell=True)",
+        "    if os.path.isdir('repo'): break",
+        "    time.sleep(15)",
+        "os.chdir('/kaggle/working/repo')",
+        f"os.system('git checkout -q {branch} && git pull -q')",
+    )
+
+
 def expa_worker(bridge: str, seed: int, branch: str, resume_ds: str | None, epochs: int,
                 tile_choices: str | None = None) -> list[dict]:
     ck = f"/kaggle/working/{'ck-tiled' if tile_choices else 'ck'}/seed{seed}"
@@ -76,24 +90,26 @@ def expa_worker(bridge: str, seed: int, branch: str, resume_ds: str | None, epoc
     # mid-training val passes + a checkpoint every ~half epoch keeps the whole
     # kernel well under the 12h Kaggle cap (a CANCEL there persists nothing).
     step = 3000 if tile_choices else 800
-    return [
-        _code("import os",
-              "os.chdir('/kaggle/working')",
-              f"os.system('git clone -q {REPO_URL} repo || (cd repo && git fetch -q)')",
-              "os.chdir('/kaggle/working/repo')",
-              f"os.system('git checkout -q {branch} && git pull -q')"),
+    # tile-augmented runs skip the ~2h final full-val eval (the oracle scores per
+    # n_tiles itself) so training-only fits the 12h cap.
+    metrics = "--text-metrics-every 99 --text-metrics-max-samples 300" if tile_choices \
+              else "--text-metrics-every 2 --text-metrics-max-samples 600"
+    cells = [
+        _clone_cell(branch),
         _code("!bash setup_kaggle.sh 2>&1 | tail -5"),
         _code("!python scripts/phase0_build_data.py 2>&1 | tail -6"),
         _code(resume_cp),
         _code(f"!python -m src.cli.train --bridge {bridge} --split-dir data/splits --seed {seed} "
               f"--epochs {epochs} --batch-size 8 --grad-accum 1 --eval-steps {step} --save-steps {step} "
-              f"--no-early-stopping --text-metrics-every 2 --text-metrics-max-samples 600 "
+              f"--no-early-stopping {metrics} "
               f"{tc}--output-dir {ck} --resume"),
-        _code(f"!python -m src.cli.evaluate --bridge {bridge} --split-dir data/splits --split val "
-              f"--checkpoint {ck}/{bridge}/last_model.pt"),
-        _code(f"!mkdir -p /kaggle/working/out && cp -r {ck} /kaggle/working/out/ && "
-              f"cp -r data/splits /kaggle/working/out/ 2>/dev/null; ls -R /kaggle/working/out | tail -20"),
     ]
+    if not tile_choices:
+        cells.append(_code(f"!python -m src.cli.evaluate --bridge {bridge} --split-dir data/splits --split val "
+                           f"--checkpoint {ck}/{bridge}/last_model.pt"))
+    cells.append(_code(f"!mkdir -p /kaggle/working/out && cp -r {ck} /kaggle/working/out/ && "
+                       f"cp -r data/splits /kaggle/working/out/ 2>/dev/null; ls -R /kaggle/working/out | tail -20"))
+    return cells
 
 
 def oracle_worker(shard: int, nshards: int, bridges: str, branch: str,
@@ -101,10 +117,7 @@ def oracle_worker(shard: int, nshards: int, bridges: str, branch: str,
     ds = ckpt_ds.split("/")[-1]
     ckdir = "checkpoints/expA-tiled/seed42"
     return [
-        _code("import os", "os.chdir('/kaggle/working')",
-              f"os.system('git clone -q {REPO_URL} repo || (cd repo && git fetch -q)')",
-              "os.chdir('/kaggle/working/repo')",
-              f"os.system('git checkout -q {branch} && git pull -q')"),
+        _clone_cell(branch),
         _code("!bash setup_kaggle.sh 2>&1 | tail -5"),
         _code("!python scripts/phase0_build_data.py 2>&1 | tail -4"),
         _code(f"import os, glob, shutil",
@@ -124,10 +137,7 @@ def oracle_worker(shard: int, nshards: int, bridges: str, branch: str,
 
 def fiq_worker(branch: str, splits: str) -> list[dict]:
     return [
-        _code("import os", "os.chdir('/kaggle/working')",
-              f"os.system('git clone -q {REPO_URL} repo || (cd repo && git fetch -q)')",
-              "os.chdir('/kaggle/working/repo')",
-              f"os.system('git checkout -q {branch} && git pull -q')"),
+        _clone_cell(branch),
         _code("!bash setup_kaggle.sh 2>&1 | tail -5"),
         _code("!python scripts/phase0_build_data.py 2>&1 | tail -4"),
         _code(f"!python -m src.cli.build_fiq --split-dir data/splits --splits {splits} --pca 64"),

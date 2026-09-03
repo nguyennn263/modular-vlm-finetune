@@ -60,36 +60,6 @@
       "bridge": "qformer",
       "seed": 42
     },
-    "expa-tiled:multi_token:s42": {
-      "account": "acc6",
-      "kernel": "knull0d/mvlm-expa-tiled-multi-token-s42",
-      "status": "running",
-      "pushed_at": "2026-09-02T22:37:20",
-      "collected": false,
-      "bridge": "multi_token",
-      "seed": 42,
-      "tiles": "1,3,6"
-    },
-    "expa-tiled:qformer:s42": {
-      "account": "acc7",
-      "kernel": "tinquc220300nguyn/mvlm-expa-tiled-qformer-s42",
-      "status": "running",
-      "pushed_at": "2026-09-02T22:37:22",
-      "collected": false,
-      "bridge": "qformer",
-      "seed": 42,
-      "tiles": "1,3,6"
-    },
-    "expa-tiled:mini_qformer:s42": {
-      "account": "acc8",
-      "kernel": "lelynhan/mvlm-expa-tiled-mini-qformer-s42",
-      "status": "running",
-      "pushed_at": "2026-09-02T22:37:24",
-      "collected": false,
-      "bridge": "mini_qformer",
-      "seed": 42,
-      "tiles": "1,3,6"
-    },
     "oracle:val:shard0of5": {
       "account": "acc9",
       "kernel": "masalamohammad/mvlm-oracle-val-0of5",
@@ -127,13 +97,23 @@
       "shard": "3/5"
     },
     "oracle:val:shard4of5": {
-      "account": "acc7",
-      "kernel": "tinquc220300nguyn/mvlm-oracle-val-4of5",
+      "account": "acc4",
+      "kernel": "nguyennn251/mvlm-oracle-val-4of5",
       "status": "running",
-      "pushed_at": "2026-09-03T14:05:46",
+      "pushed_at": "2026-09-03T14:09:02",
       "collected": false,
       "split": "val",
       "shard": "4/5"
+    },
+    "expa-tiled:multi_token:s42": {
+      "account": "acc11",
+      "kernel": "chalicetrncthnh/mvlm-expa-tiled-multi-token-s42",
+      "status": "running",
+      "pushed_at": "2026-09-03T14:09:17",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 42,
+      "tiles": "1,3,6"
     }
   }
 }

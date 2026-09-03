@@ -90,14 +90,50 @@
       "seed": 42,
       "tiles": "1,3,6"
     },
-    "oracle:val:shard0of1": {
+    "oracle:val:shard0of5": {
       "account": "acc9",
-      "kernel": "masalamohammad/mvlm-oracle-val-0of1",
+      "kernel": "masalamohammad/mvlm-oracle-val-0of5",
       "status": "running",
-      "pushed_at": "2026-09-03T11:25:13",
+      "pushed_at": "2026-09-03T14:05:37",
       "collected": false,
       "split": "val",
-      "shard": "0/1"
+      "shard": "0/5"
+    },
+    "oracle:val:shard1of5": {
+      "account": "acc10",
+      "kernel": "giapht/mvlm-oracle-val-1of5",
+      "status": "running",
+      "pushed_at": "2026-09-03T14:05:39",
+      "collected": false,
+      "split": "val",
+      "shard": "1/5"
+    },
+    "oracle:val:shard2of5": {
+      "account": "acc11",
+      "kernel": "chalicetrncthnh/mvlm-oracle-val-2of5",
+      "status": "running",
+      "pushed_at": "2026-09-03T14:05:41",
+      "collected": false,
+      "split": "val",
+      "shard": "2/5"
+    },
+    "oracle:val:shard3of5": {
+      "account": "acc6",
+      "kernel": "knull0d/mvlm-oracle-val-3of5",
+      "status": "running",
+      "pushed_at": "2026-09-03T14:05:44",
+      "collected": false,
+      "split": "val",
+      "shard": "3/5"
+    },
+    "oracle:val:shard4of5": {
+      "account": "acc7",
+      "kernel": "tinquc220300nguyn/mvlm-oracle-val-4of5",
+      "status": "running",
+      "pushed_at": "2026-09-03T14:05:46",
+      "collected": false,
+      "split": "val",
+      "shard": "4/5"
     }
   }
 }

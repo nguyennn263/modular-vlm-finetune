@@ -41,8 +41,9 @@ def train_arm(name: str, extra: list[str]) -> Path:
            "--labels", "outputs/oracle_train/labels_A9.parquet",
            "--val-labels", "outputs/oracle_test/labels_A9.parquet",
            "--val-prq", "outputs/router/prq_test.parquet",
-           "--val-features", "outputs/fiq/test.parquet",
            "--epochs", "60", "--out", str(out)] + extra
+    if "--features" in extra:  # arm uses f(I,Q) -> supply the matching val features
+        cmd += ["--val-features", "outputs/fiq/test.parquet"]
     r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True)
     line = [l for l in r.stdout.splitlines() if "a*-match" in l]
     print(f"  {name:12} {line[-1] if line else r.stdout.strip()[-200:]}  {r.stderr.strip()[-120:]}")

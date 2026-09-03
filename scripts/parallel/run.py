@@ -82,11 +82,13 @@ def _clone_cell(branch: str) -> dict:
 
 
 def expa_worker(bridge: str, seed: int, branch: str, resume_ds: str | None, epochs: int,
-                tile_choices: str | None = None) -> list[dict]:
-    ck = f"/kaggle/working/{'ck-tiled' if tile_choices else 'ck'}/seed{seed}"
+                tile_choices: str | None = None, answer_sampling: str | None = None) -> list[dict]:
+    _sub = "ck-tiled" if tile_choices else ("ck-" + answer_sampling if answer_sampling else "ck")
+    ck = f"/kaggle/working/{_sub}/seed{seed}"
     resume_cp = (f"!mkdir -p {ck}/{bridge} && cp /kaggle/input/{resume_ds.split('/')[-1]}/* "
                  f"{ck}/{bridge}/ 2>/dev/null && echo RESUMED || echo FRESH") if resume_ds else "print('FRESH')"
     tc = f"--tile-choices {tile_choices} " if tile_choices else ""
+    asamp = f"--answer-sampling {answer_sampling} " if answer_sampling else ""
     # tile augmentation makes each step ~3x slower (avg InternViT tiles). Fewer
     # mid-training val passes + a checkpoint every ~half epoch keeps the whole
     # kernel well under the 12h Kaggle cap (a CANCEL there persists nothing).
@@ -103,7 +105,7 @@ def expa_worker(bridge: str, seed: int, branch: str, resume_ds: str | None, epoc
         _code(f"!python -m src.cli.train --bridge {bridge} --split-dir data/splits --seed {seed} "
               f"--epochs {epochs} --batch-size 8 --grad-accum 1 --eval-steps {step} --save-steps {step} "
               f"--no-early-stopping {metrics} "
-              f"{tc}--output-dir {ck} --resume"),
+              f"{tc}{asamp}--output-dir {ck} --resume"),
     ]
     if not tile_choices:
         cells.append(_code(f"!python -m src.cli.evaluate --bridge {bridge} --split-dir data/splits --split val "
@@ -217,7 +219,7 @@ def cmd_launch(args) -> None:
         seeds = [int(s) for s in str(args.seed).split(",")]
         blist = [b.strip() for b in args.bridges.split(",")] if args.bridges != ",".join(BRIDGES) else BRIDGES
         combos = [(b, s) for s in seeds for b in blist]
-        tag = "-tiled" if args.tiles else ""
+        tag = "-tiled" if args.tiles else ("-" + args.answer_sampling if args.answer_sampling else "")
         for i, (bridge, seed) in enumerate(combos):
             acc = pool[i % len(pool)]
             job = f"expa{tag}:{bridge}:s{seed}"
@@ -225,9 +227,11 @@ def cmd_launch(args) -> None:
                 print(f"[skip] {job} = {led['jobs'][job]['status']}")
                 continue
             slug = f"mvlm-expa{tag}-{bridge.replace('_','-')}-s{seed}"
-            cells = expa_worker(bridge, seed, branch, None, args.epochs, tile_choices=args.tiles or None)
+            cells = expa_worker(bridge, seed, branch, None, args.epochs, tile_choices=args.tiles or None,
+                                answer_sampling=args.answer_sampling)
             kid = _push_worker(acc, slug, cells, None)
-            _register(led, job, acc, kid, {"bridge": bridge, "seed": seed, "tiles": args.tiles})
+            _register(led, job, acc, kid, {"bridge": bridge, "seed": seed, "tiles": args.tiles,
+                                           "answer_sampling": args.answer_sampling})
 
     elif args.phase == "oracle":
         ds = args.ckpt_ds or f"{_user(args.bundle_acc)}/mvlm-expa-ckpt"
@@ -288,7 +292,8 @@ def _collect(job: str, j: dict) -> None:
 
     if job.startswith("expa"):
         seed, bridge = j["seed"], j["bridge"]
-        exp = "expA-tiled" if j.get("tiles") else "expA"
+        exp = ("expA-tiled" if j.get("tiles")
+               else f"expA-{j['answer_sampling']}" if j.get("answer_sampling") else "expA")
         # Only the worker's own output tree (`out/seed<S>/<bridge>/` or `ck/...`);
         # NEVER files that rode along inside the cloned `repo/` checkout.
         def _own(name: str):
@@ -402,6 +407,9 @@ def main() -> None:
                     help="expa/oracle: comma list of bridges (expa default = all 5)")
     lp.add_argument("--tiles", default=None,
                     help="expa: '1,3,6' -> tile-count-augmented retrain (checkpoints/expA-tiled/)")
+    lp.add_argument("--answer-sampling", default=None, dest="answer_sampling",
+                    choices=["random", "majority"],
+                    help="expa: train target picks among all 5 refs instead of ref[0]")
     lp.add_argument("--accounts", default=None,
                     help="comma list e.g. acc6,acc7 — restrict the account pool (default: all)")
     lp.add_argument("--ckpt-ds", default=None, dest="ckpt_ds",

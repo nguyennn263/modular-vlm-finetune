@@ -89,6 +89,15 @@
       "bridge": "mini_qformer",
       "seed": 42,
       "tiles": "1,3,6"
+    },
+    "oracle:val:shard0of1": {
+      "account": "acc9",
+      "kernel": "masalamohammad/mvlm-oracle-val-0of1",
+      "status": "running",
+      "pushed_at": "2026-09-03T10:59:35",
+      "collected": false,
+      "split": "val",
+      "shard": "0/1"
     }
   }
 }

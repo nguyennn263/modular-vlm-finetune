@@ -107,9 +107,16 @@ def oracle_worker(shard: int, nshards: int, bridges: str, branch: str,
               f"os.system('git checkout -q {branch} && git pull -q')"),
         _code("!bash setup_kaggle.sh 2>&1 | tail -5"),
         _code("!python scripts/phase0_build_data.py 2>&1 | tail -4"),
-        _code(f"!mkdir -p {ckdir} && cp -r /kaggle/input/{ds}/* {ckdir}/ && "
-              f"(cd {ckdir} && for z in *.zip; do [ -e \"$z\" ] && unzip -oq \"$z\" && rm \"$z\"; done) ; "
-              f"ls -R {ckdir} | tail"),
+        _code(f"import os, glob, shutil",
+              f"print('input mounts:', os.listdir('/kaggle/input'))",
+              f"src = '/kaggle/input/{ds}'",
+              f"assert os.path.isdir(src) and os.listdir(src), f'checkpoint dataset {ds} not mounted / empty: '+repr(glob.glob(src+'/*'))",
+              f"os.makedirs('{ckdir}', exist_ok=True)",
+              f"os.system(f'cp -r {{src}}/* {ckdir}/')",
+              f"[os.system(f'cd {ckdir} && unzip -oq \"{{z}}\" && rm \"{{z}}\"') for z in glob.glob('{ckdir}/*.zip')]",
+              f"got = glob.glob('{ckdir}/*/best_model.pt')",
+              f"assert got, 'no <bridge>/best_model.pt after copy: '+repr(glob.glob('{ckdir}/*'))",
+              f"print('checkpoints ready:', got)"),
         _code(f"!python -m src.cli.oracle --bridges {bridges} --n-tiles 1,3,6 "
               f"--split {split} --subset {subset} --shard {shard}/{nshards} "
               f"--ckpt-dir {ckdir} --out {out}"),

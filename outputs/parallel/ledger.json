@@ -94,7 +94,7 @@
       "account": "acc9",
       "kernel": "masalamohammad/mvlm-oracle-val-0of1",
       "status": "running",
-      "pushed_at": "2026-09-03T11:12:28",
+      "pushed_at": "2026-09-03T11:25:13",
       "collected": false,
       "split": "val",
       "shard": "0/1"

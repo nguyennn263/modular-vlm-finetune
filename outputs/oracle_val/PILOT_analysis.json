@@ -1,0 +1,54 @@
+{
+  "pilot": "oracle val, 591 samples, 3 bridges x 3 n_tiles = 5319 gens, ~1h33m on acc9",
+  "bridge_x_ntiles": {
+    "1": {
+      "mini_qformer": 0.823,
+      "multi_token": 0.91,
+      "qformer": 0.828
+    },
+    "3": {
+      "mini_qformer": 0.833,
+      "multi_token": 0.525,
+      "qformer": 0.859
+    },
+    "6": {
+      "mini_qformer": 0.8,
+      "multi_token": 0.58,
+      "qformer": 0.849
+    }
+  },
+  "note_multi_token": "POOLED bridge collapses at n_tiles>1 (0.91->0.53); drop it or tile-retrain",
+  "category_x_ntiles_qmq": {
+    "1": {
+      "action": 0.47,
+      "causal": 0.537,
+      "context": 0.287,
+      "counting": 1.292,
+      "recognition": 0.845,
+      "relational": 0.729,
+      "spatial": 0.821,
+      "yesno": 1.069
+    },
+    "3": {
+      "action": 0.388,
+      "causal": 0.56,
+      "context": 0.396,
+      "counting": 1.236,
+      "recognition": 0.928,
+      "relational": 0.559,
+      "spatial": 0.875,
+      "yesno": 1.135
+    },
+    "6": {
+      "action": 0.483,
+      "causal": 0.452,
+      "context": 0.428,
+      "counting": 1.286,
+      "recognition": 0.959,
+      "relational": 0.716,
+      "spatial": 0.94,
+      "yesno": 1.031
+    }
+  },
+  "verdict": "n_tiles signal is real + category-dependent: spatial/context/recognition benefit (+0.11-0.14), counting/relational do not. Full sweep warranted on qformer+mini_qformer."
+}

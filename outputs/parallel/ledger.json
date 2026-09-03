@@ -154,10 +154,10 @@
       "shard": "3/5"
     },
     "oracle:val:shard4of5": {
-      "account": "acc4",
-      "kernel": "nguyennn251/mvlm-oracle-val-4of5",
+      "account": "acc10",
+      "kernel": "giapht/mvlm-oracle-val-4of5",
       "status": "running",
-      "pushed_at": "2026-09-03T17:14:01",
+      "pushed_at": "2026-09-03T17:18:18",
       "collected": false,
       "split": "val",
       "shard": "4/5"

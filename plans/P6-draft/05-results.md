@@ -154,9 +154,45 @@ too small to matter": the lever is real and 6× wide, but the frozen 0.5B
 language model cannot convert the extra visual detail into better answers, in
 any reasoning category — so the cheapest point on the lever is also the best.
 
+## 5.6 Training- and alignment-side interventions
+
+The routing result (§5.2–5.4) rules out *when-to-spend-more-vision* as a lever.
+We ran two further interventions on the headline `multi_token` bridge, on the
+other two axes one could push — the **training target** and the
+**vision–language representation alignment** — holding architecture, data split
+and 1-tile inference fixed:
+
+- **Multi-reference training target.** AutoViVQA gives 5 distinct reference
+  answers per question; the headline bridge trains on the first
+  (`--answer-sampling first`). Re-training with a reference resampled per epoch
+  (`random`) exposes the model to all 5.
+- **Projector-alignment KD.** Vintern-1B's own `mlp1` connector is pre-aligned
+  to Qwen2 by their pretraining. We add an auxiliary loss pulling the trained
+  bridge toward that teacher — `feat`: cosine between pooled bridge output and
+  pooled teacher tokens; `logit`: KL between answer-token distributions decoded
+  through the bridge vs. through `mlp1`, both via the frozen Qwen2 (SEA /
+  BASIC-style).
+
+| intervention (`multi_token`, seed 42, epoch-1 val) | F1(tok) | CIDEr-D | ΔF1 vs `first` |
+|---|---|---|---|
+| `first` (headline, §5.1) | 50.7 | 94.4 | — |
+| `--answer-sampling random` | 49.0 | 87.3 | −1.7 |
+| align KD (`feat`, α=0.5) | 49.7 | 92.0 | −1.0 |
+| align KD (`logit`, α=0.5) | _pending_ | _pending_ | _pending_ |
+
+None improves token-F1; all shift CIDEr-D down. The deltas (≤ 2 pts, single
+seed, no multi-seed CI yet) are within run-to-run noise — the result is the
+**absence of a lift**, not significant harm. The bridge already attains the
+lowest validation CE of the five architectures (1.49; §5.1), i.e. it is close to
+CE-optimal for what the frozen decoder admits, and an auxiliary term only
+perturbs it off that point. We read the convergence of all three negatives in
+§6.1.
+
 ---
 
 ### Pending
+- [ ] fill the align-KD `logit` row (kernel finishing)
+- [ ] §5.6: swap in multi-seed numbers + CI once C2 lands
 - [x] re-run 5.3 policies on the |A|=9 *train* split (5 547) — **done, locked**:
       all arms → `fixed: multi_token|t1` (0.901–0.902), a*-match ≈ majority 0.43
 - [x] 5.5 compute-efficiency table added (P1 v8 profiling)

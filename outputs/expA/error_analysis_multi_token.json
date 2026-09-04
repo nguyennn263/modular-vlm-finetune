@@ -1,0 +1,294 @@
+{
+  "bridge": "multi_token",
+  "n": 5463,
+  "mean_pred_len": 4.39,
+  "mean_ref_len": 4.32,
+  "pred_shorter_than_ref_pct": 49.6,
+  "buckets_pct": {
+    "strong (F1>=.6)": 36.7,
+    "partial (.2-.6)": 51.5,
+    "weak (0-.2)": 3.1,
+    "zero (F1=0)": 8.7
+  },
+  "per_category_f1": {
+    "relational": {
+      "n": 1662,
+      "mean_f1": 0.551
+    },
+    "recognition": {
+      "n": 1016,
+      "mean_f1": 0.453
+    },
+    "spatial": {
+      "n": 802,
+      "mean_f1": 0.476
+    },
+    "causal": {
+      "n": 692,
+      "mean_f1": 0.425
+    },
+    "counting": {
+      "n": 689,
+      "mean_f1": 0.66
+    },
+    "action": {
+      "n": 391,
+      "mean_f1": 0.396
+    },
+    "context": {
+      "n": 145,
+      "mean_f1": 0.368
+    },
+    "yesno": {
+      "n": 66,
+      "mean_f1": 0.614
+    }
+  },
+  "counting_noun_omission": {
+    "n_counting": 689,
+    "n_omit": 40,
+    "pct": 5.8
+  },
+  "examples": {
+    "zero_f1": [
+      {
+        "q": "Tại sao một số người tham gia bị bịt mắt?",
+        "pred": "Vì trời mưa",
+        "refs": [
+          "Để tăng độ khó",
+          "Đó là quy tắc cuộc thi",
+          "Để tạo bất ngờ",
+          "Là một phần của trò chơi",
+          "Để công bằng hơn"
+        ],
+        "cat": "causal",
+        "f1": 0.0
+      },
+      {
+        "q": "Người chơi tennis có thể đang nghĩ gì khi thi đấu?",
+        "pred": "Đang suy nghĩ về kết quả",
+        "refs": [
+          "Làm sao để thắng trận",
+          "Tập trung vào cú đánh tiếp theo",
+          "Cố gắng hết sức mình",
+          "Vượt qua đối thủ",
+          "Giành điểm số quan trọng"
+        ],
+        "cat": "context",
+        "f1": 0.0
+      },
+      {
+        "q": "Tại sao một trong những người trượt ván lại nhảy lên không trung?",
+        "pred": "Có thể do không khí",
+        "refs": [
+          "Để thực hiện một thủ thuật",
+          "Để khoe kỹ năng của anh ấy",
+          "Để thực hiện động tác trượt ván",
+          "Anh ấy đang biểu diễn",
+          "Thực hiện một pha nguy hiểm"
+        ],
+        "cat": "causal",
+        "f1": 0.0
+      },
+      {
+        "q": "Những người đang xem người đàn ông lướt sóng có thể đang cảm thấy gì?",
+        "pred": "Cảm thấy vui vẻ",
+        "refs": [
+          "Có lẽ họ đang thích thú",
+          "Có thể họ đang ghen tị",
+          "Họ có thể đang học hỏi",
+          "Có thể họ đang chờ lượt",
+          "Có thể họ đang thư giãn"
+        ],
+        "cat": "context",
+        "f1": 0.0
+      },
+      {
+        "q": "Đàn bò có vẻ đang làm gì gần bờ sông?",
+        "pred": "Đang ăn thức ăn",
+        "refs": [
+          "Đứng nghỉ ngơi",
+          "Uống nước",
+          "Chờ đợi",
+          "Thư giãn",
+          "Gần gũi con người"
+        ],
+        "cat": "action",
+        "f1": 0.0
+      },
+      {
+        "q": "Tại sao tóc trên đầu của vận động viên trượt ván lại đứng vững?",
+        "pred": "Để giữ vững ván",
+        "refs": [
+          "Có lẽ do tốc độ nhanh.",
+          "Có thể vì gió mạnh khi trượt.",
+          "Do tác động của không khí.",
+          "Biểu hiện của sự phấn khích.",
+          "Tóc dựng lên tự nhiên khi vận động."
+        ],
+        "cat": "causal",
+        "f1": 0.0
+      }
+    ],
+    "partial_f1": [
+      {
+        "q": "Tại sao người đàn ông lại bị kéo xuống nước giữa hai con bò?",
+        "pred": "Có thể bị cản trở",
+        "refs": [
+          "Do bò kéo anh ta trong cuộc đua",
+          "Vì anh ta đang tham gia một cuộc đua",
+          "Bò làm anh ta mất thăng bằng",
+          "Do dòng nước bùn kéo đi",
+          "Có thể do vướng vào dây cương"
+        ],
+        "cat": "causal",
+        "f1": 0.33
+      },
+      {
+        "q": "Tại sao khu vực này được coi là rất mất vệ sinh?",
+        "pred": "Vì có nhiều vết bẩn",
+        "refs": [
+          "Vì đồ ăn đang được chuẩn bị ở đó",
+          "Do có nhiều vật chứa",
+          "Vì bếp bẩn thỉu",
+          "Do sự bừa bộn",
+          "Khu vực không được dọn dẹp"
+        ],
+        "cat": "causal",
+        "f1": 0.44
+      },
+      {
+        "q": "Tại sao nhiều người lại cùng nhau thả diều?",
+        "pred": "Để trải nghiệm",
+        "refs": [
+          "Để giải trí",
+          "Vì thời tiết đẹp",
+          "Để vui chơi cùng nhau",
+          "Tạo không khí lễ hội",
+          "Để tận hưởng không gian thoáng đãng"
+        ],
+        "cat": "causal",
+        "f1": 0.33
+      },
+      {
+        "q": "Mối quan hệ giữa người trượt ván và người xem là gì?",
+        "pred": "Người trượt ván đang trượt ván",
+        "refs": [
+          "Người biểu diễn và khán giả",
+          "Vận động viên và người hâm mộ",
+          "Người trượt ván và người quan sát",
+          "Màn trình diễn và người theo dõi",
+          "Đối tượng được chiêm ngưỡng"
+        ],
+        "cat": "relational",
+        "f1": 0.46
+      },
+      {
+        "q": "Tại sao người đàn ông lại đánh bóng tennis trên đường phố?",
+        "pred": "Để chơi bóng",
+        "refs": [
+          "Có thể không có sân tennis.",
+          "Có thể để giải trí.",
+          "Có lẽ vì thích không gian rộng.",
+          "Có thể không có nơi nào khác để chơi.",
+          "Có lẽ vì đường phố vắng."
+        ],
+        "cat": "causal",
+        "f1": 0.33
+      },
+      {
+        "q": "Tại sao người đàn ông lại nhảy ván trượt qua lan can?",
+        "pred": "Để tránh bị trượt",
+        "refs": [
+          "Để thực hiện một kỹ thuật trượt ván khó.",
+          "Để thể hiện kỹ năng trượt ván của mình.",
+          "Có thể anh ta đang luyện tập một cú nhảy.",
+          "Để vượt qua chướng ngại vật lan can.",
+          "Anh ta muốn biểu diễn một pha nguy hiểm."
+        ],
+        "cat": "causal",
+        "f1": 0.31
+      }
+    ],
+    "noun_omission": [
+      {
+        "q": "Có bao nhiêu cầu thủ bóng chày được nhắc đến trong chú thích?",
+        "pred": "Hai",
+        "refs": [
+          "Hai cầu thủ",
+          "Có hai người",
+          "Chỉ có hai",
+          "Được hai người",
+          "Tổng cộng hai"
+        ],
+        "cat": "counting",
+        "f1": 0.5
+      },
+      {
+        "q": "Có bao nhiêu xe tải xung quanh máy bay lớn?",
+        "pred": "Hai xe tải",
+        "refs": [
+          "Một số",
+          "Một vài",
+          "Nhiều",
+          "Vài chiếc",
+          "Không xác định"
+        ],
+        "cat": "counting",
+        "f1": 0.0
+      },
+      {
+        "q": "Số lượng địa điểm mà ngựa vằn được nhìn thấy trong hình là bao nhiêu?",
+        "pred": "Hai",
+        "refs": [
+          "Hai địa điểm",
+          "Hai",
+          "Có hai nơi",
+          "Hai vị trí khác nhau",
+          "2"
+        ],
+        "cat": "counting",
+        "f1": 1.0
+      },
+      {
+        "q": "Có bao nhiêu con ngựa vằn được nhìn thấy trong cảnh này?",
+        "pred": "Hai con",
+        "refs": [
+          "Bốn",
+          "Năm",
+          "Một nhóm nhỏ",
+          "Một đàn",
+          "Nhiều"
+        ],
+        "cat": "counting",
+        "f1": 0.0
+      },
+      {
+        "q": "Có bao nhiêu toà nhà có biển hiệu trên đỉnh?",
+        "pred": "Hai toà nhà",
+        "refs": [
+          "Một vài",
+          "Một số",
+          "Không rõ số lượng",
+          "Không thể xác định",
+          "Nhiều hơn một"
+        ],
+        "cat": "counting",
+        "f1": 0.0
+      },
+      {
+        "q": "Có bao nhiêu chiếc ô màu xanh lá cây được nhắc đến trong mô tả?",
+        "pred": "Hai chiếc",
+        "refs": [
+          "Nhiều ô",
+          "Không rõ số lượng cụ thể",
+          "Nhiều",
+          "Một số",
+          "Không xác định"
+        ],
+        "cat": "counting",
+        "f1": 0.0
+      }
+    ]
+  }
+}

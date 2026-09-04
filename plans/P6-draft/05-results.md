@@ -173,26 +173,37 @@ and 1-tile inference fixed:
   through the bridge vs. through `mlp1`, both via the frozen Qwen2 (SEA /
   BASIC-style).
 
-| intervention (`multi_token`, seed 42, epoch-1 val) | F1(tok) | CIDEr-D | ΔF1 vs `first` |
+| intervention (`multi_token`, seed 42) | F1(tok) | CIDEr-D | ΔF1 vs `first` |
 |---|---|---|---|
-| `first` (headline, §5.1) | 50.7 | 94.4 | — |
-| `--answer-sampling random` | 49.0 | 87.3 | −1.7 |
-| align KD (`feat`, α=1.0) | 49.7 | 92.0 | −1.0 |
-| align KD (`logit`, α=1.0) | _pending_ | _pending_ | _pending_ |
+| `first` (headline, §5.1; epoch-1 full val) | 50.7 | 94.4 | — |
+| `--answer-sampling random` (epoch-1 full val) | 49.0 | 87.3 | −1.7 |
+| align KD `feat`, α=1.0 (epoch-1 full val) | 49.7 | 92.0 | −1.0 |
+| align KD `logit`, α=1.0 (epoch-2, 600-sample subset) | 40.7 | 80.1 | −10 |
 
-None improves token-F1; all shift CIDEr-D down. The deltas (≤ 2 pts, single
-seed, no multi-seed CI yet) are within run-to-run noise — the result is the
-**absence of a lift**, not significant harm. The bridge already attains the
-lowest validation CE of the five architectures (1.49; §5.1), i.e. it is close to
-CE-optimal for what the frozen decoder admits, and an auxiliary term only
-perturbs it off that point. We read the convergence of all three negatives in
-§6.1.
+Neither `answer-sampling=random` nor `feat`-alignment improves token-F1; both
+shift CIDEr-D down 2–7 points. The deltas (single seed, no multi-seed CI yet)
+are small — the result is the **absence of a lift**, not significant harm. The
+bridge already attains the lowest validation CE of the five architectures
+(1.49; §5.1), i.e. it is close to CE-optimal for what the frozen decoder admits,
+and a `feat` auxiliary term only perturbs it off that point.
+
+`logit`-alignment at α=1.0 is different: the KL term dominates the CE objective
+(val CE rises to 2.84, nearly 2× the plain 1.49) and degrades generation
+sharply. We report it as a **mis-weighting** — α was not tuned — rather than a
+clean test of the concept; but since `feat`-alignment at the same weight already
+showed zero benefit with a stable CE, we did not pursue a weight sweep. We read
+the convergence of the three negatives in §6.1.
 
 ---
 
 ### Pending
-- [ ] fill the align-KD `logit` row (kernel finishing)
-- [ ] §5.6: swap in multi-seed numbers + CI once C2 lands
+- [x] §5.6 align-KD `logit` row filled (α=1.0, KL dominates → val CE 2.84, F1 40.7)
+- [ ] §5.6: swap in multi-seed numbers + CI once C2 lands; re-run align-feat/logit
+      on full val (both were cut short) if a reviewer needs it
+- [ ] **C3 GO (spine = efficiency-bridge, all 3 alignment axes negative):**
+      oracle sweep + policy ladder on `checkpoints/expA-tiled/seed42/{multi_token,
+      qformer,mini_qformer}/` — re-locks §5.2/§5.3 on tile-trained bridges, closes
+      the 1-tile-training confound. Blocked on GPU quota reset 2026-09-05 00:00 UTC.
 - [x] re-run 5.3 policies on the |A|=9 *train* split (5 547) — **done, locked**:
       all arms → `fixed: multi_token|t1` (0.901–0.902), a*-match ≈ majority 0.43
 - [x] 5.5 compute-efficiency table added (P1 v8 profiling)

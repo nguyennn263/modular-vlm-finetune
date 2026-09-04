@@ -13,6 +13,19 @@
 
 ---
 
+## 0. multi_token multi-seed (C2, đang chạy — 2/4 xong)
+
+| seed | CIDEr-D | BLEU-4 | ROUGE-L | F1 |
+|---|---:|---:|---:|---:|
+| 42 | 94.4 | 19.58 | 50.0 | 50.7 |
+| 123 | 91.7 | 19.24 | 48.8 | 49.5 |
+| 3407 | *đang chạy (relaunch acc6)* | | | |
+| 2026 | *đang chạy (acc16)* | | | |
+| **mean (2/4)** | **93.1** | **19.4** | **49.4** | **50.1** |
+| ViMoE-VQA | 88.7 | 12.5 | 47.1 | 60.7 |
+
+Cả 2 seed đã xong đều vượt ViMoE trên CIDEr-D/BLEU-4/ROUGE-L, chênh seed ~1–3%. Cập nhật mean±std đầy đủ khi 4/4 seed xong.
+
 ## 1. So 5 bridge (val, grouped split, seed 42, 1 tile) — ĐÃ KHÓA
 
 Metric pycocoevalcap corpus (chuẩn để so paper khác).

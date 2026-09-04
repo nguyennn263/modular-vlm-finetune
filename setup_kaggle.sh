@@ -91,9 +91,14 @@ install_base_deps() {
 
     # Kaggle images ship a recent peft that imports EncoderDecoderCache from
     # transformers -- doesn't exist in 4.38.2 (ImportError at `from peft import`).
+    # --no-deps: peft's own deps (torch/transformers/accelerate/...) are already
+    # correct from the steps above -- WITHOUT --no-deps, --force-reinstall cascades
+    # to reinstall them too and pip happily upgrades transformers past 4.38.2
+    # (no upper pin in peft's requires), which then refuses to load torch==2.2.2
+    # ("PyTorch >= 2.5 is required") and AutoModel.from_pretrained breaks entirely.
     # Only needed for --lora (feat/decoder-lora); harmless otherwise.
     print_info "Pinning peft==0.10.0 (compatible with transformers==4.38.2)..."
-    pip install --force-reinstall --quiet peft==0.10.0
+    pip install --force-reinstall --no-deps --quiet peft==0.10.0
     
     # Install vision libraries
     print_info "Installing timm and einops..."

@@ -13,18 +13,21 @@
 
 ---
 
-## 0. multi_token multi-seed (C2, đang chạy — 3/4 xong)
+## 0. multi_token multi-seed (C2) — ĐÃ KHÓA, 4/4 seed xong
 
 | seed | CIDEr-D | BLEU-4 | ROUGE-L | F1 |
 |---|---:|---:|---:|---:|
 | 42 | 94.4 | 19.58 | 50.0 | 50.7 |
 | 123 | 91.7 | 19.24 | 48.8 | 49.5 |
 | 2026 | 93.1 | 19.12 | 49.0 | 49.6 |
-| 3407 | *đang chạy (acc6)* | | | |
-| **mean±std (3/4)** | **93.1±1.1** | **19.3±0.2** | **49.3±0.5** | **49.9±0.5** |
-| ViMoE-VQA | 88.7 | 12.5 | 47.1 | 60.7 |
+| 3407 | 91.8 | 18.80 | 48.9 | 49.5 |
+| **mean ± std (n=4)** | **92.8 ± 1.1** | **19.2 ± 0.3** | **49.2 ± 0.5** | **49.8 ± 0.5** |
+| ViMoE-VQA (5 seed) | 88.7 | 12.5 | 47.1 | 60.7 |
 
-3/4 seed xong, tất cả vượt ViMoE trên CIDEr-D/BLEU-4/ROUGE-L, std nhỏ (~1–2%) → kết quả ổn định qua seed. Cập nhật lần cuối khi seed 3407 xong.
+**4/4 seed xong, std nhỏ (~1–2% relative)** → multi_token vượt ViMoE trên CIDEr-D
+(+4.1), BLEU-4 (+6.7), ROUGE-L (+2.1) **ổn định qua seed, không phải may rủi seed 42**.
+Vẫn thua F1 rõ rệt (49.8 vs 60.7, −10.9) — nhất quán với 3-way negative ở mục 3
+(frozen decoder là trần). Đây là dòng headline chính thức cho paper.
 
 ## 1. So 5 bridge (val, grouped split, seed 42, 1 tile) — ĐÃ KHÓA
 

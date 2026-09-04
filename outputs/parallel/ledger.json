@@ -335,6 +335,13 @@
       "tiles": null,
       "answer_sampling": null,
       "align": null
+    },
+    "lora16-eval:multi_token:s42": {
+      "account": "acc5",
+      "kernel": "nguyennguyen263/mvlm-lora16-eval",
+      "status": "running",
+      "collected": false,
+      "note": "standalone eval-only for LoRA r16 checkpoint"
     }
   }
 }

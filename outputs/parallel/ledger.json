@@ -65,9 +65,9 @@
     "expa-tiled:multi_token:s42": {
       "account": "acc11",
       "kernel": "chalicetrncthnh/mvlm-expa-tiled-multi-token-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-03T14:09:17",
-      "collected": false,
+      "collected": true,
       "bridge": "multi_token",
       "seed": 42,
       "tiles": "1,3,6"
@@ -210,13 +210,71 @@
     "expa-random:multi_token:s42": {
       "account": "acc13",
       "kernel": "avanrager/mvlm-expa-random-multi-token-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-03T19:39:33",
-      "collected": false,
+      "collected": true,
       "bridge": "multi_token",
       "seed": 42,
       "tiles": null,
       "answer_sampling": "random"
+    },
+    "expa-tiled:qformer:s42": {
+      "account": "acc9",
+      "kernel": "masalamohammad/mvlm-expa-tiled-qformer-s42",
+      "status": "done",
+      "pushed_at": "2026-09-03T22:55:16",
+      "collected": true,
+      "bridge": "qformer",
+      "seed": 42,
+      "tiles": "1,3,6",
+      "answer_sampling": null
+    },
+    "expa-tiled:mini_qformer:s42": {
+      "account": "acc10",
+      "kernel": "giapht/mvlm-expa-tiled-mini-qformer-s42",
+      "status": "done",
+      "pushed_at": "2026-09-03T22:55:18",
+      "collected": true,
+      "bridge": "mini_qformer",
+      "seed": 42,
+      "tiles": "1,3,6",
+      "answer_sampling": null
+    },
+    "expa-align-logit:multi_token:s42": {
+      "account": "acc11",
+      "kernel": "chalicetrncthnh/mvlm-expa-align-logit-multi-token-s42",
+      "status": "done",
+      "pushed_at": "2026-09-04T00:24:43",
+      "collected": true,
+      "bridge": "multi_token",
+      "seed": 42,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": "logit"
+    },
+    "expa-align-feat:multi_token:s42": {
+      "account": "acc13",
+      "kernel": "avanrager/mvlm-expa-align-feat-multi-token-s42",
+      "status": "done",
+      "pushed_at": "2026-09-04T00:24:46",
+      "collected": true,
+      "bridge": "multi_token",
+      "seed": 42,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": "feat"
+    },
+    "expa-tiled:linear_bridge:s42": {
+      "account": "acc11",
+      "kernel": "chalicetrncthnh/mvlm-expa-tiled-linear-bridge-s42",
+      "status": "running",
+      "pushed_at": "2026-09-04T02:29:42",
+      "collected": false,
+      "bridge": "linear_bridge",
+      "seed": 42,
+      "tiles": "1,3,6",
+      "answer_sampling": null,
+      "align": null
     }
   }
 }

@@ -303,11 +303,35 @@
     "expa:multi_token:s2026": {
       "account": "acc16",
       "kernel": "nguynrichard/mvlm-expa-multi-token-s2026",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-04T15:35:28",
-      "collected": false,
+      "collected": true,
       "bridge": "multi_token",
       "seed": 2026,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null
+    },
+    "expa:multi_token:s8668": {
+      "account": "acc12",
+      "kernel": "tn7012/mvlm-expa-multi-token-s8668",
+      "status": "running",
+      "pushed_at": "2026-09-04T23:33:36",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 8668,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null
+    },
+    "expa:qformer:s123": {
+      "account": "acc14",
+      "kernel": "nguyendinhdoanh/mvlm-expa-qformer-s123",
+      "status": "running",
+      "pushed_at": "2026-09-04T21:30:03",
+      "collected": false,
+      "bridge": "qformer",
+      "seed": 123,
       "tiles": null,
       "answer_sampling": null,
       "align": null

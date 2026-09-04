@@ -99,6 +99,9 @@ def build_run_config(args: argparse.Namespace) -> dict[str, Any]:
         cfg["align_type"] = args.align_type
         if args.align_weight is not None:
             cfg["align_weight"] = args.align_weight
+    if args.lora:
+        cfg["lora"] = {"r": args.lora_r, "alpha": args.lora_alpha,
+                       "targets": [t for t in args.lora_targets.split(",") if t]}
     if args.tile_choices:
         cfg["tile_choices"] = [int(x) for x in str(args.tile_choices).split(",") if x.strip()]
     if args.no_early_stopping:
@@ -174,6 +177,11 @@ def _parser() -> argparse.ArgumentParser:
                    dest="answer_sampling",
                    help="Training target among a sample's ~5 references: first (default), "
                         "random (per-batch paraphrase augmentation), majority.")
+    p.add_argument("--lora", action="store_true",
+                   help="LoRA-adapt the Qwen2 decoder (q/k/v/o). feat/decoder-lora branch.")
+    p.add_argument("--lora-r", type=int, default=16, dest="lora_r")
+    p.add_argument("--lora-alpha", type=int, default=32, dest="lora_alpha")
+    p.add_argument("--lora-targets", default="q_proj,k_proj,v_proj,o_proj", dest="lora_targets")
     p.add_argument("--align-distill", action="store_true", dest="align_distill",
                    help="KD the bridge toward Vintern's own pre-aligned projector (mlp1).")
     p.add_argument("--align-type", default="logit", choices=["logit", "feat"], dest="align_type",
@@ -242,6 +250,7 @@ def run(cfg: dict[str, Any]) -> None:
         bridge_type=cfg["bridge_type"],
         bridge_config=cfg.get("bridge_config") or {},
         align_teacher=bool(cfg.get("align_distill", False)),
+        lora=cfg.get("lora"),
     )
 
     train_config = TrainConfig(
@@ -269,6 +278,7 @@ def run(cfg: dict[str, Any]) -> None:
         align_distill=bool(cfg.get("align_distill", False)),
         align_weight=float(cfg.get("align_weight", 1.0)),
         align_type=cfg.get("align_type", "logit"),
+        lora=cfg.get("lora"),
         text_metrics_every=cfg.get("text_metrics_every") or 1,
         text_metrics_max_samples=cfg.get("text_metrics_max_samples") or 0,
         resume_from=cfg.get("resume_from"),

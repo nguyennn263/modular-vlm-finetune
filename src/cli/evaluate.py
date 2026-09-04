@@ -69,14 +69,20 @@ def run(args: argparse.Namespace) -> dict:
         train_cfg["model_name"], torch_dtype=torch.bfloat16,
         low_cpu_mem_usage=False, trust_remote_code=True,
     ).eval()
+    ckpt = torch.load(args.checkpoint, map_location="cpu", weights_only=False)
+    lora_cfg = train_cfg.get("lora") if isinstance(train_cfg, dict) else None
+    if "lora_state" in ckpt and not lora_cfg:
+        lora_cfg = {}  # checkpoint has LoRA -> rebuild the adapter to load into
     model = create_finetune_model(
         base_model, bridge_type=bridge_cfg["bridge_type"],
         bridge_config=bridge_cfg.get("bridge_config") or {},
+        lora=lora_cfg,
     )
 
-    ckpt = torch.load(args.checkpoint, map_location="cpu", weights_only=False)
-    state = ckpt.get("bridge_state", ckpt)
-    model.bridge.load_state_dict(state)
+    model.bridge.load_state_dict(ckpt.get("bridge_state", ckpt))
+    if "lora_state" in ckpt and hasattr(model, "load_lora_state_dict"):
+        model.load_lora_state_dict(ckpt["lora_state"])
+        print("[ckpt] loaded LoRA adapter")
     print(f"[ckpt] loaded bridge weights from {args.checkpoint}")
 
     # BridgeTrainer only builds the tokenizer + collate_fn when train_dataset is

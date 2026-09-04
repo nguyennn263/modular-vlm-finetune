@@ -84,15 +84,19 @@ def run(args: argparse.Namespace) -> None:
     for b in bridges:
         base = AutoModel.from_pretrained(model_name, torch_dtype=torch.bfloat16,
                                         low_cpu_mem_usage=False, trust_remote_code=True).eval()
-        model = create_finetune_model(base, bridge_type=bridge_cfgs[b]["bridge_type"],
-                                      bridge_config=bridge_cfgs[b].get("bridge_config") or {})
         bdir = Path(args.ckpt_dir) / b
         if not bdir.is_absolute():
             bdir = repo_root() / bdir
         ckpt_path = bdir / "last_model.pt" if (bdir / "last_model.pt").exists() else bdir / "best_model.pt"
         ck = torch.load(ckpt_path, map_location="cpu", weights_only=False)
+        model = create_finetune_model(base, bridge_type=bridge_cfgs[b]["bridge_type"],
+                                      bridge_config=bridge_cfgs[b].get("bridge_config") or {},
+                                      lora={} if "lora_state" in ck else None)
         model.bridge.load_state_dict(ck.get("bridge_state", ck))
-        print(f"[oracle] {b}: loaded {ckpt_path}")
+        if "lora_state" in ck and hasattr(model, "load_lora_state_dict"):
+            model.load_lora_state_dict(ck["lora_state"])
+        print(f"[oracle] {b}: loaded {ckpt_path}"
+              + (" (+LoRA)" if "lora_state" in ck else ""))
 
         for n in n_tiles:
             tc = TrainConfig(model_name=model_name, output_dir=str(repo_root() / args.out / f"{b}_t{n}"),

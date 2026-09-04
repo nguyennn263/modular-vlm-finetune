@@ -83,8 +83,9 @@ def _clone_cell(branch: str) -> dict:
 
 def expa_worker(bridge: str, seed: int, branch: str, resume_ds: str | None, epochs: int,
                 tile_choices: str | None = None, answer_sampling: str | None = None,
-                align: str | None = None) -> list[dict]:
+                align: str | None = None, lora: str | None = None) -> list[dict]:
     _sub = ("ck-tiled" if tile_choices
+            else "ck-lora" if lora
             else "ck-align-" + align if align
             else "ck-" + answer_sampling if answer_sampling else "ck")
     ck = f"/kaggle/working/{_sub}/seed{seed}"
@@ -93,6 +94,7 @@ def expa_worker(bridge: str, seed: int, branch: str, resume_ds: str | None, epoc
     tc = f"--tile-choices {tile_choices} " if tile_choices else ""
     asamp = f"--answer-sampling {answer_sampling} " if answer_sampling else ""
     algn = f"--align-distill --align-type {align} " if align else ""
+    lora_flag = f"--lora --lora-r {lora} " if lora else ""
     # align logit adds a full teacher Qwen2 forward (256 vision + text tokens) ->
     # OOMs the 16GB P100 at bs 8. Halve the micro-batch, keep effective batch 8.
     bs, ga = (4, 2) if align == "logit" else (8, 1)
@@ -112,7 +114,7 @@ def expa_worker(bridge: str, seed: int, branch: str, resume_ds: str | None, epoc
         _code(f"!python -m src.cli.train --bridge {bridge} --split-dir data/splits --seed {seed} "
               f"--epochs {epochs} --batch-size {bs} --grad-accum {ga} --eval-steps {step} --save-steps {step} "
               f"--no-early-stopping {metrics} "
-              f"{tc}{asamp}{algn}--output-dir {ck} --resume"),
+              f"{tc}{asamp}{algn}{lora_flag}--output-dir {ck} --resume"),
     ]
     if not tile_choices:
         cells.append(_code(f"!python -m src.cli.evaluate --bridge {bridge} --split-dir data/splits --split val "
@@ -227,6 +229,7 @@ def cmd_launch(args) -> None:
         blist = [b.strip() for b in args.bridges.split(",")] if args.bridges != ",".join(BRIDGES) else BRIDGES
         combos = [(b, s) for s in seeds for b in blist]
         tag = ("-tiled" if args.tiles
+               else "-lora" + args.lora if args.lora
                else "-align-" + args.align if args.align
                else "-" + args.answer_sampling if args.answer_sampling else "")
         for i, (bridge, seed) in enumerate(combos):
@@ -237,10 +240,11 @@ def cmd_launch(args) -> None:
                 continue
             slug = f"mvlm-expa{tag}-{bridge.replace('_','-')}-s{seed}"
             cells = expa_worker(bridge, seed, branch, None, args.epochs, tile_choices=args.tiles or None,
-                                answer_sampling=args.answer_sampling, align=args.align)
+                                answer_sampling=args.answer_sampling, align=args.align, lora=args.lora)
             kid = _push_worker(acc, slug, cells, None)
             _register(led, job, acc, kid, {"bridge": bridge, "seed": seed, "tiles": args.tiles,
-                                           "answer_sampling": args.answer_sampling, "align": args.align})
+                                           "answer_sampling": args.answer_sampling, "align": args.align,
+                                           "lora": args.lora})
 
     elif args.phase == "oracle":
         ds = args.ckpt_ds or f"{_user(args.bundle_acc)}/mvlm-expa-ckpt"
@@ -302,6 +306,7 @@ def _collect(job: str, j: dict) -> None:
     if job.startswith("expa"):
         seed, bridge = j["seed"], j["bridge"]
         exp = ("expA-tiled" if j.get("tiles")
+               else f"expA-lora{j['lora']}" if j.get("lora")
                else f"expA-align-{j['align']}" if j.get("align")
                else f"expA-{j['answer_sampling']}" if j.get("answer_sampling") else "expA")
         # Only the worker's own output tree (`out/seed<S>/<bridge>/` or `ck/...`);
@@ -424,6 +429,9 @@ def main() -> None:
                     help="expa: train target picks among all 5 refs instead of ref[0]")
     lp.add_argument("--align", default=None, choices=["logit", "feat"],
                     help="expa: KD the bridge toward Vintern's mlp1 projector")
+    lp.add_argument("--lora", default=None,
+                    help="expa: LoRA-adapt Qwen2 (q/k/v/o); value = lora rank, e.g. --lora 16. "
+                         "feat/decoder-lora branch — the ONE frozen-backbone departure.")
     lp.add_argument("--accounts", default=None,
                     help="comma list e.g. acc6,acc7 — restrict the account pool (default: all)")
     lp.add_argument("--ckpt-ds", default=None, dest="ckpt_ds",

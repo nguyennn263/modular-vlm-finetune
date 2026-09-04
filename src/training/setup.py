@@ -66,6 +66,7 @@ class VisionLanguageBridge(nn.Module):
         use_distillation: bool = True,
         alpha_scaling: float = 0.1,  # Scale down residual to stay near base manifold
         align_teacher: bool = False,  # keep Vintern's original projector (mlp1) as a KD teacher
+        lora: Optional[dict] = None,  # {r, alpha, dropout, targets} -> LoRA-adapt Qwen2
     ):
         super().__init__()
 
@@ -111,6 +112,43 @@ class VisionLanguageBridge(nn.Module):
         
         # Freeze both base models
         self._freeze_models()
+
+        # Optional: LoRA-adapt the (otherwise frozen) language model. This is the
+        # ONE deliberate departure from the frozen-backbone setup — used to show
+        # the decoder, not the vision side, is the token-F1 ceiling. Adds ~1-2%
+        # trainable params. Kept on a separate branch / off by default.
+        self.lora_enabled = False
+        if lora:
+            from peft import LoraConfig, get_peft_model
+            targets = lora.get("targets") or ["q_proj", "k_proj", "v_proj", "o_proj"]
+            cfg = LoraConfig(
+                r=int(lora.get("r", 16)),
+                lora_alpha=int(lora.get("alpha", 32)),
+                lora_dropout=float(lora.get("dropout", 0.05)),
+                target_modules=list(targets),
+                bias="none",
+                task_type="CAUSAL_LM",
+            )
+            self.language_model = get_peft_model(self.language_model, cfg)
+            self.lora_enabled = True
+            logger.info(f"LoRA on language_model: r={cfg.r} alpha={cfg.lora_alpha} "
+                        f"targets={targets}")
+
+    def embed_text(self, input_ids):
+        """Token embeddings — works whether or not language_model is peft-wrapped."""
+        lm = self.language_model.get_base_model() if getattr(self, "lora_enabled", False) \
+            else self.language_model
+        return lm.model.embed_tokens(input_ids)
+
+    def lora_state_dict(self) -> Optional[dict]:
+        if not getattr(self, "lora_enabled", False):
+            return None
+        from peft import get_peft_model_state_dict
+        return get_peft_model_state_dict(self.language_model)
+
+    def load_lora_state_dict(self, state: dict) -> None:
+        from peft import set_peft_model_state_dict
+        set_peft_model_state_dict(self.language_model, state)
 
     @torch.no_grad()
     def teacher_vision_tokens(self, pixel_values: torch.Tensor) -> torch.Tensor:
@@ -302,7 +340,7 @@ class VisionLanguageBridge(nn.Module):
         # Apply bridge based on type
         if self.uses_text and self.bridge_type == 'qformer':
             # QFormer needs text embeddings - keep on graph for semantic filtering
-            text_embeddings = self.language_model.model.embed_tokens(input_ids)
+            text_embeddings = self.embed_text(input_ids)
             bridge_output = self.bridge(vision_embeddings, text_embeddings)
             
         elif self.uses_patches:
@@ -338,7 +376,7 @@ class VisionLanguageBridge(nn.Module):
         
         # Get text embeddings (B, seq_len, 896) [frozen model, trainable embeddings]
         # NOTE: Keep on computation graph for full gradient flow through bridge
-        text_embeddings = self.language_model.model.embed_tokens(input_ids)
+        text_embeddings = self.embed_text(input_ids)
         
         # Combine vision and text embeddings
         combined_embeddings = torch.cat([bridge_output, text_embeddings], dim=1)
@@ -377,7 +415,8 @@ def create_finetune_model(
     bridge_type: BRIDGE_TYPE,
     bridge_config: Optional[dict] = None,
     align_teacher: bool = False,
+    lora: Optional[dict] = None,
 ) -> VisionLanguageBridge:
     """Factory function to create fine-tune model."""
     return VisionLanguageBridge(base_model, bridge_type, bridge_config,
-                                align_teacher=align_teacher)
+                                align_teacher=align_teacher, lora=lora)

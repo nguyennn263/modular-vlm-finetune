@@ -181,6 +181,11 @@ class TrainConfig:
     align_type: str = "logit"
     align_temp: float = 2.0
 
+    # LoRA-adapt the (otherwise frozen) Qwen2 decoder — the one deliberate
+    # departure from frozen-backbone, to show the decoder is the token-F1 ceiling.
+    # feat/decoder-lora branch only. lora=None -> fully frozen (default).
+    lora: Optional[dict] = None
+
     # Per-epoch text-metric generation cost control. Defaults reproduce the old
     # behaviour (generate on the full val set every epoch). Raise `every` and/or
     # cap `max_samples` to cut the dominant wall-clock cost on slow GPUs; the
@@ -347,13 +352,15 @@ class BridgeTrainer:
     
     def _setup_optimization(self):
         """Setup optimizer and scheduler."""
-        # Freeze base models
+        # Freeze base models. If LoRA is on, keep the lora_* adapter params
+        # trainable (peft sets requires_grad on them; their names carry "lora_").
+        lora_on = getattr(self.model, "lora_enabled", False)
         for param in self.model.vision_model.parameters():
             param.requires_grad = False
-        
-        for param in self.model.language_model.parameters():
-            param.requires_grad = False
-        
+        for name, param in self.model.language_model.named_parameters():
+            if not (lora_on and "lora_" in name):
+                param.requires_grad = False
+
         # Get trainable parameters
         trainable_params = [p for p in self.model.parameters() if p.requires_grad]
         total_params = sum(p.numel() for p in self.model.parameters())
@@ -603,7 +610,7 @@ class BridgeTrainer:
             )
         
         # Get text embeddings early (needed for QFormer and concatenation)
-        text_embeddings = self.model.language_model.model.embed_tokens(input_ids)
+        text_embeddings = self.model.embed_text(input_ids)
         # Convert to model dtype immediately (embeddings are float32 by default)
         text_embeddings = text_embeddings.to(dtype=model_dtype, device=self.device)
         
@@ -799,7 +806,7 @@ class BridgeTrainer:
             if accumulation_counter % self.config.gradient_accumulation_steps == 0:
                 # Gradient clipping
                 nn.utils.clip_grad_norm_(
-                    [p for p in self.model.bridge.parameters() if p.requires_grad],
+                    [p for p in self.model.parameters() if p.requires_grad],
                     max_norm=self.config.max_grad_norm
                 )
                 
@@ -857,7 +864,7 @@ class BridgeTrainer:
         # Handle remaining accumulated gradients
         if accumulation_counter % self.config.gradient_accumulation_steps != 0:
             nn.utils.clip_grad_norm_(
-                [p for p in self.model.bridge.parameters() if p.requires_grad],
+                [p for p in self.model.parameters() if p.requires_grad],
                 max_norm=self.config.max_grad_norm
             )
             self.optimizer.step()
@@ -934,9 +941,8 @@ class BridgeTrainer:
         self.model.train()
         return all_metrics
     
-    def save_checkpoint(self, is_best: bool = False):
-        """Save checkpoint."""
-        checkpoint = {
+    def _ckpt_dict(self) -> dict:
+        d = {
             'epoch': self.current_epoch,
             'global_step': self.global_step,
             'bridge_state': self.model.bridge.state_dict(),
@@ -945,7 +951,15 @@ class BridgeTrainer:
             'best_val_loss': self.best_val_loss,
             'early_stop_counter': self.early_stop_counter,
         }
-        
+        lora = getattr(self.model, "lora_state_dict", lambda: None)()
+        if lora is not None:
+            d['lora_state'] = lora
+        return d
+
+    def save_checkpoint(self, is_best: bool = False):
+        """Save checkpoint."""
+        checkpoint = self._ckpt_dict()
+
         if is_best:
             path = os.path.join(self.config.output_dir, 'best_model.pt')
             self.best_model_path = path
@@ -961,15 +975,7 @@ class BridgeTrainer:
     
     def save_checkpoint_as(self, filename: str):
         """Save the current state under a fixed filename (no cleanup, no best tracking)."""
-        checkpoint = {
-            'epoch': self.current_epoch,
-            'global_step': self.global_step,
-            'bridge_state': self.model.bridge.state_dict(),
-            'optimizer_state': self.optimizer.state_dict(),
-            'scheduler_state': self.scheduler.state_dict(),
-            'best_val_loss': self.best_val_loss,
-            'early_stop_counter': self.early_stop_counter,
-        }
+        checkpoint = self._ckpt_dict()
         path = os.path.join(self.config.output_dir, filename)
         torch.save(checkpoint, path)
         logger.info(f"✓ Saved checkpoint: {path}")
@@ -994,6 +1000,8 @@ class BridgeTrainer:
         checkpoint = torch.load(checkpoint_path, map_location=self.device, weights_only=False)
         
         self.model.bridge.load_state_dict(checkpoint['bridge_state'])
+        if 'lora_state' in checkpoint and hasattr(self.model, 'load_lora_state_dict'):
+            self.model.load_lora_state_dict(checkpoint['lora_state'])
         self.optimizer.load_state_dict(checkpoint['optimizer_state'])
         self.scheduler.load_state_dict(checkpoint['scheduler_state'])
         self.global_step = checkpoint['global_step']
@@ -1120,7 +1128,7 @@ class BridgeTrainer:
 
         bridge_type = getattr(self.model, 'bridge_type', 'unknown')
         vision_embeddings = self._vision_embeds(pixel_values_input, bridge_type).detach()
-        text_embeddings = self.model.language_model.model.embed_tokens(input_ids)
+        text_embeddings = self.model.embed_text(input_ids)
         text_embeddings = text_embeddings.to(dtype=model_dtype, device=self.device)
 
         if bridge_type == 'qformer':
@@ -1207,7 +1215,7 @@ class BridgeTrainer:
         self.tokenizer.padding_side = original_padding_side
         
         # 4. Get text embeddings and run bridge
-        text_embeddings = self.model.language_model.model.embed_tokens(input_ids)
+        text_embeddings = self.model.embed_text(input_ids)
         text_embeddings = text_embeddings.to(dtype=model_dtype, device=self.device)
         
         if bridge_type == 'qformer':

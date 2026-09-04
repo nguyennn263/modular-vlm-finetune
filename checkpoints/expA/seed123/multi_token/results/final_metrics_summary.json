@@ -1,0 +1,21 @@
+{
+  "description": "Final training metrics summary (ref/ref1-aligned)",
+  "metrics_format": {
+    "bleu": "BLEU-4 score",
+    "meteor": "METEOR score",
+    "rouge_l": "ROUGE-L score",
+    "cider": "CIDEr score",
+    "exact_match": "Exact match accuracy",
+    "precision": "Word-level precision",
+    "recall": "Word-level recall",
+    "f1": "Word-level F1 score",
+    "wups": "WUPS@0.9 score"
+  },
+  "output_files": {
+    "epoch_results_csv": "/kaggle/working/ck/seed123/multi_token/results/epoch_results.csv",
+    "per_epoch_metrics": "/kaggle/working/ck/seed123/multi_token/results/text_metrics_epoch_*.json",
+    "per_sample_predictions": "/kaggle/working/ck/seed123/multi_token/results/text_predictions_epoch_*.json",
+    "cumulative_metrics": "/kaggle/working/ck/seed123/multi_token/results/text_metrics_all_epochs.jsonl",
+    "training_log": "/kaggle/working/ck/seed123/multi_token/results/training_20260904_063331.log"
+  }
+}

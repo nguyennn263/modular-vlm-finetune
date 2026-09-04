@@ -275,6 +275,42 @@
       "tiles": "1,3,6",
       "answer_sampling": null,
       "align": null
+    },
+    "expa:multi_token:s123": {
+      "account": "acc10",
+      "kernel": "giapht/mvlm-expa-multi-token-s123",
+      "status": "done",
+      "pushed_at": "2026-09-04T13:28:37",
+      "collected": true,
+      "bridge": "multi_token",
+      "seed": 123,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null
+    },
+    "expa:multi_token:s3407": {
+      "account": "acc6",
+      "kernel": "knull0d/mvlm-expa-multi-token-s3407",
+      "status": "running",
+      "pushed_at": "2026-09-04T21:20:09",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 3407,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null
+    },
+    "expa:multi_token:s2026": {
+      "account": "acc16",
+      "kernel": "nguynrichard/mvlm-expa-multi-token-s2026",
+      "status": "running",
+      "pushed_at": "2026-09-04T15:35:28",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 2026,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null
     }
   }
 }

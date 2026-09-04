@@ -88,6 +88,12 @@ install_base_deps() {
     # Install specific transformers version for Vintern
     print_info "Installing transformers==4.38.2 (required for Vintern)..."
     pip install --upgrade transformers==4.38.2 --quiet
+
+    # Kaggle images ship a recent peft that imports EncoderDecoderCache from
+    # transformers -- doesn't exist in 4.38.2 (ImportError at `from peft import`).
+    # Only needed for --lora (feat/decoder-lora); harmless otherwise.
+    print_info "Pinning peft==0.10.0 (compatible with transformers==4.38.2)..."
+    pip install --force-reinstall --quiet peft==0.10.0
     
     # Install vision libraries
     print_info "Installing timm and einops..."

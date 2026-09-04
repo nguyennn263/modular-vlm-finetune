@@ -177,8 +177,8 @@ and 1-tile inference fixed:
 |---|---|---|---|
 | `first` (headline, §5.1) | 50.7 | 94.4 | — |
 | `--answer-sampling random` | 49.0 | 87.3 | −1.7 |
-| align KD (`feat`, α=0.5) | 49.7 | 92.0 | −1.0 |
-| align KD (`logit`, α=0.5) | _pending_ | _pending_ | _pending_ |
+| align KD (`feat`, α=1.0) | 49.7 | 92.0 | −1.0 |
+| align KD (`logit`, α=1.0) | _pending_ | _pending_ | _pending_ |
 
 None improves token-F1; all shift CIDEr-D down. The deltas (≤ 2 pts, single
 seed, no multi-seed CI yet) are within run-to-run noise — the result is the

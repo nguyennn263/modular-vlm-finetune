@@ -406,10 +406,12 @@ def main() -> None:
     lp = sub.add_parser("launch")
     lp.add_argument("phase", choices=["expa", "oracle", "fiq"])
     lp.add_argument("--seed", default="42", help="expa: comma list e.g. 43,44")
-    lp.add_argument("--epochs", type=int, default=4,
-                    help="expa n_tiles=1: 4 epochs ~10h. expa --tiles (each step ~3x slower): "
-                         "use 2 — CIDEr plateaus by epoch 2 and 2 keeps qformer under 12h. "
-                         "A CANCEL at the 12h cap persists NOTHING.")
+    lp.add_argument("--epochs", type=int, default=2,
+                    help="DEFAULT 2 — CIDEr plateaus by epoch 2 (ep2 1.025 -> ep4 1.029) and 2 "
+                         "epochs stays safely under the 12h Kaggle cap for every config incl. "
+                         "tile-augmented + align (both ~2x slower/step). A CANCEL at the cap "
+                         "persists nothing beyond the last saved epoch checkpoint. Use 1 for a "
+                         "fast probe of a new experiment type.")
     lp.add_argument("--shards", type=int, default=5)
     lp.add_argument("--split", default="train", help="oracle: train|val|test")
     lp.add_argument("--subset", type=int, default=7500)

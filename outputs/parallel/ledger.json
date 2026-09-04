@@ -291,9 +291,9 @@
     "expa:multi_token:s3407": {
       "account": "acc6",
       "kernel": "knull0d/mvlm-expa-multi-token-s3407",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-04T21:20:09",
-      "collected": false,
+      "collected": true,
       "bridge": "multi_token",
       "seed": 3407,
       "tiles": null,

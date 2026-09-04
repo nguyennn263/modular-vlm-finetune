@@ -1,13 +1,32 @@
-# Paper 3 — Kế hoạch v2 (pivot: alignment-supervised bridging)
+# Paper 3 — Kế hoạch v2 (SPINE = efficiency-bridge)
 
-*Chốt 2026-09-03. Deadline 2026-09-27 (~24 ngày). Quota Kaggle reset 2026-09-05.*
+*Chốt 2026-09-03, cập nhật 2026-09-04. Deadline 2026-09-27. Quota Kaggle reset 2026-09-05 00:00 UTC.*
 
-## Thesis mới
+## ⚠️ UPDATE 2026-09-04: alignment-supervised bridging FAILED — spine reverts to efficiency-bridge
 
-> **Với VLM frozen-backbone dùng LLM nhỏ (Qwen2-0.5B), bổ sung alignment supervision
-> cho bridge — dùng chính đường projector gốc của Vintern-1B làm teacher — khép được
-> khoảng cách tới cả full-finetune Vintern-1B và ViMoE-VQA, ở backbone đóng băng và 1
-> tile ảnh.**
+3 axes thử để khép F1 gap, **cả 3 âm** (seed 42, anchor `first` = F1 50.7 / CIDEr-D 94.4):
+
+| intervention | F1 | CIDEr-D | verdict |
+|---|---|---|---|
+| answer-sampling=random | 49.0 | 87.3 | âm nhẹ |
+| align-feat α=1.0 | 49.7 | 92.0 | âm nhẹ |
+| align-logit α=1.0 | 40.7 (ep2 subset) | 80.1 | âm nặng — KL term chèn CE (val CE 2.84 vs 1.49) |
+
+→ multi_token đã có CE thấp nhất trong 5 bridge (1.49), gần tối ưu với frozen Qwen2-0.5B.
+**Frozen 0.5B decoder LÀ trần cho token-F1; capacity phía vision/training KHÔNG phải nút thắt.**
+3 negative này → §6.1 synthesis (peer). §5.6 = bảng factual (peer đã commit da0e15d/d072cb4).
+
+## Thesis (efficiency-bridge)
+
+> **Thay projector MLP của Vintern-1B bằng bridge multi-token — chỉ train bridge (0.78%
+> params), đóng băng InternViT + Qwen2 — đạt/vượt Vintern-1B finetune trên metric sinh,
+> từ 1 tile ảnh thay vì tới 12 (rẻ hơn ×4–6 vision compute). Oracle analysis xác nhận
+> 1 tile không phải thoả hiệp; 3-way negative xác nhận frozen decoder là trần.**
+
+### (lịch sử — thesis alignment đã bỏ)
+
+> ~~Với VLM frozen-backbone dùng LLM nhỏ, bổ sung alignment supervision cho bridge — dùng
+> projector gốc Vintern-1B làm teacher — khép khoảng cách tới Vintern-finetune và ViMoE.~~
 
 Đóng góp:
 1. **[chính]** Alignment-supervised bridge: `L = L_CE + α·L_align`, teacher = `mlp1`
@@ -41,31 +60,28 @@ Mục tiêu: **beat Vintern-finetune** (gần rồi) → **beat ViMoE** (cần a
 
 ---
 
-## Track A — Alignment supervision (SPINE)
+## Track A — Alignment supervision (DONE — NEGATIVE, dropped as spine)
 
-| # | Việc | Ai | Chi phí | Phụ thuộc |
-|---|---|---|---|---|
-| A1 | `--align-distill` trong trainer: teacher forward (`mlp1` path) → KL logit answer-token vs student. `TrainConfig.align_distill`, `align_weight`, `align_type ∈ {logit, feat}` | tôi | code ~60 dòng | — |
-| A2 | Verify local: import, `train.py --help`, dry-run, smoke CPU | tôi | — | A1 |
-| A3 | Train multi_token + align (logit), seed 42, 1 tile, 4ep → so F1/CIDEr vs bản không align | Kaggle 1 acct | ~10h | A2 |
-| A4 | Nếu A3 tăng: retrain 3 bridge (multi_token, qformer, mini_qformer) với align + tile-aug | Kaggle 3 acct | ~30h | A3 |
-| A5 | Variant: feat-distill + BASIC `L_direction` (cosine bridge vs teacher pooled) | tôi + Kaggle | ~10h | A3 (nếu còn thời gian) |
+| # | Việc | Trạng thái |
+|---|---|---|
+| A1–A2 | `--align-distill {logit,feat}` implement + verify | ✅ (commit b01ef30, 2164f66, 09ebfa3) |
+| A3 | multi_token + align (feat @acc13, logit @acc11), seed 42, 1 tile | ✅ **cả 2 ÂM** — xem bảng trên. Staged `checkpoints/expA-align-{feat,logit}/` |
+| A4 | retrain 3 bridge align+tiles | ❌ HỦY (A3 âm) |
+| A5 | α sweep (0.1, 0.05) cho logit | tùy chọn — pattern đã rõ, ưu tiên thấp. Nếu làm: 1-epoch probe α=0.1 sau reset |
 
-**Teacher chi tiết:** `t_tokens = mlp1(pixel_shuffle(vision_model(pv)))` → (B, 256·T, 896).
-`L_logit`: chạy Qwen2 với `[t_tokens; text_emb]` → logits teacher trên vị trí answer;
-KL(student ‖ teacher.detach()) trên answer tokens. 1 forward Qwen2 thêm/batch (rẻ).
+Code `--align-distill` giữ lại (off by default) cho reproducibility + §5.6.
 
 ---
 
-## Track B — Efficiency / fair comparison (SUPPORTING)
+## Track B — Efficiency / fair comparison (SUPPORTING → giờ là chính)
 
 | # | Việc | Ai | Trạng thái |
 |---|---|---|---|
-| B1 | Tiled retrains: multi_token/qformer/mini_qformer `--tiles 1,3,6` | Kaggle acc11/9/10 | **ĐANG CHẠY** |
-| B2 | `linear_bridge` (projector đơn giản) tile-sweep → contrast "bridge thay tile" | Kaggle | chưa (thấp ưu tiên) |
-| B3 | Tile-sweep eval: mỗi bridge @ {1,3,6,12} + Vintern-finetune @ native | tôi | sau B1 |
-| B4 | Bảng compute-efficiency P1 vào §5.5 | peer | **XONG** (c72740e) |
-| B5 | Chốt số tile của "Vintern-finetune" trong bảng cũ | **user** | chờ |
+| B1 | Tiled retrains: multi_token/qformer/mini_qformer `--tiles 1,3,6` | Kaggle | ✅ **XONG cả 3**, staged `checkpoints/expA-tiled/seed42/{multi_token,qformer,mini_qformer}/` (2ep mỗi bridge, val CE 1.55/1.60/1.65) |
+| B2 | `linear_bridge` tile-sweep | — | ❌ BỎ (`linear_bridge` = alias của `ResidualBridge`, trùng `residual`). Nếu cần contrast: `residual --tiles 1,3,6` sau reset, ưu tiên thấp |
+| B3 | Tile-sweep eval: mỗi bridge @ {1,3,6,12} + Vintern-finetune @ native | tôi | sau reset — dùng oracle output của C3 cho {1,3,6}; +eval riêng @12 |
+| B4 | Bảng compute-efficiency P1 vào §5.5 | peer | ✅ (c72740e) |
+| B5 | Chốt số tile "Vintern-finetune" bảng cũ | **user** | ⏳ chờ ("full tiles" — cần biết ≤6 hay ≤12) |
 
 ---
 
@@ -73,11 +89,11 @@ KL(student ‖ teacher.detach()) trên answer tokens. 1 forward Qwen2 thêm/batc
 
 | # | Việc | Ai | Trạng thái |
 |---|---|---|---|
-| C1 | answer-sampling random (train 5 ref) — probe F1 gap | Kaggle acc13 | **ĐANG CHẠY** |
-| C2 | Multi-seed ≥3 (42, 123, 3407) cho dòng bridge headline | Kaggle | sau A4/B3 |
-| C3 | Re-run oracle + policy trên checkpoint tiled/aligned | peer | sau A4/B1 |
+| C1 | answer-sampling random | Kaggle | ✅ **ÂM** (F1 49.0 vs 50.7) — staged `checkpoints/expA-random/` |
+| C2 | Multi-seed ≥3 (42, 123, 3407) cho multi_token headline (1-tile, plain, --epochs 2) | Kaggle | **sau reset** (00:00 UTC) — 2 acct |
+| C3 | Oracle sweep + policy ladder trên `checkpoints/expA-tiled/seed42/{multi_token,qformer,mini_qformer}/` | peer | **sau reset** — re-lock §5.2/§5.3 trên tile-trained bridge (đóng confound 1-tile) |
 | C4 | Human validation 300–500 mẫu, 2 annotator, Cohen's κ | **user** + tôi setup | chưa |
-| C5 | Error analysis định lượng (noun omission như ViMoE 10.7%, vague attr) | tôi | sau A3 |
+| C5 | Error analysis định lượng (noun omission, vague attr) | tôi | có thể làm ngay từ `checkpoints/expA/seed42/*/results/text_predictions_epoch_1.json` |
 
 ---
 
@@ -91,28 +107,31 @@ KL(student ‖ teacher.detach()) trên answer tokens. 1 forward Qwen2 thêm/batc
 
 ---
 
-## Timeline
+## Việc còn lại (sau khi A3 âm — spine đã chốt = efficiency-bridge)
 
-| Tuần | Việc chính |
+**Sau 00:00 UTC 5/9 (quota reset, 8 acct × 30h):**
+1. **C3** (peer): bundle 3 tiled checkpoint → oracle sweep val+test + policy ladder → re-lock §5.2/§5.3
+2. **C2**: multi_token seed 123 + 3407, 1-tile, plain, `--epochs 2` → mean±std cho dòng headline
+3. **B3**: eval multi_token/qformer/mini_qformer @ n_tiles 12 (bổ sung cho {1,3,6} từ C3) → bảng tile-sweep
+4. (tùy) **A5**: α=0.1 logit 1-epoch probe — chỉ nếu muốn khép hẳn hướng alignment; ưu tiên thấp
+5. (tùy) `residual --tiles 1,3,6` cho contrast "bridge thay tile"
+
+**Làm ngay được (không cần Kaggle):**
+- **C5** error analysis: phân loại lỗi trên `checkpoints/expA/seed42/*/results/text_predictions_epoch_1.json`
+- **D1** reframe TOM-TAT.md quanh efficiency-bridge (peer đang giữ §5; tôi §1–4)
+- **D2** related work: BASIC/SEA/LangBridge/LaVer/VoCo/EvoComp + note alignment-KD đã thử & âm
+
+**Cần user:**
+- **B5**: số tile "Vintern-finetune" bảng cũ (≤6 hay ≤12)
+- **C4**: tổ chức human validation 300–500 mẫu, 2 annotator
+
+## Job Kaggle (2026-09-04 13:20 — TẤT CẢ đã xong)
+
+| Job | Kết quả |
 |---|---|
-| **1** (nay–10/9) | A1–A3, B1 lands, C1 lands, B3, D1–D2, chốt B5 |
-| **2** (10–17/9) | A3 verdict → A4, C2, C3, C5, A5 |
-| **3** (17–24/9) | C4 human eval, D3 viết, buffer cho seed |
-| **4** (24–27/9) | Polish, nộp EasyChair |
+| B1 tiled ×3 (mt/qf/mq) | ✅ staged `checkpoints/expA-tiled/seed42/` |
+| C1 answer-sampling | ✅ ÂM, staged `checkpoints/expA-random/` |
+| A3 align feat + logit | ✅ ÂM cả 2, staged `checkpoints/expA-align-{feat,logit}/` |
+| B2 linear_bridge | ❌ ERROR (acc11 hết quota) — bỏ |
 
-**Điểm quyết định:** A3 xong (~10/9). Nếu align tăng F1 rõ → A4 + spine chốt. Nếu không
-→ lùi về "efficiency bridge" thuần (Track B là chính), align thành 1 ablation âm.
-
----
-
-## Job Kaggle đang chạy (2026-09-03 ~21:30)
-
-| Job | Acct | Track |
-|---|---|---|
-| mvlm-expa-tiled-multi-token-s42 | acc11 | B1 |
-| mvlm-expa-tiled-qformer-s42 | acc9 | B1 |
-| mvlm-expa-tiled-mini-qformer-s42 | acc10 | B1 |
-| mvlm-expa-random-multi-token-s42 | acc13 | C1 |
-
-Free để launch A3: acc4/6/7/8 (quota thấp, reset 5/9) hoặc chờ 1 job B1 xong.
-acc12 (trngtinanh) chờ user verify SĐT.
+acc12 = `tn7012` (mới, 30h, chưa test github-clone). acc11 hết sạch quota tới reset.

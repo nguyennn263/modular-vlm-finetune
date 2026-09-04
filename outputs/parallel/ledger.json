@@ -327,9 +327,9 @@
     "expa:qformer:s123": {
       "account": "acc14",
       "kernel": "nguyendinhdoanh/mvlm-expa-qformer-s123",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-04T21:30:03",
-      "collected": false,
+      "collected": true,
       "bridge": "qformer",
       "seed": 123,
       "tiles": null,

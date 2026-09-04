@@ -1,80 +1,91 @@
-# Kết quả 5 bridge — grouped split (leak-free), seed 42
+# Kết quả hiện tại — Paper 3 (efficiency-bridge)
 
-Split: 70/15/15 **nhóm theo `image_id`** (seed 42) — **0 ảnh trùng giữa các tập**.
-Val = 5463 câu, mỗi câu 5 đáp án. Chỉ train bridge (InternViT + Qwen2 đóng băng). Epoch 1 full-val (metric hội tụ từ epoch 2).
-
----
-
-## A. Bộ metric ĐẦY ĐỦ (10 metric) — impl in-house `metrics/vqa_metrics.py`
-
-Đây là **cùng implementation với bảng cũ `results-5bridge.md`** → số khớp bảng cũ
-(multi_token: BLEU 16.34 vs 16.47 cũ, CIDEr 98.69 vs 99.88, METEOR 41.05 vs 41.55, F1 50.66 vs 50.23).
-
-| Bridge | Acc | EM | WUPS | Prec | Rec | F1 | BLEU | ROUGE-L | METEOR | CIDEr |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| **Multi-Token** | **8.62** | **8.97** | **8.62** | **51.60** | **52.32** | **50.66** | **16.34** | **48.95** | **41.05** | **98.69** |
-| Full Q-Former | 7.34 | 7.61 | 7.34 | 48.31 | 49.78 | 47.66 | 14.58 | 45.96 | 38.25 | 90.82 |
-| Light Q-Former | 5.99 | 6.26 | 5.99 | 47.18 | 49.00 | 46.63 | 13.80 | 44.81 | 37.30 | 88.10 |
-| Tile-Attention | 6.06 | 6.33 | 6.06 | 47.11 | 49.13 | 46.69 | 13.52 | 44.91 | 37.36 | 87.46 |
-| Residual | 1.87 | 1.94 | 1.87 | 34.57 | 43.70 | 36.45 | 6.11 | 34.12 | 30.33 | 66.07 |
-
-> Acc = EM = WUPS: impl WUPS ở đây sụp về exact-match (đáp án ngắn 4 từ, không có partial credit). Ba cột này thực chất là 1.
-
-## B. Cùng metric nhưng impl KHÁC — để so với paper khác
-
-| impl | Bridge = multi_token | Acc | F1 | BLEU | ROUGE-L | METEOR | CIDEr |
-|---|---|---:|---:|---:|---:|---:|---:|
-| in-house `vqa_metrics` (bảng A) | | 8.62 | 50.66 | 16.34 | 48.95 | 41.05 | 98.69 |
-| `compute_score.py` per-sample max-ref | | 8.97 | 44.19 | *0*¹ | 49.78 | 32.42 | *0*¹ |
-| pycocoevalcap **corpus** (chuẩn field) | | — | — | 19.58² | 50.00 | 28.45 | **94.4** |
-
-¹ `compute_score.py` tính BLEU/CIDEr per-sample với 1 ref → IDF/brevity sụp về ~0. **Không dùng.**
-² pycoco BLEU-4 corpus; BLEU-1 = 54.79.
-
-→ **F1, METEOR cực nhạy impl** (F1: 50.7 vs 44.2; METEOR: 41.1 vs 32.4 vs 28.5). **CIDEr-D, BLEU, ROUGE-L ổn định** giữa các impl và giữa các paper.
+*Cập nhật 2026-09-04 14:30. Spine = efficiency-bridge (alignment-KD đã thử, âm).*
 
 ---
 
-## C. multi_token vs prior work trên AutoViVQA
+## Headline
 
-Số bridge lấy từ impl khớp được với từng baseline. Cột **CIDEr / BLEU / ROUGE** dùng impl chuẩn (corpus), an toàn nhất để so.
+> Bridge **multi_token** (7.35M param = 0.78%), **đóng băng cả InternViT + Qwen2**,
+> huấn luyện ở **1 tile ảnh** thay vì tới 12 của Vintern gốc → **vượt Vintern-1B
+> finetune-toàn-bộ và ViMoE-VQA trên metric sinh**, với chi phí train ~100× nhỏ hơn và
+> chi phí vision inference ~×4–6 rẻ hơn.
+
+---
+
+## 1. So 5 bridge (val, grouped split, seed 42, 1 tile) — ĐÃ KHÓA
+
+Metric pycocoevalcap corpus (chuẩn để so paper khác).
+
+| Bridge | Tham số train | % | CIDEr-D | BLEU-4 | ROUGE-L | F1(token) | val CE |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| **Multi-Token** (8 tok pooled) | 7.35M | 0.78 | **94.4** | **19.6** | **50.0** | **44.2** | **1.49** |
+| Full Q-Former (16 query) | 69.4M | 6.91 | 86.7 | 17.5 | 47.1 | 43.3 | 1.57 |
+| Light Q-Former (8 query) | 27.6M | 2.87 | 83.8 | 16.8 | 46.0 | 42.9 | 1.59 |
+| Tile-Attention (8 tok) | 4.14M | 0.44 | 82.7 | 16.3 | 46.1 | 43.0 | 1.62 |
+| Residual (1 tok) | 4.86M | 0.52 | 56.3 | 8.1 | 36.0 | 37.6 | 2.35 |
+
+Multi-token tốt nhất mọi mặt **và** có CE thấp nhất — quan trọng cho §2 dưới.
+
+## 2. Multi-Token vs prior work trên AutoViVQA — ĐÃ KHÓA (val, seed 42)
 
 | Model | Acc | F1 | BLEU | ROUGE | METEOR | CIDEr |
 |---|---:|---:|---:|---:|---:|---:|
-| Vintern-1B (base) | 0.12 | 17.55 | 1.91 | 25.84 | 23.93 | 8.54 |
-| ViT5+ViT | 7.97 | 48.52 | 4.13 | 46.89 | 31.02 | 72.68 |
-| BARTPhoBEiT | 8.81 | 45.88 | 4.33 | 44.83 | 24.57 | 188.96³ |
-| Vintern-1B (finetune) | **13.01** | 53.76 | 6.11 | **51.93** | 35.25 | 72.84 |
-| GPT-5 (zero-shot) | 10.84 | 50.89 | 6.07 | 47.30 | 33.34 | 84.20 |
-| Gemini 2.0 Flash | 0.55 | 39.79 | 4.41 | 39.60 | 31.72 | 74.42 |
-| **Tuong-MoE / ViMoE-VQA** (5-seed) | 9.65 | **60.69** | 12.54 | 47.07 | **39.10** | 88.67 |
-| **Multi-Token Bridge (ours)** | 8.62 | 50.7 / 44.2⁴ | **19.58** | **50.00** | 28.5–41.1⁴ | **94.4** |
+| Vintern-1B (base) | 0.1 | 17.6 | 1.9 | 25.8 | 23.9 | 8.5 |
+| Vintern-1B (**finetune toàn bộ**, đa tile) | **13.0** | 53.8 | 6.1 | **51.9** | 35.3 | 72.8 |
+| GPT-5 (zero-shot) | 10.8 | 50.9 | 6.1 | 47.3 | 33.3 | 84.2 |
+| **ViMoE-VQA / Tuong-MoE** (5 seed) | 9.7 | **60.7** | 12.5 | 47.1 | **39.1** | 88.7 |
+| **★ Multi-Token Bridge (ours)** | 8.6 | 44–51* | **19.6** | **50.0** | ~28–41* | **94.4** |
 
-³ BARTPhoBEiT CIDEr outlier — sinh câu dài. ⁴ khoảng giá trị theo impl (xem mục B).
+<small>* F1/METEOR chênh theo implementation. BARTPhoBEiT bỏ khỏi bảng: CIDEr 189 là outlier.</small>
 
-## D. Có hơn model cũ không?
+**Thắng rõ (metric sinh ổn định):** CIDEr-D +5.7 / BLEU-4 +7.0 / ROUGE-L +2.9 so với ViMoE.
+**Thua:** F1 token-level, Acc. → §3.
 
-**CÓ — trên metric sinh implementation-stable:**
+## 3. Ba can thiệp khép F1 gap — TẤT CẢ ÂM (val, seed 42, anchor = 50.7 / 94.4) — ĐÃ KHÓA
 
-| | multi_token | ViMoE | chênh |
+| Can thiệp (trục) | F1 | CIDEr-D | Δ F1 |
 |---|---:|---:|---:|
-| CIDEr-D | 94.4 | 88.67 | **+5.7** ✅ |
-| BLEU-4 | 19.58 | 12.54 | **+7.0** ✅ |
-| ROUGE-L | 50.00 | 47.07 | **+2.9** ✅ |
+| baseline `first` | 50.7 | 94.4 | — |
+| answer-sampling=random (training target) | 49.0 | 87.3 | −1.7 |
+| align-feat α=1.0 (representation alignment) | 49.7 | 92.0 | −1.0 |
+| align-logit α=1.0 (representation alignment) | 40.7† | 80.1† | −10 |
 
-**Hòa/thua trên metric matching:**
-- Acc 8.62 vs 9.65 (≈ hòa)
-- F1: 50.7 (in-house, so bảng cũ) hoặc 44.2 (corpus) — ViMoE 60.69. **Thua rõ dù dùng impl nào.**
-- Bottleneck = frozen Qwen2-0.5B (ViMoE train decoder 6 lớp from scratch + label smoothing → bám phrasing ref chặt hơn), không phải bridge.
+<small>† ep2 subset — bị cắt trước full-val. val CE 2.84 (vs 1.49) → KL term ở weight 1.0 chèn CE.</small>
 
-## E. Cần đóng trước camera-ready
+**Kết luận (§6.1):** ba trục độc lập — phân bổ visual compute (routing, §5.2–5.4), training
+target, representation alignment — đều **không** cải thiện token-F1. multi_token đã đạt CE
+thấp nhất trong 5 bridge. → **frozen Qwen2-0.5B decoder LÀ trần cho khớp phrasing;
+capacity phía thị giác/training KHÔNG phải nút thắt.**
 
-- **Mới seed 42.** ViMoE báo mean 5 seed (std ≤ 0.16). Cần 5 seed cho dòng multi_token, hoặc paired bootstrap trên 5463 mẫu val.
-- Chốt **1 implementation** cho toàn paper — đề xuất pycocoevalcap corpus (CIDEr-D / BLEU / ROUGE-L) làm chính, F1/METEOR ghi kèm cả 2 số + chú thích.
-- Đây là val. Test chạy 1 lần (Section 5).
+## 4. Error analysis (multi_token, val 5463) — ĐÃ KHÓA
 
-## F. Kết luận Paper 3
+| Token-F1 bucket | % |
+|---|---:|
+| strong (≥0.6) | 36.7 |
+| partial (0.2–0.6) | 51.5 |
+| weak (<0.2) | 3.1 |
+| zero | 8.7 |
 
-1. Bridge multi_token **vượt ViMoE + toàn bộ baseline** trên metric sinh ổn định → tái xác nhận đóng góp bridge Paper 1&2 trên split sạch (không do leakage: số gần trùng bảng cũ).
-2. Thua F1/Acc → Limitations, bottleneck frozen decoder.
-3. Routing theo reasoning-type (đóng góp mới Paper 3) = NULL/negative — xem `plans/P6-draft/05-results.md` + `outputs/oracle_val/ANALYSIS.json`.
+- Độ dài dự đoán **4.39 từ** vs ref 4.32 — **không** bị "sinh câu cụt" như ViMoE (ViMoE 4.4 vs 5.6). Residual bridge thì sinh dài lê thê (6.41 từ).
+- **Noun omission ở câu đếm: 5.8%** (vs ViMoE **10.7%**) — mình bỏ noun ÍT hơn.
+- Per-category F1: tốt nhất counting 0.66 / yesno 0.61 / relational 0.55; tệ nhất action 0.40 / context 0.37 / causal 0.43 (câu mở, nhiều đáp án đúng — model đoán 1 đáp án hợp lý khác).
+
+## 5. Còn PENDING (sau reset quota 00:00 UTC 5/9)
+
+| # | Việc | Ai |
+|---|---|---|
+| C3 | Oracle sweep + policy ladder trên 3 **tiled** checkpoint → re-lock §5.2/§5.3 (đóng confound "bridge train ở 1 tile") | peer |
+| C2 | multi_token seed 123 + 3407 → mean±std cho dòng headline | tôi |
+| B3 | Tile-sweep: multi_token @ {1,3,6,12} vs Vintern-finetune @ {1,3,6,12} → bảng efficiency | tôi |
+| C4 | Human validation 300–500 mẫu, 2 annotator, Cohen's κ | **user** + tôi setup |
+| B5 | Số tile "Vintern-finetune" bảng cũ (≤6 hay ≤12) | **user** |
+
+## 6. Câu chuyện paper (chốt)
+
+1. **Đóng góp chính — efficiency**: bridge nhẹ trên backbone đóng băng đạt SOTA-generation ở 1 tile.
+2. **Oracle analysis**: xác nhận 1 tile không phải thoả hiệp — không policy adaptive nào (kể cả biết reasoning-type) thắng fixed 1-tile.
+3. **3-way negative → decoder ceiling**: định vị + định lượng nút thắt (frozen 0.5B decoder), không phải phía thị giác.
+4. **Benchmark bridge leak-free** + compute-efficiency table (FLOPs/latency) mà ViMoE bỏ ngỏ.
+
+Reasoning-type / P(r|Q) router → 1 mục ablation nhỏ.

@@ -118,7 +118,7 @@ class VisionLanguageBridge(nn.Module):
         # the decoder, not the vision side, is the token-F1 ceiling. Adds ~1-2%
         # trainable params. Kept on a separate branch / off by default.
         self.lora_enabled = False
-        if lora:
+        if lora is not None:
             from peft import LoraConfig, get_peft_model
             targets = lora.get("targets") or ["q_proj", "k_proj", "v_proj", "o_proj"]
             cfg = LoraConfig(

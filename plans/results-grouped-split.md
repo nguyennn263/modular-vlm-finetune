@@ -219,7 +219,7 @@ biến thể (plain hay LoRA, bridge nào) trên cả CIDEr-D lẫn BLEU-4/ROUGE
 
 ### Rank curve (r=4/8/16/32/64) — seed42, SƠ BỘ (chỉ 600-mẫu training-time subset)
 
-r=8/r=32 vừa xong (r=4/r=64 đang chạy). Số dưới đây là subset 600 mẫu (quick-eval lúc
+r=8/r=32/r=64 đã xong (r=4 đang chạy). Số dưới đây là subset 600 mẫu (quick-eval lúc
 train), **chưa phải full-val 5463** — so sánh nội bộ giữa các rank thì dùng được (cùng
 subset), nhưng **không so trực tiếp được** với các số full-val ở trên.
 
@@ -228,12 +228,14 @@ subset), nhưng **không so trực tiếp được** với các số full-val �
 | 8 | 51.62 | 105.95 | 1.408 |
 | 16 | 51.98 | 106.44 | 1.371 |
 | 32 | 51.80 | 107.06 | 1.368 |
+| 64 | **53.05** | **110.43** | **1.366** |
 
-**Đọc sơ bộ (chưa full-val, chưa nhiều seed, đừng chốt vội):** F1/CIDEr gần như phẳng
-từ r=8 → r=32 (chênh trong nhiễu của 600 mẫu), nhưng **val loss giảm đều đặn theo rank**
-(1.408 → 1.371 → 1.368) — gợi ý lợi ích LoRA **bão hòa nhanh về mặt sinh câu (F1/CIDEr)**
-dù CE vẫn nhích. Nếu đúng, r=8 hoặc r=16 đã gần đủ, không cần rank cao hơn — tốt cho
-câu chuyện "chỉ cần mở decoder RẤT ít cũng đủ", không phải "mở càng nhiều càng tốt".
+**Đọc sơ bộ (chưa full-val, chưa nhiều seed, đừng chốt vội) — SỬA lại nhận định trước:**
+r=8→32 gần như phẳng đúng như đã ghi, NHƯNG **r=64 nhảy lên rõ rệt** (F1 +1.1-1.4, CIDEr
++3.4-4.5 so với r=8/16/32), val loss cũng thấp nhất. Tức là **không hẳn "bão hòa nhanh"
+như đoán ban đầu** — có thể có thêm lợi ích ở rank cao hơn (64), cần r=4 (đang chạy) +
+đa seed cho r=32/64 (đang chạy trên acc1-4) để biết đây là xu hướng thật hay nhiễu 1
+seed/600-mẫu. **Chưa chốt hướng đọc, chờ thêm dữ liệu.**
 
 **Đang chạy thêm để xác nhận:** r=4 (acc10), r=64 (acc9); r=32 + r=64 mỗi cái thêm 2 seed
 (123, 3407 — acc1/2/3/4) để rank curve có error bar thật thay vì 1 seed; LoRA r=16 áp

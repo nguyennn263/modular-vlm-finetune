@@ -633,20 +633,35 @@
     "expa-lora16:mini_qformer:s42": {
       "account": "acc5",
       "kernel": "nguyennguyen263/mvlm-expa-lora16-mini-qformer-s42",
-      "status": "running",
-      "collected": false,
+      "status": "done",
+      "collected": true,
       "bridge": "mini_qformer",
       "seed": 42,
-      "lora": "16"
+      "lora": "16",
+      "f1": 53.39,
+      "cider_inhouse": 106.65,
+      "bleu": 20.19,
+      "val_loss": 1.37,
+      "cider_d_corpus": 103.3,
+      "bleu4_corpus": 24.1,
+      "rouge_l_corpus": 52.9
     },
     "expa-lora16:residual:s42": {
       "account": "acc16",
       "kernel": "nguynrichard/mvlm-expa-lora16-residual-s42",
-      "status": "running",
-      "collected": false,
+      "status": "done",
+      "collected": true,
       "bridge": "residual",
       "seed": 42,
-      "lora": "16"
+      "lora": "16",
+      "f1": 52.66,
+      "cider_inhouse": 103.26,
+      "bleu": 18.34,
+      "val_loss": 1.4,
+      "cider_d_corpus": 100.0,
+      "bleu4_corpus": 22.1,
+      "rouge_l_corpus": 52.1,
+      "note": "BIGGEST lora effect of any bridge -- CIDEr-D +43.7, goes from worst bridge to on par with all others"
     }
   }
 }

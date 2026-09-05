@@ -673,6 +673,26 @@
       "lora": "16",
       "epochs": 3,
       "note": "testing if more epochs improve on the locked 1-epoch LoRA result (F1 53.16)"
+    },
+    "expa-lora16-3ep:multi_token:s123": {
+      "account": "acc1",
+      "kernel": "nguyennn263/mvlm-expa-lora16-multi-token-s123",
+      "status": "running",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 123,
+      "lora": "16",
+      "epochs": 3
+    },
+    "expa-lora16-3ep:multi_token:s3407": {
+      "account": "acc2",
+      "kernel": "nguyennn2501/mvlm-expa-lora16-multi-token-s3407",
+      "status": "running",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 3407,
+      "lora": "16",
+      "epochs": 3
     }
   }
 }

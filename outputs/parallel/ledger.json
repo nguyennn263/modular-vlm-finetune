@@ -662,6 +662,17 @@
       "bleu4_corpus": 22.1,
       "rouge_l_corpus": 52.1,
       "note": "BIGGEST lora effect of any bridge -- CIDEr-D +43.7, goes from worst bridge to on par with all others"
+    },
+    "expa-lora16-3ep:multi_token:s42": {
+      "account": "acc16",
+      "kernel": "nguynrichard/mvlm-expa-lora16-multi-token-s42",
+      "status": "running",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 42,
+      "lora": "16",
+      "epochs": 3,
+      "note": "testing if more epochs improve on the locked 1-epoch LoRA result (F1 53.16)"
     }
   }
 }

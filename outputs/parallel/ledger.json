@@ -571,6 +571,84 @@
       "answer_sampling": null,
       "align": null,
       "lora": "64"
+    },
+    "expa-lora32:multi_token:s123": {
+      "account": "acc1",
+      "kernel": "nguyennn263/mvlm-expa-lora32-multi-token-s123",
+      "status": "running",
+      "pushed_at": "2026-09-05T15:10:37",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 123,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null,
+      "lora": "32"
+    },
+    "expa-lora32:multi_token:s3407": {
+      "account": "acc2",
+      "kernel": "nguyennn2501/mvlm-expa-lora32-multi-token-s3407",
+      "status": "running",
+      "pushed_at": "2026-09-05T15:10:39",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 3407,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null,
+      "lora": "32"
+    },
+    "expa-lora64:multi_token:s123": {
+      "account": "acc3",
+      "kernel": "nguyennn2603/mvlm-expa-lora64-multi-token-s123",
+      "status": "running",
+      "pushed_at": "2026-09-05T15:10:41",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 123,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null,
+      "lora": "64"
+    },
+    "expa-lora64:multi_token:s3407": {
+      "account": "acc4",
+      "kernel": "nguyennn251/mvlm-expa-lora64-multi-token-s3407",
+      "status": "running",
+      "pushed_at": "2026-09-05T15:10:43",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 3407,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null,
+      "lora": "64"
+    },
+    "expa-lora16:mini_qformer:s42": {
+      "account": "acc5",
+      "kernel": "nguyennguyen263/mvlm-expa-lora16-mini-qformer-s42",
+      "status": "running",
+      "pushed_at": "2026-09-05T15:10:51",
+      "collected": false,
+      "bridge": "mini_qformer",
+      "seed": 42,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null,
+      "lora": "16"
+    },
+    "expa-lora16:residual:s42": {
+      "account": "acc16",
+      "kernel": "nguynrichard/mvlm-expa-lora16-residual-s42",
+      "status": "running",
+      "pushed_at": "2026-09-05T15:10:53",
+      "collected": false,
+      "bridge": "residual",
+      "seed": 42,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null,
+      "lora": "16"
     }
   }
 }

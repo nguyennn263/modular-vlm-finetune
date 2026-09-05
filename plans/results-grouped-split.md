@@ -48,12 +48,16 @@ Multi-token tốt nhất mọi mặt **và** có CE thấp nhất — quan trọ
 | Model | Acc | F1 | BLEU | ROUGE | METEOR | CIDEr |
 |---|---:|---:|---:|---:|---:|---:|
 | Vintern-1B (base) | 0.1 | 17.6 | 1.9 | 25.8 | 23.9 | 8.5 |
-| Vintern-1B (**finetune toàn bộ**, đa tile) | **13.0** | 53.8 | 6.1 | **51.9** | 35.3 | 72.8 |
+| Vintern-1B (**finetune toàn bộ**, đa tile†) | **13.0** | 53.8 | 6.1 | **51.9** | 35.3 | 72.8 |
 | GPT-5 (zero-shot) | 10.8 | 50.9 | 6.1 | 47.3 | 33.3 | 84.2 |
 | **ViMoE-VQA / Tuong-MoE** (5 seed) | 9.7 | **60.7** | 12.5 | 47.1 | **39.1** | 88.7 |
 | **★ Multi-Token Bridge (ours)** | 8.6 | 44–51* | **19.6** | **50.0** | ~28–41* | **94.4** |
 
-<small>* F1/METEOR chênh theo implementation. BARTPhoBEiT bỏ khỏi bảng: CIDEr 189 là outlier.</small>
+<small>* F1/METEOR chênh theo implementation. BARTPhoBEiT bỏ khỏi bảng: CIDEr 189 là outlier.
+† **B5 resolved (user, 2026-09-05):** bản Vintern-1B finetune dùng là bản HuggingFace release
+đầy đủ, dynamic tiling **tối đa 12 tile lúc train** (tối đa 40 lúc test theo config gốc của
+Vintern) — không phải ≤6. Vậy headline "1 tile của mình so với 12 tile của Vintern gốc" ở đầu
+file là ĐÚNG, đã confirm chứ không phải giả định.</small>
 
 **Thắng rõ (metric sinh ổn định):** CIDEr-D +5.7 / BLEU-4 +7.0 / ROUGE-L +2.9 so với ViMoE.
 **Thua:** F1 token-level, Acc. → §3.
@@ -87,20 +91,72 @@ capacity phía thị giác/training KHÔNG phải nút thắt.**
 - **Noun omission ở câu đếm: 5.8%** (vs ViMoE **10.7%**) — mình bỏ noun ÍT hơn.
 - Per-category F1: tốt nhất counting 0.66 / yesno 0.61 / relational 0.55; tệ nhất action 0.40 / context 0.37 / causal 0.43 (câu mở, nhiều đáp án đúng — model đoán 1 đáp án hợp lý khác).
 
-## 4b. Decoder-LoRA (feat/decoder-lora branch) — POSITIVE, 2/3 seed khóa
+## 4c. Self-check: F1 bucket có thực sự phản ánh đúng-sai không? (C4, thay cho human validation) — ĐÃ XONG
+
+**Đổi scope so với plan gốc** (300–500 mẫu, 2 người chấm, Cohen's κ): user không có thời gian
+trước deadline, chỉ đạo "human thì m tự check luôn đi" → chuyển thành **self-check 1
+rater (chính tôi/assistant), N=120**, chấm từng câu dựa trên câu hỏi + 5 câu tham chiếu
+(**không có ảnh gốc** — đây là kiểm tra plausibility-so-với-reference, không phải
+ground-truth-độc-lập-từ-ảnh, khác về bản chất so với validation con người thật). Script:
+`scripts/human_validation_sample.py` (lấy mẫu tỉ lệ theo category × F1-bucket thật, seed 42,
+n=15/category) → `scripts/human_validation_report.py` (tổng hợp). Toàn bộ 120 phán đoán +
+lý do từng câu: `outputs/human_validation/selfcheck_judgments.json`.
+
+| F1 bucket | n | đúng | đúng 1 phần | sai | vô nghĩa | **chấp nhận được (đúng+1 phần)** |
+|---|---:|---:|---:|---:|---:|---:|
+| strong (≥0.6) | 45 | 80.0% | 11.1% | 6.7% | 2.2% | **91.1%** |
+| partial (0.2–0.6) | 58 | 12.1% | 31.0% | 55.2% | 1.7% | **43.1%** |
+| weak (0–0.2) | 3 | 0% | 0% | 100% | 0% | **0%** |
+| zero (F1=0) | 13 | 7.7% | 7.7% | 76.9% | 7.7% | **15.4%** |
+| **tổng (n=119, loại 1 mẫu GT tự mâu thuẫn)** | | **37.0%** | **20.2%** | **40.3%** | **2.5%** | **57.1%** |
+
+**Đọc kết quả — KHÔNG chỉ là tin tốt, phải nói thẳng:**
+- **Bucket "strong" đáng tin** (91.1% chấp nhận được) → F1 cao thì hầu như chắc đúng.
+- **Bucket "zero" hầu như đúng là sai** (84.6% sai/vô nghĩa) nhưng **không phải 100%** —
+  có ca F1=0 nhưng ngữ nghĩa đúng (VD idx2261: "đang suy nghĩ về chiến thắng" vs GT
+  "làm sao để đánh trúng bóng/hi vọng home run" — diễn giải khác nhưng cùng ý, 0 token chung).
+- **Bucket "partial" (0.2–0.6) — bucket LỚN NHẤT (51.5% val) — lại là bucket TỆ NHẤT
+  về độ tin cậy: chỉ 43.1% chấp nhận được, 55.2% thực ra SAI** dù có chung vài token
+  (từ đệm như "để", "đang", màu sắc chung...). Đây là phát hiện hơi bất lợi, không phải
+  spin tích cực: **token-F1 tầm trung KHÔNG phải chỉ báo đáng tin của đúng/sai** — model
+  hay sai *loại lỗi* (nhầm màu, nhầm số đếm, nhầm object, trả lời sai chiều câu hỏi —
+  VD hỏi "khi nào" trả lời thời tiết, hỏi "ai" trả lời giới tính sai, hỏi "có kéo theo
+  gì không" trả lời NGƯỢC cực — idx342) nhưng vẫn ăn điểm F1 nhờ từ chung không mang
+  nghĩa.
+- **Tổng thể: chỉ 37.0% đúng hoàn toàn, 57.1% chấp nhận được** — thấp hơn con số 36.7%
+  "strong bucket" ở §4 nhưng **khớp khá sát** (2 phép đo độc lập ra số gần nhau ở mức
+  tổng), củng cố rằng bucket "strong" ≈ "thực sự đúng" là một proxy hợp lý, nhưng đừng
+  đọc "44.2 F1 tổng" hay CIDEr-D 94.4 như thể ~44–94% câu trả lời đúng — con số thật
+  (self-check) thấp hơn nhiều so với cảm giác CIDEr-D cao có thể gợi ý.
+
+**Hạn chế của chính self-check này** (phải ghi rõ trong paper, không giấu): 1 rater duy
+nhất, không có ảnh gốc (chỉ so với 5 câu tham chiếu — với câu hỏi mở như causal/context,
+"đúng" nghĩa là "hợp lý so với tham chiếu", không phải verify được với ảnh thật), N=120
+chứ không phải 300–500, không có Cohen's κ vì không có rater thứ 2. Đây là substitute
+tạm thời do ràng buộc thời gian, không thay thế được human validation thật nếu có
+reviewer yêu cầu — nhưng đủ để phát hiện vấn đề thật (bucket "partial" không đáng tin)
+mà thuần dựa vào F1 sẽ bỏ sót.
+
+## 4b. Decoder-LoRA (feat/decoder-lora branch) — POSITIVE, 3/3 seed KHÓA
 
 Sau 3-way negative (§3), thử can thiệp **decoder** (phá vỡ frozen-backbone có chủ đích):
 LoRA r=16 trên q/k/v/o của Qwen2-0.5B, huấn luyện cùng bridge multi_token, 1 epoch, 1 tile.
 
-| | Plain (mean 4 seed) | **LoRA r=16 (mean 2 seed)** | Δ | ViMoE |
+| seed | F1 | CIDEr (in-house) | BLEU | val loss |
 |---|---:|---:|---:|---:|
-| F1 | 49.8 | **53.2** (53.20/53.15) | **+3.4** | 60.7 |
-| CIDEr (in-house) | 97.0 | **105.9** | **+8.9** | — |
-| BLEU | 16.0 | **19.5** | **+3.5** | 12.5 |
-| Acc | 8.3 | **10.4** | **+2.1** | 9.7 |
+| 42 | 53.16 | 104.9 | 19.38 | 1.368 |
+| 123 | 53.20 | — | — | — |
+| 3407 | 53.15 | — | — | — |
 
-**Khép ~31% khoảng cách F1 tới ViMoE** (gap 10.9 → còn 7.5), tái lập được qua 2 seed
-(123, 3407 — seed 42 đang chờ verify riêng do lỗi hạ tầng, xem bên dưới). val CE cũng
+| | Plain (mean 4 seed) | **LoRA r=16 (mean 3 seed)** | Δ | ViMoE |
+|---|---:|---:|---:|---:|
+| F1 | 49.8 | **53.17** | **+3.4** | 60.7 |
+| CIDEr (in-house) | 97.0 | **~105.6** | **+8.6** | — |
+| BLEU | 16.0 | **~19.5** | **+3.5** | 12.5 |
+| Acc | 8.3 | **10.4** (2-seed) | **+2.1** | 9.7 |
+
+**Khép ~31% khoảng cách F1 tới ViMoE** (gap 10.9 → còn 7.5), **tái lập được qua CẢ 3
+seed** (42/123/3407, std nhỏ ~0.03 trên F1) — không phải may rủi 1 seed. val CE cũng
 thấp hơn hẳn plain (1.37–1.39 vs 1.49).
 
 **Ý nghĩa cho paper:** đây là can thiệp DUY NHẤT trong tất cả các thử (routing, answer-
@@ -130,21 +186,52 @@ chỉ riêng multi_token hay không. Cùng eval_val.json in-house convention (n=
 decoder-LoRA không phải hiệu ứng đặc thù 1 bridge, mà là hiệu ứng của việc mở decoder,
 nhất quán bất kể bridge nào đứng trước nó. Củng cố thêm luận điểm §6.1.
 
-**Còn lại:** seed 42 (multi_token) cần verify chuẩn full-val (2 lần lỗi hạ tầng dataset,
-không phải lỗi model — đã sửa bằng flat-file upload, đang chạy lại, chưa xong), chưa có
-corpus-rescore (CIDEr-D pycocoevalcap) cho bộ LoRA nào cả (hiện toàn bộ số LoRA ở trên
-đều là in-house `vqa_metrics`, không phải corpus — cần làm trước khi đưa vào bảng so
-ViMoE ở §2).
+### Corpus rescore (pycocoevalcap) — qformer LoRA seed 42, ĐÃ XONG
+
+`scripts/rescore_corpus.py` (mới, tổng quát hoá `rescore_expA.py` từ chỉ-CIDEr sang
+CIDEr-D+BLEU-4+ROUGE-L, dùng được ngoài `checkpoints/expA/`). Verify: chạy trên
+qformer-plain seed42 tái tạo đúng hàng trong bảng §1 (86.7/17.5/47.1) → script đúng
+convention. Kết quả LoRA (n=5463, cross-paper-comparable):
+
+| | qformer plain | qformer **+ LoRA r=16** | Δ |
+|---|---:|---:|---:|
+| CIDEr-D | 86.7 | **101.9** | **+15.2** |
+| BLEU-4 | 17.5 | **23.1** | **+5.6** |
+| ROUGE-L | 47.1 | **52.6** | **+5.5** |
+
+So ViMoE (88.7/12.5/47.1): qformer+LoRA thắng cả 3 (CIDEr-D +13.2, BLEU-4 +10.6,
+ROUGE-L +5.5) — hạng mạnh hơn multi_token-plain (§2) trên BLEU-4/ROUGE-L, dù CIDEr-D
+vẫn thấp hơn multi_token-plain (94.4).
+
+**multi_token+LoRA seed 42 full-val — ĐÃ XONG (verify hạ tầng thành công lần 3):**
+in-house F1 53.16/CIDEr 104.9/BLEU 19.38 (khớp seed 123/3407, xem bảng trên). Corpus:
+
+| | multi_token plain (§1) | multi_token **+ LoRA r=16** | Δ | ViMoE |
+|---|---:|---:|---:|---:|
+| CIDEr-D | 94.4 | **101.7** | **+7.3** | 88.7 |
+| BLEU-4 | 19.6 | **23.2** | **+3.6** | 12.5 |
+| ROUGE-L | 50.0 | **52.7** | **+2.7** | 47.1 |
+
+multi_token+LoRA thắng ViMoE cả 3 (+13.0/+10.7/+5.6) và là điểm mạnh nhất trong mọi
+biến thể (plain hay LoRA, bridge nào) trên cả CIDEr-D lẫn BLEU-4/ROUGE-L cross-paper.
+**Toàn bộ dòng LoRA r=16 giờ đã khóa 3/3 seed (in-house) + corpus cho cả 2 bridge
+(multi_token, qformer).**
+
+**Đang chạy:** sweep LoRA r=8 và r=32 (multi_token, seed42, acc6/acc7) tận dụng quota
+Kaggle đang dư nhiều (~440h/480h chưa dùng tuần này) — mục tiêu có ablation theo rank
+thay vì 1 điểm r=16.
 
 ## 5. Còn PENDING (sau reset quota 00:00 UTC 5/9)
 
-| # | Việc | Ai |
-|---|---|---|
-| C3 | Oracle sweep + policy ladder trên 3 **tiled** checkpoint → re-lock §5.2/§5.3 (đóng confound "bridge train ở 1 tile") | peer |
-| C2 | multi_token seed 123 + 3407 → mean±std cho dòng headline | tôi |
-| B3 | Tile-sweep: multi_token @ {1,3,6,12} vs Vintern-finetune @ {1,3,6,12} → bảng efficiency | tôi |
-| C4 | Human validation 300–500 mẫu, 2 annotator, Cohen's κ | **user** + tôi setup |
-| B5 | Số tile "Vintern-finetune" bảng cũ (≤6 hay ≤12) | **user** |
+| # | Việc | Ai | Trạng thái |
+|---|---|---|---|
+| C3 | Oracle sweep + policy ladder trên 3 **tiled** checkpoint → re-lock §5.2/§5.3 | peer | ✅ xong, không đổi kết luận |
+| C2 | multi_token seed 123 + 3407 → mean±std cho dòng headline | tôi | ✅ xong, 4/4 seed |
+| **B5** | **Số tile "Vintern-finetune" bảng cũ** | **user** | ✅ resolved: bản HF, tối đa **12** tile lúc train |
+| B3 | Tile-sweep: multi_token @ {1,3,6,12} vs Vintern-finetune @ {1,3,6,12} → bảng efficiency | tôi | 🔄 running (acc11) |
+| B2 | residual-tiled (baseline tương phản: bridge đơn giản có cần tile không) | tôi | 🔄 running (acc8) |
+| — | LoRA rank ablation r=8/r=32 (mở rộng §4b) | tôi | 🔄 running (acc6/acc7) |
+| ~~C4~~ | ~~Human validation 300–500 mẫu, 2 annotator, Cohen's κ~~ → **self-check N=120, 1 rater** (§4c) | tôi | ✅ xong — xem §4c: strong bucket 91% đáng tin, **partial bucket chỉ 43% đáng tin** (finding hơi bất lợi, đã ghi rõ) |
 
 ## 6. Câu chuyện paper (chốt)
 

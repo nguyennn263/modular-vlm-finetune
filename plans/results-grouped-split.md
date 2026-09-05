@@ -130,11 +130,28 @@ chỉ riêng multi_token hay không. Cùng eval_val.json in-house convention (n=
 decoder-LoRA không phải hiệu ứng đặc thù 1 bridge, mà là hiệu ứng của việc mở decoder,
 nhất quán bất kể bridge nào đứng trước nó. Củng cố thêm luận điểm §6.1.
 
+### Corpus rescore (pycocoevalcap) — qformer LoRA seed 42, ĐÃ XONG
+
+`scripts/rescore_corpus.py` (mới, tổng quát hoá `rescore_expA.py` từ chỉ-CIDEr sang
+CIDEr-D+BLEU-4+ROUGE-L, dùng được ngoài `checkpoints/expA/`). Verify: chạy trên
+qformer-plain seed42 tái tạo đúng hàng trong bảng §1 (86.7/17.5/47.1) → script đúng
+convention. Kết quả LoRA (n=5463, cross-paper-comparable):
+
+| | qformer plain | qformer **+ LoRA r=16** | Δ |
+|---|---:|---:|---:|
+| CIDEr-D | 86.7 | **101.9** | **+15.2** |
+| BLEU-4 | 17.5 | **23.1** | **+5.6** |
+| ROUGE-L | 47.1 | **52.6** | **+5.5** |
+
+So ViMoE (88.7/12.5/47.1): qformer+LoRA thắng cả 3 (CIDEr-D +13.2, BLEU-4 +10.6,
+ROUGE-L +5.5) — hạng mạnh hơn multi_token-plain (§2) trên BLEU-4/ROUGE-L, dù CIDEr-D
+vẫn thấp hơn multi_token-plain (94.4). Đây là điểm dữ liệu corpus đầu tiên cho LoRA.
+
 **Còn lại:** seed 42 (multi_token) cần verify chuẩn full-val (2 lần lỗi hạ tầng dataset,
-không phải lỗi model — đã sửa bằng flat-file upload, đang chạy lại, chưa xong), chưa có
-corpus-rescore (CIDEr-D pycocoevalcap) cho bộ LoRA nào cả (hiện toàn bộ số LoRA ở trên
-đều là in-house `vqa_metrics`, không phải corpus — cần làm trước khi đưa vào bảng so
-ViMoE ở §2).
+không phải lỗi model — đã sửa bằng flat-file upload, đang chạy lại, chưa xong) — sau khi
+có sẽ corpus-rescore luôn cho multi_token+LoRA để so trực tiếp §0/§2. Đang mở thêm sweep
+LoRA r=8 và r=32 (multi_token, seed42, acc6/acc7) tận dụng quota Kaggle đang dư nhiều
+(~440h/480h chưa dùng tuần này) — mục tiêu có ablation theo rank thay vì 1 điểm r=16.
 
 ## 5. Còn PENDING (sau reset quota 00:00 UTC 5/9)
 

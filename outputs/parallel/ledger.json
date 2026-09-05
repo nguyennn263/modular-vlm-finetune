@@ -523,9 +523,13 @@
       "note": "training done, 600-subset F1 51.80/CIDEr 107.06/val_loss 1.368 -- full-val standalone eval not yet run"
     },
     "expa-lora16:qformer:s123": {
-      "status": "error",
+      "status": "done",
       "account": "acc12",
-      "note": "no internet access (Could not resolve host: github.com) -- known account issue"
+      "note": "no internet access (Could not resolve host: github.com) -- known account issue",
+      "collected": true,
+      "f1": 53.32,
+      "cider_inhouse": 105.75,
+      "val_loss": 1.3681
     },
     "expa-lora16:qformer:s3407": {
       "status": "done",
@@ -580,38 +584,50 @@
     "expa-lora32:multi_token:s123": {
       "account": "acc1",
       "kernel": "nguyennn263/mvlm-expa-lora32-multi-token-s123",
-      "status": "running",
-      "collected": false,
+      "status": "done",
+      "collected": true,
       "bridge": "multi_token",
       "seed": 123,
-      "lora": "32"
+      "lora": "32",
+      "f1_600subset": 55.06,
+      "cider_600subset": 120.27,
+      "val_loss": 1.3679
     },
     "expa-lora32:multi_token:s3407": {
       "account": "acc2",
       "kernel": "nguyennn2501/mvlm-expa-lora32-multi-token-s3407",
-      "status": "running",
-      "collected": false,
+      "status": "done",
+      "collected": true,
       "bridge": "multi_token",
       "seed": 3407,
-      "lora": "32"
+      "lora": "32",
+      "f1_600subset": 54.62,
+      "cider_600subset": 115.02,
+      "val_loss": 1.3664
     },
     "expa-lora64:multi_token:s123": {
       "account": "acc3",
       "kernel": "nguyennn2603/mvlm-expa-lora64-multi-token-s123",
-      "status": "running",
-      "collected": false,
+      "status": "done",
+      "collected": true,
       "bridge": "multi_token",
       "seed": 123,
-      "lora": "64"
+      "lora": "64",
+      "f1_600subset": 54.23,
+      "cider_600subset": 115.51,
+      "val_loss": 1.3902
     },
     "expa-lora64:multi_token:s3407": {
       "account": "acc4",
       "kernel": "nguyennn251/mvlm-expa-lora64-multi-token-s3407",
-      "status": "running",
-      "collected": false,
+      "status": "done",
+      "collected": true,
       "bridge": "multi_token",
       "seed": 3407,
-      "lora": "64"
+      "lora": "64",
+      "f1_600subset": 54.91,
+      "cider_600subset": 115.18,
+      "val_loss": 1.364
     },
     "expa-lora16:mini_qformer:s42": {
       "account": "acc5",

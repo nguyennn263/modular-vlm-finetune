@@ -497,28 +497,30 @@
     "expa-lora8:multi_token:s42": {
       "account": "acc6",
       "kernel": "knull0d/mvlm-expa-lora8-multi-token-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-05T12:12:04",
-      "collected": false,
+      "collected": true,
       "bridge": "multi_token",
       "seed": 42,
       "tiles": null,
       "answer_sampling": null,
       "align": null,
-      "lora": "8"
+      "lora": "8",
+      "note": "training done, 600-subset F1 51.62/CIDEr 105.95/val_loss 1.408 -- full-val standalone eval not yet run"
     },
     "expa-lora32:multi_token:s42": {
       "account": "acc7",
       "kernel": "tinquc220300nguyn/mvlm-expa-lora32-multi-token-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-05T12:12:10",
-      "collected": false,
+      "collected": true,
       "bridge": "multi_token",
       "seed": 42,
       "tiles": null,
       "answer_sampling": null,
       "align": null,
-      "lora": "32"
+      "lora": "32",
+      "note": "training done, 600-subset F1 51.80/CIDEr 107.06/val_loss 1.368 -- full-val standalone eval not yet run"
     },
     "expa-lora16:qformer:s123": {
       "status": "error",

@@ -1,0 +1,19 @@
+{
+  "experiment": "multi_token",
+  "best_val_loss": 1.496327198267332,
+  "best_model_path": "/kaggle/working/ck/seed123/multi_token/best_model.pt",
+  "global_step": 6444,
+  "training_duration": "4:55:39.857600",
+  "training_duration_hours": 4.927738222222222,
+  "epochs_trained": 2,
+  "batch_size": 8,
+  "learning_rate": 0.0002,
+  "early_stopping_enabled": false,
+  "results_files": {
+    "epoch_results": "/kaggle/working/ck/seed123/multi_token/results/epoch_results.csv",
+    "training_logs": "/kaggle/working/ck/seed123/multi_token/results/training_20260904_063331.log",
+    "summary": "/kaggle/working/ck/seed123/multi_token/results/summary.json",
+    "text_metrics_all_epochs": "/kaggle/working/ck/seed123/multi_token/results/text_metrics_all_epochs.jsonl",
+    "metrics_summary": "/kaggle/working/ck/seed123/multi_token/results/final_metrics_summary.json"
+  }
+}

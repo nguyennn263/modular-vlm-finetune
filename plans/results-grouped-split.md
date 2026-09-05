@@ -168,40 +168,41 @@ sampling, align-KD, decoder-LoRA) thực sự cải thiện F1 — và nó là c
 **phần bổ sung/reference point**, không phải spine chính (spine chính vẫn là bridge
 0.78% param hoàn toàn đóng băng).
 
-### Generalization check: LoRA trên qformer (seed 42) — ĐÃ XONG, KHÓA
+### Generalization check: LoRA trên qformer — 2/3 SEED (42, 3407), seed123 đang chạy
 
 LoRA r=16 áp lên bridge **khác** (Full Q-Former, 69.4M param) để xem hiệu ứng có phải
-chỉ riêng multi_token hay không. Cùng eval_val.json in-house convention (n=5463, 1 tile):
+chỉ riêng multi_token hay không. eval_val.json in-house convention (n=5463, 1 tile):
 
-| | qformer plain | qformer **+ LoRA r=16** | Δ |
-|---|---:|---:|---:|
-| F1 | 47.66 | **53.10** | **+5.4** |
-| CIDEr (in-house) | 90.8 | **105.2** | **+14.3** |
-| BLEU | 14.6 | **19.3** | **+4.8** |
-| ROUGE-L | 46.0 | **51.6** | **+5.6** |
-| Acc | 7.34 | **10.91** | **+3.6** |
-| val loss | 1.568 | **1.377** | **−0.19** |
+| seed | F1 | CIDEr (in-house) | BLEU | val loss |
+|---|---:|---:|---:|---:|
+| 42 | 53.10 | 105.15 | 19.33 | 1.377 |
+| 3407 | 53.22 | 106.19 | 19.76 | 1.377 |
+| 123 | đang chạy (acc13) | | | |
 
-**Gen hoá xác nhận, và mạnh hơn cả multi_token** (+5.4 F1 vs +3.4 trên multi_token) —
+vs qformer plain seed42 (F1 47.66/CIDEr 90.8/BLEU 14.6/val loss 1.568) → Δ ổn định
+qua cả 2 seed đã có (+5.4 đến +5.6 F1), **khớp rất sát nhau** (53.10 vs 53.22) — không
+phải may rủi 1 seed.
+
+**Gen hoá xác nhận, và mạnh hơn cả multi_token** (+5.4-5.6 F1 vs +3.4 trên multi_token) —
 decoder-LoRA không phải hiệu ứng đặc thù 1 bridge, mà là hiệu ứng của việc mở decoder,
 nhất quán bất kể bridge nào đứng trước nó. Củng cố thêm luận điểm §6.1.
 
-### Corpus rescore (pycocoevalcap) — qformer LoRA seed 42, ĐÃ XONG
+### Corpus rescore (pycocoevalcap) — qformer LoRA, 2/3 seed
 
 `scripts/rescore_corpus.py` (mới, tổng quát hoá `rescore_expA.py` từ chỉ-CIDEr sang
 CIDEr-D+BLEU-4+ROUGE-L, dùng được ngoài `checkpoints/expA/`). Verify: chạy trên
 qformer-plain seed42 tái tạo đúng hàng trong bảng §1 (86.7/17.5/47.1) → script đúng
 convention. Kết quả LoRA (n=5463, cross-paper-comparable):
 
-| | qformer plain | qformer **+ LoRA r=16** | Δ |
+| seed | CIDEr-D | BLEU-4 | ROUGE-L |
 |---|---:|---:|---:|
-| CIDEr-D | 86.7 | **101.9** | **+15.2** |
-| BLEU-4 | 17.5 | **23.1** | **+5.6** |
-| ROUGE-L | 47.1 | **52.6** | **+5.5** |
+| 42 | 101.9 | 23.1 | 52.6 |
+| 3407 | 102.8 | 23.5 | 52.7 |
 
-So ViMoE (88.7/12.5/47.1): qformer+LoRA thắng cả 3 (CIDEr-D +13.2, BLEU-4 +10.6,
-ROUGE-L +5.5) — hạng mạnh hơn multi_token-plain (§2) trên BLEU-4/ROUGE-L, dù CIDEr-D
-vẫn thấp hơn multi_token-plain (94.4).
+vs qformer plain (86.7/17.5/47.1) và ViMoE (88.7/12.5/47.1): qformer+LoRA thắng cả 3
+so ViMoE ở cả 2 seed (CIDEr-D +13-14, BLEU-4 +10.6-11.0, ROUGE-L +5.5-5.6) — hạng mạnh
+hơn multi_token-plain (§2) trên BLEU-4/ROUGE-L, dù CIDEr-D vẫn thấp hơn multi_token-plain
+(94.4).
 
 **multi_token+LoRA seed 42 full-val — ĐÃ XONG (verify hạ tầng thành công lần 3):**
 in-house F1 53.16/CIDEr 104.9/BLEU 19.38 (khớp seed 123/3407, xem bảng trên). Corpus:

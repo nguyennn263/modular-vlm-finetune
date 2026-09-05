@@ -112,19 +112,19 @@ router logs.
    No corpus-rescore yet on the r=8/32 configs. Treat the *direction and
    bridge-agnosticism* of the effect as solid, the exact magnitude as
    provisional.
-5. **`n_tiles ∈ {1,3,6}` and three bridges.** A finer action grid, or bridges
+4. **`n_tiles ∈ {1,3,6}` and three bridges.** A finer action grid, or bridges
    that consume per-tile tokens without pooling, might expose structure this
    study cannot see. The oracle sweep cost bounds how fine the grid can be.
-6. **`M(a;x)` = per-sample CIDEr.** Per-sample CIDEr is noisy for 4-word answers;
+5. **`M(a;x)` = per-sample CIDEr.** Per-sample CIDEr is noisy for 4-word answers;
    this noise is itself part of finding (2), but a less noisy per-sample quality
    signal (e.g. an LLM judge) could in principle recover some headroom.
-7. **CIDEr scale / cross-paper metric implementations.** We standardise on
+6. **CIDEr scale / cross-paper metric implementations.** We standardise on
    pycocoevalcap corpus metrics; baseline rows are as-reported and may use
    different implementations, especially for METEOR and BLEU.
-8. **Oracle-sweep subset** is equal-per-category, not proportional; overall
+7. **Oracle-sweep subset** is equal-per-category, not proportional; overall
    numbers are re-weighted but tail categories are over-represented in the raw
    sweep.
-9. **Human validation and quantitative error analysis** are not yet included
+8. **Human validation and quantitative error analysis** are not yet included
    (planned: 300–500 samples, two annotators, Cohen's κ).
 
 ## 6.5 Ethical / reproducibility notes

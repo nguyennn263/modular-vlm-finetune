@@ -270,14 +270,31 @@ that shows up regardless of which bridge feeds the decoder**, which is exactly
 what "the frozen decoder is the ceiling" predicts: whatever representation
 the bridge hands it, a slightly-unfrozen decoder can use it better.
 
+**Corpus-level (pycocoevalcap) confirmation.** The in-house numbers above are
+not directly cross-paper-comparable (§5.1); `scripts/rescore_corpus.py`
+recomputes CIDEr-D/BLEU-4/ROUGE-L the same way as the §5.1 table (verified: it
+reproduces `qformer`-plain's locked row, 86.7/17.5/47.1, exactly). Rescored for
+`qformer`+LoRA r=16 (seed 42):
+
+| | qformer plain | +LoRA r=16 | Δ | ViMoE-VQA |
+|---|---:|---:|---:|---:|
+| CIDEr-D | 86.7 | **101.9** | **+15.2** | 88.7 |
+| BLEU-4 | 17.5 | **23.1** | **+5.6** | 12.5 |
+| ROUGE-L | 47.1 | **52.6** | **+5.5** | 47.1 |
+
+`qformer`+LoRA now beats ViMoE-VQA on all three corpus metrics (CIDEr-D +13.2,
+BLEU-4 +10.6, ROUGE-L +5.5) — stronger than `multi_token`-plain on BLEU-4/ROUGE-L,
+though still below `multi_token`-plain's CIDEr-D (94.4). The `multi_token`+LoRA
+corpus rescore is pending its full-val eval landing.
+
 This is the **only one of the four axes tested (§5.3–5.6) that moves F1**, and
 it is the only one that touches the decoder. It does not weaken the
 frozen-backbone efficiency claim (§5.1–5.2) — it is reported here as a
 robustness/reference point, quantifying exactly how much headroom exists once
 the one deliberate departure from "everything but the bridge is frozen" is
 allowed, not as a replacement for the main spine. Numbers are single-config,
-2–4 seeds, pre-corpus-rescore (in-house CIDEr, not corpus CIDEr-D) — treat as
-directional pending the full multi-seed sweep and the pycocoevalcap rescore.
+2–4 seeds — treat as directional pending the full multi-seed sweep and the
+`multi_token`-side corpus rescore.
 
 ## 5.7 Summary of findings
 
@@ -310,8 +327,11 @@ architecture class tops out where it does, rather than proposing to abandon it.
 ### Pending
 - [x] §5.6: qformer-LoRA generalization check landed — F1 +5.4, bridge-agnostic
       confirmed
-- [ ] §5.6: seed 42 multi_token-LoRA standalone full-val re-verify, corpus
-      CIDEr-D rescore for all LoRA numbers (co-author, running)
+- [x] §5.6: qformer-LoRA corpus-level (pycocoevalcap) rescore landed — beats
+      ViMoE on all 3 corpus metrics
+- [ ] §5.6: seed 42 multi_token-LoRA standalone full-val re-verify + corpus
+      rescore (co-author, running); also fold in the r=8/r=32 rank sweep once
+      it lands
 - [ ] §5.5: multi-seed numbers + CI once available; re-run align-feat/logit
       on full val (both were cut short) if a reviewer needs it
 - [ ] human validation of 300–500 answers (2 raters, Cohen's κ) — §5.1/§6

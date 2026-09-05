@@ -1,0 +1,1810 @@
+{
+  "bridge": "multi_token",
+  "seed": 42,
+  "n_total_pool": 5463,
+  "n_sampled": 120,
+  "n_per_cat_requested": 15,
+  "note": "Single-rater (assistant) spot-check sample. NOT the originally-scoped 300-500/2-annotator/Cohen's-kappa protocol -- report accordingly.",
+  "samples": [
+    {
+      "idx": 2814,
+      "category": "recognition",
+      "question": "Những chiếc ô màu hồng thuộc về nhóm nào?",
+      "prediction": "Nhóm người",
+      "ground_truths": [
+        "Nhóm phụ nữ",
+        "Một số phụ nữ",
+        "Nhóm người",
+        "Phụ nữ và người",
+        "Một nhóm người"
+      ],
+      "f1": 1.0,
+      "bucket": "strong"
+    },
+    {
+      "idx": 4245,
+      "category": "action",
+      "question": "Người đàn ông đang làm gì với chiếc điều khiển từ xa?",
+      "prediction": "Đang điều khiển",
+      "ground_truths": [
+        "Chĩa vào TV",
+        "Nhắm vào TV",
+        "Cầm trước TV",
+        "Chỉ vào TV",
+        "Hướng về TV"
+      ],
+      "f1": 0.0,
+      "bucket": "zero"
+    },
+    {
+      "idx": 1536,
+      "category": "causal",
+      "question": "Tại sao cặp đôi ăn mặc như đã kết hôn lại giả vờ nói chuyện điện thoại?",
+      "prediction": "Để tránh bị ẩn giấu",
+      "ground_truths": [
+        "Có thể là chụp ảnh",
+        "Đang tạo dáng",
+        "Để tạo khung cảnh",
+        "Có thể là quay phim",
+        "Vì một mục đích nào đó"
+      ],
+      "f1": 0.222,
+      "bucket": "partial"
+    },
+    {
+      "idx": 2665,
+      "category": "relational",
+      "question": "Mối quan hệ giữa con thuyền và hòn đảo là gì?",
+      "prediction": "Thuyền đang di chuyển trên đảo",
+      "ground_truths": [
+        "Thuyền đi qua đảo",
+        "Đảo nằm gần thuyền",
+        "Thuyền đi ngang đảo",
+        "Đảo là mục tiêu",
+        "Thuyền rời đảo"
+      ],
+      "f1": 0.444,
+      "bucket": "partial"
+    },
+    {
+      "idx": 2555,
+      "category": "yesno",
+      "question": "Người trượt tuyết có đang đua xuống ngọn núi không?",
+      "prediction": "Có, người đang đua",
+      "ground_truths": [
+        "Có, người trượt tuyết đang đua",
+        "Có, đang chạy đua xuống",
+        "Đúng vậy, đang chạy đua",
+        "Vâng, đang chạy đua",
+        "Có, đang chạy đua xuống núi"
+      ],
+      "f1": 0.8,
+      "bucket": "strong"
+    },
+    {
+      "idx": 3234,
+      "category": "counting",
+      "question": "Có bao nhiêu xe tải bán hàng tự động được đề cập trong hình?",
+      "prediction": "Một chiếc",
+      "ground_truths": [
+        "Nhiều xe tải",
+        "Một số xe tải",
+        "Rất nhiều xe tải",
+        "Nhiều phương tiện",
+        "Một nhóm xe"
+      ],
+      "f1": 0.4,
+      "bucket": "partial"
+    },
+    {
+      "idx": 853,
+      "category": "action",
+      "question": "Xe buýt màu vàng đang di chuyển theo hướng nào?",
+      "prediction": "Đứng trên đường",
+      "ground_truths": [
+        "Đang quay",
+        "Đang rẽ",
+        "Đang đổi hướng",
+        "Xoay tròn",
+        "Rẽ góc"
+      ],
+      "f1": 0.0,
+      "bucket": "zero"
+    },
+    {
+      "idx": 1084,
+      "category": "action",
+      "question": "Hành động chính của người trong ảnh là gì?",
+      "prediction": "Đang ngồi",
+      "ground_truths": [
+        "Cắt bánh pizza",
+        "Cầm dao cắt pizza",
+        "Thực hiện việc cắt",
+        "Cắt trên thớt",
+        "Đang cắt đồ ăn"
+      ],
+      "f1": 0.333,
+      "bucket": "partial"
+    },
+    {
+      "idx": 1195,
+      "category": "counting",
+      "question": "Có bao nhiêu con ngựa vằn đang ăn cây trên cánh đồng?",
+      "prediction": "Hai con",
+      "ground_truths": [
+        "Hai con",
+        "Có hai con",
+        "Đúng hai con",
+        "Chỉ hai con",
+        "Hai con ngựa vằn"
+      ],
+      "f1": 1.0,
+      "bucket": "strong"
+    },
+    {
+      "idx": 5004,
+      "category": "spatial",
+      "question": "Bát súp ngồi ở đâu trong nhà hàng Trung Quốc?",
+      "prediction": "Trên bàn",
+      "ground_truths": [
+        "Trên đĩa",
+        "Trên một chiếc đĩa",
+        "Ngồi trên đĩa",
+        "Đặt trên đĩa",
+        "Trên chiếc đĩa có hoa văn"
+      ],
+      "f1": 0.5,
+      "bucket": "partial"
+    },
+    {
+      "idx": 3203,
+      "category": "counting",
+      "question": "Có bao nhiêu chiếc đồng hồ được mô tả trong câu mô tả?",
+      "prediction": "Hai chiếc",
+      "ground_truths": [
+        "Hai chiếc",
+        "Hai",
+        "2 cái",
+        "Được mô tả hai chiếc",
+        "Tổng cộng hai chiếc"
+      ],
+      "f1": 1.0,
+      "bucket": "strong"
+    },
+    {
+      "idx": 4749,
+      "category": "yesno",
+      "question": "Cà rốt con có được sắp xếp cùng với súp lơ và bông cải xanh không?",
+      "prediction": "Có, cả ba đều có trong cùng một túi",
+      "ground_truths": [
+        "Có, chúng được sắp xếp cùng",
+        "Có, chúng ở trong một bát",
+        "Đúng, trong bát con",
+        "Có, cùng với súp lơ",
+        "Có, cùng bông cải xanh"
+      ],
+      "f1": 0.4,
+      "bucket": "partial"
+    },
+    {
+      "idx": 101,
+      "category": "context",
+      "question": "Người đàn ông cầm dây diều có khả năng đang làm gì khác?",
+      "prediction": "Đang bay",
+      "ground_truths": [
+        "Thả diều",
+        "Chuẩn bị thả diều",
+        "Đang điều khiển diều",
+        "Sẵn sàng bay diều",
+        "Bay nhiều diều"
+      ],
+      "f1": 0.4,
+      "bucket": "partial"
+    },
+    {
+      "idx": 3262,
+      "category": "yesno",
+      "question": "Chiếc thuyền có mái che không?",
+      "prediction": "Có",
+      "ground_truths": [
+        "Có",
+        "Đúng vậy",
+        "Vâng, có mái che",
+        "Có một chiếc mái che",
+        "Nó có mái che"
+      ],
+      "f1": 1.0,
+      "bucket": "strong"
+    },
+    {
+      "idx": 4023,
+      "category": "relational",
+      "question": "Mối quan hệ giữa ghế sofa và tường màu vàng là gì?",
+      "prediction": "Ghế sofa nằm cạnh tường",
+      "ground_truths": [
+        "Ghế sofa đối diện tường vàng",
+        "Ghế sofa đặt trong phòng có tường vàng",
+        "Tường vàng làm nổi bật ghế sofa",
+        "Ghế sofa và tường vàng tạo sự tương phản",
+        "Ghế sofa hòa hợp với tường vàng"
+      ],
+      "f1": 0.545,
+      "bucket": "partial"
+    },
+    {
+      "idx": 2377,
+      "category": "counting",
+      "question": "Có bao nhiêu chiếc xe tải được mô tả trong câu chuyện?",
+      "prediction": "Hai chiếc",
+      "ground_truths": [
+        "Ba chiếc xe tải",
+        "Tổng cộng có ba",
+        "Ba chiếc",
+        "Dường như có ba",
+        "Có ba xe tải"
+      ],
+      "f1": 0.5,
+      "bucket": "partial"
+    },
+    {
+      "idx": 23,
+      "category": "context",
+      "question": "Người lính đứng trong đống đổ nát có thể đang cảm thấy gì?",
+      "prediction": "Có thể đang bị thương",
+      "ground_truths": [
+        "Có lẽ anh ta đang thất vọng",
+        "Có lẽ anh ta đang buồn",
+        "Có lẽ anh ta đang sốc",
+        "Có lẽ anh ta đang mệt mỏi",
+        "Có lẽ anh ta đang tuyệt vọng"
+      ],
+      "f1": 0.364,
+      "bucket": "partial"
+    },
+    {
+      "idx": 1653,
+      "category": "recognition",
+      "question": "Đứa trẻ đang ngồi trên phương tiện gì?",
+      "prediction": "Trên một chiếc xe",
+      "ground_truths": [
+        "Một chiếc xe máy",
+        "Chiếc mô tô",
+        "Một chiếc xe",
+        "Xe gắn máy",
+        "Phương tiện giao thông"
+      ],
+      "f1": 0.857,
+      "bucket": "strong"
+    },
+    {
+      "idx": 3500,
+      "category": "yesno",
+      "question": "Bữa ăn này có vẻ cân bằng dinh dưỡng không?",
+      "prediction": "Có, nó có vẻ cân bằng",
+      "ground_truths": [
+        "Có vẻ khá cân bằng.",
+        "Có nhiều loại thực phẩm.",
+        "Đủ rau, thịt và tinh bột.",
+        "Có cả trái cây nữa.",
+        "Khó nói, cần biết lượng mỗi loại."
+      ],
+      "f1": 0.727,
+      "bucket": "strong"
+    },
+    {
+      "idx": 1670,
+      "category": "context",
+      "question": "Đám đông đi xe máy này có thể đang đi đâu vậy?",
+      "prediction": "Đang đi xe máy trên đường",
+      "ground_truths": [
+        "Đi làm vào giờ cao điểm",
+        "Đang đi du lịch nhóm",
+        "Đi dạo phố phường",
+        "Đến một sự kiện nào đó",
+        "Đi mua sắm"
+      ],
+      "f1": 0.364,
+      "bucket": "partial"
+    },
+    {
+      "idx": 4709,
+      "category": "spatial",
+      "question": "Vị trí của giường bệnh so với đồng hồ là gì?",
+      "prediction": "Đằng sau đồng hồ",
+      "ground_truths": [
+        "Không rõ khoảng cách",
+        "Giường có thể gần đồng hồ",
+        "Đồng hồ treo trên tường",
+        "Giường trong cùng phòng với đồng hồ",
+        "Không có thông tin cụ thể"
+      ],
+      "f1": 0.444,
+      "bucket": "partial"
+    },
+    {
+      "idx": 5046,
+      "category": "causal",
+      "question": "Tại sao các tòa nhà trên phố lại được bao phủ trong ánh sáng rực rỡ?",
+      "prediction": "Vì có nhiều ánh đèn",
+      "ground_truths": [
+        "Để thu hút sự chú ý",
+        "Vì có nhiều đèn chiếu sáng",
+        "Để tạo không khí lễ hội",
+        "Vì là cảnh đường phố ban đêm",
+        "Để làm nổi bật các khách sạn"
+      ],
+      "f1": 0.727,
+      "bucket": "strong"
+    },
+    {
+      "idx": 1646,
+      "category": "yesno",
+      "question": "Có người nào đang đứng trên đường không?",
+      "prediction": "Có, một người",
+      "ground_truths": [
+        "Có",
+        "Một người",
+        "Đúng vậy",
+        "Vâng",
+        "Một"
+      ],
+      "f1": 0.8,
+      "bucket": "strong"
+    },
+    {
+      "idx": 918,
+      "category": "relational",
+      "question": "Mối quan hệ giữa người đàn ông và con voi là gì?",
+      "prediction": "Người đàn ông đang quan sát con voi",
+      "ground_truths": [
+        "Người điều khiển voi",
+        "Người cưỡi voi",
+        "Bạn đồng hành",
+        "Người chăn voi",
+        "Cùng nhau đi"
+      ],
+      "f1": 0.364,
+      "bucket": "partial"
+    },
+    {
+      "idx": 584,
+      "category": "counting",
+      "question": "Có bao nhiêu chiếc máy bay được nhắc đến trong mô tả?",
+      "prediction": "Ba chiếc",
+      "ground_truths": [
+        "Một chiếc",
+        "Một máy bay",
+        "Chỉ một",
+        "Một",
+        "Chỉ có một"
+      ],
+      "f1": 0.5,
+      "bucket": "partial"
+    },
+    {
+      "idx": 864,
+      "category": "context",
+      "question": "Vào thời điểm nào trong ngày xe buýt hai tầng xuất hiện trên đường phố?",
+      "prediction": "Trước khi bắt đầu hoạt động",
+      "ground_truths": [
+        "Vào ban ngày",
+        "Ban ngày",
+        "Giữa ban ngày",
+        "Trong ngày",
+        "Sáng hoặc chiều"
+      ],
+      "f1": 0.0,
+      "bucket": "zero"
+    },
+    {
+      "idx": 4554,
+      "category": "spatial",
+      "question": "Vị trí của những kiện hành lý màu đen so với cầu thang là gì?",
+      "prediction": "Đang ở trên cầu thang",
+      "ground_truths": [
+        "Dựa vào đường ray",
+        "Ngồi gần cầu thang",
+        "Ở đầu cầu thang",
+        "Dựa vào đường ray và gần đó",
+        "Gần và ở đầu cầu thang"
+      ],
+      "f1": 0.667,
+      "bucket": "strong"
+    },
+    {
+      "idx": 5236,
+      "category": "relational",
+      "question": "Mối quan hệ giữa vòi nước cứu hỏa và bảng phấn là gì?",
+      "prediction": "Vòi nước ở cạnh bảng phấn",
+      "ground_truths": [
+        "Chúng ở gần nhau.",
+        "Vòi nước có thể làm ướt bảng.",
+        "Cả hai đều ở trên vỉa hè.",
+        "Có lẽ vòi nước dùng để rửa bảng.",
+        "Chúng là những vật thể công cộng."
+      ],
+      "f1": 0.462,
+      "bucket": "partial"
+    },
+    {
+      "idx": 5252,
+      "category": "action",
+      "question": "Giao thông ở ngã tư này đang ở trạng thái nào?",
+      "prediction": "Đang chờ đèn đỏ",
+      "ground_truths": [
+        "Đang dừng lại",
+        "Đứng yên",
+        "Tắc nghẽn",
+        "Không di chuyển",
+        "Chưa chạy"
+      ],
+      "f1": 0.286,
+      "bucket": "partial"
+    },
+    {
+      "idx": 5406,
+      "category": "relational",
+      "question": "Mối quan hệ giữa biển báo dừng và bãi đậu xe ẩm ướt là gì?",
+      "prediction": "Biển báo dừng ở gần bãi đậu xe",
+      "ground_truths": [
+        "Biển báo nằm trong bãi đậu xe ẩm ướt",
+        "Biển báo được đặt trên nền đất ẩm",
+        "Cả hai đều xuất hiện trong cùng một cảnh",
+        "Biển báo đứng giữa bãi đậu xe ướt",
+        "Bãi đậu xe ẩm ướt bao quanh biển báo"
+      ],
+      "f1": 0.625,
+      "bucket": "strong"
+    },
+    {
+      "idx": 4151,
+      "category": "context",
+      "question": "Những món đồ trong túi tote màu xanh lá cây có thể bao gồm những gì?",
+      "prediction": "Món ăn và đồ uống",
+      "ground_truths": [
+        "Điện thoại di động",
+        "iPod và thư mục",
+        "Chìa khoá và bút",
+        "Vài món đồ khác",
+        "Sổ tay và ống hít"
+      ],
+      "f1": 0.444,
+      "bucket": "partial"
+    },
+    {
+      "idx": 126,
+      "category": "causal",
+      "question": "Tại sao người đàn ông lại mặc đồ ướt?",
+      "prediction": "Để tránh bị ướt",
+      "ground_truths": [
+        "Để giữ ấm",
+        "Vì đang lướt sóng",
+        "Để thoải mái hơn",
+        "Vì đã bị ướt",
+        "Để dễ vận động"
+      ],
+      "f1": 0.5,
+      "bucket": "partial"
+    },
+    {
+      "idx": 2800,
+      "category": "spatial",
+      "question": "Con ngỗng đứng gần khu vực nào?",
+      "prediction": "Trên một bãi cỏ",
+      "ground_truths": [
+        "Gần vùng nước",
+        "Trên gạch",
+        "Trên gạch gần nước",
+        "Ở bờ ao",
+        "Trên nền gạch"
+      ],
+      "f1": 0.333,
+      "bucket": "partial"
+    },
+    {
+      "idx": 26,
+      "category": "causal",
+      "question": "Tại sao các em nhỏ lại lên xe buýt?",
+      "prediction": "Để đi chơi",
+      "ground_truths": [
+        "Để đi học",
+        "Xe buýt là phương tiện di chuyển",
+        "Để đến trường",
+        "Vì là xe buýt trường học",
+        "Để được chở đi"
+      ],
+      "f1": 0.667,
+      "bucket": "strong"
+    },
+    {
+      "idx": 2261,
+      "category": "context",
+      "question": "Người chơi bóng chày có thể đang nghĩ gì trước khi đánh bóng?",
+      "prediction": "Đang suy nghĩ về chiến thắng",
+      "ground_truths": [
+        "Làm sao để đánh trúng bóng.",
+        "Làm thế nào để ghi điểm.",
+        "Phải đánh bóng thật mạnh.",
+        "Cần phải tập trung cao độ.",
+        "Hi vọng sẽ đánh được home run."
+      ],
+      "f1": 0.0,
+      "bucket": "zero"
+    },
+    {
+      "idx": 1440,
+      "category": "relational",
+      "question": "Mối quan hệ giữa hai con bò khi chúng nhìn theo hai hướng khác nhau là gì?",
+      "prediction": "Chúng đang quan sát",
+      "ground_truths": [
+        "Chúng không nhìn cùng hướng",
+        "Chúng đối lập nhau",
+        "Hướng nhìn khác biệt",
+        "Không cùng một hướng",
+        "Đối nghịch nhau"
+      ],
+      "f1": 0.25,
+      "bucket": "partial"
+    },
+    {
+      "idx": 1754,
+      "category": "action",
+      "question": "Con chim đang làm gì bên cạnh tòa nhà?",
+      "prediction": "Đang bay",
+      "ground_truths": [
+        "Nó đang bay",
+        "Nó đang di chuyển",
+        "Nó đang lượn",
+        "Nó đang bay lượn",
+        "Nó đang bay gần đó"
+      ],
+      "f1": 0.8,
+      "bucket": "strong"
+    },
+    {
+      "idx": 3249,
+      "category": "yesno",
+      "question": "Cành cây có lá không?",
+      "prediction": "Có, lá cây",
+      "ground_truths": [
+        "Có",
+        "Có lá",
+        "Vâng, có lá",
+        "Đúng vậy, có lá",
+        "Có, trên cành có lá"
+      ],
+      "f1": 0.8,
+      "bucket": "strong"
+    },
+    {
+      "idx": 1940,
+      "category": "recognition",
+      "question": "Màu sắc của bức tường trong phòng tắm là gì?",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "Màu vàng",
+        "Vàng bong tróc",
+        "Vàng",
+        "Màu vàng ố",
+        "Vàng nhạt"
+      ],
+      "f1": 0.5,
+      "bucket": "partial"
+    },
+    {
+      "idx": 2170,
+      "category": "context",
+      "question": "Tên của cửa hàng sách được quảng cáo trên biển hiệu là gì?",
+      "prediction": "Cửa hàng sách",
+      "ground_truths": [
+        "Goodlight Books",
+        "Goodlight Books",
+        "Goodlight Books",
+        "Goodlight Books",
+        "Goodlight Books"
+      ],
+      "f1": 0.0,
+      "bucket": "zero"
+    },
+    {
+      "idx": 5278,
+      "category": "recognition",
+      "question": "Cái gì đang được đội trên đồng hồ đỗ xe?",
+      "prediction": "Một chiếc xe hơi",
+      "ground_truths": [
+        "Một bộ tóc giả vàng",
+        "Tóc giả màu vàng",
+        "Một cái tóc giả",
+        "Tóc giả vàng",
+        "Tóc giả"
+      ],
+      "f1": 0.25,
+      "bucket": "partial"
+    },
+    {
+      "idx": 3391,
+      "category": "relational",
+      "question": "Mối quan hệ giữa thảm thực vật xanh tươi và bông hoa oải hương là gì?",
+      "prediction": "Thảm thực vật là bông hoa oải hương",
+      "ground_truths": [
+        "Thảm thực vật bao quanh bông hoa",
+        "Bông hoa nằm giữa thảm thực vật",
+        "Chúng bao bọc bông hoa",
+        "Thảm thực vật làm nền cho hoa",
+        "Chúng ở cạnh nhau"
+      ],
+      "f1": 0.667,
+      "bucket": "strong"
+    },
+    {
+      "idx": 475,
+      "category": "counting",
+      "question": "Có bao nhiêu con hươu cao cổ đang đứng gần một bức tường?",
+      "prediction": "Ba con",
+      "ground_truths": [
+        "Ba con",
+        "Ba",
+        "3 con",
+        "Ba chú",
+        "Ba cá thể"
+      ],
+      "f1": 1.0,
+      "bucket": "strong"
+    },
+    {
+      "idx": 1541,
+      "category": "causal",
+      "question": "Tại sao các con diều lấy cảm hứng từ châu Á?",
+      "prediction": "Vì châu Á có nhiều diều",
+      "ground_truths": [
+        "Vì chúng đầy màu sắc.",
+        "Do có tượng phụ nữ mặc kimono.",
+        "Vì có cổng Torii Nhật Bản.",
+        "Chúng có yếu tố văn hóa Nhật Bản.",
+        "Chúng có thiết kế đặc trưng châu Á."
+      ],
+      "f1": 0.429,
+      "bucket": "partial"
+    },
+    {
+      "idx": 5029,
+      "category": "context",
+      "question": "Những người trên xe ngựa có thể đang đi đâu?",
+      "prediction": "Đang đi trên đường",
+      "ground_truths": [
+        "Có lẽ họ đang đi dạo phố.",
+        "Họ có thể đang đi tham quan.",
+        "Có lẽ họ đang đi du lịch.",
+        "Có thể họ đang đi đến một địa điểm cụ thể.",
+        "Họ có thể đang đi làm."
+      ],
+      "f1": 0.4,
+      "bucket": "partial"
+    },
+    {
+      "idx": 1587,
+      "category": "context",
+      "question": "Bối cảnh thời gian trong bức ảnh này là khi nào?",
+      "prediction": "Một ngày nắng",
+      "ground_truths": [
+        "Thời xưa",
+        "Quá khứ",
+        "Thời gian cũ",
+        "Ngày xưa",
+        "Thời kỳ trước"
+      ],
+      "f1": 0.4,
+      "bucket": "partial"
+    },
+    {
+      "idx": 5296,
+      "category": "yesno",
+      "question": "Biển báo lộn ngược có phải là biển báo đi bộ không?",
+      "prediction": "Có, nó là biển báo đi bộ",
+      "ground_truths": [
+        "Vâng, đúng vậy",
+        "Có, là biển báo đi bộ",
+        "Phải, đó là biển báo đi bộ",
+        "Đúng, biển báo dành cho người đi bộ",
+        "Vâng, biển báo cho người đi bộ"
+      ],
+      "f1": 0.923,
+      "bucket": "strong"
+    },
+    {
+      "idx": 2728,
+      "category": "recognition",
+      "question": "Chiếc xe tải cũ có đặc điểm gì nổi bật?",
+      "prediction": "Có biển số",
+      "ground_truths": [
+        "Được sơn màu nhiều năm",
+        "Giống như tác phẩm nghệ thuật",
+        "Đầy màu sắc",
+        "Rỉ sét",
+        "Cũ nát"
+      ],
+      "f1": 0.0,
+      "bucket": "zero"
+    },
+    {
+      "idx": 1003,
+      "category": "action",
+      "question": "Con voi đang làm gì với chiếc rương của nó trong nước?",
+      "prediction": "Đang bơi",
+      "ground_truths": [
+        "Nó đang chơi trong nước.",
+        "Nó dùng rương để chơi.",
+        "Đang vẫy rương trong nước.",
+        "Đang dùng rương để nghịch.",
+        "Chơi đùa với rương."
+      ],
+      "f1": 0.286,
+      "bucket": "partial"
+    },
+    {
+      "idx": 289,
+      "category": "context",
+      "question": "Có vẻ như đoàn tàu đang đi đến đâu?",
+      "prediction": "Đang đến một khu vực",
+      "ground_truths": [
+        "Vùng nông thôn",
+        "Một khu vực đồng quê",
+        "Đi qua vùng cỏ",
+        "Nơi có nhiều cây cối",
+        "Về phía trước, xa hơn"
+      ],
+      "f1": 0.6,
+      "bucket": "strong"
+    },
+    {
+      "idx": 4321,
+      "category": "yesno",
+      "question": "Con gấu bông buồn có cần được sửa chữa không?",
+      "prediction": "Có, nó bị hỏng",
+      "ground_truths": [
+        "Có, nó muốn được sửa chữa",
+        "Vâng, nó muốn được cố định",
+        "Đúng vậy, nó đang sụp đổ",
+        "Chắc chắn rồi, nó buồn bã",
+        "Có, nó đang hỏng hóc"
+      ],
+      "f1": 0.667,
+      "bucket": "strong"
+    },
+    {
+      "idx": 4191,
+      "category": "spatial",
+      "question": "Cây thông Noel được đặt ở đâu so với chiếc giường?",
+      "prediction": "Trên giường",
+      "ground_truths": [
+        "Cạnh chiếc giường",
+        "Ở phía sau giường",
+        "Kế bên giường",
+        "Gần chiếc giường",
+        "Bên cạnh giường ngủ"
+      ],
+      "f1": 0.4,
+      "bucket": "partial"
+    },
+    {
+      "idx": 5089,
+      "category": "causal",
+      "question": "Tại sao vòi nước cứu hoả có thể bị bao quanh bởi rác thải?",
+      "prediction": "Vì nó đang ở trong khu vực",
+      "ground_truths": [
+        "Do nằm trên góc bận rộn",
+        "Do có nhiều người qua lại",
+        "Vì thiếu sự quản lý vệ sinh",
+        "Do môi trường xung quanh",
+        "Bị bỏ lại ở nơi công cộng"
+      ],
+      "f1": 0.143,
+      "bucket": "weak"
+    },
+    {
+      "idx": 4834,
+      "category": "action",
+      "question": "Con gấu Bắc Cực trưởng thành đang làm gì?",
+      "prediction": "Đang bơi",
+      "ground_truths": [
+        "Đang bơi dưới nước",
+        "Bơi trong hồ bơi",
+        "Cúi đầu xuống nước",
+        "Bơi tại sở thú",
+        "Bơi dưới mặt nước"
+      ],
+      "f1": 0.667,
+      "bucket": "strong"
+    },
+    {
+      "idx": 1310,
+      "category": "context",
+      "question": "Dãy núi ở xa có vai trò gì trong bức ảnh?",
+      "prediction": "Có thể là một địa điểm nổi tiếng.",
+      "ground_truths": [
+        "Tạo bối cảnh",
+        "Làm nền cho con ngựa",
+        "Tăng chiều sâu",
+        "Góp phần tạo phong cảnh",
+        "Tạo cảm giác không gian"
+      ],
+      "f1": 0.0,
+      "bucket": "zero"
+    },
+    {
+      "idx": 5075,
+      "category": "context",
+      "question": "Biển báo giao thông vinh danh ai?",
+      "prediction": "Người đàn ông",
+      "ground_truths": [
+        "Susan B. Anthony",
+        "Người đề xướng sự đau khổ của phụ nữ",
+        "Những người đề xướng đầu tiên",
+        "Một người tên Susan B. Anthony",
+        "Nhà hoạt động nữ quyền"
+      ],
+      "f1": 0.222,
+      "bucket": "partial"
+    },
+    {
+      "idx": 1830,
+      "category": "recognition",
+      "question": "Món ăn trên đĩa có những thành phần chính nào?",
+      "prediction": "Thịt, rau và bánh mì",
+      "ground_truths": [
+        "Bông cải xanh và thịt bò",
+        "Thịt và bông cải xanh",
+        "Bông cải xanh, thịt bò",
+        "Thịt bò, bông cải xanh",
+        "Thịt, bông cải"
+      ],
+      "f1": 0.4,
+      "bucket": "partial"
+    },
+    {
+      "idx": 1020,
+      "category": "recognition",
+      "question": "Cậu bé đang nhìn gì qua hàng rào?",
+      "prediction": "Một con chim",
+      "ground_truths": [
+        "Những con voi trong sở thú",
+        "Voi lớn và voi nhỏ",
+        "Hai con voi",
+        "Voi đang đi",
+        "Voi đằng sau hàng rào"
+      ],
+      "f1": 0.333,
+      "bucket": "partial"
+    },
+    {
+      "idx": 3059,
+      "category": "spatial",
+      "question": "Vòi nước cứu hoả nằm ở đâu so với con phố?",
+      "prediction": "Bên cạnh con phố",
+      "ground_truths": [
+        "Nằm cạnh con phố",
+        "Cạnh con phố",
+        "Gần đường phố",
+        "Trên khu vực cỏ gần đường phố",
+        "Trên cỏ gần lề đường"
+      ],
+      "f1": 0.857,
+      "bucket": "strong"
+    },
+    {
+      "idx": 975,
+      "category": "yesno",
+      "question": "Người đàn ông có phải là người châu Á không?",
+      "prediction": "Có, anh ấy là người châu Á",
+      "ground_truths": [
+        "Có",
+        "Phải",
+        "Đúng vậy",
+        "Có, người châu Á",
+        "Đúng"
+      ],
+      "f1": 0.727,
+      "bucket": "strong"
+    },
+    {
+      "idx": 466,
+      "category": "counting",
+      "question": "Có bao nhiêu con hươu cao cổ đang ăn trong khu vực bụi rậm?",
+      "prediction": "Hai con",
+      "ground_truths": [
+        "Ba con",
+        "3 con",
+        "Có ba",
+        "Chỉ ba con",
+        "Ba"
+      ],
+      "f1": 0.5,
+      "bucket": "partial"
+    },
+    {
+      "idx": 1875,
+      "category": "context",
+      "question": "Bức ảnh ghép trên tường có ý nghĩa gì?",
+      "prediction": "Một phần của một bức tranh",
+      "ground_truths": [
+        "Có lẽ chủ nhà thích nghệ thuật",
+        "Có thể là sở thích cá nhân",
+        "Thể hiện sự tự do",
+        "Chỉ là trang trí",
+        "Khó đoán, tùy gu thẩm mỹ"
+      ],
+      "f1": 0.0,
+      "bucket": "zero"
+    },
+    {
+      "idx": 1676,
+      "category": "yesno",
+      "question": "Chiếc xe máy có kéo theo gì không?",
+      "prediction": "Một chiếc xe máy",
+      "ground_truths": [
+        "Có, một trailer",
+        "Có, một xe moóc",
+        "Một trailer",
+        "Một xe moóc",
+        "Có kéo trailer"
+      ],
+      "f1": 0.571,
+      "bucket": "partial"
+    },
+    {
+      "idx": 3414,
+      "category": "spatial",
+      "question": "Người này có vẻ đang ăn bánh sandwich ở đâu?",
+      "prediction": "Trên bàn",
+      "ground_truths": [
+        "Tại bàn",
+        "Trên bàn ăn",
+        "Ở một cái bàn",
+        "Ngồi tại bàn",
+        "Có lẽ tại nhà hàng"
+      ],
+      "f1": 0.8,
+      "bucket": "strong"
+    },
+    {
+      "idx": 353,
+      "category": "spatial",
+      "question": "Đoàn tàu đang đi quanh khúc cua của khu vực nào?",
+      "prediction": "Khu vực rừng",
+      "ground_truths": [
+        "Khu vực cỏ",
+        "Một khu vực cỏ",
+        "Khu vực có cỏ",
+        "Khu vực đồng cỏ",
+        "Vùng cỏ"
+      ],
+      "f1": 0.667,
+      "bucket": "strong"
+    },
+    {
+      "idx": 342,
+      "category": "yesno",
+      "question": "Chiếc tàu có đang kéo theo bất kỳ toa nào không?",
+      "prediction": "Có, một toa",
+      "ground_truths": [
+        "Không, tàu không có toa",
+        "Không có toa nào",
+        "Không",
+        "Không có toa gắn liền",
+        "Tàu không kéo toa"
+      ],
+      "f1": 0.571,
+      "bucket": "partial"
+    },
+    {
+      "idx": 2205,
+      "category": "counting",
+      "question": "Có bao nhiêu chiếc xe đạp được đề cập trong chú thích?",
+      "prediction": "Hai chiếc",
+      "ground_truths": [
+        "Nhiều chiếc",
+        "Một số chiếc",
+        "Ít nhất hai chiếc",
+        "Vài chiếc",
+        "Một chiếc và một số khác"
+      ],
+      "f1": 0.667,
+      "bucket": "strong"
+    },
+    {
+      "idx": 1330,
+      "category": "action",
+      "question": "Người đàn ông đang làm gì với đội ngựa?",
+      "prediction": "Đang quan sát đội ngựa",
+      "ground_truths": [
+        "Lái đội ngựa",
+        "Điều khiển đội ngựa",
+        "Đang lái xe ngựa",
+        "Cầm cương ngựa",
+        "Chỉ huy ngựa"
+      ],
+      "f1": 0.5,
+      "bucket": "partial"
+    },
+    {
+      "idx": 3912,
+      "category": "counting",
+      "question": "Phòng khách này có bao nhiêu cửa sổ?",
+      "prediction": "Hai cửa sổ",
+      "ground_truths": [
+        "Có ba cửa sổ.",
+        "Ba cái cửa sổ.",
+        "Khoảng ba cửa sổ.",
+        "Tổng cộng ba cửa sổ.",
+        "Đếm được ba cửa sổ."
+      ],
+      "f1": 0.571,
+      "bucket": "partial"
+    },
+    {
+      "idx": 988,
+      "category": "relational",
+      "question": "Hai con voi lớn đang làm gì liên quan đến con voi nhỏ?",
+      "prediction": "Đang chơi với nhau",
+      "ground_truths": [
+        "Đứng ở hai bên",
+        "Đi dạo cùng",
+        "Bảo vệ voi con",
+        "Đi cạnh nhau",
+        "Đồng hành cùng"
+      ],
+      "f1": 0.286,
+      "bucket": "partial"
+    },
+    {
+      "idx": 4601,
+      "category": "spatial",
+      "question": "Bếp ga cũ được đặt ở đâu trong nhà bếp?",
+      "prediction": "Trên một chiếc bàn",
+      "ground_truths": [
+        "Ngồi cạnh tủ lạnh.",
+        "Cạnh tủ lạnh.",
+        "Ở gần tủ lạnh.",
+        "Nằm kế tủ lạnh.",
+        "Bên cạnh tủ lạnh."
+      ],
+      "f1": 0.0,
+      "bucket": "zero"
+    },
+    {
+      "idx": 3864,
+      "category": "counting",
+      "question": "Có bao nhiêu ngọn nến được thắp sáng ở mỗi bên của TV?",
+      "prediction": "Hai ngọn nến",
+      "ground_truths": [
+        "Hai ngọn",
+        "Hai cây",
+        "Một cặp nến",
+        "Chỉ có hai",
+        "Hai cái nến"
+      ],
+      "f1": 0.8,
+      "bucket": "strong"
+    },
+    {
+      "idx": 2163,
+      "category": "action",
+      "question": "Những bàn chân này có thể đang làm gì với đĩa ném?",
+      "prediction": "Đang ném đĩa",
+      "ground_truths": [
+        "Chơi đĩa ném",
+        "Cố gắng nhặt đĩa lên",
+        "Đang vùi đĩa xuống cát",
+        "Đang đứng xung quanh đĩa",
+        "Đang xem đĩa"
+      ],
+      "f1": 0.667,
+      "bucket": "strong"
+    },
+    {
+      "idx": 4210,
+      "category": "recognition",
+      "question": "Các mặt hàng trên kệ kính là gì?",
+      "prediction": "Mặt hàng đồ ăn",
+      "ground_truths": [
+        "Đồng hồ, bình",
+        "Hộp gỗ, dao bỏ túi",
+        "Vật phẩm kỹ thuật số",
+        "Thẻ trên mặt hàng",
+        "Đồ trang sức"
+      ],
+      "f1": 0.5,
+      "bucket": "partial"
+    },
+    {
+      "idx": 4845,
+      "category": "spatial",
+      "question": "Bánh rán sô cô la nằm ở đâu so với các bánh rán tráng men?",
+      "prediction": "Đi cạnh các bánh rán tráng men",
+      "ground_truths": [
+        "Ngồi cạnh nhau",
+        "Bên cạnh chúng",
+        "Cạnh bánh tráng men",
+        "Trong cùng hộp",
+        "Kề bên"
+      ],
+      "f1": 0.727,
+      "bucket": "strong"
+    },
+    {
+      "idx": 4660,
+      "category": "recognition",
+      "question": "Chiếc xe máy màu xanh có đặc điểm gì nổi bật?",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "Màu xanh baby tùy chỉnh",
+        "Màu xanh sáng bóng",
+        "Màu xanh và trắng",
+        "Màu xanh",
+        "Màu xanh baby"
+      ],
+      "f1": 1.0,
+      "bucket": "strong"
+    },
+    {
+      "idx": 2549,
+      "category": "action",
+      "question": "Vịt mẹ đang làm gì với vịt con?",
+      "prediction": "Đang bơi",
+      "ground_truths": [
+        "Vịt mẹ đang theo sát vịt con.",
+        "Vịt mẹ đang bơi cùng vịt con.",
+        "Vịt mẹ bảo vệ vịt con.",
+        "Vịt mẹ dẫn vịt con đi.",
+        "Vịt mẹ trông chừng vịt con."
+      ],
+      "f1": 0.444,
+      "bucket": "partial"
+    },
+    {
+      "idx": 664,
+      "category": "causal",
+      "question": "Tại sao con chó thè lưỡi khi đứng trên ván trượt?",
+      "prediction": "Để trượt",
+      "ground_truths": [
+        "Vì thích thú",
+        "Do đang vui vẻ",
+        "Vì đang tận hưởng",
+        "Để thể hiện niềm vui",
+        "Do hoạt động"
+      ],
+      "f1": 0.286,
+      "bucket": "partial"
+    },
+    {
+      "idx": 3832,
+      "category": "spatial",
+      "question": "Bàn đá granite nằm cạnh vật dụng nào trong nhà bếp?",
+      "prediction": "Bàn đá granite nằm cạnh tủ bếp",
+      "ground_truths": [
+        "Tủ lạnh thép",
+        "Một tủ lạnh",
+        "Tủ lạnh kim loại",
+        "Chiếc tủ lạnh",
+        "Tủ lạnh bạc"
+      ],
+      "f1": 0.2,
+      "bucket": "partial"
+    },
+    {
+      "idx": 5433,
+      "category": "recognition",
+      "question": "Chiếc xe tay ga có màu gì?",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "Màu xanh",
+        "Màu xanh lam",
+        "Màu xanh dương",
+        "Màu xanh nước biển",
+        "Xanh"
+      ],
+      "f1": 0.5,
+      "bucket": "partial"
+    },
+    {
+      "idx": 1015,
+      "category": "action",
+      "question": "Hai con voi đang làm gì gần hồ nước?",
+      "prediction": "Đang chơi trong hồ nước",
+      "ground_truths": [
+        "Đang thư giãn",
+        "Đang nghỉ ngơi",
+        "Đang ở gần nhau",
+        "Đang đứng cạnh hồ",
+        "Đang tận hưởng không gian"
+      ],
+      "f1": 0.444,
+      "bucket": "partial"
+    },
+    {
+      "idx": 4352,
+      "category": "yesno",
+      "question": "Bánh rán sô cô la có được phủ rắc không?",
+      "prediction": "Có",
+      "ground_truths": [
+        "Có, chúng được phủ rắc",
+        "Hoàn toàn có rắc",
+        "Được, chúng có rắc",
+        "Chắc chắn có rắc",
+        "Có"
+      ],
+      "f1": 1.0,
+      "bucket": "strong"
+    },
+    {
+      "idx": 499,
+      "category": "relational",
+      "question": "Mối quan hệ giữa máy bay và cánh đồng là gì?",
+      "prediction": "Máy bay bay trên cánh đồng",
+      "ground_truths": [
+        "Máy bay đang phun thuốc trên cánh đồng",
+        "Máy bay đang phủ bụi cánh đồng",
+        "Máy bay đang hoạt động trên cánh đồng",
+        "Máy bay đang chăm sóc cánh đồng",
+        "Máy bay đang bay thấp trên cánh đồng"
+      ],
+      "f1": 0.857,
+      "bucket": "strong"
+    },
+    {
+      "idx": 4236,
+      "category": "recognition",
+      "question": "Món ăn chính được chuẩn bị trong bữa trưa là gì?",
+      "prediction": "Món salad",
+      "ground_truths": [
+        "Bánh mì kẹp lớn",
+        "Một cái bánh mì",
+        "Bánh mì kẹp",
+        "Bánh mì thịt bò",
+        "Bánh mì kẹp với ớt"
+      ],
+      "f1": 0.0,
+      "bucket": "zero"
+    },
+    {
+      "idx": 3577,
+      "category": "causal",
+      "question": "Tại sao các bức tượng Stormtrooper lại được dựng lên như đang ăn pizza?",
+      "prediction": "Để tạo ra một hình ảnh vui nhộn",
+      "ground_truths": [
+        "Để tạo cảnh hài hước",
+        "Để chúng trông như thật",
+        "Tạo ấn tượng đang ăn",
+        "Để mô phỏng hành động ăn",
+        "Vì đó là một trò đùa"
+      ],
+      "f1": 0.308,
+      "bucket": "partial"
+    },
+    {
+      "idx": 2995,
+      "category": "action",
+      "question": "Đàn chim lớn đang làm gì trên cánh đồng?",
+      "prediction": "Đang bay",
+      "ground_truths": [
+        "Đang uống nước",
+        "Uống nước trên cỏ",
+        "Chúng đang uống",
+        "Uống nước ở đó",
+        "Bắt đầu uống nước"
+      ],
+      "f1": 0.4,
+      "bucket": "partial"
+    },
+    {
+      "idx": 1959,
+      "category": "relational",
+      "question": "Mối quan hệ giữa người đàn ông và đàn cừu là gì?",
+      "prediction": "Người đàn ông đang quan sát đàn cừu",
+      "ground_truths": [
+        "Người chăn cừu",
+        "Chủ của đàn cừu",
+        "Đồng hành cùng cừu",
+        "Người quản lý cừu",
+        "Người bảo vệ cừu"
+      ],
+      "f1": 0.364,
+      "bucket": "partial"
+    },
+    {
+      "idx": 2096,
+      "category": "causal",
+      "question": "Tại sao có người thả diều màu hồng trên bãi biển?",
+      "prediction": "Để tạo không khí vui vẻ",
+      "ground_truths": [
+        "Để vui chơi giải trí",
+        "Để tận hưởng thời tiết",
+        "Để thư giãn trên biển",
+        "Để chơi đùa cùng diều",
+        "Để vui vẻ tại bãi biển"
+      ],
+      "f1": 0.5,
+      "bucket": "partial"
+    },
+    {
+      "idx": 4908,
+      "category": "counting",
+      "question": "Có bao nhiêu củ cà rốt trên thớt?",
+      "prediction": "Hai củ",
+      "ground_truths": [
+        "Một vài củ",
+        "Một ít",
+        "Vài củ",
+        "Một đống",
+        "Một nhóm"
+      ],
+      "f1": 0.5,
+      "bucket": "partial"
+    },
+    {
+      "idx": 1720,
+      "category": "spatial",
+      "question": "Các tòa nhà nằm ở đâu so với dòng sông?",
+      "prediction": "Cạnh dòng sông",
+      "ground_truths": [
+        "Dọc theo bờ sông",
+        "Hai bên dòng sông",
+        "Gần dòng sông",
+        "Bên cạnh dòng sông",
+        "Dọc theo thành phố"
+      ],
+      "f1": 0.857,
+      "bucket": "strong"
+    },
+    {
+      "idx": 4778,
+      "category": "recognition",
+      "question": "Bồn rửa trong phòng tắm có màu gì?",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "Màu trắng",
+        "Trắng",
+        "Trắng tinh",
+        "Màu trắng sáng",
+        "Trắng ngà"
+      ],
+      "f1": 1.0,
+      "bucket": "strong"
+    },
+    {
+      "idx": 5218,
+      "category": "recognition",
+      "question": "Chiếc xe tải có màu gì?",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "Màu xanh lá cây và trắng",
+        "Màu xanh và trắng",
+        "Xanh lá cây và trắng",
+        "Xanh và trắng",
+        "Màu xanh lá"
+      ],
+      "f1": 0.8,
+      "bucket": "strong"
+    },
+    {
+      "idx": 235,
+      "category": "causal",
+      "question": "Tại sao con mèo lại ngủ trên ghế sofa?",
+      "prediction": "Để nghỉ ngơi",
+      "ground_truths": [
+        "Để nghỉ ngơi",
+        "Nó đang ngủ",
+        "Để thư giãn",
+        "Vì nó mệt",
+        "Có thể thoải mái"
+      ],
+      "f1": 1.0,
+      "bucket": "strong"
+    },
+    {
+      "idx": 2667,
+      "category": "action",
+      "question": "Hai con gấu đang thực hiện hành động gì dưới nước?",
+      "prediction": "Đang bơi",
+      "ground_truths": [
+        "Chúng đang bơi.",
+        "Chúng đang chơi đùa.",
+        "Chúng đang ở trong hồ.",
+        "Chúng đang phát ra âm thanh.",
+        "Chúng đang tương tác với nhau."
+      ],
+      "f1": 0.8,
+      "bucket": "strong"
+    },
+    {
+      "idx": 408,
+      "category": "action",
+      "question": "Con hươu cao cổ đang làm gì khi bị phân tâm?",
+      "prediction": "Đang chạy",
+      "ground_truths": [
+        "Ngừng ăn",
+        "Quay mặt về phía máy ảnh",
+        "Đứng trên cánh đồng",
+        "Ăn lá trên cây",
+        "Bị phân tâm bởi nhiếp ảnh gia"
+      ],
+      "f1": 0.0,
+      "bucket": "zero"
+    },
+    {
+      "idx": 2133,
+      "category": "causal",
+      "question": "Tại sao người lớn lại nhìn vào khi trẻ em chơi bóng đá?",
+      "prediction": "Để quan sát kỹ lưỡng",
+      "ground_truths": [
+        "Để theo dõi trận đấu",
+        "Để giám sát các em",
+        "Vì các em đang chơi",
+        "Để đảm bảo an toàn",
+        "Để xem các em đá bóng"
+      ],
+      "f1": 0.4,
+      "bucket": "partial"
+    },
+    {
+      "idx": 4926,
+      "category": "counting",
+      "question": "Có bao nhiêu cái gương được đề cập trong phòng tắm?",
+      "prediction": "Hai cái",
+      "ground_truths": [
+        "Nhiều cái gương",
+        "Một cái gương",
+        "Chỉ một cái",
+        "Vài cái",
+        "Không rõ số lượng cụ thể"
+      ],
+      "f1": 0.5,
+      "bucket": "partial"
+    },
+    {
+      "idx": 1301,
+      "category": "counting",
+      "question": "Có bao nhiêu con ngựa đang được chăm sóc bởi phụ nữ?",
+      "prediction": "Hai con ngựa",
+      "ground_truths": [
+        "Hai con",
+        "Hai con ngựa",
+        "Chỉ hai con",
+        "Hai con ngựa được chăm sóc",
+        "Tổng cộng hai"
+      ],
+      "f1": 1.0,
+      "bucket": "strong"
+    },
+    {
+      "idx": 84,
+      "category": "causal",
+      "question": "Tại sao một số vận động viên trượt băng lại tập trung gần cầu thang nhỏ?",
+      "prediction": "Để chuẩn bị cho một trận đấu",
+      "ground_truths": [
+        "Để thực hiện các thủ thuật.",
+        "Để nghỉ ngơi.",
+        "Để xem các vận động viên khác.",
+        "Có thể chuẩn bị trượt xuống.",
+        "Vì chỗ đó có lan can."
+      ],
+      "f1": 0.308,
+      "bucket": "partial"
+    },
+    {
+      "idx": 1200,
+      "category": "action",
+      "question": "Con ngựa vằn đang làm gì trên bãi cỏ?",
+      "prediction": "Đang chạy",
+      "ground_truths": [
+        "Đang gặm cỏ",
+        "Đang ăn cỏ",
+        "Đang kiếm ăn",
+        "Đang ăn trên đất",
+        "Đang đứng gặm cỏ"
+      ],
+      "f1": 0.4,
+      "bucket": "partial"
+    },
+    {
+      "idx": 1596,
+      "category": "relational",
+      "question": "Mối quan hệ giữa người đàn ông và chiếc xe máy là gì?",
+      "prediction": "Người đàn ông đang lái xe",
+      "ground_truths": [
+        "Người đàn ông đang điều khiển xe",
+        "Xe là phương tiện di chuyển",
+        "Người đàn ông sử dụng xe trong rừng",
+        "Người đàn ông sở hữu chiếc xe",
+        "Xe giúp người đàn ông đi lại"
+      ],
+      "f1": 0.769,
+      "bucket": "strong"
+    },
+    {
+      "idx": 876,
+      "category": "yesno",
+      "question": "Xe buýt có đang đi qua một giao lộ không?",
+      "prediction": "Có, xe buýt đang đi qua",
+      "ground_truths": [
+        "Có",
+        "Đúng vậy",
+        "Vâng",
+        "Có, đang đi qua",
+        "Rất có thể"
+      ],
+      "f1": 0.8,
+      "bucket": "strong"
+    },
+    {
+      "idx": 5103,
+      "category": "counting",
+      "question": "Có bao nhiêu chiếc xe tay ga được đề cập trong mô tả?",
+      "prediction": "Hai chiếc",
+      "ground_truths": [
+        "Hai chiếc",
+        "Một cặp",
+        "2",
+        "Hai",
+        "Hai cái"
+      ],
+      "f1": 1.0,
+      "bucket": "strong"
+    },
+    {
+      "idx": 3921,
+      "category": "context",
+      "question": "Dựa vào vị trí, có vẻ như con gấu bông đang làm gì?",
+      "prediction": "Đang ngồi",
+      "ground_truths": [
+        "Đang suy tư",
+        "Đang suy nghĩ",
+        "Đang trầm tư",
+        "Đang ngẫm nghĩ",
+        "Đang thư giãn"
+      ],
+      "f1": 0.4,
+      "bucket": "partial"
+    },
+    {
+      "idx": 3931,
+      "category": "relational",
+      "question": "Mối quan hệ giữa bánh cua và xà lách trộn là gì?",
+      "prediction": "Bánh cua được trộn với xà lách",
+      "ground_truths": [
+        "Cả hai đều là món ăn.",
+        "Chúng được bày trên bàn.",
+        "Chúng cùng nằm trên một đĩa.",
+        "Một món chính, một món phụ.",
+        "Cả hai đều chứa rau xanh."
+      ],
+      "f1": 0.167,
+      "bucket": "weak"
+    },
+    {
+      "idx": 3084,
+      "category": "spatial",
+      "question": "Ván trượt tuyết và ván trượt tuyết được đặt ở đâu?",
+      "prediction": "Trên một chiếc xe hơi",
+      "ground_truths": [
+        "Trên một giá đỡ",
+        "Đặt trên giá đỡ",
+        "Trên giá đỡ trong tuyết",
+        "Trên một cái giá",
+        "Trên một cái giá đỡ"
+      ],
+      "f1": 0.444,
+      "bucket": "partial"
+    },
+    {
+      "idx": 2117,
+      "category": "causal",
+      "question": "Điều gì có thể là động lực của những vận động viên trượt tuyết này?",
+      "prediction": "Một chiếc xe",
+      "ground_truths": [
+        "Sự cạnh tranh",
+        "Mong muốn chiến thắng",
+        "Để rèn luyện sức khỏe",
+        "Đam mê trượt tuyết",
+        "Thể hiện kỹ năng"
+      ],
+      "f1": 0.0,
+      "bucket": "zero"
+    },
+    {
+      "idx": 5086,
+      "category": "context",
+      "question": "Có thể suy đoán gì về mức độ giao thông trên con phố này?",
+      "prediction": "Đường khá đông đúc",
+      "ground_truths": [
+        "Giao thông sầm uất",
+        "Phố xá nhộn nhịp",
+        "Đường phố đông đúc",
+        "Lưu lượng giao thông cao",
+        "Đường phố có nhiều xe"
+      ],
+      "f1": 0.75,
+      "bucket": "strong"
+    },
+    {
+      "idx": 2964,
+      "category": "recognition",
+      "question": "Người phụ nữ đang cầm con diều trông như thế nào?",
+      "prediction": "Có vẻ như đang bay",
+      "ground_truths": [
+        "Trông lễ hội với nhiều màu sắc",
+        "Như một con quái vật",
+        "Một thiết kế động vật đầy màu sắc",
+        "Đồ trang trí nhiều màu",
+        "Một con diều lớn và sặc sỡ"
+      ],
+      "f1": 0.2,
+      "bucket": "partial"
+    },
+    {
+      "idx": 4861,
+      "category": "relational",
+      "question": "Mối quan hệ giữa các bàn chải đánh răng trong gói là gì?",
+      "prediction": "Chúng được xếp cạnh nhau",
+      "ground_truths": [
+        "Chúng là cùng một thương hiệu",
+        "Chúng được đóng gói chung",
+        "Chúng có màu sắc khác nhau",
+        "Chúng là một bộ sản phẩm",
+        "Chúng là bàn chải tinh khiết"
+      ],
+      "f1": 0.4,
+      "bucket": "partial"
+    },
+    {
+      "idx": 1304,
+      "category": "relational",
+      "question": "Mối quan hệ giữa người đàn ông và người phụ nữ trong bức ảnh là gì?",
+      "prediction": "Người đàn ông đang nhìn người phụ nữ",
+      "ground_truths": [
+        "Có thể là bạn bè.",
+        "Có thể là người quen.",
+        "Cả hai cùng cưỡi ngựa.",
+        "Không rõ mối quan hệ.",
+        "Họ đang cùng nhau đi dạo."
+      ],
+      "f1": 0.154,
+      "bucket": "weak"
+    },
+    {
+      "idx": 2100,
+      "category": "causal",
+      "question": "Tại sao một số con gấu bông lại trông có vẻ bị phong hoá?",
+      "prediction": "Vì chúng bị phong hoá",
+      "ground_truths": [
+        "Vì chúng đã cũ",
+        "Do tác động của thời tiết",
+        "Chúng đã ở ngoài trời lâu",
+        "Bị phơi nắng mưa",
+        "Do thời gian sử cân"
+      ],
+      "f1": 0.444,
+      "bucket": "partial"
+    },
+    {
+      "idx": 4163,
+      "category": "spatial",
+      "question": "Con gấu bông trên giường ở vị trí nào so với tường?",
+      "prediction": "Trên tường",
+      "ground_truths": [
+        "Gần tường",
+        "Cạnh bức tường",
+        "Ngay cạnh tường",
+        "Kề sát tường",
+        "Dựa vào tường"
+      ],
+      "f1": 0.5,
+      "bucket": "partial"
+    },
+    {
+      "idx": 4673,
+      "category": "yesno",
+      "question": "Phòng ngủ có sạch sẽ và ngăn nắp không?",
+      "prediction": "Có, không có gì khác",
+      "ground_truths": [
+        "Rất sạch sẽ và ngăn nắp",
+        "Có, rất sạch sẽ",
+        "Vâng, rất gọn gàng",
+        "Sạch sẽ và ngăn nắp",
+        "Có, sạch sẽ"
+      ],
+      "f1": 0.25,
+      "bucket": "partial"
+    },
+    {
+      "idx": 1828,
+      "category": "recognition",
+      "question": "Bát chứa gì ngoài rau và mì ống?",
+      "prediction": "Có thể còn các loại rau khác",
+      "ground_truths": [
+        "Pho mát",
+        "Pho mát",
+        "Pho mát",
+        "Một ít pho mát",
+        "Chỉ pho mát"
+      ],
+      "f1": 0.0,
+      "bucket": "zero"
+    },
+    {
+      "idx": 1476,
+      "category": "spatial",
+      "question": "Con bò đực đang nổi bật ở đâu?",
+      "prediction": "Trên cánh đồng cỏ",
+      "ground_truths": [
+        "Trên cánh đồng rộng lớn",
+        "Trên một cánh đồng",
+        "Giữa cánh đồng",
+        "Trên cánh đồng cỏ",
+        "Trong cánh đồng rộng"
+      ],
+      "f1": 1.0,
+      "bucket": "strong"
+    },
+    {
+      "idx": 2074,
+      "category": "causal",
+      "question": "Tại sao người trượt ván lại giải trí cho đám đông?",
+      "prediction": "Để tạo ra tiếng cười",
+      "ground_truths": [
+        "Vì anh ấy đang trượt ván.",
+        "Để trình diễn kỹ năng.",
+        "Anh ấy muốn gây ấn tượng.",
+        "Để thu hút sự chú ý.",
+        "Vì đám đông đang theo dõi."
+      ],
+      "f1": 0.2,
+      "bucket": "partial"
+    },
+    {
+      "idx": 4832,
+      "category": "relational",
+      "question": "Mối quan hệ giữa gấu bông và giọt nước mắt là gì?",
+      "prediction": "Gấu bông đang nhìn giọt nước mắt",
+      "ground_truths": [
+        "Giọt nước mắt trên cánh tay",
+        "Nước mắt trên chân gấu",
+        "Gấu bông có nước mắt",
+        "Nó đang khóc",
+        "Chúng ở trên người gấu"
+      ],
+      "f1": 0.667,
+      "bucket": "strong"
+    },
+    {
+      "idx": 2517,
+      "category": "counting",
+      "question": "Có bao nhiêu chiếc bàn được phủ đầy rau củ quả?",
+      "prediction": "Hai chiếc",
+      "ground_truths": [
+        "Hai chiếc bàn",
+        "Có hai bàn",
+        "Tổng cộng hai",
+        "Hai cái bàn",
+        "Chỉ hai bàn"
+      ],
+      "f1": 0.8,
+      "bucket": "strong"
+    },
+    {
+      "idx": 451,
+      "category": "yesno",
+      "question": "Con ngựa vằn có đang được mọi người chụp ảnh không?",
+      "prediction": "Có, mọi người đang chụp ảnh",
+      "ground_truths": [
+        "Có, nó đang được chụp ảnh",
+        "Có, mọi người đang chụp",
+        "Đúng vậy, nó đang được chụp",
+        "Vâng, đang có người chụp",
+        "Có"
+      ],
+      "f1": 0.909,
+      "bucket": "strong"
+    }
+  ]
+}

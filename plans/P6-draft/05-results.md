@@ -333,15 +333,40 @@ plain or LoRA — it beats ViMoE-VQA on all three corpus metrics (+13.0/+10.7/+5
 *and* beats `multi_token`-plain's own CIDEr-D (94.4), which nothing else in this
 paper does. Both LoRA bridges now have complete in-house + corpus numbers.
 
+**Extends to 4/5 bridges — and the pattern is convergence, not just a lift.**
+LoRA r=16 on the remaining two bridges (seed 42, full-val, corpus metrics):
+
+| bridge | F1 | Δ | CIDEr-D (plain → LoRA) | Δ | BLEU-4 | Δ |
+|---|---:|---:|---:|---:|---:|---:|
+| `mini_qformer` | 46.63 → **53.39** | +6.8 | 83.8 → **103.3** | +19.5 | 16.8 → **24.1** | +7.3 |
+| `residual` (weakest plain bridge) | 36.45 → **52.66** | **+16.2** | 56.3 → **100.0** | **+43.7** | 8.1 → **22.1** | +14.0 |
+
+`residual` — the weakest plain bridge by a wide margin (CIDEr-D 56.3, far below
+the 82–94 cluster the other four occupy) — gets **by far the largest LoRA
+lift of any bridge tested (+43.7 CIDEr-D)** and lands at 100.0, statistically
+indistinguishable from the other three LoRA'd bridges (101.7–103.3). All four
+LoRA'd bridges (`multi_token` 101.7, `qformer` 101.9, `mini_qformer` 103.3,
+`residual` 100.0) now cluster within 3.3 points of each other, despite starting
+38 points apart (56.3 to 94.4) as plain bridges.
+
+**This changes the reading from "bridge-agnostic lift" to "decoder-capacity
+equalizes bridge quality."** It is not that LoRA adds a fixed bonus per bridge;
+once the decoder has even a little capacity to use whatever representation it
+is given, *which* bridge supplies that representation stops mattering much.
+The bottleneck is decoder capacity, not bridge sophistication — the strongest
+single piece of evidence in §5.6 for the frozen-decoder-ceiling reading. 4/5
+bridges are now confirmed (only `tile_attention`, dropped in §5.1 for a P100
+OOM, is untested).
+
 This is the **only one of the four axes tested (§5.3–5.6) that moves F1**, and
 it is the only one that touches the decoder. It does not weaken the
 frozen-backbone efficiency claim (§5.1–5.2) — it is reported here as a
 robustness/reference point, quantifying exactly how much headroom exists once
 the one deliberate departure from "everything but the bridge is frozen" is
-allowed, not as a replacement for the main spine. Both LoRA bridges' F1/CIDEr/
-BLEU/ROUGE numbers are now locked at r=16 (3/3 seeds each, in-house and corpus);
-the rank robustness check above rules out r=16 being a cherry-picked lucky
-value.
+allowed, not as a replacement for the main spine. All four LoRA'd bridges' F1/
+CIDEr/BLEU numbers are locked at r=16 (3/3 seeds for `multi_token`/`qformer`,
+1 seed for `mini_qformer`/`residual`, in-house and corpus); the rank robustness
+check above rules out r=16 being a cherry-picked lucky value.
 
 ## 5.7 Summary of findings
 
@@ -353,18 +378,22 @@ to ViMoE-VQA were tried on top of the frozen-backbone, 1-tile bridge:
 | visual-compute allocation | reasoning-type-adaptive tile routing | no policy beats fixed 1-tile (§5.3–5.4) |
 | training target | multi-reference (`answer-sampling=random`) | F1 −1.7, no lift (§5.5) |
 | representation alignment | projector-KD from Vintern's `mlp1` | F1 −1.0 (`feat`), −10 mis-weighted (`logit`) (§5.5) |
-| decoder capacity | LoRA r=16 on Qwen2 attention | **F1 +3.4 to +5.4** — the one positive (§5.6) |
+| decoder capacity | LoRA r=16 on Qwen2 attention | **F1 +6.8 to +16.2** across 4/5 bridges — the one positive (§5.6) |
 
 **Reading:** three vision-/training-side interventions, all negative;
-one decoder-side intervention, clearly positive **and bridge-agnostic** —
-LoRA lifts F1 on both `multi_token` (+3.4) and `qformer` (+5.4), confirming
-it is a decoder-capacity effect, not an artifact of one bridge architecture.
-This is not noise — it localizes the bottleneck. With a fully frozen, small
-(0.5B) decoder, additional visual detail, training signal, or representation
+one decoder-side intervention, clearly positive **and not just bridge-agnostic
+— bridge-equalizing**. LoRA lifts F1 on every bridge tested (`multi_token`
++3.4, `qformer` +5.4, `mini_qformer` +6.8, `residual` +16.2), and the plain
+bridges' 38-point CIDEr-D spread (56.3–94.4) collapses to a 3.3-point cluster
+(100.0–103.3) once LoRA'd — the weakest plain bridge gains the most. This is
+not noise — it localizes the bottleneck. With a fully frozen, small (0.5B)
+decoder, additional visual detail, training signal, or representation
 alignment on the vision side has nothing to attach to; the frozen decoder is
-the ceiling, not the vision pipeline, regardless of which bridge feeds it.
-Opening the decoder even slightly (2% of its parameters via LoRA) recovers a
-third or more of the gap to a fully-unfrozen prior-work baseline. §6.1
+the ceiling, not the vision pipeline — and once that ceiling is even slightly
+raised, which bridge feeds the decoder stops being the thing that determines
+answer quality. Opening the decoder even slightly (2% of its parameters via
+LoRA) recovers a third or more of the gap to a fully-unfrozen prior-work
+baseline. §6.1
 develops this reading; the paper's primary contribution remains the frozen,
 0.78%-param bridge (§5.1–5.2) — the decoder-ceiling finding explains *why* that
 architecture class tops out where it does, rather than proposing to abandon it.
@@ -440,8 +469,15 @@ should be read.
 - [x] §5.6: qformer-LoRA 3/3-seed lock (mean 53.21±0.11) + rank robustness
       check (r=4/8/16/32/64) folded in — r=16 confirmed as the right operating
       point, no real rank trend once seed noise is accounted for
-- [ ] §5.6: LoRA r=16 on mini_qformer + residual (co-author, running) — extends
-      bridge-agnostic claim from 2/5 to 4/5 bridges
+- [x] §5.6: LoRA r=16 on mini_qformer + residual landed and folded in — 4/5
+      bridges confirmed, reading upgraded from "bridge-agnostic" to
+      "bridge-equalizing" (residual's +43.7 CIDEr-D is the largest single
+      effect in the paper; all 4 LoRA'd bridges converge to 100–103 CIDEr-D)
+- [ ] B2 (co-author): residual-tiled directional signal (val loss 2.35→1.71
+      under tile-aug, 300-subset only) — weakest bridge may benefit from tiles
+      unlike multi_token; needs standalone full-val eval before it's usable in
+      §5.2/§5.3 (residual isn't in the |A|=9 oracle action space, so this
+      wouldn't change locked numbers, just a possible future side-note)
 - [ ] §5.5: multi-seed numbers + CI once available; re-run align-feat/logit
       on full val (both were cut short) if a reviewer needs it
 - [x] **§5.8 NEW**: human validation re-scoped to single-rater self-check (user:

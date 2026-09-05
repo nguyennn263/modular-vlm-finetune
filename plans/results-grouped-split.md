@@ -257,6 +257,29 @@ nhận chắc chắn decoder-LoRA generalize sang qformer, không phải may r�
 **Đang chờ:** LoRA r=16 trên mini_qformer + residual (acc5/acc16, mở rộng bridge-agnostic
 lên 4/5 bridge) vẫn đang chạy.
 
+### B2: residual-tiled — bridge yếu nhất có "cần" tile không? ĐÃ XONG (chỉ subset 300)
+
+Train residual (bridge đơn giản nhất, 1 token, đang thua xa mọi bridge khác ở §1) với
+`--tile-choices 1,3,6`. Job này mất **11h16'** (gần chạm mốc 12h — không có bước eval
+full-val riêng trong recipe "-tiled" này, giống các job tiled khác trước, chỉ có
+subset 300 mẫu định kỳ lúc train):
+
+| | residual plain (§1, full-val corpus, 1 tile) | residual tiled (subset 300, best epoch) |
+|---|---:|---:|
+| val loss | 2.35 | **1.71** |
+| F1 (khác scale/subset) | 37.6 | 42.5 |
+| CIDEr (khác scale/subset) | 56.3 | 82.2 |
+
+**Đọc có caveat rõ (khác subset/metric-scale, không so trực tiếp số tuyệt đối được):**
+val loss giảm mạnh (2.35→1.71) khi residual được train với tile-augmentation — ngược
+hẳn với multi_token (CE gần như không đổi hoặc tệ hơn khi train-với-tile, theo sweep
+oracle C3 trước đó). Gợi ý: **bridge càng yếu/pool càng thô (residual = 1 token) thì
+càng "cần" tile để bù capacity**, còn bridge đã pool tốt (multi_token, 8 token) thì
+tile không giúp gì thêm — khớp với câu chuyện "1 tile không phải thỏa hiệp CHO
+multi_token cụ thể", không phải "1 tile luôn đủ cho MỌI bridge". Cần full-val eval
+riêng (standalone, giống cách làm với LoRA) để có số so sánh chuẩn — chưa làm, ghi
+nhận là việc còn lại.
+
 ## 5. Còn PENDING (sau reset quota 00:00 UTC 5/9)
 
 | # | Việc | Ai | Trạng thái |
@@ -265,7 +288,7 @@ lên 4/5 bridge) vẫn đang chạy.
 | C2 | multi_token seed 123 + 3407 → mean±std cho dòng headline | tôi | ✅ xong, 4/4 seed |
 | **B5** | **Số tile "Vintern-finetune" bảng cũ** | **user** | ✅ resolved: bản HF, tối đa **12** tile lúc train |
 | B3 | Tile-sweep: multi_token @ {1,3,6,12} vs Vintern-finetune @ {1,3,6,12} → bảng efficiency | tôi | 🔄 running (acc11) |
-| B2 | residual-tiled (baseline tương phản: bridge đơn giản có cần tile không) | tôi | 🔄 running (acc8) |
+| B2 | residual-tiled (baseline tương phản: bridge đơn giản có cần tile không) | tôi | ✅ xong (300-subset), gợi ý bridge yếu cần tile — cần full-val standalone eval để chốt số |
 | — | LoRA rank ablation r=8/r=32 (mở rộng §4b) | tôi | 🔄 running (acc6/acc7) |
 | ~~C4~~ | ~~Human validation 300–500 mẫu, 2 annotator, Cohen's κ~~ → **self-check N=120, 1 rater** (§4c) | tôi | ✅ xong — xem §4c: strong bucket 91% đáng tin, **partial bucket chỉ 43% đáng tin** (finding hơi bất lợi, đã ghi rõ) |
 

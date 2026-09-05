@@ -124,8 +124,16 @@ router logs.
 7. **Oracle-sweep subset** is equal-per-category, not proportional; overall
    numbers are re-weighted but tail categories are over-represented in the raw
    sweep.
-8. **Human validation and quantitative error analysis** are not yet included
-   (planned: 300–500 samples, two annotators, Cohen's κ).
+8. **Human validation is done only in reduced form.** The plan called for
+   300–500 samples, 2 annotators, Cohen's κ; time did not allow it before the
+   deadline. §5.8 substitutes a single-rater (assistant) self-check, N=120,
+   no image access — a materially weaker check, stated as such where it is
+   reported. Its finding — that F1's "partial" bucket (0.2–0.6), the largest
+   single bucket, is only 43.1% semantically acceptable despite non-zero
+   token overlap — is informative but rests on one rater's judgment without
+   an image; a real 2-annotator protocol with image access remains the open
+   item for a camera-ready version, and would be needed to make a stronger
+   claim than "this is suggestive, not confirmed."
 
 ## 6.5 Ethical / reproducibility notes
 

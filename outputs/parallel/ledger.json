@@ -337,11 +337,20 @@
       "align": null
     },
     "lora16-eval:multi_token:s42": {
+      "status": "done",
+      "collected": true,
+      "bridge": "multi_token",
+      "seed": 42,
+      "lora": 16,
+      "f1": 53.16,
+      "cider_inhouse": 104.9,
+      "bleu": 19.38,
+      "val_loss": 1.3683,
+      "cider_d_corpus": 101.7,
+      "bleu4_corpus": 23.2,
+      "rouge_l_corpus": 52.7,
       "account": "acc16",
-      "kernel": "nguynrichard/mvlm-lora16-eval",
-      "status": "running",
-      "collected": false,
-      "note": "v3: flat (unzipped) dataset upload fixes the real bug"
+      "kernel": "nguynrichard/mvlm-lora16-eval"
     },
     "oracle:val-tiled:shard0of5": {
       "account": "acc1",

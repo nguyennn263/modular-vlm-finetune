@@ -278,6 +278,29 @@ cái quyết định chất lượng cuối không phải bridge tinh vi cỡ n�
 capacity để khai thác hay không. Giờ đã 4/5 bridge (multi_token, qformer, mini_qformer,
 residual) đều xác nhận decoder-LoRA có lợi, chỉ còn tile_attention chưa test.
 
+### B3: tile-sweep multi_token @ {1,3,6,12} — ĐÃ XONG 3/4 (tile 12 bị cắt ở mốc 12h, KHÔNG cần)
+
+Eval checkpoint multi_token (train ở 1 tile) trên full-val ở nhiều số tile. Job chạy
+12h → bị Kaggle cắt khi đang eval tile=12, nhưng tile 1/3/6 đã xong và lưu file.
+
+| n_tiles | F1 | CIDEr (in-house) | val loss | perplexity |
+|---|---:|---:|---:|---:|
+| **1** | **50.66** | **98.69** | **1.478** | 4.4 |
+| 3 | 21.05 | 48.75 | 3.351 | 28.5 |
+| 6 | 22.51 | 52.36 | 3.364 | 28.9 |
+| 12 | — (bị cắt, không cần) | | | |
+
+**multi_token SỤP ĐỔ hoàn toàn khi eval ở >1 tile** — F1 50.7 → 21, CIDEr 98.7 → 49,
+val loss hơn gấp đôi (1.48 → 3.35). Bridge mean-pool 8 token: khi có 3-6× số token
+vào, phép pool trung bình xoá sạch tín hiệu. Trend từ 1→3→6 quá rõ (sụp ngay ở tile 3,
+giữ nguyên sụp ở tile 6) → **tile=12 chỉ là thêm 1 dòng sụp nữa, không đáng relaunch
+~2h eval**.
+
+**Ý nghĩa cho §2:** "1 tile" của multi_token KHÔNG phải hạn chế phải xin lỗi — đó là
+điểm vận hành mà kiến trúc này được xây cho, và **tăng tile lên thì strictly TỆ HƠN**
+(không chỉ "không giúp"). Bổ trợ mạnh cho câu chuyện efficiency: mình đạt SOTA-generation
+ở đúng cấu hình rẻ nhất, không phải "chấp nhận thua thiệt để tiết kiệm".
+
 ### B2: residual-tiled — bridge yếu nhất có "cần" tile không? ĐÃ XONG (chỉ subset 300)
 
 Train residual (bridge đơn giản nhất, 1 token, đang thua xa mọi bridge khác ở §1) với
@@ -308,7 +331,7 @@ nhận là việc còn lại.
 | C3 | Oracle sweep + policy ladder trên 3 **tiled** checkpoint → re-lock §5.2/§5.3 | peer | ✅ xong, không đổi kết luận |
 | C2 | multi_token seed 123 + 3407 → mean±std cho dòng headline | tôi | ✅ xong, 4/4 seed |
 | **B5** | **Số tile "Vintern-finetune" bảng cũ** | **user** | ✅ resolved: bản HF, tối đa **12** tile lúc train |
-| B3 | Tile-sweep: multi_token @ {1,3,6,12} vs Vintern-finetune @ {1,3,6,12} → bảng efficiency | tôi | 🔄 running (acc11) |
+| B3 | Tile-sweep: multi_token @ {1,3,6,12} → bảng efficiency | tôi | ✅ xong 3/4 (tile 1/3/6): multi_token SỤP khi >1 tile, tile=12 không cần |
 | B2 | residual-tiled (baseline tương phản: bridge đơn giản có cần tile không) | tôi | ✅ xong (300-subset), gợi ý bridge yếu cần tile — cần full-val standalone eval để chốt số |
 | — | LoRA rank ablation r=8/r=32 (mở rộng §4b) | tôi | 🔄 running (acc6/acc7) |
 | ~~C4~~ | ~~Human validation 300–500 mẫu, 2 annotator, Cohen's κ~~ → **self-check N=120, 1 rater** (§4c) | tôi | ✅ xong — xem §4c: strong bucket 91% đáng tin, **partial bucket chỉ 43% đáng tin** (finding hơi bất lợi, đã ghi rõ) |

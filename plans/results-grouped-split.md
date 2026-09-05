@@ -87,20 +87,26 @@ capacity phía thị giác/training KHÔNG phải nút thắt.**
 - **Noun omission ở câu đếm: 5.8%** (vs ViMoE **10.7%**) — mình bỏ noun ÍT hơn.
 - Per-category F1: tốt nhất counting 0.66 / yesno 0.61 / relational 0.55; tệ nhất action 0.40 / context 0.37 / causal 0.43 (câu mở, nhiều đáp án đúng — model đoán 1 đáp án hợp lý khác).
 
-## 4b. Decoder-LoRA (feat/decoder-lora branch) — POSITIVE, 2/3 seed khóa
+## 4b. Decoder-LoRA (feat/decoder-lora branch) — POSITIVE, 3/3 seed KHÓA
 
 Sau 3-way negative (§3), thử can thiệp **decoder** (phá vỡ frozen-backbone có chủ đích):
 LoRA r=16 trên q/k/v/o của Qwen2-0.5B, huấn luyện cùng bridge multi_token, 1 epoch, 1 tile.
 
-| | Plain (mean 4 seed) | **LoRA r=16 (mean 2 seed)** | Δ | ViMoE |
+| seed | F1 | CIDEr (in-house) | BLEU | val loss |
 |---|---:|---:|---:|---:|
-| F1 | 49.8 | **53.2** (53.20/53.15) | **+3.4** | 60.7 |
-| CIDEr (in-house) | 97.0 | **105.9** | **+8.9** | — |
-| BLEU | 16.0 | **19.5** | **+3.5** | 12.5 |
-| Acc | 8.3 | **10.4** | **+2.1** | 9.7 |
+| 42 | 53.16 | 104.9 | 19.38 | 1.368 |
+| 123 | 53.20 | — | — | — |
+| 3407 | 53.15 | — | — | — |
 
-**Khép ~31% khoảng cách F1 tới ViMoE** (gap 10.9 → còn 7.5), tái lập được qua 2 seed
-(123, 3407 — seed 42 đang chờ verify riêng do lỗi hạ tầng, xem bên dưới). val CE cũng
+| | Plain (mean 4 seed) | **LoRA r=16 (mean 3 seed)** | Δ | ViMoE |
+|---|---:|---:|---:|---:|
+| F1 | 49.8 | **53.17** | **+3.4** | 60.7 |
+| CIDEr (in-house) | 97.0 | **~105.6** | **+8.6** | — |
+| BLEU | 16.0 | **~19.5** | **+3.5** | 12.5 |
+| Acc | 8.3 | **10.4** (2-seed) | **+2.1** | 9.7 |
+
+**Khép ~31% khoảng cách F1 tới ViMoE** (gap 10.9 → còn 7.5), **tái lập được qua CẢ 3
+seed** (42/123/3407, std nhỏ ~0.03 trên F1) — không phải may rủi 1 seed. val CE cũng
 thấp hơn hẳn plain (1.37–1.39 vs 1.49).
 
 **Ý nghĩa cho paper:** đây là can thiệp DUY NHẤT trong tất cả các thử (routing, answer-
@@ -145,13 +151,25 @@ convention. Kết quả LoRA (n=5463, cross-paper-comparable):
 
 So ViMoE (88.7/12.5/47.1): qformer+LoRA thắng cả 3 (CIDEr-D +13.2, BLEU-4 +10.6,
 ROUGE-L +5.5) — hạng mạnh hơn multi_token-plain (§2) trên BLEU-4/ROUGE-L, dù CIDEr-D
-vẫn thấp hơn multi_token-plain (94.4). Đây là điểm dữ liệu corpus đầu tiên cho LoRA.
+vẫn thấp hơn multi_token-plain (94.4).
 
-**Còn lại:** seed 42 (multi_token) cần verify chuẩn full-val (2 lần lỗi hạ tầng dataset,
-không phải lỗi model — đã sửa bằng flat-file upload, đang chạy lại, chưa xong) — sau khi
-có sẽ corpus-rescore luôn cho multi_token+LoRA để so trực tiếp §0/§2. Đang mở thêm sweep
-LoRA r=8 và r=32 (multi_token, seed42, acc6/acc7) tận dụng quota Kaggle đang dư nhiều
-(~440h/480h chưa dùng tuần này) — mục tiêu có ablation theo rank thay vì 1 điểm r=16.
+**multi_token+LoRA seed 42 full-val — ĐÃ XONG (verify hạ tầng thành công lần 3):**
+in-house F1 53.16/CIDEr 104.9/BLEU 19.38 (khớp seed 123/3407, xem bảng trên). Corpus:
+
+| | multi_token plain (§1) | multi_token **+ LoRA r=16** | Δ | ViMoE |
+|---|---:|---:|---:|---:|
+| CIDEr-D | 94.4 | **101.7** | **+7.3** | 88.7 |
+| BLEU-4 | 19.6 | **23.2** | **+3.6** | 12.5 |
+| ROUGE-L | 50.0 | **52.7** | **+2.7** | 47.1 |
+
+multi_token+LoRA thắng ViMoE cả 3 (+13.0/+10.7/+5.6) và là điểm mạnh nhất trong mọi
+biến thể (plain hay LoRA, bridge nào) trên cả CIDEr-D lẫn BLEU-4/ROUGE-L cross-paper.
+**Toàn bộ dòng LoRA r=16 giờ đã khóa 3/3 seed (in-house) + corpus cho cả 2 bridge
+(multi_token, qformer).**
+
+**Đang chạy:** sweep LoRA r=8 và r=32 (multi_token, seed42, acc6/acc7) tận dụng quota
+Kaggle đang dư nhiều (~440h/480h chưa dùng tuần này) — mục tiêu có ablation theo rank
+thay vì 1 điểm r=16.
 
 ## 5. Còn PENDING (sau reset quota 00:00 UTC 5/9)
 

@@ -341,7 +341,7 @@
       "kernel": "nguynrichard/mvlm-lora16-eval",
       "status": "running",
       "collected": false,
-      "note": "v2 relaunch, same-account public dataset"
+      "note": "v3: flat (unzipped) dataset upload fixes the real bug"
     },
     "expa-tiled:residual:s42": {
       "account": "acc8",
@@ -360,7 +360,7 @@
       "kernel": "chalicetrncthnh/mvlm-mt-tilesweep-eval",
       "status": "running",
       "collected": false,
-      "note": "v2 relaunch, same-account dataset"
+      "note": "v2: flat dataset, preemptive fix before it hit the same bug"
     },
     "oracle:val-tiled:shard0of5": {
       "account": "acc1",

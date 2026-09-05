@@ -75,135 +75,135 @@
     "oracle:val:shard0of5": {
       "account": "acc4",
       "kernel": "nguyennn251/mvlm-oracle-val-0of5",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-03T17:13:52",
-      "collected": false,
+      "collected": true,
       "split": "val",
       "shard": "0/5"
     },
     "oracle:val:shard1of5": {
       "account": "acc7",
       "kernel": "tinquc220300nguyn/mvlm-oracle-val-1of5",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-03T17:13:54",
-      "collected": false,
+      "collected": true,
       "split": "val",
       "shard": "1/5"
     },
     "oracle:val:shard2of5": {
       "account": "acc4",
       "kernel": "nguyennn251/mvlm-oracle-val-2of5",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-03T17:13:56",
-      "collected": false,
+      "collected": true,
       "split": "val",
       "shard": "2/5"
     },
     "oracle:val:shard3of5": {
       "account": "acc7",
       "kernel": "tinquc220300nguyn/mvlm-oracle-val-3of5",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-03T17:13:59",
-      "collected": false,
+      "collected": true,
       "split": "val",
       "shard": "3/5"
     },
     "oracle:val:shard4of5": {
       "account": "acc10",
       "kernel": "giapht/mvlm-oracle-val-4of5",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-03T17:18:18",
-      "collected": false,
+      "collected": true,
       "split": "val",
       "shard": "4/5"
     },
     "oracle:test:shard1of5": {
       "account": "acc13",
       "kernel": "avanrager/mvlm-oracle-test-1of5",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-03T18:02:09",
-      "collected": false,
+      "collected": true,
       "split": "test",
       "shard": "1/5"
     },
     "oracle:test:shard3of5": {
       "account": "acc13",
       "kernel": "avanrager/mvlm-oracle-test-3of5",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-03T18:02:13",
-      "collected": false,
+      "collected": true,
       "split": "test",
       "shard": "3/5"
     },
     "oracle:test:shard4of5": {
       "account": "acc9",
       "kernel": "masalamohammad/mvlm-oracle-test-4of5",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-03T18:02:15",
-      "collected": false,
+      "collected": true,
       "split": "test",
       "shard": "4/5"
     },
     "oracle:train:shard0of5": {
       "account": "acc6",
       "kernel": "knull0d/mvlm-oracle-train-0of5",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-03T18:04:35",
-      "collected": false,
+      "collected": true,
       "split": "train",
       "shard": "0/5"
     },
     "oracle:train:shard1of5": {
       "account": "acc8",
       "kernel": "lelynhan/mvlm-oracle-train-1of5",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-03T18:04:37",
-      "collected": false,
+      "collected": true,
       "split": "train",
       "shard": "1/5"
     },
     "oracle:train:shard2of5": {
       "account": "acc10",
       "kernel": "giapht/mvlm-oracle-train-2of5",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-03T18:04:39",
-      "collected": false,
+      "collected": true,
       "split": "train",
       "shard": "2/5"
     },
     "oracle:train:shard3of5": {
       "account": "acc9",
       "kernel": "masalamohammad/mvlm-oracle-train-3of5",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-03T18:04:41",
-      "collected": false,
+      "collected": true,
       "split": "train",
       "shard": "3/5"
     },
     "oracle:train:shard4of5": {
       "account": "acc11",
       "kernel": "chalicetrncthnh/mvlm-oracle-train-4of5",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-03T18:04:44",
-      "collected": false,
+      "collected": true,
       "split": "train",
       "shard": "4/5"
     },
     "oracle:test:shard0of5": {
       "account": "acc4",
       "kernel": "nguyennn251/mvlm-oracle-test-0of5",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-03T18:13:51",
-      "collected": false,
+      "collected": true,
       "split": "test",
       "shard": "0/5"
     },
     "oracle:test:shard2of5": {
       "account": "acc7",
       "kernel": "tinquc220300nguyn/mvlm-oracle-test-2of5",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-03T18:13:53",
-      "collected": false,
+      "collected": true,
       "split": "test",
       "shard": "2/5"
     },
@@ -267,7 +267,7 @@
     "expa-tiled:linear_bridge:s42": {
       "account": "acc11",
       "kernel": "chalicetrncthnh/mvlm-expa-tiled-linear-bridge-s42",
-      "status": "running",
+      "status": "error",
       "pushed_at": "2026-09-04T02:29:42",
       "collected": false,
       "bridge": "linear_bridge",
@@ -315,7 +315,7 @@
     "expa:multi_token:s8668": {
       "account": "acc12",
       "kernel": "tn7012/mvlm-expa-multi-token-s8668",
-      "status": "running",
+      "status": "error",
       "pushed_at": "2026-09-04T23:33:36",
       "collected": false,
       "bridge": "multi_token",
@@ -337,18 +337,18 @@
       "align": null
     },
     "lora16-eval:multi_token:s42": {
-      "account": "acc5",
-      "kernel": "nguyennguyen263/mvlm-lora16-eval",
+      "account": "acc16",
+      "kernel": "nguynrichard/mvlm-lora16-eval",
       "status": "running",
       "collected": false,
-      "note": "standalone eval-only for LoRA r16 checkpoint"
+      "note": "v3: flat (unzipped) dataset upload fixes the real bug"
     },
     "oracle:val-tiled:shard0of5": {
       "account": "acc1",
       "kernel": "nguyennn263/mvlm-oracle-val-tiled-0of5",
-      "status": "running",
-      "pushed_at": "2026-09-05T07:03:51",
-      "collected": false,
+      "status": "done",
+      "pushed_at": "2026-09-05T02:48:11",
+      "collected": true,
       "split": "val",
       "shard": "0/5",
       "tag": "tiled"
@@ -356,9 +356,9 @@
     "oracle:val-tiled:shard1of5": {
       "account": "acc2",
       "kernel": "nguyennn2501/mvlm-oracle-val-tiled-1of5",
-      "status": "running",
-      "pushed_at": "2026-09-05T07:03:54",
-      "collected": false,
+      "status": "done",
+      "pushed_at": "2026-09-05T02:48:11",
+      "collected": true,
       "split": "val",
       "shard": "1/5",
       "tag": "tiled"
@@ -366,9 +366,9 @@
     "oracle:val-tiled:shard2of5": {
       "account": "acc3",
       "kernel": "nguyennn2603/mvlm-oracle-val-tiled-2of5",
-      "status": "running",
-      "pushed_at": "2026-09-05T07:03:56",
-      "collected": false,
+      "status": "done",
+      "pushed_at": "2026-09-05T02:48:11",
+      "collected": true,
       "split": "val",
       "shard": "2/5",
       "tag": "tiled"
@@ -376,9 +376,9 @@
     "oracle:val-tiled:shard3of5": {
       "account": "acc4",
       "kernel": "nguyennn251/mvlm-oracle-val-tiled-3of5",
-      "status": "running",
-      "pushed_at": "2026-09-05T07:03:58",
-      "collected": false,
+      "status": "done",
+      "pushed_at": "2026-09-05T02:48:11",
+      "collected": true,
       "split": "val",
       "shard": "3/5",
       "tag": "tiled"
@@ -386,9 +386,9 @@
     "oracle:test-tiled:shard0of5": {
       "account": "acc1",
       "kernel": "nguyennn263/mvlm-oracle-test-tiled-0of5",
-      "status": "running",
-      "pushed_at": "2026-09-05T07:04:08",
-      "collected": false,
+      "status": "done",
+      "pushed_at": "2026-09-05T02:48:11",
+      "collected": true,
       "split": "test",
       "shard": "0/5",
       "tag": "tiled"
@@ -396,9 +396,9 @@
     "oracle:test-tiled:shard1of5": {
       "account": "acc2",
       "kernel": "nguyennn2501/mvlm-oracle-test-tiled-1of5",
-      "status": "running",
-      "pushed_at": "2026-09-05T07:04:10",
-      "collected": false,
+      "status": "done",
+      "pushed_at": "2026-09-05T02:48:11",
+      "collected": true,
       "split": "test",
       "shard": "1/5",
       "tag": "tiled"
@@ -406,9 +406,9 @@
     "oracle:test-tiled:shard2of5": {
       "account": "acc3",
       "kernel": "nguyennn2603/mvlm-oracle-test-tiled-2of5",
-      "status": "running",
-      "pushed_at": "2026-09-05T07:04:13",
-      "collected": false,
+      "status": "done",
+      "pushed_at": "2026-09-05T02:48:11",
+      "collected": true,
       "split": "test",
       "shard": "2/5",
       "tag": "tiled"
@@ -416,9 +416,9 @@
     "oracle:test-tiled:shard3of5": {
       "account": "acc4",
       "kernel": "nguyennn251/mvlm-oracle-test-tiled-3of5",
-      "status": "running",
-      "pushed_at": "2026-09-05T07:04:14",
-      "collected": false,
+      "status": "done",
+      "pushed_at": "2026-09-05T02:48:11",
+      "collected": true,
       "split": "test",
       "shard": "3/5",
       "tag": "tiled"
@@ -426,9 +426,9 @@
     "oracle:val-tiled:shard4of5": {
       "account": "acc5",
       "kernel": "nguyennguyen263/mvlm-oracle-val-tiled-4of5",
-      "status": "running",
-      "pushed_at": "2026-09-05T07:07:47",
-      "collected": false,
+      "status": "done",
+      "pushed_at": "2026-09-05T02:48:11",
+      "collected": true,
       "split": "val",
       "shard": "4/5",
       "tag": "tiled"
@@ -436,12 +436,54 @@
     "oracle:test-tiled:shard4of5": {
       "account": "acc5",
       "kernel": "nguyennguyen263/mvlm-oracle-test-tiled-4of5",
-      "status": "running",
-      "pushed_at": "2026-09-05T07:07:48",
-      "collected": false,
+      "status": "done",
+      "pushed_at": "2026-09-05T02:48:11",
+      "collected": true,
       "split": "test",
       "shard": "4/5",
       "tag": "tiled"
+    },
+    "expa-tiled:residual:s42": {
+      "account": "acc8",
+      "kernel": "lelynhan/mvlm-expa-tiled-residual-s42",
+      "status": "running",
+      "pushed_at": "2026-09-05T07:11:21",
+      "collected": false,
+      "bridge": "residual",
+      "seed": 42,
+      "tiles": "1,3,6",
+      "answer_sampling": null,
+      "align": null
+    },
+    "tilesweep-eval:multi_token:s42": {
+      "account": "acc11",
+      "kernel": "chalicetrncthnh/mvlm-mt-tilesweep-eval",
+      "status": "running",
+      "collected": false,
+      "note": "v2: flat dataset, preemptive fix before it hit the same bug"
+    },
+    "expa-lora16:multi_token:s123": {
+      "status": "done",
+      "collected": true
+    },
+    "expa-lora16:multi_token:s3407": {
+      "status": "done",
+      "collected": true
+    },
+    "expa-lora16:qformer:s42": {
+      "status": "done",
+      "collected": true,
+      "bridge": "qformer",
+      "seed": 42,
+      "lora": 16,
+      "f1": 53.1,
+      "cider_inhouse": 105.15,
+      "bleu": 19.33,
+      "rouge_l": 51.58,
+      "acc": 10.91,
+      "val_loss": 1.3768,
+      "account": "acc13",
+      "kernel": "avanrager/mvlm-expa-lora16-qformer-s42"
     }
   }
 }

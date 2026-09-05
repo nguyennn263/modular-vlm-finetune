@@ -13,6 +13,22 @@
 
 ---
 
+## 0. multi_token multi-seed (C2) — ĐÃ KHÓA, 4/4 seed xong
+
+| seed | CIDEr-D | BLEU-4 | ROUGE-L | F1 |
+|---|---:|---:|---:|---:|
+| 42 | 94.4 | 19.58 | 50.0 | 50.7 |
+| 123 | 91.7 | 19.24 | 48.8 | 49.5 |
+| 2026 | 93.1 | 19.12 | 49.0 | 49.6 |
+| 3407 | 91.8 | 18.80 | 48.9 | 49.5 |
+| **mean ± std (n=4)** | **92.8 ± 1.1** | **19.2 ± 0.3** | **49.2 ± 0.5** | **49.8 ± 0.5** |
+| ViMoE-VQA (5 seed) | 88.7 | 12.5 | 47.1 | 60.7 |
+
+**4/4 seed xong, std nhỏ (~1–2% relative)** → multi_token vượt ViMoE trên CIDEr-D
+(+4.1), BLEU-4 (+6.7), ROUGE-L (+2.1) **ổn định qua seed, không phải may rủi seed 42**.
+Vẫn thua F1 rõ rệt (49.8 vs 60.7, −10.9) — nhất quán với 3-way negative ở mục 3
+(frozen decoder là trần). Đây là dòng headline chính thức cho paper.
+
 ## 1. So 5 bridge (val, grouped split, seed 42, 1 tile) — ĐÃ KHÓA
 
 Metric pycocoevalcap corpus (chuẩn để so paper khác).
@@ -70,6 +86,55 @@ capacity phía thị giác/training KHÔNG phải nút thắt.**
 - Độ dài dự đoán **4.39 từ** vs ref 4.32 — **không** bị "sinh câu cụt" như ViMoE (ViMoE 4.4 vs 5.6). Residual bridge thì sinh dài lê thê (6.41 từ).
 - **Noun omission ở câu đếm: 5.8%** (vs ViMoE **10.7%**) — mình bỏ noun ÍT hơn.
 - Per-category F1: tốt nhất counting 0.66 / yesno 0.61 / relational 0.55; tệ nhất action 0.40 / context 0.37 / causal 0.43 (câu mở, nhiều đáp án đúng — model đoán 1 đáp án hợp lý khác).
+
+## 4b. Decoder-LoRA (feat/decoder-lora branch) — POSITIVE, 2/3 seed khóa
+
+Sau 3-way negative (§3), thử can thiệp **decoder** (phá vỡ frozen-backbone có chủ đích):
+LoRA r=16 trên q/k/v/o của Qwen2-0.5B, huấn luyện cùng bridge multi_token, 1 epoch, 1 tile.
+
+| | Plain (mean 4 seed) | **LoRA r=16 (mean 2 seed)** | Δ | ViMoE |
+|---|---:|---:|---:|---:|
+| F1 | 49.8 | **53.2** (53.20/53.15) | **+3.4** | 60.7 |
+| CIDEr (in-house) | 97.0 | **105.9** | **+8.9** | — |
+| BLEU | 16.0 | **19.5** | **+3.5** | 12.5 |
+| Acc | 8.3 | **10.4** | **+2.1** | 9.7 |
+
+**Khép ~31% khoảng cách F1 tới ViMoE** (gap 10.9 → còn 7.5), tái lập được qua 2 seed
+(123, 3407 — seed 42 đang chờ verify riêng do lỗi hạ tầng, xem bên dưới). val CE cũng
+thấp hơn hẳn plain (1.37–1.39 vs 1.49).
+
+**Ý nghĩa cho paper:** đây là can thiệp DUY NHẤT trong tất cả các thử (routing, answer-
+sampling, align-KD, decoder-LoRA) thực sự cải thiện F1 — và nó là can thiệp DUY NHẤT
+đụng vào decoder. Càng củng cố §6.1: **frozen decoder là trần**; mở nó ra (dù rất nhẹ,
+~2% param LoRA) mới nhích được, còn mọi can thiệp phía thị giác/training đều vô ích.
+
+Đóng khung: multi_token + LoRA vẫn KHÔNG phải "frozen backbone" nữa — trình bày như
+**phần bổ sung/reference point**, không phải spine chính (spine chính vẫn là bridge
+0.78% param hoàn toàn đóng băng).
+
+### Generalization check: LoRA trên qformer (seed 42) — ĐÃ XONG, KHÓA
+
+LoRA r=16 áp lên bridge **khác** (Full Q-Former, 69.4M param) để xem hiệu ứng có phải
+chỉ riêng multi_token hay không. Cùng eval_val.json in-house convention (n=5463, 1 tile):
+
+| | qformer plain | qformer **+ LoRA r=16** | Δ |
+|---|---:|---:|---:|
+| F1 | 47.66 | **53.10** | **+5.4** |
+| CIDEr (in-house) | 90.8 | **105.2** | **+14.3** |
+| BLEU | 14.6 | **19.3** | **+4.8** |
+| ROUGE-L | 46.0 | **51.6** | **+5.6** |
+| Acc | 7.34 | **10.91** | **+3.6** |
+| val loss | 1.568 | **1.377** | **−0.19** |
+
+**Gen hoá xác nhận, và mạnh hơn cả multi_token** (+5.4 F1 vs +3.4 trên multi_token) —
+decoder-LoRA không phải hiệu ứng đặc thù 1 bridge, mà là hiệu ứng của việc mở decoder,
+nhất quán bất kể bridge nào đứng trước nó. Củng cố thêm luận điểm §6.1.
+
+**Còn lại:** seed 42 (multi_token) cần verify chuẩn full-val (2 lần lỗi hạ tầng dataset,
+không phải lỗi model — đã sửa bằng flat-file upload, đang chạy lại, chưa xong), chưa có
+corpus-rescore (CIDEr-D pycocoevalcap) cho bộ LoRA nào cả (hiện toàn bộ số LoRA ở trên
+đều là in-house `vqa_metrics`, không phải corpus — cần làm trước khi đưa vào bảng so
+ViMoE ở §2).
 
 ## 5. Còn PENDING (sau reset quota 00:00 UTC 5/9)
 

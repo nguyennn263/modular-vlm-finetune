@@ -249,17 +249,19 @@ def cmd_launch(args) -> None:
     elif args.phase == "oracle":
         ds = args.ckpt_ds or f"{_user(args.bundle_acc)}/mvlm-expa-ckpt"
         n = args.shards
+        tag = f"-{args.tag}" if args.tag else ""
+        out = f"outputs/oracle_{args.split}{('_' + args.tag) if args.tag else ''}"
         for i in range(n):
             acc = pool[i % len(pool)]
-            job = f"oracle:{args.split}:shard{i}of{n}"
+            job = f"oracle:{args.split}{tag}:shard{i}of{n}"
             if led["jobs"].get(job, {}).get("status") not in (None, "failed", "error", "incomplete"):
                 print(f"[skip] {job} = {led['jobs'][job]['status']}")
                 continue
-            slug = f"mvlm-oracle-{args.split}-{i}of{n}"
+            slug = f"mvlm-oracle-{args.split}{tag}-{i}of{n}"
             cells = oracle_worker(i, n, args.bridges, branch, ds, args.split,
-                                  args.subset, f"outputs/oracle_{args.split}")
+                                  args.subset, out)
             kid = _push_worker(acc, slug, cells, ds)
-            _register(led, job, acc, kid, {"split": args.split, "shard": f"{i}/{n}"})
+            _register(led, job, acc, kid, {"split": args.split, "shard": f"{i}/{n}", "tag": args.tag})
 
     elif args.phase == "fiq":
         acc = args.account or "acc1"
@@ -340,7 +342,8 @@ def _collect(job: str, j: dict) -> None:
         ok = (cdir / "last_model.pt").exists() or (cdir / "best_model.pt").exists()
 
     elif job.startswith("oracle:"):
-        t = ROOT / "outputs" / f"oracle_{j['split']}"; t.mkdir(parents=True, exist_ok=True)
+        tagpart = f"_{j['tag']}" if j.get("tag") else ""
+        t = ROOT / "outputs" / f"oracle_{j['split']}{tagpart}"; t.mkdir(parents=True, exist_ok=True)
         for p in dst.rglob("table.shard*.parquet"):
             (t / p.name).write_bytes(p.read_bytes()); ok = True
 
@@ -436,6 +439,12 @@ def main() -> None:
                     help="comma list e.g. acc6,acc7 — restrict the account pool (default: all)")
     lp.add_argument("--ckpt-ds", default=None, dest="ckpt_ds",
                     help="oracle: override the checkpoint dataset id (user/slug)")
+    lp.add_argument("--tag", default=None,
+                    help="oracle: disambiguate job-key/slug/out-dir from a prior sweep on the "
+                         "same split+shards but a DIFFERENT checkpoint dataset (e.g. 'tiled' -> "
+                         "job oracle:val-tiled:..., out outputs/oracle_val_tiled/). Needed because "
+                         "job identity is otherwise just phase:split:shard, which collides across "
+                         "checkpoint generations.")
     lp.add_argument("--bundle-acc", default="acc1", dest="bundle_acc",
                     help="oracle: account whose user owns mvlm-expa-ckpt (default acc1)")
     lp.add_argument("--account", default=None)

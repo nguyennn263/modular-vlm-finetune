@@ -254,8 +254,29 @@ rõ ràng đáng để đánh đổi thêm tham số.
 Cực kỳ khít (std 0.11, nhỏ hơn cả multi_token's 0.03... thực ra tương đương) — xác
 nhận chắc chắn decoder-LoRA generalize sang qformer, không phải may rủi seed.
 
-**Đang chờ:** LoRA r=16 trên mini_qformer + residual (acc5/acc16, mở rộng bridge-agnostic
-lên 4/5 bridge) vẫn đang chạy.
+### Bridge-agnostic mở rộng 4/5: mini_qformer + residual — ĐÃ XONG, residual gây bất ngờ lớn
+
+LoRA r=16 áp thêm lên 2 bridge nữa (seed42, full-val n=5463, in-house + corpus):
+
+| bridge | | plain | +LoRA r=16 | Δ |
+|---|---|---:|---:|---:|
+| mini_qformer | F1 | 46.63 | **53.39** | **+6.8** |
+| | CIDEr-D (corpus) | 83.8 | **103.3** | **+19.5** |
+| | BLEU-4 (corpus) | 16.8 | **24.1** | **+7.3** |
+| | val loss | 1.585 | **1.370** | −0.22 |
+| **residual** (bridge yếu nhất) | F1 | 36.45 | **52.66** | **+16.2** |
+| | CIDEr-D (corpus) | 56.3 | **100.0** | **+43.7** |
+| | BLEU-4 (corpus) | 8.1 | **22.1** | **+14.0** |
+| | val loss | 2.354 | **1.400** | **−0.95** |
+
+**Residual đi từ bridge TỆ NHẤT (§1: CIDEr-D 56.3, cách xa nhóm 82-94) lên NGANG HÀNG
+với mọi bridge khác sau LoRA (CIDEr-D 100.0, so với multi_token+LoRA 101.7, qformer+LoRA
+101.9, mini_qformer+LoRA 103.3)** — chênh lệch giữa các bridge gần như BIẾN MẤT sau khi
+mở decoder. Đây là bằng chứng mạnh nhất cho luận điểm §6.1: khi decoder được mở (dù
+chỉ LoRA r=16, ~2% param), **bridge nào cho decoder cũng dùng được gần như nhau** —
+cái quyết định chất lượng cuối không phải bridge tinh vi cỡ nào, mà là decoder có
+capacity để khai thác hay không. Giờ đã 4/5 bridge (multi_token, qformer, mini_qformer,
+residual) đều xác nhận decoder-LoRA có lợi, chỉ còn tile_attention chưa test.
 
 ### B2: residual-tiled — bridge yếu nhất có "cần" tile không? ĐÃ XONG (chỉ subset 300)
 

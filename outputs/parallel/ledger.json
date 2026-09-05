@@ -554,11 +554,12 @@
     "expa-lora4:multi_token:s42-retry": {
       "account": "acc10",
       "kernel": "giapht/mvlm-expa-lora4-multi-token-s42",
-      "status": "running",
-      "collected": false,
+      "status": "done",
+      "collected": true,
       "bridge": "multi_token",
       "seed": 42,
-      "lora": "4"
+      "lora": "4",
+      "note": "training done, 600-subset F1 51.26/CIDEr 103.50/val_loss 1.410 -- rank curve now complete 4/8/16/32/64"
     },
     "expa-lora16:qformer:s123-retry": {
       "account": "acc13",

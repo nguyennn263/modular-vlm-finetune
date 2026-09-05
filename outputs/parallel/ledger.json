@@ -682,6 +682,37 @@
       "cider_d_corpus": 100.0,
       "bleu4_corpus": 22.1,
       "rouge_l_corpus": 52.1
+    },
+    "expa-lora16:multi_token:s42": {
+      "status": "done",
+      "collected": true,
+      "bridge": "multi_token",
+      "seed": 42,
+      "lora": "16",
+      "epochs": 1,
+      "f1": 53.16,
+      "cider_inhouse": 104.9,
+      "bleu": 19.38,
+      "val_loss": 1.3683,
+      "cider_d_corpus": 101.7,
+      "bleu4_corpus": 23.2,
+      "rouge_l_corpus": 52.7,
+      "account": "acc16(orig)",
+      "kernel": "nguynrichard/mvlm-lora16-eval",
+      "note": "1-epoch, locked in results-grouped-split.md"
+    },
+    "expa-lora16-3ep:multi_token:s42": {
+      "account": "acc16",
+      "kernel": "nguynrichard/mvlm-expa-lora16-multi-token-s42",
+      "status": "running",
+      "pushed_at": "2026-09-05T20:09:54",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 42,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null,
+      "lora": "16"
     }
   }
 }

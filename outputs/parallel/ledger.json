@@ -461,6 +461,14 @@
       "split": "test",
       "shard": "4/5",
       "tag": "tiled"
+    },
+    "expa-lora16:multi_token:s123": {
+      "status": "done",
+      "collected": true
+    },
+    "expa-lora16:multi_token:s3407": {
+      "status": "done",
+      "collected": true
     }
   }
 }

@@ -275,6 +275,173 @@
       "tiles": "1,3,6",
       "answer_sampling": null,
       "align": null
+    },
+    "expa:multi_token:s123": {
+      "account": "acc10",
+      "kernel": "giapht/mvlm-expa-multi-token-s123",
+      "status": "done",
+      "pushed_at": "2026-09-04T13:28:37",
+      "collected": true,
+      "bridge": "multi_token",
+      "seed": 123,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null
+    },
+    "expa:multi_token:s3407": {
+      "account": "acc6",
+      "kernel": "knull0d/mvlm-expa-multi-token-s3407",
+      "status": "done",
+      "pushed_at": "2026-09-04T21:20:09",
+      "collected": true,
+      "bridge": "multi_token",
+      "seed": 3407,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null
+    },
+    "expa:multi_token:s2026": {
+      "account": "acc16",
+      "kernel": "nguynrichard/mvlm-expa-multi-token-s2026",
+      "status": "done",
+      "pushed_at": "2026-09-04T15:35:28",
+      "collected": true,
+      "bridge": "multi_token",
+      "seed": 2026,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null
+    },
+    "expa:multi_token:s8668": {
+      "account": "acc12",
+      "kernel": "tn7012/mvlm-expa-multi-token-s8668",
+      "status": "running",
+      "pushed_at": "2026-09-04T23:33:36",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 8668,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null
+    },
+    "expa:qformer:s123": {
+      "account": "acc14",
+      "kernel": "nguyendinhdoanh/mvlm-expa-qformer-s123",
+      "status": "done",
+      "pushed_at": "2026-09-04T21:30:03",
+      "collected": true,
+      "bridge": "qformer",
+      "seed": 123,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null
+    },
+    "lora16-eval:multi_token:s42": {
+      "account": "acc5",
+      "kernel": "nguyennguyen263/mvlm-lora16-eval",
+      "status": "running",
+      "collected": false,
+      "note": "standalone eval-only for LoRA r16 checkpoint"
+    },
+    "oracle:val-tiled:shard0of5": {
+      "account": "acc1",
+      "kernel": "nguyennn263/mvlm-oracle-val-tiled-0of5",
+      "status": "running",
+      "pushed_at": "2026-09-05T07:03:51",
+      "collected": false,
+      "split": "val",
+      "shard": "0/5",
+      "tag": "tiled"
+    },
+    "oracle:val-tiled:shard1of5": {
+      "account": "acc2",
+      "kernel": "nguyennn2501/mvlm-oracle-val-tiled-1of5",
+      "status": "running",
+      "pushed_at": "2026-09-05T07:03:54",
+      "collected": false,
+      "split": "val",
+      "shard": "1/5",
+      "tag": "tiled"
+    },
+    "oracle:val-tiled:shard2of5": {
+      "account": "acc3",
+      "kernel": "nguyennn2603/mvlm-oracle-val-tiled-2of5",
+      "status": "running",
+      "pushed_at": "2026-09-05T07:03:56",
+      "collected": false,
+      "split": "val",
+      "shard": "2/5",
+      "tag": "tiled"
+    },
+    "oracle:val-tiled:shard3of5": {
+      "account": "acc4",
+      "kernel": "nguyennn251/mvlm-oracle-val-tiled-3of5",
+      "status": "running",
+      "pushed_at": "2026-09-05T07:03:58",
+      "collected": false,
+      "split": "val",
+      "shard": "3/5",
+      "tag": "tiled"
+    },
+    "oracle:test-tiled:shard0of5": {
+      "account": "acc1",
+      "kernel": "nguyennn263/mvlm-oracle-test-tiled-0of5",
+      "status": "running",
+      "pushed_at": "2026-09-05T07:04:08",
+      "collected": false,
+      "split": "test",
+      "shard": "0/5",
+      "tag": "tiled"
+    },
+    "oracle:test-tiled:shard1of5": {
+      "account": "acc2",
+      "kernel": "nguyennn2501/mvlm-oracle-test-tiled-1of5",
+      "status": "running",
+      "pushed_at": "2026-09-05T07:04:10",
+      "collected": false,
+      "split": "test",
+      "shard": "1/5",
+      "tag": "tiled"
+    },
+    "oracle:test-tiled:shard2of5": {
+      "account": "acc3",
+      "kernel": "nguyennn2603/mvlm-oracle-test-tiled-2of5",
+      "status": "running",
+      "pushed_at": "2026-09-05T07:04:13",
+      "collected": false,
+      "split": "test",
+      "shard": "2/5",
+      "tag": "tiled"
+    },
+    "oracle:test-tiled:shard3of5": {
+      "account": "acc4",
+      "kernel": "nguyennn251/mvlm-oracle-test-tiled-3of5",
+      "status": "running",
+      "pushed_at": "2026-09-05T07:04:14",
+      "collected": false,
+      "split": "test",
+      "shard": "3/5",
+      "tag": "tiled"
+    },
+    "oracle:val-tiled:shard4of5": {
+      "account": "acc5",
+      "kernel": "nguyennguyen263/mvlm-oracle-val-tiled-4of5",
+      "status": "running",
+      "pushed_at": "2026-09-05T07:07:47",
+      "collected": false,
+      "split": "val",
+      "shard": "4/5",
+      "tag": "tiled"
+    },
+    "oracle:test-tiled:shard4of5": {
+      "account": "acc5",
+      "kernel": "nguyennguyen263/mvlm-oracle-test-tiled-4of5",
+      "status": "running",
+      "pushed_at": "2026-09-05T07:07:48",
+      "collected": false,
+      "split": "test",
+      "shard": "4/5",
+      "tag": "tiled"
     }
   }
 }

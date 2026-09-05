@@ -472,14 +472,6 @@
       "collected": false,
       "note": "v2: flat dataset, preemptive fix before it hit the same bug"
     },
-    "expa-lora16:multi_token:s123": {
-      "status": "done",
-      "collected": true
-    },
-    "expa-lora16:multi_token:s3407": {
-      "status": "done",
-      "collected": true
-    },
     "expa-lora16:qformer:s42": {
       "status": "done",
       "collected": true,
@@ -713,6 +705,44 @@
       "answer_sampling": null,
       "align": null,
       "lora": "16"
+    },
+    "expa-lora16-3ep:multi_token:s123": {
+      "account": "acc1",
+      "kernel": "nguyennn263/mvlm-expa-lora16-multi-token-s123",
+      "status": "running",
+      "pushed_at": "2026-09-05T20:38:21",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 123,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null,
+      "lora": "16",
+      "epochs": 3,
+      "note": "3-epoch test — per-epoch metrics for 1/2/3 curve"
+    },
+    "expa-lora16:multi_token:s123": {
+      "status": "done",
+      "collected": true
+    },
+    "expa-lora16-3ep:multi_token:s3407": {
+      "account": "acc2",
+      "kernel": "nguyennn2501/mvlm-expa-lora16-multi-token-s3407",
+      "status": "running",
+      "pushed_at": "2026-09-05T20:38:23",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 3407,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null,
+      "lora": "16",
+      "epochs": 3,
+      "note": "3-epoch test — per-epoch metrics for 1/2/3 curve"
+    },
+    "expa-lora16:multi_token:s3407": {
+      "status": "done",
+      "collected": true
     }
   }
 }

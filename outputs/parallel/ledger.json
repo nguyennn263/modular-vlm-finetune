@@ -337,11 +337,30 @@
       "align": null
     },
     "lora16-eval:multi_token:s42": {
-      "account": "acc5",
-      "kernel": "nguyennguyen263/mvlm-lora16-eval",
+      "account": "acc16",
+      "kernel": "nguynrichard/mvlm-lora16-eval",
       "status": "running",
       "collected": false,
-      "note": "standalone eval-only for LoRA r16 checkpoint"
+      "note": "standalone full-val eval, relaunched after acc5 collision"
+    },
+    "expa-tiled:residual:s42": {
+      "account": "acc8",
+      "kernel": "lelynhan/mvlm-expa-tiled-residual-s42",
+      "status": "running",
+      "pushed_at": "2026-09-05T07:11:21",
+      "collected": false,
+      "bridge": "residual",
+      "seed": 42,
+      "tiles": "1,3,6",
+      "answer_sampling": null,
+      "align": null
+    },
+    "tilesweep-eval:multi_token:s42": {
+      "account": "acc11",
+      "kernel": "chalicetrncthnh/mvlm-mt-tilesweep-eval",
+      "status": "running",
+      "collected": false,
+      "note": "B3 eval @ n_tiles 1,3,6,12 on plain 1-tile-trained checkpoint"
     }
   }
 }

@@ -544,11 +544,12 @@
     "expa-lora64:multi_token:s42": {
       "account": "acc9",
       "kernel": "masalamohammad/mvlm-expa-lora64-multi-token-s42",
-      "status": "running",
-      "collected": false,
+      "status": "done",
+      "collected": true,
       "bridge": "multi_token",
       "seed": 42,
-      "lora": "64"
+      "lora": "64",
+      "note": "training done, 600-subset F1 53.05/CIDEr 110.43/val_loss 1.366 -- breaks the r8-32 plateau, jumps up"
     },
     "expa-lora4:multi_token:s42-retry": {
       "account": "acc10",

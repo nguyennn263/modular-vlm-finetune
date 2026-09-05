@@ -521,10 +521,10 @@
       "lora": "32"
     },
     "expa-lora16:qformer:s123": {
-      "account": "acc12",
-      "kernel": "tn7012/mvlm-expa-lora16-qformer-s123",
+      "account": "acc13",
+      "kernel": "avanrager/mvlm-expa-lora16-qformer-s123",
       "status": "running",
-      "pushed_at": "2026-09-05T13:32:27",
+      "pushed_at": "2026-09-05T13:50:30",
       "collected": false,
       "bridge": "qformer",
       "seed": 123,
@@ -547,10 +547,10 @@
       "lora": "16"
     },
     "expa-lora4:multi_token:s42": {
-      "account": "acc15",
-      "kernel": "anhtuongngy/mvlm-expa-lora4-multi-token-s42",
+      "account": "acc10",
+      "kernel": "giapht/mvlm-expa-lora4-multi-token-s42",
       "status": "running",
-      "pushed_at": "2026-09-05T13:32:36",
+      "pushed_at": "2026-09-05T13:50:28",
       "collected": false,
       "bridge": "multi_token",
       "seed": 42,

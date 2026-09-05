@@ -200,10 +200,23 @@ the convergence of the three negatives in §6.1.
 - [x] §5.6 align-KD `logit` row filled (α=1.0, KL dominates → val CE 2.84, F1 40.7)
 - [ ] §5.6: swap in multi-seed numbers + CI once C2 lands; re-run align-feat/logit
       on full val (both were cut short) if a reviewer needs it
-- [ ] **C3 GO (spine = efficiency-bridge, all 3 alignment axes negative):**
-      oracle sweep + policy ladder on `checkpoints/expA-tiled/seed42/{multi_token,
-      qformer,mini_qformer}/` — re-locks §5.2/§5.3 on tile-trained bridges, closes
-      the 1-tile-training confound. Blocked on GPU quota reset 2026-09-05 00:00 UTC.
+- [x] **C3 LAUNCHED** 2026-09-05 00:xx UTC (right at quota reset): oracle sweep on
+      `checkpoints/expA-tiled/seed42/{multi_token,qformer,mini_qformer}/`, val+test,
+      5 shards each, all 3 bridges × {1,3,6} tiles in one worker per shard (so each
+      shard writes the full |A|=9 table directly, no _mt/_qfmq merge needed) →
+      `outputs/oracle_{val,test}_tiled/`. Added `run.py --tag` to avoid colliding
+      with the already-locked 1-tile-trained job keys/output dirs. All 10 shards
+      RUNNING as of launch; monitor `be22eumcl`.
+- [ ] **NOTE for the re-lock:** train-split oracle labels (used to train the §5.3
+      policy) are NOT being re-swept on tiled checkpoints — only val+test. The
+      policy will train on 1-tile-checkpoint a* and evaluate against tiled-checkpoint
+      a*, a mismatch. Judgment call: this can only bias the result *against* a
+      learned policy (can't manufacture a false "policy beats fixed"), so it doesn't
+      threaten the paper's null-result conclusion — but it should be stated as a
+      limitation, not silently glossed. Flagged to peer; revisit if train re-sweep
+      capacity opens up.
+- [ ] once shards land: rebuild |A|=9 tiled tables, re-run policy ladder, re-lock
+      §5.2/§5.3, §5 reorder toward efficiency-primary.
 - [x] re-run 5.3 policies on the |A|=9 *train* split (5 547) — **done, locked**:
       all arms → `fixed: multi_token|t1` (0.901–0.902), a*-match ≈ majority 0.43
 - [x] 5.5 compute-efficiency table added (P1 v8 profiling)

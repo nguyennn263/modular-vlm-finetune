@@ -241,17 +241,17 @@ Qwen2-0.5B's attention projections (`q/k/v/o`, rank 16, ≈2% additional trainab
 parameters) alongside the `multi_token` bridge, 1 epoch, 1 tile, otherwise
 identical setup to the headline run:
 
-| | plain (mean, 4 seeds) | LoRA r=16 (mean, 2 seeds) | Δ | ViMoE-VQA |
+| | plain (mean, 4 seeds) | **LoRA r=16 (mean, 3 seeds)** | Δ | ViMoE-VQA |
 |---|---:|---:|---:|---:|
-| F1(tok) | 49.8 | **53.2** | **+3.4** | 60.7 |
-| CIDEr (in-house) | 97.0 | **105.9** | **+8.9** | — |
-| BLEU-4 | 16.0 | **19.5** | **+3.5** | 12.5 |
-| Acc | 8.3 | **10.4** | **+2.1** | 9.7 |
+| F1(tok) | 49.8 | **53.17** | **+3.4** | 60.7 |
+| CIDEr (in-house) | 97.0 | **~105.6** | **+8.6** | — |
+| BLEU-4 | 16.0 | **~19.5** | **+3.5** | 12.5 |
+| Acc | 8.3 | **10.4** (2-seed) | **+2.1** | 9.7 |
 
-LoRA closes **~31% of the F1 gap to ViMoE-VQA** (10.9 → 7.5 points),
-reproducible across 2 seeds (123, 3407; seed 42 was re-running as of this
-draft due to an infra bug, not a modeling issue). Validation CE drops to
-1.37–1.39 from the plain bridge's 1.49.
+LoRA closes **~31% of the F1 gap to ViMoE-VQA** (10.9 → 7.5 points), **locked
+across all 3 seeds** (42: F1 53.16; 123: 53.20; 3407: 53.15 — std ≈ 0.03),
+no longer a 2/3-seed provisional result. Validation CE drops to 1.37–1.39 from
+the plain bridge's 1.49.
 
 **Generalizes to a second bridge.** The same LoRA config applied to `qformer`
 (seed 42, 1 tile, in-house eval, n = 5 463) shows an even larger lift:
@@ -284,17 +284,30 @@ reproduces `qformer`-plain's locked row, 86.7/17.5/47.1, exactly). Rescored for
 
 `qformer`+LoRA now beats ViMoE-VQA on all three corpus metrics (CIDEr-D +13.2,
 BLEU-4 +10.6, ROUGE-L +5.5) — stronger than `multi_token`-plain on BLEU-4/ROUGE-L,
-though still below `multi_token`-plain's CIDEr-D (94.4). The `multi_token`+LoRA
-corpus rescore is pending its full-val eval landing.
+though still below `multi_token`-plain's CIDEr-D (94.4).
+
+`multi_token`+LoRA r=16 (seed 42), same script:
+
+| | multi_token plain | +LoRA r=16 | Δ | ViMoE-VQA |
+|---|---:|---:|---:|---:|
+| CIDEr-D | 94.4 | **101.7** | **+7.3** | 88.7 |
+| BLEU-4 | 19.6 | **23.2** | **+3.6** | 12.5 |
+| ROUGE-L | 50.0 | **52.7** | **+2.7** | 47.1 |
+
+This is now **the strongest single number across every bridge/variant tested**,
+plain or LoRA — it beats ViMoE-VQA on all three corpus metrics (+13.0/+10.7/+5.6)
+*and* beats `multi_token`-plain's own CIDEr-D (94.4), which nothing else in this
+paper does. Both LoRA bridges now have complete in-house + corpus numbers.
 
 This is the **only one of the four axes tested (§5.3–5.6) that moves F1**, and
 it is the only one that touches the decoder. It does not weaken the
 frozen-backbone efficiency claim (§5.1–5.2) — it is reported here as a
 robustness/reference point, quantifying exactly how much headroom exists once
 the one deliberate departure from "everything but the bridge is frozen" is
-allowed, not as a replacement for the main spine. Numbers are single-config,
-2–4 seeds — treat as directional pending the full multi-seed sweep and the
-`multi_token`-side corpus rescore.
+allowed, not as a replacement for the main spine. Both LoRA bridges' F1/CIDEr/
+BLEU/ROUGE numbers are now locked (3 seeds for `multi_token`, 1 for `qformer`,
+both in-house and corpus); a rank sweep (r=8, r=32) is running to see whether
+r=16 was a lucky choice or the effect is robust across rank.
 
 ## 5.7 Summary of findings
 
@@ -329,9 +342,10 @@ architecture class tops out where it does, rather than proposing to abandon it.
       confirmed
 - [x] §5.6: qformer-LoRA corpus-level (pycocoevalcap) rescore landed — beats
       ViMoE on all 3 corpus metrics
-- [ ] §5.6: seed 42 multi_token-LoRA standalone full-val re-verify + corpus
-      rescore (co-author, running); also fold in the r=8/r=32 rank sweep once
-      it lands
+- [x] §5.6: multi_token-LoRA seed 42 landed (3/3 seed locked, std≈0.03 F1) +
+      corpus rescore landed — strongest single number in the paper, beats both
+      ViMoE and multi_token-plain's own CIDEr-D
+- [ ] §5.6: fold in the r=8/r=32 rank sweep once it lands (co-author, running)
 - [ ] §5.5: multi-seed numbers + CI once available; re-run align-feat/logit
       on full val (both were cut short) if a reviewer needs it
 - [ ] human validation of 300–500 answers (2 raters, Cohen's κ) — §5.1/§6

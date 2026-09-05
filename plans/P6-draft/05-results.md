@@ -335,6 +335,64 @@ develops this reading; the paper's primary contribution remains the frozen,
 0.78%-param bridge (§5.1–5.2) — the decoder-ceiling finding explains *why* that
 architecture class tops out where it does, rather than proposing to abandon it.
 
+## 5.8 Does token-F1 mean the answer is correct? A self-check
+
+Every result above is read through automatic metrics (CIDEr-D, BLEU-4, ROUGE-L,
+token-F1) against 5 reference answers. This section asks how much those metrics
+actually track answer correctness, using `multi_token`'s val predictions.
+
+**Scope reduction, stated up front.** The plan called for human validation —
+300–500 samples, 2 annotators, Cohen's κ. Time did not allow it before the
+deadline; what follows is a **single-rater self-check substitute**, not human
+validation, and is reported as such: N = 120 (not 300–500), one rater (the
+assistant, not an independent human annotator), no image access — judged for
+*plausibility against the 5 reference answers*, not independently verified
+against the image, which for open-ended categories (causal/context) is a
+materially different and weaker check than true human validation. Sampled
+proportionally by category × the *actual* F1 bucket of each prediction (seed
+42, `scripts/human_validation_sample.py`), scored by
+`scripts/human_validation_report.py`; all 120 judgments with reasoning in
+`outputs/human_validation/selfcheck_judgments.json`.
+
+| F1 bucket | n | correct | partially correct | wrong | nonsense | **acceptable (correct+partial)** |
+|---|---:|---:|---:|---:|---:|---:|
+| strong (≥0.6) | 45 | 80.0% | 11.1% | 6.7% | 2.2% | **91.1%** |
+| partial (0.2–0.6) | 58 | 12.1% | 31.0% | 55.2% | 1.7% | **43.1%** |
+| weak (0–0.2) | 3 | 0% | 0% | 100% | 0% | **0%** |
+| zero (F1=0) | 13 | 7.7% | 7.7% | 76.9% | 7.7% | **15.4%** |
+| **total (n=119\*)** | | **37.0%** | **20.2%** | **40.3%** | **2.5%** | **57.1%** |
+
+\* one sample excluded: self-contradictory reference set.
+
+**Reported straight, not spun.** The "strong" bucket is reliable (91.1%
+acceptable) — high F1 is a good correctness signal there. But the **"partial"
+bucket (0.2–0.6) is both the *largest* single bucket (51.5% of val) and the
+*least* reliable** — only 43.1% acceptable, 55.2% actually wrong despite
+sharing filler tokens (generic words, color names) with the reference. The
+failure mode is not random noise: wrong color/count/object, or answering the
+wrong facet of the question (e.g. "when" answered with weather; the wrong
+gender for "who"; a yes/no answer inverted relative to the reference) — errors
+a fluent decoder can produce while still overlapping enough vocabulary to score
+mid-range F1. ("zero"-bucket answers are mostly wrong (84.6%), but not
+entirely — some are semantically correct paraphrases with zero token overlap.)
+
+Overall, **37.0% of val predictions are fully correct and 57.1% are
+acceptable** by this check — noticeably lower than headline numbers like
+CIDEr-D 94.4 or F1 44.2 might suggest to a reader unfamiliar with these
+metrics' scales, though the self-check's own aggregate (37.0%/57.1%) sits close
+to the "strong"-bucket share of val, which is some corroboration that "strong"
+≈ "actually correct" is a reasonable proxy even though the metric as a whole
+is not.
+
+**Limitations of this self-check itself** (not to be conflated with the
+frozen-decoder findings above): single rater, no ground-truth image access,
+N=120 rather than 300–500, no second rater and therefore no Cohen's κ. This is
+a time-constrained substitute, not a replacement for human validation should a
+reviewer require it — but it is enough to surface a real, actionable finding
+that F1 alone would have missed: **mid-range token-F1 is not a reliable
+correctness signal**, which qualifies how every CIDEr-D/F1 number in §5.1–§5.7
+should be read.
+
 ---
 
 ### Pending
@@ -348,7 +406,16 @@ architecture class tops out where it does, rather than proposing to abandon it.
 - [ ] §5.6: fold in the r=8/r=32 rank sweep once it lands (co-author, running)
 - [ ] §5.5: multi-seed numbers + CI once available; re-run align-feat/logit
       on full val (both were cut short) if a reviewer needs it
-- [ ] human validation of 300–500 answers (2 raters, Cohen's κ) — §5.1/§6
+- [x] **§5.8 NEW**: human validation re-scoped to single-rater self-check (user:
+      no annotator time before deadline) — N=120, self+reasoning in
+      `outputs/human_validation/selfcheck_judgments.json`. Finding: "partial"
+      F1 bucket (largest, 51.5% of val) only 43.1% acceptable — reported
+      straight, not spun. Qualifies how every metric number in §5 should be read.
+- [ ] flag to co-author: §6.4's limitation item "human validation not yet
+      included" needs updating — it's now partially addressed (§5.8), should
+      note the reduced scope (1 rater, no image access, N=120 not 300-500) and
+      probably reference §5.8's finding (mid-range F1 unreliable) as its own
+      point, not just "not yet done"
 - [ ] flag to co-author: §6.1/§6.3 in `06-discussion.md` still reference the
       pre-reorder §5 numbering/framing (old "reasoning-type supervision"
       research question, §5.5 = compute-efficiency) — needs a matching pass

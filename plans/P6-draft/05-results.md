@@ -61,6 +61,17 @@ Vintern-1B reference recipe full-finetunes the ViT and runs up to 12 dynamic
 tiles. The lever is real and 6× wide; §5.3 asks whether spending more of it,
 adaptively, would have been worth it.
 
+One tile is not a limitation to apologize for — it is the operating point this
+bridge is built for, and spending *more* of the lever makes it strictly worse.
+Feeding the 1-tile-trained `multi_token` bridge more tiles at inference
+collapses it: F1 50.7 / CIDEr 98.7 at 1 tile → F1 21–23 / CIDEr 49–52 at 3–6
+tiles, val loss 1.48 → 3.35 (a direct tile-sweep of the released checkpoint;
+Kaggle cut the 12-tile row at the 12 h cap but the 1→3→6 trend is
+unambiguous). Mean-pooling 8 tokens over 3–6× as many patches washes out the
+signal. §5.3's oracle analysis then shows no adaptive policy recovers value
+from the lever either — B3 shows *why*: the bridge does not merely fail to
+benefit from more tiles, it breaks.
+
 ## 5.3 Is adaptive visual computation a useful lever? (oracle analysis)
 
 **Robustness check, not the main claim**: §5.1–5.2 already show 1 tile is

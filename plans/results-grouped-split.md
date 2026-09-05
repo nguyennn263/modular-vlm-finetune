@@ -87,6 +87,35 @@ capacity phía thị giác/training KHÔNG phải nút thắt.**
 - **Noun omission ở câu đếm: 5.8%** (vs ViMoE **10.7%**) — mình bỏ noun ÍT hơn.
 - Per-category F1: tốt nhất counting 0.66 / yesno 0.61 / relational 0.55; tệ nhất action 0.40 / context 0.37 / causal 0.43 (câu mở, nhiều đáp án đúng — model đoán 1 đáp án hợp lý khác).
 
+## 4b. Decoder-LoRA (feat/decoder-lora branch) — POSITIVE, 2/3 seed khóa
+
+Sau 3-way negative (§3), thử can thiệp **decoder** (phá vỡ frozen-backbone có chủ đích):
+LoRA r=16 trên q/k/v/o của Qwen2-0.5B, huấn luyện cùng bridge multi_token, 1 epoch, 1 tile.
+
+| | Plain (mean 4 seed) | **LoRA r=16 (mean 2 seed)** | Δ | ViMoE |
+|---|---:|---:|---:|---:|
+| F1 | 49.8 | **53.2** (53.20/53.15) | **+3.4** | 60.7 |
+| CIDEr (in-house) | 97.0 | **105.9** | **+8.9** | — |
+| BLEU | 16.0 | **19.5** | **+3.5** | 12.5 |
+| Acc | 8.3 | **10.4** | **+2.1** | 9.7 |
+
+**Khép ~31% khoảng cách F1 tới ViMoE** (gap 10.9 → còn 7.5), tái lập được qua 2 seed
+(123, 3407 — seed 42 đang chờ verify riêng do lỗi hạ tầng, xem bên dưới). val CE cũng
+thấp hơn hẳn plain (1.37–1.39 vs 1.49).
+
+**Ý nghĩa cho paper:** đây là can thiệp DUY NHẤT trong tất cả các thử (routing, answer-
+sampling, align-KD, decoder-LoRA) thực sự cải thiện F1 — và nó là can thiệp DUY NHẤT
+đụng vào decoder. Càng củng cố §6.1: **frozen decoder là trần**; mở nó ra (dù rất nhẹ,
+~2% param LoRA) mới nhích được, còn mọi can thiệp phía thị giác/training đều vô ích.
+
+Đóng khung: multi_token + LoRA vẫn KHÔNG phải "frozen backbone" nữa — trình bày như
+**phần bổ sung/reference point**, không phải spine chính (spine chính vẫn là bridge
+0.78% param hoàn toàn đóng băng).
+
+**Còn lại:** seed 42 cần verify (2 lần lỗi hạ tầng dataset, không phải lỗi model — đã sửa,
+đang chạy lại), LoRA trên qformer đang chạy để xem có generalize không, chưa có
+corpus-rescore (CIDEr-D) cho bộ này.
+
 ## 5. Còn PENDING (sau reset quota 00:00 UTC 5/9)
 
 | # | Việc | Ai |

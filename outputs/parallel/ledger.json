@@ -484,6 +484,32 @@
       "val_loss": 1.3768,
       "account": "acc13",
       "kernel": "avanrager/mvlm-expa-lora16-qformer-s42"
+    },
+    "expa-lora8:multi_token:s42": {
+      "account": "acc6",
+      "kernel": "knull0d/mvlm-expa-lora8-multi-token-s42",
+      "status": "running",
+      "pushed_at": "2026-09-05T12:12:04",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 42,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null,
+      "lora": "8"
+    },
+    "expa-lora32:multi_token:s42": {
+      "account": "acc7",
+      "kernel": "tinquc220300nguyn/mvlm-expa-lora32-multi-token-s42",
+      "status": "running",
+      "pushed_at": "2026-09-05T12:12:10",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 42,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null,
+      "lora": "32"
     }
   }
 }

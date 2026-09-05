@@ -218,33 +218,44 @@ biến thể (plain hay LoRA, bridge nào) trên cả CIDEr-D lẫn BLEU-4/ROUGE
 **Toàn bộ dòng LoRA r=16 giờ đã khóa 3/3 seed (in-house) + corpus cho cả 2 bridge
 (multi_token, qformer).**
 
-### Rank curve (r=4/8/16/32/64) — seed42, SƠ BỘ (chỉ 600-mẫu training-time subset)
+### Rank curve (r=4/8/16/32/64) — ĐÃ CÓ ĐA SEED CHO r=32/64, RÚT LẠI KẾT LUẬN "CÀNG CAO CÀNG TỐT"
 
-Cả 5 rank đã xong training (đa seed cho r=32/64 vẫn đang chạy). Số dưới đây là subset
-600 mẫu (quick-eval lúc train), **chưa phải full-val 5463** — so sánh nội bộ giữa các
-rank thì dùng được (cùng subset), nhưng **không so trực tiếp được** với các số full-val
-ở trên.
+Tất cả 600-mẫu training-time subset (không phải full-val 5463) — so nội bộ giữa
+rank/seed dùng được, không so trực tiếp với số full-val ở trên.
 
-| rank | F1 (600-subset) | CIDEr (600-subset) | val loss (full, best epoch) |
-|---|---:|---:|---:|
-| 4 | 51.26 | 103.50 | 1.410 |
-| 8 | 51.62 | 105.95 | 1.408 |
-| 16 | 51.98 | 106.44 | 1.371 |
-| 32 | 51.80 | 107.06 | 1.368 |
-| 64 | **53.05** | **110.43** | **1.366** |
+| rank | seed 42 | seed 123 | seed 3407 | **mean (n seed)** |
+|---|---:|---:|---:|---:|
+| 4 | 51.26 | — | — | 51.26 (1) |
+| 8 | 51.62 | — | — | 51.62 (1) |
+| 16 | 51.98 | — | — | 51.98 (1) |
+| 32 | 51.80 | 55.06 | 54.62 | **53.83 ± 1.77** (3) |
+| 64 | 53.05 | 54.23 | 54.91 | **54.06 ± 0.94** (3) |
 
-**Đọc sơ bộ (chưa full-val, chưa nhiều seed, đừng chốt vội) — bức tranh rõ hơn với đủ
-5 điểm:** cả CIDEr lẫn val loss đơn điệu tăng/giảm đều theo rank (CIDEr 103.5→110.4,
-val loss 1.410→1.366), F1 gần như đơn điệu tăng trừ 1 điểm nhiễu nhỏ ở r=32. Không còn
-là "bão hòa ở r=8" (đã rút lại nhận định đó) — giờ trông giống **"rank càng cao, lợi ích
-càng nhích thêm"**, r=64 vẫn chưa cho thấy dấu hiệu chững lại. Vẫn phải chờ đa seed
-(r=32/64 đang chạy trên acc1-4) để biết đây là xu hướng thật hay chỉ là 1 seed/600-mẫu
-may mắn theo hướng monotonic.
+**RÚT LẠI nhận định trước ("rank càng cao lợi ích càng nhích")** — đó là dựng từ
+seed42 duy nhất, và seed42 hoá ra là seed THẤP nhất trong 3 seed ở CẢ r=32 lẫn r=64.
+Khi lấy trung bình 3 seed đàng hoàng: **r=32 (53.83) và r=64 (54.06) gần như KHÔNG
+khác nhau** (chênh 0.23, nhỏ hơn nhiều so với std ~1-1.8 của từng rank) — không có
+bằng chứng "rank cao hơn luôn tốt hơn". r=4/8/16 vẫn chỉ 1 seed nên chưa so được
+công bằng với r=32/64, nhưng **bài học chính: đừng dựng xu hướng rank từ 1 seed**,
+seed-to-seed noise trên 600-mẫu subset (std ~1-2 điểm F1) đủ lớn để đảo ngược thứ tự
+biểu kiến giữa các rank. Khuyến nghị paper: **giữ r=16 làm điểm chính** (đã full-val
+3/3 seed rất chắc, std ~0.03 — xem bảng đầu §4b), rank cao hơn không cho thấy lợi ích
+rõ ràng đáng để đánh đổi thêm tham số.
 
-**Đang chạy thêm để xác nhận:** r=4 (acc10), r=64 (acc9); r=32 + r=64 mỗi cái thêm 2 seed
-(123, 3407 — acc1/2/3/4) để rank curve có error bar thật thay vì 1 seed; LoRA r=16 áp
-thêm lên mini_qformer (acc5) và residual (acc16, bridge yếu nhất) — mở rộng "bridge-
-agnostic" từ 2/5 lên 4/5 bridge.
+**Bridge-agnostic mở rộng — qformer LoRA16 giờ 3/3 SEED, KHÓA:**
+
+| seed | F1 (full-val) |
+|---|---:|
+| 42 | 53.10 |
+| 3407 | 53.22 |
+| 123 | 53.32 |
+| **mean ± std** | **53.21 ± 0.11** |
+
+Cực kỳ khít (std 0.11, nhỏ hơn cả multi_token's 0.03... thực ra tương đương) — xác
+nhận chắc chắn decoder-LoRA generalize sang qformer, không phải may rủi seed.
+
+**Đang chờ:** LoRA r=16 trên mini_qformer + residual (acc5/acc16, mở rộng bridge-agnostic
+lên 4/5 bridge) vẫn đang chạy.
 
 ## 5. Còn PENDING (sau reset quota 00:00 UTC 5/9)
 

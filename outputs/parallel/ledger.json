@@ -534,17 +534,20 @@
       "lora": "16"
     },
     "expa-lora16:qformer:s3407": {
+      "status": "done",
+      "collected": true,
       "account": "acc14",
       "kernel": "nguyendinhdoanh/mvlm-expa-lora16-qformer-s3407",
-      "status": "running",
-      "pushed_at": "2026-09-05T13:32:28",
-      "collected": false,
       "bridge": "qformer",
       "seed": 3407,
-      "tiles": null,
-      "answer_sampling": null,
-      "align": null,
-      "lora": "16"
+      "lora": "16",
+      "f1": 53.22,
+      "cider_inhouse": 106.19,
+      "bleu": 19.76,
+      "val_loss": 1.3774,
+      "cider_d_corpus": 102.8,
+      "bleu4_corpus": 23.5,
+      "rouge_l_corpus": 52.7
     },
     "expa-lora4:multi_token:s42": {
       "account": "acc10",

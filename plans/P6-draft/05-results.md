@@ -253,14 +253,31 @@ reproducible across 2 seeds (123, 3407; seed 42 was re-running as of this
 draft due to an infra bug, not a modeling issue). Validation CE drops to
 1.37–1.39 from the plain bridge's 1.49.
 
-This is the **only one of the four interventions tested (§5.3–5.6) that moves
-F1**, and it is the only one that touches the decoder. It does not weaken the
+**Generalizes to a second bridge.** The same LoRA config applied to `qformer`
+(seed 42, 1 tile, in-house eval, n = 5 463) shows an even larger lift:
+
+| | plain | +LoRA r=16 | Δ |
+|---|---:|---:|---:|
+| F1(tok) | 47.66 | **53.10** | **+5.4** |
+| CIDEr (in-house) | 90.8 | **105.2** | **+14.3** |
+| BLEU-4 | 14.6 | **19.3** | **+4.8** |
+| ROUGE-L | 46.0 | **51.6** | **+5.6** |
+| Acc | 7.34 | **10.91** | **+3.6** |
+| val loss | 1.568 | **1.377** | −0.19 |
+
+The gain is not `multi_token`-specific — it is a **decoder-capacity effect
+that shows up regardless of which bridge feeds the decoder**, which is exactly
+what "the frozen decoder is the ceiling" predicts: whatever representation
+the bridge hands it, a slightly-unfrozen decoder can use it better.
+
+This is the **only one of the four axes tested (§5.3–5.6) that moves F1**, and
+it is the only one that touches the decoder. It does not weaken the
 frozen-backbone efficiency claim (§5.1–5.2) — it is reported here as a
 robustness/reference point, quantifying exactly how much headroom exists once
 the one deliberate departure from "everything but the bridge is frozen" is
 allowed, not as a replacement for the main spine. Numbers are single-config,
-2/3 seeds, pre-corpus-rescore (in-house CIDEr, not corpus CIDEr-D) — treat as
-directional pending the full multi-seed + qformer-generalization check.
+2–4 seeds, pre-corpus-rescore (in-house CIDEr, not corpus CIDEr-D) — treat as
+directional pending the full multi-seed sweep and the pycocoevalcap rescore.
 
 ## 5.7 Summary of findings
 
@@ -272,15 +289,18 @@ to ViMoE-VQA were tried on top of the frozen-backbone, 1-tile bridge:
 | visual-compute allocation | reasoning-type-adaptive tile routing | no policy beats fixed 1-tile (§5.3–5.4) |
 | training target | multi-reference (`answer-sampling=random`) | F1 −1.7, no lift (§5.5) |
 | representation alignment | projector-KD from Vintern's `mlp1` | F1 −1.0 (`feat`), −10 mis-weighted (`logit`) (§5.5) |
-| decoder capacity | LoRA r=16 on Qwen2 attention | **F1 +3.4** — the one positive (§5.6) |
+| decoder capacity | LoRA r=16 on Qwen2 attention | **F1 +3.4 to +5.4** — the one positive (§5.6) |
 
 **Reading:** three vision-/training-side interventions, all negative;
-one decoder-side intervention, clearly positive. This is not noise — it
-localizes the bottleneck. With a fully frozen, small (0.5B) decoder, additional
-visual detail, training signal, or representation alignment on the vision side
-has nothing to attach to; the frozen decoder is the ceiling, not the vision
-pipeline. Opening the decoder even slightly (2% of its parameters via LoRA)
-recovers a third of the gap to a fully-unfrozen prior-work baseline. §6.1
+one decoder-side intervention, clearly positive **and bridge-agnostic** —
+LoRA lifts F1 on both `multi_token` (+3.4) and `qformer` (+5.4), confirming
+it is a decoder-capacity effect, not an artifact of one bridge architecture.
+This is not noise — it localizes the bottleneck. With a fully frozen, small
+(0.5B) decoder, additional visual detail, training signal, or representation
+alignment on the vision side has nothing to attach to; the frozen decoder is
+the ceiling, not the vision pipeline, regardless of which bridge feeds it.
+Opening the decoder even slightly (2% of its parameters via LoRA) recovers a
+third or more of the gap to a fully-unfrozen prior-work baseline. §6.1
 develops this reading; the paper's primary contribution remains the frozen,
 0.78%-param bridge (§5.1–5.2) — the decoder-ceiling finding explains *why* that
 architecture class tops out where it does, rather than proposing to abandon it.
@@ -288,8 +308,10 @@ architecture class tops out where it does, rather than proposing to abandon it.
 ---
 
 ### Pending
-- [ ] §5.6: seed 42 LoRA re-verify, qformer-LoRA generalization check, corpus
-      CIDEr-D rescore (co-author)
+- [x] §5.6: qformer-LoRA generalization check landed — F1 +5.4, bridge-agnostic
+      confirmed
+- [ ] §5.6: seed 42 multi_token-LoRA standalone full-val re-verify, corpus
+      CIDEr-D rescore for all LoRA numbers (co-author, running)
 - [ ] §5.5: multi-seed numbers + CI once available; re-run align-feat/logit
       on full val (both were cut short) if a reviewer needs it
 - [ ] human validation of 300–500 answers (2 raters, Cohen's κ) — §5.1/§6

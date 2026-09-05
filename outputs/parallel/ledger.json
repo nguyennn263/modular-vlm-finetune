@@ -549,9 +549,9 @@
     "expa-lora4:multi_token:s42": {
       "account": "acc10",
       "kernel": "giapht/mvlm-expa-lora4-multi-token-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-05T13:50:28",
-      "collected": false,
+      "collected": true,
       "bridge": "multi_token",
       "seed": 42,
       "tiles": null,

@@ -217,9 +217,28 @@ biến thể (plain hay LoRA, bridge nào) trên cả CIDEr-D lẫn BLEU-4/ROUGE
 **Toàn bộ dòng LoRA r=16 giờ đã khóa 3/3 seed (in-house) + corpus cho cả 2 bridge
 (multi_token, qformer).**
 
-**Đang chạy:** sweep LoRA r=8 và r=32 (multi_token, seed42, acc6/acc7) tận dụng quota
-Kaggle đang dư nhiều (~440h/480h chưa dùng tuần này) — mục tiêu có ablation theo rank
-thay vì 1 điểm r=16.
+### Rank curve (r=4/8/16/32/64) — seed42, SƠ BỘ (chỉ 600-mẫu training-time subset)
+
+r=8/r=32 vừa xong (r=4/r=64 đang chạy). Số dưới đây là subset 600 mẫu (quick-eval lúc
+train), **chưa phải full-val 5463** — so sánh nội bộ giữa các rank thì dùng được (cùng
+subset), nhưng **không so trực tiếp được** với các số full-val ở trên.
+
+| rank | F1 (600-subset) | CIDEr (600-subset) | val loss (full, best epoch) |
+|---|---:|---:|---:|
+| 8 | 51.62 | 105.95 | 1.408 |
+| 16 | 51.98 | 106.44 | 1.371 |
+| 32 | 51.80 | 107.06 | 1.368 |
+
+**Đọc sơ bộ (chưa full-val, chưa nhiều seed, đừng chốt vội):** F1/CIDEr gần như phẳng
+từ r=8 → r=32 (chênh trong nhiễu của 600 mẫu), nhưng **val loss giảm đều đặn theo rank**
+(1.408 → 1.371 → 1.368) — gợi ý lợi ích LoRA **bão hòa nhanh về mặt sinh câu (F1/CIDEr)**
+dù CE vẫn nhích. Nếu đúng, r=8 hoặc r=16 đã gần đủ, không cần rank cao hơn — tốt cho
+câu chuyện "chỉ cần mở decoder RẤT ít cũng đủ", không phải "mở càng nhiều càng tốt".
+
+**Đang chạy thêm để xác nhận:** r=4 (acc10), r=64 (acc9); r=32 + r=64 mỗi cái thêm 2 seed
+(123, 3407 — acc1/2/3/4) để rank curve có error bar thật thay vì 1 seed; LoRA r=16 áp
+thêm lên mini_qformer (acc5) và residual (acc16, bridge yếu nhất) — mở rộng "bridge-
+agnostic" từ 2/5 lên 4/5 bridge.
 
 ## 5. Còn PENDING (sau reset quota 00:00 UTC 5/9)
 

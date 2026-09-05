@@ -112,9 +112,29 @@ sampling, align-KD, decoder-LoRA) thực sự cải thiện F1 — và nó là c
 **phần bổ sung/reference point**, không phải spine chính (spine chính vẫn là bridge
 0.78% param hoàn toàn đóng băng).
 
-**Còn lại:** seed 42 cần verify (2 lần lỗi hạ tầng dataset, không phải lỗi model — đã sửa,
-đang chạy lại), LoRA trên qformer đang chạy để xem có generalize không, chưa có
-corpus-rescore (CIDEr-D) cho bộ này.
+### Generalization check: LoRA trên qformer (seed 42) — ĐÃ XONG, KHÓA
+
+LoRA r=16 áp lên bridge **khác** (Full Q-Former, 69.4M param) để xem hiệu ứng có phải
+chỉ riêng multi_token hay không. Cùng eval_val.json in-house convention (n=5463, 1 tile):
+
+| | qformer plain | qformer **+ LoRA r=16** | Δ |
+|---|---:|---:|---:|
+| F1 | 47.66 | **53.10** | **+5.4** |
+| CIDEr (in-house) | 90.8 | **105.2** | **+14.3** |
+| BLEU | 14.6 | **19.3** | **+4.8** |
+| ROUGE-L | 46.0 | **51.6** | **+5.6** |
+| Acc | 7.34 | **10.91** | **+3.6** |
+| val loss | 1.568 | **1.377** | **−0.19** |
+
+**Gen hoá xác nhận, và mạnh hơn cả multi_token** (+5.4 F1 vs +3.4 trên multi_token) —
+decoder-LoRA không phải hiệu ứng đặc thù 1 bridge, mà là hiệu ứng của việc mở decoder,
+nhất quán bất kể bridge nào đứng trước nó. Củng cố thêm luận điểm §6.1.
+
+**Còn lại:** seed 42 (multi_token) cần verify chuẩn full-val (2 lần lỗi hạ tầng dataset,
+không phải lỗi model — đã sửa bằng flat-file upload, đang chạy lại, chưa xong), chưa có
+corpus-rescore (CIDEr-D pycocoevalcap) cho bộ LoRA nào cả (hiện toàn bộ số LoRA ở trên
+đều là in-house `vqa_metrics`, không phải corpus — cần làm trước khi đưa vào bảng so
+ViMoE ở §2).
 
 ## 5. Còn PENDING (sau reset quota 00:00 UTC 5/9)
 

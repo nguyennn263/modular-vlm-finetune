@@ -469,6 +469,21 @@
     "expa-lora16:multi_token:s3407": {
       "status": "done",
       "collected": true
+    },
+    "expa-lora16:qformer:s42": {
+      "status": "done",
+      "collected": true,
+      "bridge": "qformer",
+      "seed": 42,
+      "lora": 16,
+      "f1": 53.1,
+      "cider_inhouse": 105.15,
+      "bleu": 19.33,
+      "rouge_l": 51.58,
+      "acc": 10.91,
+      "val_loss": 1.3768,
+      "account": "acc13",
+      "kernel": "avanrager/mvlm-expa-lora16-qformer-s42"
     }
   }
 }

@@ -339,9 +339,9 @@
     "lora16-eval:multi_token:s42": {
       "account": "acc16",
       "kernel": "nguynrichard/mvlm-lora16-eval",
-      "status": "error",
+      "status": "running",
       "collected": false,
-      "note": "standalone full-val eval, relaunched after acc5 collision"
+      "note": "v2 relaunch, same-account public dataset"
     },
     "expa-tiled:residual:s42": {
       "account": "acc8",
@@ -358,9 +358,9 @@
     "tilesweep-eval:multi_token:s42": {
       "account": "acc11",
       "kernel": "chalicetrncthnh/mvlm-mt-tilesweep-eval",
-      "status": "error",
+      "status": "running",
       "collected": false,
-      "note": "B3 eval @ n_tiles 1,3,6,12 on plain 1-tile-trained checkpoint"
+      "note": "v2 relaunch, same-account dataset"
     },
     "oracle:val-tiled:shard0of5": {
       "account": "acc1",

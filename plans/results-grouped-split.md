@@ -219,23 +219,26 @@ biến thể (plain hay LoRA, bridge nào) trên cả CIDEr-D lẫn BLEU-4/ROUGE
 
 ### Rank curve (r=4/8/16/32/64) — seed42, SƠ BỘ (chỉ 600-mẫu training-time subset)
 
-r=8/r=32/r=64 đã xong (r=4 đang chạy). Số dưới đây là subset 600 mẫu (quick-eval lúc
-train), **chưa phải full-val 5463** — so sánh nội bộ giữa các rank thì dùng được (cùng
-subset), nhưng **không so trực tiếp được** với các số full-val ở trên.
+Cả 5 rank đã xong training (đa seed cho r=32/64 vẫn đang chạy). Số dưới đây là subset
+600 mẫu (quick-eval lúc train), **chưa phải full-val 5463** — so sánh nội bộ giữa các
+rank thì dùng được (cùng subset), nhưng **không so trực tiếp được** với các số full-val
+ở trên.
 
 | rank | F1 (600-subset) | CIDEr (600-subset) | val loss (full, best epoch) |
 |---|---:|---:|---:|
+| 4 | 51.26 | 103.50 | 1.410 |
 | 8 | 51.62 | 105.95 | 1.408 |
 | 16 | 51.98 | 106.44 | 1.371 |
 | 32 | 51.80 | 107.06 | 1.368 |
 | 64 | **53.05** | **110.43** | **1.366** |
 
-**Đọc sơ bộ (chưa full-val, chưa nhiều seed, đừng chốt vội) — SỬA lại nhận định trước:**
-r=8→32 gần như phẳng đúng như đã ghi, NHƯNG **r=64 nhảy lên rõ rệt** (F1 +1.1-1.4, CIDEr
-+3.4-4.5 so với r=8/16/32), val loss cũng thấp nhất. Tức là **không hẳn "bão hòa nhanh"
-như đoán ban đầu** — có thể có thêm lợi ích ở rank cao hơn (64), cần r=4 (đang chạy) +
-đa seed cho r=32/64 (đang chạy trên acc1-4) để biết đây là xu hướng thật hay nhiễu 1
-seed/600-mẫu. **Chưa chốt hướng đọc, chờ thêm dữ liệu.**
+**Đọc sơ bộ (chưa full-val, chưa nhiều seed, đừng chốt vội) — bức tranh rõ hơn với đủ
+5 điểm:** cả CIDEr lẫn val loss đơn điệu tăng/giảm đều theo rank (CIDEr 103.5→110.4,
+val loss 1.410→1.366), F1 gần như đơn điệu tăng trừ 1 điểm nhiễu nhỏ ở r=32. Không còn
+là "bão hòa ở r=8" (đã rút lại nhận định đó) — giờ trông giống **"rank càng cao, lợi ích
+càng nhích thêm"**, r=64 vẫn chưa cho thấy dấu hiệu chững lại. Vẫn phải chờ đa seed
+(r=32/64 đang chạy trên acc1-4) để biết đây là xu hướng thật hay chỉ là 1 seed/600-mẫu
+may mắn theo hướng monotonic.
 
 **Đang chạy thêm để xác nhận:** r=4 (acc10), r=64 (acc9); r=32 + r=64 mỗi cái thêm 2 seed
 (123, 3407 — acc1/2/3/4) để rank curve có error bar thật thay vì 1 seed; LoRA r=16 áp

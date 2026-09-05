@@ -519,6 +519,58 @@
       "answer_sampling": null,
       "align": null,
       "lora": "32"
+    },
+    "expa-lora16:qformer:s123": {
+      "account": "acc12",
+      "kernel": "tn7012/mvlm-expa-lora16-qformer-s123",
+      "status": "running",
+      "pushed_at": "2026-09-05T13:32:27",
+      "collected": false,
+      "bridge": "qformer",
+      "seed": 123,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null,
+      "lora": "16"
+    },
+    "expa-lora16:qformer:s3407": {
+      "account": "acc14",
+      "kernel": "nguyendinhdoanh/mvlm-expa-lora16-qformer-s3407",
+      "status": "running",
+      "pushed_at": "2026-09-05T13:32:28",
+      "collected": false,
+      "bridge": "qformer",
+      "seed": 3407,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null,
+      "lora": "16"
+    },
+    "expa-lora4:multi_token:s42": {
+      "account": "acc15",
+      "kernel": "anhtuongngy/mvlm-expa-lora4-multi-token-s42",
+      "status": "running",
+      "pushed_at": "2026-09-05T13:32:36",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 42,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null,
+      "lora": "4"
+    },
+    "expa-lora64:multi_token:s42": {
+      "account": "acc9",
+      "kernel": "masalamohammad/mvlm-expa-lora64-multi-token-s42",
+      "status": "running",
+      "pushed_at": "2026-09-05T13:32:38",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 42,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null,
+      "lora": "64"
     }
   }
 }

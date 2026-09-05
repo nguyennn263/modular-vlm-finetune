@@ -562,9 +562,9 @@
     "expa-lora64:multi_token:s42": {
       "account": "acc9",
       "kernel": "masalamohammad/mvlm-expa-lora64-multi-token-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-05T13:32:38",
-      "collected": false,
+      "collected": true,
       "bridge": "multi_token",
       "seed": 42,
       "tiles": null,

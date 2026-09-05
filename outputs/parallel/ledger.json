@@ -497,9 +497,9 @@
     "expa-lora8:multi_token:s42": {
       "account": "acc6",
       "kernel": "knull0d/mvlm-expa-lora8-multi-token-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-05T12:12:04",
-      "collected": false,
+      "collected": true,
       "bridge": "multi_token",
       "seed": 42,
       "tiles": null,
@@ -510,9 +510,9 @@
     "expa-lora32:multi_token:s42": {
       "account": "acc7",
       "kernel": "tinquc220300nguyn/mvlm-expa-lora32-multi-token-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-05T12:12:10",
-      "collected": false,
+      "collected": true,
       "bridge": "multi_token",
       "seed": 42,
       "tiles": null,

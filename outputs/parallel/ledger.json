@@ -468,9 +468,9 @@
     "tilesweep-eval:multi_token:s42": {
       "account": "acc11",
       "kernel": "chalicetrncthnh/mvlm-mt-tilesweep-eval",
-      "status": "running",
-      "collected": false,
-      "note": "v2: flat dataset, preemptive fix before it hit the same bug"
+      "status": "done",
+      "collected": true,
+      "note": "CANCEL at 12h. tile 1/3/6: F1 50.66/21.05/22.51. multi_token collapses >1 tile."
     },
     "expa-lora16:qformer:s42": {
       "status": "done",

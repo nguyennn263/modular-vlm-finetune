@@ -1,15 +1,15 @@
 # §5 Experiments and Results
 
-> Draft. §5.2/§5.3 are **LOCKED on tile-trained checkpoints** (C3, 2026-09-05) —
-> the oracle/policy numbers below are re-swept on bridges retrained *with*
-> tile-count augmentation (`--tile-choices 1,3,6`), closing the reviewer confound
-> of evaluating an n_tiles-adaptive oracle against n_tiles=1-only-trained models.
-> Result: **no change** — the tile-trained checkpoints reproduce the same
-> collapse/flatness pattern and the same policy-converges-to-fixed conclusion as
-> the original 1-tile-checkpoint sweep, within noise. One open caveat: the §5.3
-> policy is trained on the *original* (1-tile-checkpoint) train-split oracle
-> labels — train was not re-swept (see §5.3 note) — while it's evaluated against
-> the tiled-checkpoint test labels.
+> Draft, reordered 2026-09-05 around the efficiency-primary spine (§6.1 for the
+> full framing). §5.1–5.2 carry the primary claim (frozen backbone, 1 tile,
+> beats prior work); §5.3–5.6 are supporting robustness checks — each shows a
+> different way of trying to buy back the remaining F1 gap to ViMoE-VQA (visual
+> routing, training target, representation alignment, decoder capacity) and what
+> happens when you do. §5.2/§5.3 numbers are **LOCKED on tile-trained
+> checkpoints** (C3, 2026-09-05) — the oracle sweep was re-run on bridges
+> retrained *with* tile-count augmentation (`--tile-choices 1,3,6`), closing the
+> reviewer confound of evaluating an n_tiles-adaptive oracle against
+> n_tiles=1-only-trained models. Result: **no change** from the original sweep.
 
 ## 5.1 Bridge architecture comparison
 
@@ -29,7 +29,45 @@ generation metric** while trailing on token-F1:
 METEOR is omitted from cross-paper comparison — it is implementation-dependent
 (in-house 41.1 vs pycocoevalcap multi-ref 28.5 on identical predictions).
 
-## 5.2 Is visual computation a useful lever? (oracle analysis)
+This is at **1 image tile**, on a backbone where InternViT and Qwen2-0.5B are
+both **fully frozen** — only the bridge (0.78% of total parameters) is trained.
+The reference recipes it is compared against are not: Vintern-1B full-finetunes
+its ViT and LoRAs its LLM; ViMoE-VQA trains a mixture-of-experts on top of a
+similarly unfrozen stack. §5.2 quantifies what that 1-tile choice costs in
+compute terms; §5.3–5.6 test, from four different angles, whether there is
+cheap headroom being left on the table by keeping everything else frozen.
+
+## 5.2 Compute-efficiency of the vision-side lever (P1 profiling)
+
+n_tiles is a genuine compute lever. Profiled on a Tesla P100-16GB
+(`mini_qformer`, 32 samples, `src.cli.profile`):
+
+| n_tiles | InternViT GFLOPs | latency (ms) | throughput (img/s) |
+|---|---|---|---|
+| 1 | 362 | 229 | 6.0 |
+| 2 | 724 | 374 | 3.3 |
+| 4 | 1 448 | 648 | 1.7 |
+| 6 | 2 172 | 922 | 1.15 |
+
+Dynamic range 1→6: **FLOPs ×6.0, latency ×4.0, throughput ×5.2** — far above the
+15 % threshold at which a lever is worth routing over. The InternViT encoder is
+linear in tile count (GFLOPs 362 · n_tiles); wall-clock scales sub-linearly
+(×4.0) because the frozen Qwen2-0.5B decode is a fixed per-sample cost that
+n_tiles does not touch.
+
+This matters for the efficiency claim: `multi_token` reaches its quality
+(§5.1) from **a single tile** — 362 GFLOPs of vision encode — where the
+Vintern-1B reference recipe full-finetunes the ViT and runs up to 12 dynamic
+tiles. The lever is real and 6× wide; §5.3 asks whether spending more of it,
+adaptively, would have been worth it.
+
+## 5.3 Is adaptive visual computation a useful lever? (oracle analysis)
+
+**Robustness check, not the main claim**: §5.1–5.2 already show 1 tile is
+sufficient for the headline result. This section asks whether it was merely
+*convenient* — i.e. whether an oracle that could freely spend the n_tiles
+lever (§5.2) per-sample, informed by reasoning type or cheap visual state,
+would do meaningfully better. If it would not, 1 tile is not a compromise.
 
 **Action space.** `A = bridge × n_tiles`, bridge ∈ {multi_token, qformer,
 mini_qformer} (Exp B top-3), n_tiles ∈ {1, 3, 6} InternViT forward passes,
@@ -90,7 +128,7 @@ identical stratification, because per-sample CIDEr — a corpus metric applied t
 single 4-word answers — is a poor estimator of relative answer quality among 9
 near-tied actions.
 
-## 5.3 Policy ablation: does reasoning-type supervision help routing?
+## 5.4 Policy ablation: does reasoning-type supervision help routing?
 
 Three policy arms, all `PolicyMLP((·, λ) → a)` trained by cross-entropy against
 `a*`, differing only in inputs:
@@ -152,50 +190,11 @@ CIDEr ≈ 0.842 (fixed `qformer|t3` 0.854, oracle 1.09).
    `M` deltas (~0.05), `a*` is already n_tiles=1-dominated at λ = 0.05, so the
    policy learns to ignore λ.
 
-## 5.4 Answer to the research question
+## 5.5 Training- and alignment-side interventions
 
-> *Does explicit reasoning-type supervision improve the allocation of visual
-> computation beyond model-internal signals?*
-
-**No — and, for this lightweight VLM class, neither do model-internal signals.**
-The per-sample optimal action carries a large apparent headroom (+40% CIDEr) but
-it is not a learnable function of question type or cheap visual state; it is an
-artifact of CIDEr's per-example variance. Adaptive visual-compute allocation
-does not beat a well-chosen fixed policy (best bridge at minimum tiles), and
-reasoning-type labels — which on this auto-generated dataset largely encode
-question surface form (§4, router F1 0.91) — contribute nothing on top.
-
-## 5.5 Compute–efficiency (P1 profiling)
-
-n_tiles is a genuine compute lever. Profiled on a Tesla P100-16GB
-(`mini_qformer`, 32 samples, `src.cli.profile`):
-
-| n_tiles | InternViT GFLOPs | latency (ms) | throughput (img/s) |
-|---|---|---|---|
-| 1 | 362 | 229 | 6.0 |
-| 2 | 724 | 374 | 3.3 |
-| 4 | 1 448 | 648 | 1.7 |
-| 6 | 2 172 | 922 | 1.15 |
-
-Dynamic range 1→6: **FLOPs ×6.0, latency ×4.0, throughput ×5.2** — far above the
-15 % threshold at which a lever is worth routing over. The InternViT encoder is
-linear in tile count (GFLOPs 362 · n_tiles); wall-clock scales sub-linearly
-(×4.0) because the frozen Qwen2-0.5B decode is a fixed per-sample cost that
-n_tiles does not touch.
-
-This matters for the efficiency claim: `multi_token` reaches its quality
-(§5.1) from **a single tile** — 362 GFLOPs of vision encode — where the
-Vintern-1B reference recipe full-finetunes the ViT and runs up to 12 dynamic
-tiles. The negative routing result (§5.2–5.4) is therefore *not* "the lever is
-too small to matter": the lever is real and 6× wide, but the frozen 0.5B
-language model cannot convert the extra visual detail into better answers, in
-any reasoning category — so the cheapest point on the lever is also the best.
-
-## 5.6 Training- and alignment-side interventions
-
-The routing result (§5.2–5.4) rules out *when-to-spend-more-vision* as a lever.
-We ran two further interventions on the headline `multi_token` bridge, on the
-other two axes one could push — the **training target** and the
+§5.3–5.4 rule out *when-to-spend-more-vision* as a lever. We ran two further
+interventions on the headline `multi_token` bridge, on the other two axes one
+could push short of touching the decoder — the **training target** and the
 **vision–language representation alignment** — holding architecture, data split
 and 1-tile inference fixed:
 
@@ -228,30 +227,73 @@ and a `feat` auxiliary term only perturbs it off that point.
 (val CE rises to 2.84, nearly 2× the plain 1.49) and degrades generation
 sharply. We report it as a **mis-weighting** — α was not tuned — rather than a
 clean test of the concept; but since `feat`-alignment at the same weight already
-showed zero benefit with a stable CE, we did not pursue a weight sweep. We read
-the convergence of the three negatives in §6.1.
+showed zero benefit with a stable CE, we did not pursue a weight sweep.
+
+Between them, §5.3–5.5 test three axes — visual-compute allocation, training
+target, and representation alignment — and find no lift on any of them. §5.6
+tests the fourth axis, the one they were all designed to avoid touching.
+
+## 5.6 Decoder-side reference point: LoRA
+
+§5.3–5.5 hold the decoder frozen throughout. As a **deliberate, isolated
+departure** from the frozen-backbone spine — not part of it — we LoRA-tune
+Qwen2-0.5B's attention projections (`q/k/v/o`, rank 16, ≈2% additional trainable
+parameters) alongside the `multi_token` bridge, 1 epoch, 1 tile, otherwise
+identical setup to the headline run:
+
+| | plain (mean, 4 seeds) | LoRA r=16 (mean, 2 seeds) | Δ | ViMoE-VQA |
+|---|---:|---:|---:|---:|
+| F1(tok) | 49.8 | **53.2** | **+3.4** | 60.7 |
+| CIDEr (in-house) | 97.0 | **105.9** | **+8.9** | — |
+| BLEU-4 | 16.0 | **19.5** | **+3.5** | 12.5 |
+| Acc | 8.3 | **10.4** | **+2.1** | 9.7 |
+
+LoRA closes **~31% of the F1 gap to ViMoE-VQA** (10.9 → 7.5 points),
+reproducible across 2 seeds (123, 3407; seed 42 was re-running as of this
+draft due to an infra bug, not a modeling issue). Validation CE drops to
+1.37–1.39 from the plain bridge's 1.49.
+
+This is the **only one of the four interventions tested (§5.3–5.6) that moves
+F1**, and it is the only one that touches the decoder. It does not weaken the
+frozen-backbone efficiency claim (§5.1–5.2) — it is reported here as a
+robustness/reference point, quantifying exactly how much headroom exists once
+the one deliberate departure from "everything but the bridge is frozen" is
+allowed, not as a replacement for the main spine. Numbers are single-config,
+2/3 seeds, pre-corpus-rescore (in-house CIDEr, not corpus CIDEr-D) — treat as
+directional pending the full multi-seed + qformer-generalization check.
+
+## 5.7 Summary of findings
+
+Across §5.3–5.6, four different ways of trying to close the remaining F1 gap
+to ViMoE-VQA were tried on top of the frozen-backbone, 1-tile bridge:
+
+| axis | intervention | result |
+|---|---|---|
+| visual-compute allocation | reasoning-type-adaptive tile routing | no policy beats fixed 1-tile (§5.3–5.4) |
+| training target | multi-reference (`answer-sampling=random`) | F1 −1.7, no lift (§5.5) |
+| representation alignment | projector-KD from Vintern's `mlp1` | F1 −1.0 (`feat`), −10 mis-weighted (`logit`) (§5.5) |
+| decoder capacity | LoRA r=16 on Qwen2 attention | **F1 +3.4** — the one positive (§5.6) |
+
+**Reading:** three vision-/training-side interventions, all negative;
+one decoder-side intervention, clearly positive. This is not noise — it
+localizes the bottleneck. With a fully frozen, small (0.5B) decoder, additional
+visual detail, training signal, or representation alignment on the vision side
+has nothing to attach to; the frozen decoder is the ceiling, not the vision
+pipeline. Opening the decoder even slightly (2% of its parameters via LoRA)
+recovers a third of the gap to a fully-unfrozen prior-work baseline. §6.1
+develops this reading; the paper's primary contribution remains the frozen,
+0.78%-param bridge (§5.1–5.2) — the decoder-ceiling finding explains *why* that
+architecture class tops out where it does, rather than proposing to abandon it.
 
 ---
 
 ### Pending
-- [x] §5.6 align-KD `logit` row filled (α=1.0, KL dominates → val CE 2.84, F1 40.7)
-- [x] 5.5 compute-efficiency table added (P1 v8 profiling)
-- [x] re-run 5.3 policies on the |A|=9 *train* split (5 547 samples, original
-      n_tiles=1-checkpoint oracle) — locked: all arms → `fixed: multi_token|t1`
-      (0.901–0.902), a*-match ≈ majority 0.43
-- [x] **C3 DONE (2026-09-05): §5.2/§5.3 re-locked on tile-trained checkpoints.**
-      All 3 bridges retrained with `--tile-choices 1,3,6`; oracle re-swept val+test
-      (`outputs/oracle_{val,test}_tiled/`, `scripts/analyze_A9_tiled.py`). Result:
-      no change — same collapse/flatness pattern, same policy-converges-to-fixed
-      conclusion, numbers within noise of the original sweep. Confound closed.
-      Known limitation (stated in §5.3): train-split oracle labels used to fit the
-      policy are still from the original (non-tiled) sweep — biases against, not
-      for, a learned policy beating fixed.
-- [ ] **PIVOT (co-author, 2026-09-03): efficiency is now the primary story.**
-      Routing/oracle result (§5.2–5.4) demoted to a supporting ablation ("1 tile is
-      not a compromise"), P(r|Q) reasoning-type demoted to a small ablation.
-      Content is now fully locked (incl. C3) — still needs the section reorder +
-      reframing pass toward efficiency-primary.
-- [ ] §5.6: swap in multi-seed numbers + CI once C2 lands; re-run align-feat/logit
+- [ ] §5.6: seed 42 LoRA re-verify, qformer-LoRA generalization check, corpus
+      CIDEr-D rescore (co-author)
+- [ ] §5.5: multi-seed numbers + CI once available; re-run align-feat/logit
       on full val (both were cut short) if a reviewer needs it
 - [ ] human validation of 300–500 answers (2 raters, Cohen's κ) — §5.1/§6
+- [ ] flag to co-author: §6.1/§6.3 in `06-discussion.md` still reference the
+      pre-reorder §5 numbering/framing (old "reasoning-type supervision"
+      research question, §5.5 = compute-efficiency) — needs a matching pass
+      now that §5 is reordered and §5.6/§5.7 (LoRA, summary) exist

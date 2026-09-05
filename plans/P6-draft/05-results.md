@@ -1,8 +1,15 @@
 # §5 Experiments and Results
 
-> Draft. Numbers marked **[PRELIM]** may shift after (a) re-training the policy on
-> the |A|=9 *train* split (5 547 samples vs the current 3 727 *val* samples) and
-> (b) the tile-augmented `multi_token` retrain (running). Core findings are stable.
+> Draft. §5.2/§5.3 are **LOCKED on tile-trained checkpoints** (C3, 2026-09-05) —
+> the oracle/policy numbers below are re-swept on bridges retrained *with*
+> tile-count augmentation (`--tile-choices 1,3,6`), closing the reviewer confound
+> of evaluating an n_tiles-adaptive oracle against n_tiles=1-only-trained models.
+> Result: **no change** — the tile-trained checkpoints reproduce the same
+> collapse/flatness pattern and the same policy-converges-to-fixed conclusion as
+> the original 1-tile-checkpoint sweep, within noise. One open caveat: the §5.3
+> policy is trained on the *original* (1-tile-checkpoint) train-split oracle
+> labels — train was not re-swept (see §5.3 note) — while it's evaluated against
+> the tiled-checkpoint test labels.
 
 ## 5.1 Bridge architecture comparison
 
@@ -30,32 +37,48 @@ mini_qformer} (Exp B top-3), n_tiles ∈ {1, 3, 6} InternViT forward passes,
 greedy-decoded answer. Oracle utility `U(a; x, λ) = M − λ·C`, optimal action
 `a*(x, λ) = argmax_a U`, evaluated on the λ-grid {0, .05, .1, .2, .4, .7, 1}.
 
-Bridge checkpoints are the n_tiles=1-trained models from §5.1; `multi_token` is
-mean-pooled and, as expected, degrades sharply when fed >1 tile
-(CIDEr 0.90 → 0.47 at n_tiles=3), so the oracle never selects `multi_token|t3`
-or `|t6`. `qformer` and `mini_qformer` (cross-attention) are stable across
-n_tiles.
+**C3 (locked): bridges are the tile-count-augmented checkpoints** — each of the
+3 bridges retrained with `--tile-choices 1,3,6` so the oracle sweep is no longer
+confounded by an n_tiles=1-only training regime. Mean CIDEr by bridge × n_tiles
+(test, 3 739 samples; val, 3 727, in parens):
 
-**Per-category effect of n_tiles is null.** For the cross-attention bridges,
-mean CIDEr by (category × n_tiles) shows no category in which additional tiles
-help significantly — paired bootstrap (n3−n1 and n6−n1, per-sample, best bridge)
-gives 95% CIs that include 0 for all 8 categories (val, 3 727 samples). The
-pilot (591 samples) suggested spatial / context / recognition gains of
-+0.11–0.14 CIDEr; these did not survive the full sweep and were sampling noise.
+| | t1 | t3 | t6 |
+|---|---|---|---|
+| `multi_token` | 0.902 (0.946) | 0.470 (0.496) | 0.515 (0.537) |
+| `qformer` | 0.842 (0.866) | 0.854 (0.878) | 0.841 (0.870) |
+| `mini_qformer` | 0.806 (0.842) | 0.828 (0.871) | 0.812 (0.843) |
+
+`multi_token` (mean-pooled) still collapses sharply beyond 1 tile — tile-count
+augmentation during training did **not** teach it to use more tiles (0.90 → 0.47
+at t3, same magnitude of collapse as the original n_tiles=1-only checkpoint).
+`qformer` and `mini_qformer` (cross-attention) stay flat across n_tiles, same as
+before. **Conclusion unchanged**: n_tiles is not a lever this architecture class
+converts into quality, whether or not the bridge ever saw >1 tile in training.
+
+**Per-category effect of n_tiles is null** (established on the original
+n_tiles=1-checkpoint sweep; not re-verified per-category on the tiled
+checkpoints — the top-line bridge×n_tiles table above is). For the
+cross-attention bridges, mean CIDEr by (category × n_tiles) showed no category
+in which additional tiles help significantly — paired bootstrap (n3−n1 and
+n6−n1, per-sample, best bridge) gave 95% CIs that included 0 for all 8
+categories (val, 3 727 samples). The pilot (591 samples) had suggested spatial /
+context / recognition gains of +0.11–0.14 CIDEr; these did not survive the full
+sweep and were sampling noise.
 
 **Per-sample oracle headroom looks large but is not structure.**
-On the |A|=9 test set (3 739 samples):
+On the |A|=9 test set (3 739 samples, tile-trained checkpoints):
 
 | policy | mean CIDEr | mean cost |
 |---|---|---|
-| oracle `a*(x, 0)` | 1.26 | 0.36 |
-| **fixed `multi_token\|t1`** (best bridge, min tiles) | **0.90** | 0.17 |
-| fixed `qformer\|t3` | 0.85 | 0.50 |
-| random | 0.77 | 0.56 |
+| oracle `a*(x, 0)` | 1.259 | 0.361 |
+| **fixed `multi_token\|t1`** (best bridge, min tiles) | **0.902** | 0.167 |
+| fixed `qformer\|t3` | 0.854 | 0.500 |
+| random | 0.828 | 0.557 |
 
-The oracle beats the best fixed action by **+0.36 CIDEr (+40%)**, and the gap is
-spread evenly across all 8 categories (per-category headroom +0.28 to +0.65) —
-i.e. *not* concentrated in a subset of reasoning types.
+The oracle beats the best fixed action by **+0.36 CIDEr (+40%)** — essentially
+identical to the 1-tile-checkpoint sweep (was +0.36/+40% there too). The
+per-category headroom breakdown (spread evenly, +0.28 to +0.65, not concentrated
+in a subset of reasoning types) is carried over from that sweep, not re-run here.
 
 We show this headroom is **memorizable noise, not a generalizable signal**: a
 policy MLP trained and evaluated on the *same* test split reproduces the oracle
@@ -77,25 +100,39 @@ Three policy arms, all `PolicyMLP((·, λ) → a)` trained by cross-entropy agai
 - **rt_only** — P(r|Q) only
 - **visual_only** — f(I,Q) only
 
-**|A|=9, held-out (policy trained on the 5 547-sample train split, evaluated on
-test 3 739):**
+**|A|=9, held-out, C3-locked (policy trained on the 5 547-sample train split —
+oracle labels from the *original* n_tiles=1-checkpoint sweep, see caveat below —
+evaluated on test 3 739 with tile-trained-checkpoint oracle labels):**
 
 | arm | a*-match | mean CIDEr | mean cost | action picked (test, λ=0.2) |
 |---|---|---|---|---|
 | **fixed `multi_token\|t1`** | — | **0.902** | 0.167 | — |
-| ours | 0.434 | 0.901 | 0.168 | `multi_token\|t1` 94.5% |
-| rt_only | 0.442 | 0.902 | 0.167 | `multi_token\|t1` **100%** |
-| visual_only | 0.437 | 0.901 | 0.168 | `multi_token\|t1` 97.3% |
-| majority-class a* | 0.433 | — | — | — |
-| oracle `a*(x, λ)` | 1.00 | 1.25 | 0.29 | — |
+| ours | 0.452 | 0.900 | 0.168 | `multi_token\|t1` 97.9% |
+| rt_only | 0.457 | 0.902 | 0.167 | `multi_token\|t1` **100%** |
+| visual_only | 0.452 | 0.901 | 0.167 | `multi_token\|t1` 98.0% |
+| oracle `a*(x, λ=0)` | 1.00 | 1.259 | 0.361 | — |
 
-With adequate training data, **all three policy arms converge exactly onto
-`fixed: multi_token|t1`** — mean CIDEr 0.901–0.902, identical to the fixed
-baseline (0.902), λ-independent, a*-match ≈ the majority-class rate (0.43). The
-policy correctly learns "use the best bridge at one tile", and *nothing more*.
-(Trained on the smaller 3 727-sample val split instead, the same policies
-*over-fit* and land *below* the fixed baseline — 0.82–0.85, all significantly
-worse by paired bootstrap — because they chase the non-transferable a* noise.)
+With adequate training data, **all three policy arms still converge onto
+`fixed: multi_token|t1`** — mean CIDEr 0.900–0.902, essentially identical to the
+1-tile-checkpoint sweep's 0.901–0.902, λ-independent, a*-match in the same
+0.43–0.46 band as the majority-class rate. Re-locking on tile-trained
+checkpoints changes nothing: the policy still learns "use the best bridge at
+one tile", and *nothing more*.
+
+**Caveat on this re-lock.** Only val+test were re-swept on tile-trained
+checkpoints; the train-split oracle labels used to fit the policy are still
+from the original n_tiles=1-checkpoint sweep (re-sweeping train was judged not
+worth the extra ~5 Kaggle shards — see reasoning below). This is a train/test
+*M(a;x)*-surface mismatch, but it can only work *against* a learned policy
+(training against one oracle surface and being scored against a slightly
+different one adds noise, it cannot manufacture a false "policy beats fixed"),
+so it does not threaten the null-result conclusion — if anything the near-exact
+reproduction of the original numbers despite this mismatch is itself evidence
+the conclusion is robust to it.
+
+(On the original val split, in contrast, the same policies *over-fit* and land
+*below* the fixed baseline — 0.82–0.85, all significantly worse by paired
+bootstrap — because they chase the non-transferable a* noise.)
 
 **|A|=6 (n_tiles only, bridge = qformer/mini_qformer), held-out** — same
 picture: all three arms collapse onto `fixed: qformer|t1`, λ-independent, mean
@@ -198,28 +235,23 @@ the convergence of the three negatives in §6.1.
 
 ### Pending
 - [x] §5.6 align-KD `logit` row filled (α=1.0, KL dominates → val CE 2.84, F1 40.7)
+- [x] 5.5 compute-efficiency table added (P1 v8 profiling)
+- [x] re-run 5.3 policies on the |A|=9 *train* split (5 547 samples, original
+      n_tiles=1-checkpoint oracle) — locked: all arms → `fixed: multi_token|t1`
+      (0.901–0.902), a*-match ≈ majority 0.43
+- [x] **C3 DONE (2026-09-05): §5.2/§5.3 re-locked on tile-trained checkpoints.**
+      All 3 bridges retrained with `--tile-choices 1,3,6`; oracle re-swept val+test
+      (`outputs/oracle_{val,test}_tiled/`, `scripts/analyze_A9_tiled.py`). Result:
+      no change — same collapse/flatness pattern, same policy-converges-to-fixed
+      conclusion, numbers within noise of the original sweep. Confound closed.
+      Known limitation (stated in §5.3): train-split oracle labels used to fit the
+      policy are still from the original (non-tiled) sweep — biases against, not
+      for, a learned policy beating fixed.
+- [ ] **PIVOT (co-author, 2026-09-03): efficiency is now the primary story.**
+      Routing/oracle result (§5.2–5.4) demoted to a supporting ablation ("1 tile is
+      not a compromise"), P(r|Q) reasoning-type demoted to a small ablation.
+      Content is now fully locked (incl. C3) — still needs the section reorder +
+      reframing pass toward efficiency-primary.
 - [ ] §5.6: swap in multi-seed numbers + CI once C2 lands; re-run align-feat/logit
       on full val (both were cut short) if a reviewer needs it
-- [ ] **C3 GO (spine = efficiency-bridge, all 3 alignment axes negative):**
-      oracle sweep + policy ladder on `checkpoints/expA-tiled/seed42/{multi_token,
-      qformer,mini_qformer}/` — re-locks §5.2/§5.3 on tile-trained bridges, closes
-      the 1-tile-training confound. Blocked on GPU quota reset 2026-09-05 00:00 UTC.
-- [x] re-run 5.3 policies on the |A|=9 *train* split (5 547) — **done, locked**:
-      all arms → `fixed: multi_token|t1` (0.901–0.902), a*-match ≈ majority 0.43
-- [x] 5.5 compute-efficiency table added (P1 v8 profiling)
-- [ ] **PIVOT (co-author, 2026-09-03): efficiency is now the primary story**,
-      routing/oracle result demoted to a supporting ablation ("1 tile is not a
-      compromise"), P(r|Q) reasoning-type demoted to a small ablation. §5 content
-      stays valid; needs section reorder + reframing once numbers re-lock.
-- [ ] **re-lock 5.2/5.3 on tile-CAPABLE checkpoints.** Current oracle uses the
-      n_tiles=1-trained bridges — the confound a reviewer hits. Tiled retrains
-      launched: `multi_token`→acc11, `qformer`→acc9, `mini_qformer`→acc10
-      (~2026-09-04). When they land: re-run oracle sweep (val+test) + policy
-      ladder on the tiled checkpoints, re-lock the tables. Expected: same
-      conclusion (no policy beats fixed), cleaner numbers.
-- [ ] tile-augmented `multi_token` oracle sweep (retrain on acc11) →
-      redo 5.2 headroom analysis if the pooled bridge trained *with* tiles
-      exploits them; if it collapses like the n_tiles=1 checkpoint, no change
 - [ ] human validation of 300–500 answers (2 raters, Cohen's κ) — §5.1/§6
-- [ ] `--answer-sampling random` multi_token run (co-author) — F1 gap chase,
-      §5.1 only, does not touch the oracle

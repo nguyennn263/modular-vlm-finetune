@@ -337,7 +337,8 @@ def _collect(job: str, j: dict) -> None:
         ok = (cdir / "last_model.pt").exists() or (cdir / "best_model.pt").exists()
 
     elif job.startswith("oracle:"):
-        t = ROOT / "outputs" / f"oracle_{j['split']}"; t.mkdir(parents=True, exist_ok=True)
+        tagpart = f"_{j['tag']}" if j.get("tag") else ""
+        t = ROOT / "outputs" / f"oracle_{j['split']}{tagpart}"; t.mkdir(parents=True, exist_ok=True)
         for p in dst.rglob("table.shard*.parquet"):
             (t / p.name).write_bytes(p.read_bytes()); ok = True
 

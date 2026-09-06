@@ -1,9 +1,5 @@
 # Báo cáo tiến độ nghiên cứu — Paper 3
 
-*Cập nhật ngày 06/09/2026.*
-*Tài liệu chi tiết (đầy đủ 7 bảng và 2 hình, kèm phụ lục theo từng seed):*
-*`plans/paper-blueprint.md`.*
-
 ---
 
 ## 1. Câu hỏi nghiên cứu

@@ -86,18 +86,20 @@ Mọi cải thiện plain→LoRA significant (P(Δ>0) = 1.000).
 
 ---
 
-## Bảng 2 — So 5 bridge (RQ1–2) + LoRA (RQ6), seed 42
+## Bảng 2 — So 5 bridge (RQ1–2) + LoRA (RQ6)
 
 | Bridge | Param | % | F1 plain | F1 +LoRA | ΔF1 | CIDEr plain | CIDEr +LoRA | val CE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| Residual (1 tok) | 4.86M | 0.52 | 36.45 | **52.66** | **+16.2** | 66.07 | **103.26** | 2.35 |
-| Tile-Attention (8 tok) | 4.14M | 0.44 | 46.69 | *(TIER-1)* | — | 87.46 | *(TIER-1)* | 1.62 |
+| Residual (1 tok) | 4.86M | 0.52 | 36.45 | **52.64**‡ | **+16.2** | 66.07 | **104.05**‡ | 2.35 |
+| Tile-Attention (8 tok) | 4.14M | 0.44 | 46.69 | 52.99 | **+6.3** | 87.46 | 105.04 | 1.62 |
 | Multi-Token (8 tok pooled) | 7.35M | 0.78 | 49.82† | 53.17† | **+3.4** | 96.98† | 105.59† | 1.49 |
-| Light Q-Former (8 query) | 27.6M | 2.87 | 46.63 | **53.39** | **+6.8** | 88.10 | **106.65** | 1.59 |
-| Full Q-Former (16 query) | 69.4M | 6.91 | 47.66 | **53.21**‡ | **+5.4** | 90.82 | **105.70**‡ | 1.57 |
+| Light Q-Former (8 query) | 27.6M | 2.87 | 46.63 | **53.21**‡ | **+6.6** | 88.10 | **106.24**‡ | 1.59 |
+| Full Q-Former (16 query) | 69.4M | 6.91 | 47.66 | **53.21**‡ | **+5.6** | 90.82 | **105.70**‡ | 1.57 |
 
-<small>† Multi-Token: mean 4-seed (plain) / mean 3-seed (LoRA). ‡ Full Q-Former LoRA: mean 3-seed.
-Các dòng khác: seed 42; TIER-1 đang thêm seed 123/3407.</small>
+<small>Cột F1/CIDEr plain + val CE: seed 42 (Multi-Token plain = mean 4-seed; TIER-1
+đang thêm seed 123/3407 cho 4 bridge phụ). † Multi-Token LoRA: mean 3-seed.
+‡ residual / Light Q-Former / Full Q-Former LoRA: mean 3-seed. Tile-Attention LoRA:
+seed 42. CIDEr ở đây là in-house ×100.</small>
 
 **RQ1** — chỉ train bridge, đóng băng hết: Multi-Token (0.78% param) tốt nhất, vượt
 Vintern-FT trên generation. Nhưng thua F1.

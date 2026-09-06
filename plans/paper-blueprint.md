@@ -95,18 +95,19 @@ mẫu nên chỉ bootstrap được phía chúng tôi.
 **Đọc:** Khoảng CIDEr-D của bridge thường [91.30, 97.10] nằm hoàn toàn trên mức
 88.67 của ViMoE — thắng về chất lượng sinh không phải nhờ may.
 
-### Bảng 3 — So sánh kiến trúc bridge (RQ1–2, RQ6) — seed 42, +2 seed đang chạy
+### Bảng 3 — So sánh kiến trúc bridge (RQ1–2, RQ6) — cấu hình gốc: seed 42, +2 seed đang chạy
 
-**Bảng 3.** Năm bridge trên backbone frozen (tập val, seed 42; Multi-Token
-thường = trung bình 4 seed; Multi-Token & Full Q-Former + LoRA = trung bình 3
-seed). In đậm = bridge đề xuất. ᵃ job đang chạy, chưa có số.
+**Bảng 3.** Năm bridge trên backbone frozen (tập val; cột "F1"/"CIDEr"/"val CE"
+là cấu hình gốc, seed 42; Multi-Token gốc = trung bình 4 seed). Cột "+ LoRA":
+multi_token / qformer / mini_qformer / residual = trung bình 3 seed. In đậm =
+bridge đề xuất. ᵃ tile_attention + LoRA hiện chỉ có seed 42.
 
 | Bridge | Tham số | % | F1 | CIDEr | val CE | F1 +LoRA | ΔF1 | CIDEr +LoRA |
 |---|--:|--:|--:|--:|--:|--:|--:|--:|
-| Residual (1 tok) | 4.86M | 0.52 | 36.45 | 66.07 | 2.35 | 52.66 | +16.21 | 103.26 |
-| Tile-Attention (8 tok) | 4.14M | 0.44 | 46.69 | 87.46 | 1.62 | — ᵃ | — | — ᵃ |
+| Residual (1 tok) | 4.86M | 0.52 | 36.45 | 66.07 | 2.35 | 52.64 | +16.19 | 104.05 |
+| Tile-Attention (8 tok) | 4.14M | 0.44 | 46.69 | 87.46 | 1.62 | 52.99 ᵃ | +6.30 | 105.04 ᵃ |
 | **Multi-Token (8 tok pooled)** | **7.35M** | **0.78** | **49.82** | **96.98** | **1.49** | **53.17** | **+3.35** | **105.59** |
-| Light Q-Former (8 query) | 27.6M | 2.87 | 46.63 | 88.10 | 1.59 | 53.39 | +6.76 | 106.65 |
+| Light Q-Former (8 query) | 27.6M | 2.87 | 46.63 | 88.10 | 1.59 | 53.21 | +6.58 | 106.24 |
 | Full Q-Former (16 query) | 69.4M | 6.91 | 47.66 | 90.82 | 1.57 | 53.21 | +5.55 | 105.70 |
 
 **Đọc:** RQ1: Multi-Token (0.78%) là bridge tốt nhất và đã vượt Vintern
@@ -121,15 +122,18 @@ LoRA nâng F1 ở mọi bridge và triệt tiêu khoảng chênh CIDEr (Hình 1)
 
 | Bridge | thường | + LoRA r=16 |
 |---|--:|--:|
-| Residual | 56.30 | 100.00 |
-| Tile-Attention | 87.50 | *(đang chạy)* |
-| Multi-Token | 96.98 | 105.59 |
-| Light Q-Former | 88.10 | 106.65 |
-| Full Q-Former | 90.82 | 105.70 |
+| Residual | 56.30 | 100.80 |
+| Tile-Attention | 87.46 | 102.00 |
+| Multi-Token | 94.40 | 101.70 |
+| Light Q-Former | 83.80 | 103.00 |
+| Full Q-Former | 86.70 | 102.43 |
 
-**Hình 1.** Bridge thường trải CIDEr-D 56–97 (chênh lệch chất lượng lớn, do thiết
-kế bridge). Sau khi thêm LoRA decoder 0.23%, cả bốn bridge đo được đều hội tụ về
-100–107 — **chọn bridge nào gần như không còn quan trọng một khi decoder đủ
+*(CIDEr-D corpus. "thường" = seed 42; "+ LoRA" = trung bình 3 seed, trừ
+Tile-Attention chỉ seed 42.)*
+
+**Hình 1.** Bridge thường trải CIDEr-D 56–94 (chênh lệch chất lượng lớn, do thiết
+kế bridge). Sau khi thêm LoRA decoder 0.23%, cả năm bridge đều hội tụ về
+100–103 — **chọn bridge nào gần như không còn quan trọng một khi decoder đủ
 capacity**.
 
 ### Bảng 4 — Tổng hợp ablation: sáu trục, một trục dương (RQ1–6) — seed 42, dòng âm +2 seed
@@ -154,20 +158,21 @@ corpus. ᵃ align-logit ở α=1.0 bị sai trọng số (KL lấn át CE, val C
 decoder rõ ràng dương. Chính *mẫu hình* này — không phải riêng một ablation nào —
 khoanh nút thắt về frozen decoder.
 
-### Bảng 5 — Decoder-LoRA theo từng bridge (RQ6) — multi_token + qformer đã khoá 3 seed
+### Bảng 5 — Decoder-LoRA theo từng bridge (RQ6) — 4/5 bridge đã 3 seed
 
-**Bảng 5.** thường → + LoRA r=16 theo từng bridge (tập val, đủ 5 463 mẫu). F1 =
-đo nội bộ; CIDEr-D = corpus. multi_token & qformer: trung bình 3 seed.
-mini_qformer & residual: seed 42. tile_attention: job đang chạy. ᵃ khoảng tin cậy
-95% bằng bootstrap ghép cặp. P(Δ>0) = 1.000 ở mọi dòng.
+**Bảng 5.** thường → + LoRA r=16 (1 epoch) theo từng bridge (tập val, đủ 5 463
+mẫu). F1 = đo nội bộ; CIDEr-D = corpus. Cột "+ LoRA": multi_token / qformer /
+mini_qformer / residual = trung bình 3 seed; tile_attention = seed 42. Cột
+"thường" = seed 42. ᵃ khoảng tin cậy 95% bằng bootstrap ghép cặp. P(Δ>0) =
+1.000 ở mọi dòng.
 
 | Bridge | F1 thường | F1 +LoRA | ΔF1 [KTC 95%] ᵃ | CIDEr-D thường | CIDEr-D +LoRA | ΔCIDEr-D |
 |---|--:|--:|--:|--:|--:|--:|
 | multi_token | 50.66 | 53.17 | +2.51 [1.9, 3.1] | 94.40 | 101.70 | +7.30 |
-| qformer | 47.66 | 53.10 | +5.44 | 86.70 | 101.90 | +15.20 |
-| mini_qformer | 46.63 | 53.39 | +6.76 | 83.80 | 103.30 | +19.50 |
-| residual | 36.45 | 52.66 | +16.21 [15.4, 17.0] | 56.30 | 100.00 | +43.70 |
-| tile_attention | 46.69 | *đang chạy* | — | 87.50 | *đang chạy* | — |
+| qformer | 47.66 | 53.21 | +5.55 | 86.70 | 102.43 | +15.73 |
+| mini_qformer | 46.63 | 53.21 | +6.58 | 83.80 | 103.00 | +19.20 |
+| residual | 36.45 | 52.64 | +16.19 [15.4, 17.0] | 56.30 | 100.80 | +44.50 |
+| tile_attention | 46.69 | 52.99 | +6.30 | 87.46 | 102.00 | +14.54 |
 
 **Đọc:** Mức nâng càng lớn khi bridge thường càng yếu: +2.5 F1 ở bridge tốt
 nhất, +16.2 ở bridge tệ nhất — và cả hai đều về ≈53 F1 / ≈101 CIDEr-D. Đây chính
@@ -248,14 +253,23 @@ ViMoE-VQA nói thẳng là để lại sau.
 | 3 ep · s123 | 11.92 | 55.45 | 56.31 | 54.67 | 21.30 | 52.91 | 45.34 | 110.63 |
 | 3 ep · s3407 | 11.68 | 55.71 | 56.36 | 54.81 | 21.06 | 53.04 | 45.31 | 109.69 |
 
-### A3. Q-Former + LoRA r=16, theo từng seed
+### A3. LoRA r=16 (1 epoch) theo từng seed — bridge phụ
 
-| Seed | F1 | CIDEr | CIDEr-D |
-|--:|--:|--:|--:|
-| 42 | 53.10 | 105.15 | 101.90 |
-| 123 | 53.32 | 105.75 | 102.60 |
-| 3407 | 53.22 | 106.19 | 102.80 |
-| trung bình | 53.21 | 105.70 | 102.43 |
+| Bridge · seed | F1 | CIDEr (nội bộ) | CIDEr-D (corpus) |
+|---|--:|--:|--:|
+| qformer · 42 | 53.10 | 105.15 | 101.90 |
+| qformer · 123 | 53.32 | 105.75 | 102.60 |
+| qformer · 3407 | 53.22 | 106.19 | 102.80 |
+| **qformer · trung bình** | **53.21** | **105.70** | **102.43** |
+| mini_qformer · 42 | 53.39 | 106.65 | 103.30 |
+| mini_qformer · 123 | 53.16 | 105.58 | 102.60 |
+| mini_qformer · 3407 | 53.07 | 106.48 | 103.20 |
+| **mini_qformer · trung bình** | **53.21** | **106.24** | **103.03** |
+| residual · 42 | 52.66 | 103.26 | 100.00 |
+| residual · 123 | 52.60 | 104.20 | 100.90 |
+| residual · 3407 | 52.64 | 104.69 | 101.40 |
+| **residual · trung bình** | **52.63** | **104.05** | **100.77** |
+| tile_attention · 42 | 52.99 | 105.04 | 102.00 |
 
 ### A4. Đường cong rank LoRA (tập con 600 mẫu)
 
@@ -286,16 +300,15 @@ trong khoảng nhiễu); seed 42 là seed thấp bất thường. **Khuyến ngh
 
 ---
 
-## PHẦN C — Đang chạy: TIER-1 (19 job)
+## PHẦN C — Đang chạy: TIER-1 (19 job) — cập nhật 11:10 UTC 06/09
 
-Hầu hết đã có seed 42; TIER-1 nâng lên trung bình 3 seed ± độ lệch chuẩn. Ô
-"đang chạy" duy nhất chưa có số nào: **tile_attention + LoRA**.
+Hầu hết đã có seed 42; TIER-1 nâng lên trung bình 3 seed ± độ lệch chuẩn.
 
 | Nhóm | Job | Bảng | Trạng thái |
 |---|---|---|---|
 | 1a · bridge nhiều seed | residual / mini_qformer / tile_attention × s123, s3407 + qformer s3407 | Bảng 3: seed 42 → 3 seed | 7 đang chạy |
 | 1b · dòng âm nhiều seed | align-feat / answer-random × s123, s3407 + align-logit × 3 seed | Bảng 4: seed 42 → 3 seed | 7 đang chạy |
-| 1c · phủ LoRA | mini_qformer / residual + LoRA × s123, s3407 + **tile_attention + LoRA s42** | Bảng 5: → 3 seed + đủ 5/5 bridge | 5 đang chạy |
+| 1c · phủ LoRA | mini_qformer / residual + LoRA × s123, s3407 + tile_attention + LoRA s42 | Bảng 5: → 3 seed + đủ 5/5 bridge | ✅ **5/5 xong, đã ghép vào Bảng 3 / 5 / A3** |
 
 Sau TIER-1: TIER-2 (vị trí LoRA trong decoder: attn / MLP / cả hai — làm sâu
 RQ6) · eval trên tập test · [camera-ready] human validation thật · [stretch]

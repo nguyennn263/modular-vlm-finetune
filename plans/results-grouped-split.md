@@ -168,6 +168,29 @@ sampling, align-KD, decoder-LoRA) thực sự cải thiện F1 — và nó là c
 **phần bổ sung/reference point**, không phải spine chính (spine chính vẫn là bridge
 0.78% param hoàn toàn đóng băng).
 
+### Train thêm epoch có giúp không? — ĐÃ XONG 3/3 seed, CÓ giúp nhẹ
+
+Tất cả LoRA runs trước chỉ 1 epoch (cố tình test nhanh). Chạy lại LoRA r=16 multi_token
+**3 epoch × 3 seed** (42/123/3407), full-val n=5463:
+
+| | LoRA r=16 · 1 epoch (mean 3 seed) | **LoRA r=16 · 3 epoch (mean 3 seed)** | Δ | ViMoE |
+|---|---:|---:|---:|---:|
+| F1 (in-house) | 53.17 ± 0.03 | **54.67 ± 0.15** | **+1.5** | 60.7 |
+| CIDEr-D (corpus) | 101.7 (seed42) | **106.8 ± 1.1** | **+5.1** | 88.7 |
+| BLEU-4 (corpus) | 23.2 (seed42) | **25.0 ± 0.4** | **+1.8** | 12.5 |
+| ROUGE-L (corpus) | 52.7 (seed42) | **54.2 ± 0.2** | **+1.5** | 47.1 |
+| Acc (in-house) | 10.42 | **11.78** | **+1.4** | 9.7 |
+| val loss | ~1.37 | **~1.32** | −0.05 | — |
+
+Per-epoch (600-mẫu subset lúc train): F1 gần như bão hoà từ epoch 2 → 3 (VD seed123:
+54.71 → 54.81; seed3407: 56.64 → 56.56) — **phần lớn lợi ích của 3 epoch đã đạt ở epoch 2**.
+
+**Kết luận:** train thêm epoch giúp **thật nhưng nhẹ** (+1.5 F1), khép thêm khoảng cách
+tới ViMoE (gap 7.5 → **6.0**). Mỗi job 3-epoch mất ~7.8h Kaggle (so với ~2.5h cho 1
+epoch). Khuyến nghị paper: nếu cần con số mạnh nhất cho reference-point thì dùng 3 epoch
+(F1 54.7 / CIDEr-D 106.8), nhưng ghi rõ 1 epoch đã bắt ~80% lợi ích — decoder-LoRA không
+cần train lâu để thấy hiệu ứng.
+
 ### Generalization check: LoRA trên qformer — 2/3 SEED (42, 3407), seed123 đang chạy
 
 LoRA r=16 áp lên bridge **khác** (Full Q-Former, 69.4M param) để xem hiệu ứng có phải

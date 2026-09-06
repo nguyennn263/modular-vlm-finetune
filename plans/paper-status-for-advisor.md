@@ -135,3 +135,29 @@ Bài báo có hai hình:
    split chống rò rỉ dữ liệu, đánh giá trên nhiều seed, khoảng tin cậy bootstrap,
    đánh giá thủ công kèm phân tích lỗi; đồng thời phân tích hiệu quả tính toán
    của tham số số tile.
+
+---
+
+## 7. Kết luận sơ bộ
+
+Trả lời trực tiếp cho hai câu hỏi ở Mục 1:
+
+**(a) Có thể thích nghi Vintern-1B với khoảng 1% tham số hay không?** Có, ở mức
+một phần. Với backbone đóng băng hoàn toàn, một bridge pooling nhẹ kết hợp LoRA
+cho decoder đã đạt hoặc vượt Vintern-1B fine-tuned trên toàn bộ các chỉ số sinh
+văn bản (BLEU, ROUGE, METEOR, CIDEr). Tuy nhiên, phương pháp vẫn thấp hơn ViMoE-VQA
+ở token-F1 (−6.0) và thấp hơn ở Acc; do đó chưa thể nói là tương đương hoàn toàn
+với các phương pháp huấn luyện đầy đủ.
+
+**(b) Điểm nghẽn nằm ở đâu?** Trong không gian can thiệp đã khảo sát, phía thị
+giác không còn dư địa cải thiện: tăng dung lượng bridge, tăng số tile, hay định
+tuyến thích ứng đều không có tác dụng. Chỉ có việc thêm dung lượng cho decoder
+(LoRA) mới cải thiện token-F1 một cách nhất quán, và hiệu ứng này lặp lại trên mọi
+loại bridge. Kết quả hiện tại chỉ ra frozen decoder là điểm nghẽn đáng kể đối với
+lớp mô hình này (ViT đóng băng, decoder nhỏ 0.5B đóng băng, ít token thị giác).
+
+**Hàm ý:** để thu hẹp nốt khoảng cách token-F1, hướng đi hợp lý là mở thêm dung
+lượng ở phía decoder (LoRA sâu hơn, hoặc decoder đóng băng lớn hơn), chứ không
+phải tiếp tục đầu tư vào phía thị giác. Đây cũng là điểm phản biện với nhận định
+"reasoning-aware routing" của ViMoE-VQA: trên cùng benchmark, loại câu hỏi không
+mang tín hiệu hữu ích cho việc phân bổ tài nguyên thị giác.

@@ -729,7 +729,7 @@
       "answer_sampling": null,
       "align": null,
       "lora": "16",
-      "result": "pulled+evaluated+rescored 2026-09-06, merged into B\u1ea3ng 3/5/A3"
+      "result": "pulled+evaluated+rescored 2026-09-06, merged into Bảng 3/5/A3"
     },
     "expa-lora16:residual:s123": {
       "account": "acc14",
@@ -743,7 +743,7 @@
       "answer_sampling": null,
       "align": null,
       "lora": "16",
-      "result": "pulled+evaluated+rescored 2026-09-06, merged into B\u1ea3ng 3/5/A3"
+      "result": "pulled+evaluated+rescored 2026-09-06, merged into Bảng 3/5/A3"
     },
     "expa-lora16:mini_qformer:s3407": {
       "account": "acc16",
@@ -757,7 +757,7 @@
       "answer_sampling": null,
       "align": null,
       "lora": "16",
-      "result": "pulled+evaluated+rescored 2026-09-06, merged into B\u1ea3ng 3/5/A3"
+      "result": "pulled+evaluated+rescored 2026-09-06, merged into Bảng 3/5/A3"
     },
     "expa-lora16:residual:s3407": {
       "account": "acc8",
@@ -771,7 +771,7 @@
       "answer_sampling": null,
       "align": null,
       "lora": "16",
-      "result": "pulled+evaluated+rescored 2026-09-06, merged into B\u1ea3ng 3/5/A3"
+      "result": "pulled+evaluated+rescored 2026-09-06, merged into Bảng 3/5/A3"
     },
     "expa-lora16:tile_attention:s42": {
       "account": "acc1",
@@ -785,12 +785,12 @@
       "answer_sampling": null,
       "align": null,
       "lora": "16",
-      "result": "pulled+evaluated+rescored 2026-09-06, merged into B\u1ea3ng 3/5/A3"
+      "result": "pulled+evaluated+rescored 2026-09-06, merged into Bảng 3/5/A3"
     },
     "expa-align-feat:multi_token:s123": {
       "account": "acc2",
       "kernel": "nguyennn2501/mvlm-expa-align-feat-multi-token-s123",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-06T13:27:43",
       "collected": false,
       "bridge": "multi_token",
@@ -798,12 +798,13 @@
       "tiles": null,
       "answer_sampling": null,
       "align": "feat",
-      "lora": null
+      "lora": null,
+      "result": "2ep, F1~49.4, pulled+rescored 2026-09-06"
     },
     "expa-align-feat:multi_token:s3407": {
       "account": "acc3",
       "kernel": "nguyennn2603/mvlm-expa-align-feat-multi-token-s3407",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-06T13:27:46",
       "collected": false,
       "bridge": "multi_token",
@@ -811,7 +812,8 @@
       "tiles": null,
       "answer_sampling": null,
       "align": "feat",
-      "lora": null
+      "lora": null,
+      "result": "2ep, F1~49.4, pulled+rescored 2026-09-06"
     },
     "expa-random:multi_token:s123": {
       "account": "acc4",

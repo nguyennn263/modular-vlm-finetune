@@ -1002,14 +1002,15 @@
     "expa:tile_attention:s42": {
       "account": "acc10",
       "kernel": "giapht/mvlm-expa-tile-attention-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-06T20:12:38",
       "collected": false,
       "bridge": "tile_attention",
       "seed": 42,
       "tiles": null,
       "answer_sampling": null,
-      "align": null
+      "align": null,
+      "result": "2ep re-run F1 44.5"
     },
     "expa-align-feat:multi_token:s42": {
       "account": "acc13",
@@ -1144,7 +1145,7 @@
     "expa-lora16-mlp:multi_token:s42": {
       "account": "acc4",
       "kernel": "nguyennn251/mvlm-expa-lora16-mlp-multi-token-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-06T20:59:58",
       "collected": false,
       "bridge": "multi_token",
@@ -1153,12 +1154,13 @@
       "answer_sampling": null,
       "align": null,
       "lora": "16",
-      "lora_targets": "gate_proj,up_proj,down_proj"
+      "lora_targets": "gate_proj,up_proj,down_proj",
+      "result": "MLP-only LoRA r16 1ep -> F1 ~20, val loss ~3.7: DIVERGES. attn-only is the only stable+useful target."
     },
     "expa-lora16-mlp:multi_token:s123": {
       "account": "acc5",
       "kernel": "nguyennguyen263/mvlm-expa-lora16-mlp-multi-token-s123",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-06T21:00:00",
       "collected": false,
       "bridge": "multi_token",
@@ -1167,12 +1169,13 @@
       "answer_sampling": null,
       "align": null,
       "lora": "16",
-      "lora_targets": "gate_proj,up_proj,down_proj"
+      "lora_targets": "gate_proj,up_proj,down_proj",
+      "result": "MLP-only LoRA r16 1ep -> F1 ~20, val loss ~3.7: DIVERGES. attn-only is the only stable+useful target."
     },
     "expa-lora16-mlp:multi_token:s3407": {
       "account": "acc11",
       "kernel": "chalicetrncthnh/mvlm-expa-lora16-mlp-multi-token-s3407",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-06T21:00:02",
       "collected": false,
       "bridge": "multi_token",
@@ -1181,7 +1184,8 @@
       "answer_sampling": null,
       "align": null,
       "lora": "16",
-      "lora_targets": "gate_proj,up_proj,down_proj"
+      "lora_targets": "gate_proj,up_proj,down_proj",
+      "result": "MLP-only LoRA r16 1ep -> F1 ~20, val loss ~3.7: DIVERGES. attn-only is the only stable+useful target."
     },
     "expa-lora16-all:multi_token:s42": {
       "account": "acc10",

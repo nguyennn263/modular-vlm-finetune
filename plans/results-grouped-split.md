@@ -451,6 +451,44 @@ multi_token cụ thể", không phải "1 tile luôn đủ cho MỌI bridge". C�
 riêng (standalone, giống cách làm với LoRA) để có số so sánh chuẩn — chưa làm, ghi
 nhận là việc còn lại.
 
+## 4d. TIER-2: decoder-LoRA localization (RQ6 sâu hơn) — ĐÃ XONG (07/09)
+
+LoRA r=16, α=32, 1 epoch, multi_token, 3-seed. Thay đổi target module:
+
+| Target LoRA | F1 (3-seed) | val loss | Kết luận |
+|---|--:|--:|---|
+| **attn-only** (q/k/v/o) — recipe hiện tại | **53.17** | 1.37 | ✅ +2.5 vs plain, ổn định |
+| MLP-only (gate/up/down_proj) | **20.24 ± 1.52** | ~3.7 | 💥 **PHÂN KỲ** |
+| attn + MLP (cả 7 module) | **37.51 ± 1.70** | ~2.08 | 💥 tệ (phần attn cứu lại một phần) |
+
+**Phát hiện:** dư địa hữu ích của decoder nằm **cụ thể ở các projection của
+attention**. LoRA lên feed-forward (gate/up/down) ở cùng cấu hình làm training
+phân kỳ (val loss 3–4 vs 1.37) — F1 sụp còn ~20. attn+MLP đỡ hơn MLP-only (attn
+kéo lại) nhưng vẫn tệ hơn plain.
+
+→ Làm **sắc nét** RQ6: không phải "mở decoder" chung chung, mà là **mở riêng
+attention**. Câu chuyện paper: "the useful capacity is in the decoder's attention
+layers, not its feed-forward path".
+
+**Cần trung thực (ghi rõ trong paper):** kết quả MLP-only/attn+MLP có thể là
+hyperparameter artifact — α=32 quá mạnh cho MLP (intermediate dim ~4864 vs attn
+896), lr không retune, 1 epoch. Claim an toàn: "ở cấu hình của recipe (r=16,
+α=32, 1 epoch, lr khớp), attn-only là target DUY NHẤT vừa ổn định vừa có lợi;
+adapt MLP theo cách này làm phân kỳ." MLP LoRA có thể work nếu retune — ngoài scope.
+
+per-seed MLP-only F1: s42 18.68 / s123 19.74 / s3407 22.30 (loss 3.41/3.26/4.46)
+per-seed attn+MLP F1: s42 38.11 / s123 39.22 / s3407 35.19 (loss 1.99/1.99/2.26)
+
+## 4e. LoRA epoch curve (multi_token, attn-only) — ĐANG CHỜ 5ep
+
+| epoch | F1 | CIDEr (ih) | CIDEr-D |
+|---|--:|--:|--:|
+| 1 | 53.17 | 105.59 | 101.70 |
+| 3 | 54.67 | 109.60 | 106.80 |
+| 5 | *đang chạy (acc16)* | | |
+
+1→3 ep: +1.5 F1, +5 CIDEr-D. Dự đoán 5ep phẳng dần (~55 F1) → củng cố "đã kịch trần".
+
 ## 5. Còn PENDING (sau reset quota 00:00 UTC 5/9)
 
 | # | Việc | Ai | Trạng thái |

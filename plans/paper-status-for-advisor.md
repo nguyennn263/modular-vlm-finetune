@@ -20,7 +20,23 @@ nghẽn nằm ở **frozen decoder**: chỉ can thiệp vào decoder mới cải
 
 ---
 
-## 2. Kết quả chính (tập validation, chỉ số nội bộ, thang ×100)
+## 2. Thiết lập huấn luyện
+
+- **Backbone** (InternViT-300M + Qwen2-0.5B): đóng băng hoàn toàn ở mọi cấu hình.
+- **Giai đoạn 1 — huấn luyện bridge:** 4 epoch, batch 8, learning rate 2e-4, ảnh
+  1 tile; mỗi lần chạy khoảng 10 giờ trên một GPU Tesla P100-16GB.
+- **Giai đoạn 2 — LoRA cho decoder** (áp lên `q/k/v/o` của Qwen2, r=16): huấn
+  luyện thêm trên bridge đã cố định. Đã thử 1 epoch (khoảng 2,6 giờ) và 3 epoch
+  (khoảng 7,8 giờ); **3 epoch cho kết quả tốt nhất** và là cấu hình dùng trong
+  bảng kết quả.
+- **Đánh giá:** trên toàn bộ tập validation (5 463 mẫu), không lấy mẫu con.
+- Các lần chạy đa seed đang tiến hành dùng 2 epoch cho bridge (CIDEr đã bão hòa
+  từ epoch 2: 1,025 ở ep2 so với 1,029 ở ep4) và 1 epoch cho LoRA; checkpoint
+  từng epoch của seed 42 được giữ lại để so sánh đồng nhất về số epoch.
+
+---
+
+## 3. Kết quả chính (tập validation, chỉ số nội bộ, thang ×100)
 
 | Mô hình | Acc | Prec | Rec | F1 | BLEU | ROUGE | METEOR | CIDEr |
 |---|--:|--:|--:|--:|--:|--:|--:|--:|
@@ -46,7 +62,7 @@ epoch đạt 106.8 ± 1.1. Điểm yếu còn lại: token-F1 và Acc vẫn dư�
 
 ---
 
-## 3. Phân tích điểm nghẽn — sáu trục, một trục tích cực
+## 4. Phân tích điểm nghẽn — sáu trục, một trục tích cực
 
 ΔF1 so với cấu hình gốc (Bridge Multi-Token, seed 42: F1 50.66):
 
@@ -110,7 +126,7 @@ kiến trúc bridge gần như không còn ảnh hưởng.
 
 ---
 
-## 4. Kết luận sơ bộ
+## 5. Kết luận sơ bộ
 
 **(a) Adapt Vintern-1B với ~1% tham số?** Được một phần: backbone đóng băng hoàn
 toàn + bridge nhẹ + LoRA decoder đã vượt Vintern-1B fine-tuned trên toàn bộ chỉ
@@ -128,15 +144,15 @@ giác.
 
 ---
 
-## 5. Ghi chú về độ tin cậy
+## 6. Ghi chú về độ tin cậy
 
-- Kết quả in đậm ở Mục 2 dựa trên trung bình 3–4 seed; các cấu hình còn lại ở
-  Mục 3 hiện 1 seed, đang bổ sung lên 3 seed.
+- Kết quả in đậm ở Mục 3 dựa trên trung bình 3–4 seed; các cấu hình còn lại ở
+  Mục 4 hiện 1 seed, đang bổ sung lên 3 seed.
 - Dùng grouped split chống rò rỉ dữ liệu (đã kiểm chứng: kết quả gần như không
   đổi so với cách chia cũ) và khoảng tin cậy bootstrap cho mọi so sánh chính.
 - Đánh giá ngữ nghĩa hiện mới ở mức tự kiểm 120 mẫu, một người đánh giá.
 
-## 6. Đóng góp
+## 7. Đóng góp
 
 1. **Quy trình thích nghi tiết kiệm tham số:** frozen backbone + bridge nhẹ +
    LoRA decoder, ~1% tham số nhưng đạt/vượt baseline fine-tuned trên chỉ số sinh.

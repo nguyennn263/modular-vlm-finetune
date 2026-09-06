@@ -94,14 +94,10 @@ cụ thể; trong khi đó, cả bốn trục can thiệp phía thị giác đ�
 cải thiện. Các kết quả hiện tại cho thấy frozen decoder là một điểm nghẽn đáng
 kể, còn việc tăng dung lượng ở bridge không mang lại lợi ích tương ứng.
 
-Bài báo có hai hình:
-
-- **Hình 1 — Hiện tượng đồng đều hóa giữa các bridge:** các bridge ở cấu hình gốc
-  trải rộng CIDEr-D từ 56 đến 97; sau khi bổ sung LoRA cho decoder (0.23% tham
-  số), tất cả đều hội tụ về khoảng 100–107.
-- **Hình 2 — Suy giảm khi tăng số tile:** F1 giảm từ 50.7 xuống 21 khi tăng số
-  tile đánh giá từ 1 lên 3 (bridge được huấn luyện với 1 tile); validation loss
-  tăng từ 1.48 lên 3.36.
+Một quan sát bổ sung: các bridge vốn chênh lệch lớn về CIDEr-D ở cấu hình gốc
+(từ khoảng 56 đến 97) đều hội tụ về khoảng 100–107 sau khi thêm LoRA cho decoder,
+cho thấy khi decoder có đủ dung lượng thì lựa chọn kiến trúc bridge gần như không
+còn ảnh hưởng.
 
 ---
 

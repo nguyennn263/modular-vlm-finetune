@@ -244,7 +244,8 @@
       "seed": 123,
       "tiles": null,
       "answer_sampling": null,
-      "align": null
+      "align": null,
+      "result": "2ep (earlier session) F1 ~47.4"
     },
     "lora16-eval:multi_token:s42": {
       "status": "done",
@@ -707,7 +708,7 @@
     "expa:qformer:s3407": {
       "account": "acc10",
       "kernel": "giapht/mvlm-expa-qformer-s3407",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-06T13:27:20",
       "collected": false,
       "bridge": "qformer",
@@ -715,7 +716,8 @@
       "tiles": null,
       "answer_sampling": null,
       "align": null,
-      "lora": null
+      "lora": null,
+      "result": "2ep (1a) F1 47.13"
     },
     "expa-lora16:mini_qformer:s123": {
       "account": "acc13",
@@ -1007,14 +1009,15 @@
     "expa-align-feat:multi_token:s42": {
       "account": "acc13",
       "kernel": "avanrager/mvlm-expa-align-feat-multi-token-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-06T20:12:45",
       "collected": false,
       "bridge": "multi_token",
       "seed": 42,
       "tiles": null,
       "answer_sampling": null,
-      "align": "feat"
+      "align": "feat",
+      "result": "2ep re-run F1 49.81 -> 3-seed mean 49.53, DeltaF1 ~0"
     },
     "expa-random:multi_token:s42": {
       "account": "acc14",
@@ -1061,18 +1064,6 @@
       "kernel": "nguynrichard/mvlm-lora16-eval",
       "note": "1-epoch, locked in results-grouped-split.md"
     },
-    "expa:qformer:s42__acc45_cancelled_lowquota": {
-      "account": "acc4",
-      "kernel": "nguyennn251/mvlm-expa-qformer-s42",
-      "status": "running",
-      "pushed_at": "2026-09-06T20:12:32",
-      "collected": false,
-      "bridge": "qformer",
-      "seed": 42,
-      "tiles": null,
-      "answer_sampling": null,
-      "align": null
-    },
     "expa:mini_qformer:s42__acc45_cancelled_lowquota": {
       "account": "acc5",
       "kernel": "nguyennguyen263/mvlm-expa-mini-qformer-s42",
@@ -1085,41 +1076,18 @@
       "answer_sampling": null,
       "align": null
     },
-    "expa:qformer:s42__moved_again": {
-      "account": "acc11",
-      "kernel": "chalicetrncthnh/mvlm-expa-qformer-s42",
-      "status": "running",
-      "pushed_at": "2026-09-06T20:42:47",
-      "collected": false,
-      "bridge": "qformer",
-      "seed": 42,
-      "tiles": null,
-      "answer_sampling": null,
-      "align": null
-    },
-    "expa:mini_qformer:s42__moved_again": {
-      "account": "acc9",
-      "kernel": "masalamohammad/mvlm-expa-mini-qformer-s42",
-      "status": "running",
-      "pushed_at": "2026-09-06T20:42:49",
-      "collected": false,
-      "bridge": "mini_qformer",
-      "seed": 42,
-      "tiles": null,
-      "answer_sampling": null,
-      "align": null
-    },
     "expa:qformer:s42": {
       "account": "acc14",
       "kernel": "nguyendinhdoanh/mvlm-expa-qformer-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-06T20:44:27",
       "collected": false,
       "bridge": "qformer",
       "seed": 42,
       "tiles": null,
       "answer_sampling": null,
-      "align": null
+      "align": null,
+      "result": "2ep re-run F1 47.56 loss 1.605"
     },
     "expa:mini_qformer:s42": {
       "account": "acc13",

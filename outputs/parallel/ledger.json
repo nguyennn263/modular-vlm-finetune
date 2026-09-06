@@ -816,7 +816,7 @@
     "expa-lora16:mini_qformer:s123": {
       "account": "acc13",
       "kernel": "avanrager/mvlm-expa-lora16-mini-qformer-s123",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-06T13:27:27",
       "collected": false,
       "bridge": "mini_qformer",
@@ -824,12 +824,13 @@
       "tiles": null,
       "answer_sampling": null,
       "align": null,
-      "lora": "16"
+      "lora": "16",
+      "result": "pulled+evaluated+rescored 2026-09-06, merged into Bảng 3/5/A3"
     },
     "expa-lora16:residual:s123": {
       "account": "acc14",
       "kernel": "nguyendinhdoanh/mvlm-expa-lora16-residual-s123",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-06T13:27:30",
       "collected": false,
       "bridge": "residual",
@@ -837,12 +838,13 @@
       "tiles": null,
       "answer_sampling": null,
       "align": null,
-      "lora": "16"
+      "lora": "16",
+      "result": "pulled+evaluated+rescored 2026-09-06, merged into Bảng 3/5/A3"
     },
     "expa-lora16:mini_qformer:s3407": {
       "account": "acc16",
       "kernel": "nguynrichard/mvlm-expa-lora16-mini-qformer-s3407",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-06T13:27:32",
       "collected": false,
       "bridge": "mini_qformer",
@@ -850,12 +852,13 @@
       "tiles": null,
       "answer_sampling": null,
       "align": null,
-      "lora": "16"
+      "lora": "16",
+      "result": "pulled+evaluated+rescored 2026-09-06, merged into Bảng 3/5/A3"
     },
     "expa-lora16:residual:s3407": {
       "account": "acc8",
       "kernel": "lelynhan/mvlm-expa-lora16-residual-s3407",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-06T13:27:34",
       "collected": false,
       "bridge": "residual",
@@ -863,12 +866,13 @@
       "tiles": null,
       "answer_sampling": null,
       "align": null,
-      "lora": "16"
+      "lora": "16",
+      "result": "pulled+evaluated+rescored 2026-09-06, merged into Bảng 3/5/A3"
     },
     "expa-lora16:tile_attention:s42": {
       "account": "acc1",
       "kernel": "nguyennn263/mvlm-expa-lora16-tile-attention-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-06T13:27:36",
       "collected": false,
       "bridge": "tile_attention",
@@ -876,7 +880,8 @@
       "tiles": null,
       "answer_sampling": null,
       "align": null,
-      "lora": "16"
+      "lora": "16",
+      "result": "pulled+evaluated+rescored 2026-09-06, merged into Bảng 3/5/A3"
     },
     "expa-align-feat:multi_token:s123": {
       "account": "acc2",

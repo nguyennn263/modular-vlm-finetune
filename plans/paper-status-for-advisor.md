@@ -81,15 +81,16 @@ khái quát hóa; chưa khảo sát huấn luyện đa tile.
 
 **Số liệu chi tiết đứng sau bảng trên:**
 
-*So sánh 5 loại bridge (tập val, seed 42; Multi-Token cấu hình gốc = trung bình
-4 seed). "val CE" = cross-entropy trên tập val (thấp hơn = tốt hơn).*
+*So sánh 5 loại bridge (tập val). Cột F1 / CIDEr / val CE = cấu hình gốc, seed 42
+(Multi-Token = trung bình 4 seed). Cột "+ LoRA" = trung bình 3 seed, trừ
+Tile-Attention chỉ seed 42. "val CE" = cross-entropy trên tập val (thấp = tốt).*
 
 | Bridge | Tham số | F1 | CIDEr | val CE | F1 + LoRA | ΔF1 | CIDEr + LoRA |
 |---|--:|--:|--:|--:|--:|--:|--:|
-| Residual (1 token) | 4.86M (0.52%) | 36.45 | 66.07 | 2.35 | 52.66 | +16.21 | 103.26 |
-| Tile-Attention (8 token) | 4.14M (0.44%) | 46.69 | 87.46 | 1.62 | *đang chạy* | — | *đang chạy* |
+| Residual (1 token) | 4.86M (0.52%) | 36.45 | 66.07 | 2.35 | 52.64 | +16.19 | 104.05 |
+| Tile-Attention (8 token) | 4.14M (0.44%) | 46.69 | 87.46 | 1.62 | 52.99 | +6.30 | 105.04 |
 | **Multi-Token (8 token, pooled)** | **7.35M (0.78%)** | **49.82** | **96.98** | **1.49** | **53.17** | **+3.35** | **105.59** |
-| Light Q-Former (8 query) | 27.6M (2.87%) | 46.63 | 88.10 | 1.59 | 53.39 | +6.76 | 106.65 |
+| Light Q-Former (8 query) | 27.6M (2.87%) | 46.63 | 88.10 | 1.59 | 53.21 | +6.58 | 106.24 |
 | Full Q-Former (16 query) | 69.4M (6.91%) | 47.66 | 90.82 | 1.57 | 53.21 | +5.55 | 105.70 |
 
 *→ Bridge lớn hơn 10× (Full Q-Former) không tốt hơn; Multi-Token có val CE thấp
@@ -146,8 +147,9 @@ giác.
 
 ## 6. Ghi chú về độ tin cậy
 
-- Kết quả in đậm ở Mục 3 dựa trên trung bình 3–4 seed; các cấu hình còn lại ở
-  Mục 4 hiện 1 seed, đang bổ sung lên 3 seed.
+- Kết quả in đậm ở Mục 3 và các dòng "+ LoRA" ở Mục 4 dựa trên trung bình 3–4
+  seed; cấu hình gốc của 4 bridge phụ và các dòng kết quả âm hiện 1 seed, đang
+  bổ sung lên 3 seed.
 - Dùng grouped split chống rò rỉ dữ liệu (đã kiểm chứng: kết quả gần như không
   đổi so với cách chia cũ) và khoảng tin cậy bootstrap cho mọi so sánh chính.
 - Đánh giá ngữ nghĩa hiện mới ở mức tự kiểm 120 mẫu, một người đánh giá.

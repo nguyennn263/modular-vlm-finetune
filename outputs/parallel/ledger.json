@@ -844,7 +844,7 @@
     "expa-align-logit:multi_token:s123": {
       "account": "acc7",
       "kernel": "tinquc220300nguyn/mvlm-expa-align-logit-multi-token-s123",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-06T13:27:52",
       "collected": false,
       "bridge": "multi_token",
@@ -852,12 +852,13 @@
       "tiles": null,
       "answer_sampling": null,
       "align": "logit",
-      "lora": null
+      "lora": null,
+      "result": "2ep full-val, F1 ~40.7 3-seed (KL@a=1.0 swamps CE, loss ~2.05) - axis negative confirmed"
     },
     "expa-align-logit:multi_token:s3407": {
       "account": "acc9",
       "kernel": "masalamohammad/mvlm-expa-align-logit-multi-token-s3407",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-06T13:27:54",
       "collected": false,
       "bridge": "multi_token",
@@ -865,7 +866,8 @@
       "tiles": null,
       "answer_sampling": null,
       "align": "logit",
-      "lora": null
+      "lora": null,
+      "result": "2ep full-val, F1 ~40.7 3-seed (KL@a=1.0 swamps CE, loss ~2.05) - axis negative confirmed"
     },
     "expa-align-logit:multi_token:s42__ep2subset_broken": {
       "account": "acc11",
@@ -882,7 +884,7 @@
     "expa-align-logit:multi_token:s42": {
       "account": "acc6",
       "kernel": "knull0d/mvlm-expa-align-logit-multi-token-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-06T13:28:14",
       "collected": false,
       "bridge": "multi_token",
@@ -890,7 +892,8 @@
       "tiles": null,
       "answer_sampling": null,
       "align": "logit",
-      "lora": null
+      "lora": null,
+      "result": "2ep full-val, F1 ~40.7 3-seed (KL@a=1.0 swamps CE, loss ~2.05) - axis negative confirmed"
     },
     "expa:residual:s42__Nep_locked": {
       "account": "acc1",

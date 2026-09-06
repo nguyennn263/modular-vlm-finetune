@@ -256,9 +256,10 @@ tests the fourth axis, the one they were all designed to avoid touching.
 
 §5.3–5.5 hold the decoder frozen throughout. As a **deliberate, isolated
 departure** from the frozen-backbone spine — not part of it — we LoRA-tune
-Qwen2-0.5B's attention projections (`q/k/v/o`, rank 16, ≈2% additional trainable
-parameters) alongside the `multi_token` bridge, 1 epoch, 1 tile, otherwise
-identical setup to the headline run:
+Qwen2-0.5B's attention projections (`q/k/v/o`, rank 16 — **2.16M parameters,
+0.23% of the total**) alongside the `multi_token` bridge, 1 epoch, 1 tile,
+otherwise identical setup to the headline run. The full recipe is then bridge
+0.78% + LoRA 0.23% = **~1.0% of parameters trainable**:
 
 | | plain (mean, 4 seeds) | **LoRA r=16 (mean, 3 seeds)** | Δ | ViMoE-VQA |
 |---|---:|---:|---:|---:|
@@ -438,9 +439,9 @@ decoder, additional visual detail, training signal, or representation
 alignment on the vision side has nothing to attach to; the frozen decoder is
 the ceiling, not the vision pipeline — and once that ceiling is even slightly
 raised, which bridge feeds the decoder stops being the thing that determines
-answer quality. Opening the decoder even slightly (2% of its parameters via
-LoRA) recovers a third or more of the gap to a fully-unfrozen prior-work
-baseline. §6.1
+answer quality. Opening the decoder even slightly (0.23% of the total
+parameters via LoRA) recovers a third or more of the gap to a fully-unfrozen
+prior-work baseline. §6.1
 develops this reading; the paper's primary contribution remains the frozen,
 0.78%-param bridge (§5.1–5.2) — the decoder-ceiling finding explains *why* that
 architecture class tops out where it does, rather than proposing to abandon it.

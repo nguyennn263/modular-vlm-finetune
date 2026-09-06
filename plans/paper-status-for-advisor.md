@@ -52,8 +52,7 @@ này là động lực cho phần phân tích điểm nghẽn.
 | **  + LoRA cho decoder, r=16 (~1.0%)** | **10.42** | **53.85** | **55.00** | **53.17** | **19.44** | **51.48** | **43.91** | **105.59** |
 | **  + LoRA cho decoder, r=16, 3 epoch** | **11.78** | **55.54** | **56.25** | **54.67** | **20.98** | **52.92** | **45.24** | **109.60** |
 
-*(Bảng đầy đủ chín baseline, so sánh chỉ số corpus với ViMoE và khoảng tin cậy:
-xem `paper-blueprint.md`, Bảng 1–2.)*
+Bài báo trình bày bảng đầy đủ với chín baseline.
 
 Theo cách đo corpus (dùng để so sánh với các công trình khác): Bridge Multi-Token
 đạt CIDEr-D 92.8 ± 1.1 (khoảng tin cậy 95%: [91.3, 97.1], nằm hoàn toàn trên mức
@@ -67,15 +66,15 @@ lại: token-F1 và Acc vẫn thấp hơn ViMoE.
 Giá trị ΔF1 được tính so với cấu hình gốc (Bridge Multi-Token, seed 42: F1
 50.66):
 
-| Câu hỏi · trục | Can thiệp | ΔF1 | Nhận xét |
+| RQ · axis | Intervention | ΔF1 | Nhận xét |
 |---|---|--:|---|
-| RQ1–2 · Dung lượng của bridge | Full Q-Former (69M tham số, gấp 10 lần) | −3.00 | Tăng dung lượng bridge không cải thiện kết quả trong khảo sát này |
-| RQ3 · Số lượng tile thị giác | Huấn luyện với 1 tile → đánh giá với 3 tile | −29.61 | Bridge huấn luyện với đầu vào một tile suy giảm mạnh khi suy luận với nhiều tile ᵃ |
-| RQ4 · Định tuyến thích ứng | Chính sách (policy) học theo loại câu hỏi | ≈0 | Không vượt trội so với cấu hình cố định |
-| RQ5 · Tín hiệu huấn luyện | Lấy mẫu nhiều câu trả lời tham chiếu | −1.65 | Không cải thiện |
-| RQ5 · Căn chỉnh biểu diễn | Chưng cất kiến thức (KD) tại projector, mức đặc trưng | −1.00 | Không cải thiện |
-| **RQ6 · Dung lượng của decoder** | **LoRA r=16 (1 epoch)** | **+2.51** | **Cải thiện nhất quán** |
-| **RQ6 · Dung lượng của decoder** | **LoRA r=16 (3 epoch)** | **+4.01** | **Cải thiện nhất quán** |
+| RQ1–2 · Bridge capacity | Full Q-Former (69M params, 10×) | −3.00 | Tăng dung lượng bridge không cải thiện kết quả trong khảo sát này |
+| RQ3 · Number of visual tiles | Train with 1 tile → evaluate with 3 tiles | −29.61 | Bridge huấn luyện với đầu vào một tile suy giảm mạnh khi suy luận với nhiều tile ᵃ |
+| RQ4 · Adaptive routing | Learned policy (conditioned on question type) | ≈0 | Không vượt trội so với cấu hình cố định |
+| RQ5 · Training signal | Multi-reference answer sampling | −1.65 | Không cải thiện |
+| RQ5 · Representation alignment | Projector-level knowledge distillation (feature KD) | −1.00 | Không cải thiện |
+| **RQ6 · Decoder capacity** | **LoRA r=16 (1 epoch)** | **+2.51** | **Cải thiện nhất quán** |
+| **RQ6 · Decoder capacity** | **LoRA r=16 (3 epochs)** | **+4.01** | **Cải thiện nhất quán** |
 
 ᵃ Thí nghiệm này huấn luyện với 1 tile và đánh giá với 3–6 tile, do đó chỉ cho
 phép kết luận rằng bridge huấn luyện với đầu vào một tile có khả năng khái quát
@@ -88,7 +87,7 @@ cụ thể; trong khi đó, cả bốn trục can thiệp phía thị giác đ�
 cải thiện. Các kết quả hiện tại cho thấy frozen decoder là một điểm nghẽn đáng
 kể, còn việc tăng dung lượng ở bridge không mang lại lợi ích tương ứng.
 
-Hai hình minh họa (xem `paper-blueprint.md`):
+Bài báo có hai hình:
 
 - **Hình 1 — Hiện tượng đồng đều hóa giữa các bridge:** các bridge ở cấu hình gốc
   trải rộng CIDEr-D từ 56 đến 97; sau khi bổ sung LoRA cho decoder (0.23% tham

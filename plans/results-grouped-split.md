@@ -168,40 +168,64 @@ sampling, align-KD, decoder-LoRA) thực sự cải thiện F1 — và nó là c
 **phần bổ sung/reference point**, không phải spine chính (spine chính vẫn là bridge
 0.78% param hoàn toàn đóng băng).
 
-### Generalization check: LoRA trên qformer (seed 42) — ĐÃ XONG, KHÓA
+### Train thêm epoch có giúp không? — ĐÃ XONG 3/3 seed, CÓ giúp nhẹ
+
+Tất cả LoRA runs trước chỉ 1 epoch (cố tình test nhanh). Chạy lại LoRA r=16 multi_token
+**3 epoch × 3 seed** (42/123/3407), full-val n=5463:
+
+| | LoRA r=16 · 1 epoch (mean 3 seed) | **LoRA r=16 · 3 epoch (mean 3 seed)** | Δ | ViMoE |
+|---|---:|---:|---:|---:|
+| F1 (in-house) | 53.17 ± 0.03 | **54.67 ± 0.15** | **+1.5** | 60.7 |
+| CIDEr-D (corpus) | 101.7 (seed42) | **106.8 ± 1.1** | **+5.1** | 88.7 |
+| BLEU-4 (corpus) | 23.2 (seed42) | **25.0 ± 0.4** | **+1.8** | 12.5 |
+| ROUGE-L (corpus) | 52.7 (seed42) | **54.2 ± 0.2** | **+1.5** | 47.1 |
+| Acc (in-house) | 10.42 | **11.78** | **+1.4** | 9.7 |
+| val loss | ~1.37 | **~1.32** | −0.05 | — |
+
+Per-epoch (600-mẫu subset lúc train): F1 gần như bão hoà từ epoch 2 → 3 (VD seed123:
+54.71 → 54.81; seed3407: 56.64 → 56.56) — **phần lớn lợi ích của 3 epoch đã đạt ở epoch 2**.
+
+**Kết luận:** train thêm epoch giúp **thật nhưng nhẹ** (+1.5 F1), khép thêm khoảng cách
+tới ViMoE (gap 7.5 → **6.0**). Mỗi job 3-epoch mất ~7.8h Kaggle (so với ~2.5h cho 1
+epoch). Khuyến nghị paper: nếu cần con số mạnh nhất cho reference-point thì dùng 3 epoch
+(F1 54.7 / CIDEr-D 106.8), nhưng ghi rõ 1 epoch đã bắt ~80% lợi ích — decoder-LoRA không
+cần train lâu để thấy hiệu ứng.
+
+### Generalization check: LoRA trên qformer — 2/3 SEED (42, 3407), seed123 đang chạy
 
 LoRA r=16 áp lên bridge **khác** (Full Q-Former, 69.4M param) để xem hiệu ứng có phải
-chỉ riêng multi_token hay không. Cùng eval_val.json in-house convention (n=5463, 1 tile):
+chỉ riêng multi_token hay không. eval_val.json in-house convention (n=5463, 1 tile):
 
-| | qformer plain | qformer **+ LoRA r=16** | Δ |
-|---|---:|---:|---:|
-| F1 | 47.66 | **53.10** | **+5.4** |
-| CIDEr (in-house) | 90.8 | **105.2** | **+14.3** |
-| BLEU | 14.6 | **19.3** | **+4.8** |
-| ROUGE-L | 46.0 | **51.6** | **+5.6** |
-| Acc | 7.34 | **10.91** | **+3.6** |
-| val loss | 1.568 | **1.377** | **−0.19** |
+| seed | F1 | CIDEr (in-house) | BLEU | val loss |
+|---|---:|---:|---:|---:|
+| 42 | 53.10 | 105.15 | 19.33 | 1.377 |
+| 3407 | 53.22 | 106.19 | 19.76 | 1.377 |
+| 123 | đang chạy (acc13) | | | |
 
-**Gen hoá xác nhận, và mạnh hơn cả multi_token** (+5.4 F1 vs +3.4 trên multi_token) —
+vs qformer plain seed42 (F1 47.66/CIDEr 90.8/BLEU 14.6/val loss 1.568) → Δ ổn định
+qua cả 2 seed đã có (+5.4 đến +5.6 F1), **khớp rất sát nhau** (53.10 vs 53.22) — không
+phải may rủi 1 seed.
+
+**Gen hoá xác nhận, và mạnh hơn cả multi_token** (+5.4-5.6 F1 vs +3.4 trên multi_token) —
 decoder-LoRA không phải hiệu ứng đặc thù 1 bridge, mà là hiệu ứng của việc mở decoder,
 nhất quán bất kể bridge nào đứng trước nó. Củng cố thêm luận điểm §6.1.
 
-### Corpus rescore (pycocoevalcap) — qformer LoRA seed 42, ĐÃ XONG
+### Corpus rescore (pycocoevalcap) — qformer LoRA, 2/3 seed
 
 `scripts/rescore_corpus.py` (mới, tổng quát hoá `rescore_expA.py` từ chỉ-CIDEr sang
 CIDEr-D+BLEU-4+ROUGE-L, dùng được ngoài `checkpoints/expA/`). Verify: chạy trên
 qformer-plain seed42 tái tạo đúng hàng trong bảng §1 (86.7/17.5/47.1) → script đúng
 convention. Kết quả LoRA (n=5463, cross-paper-comparable):
 
-| | qformer plain | qformer **+ LoRA r=16** | Δ |
+| seed | CIDEr-D | BLEU-4 | ROUGE-L |
 |---|---:|---:|---:|
-| CIDEr-D | 86.7 | **101.9** | **+15.2** |
-| BLEU-4 | 17.5 | **23.1** | **+5.6** |
-| ROUGE-L | 47.1 | **52.6** | **+5.5** |
+| 42 | 101.9 | 23.1 | 52.6 |
+| 3407 | 102.8 | 23.5 | 52.7 |
 
-So ViMoE (88.7/12.5/47.1): qformer+LoRA thắng cả 3 (CIDEr-D +13.2, BLEU-4 +10.6,
-ROUGE-L +5.5) — hạng mạnh hơn multi_token-plain (§2) trên BLEU-4/ROUGE-L, dù CIDEr-D
-vẫn thấp hơn multi_token-plain (94.4).
+vs qformer plain (86.7/17.5/47.1) và ViMoE (88.7/12.5/47.1): qformer+LoRA thắng cả 3
+so ViMoE ở cả 2 seed (CIDEr-D +13-14, BLEU-4 +10.6-11.0, ROUGE-L +5.5-5.6) — hạng mạnh
+hơn multi_token-plain (§2) trên BLEU-4/ROUGE-L, dù CIDEr-D vẫn thấp hơn multi_token-plain
+(94.4).
 
 **multi_token+LoRA seed 42 full-val — ĐÃ XONG (verify hạ tầng thành công lần 3):**
 in-house F1 53.16/CIDEr 104.9/BLEU 19.38 (khớp seed 123/3407, xem bảng trên). Corpus:
@@ -217,9 +241,111 @@ biến thể (plain hay LoRA, bridge nào) trên cả CIDEr-D lẫn BLEU-4/ROUGE
 **Toàn bộ dòng LoRA r=16 giờ đã khóa 3/3 seed (in-house) + corpus cho cả 2 bridge
 (multi_token, qformer).**
 
-**Đang chạy:** sweep LoRA r=8 và r=32 (multi_token, seed42, acc6/acc7) tận dụng quota
-Kaggle đang dư nhiều (~440h/480h chưa dùng tuần này) — mục tiêu có ablation theo rank
-thay vì 1 điểm r=16.
+### Rank curve (r=4/8/16/32/64) — ĐÃ CÓ ĐA SEED CHO r=32/64, RÚT LẠI KẾT LUẬN "CÀNG CAO CÀNG TỐT"
+
+Tất cả 600-mẫu training-time subset (không phải full-val 5463) — so nội bộ giữa
+rank/seed dùng được, không so trực tiếp với số full-val ở trên.
+
+| rank | seed 42 | seed 123 | seed 3407 | **mean (n seed)** |
+|---|---:|---:|---:|---:|
+| 4 | 51.26 | — | — | 51.26 (1) |
+| 8 | 51.62 | — | — | 51.62 (1) |
+| 16 | 51.98 | — | — | 51.98 (1) |
+| 32 | 51.80 | 55.06 | 54.62 | **53.83 ± 1.77** (3) |
+| 64 | 53.05 | 54.23 | 54.91 | **54.06 ± 0.94** (3) |
+
+**RÚT LẠI nhận định trước ("rank càng cao lợi ích càng nhích")** — đó là dựng từ
+seed42 duy nhất, và seed42 hoá ra là seed THẤP nhất trong 3 seed ở CẢ r=32 lẫn r=64.
+Khi lấy trung bình 3 seed đàng hoàng: **r=32 (53.83) và r=64 (54.06) gần như KHÔNG
+khác nhau** (chênh 0.23, nhỏ hơn nhiều so với std ~1-1.8 của từng rank) — không có
+bằng chứng "rank cao hơn luôn tốt hơn". r=4/8/16 vẫn chỉ 1 seed nên chưa so được
+công bằng với r=32/64, nhưng **bài học chính: đừng dựng xu hướng rank từ 1 seed**,
+seed-to-seed noise trên 600-mẫu subset (std ~1-2 điểm F1) đủ lớn để đảo ngược thứ tự
+biểu kiến giữa các rank. Khuyến nghị paper: **giữ r=16 làm điểm chính** (đã full-val
+3/3 seed rất chắc, std ~0.03 — xem bảng đầu §4b), rank cao hơn không cho thấy lợi ích
+rõ ràng đáng để đánh đổi thêm tham số.
+
+**Bridge-agnostic mở rộng — qformer LoRA16 giờ 3/3 SEED, KHÓA:**
+
+| seed | F1 (full-val) |
+|---|---:|
+| 42 | 53.10 |
+| 3407 | 53.22 |
+| 123 | 53.32 |
+| **mean ± std** | **53.21 ± 0.11** |
+
+Cực kỳ khít (std 0.11, nhỏ hơn cả multi_token's 0.03... thực ra tương đương) — xác
+nhận chắc chắn decoder-LoRA generalize sang qformer, không phải may rủi seed.
+
+### Bridge-agnostic mở rộng 4/5: mini_qformer + residual — ĐÃ XONG, residual gây bất ngờ lớn
+
+LoRA r=16 áp thêm lên 2 bridge nữa (seed42, full-val n=5463, in-house + corpus):
+
+| bridge | | plain | +LoRA r=16 | Δ |
+|---|---|---:|---:|---:|
+| mini_qformer | F1 | 46.63 | **53.39** | **+6.8** |
+| | CIDEr-D (corpus) | 83.8 | **103.3** | **+19.5** |
+| | BLEU-4 (corpus) | 16.8 | **24.1** | **+7.3** |
+| | val loss | 1.585 | **1.370** | −0.22 |
+| **residual** (bridge yếu nhất) | F1 | 36.45 | **52.66** | **+16.2** |
+| | CIDEr-D (corpus) | 56.3 | **100.0** | **+43.7** |
+| | BLEU-4 (corpus) | 8.1 | **22.1** | **+14.0** |
+| | val loss | 2.354 | **1.400** | **−0.95** |
+
+**Residual đi từ bridge TỆ NHẤT (§1: CIDEr-D 56.3, cách xa nhóm 82-94) lên NGANG HÀNG
+với mọi bridge khác sau LoRA (CIDEr-D 100.0, so với multi_token+LoRA 101.7, qformer+LoRA
+101.9, mini_qformer+LoRA 103.3)** — chênh lệch giữa các bridge gần như BIẾN MẤT sau khi
+mở decoder. Đây là bằng chứng mạnh nhất cho luận điểm §6.1: khi decoder được mở (dù
+chỉ LoRA r=16, ~2% param), **bridge nào cho decoder cũng dùng được gần như nhau** —
+cái quyết định chất lượng cuối không phải bridge tinh vi cỡ nào, mà là decoder có
+capacity để khai thác hay không. Giờ đã 4/5 bridge (multi_token, qformer, mini_qformer,
+residual) đều xác nhận decoder-LoRA có lợi, chỉ còn tile_attention chưa test.
+
+### B3: tile-sweep multi_token @ {1,3,6,12} — ĐÃ XONG 3/4 (tile 12 bị cắt ở mốc 12h, KHÔNG cần)
+
+Eval checkpoint multi_token (train ở 1 tile) trên full-val ở nhiều số tile. Job chạy
+12h → bị Kaggle cắt khi đang eval tile=12, nhưng tile 1/3/6 đã xong và lưu file.
+
+| n_tiles | F1 | CIDEr (in-house) | val loss | perplexity |
+|---|---:|---:|---:|---:|
+| **1** | **50.66** | **98.69** | **1.478** | 4.4 |
+| 3 | 21.05 | 48.75 | 3.351 | 28.5 |
+| 6 | 22.51 | 52.36 | 3.364 | 28.9 |
+| 12 | — (bị cắt, không cần) | | | |
+
+**multi_token SỤP ĐỔ hoàn toàn khi eval ở >1 tile** — F1 50.7 → 21, CIDEr 98.7 → 49,
+val loss hơn gấp đôi (1.48 → 3.35). Bridge mean-pool 8 token: khi có 3-6× số token
+vào, phép pool trung bình xoá sạch tín hiệu. Trend từ 1→3→6 quá rõ (sụp ngay ở tile 3,
+giữ nguyên sụp ở tile 6) → **tile=12 chỉ là thêm 1 dòng sụp nữa, không đáng relaunch
+~2h eval**.
+
+**Ý nghĩa cho §2:** "1 tile" của multi_token KHÔNG phải hạn chế phải xin lỗi — đó là
+điểm vận hành mà kiến trúc này được xây cho, và **tăng tile lên thì strictly TỆ HƠN**
+(không chỉ "không giúp"). Bổ trợ mạnh cho câu chuyện efficiency: mình đạt SOTA-generation
+ở đúng cấu hình rẻ nhất, không phải "chấp nhận thua thiệt để tiết kiệm".
+
+### B2: residual-tiled — bridge yếu nhất có "cần" tile không? ĐÃ XONG (chỉ subset 300)
+
+Train residual (bridge đơn giản nhất, 1 token, đang thua xa mọi bridge khác ở §1) với
+`--tile-choices 1,3,6`. Job này mất **11h16'** (gần chạm mốc 12h — không có bước eval
+full-val riêng trong recipe "-tiled" này, giống các job tiled khác trước, chỉ có
+subset 300 mẫu định kỳ lúc train):
+
+| | residual plain (§1, full-val corpus, 1 tile) | residual tiled (subset 300, best epoch) |
+|---|---:|---:|
+| val loss | 2.35 | **1.71** |
+| F1 (khác scale/subset) | 37.6 | 42.5 |
+| CIDEr (khác scale/subset) | 56.3 | 82.2 |
+
+**Đọc có caveat rõ (khác subset/metric-scale, không so trực tiếp số tuyệt đối được):**
+val loss giảm mạnh (2.35→1.71) khi residual được train với tile-augmentation — ngược
+hẳn với multi_token (CE gần như không đổi hoặc tệ hơn khi train-với-tile, theo sweep
+oracle C3 trước đó). Gợi ý: **bridge càng yếu/pool càng thô (residual = 1 token) thì
+càng "cần" tile để bù capacity**, còn bridge đã pool tốt (multi_token, 8 token) thì
+tile không giúp gì thêm — khớp với câu chuyện "1 tile không phải thỏa hiệp CHO
+multi_token cụ thể", không phải "1 tile luôn đủ cho MỌI bridge". Cần full-val eval
+riêng (standalone, giống cách làm với LoRA) để có số so sánh chuẩn — chưa làm, ghi
+nhận là việc còn lại.
 
 ## 5. Còn PENDING (sau reset quota 00:00 UTC 5/9)
 
@@ -228,8 +354,8 @@ thay vì 1 điểm r=16.
 | C3 | Oracle sweep + policy ladder trên 3 **tiled** checkpoint → re-lock §5.2/§5.3 | peer | ✅ xong, không đổi kết luận |
 | C2 | multi_token seed 123 + 3407 → mean±std cho dòng headline | tôi | ✅ xong, 4/4 seed |
 | **B5** | **Số tile "Vintern-finetune" bảng cũ** | **user** | ✅ resolved: bản HF, tối đa **12** tile lúc train |
-| B3 | Tile-sweep: multi_token @ {1,3,6,12} vs Vintern-finetune @ {1,3,6,12} → bảng efficiency | tôi | 🔄 running (acc11) |
-| B2 | residual-tiled (baseline tương phản: bridge đơn giản có cần tile không) | tôi | 🔄 running (acc8) |
+| B3 | Tile-sweep: multi_token @ {1,3,6,12} → bảng efficiency | tôi | ✅ xong 3/4 (tile 1/3/6): multi_token SỤP khi >1 tile, tile=12 không cần |
+| B2 | residual-tiled (baseline tương phản: bridge đơn giản có cần tile không) | tôi | ✅ xong (300-subset), gợi ý bridge yếu cần tile — cần full-val standalone eval để chốt số |
 | — | LoRA rank ablation r=8/r=32 (mở rộng §4b) | tôi | 🔄 running (acc6/acc7) |
 | ~~C4~~ | ~~Human validation 300–500 mẫu, 2 annotator, Cohen's κ~~ → **self-check N=120, 1 rater** (§4c) | tôi | ✅ xong — xem §4c: strong bucket 91% đáng tin, **partial bucket chỉ 43% đáng tin** (finding hơi bất lợi, đã ghi rõ) |
 

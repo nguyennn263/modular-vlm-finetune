@@ -1183,7 +1183,7 @@
     "expa-lora16-all:multi_token:s42": {
       "account": "acc10",
       "kernel": "giapht/mvlm-expa-lora16-all-multi-token-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-06T21:00:05",
       "collected": false,
       "bridge": "multi_token",
@@ -1192,12 +1192,13 @@
       "answer_sampling": null,
       "align": null,
       "lora": "16",
-      "lora_targets": "q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj"
+      "lora_targets": "q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj",
+      "result": "attn+MLP LoRA r16 1ep -> F1 ~37.5, val loss ~2.08 (WORSE than attn-only 53.17): MLP LoRA destabilises"
     },
     "expa-lora16-all:multi_token:s123": {
       "account": "acc8",
       "kernel": "lelynhan/mvlm-expa-lora16-all-multi-token-s123",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-06T21:00:06",
       "collected": false,
       "bridge": "multi_token",
@@ -1206,12 +1207,13 @@
       "answer_sampling": null,
       "align": null,
       "lora": "16",
-      "lora_targets": "q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj"
+      "lora_targets": "q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj",
+      "result": "attn+MLP LoRA r16 1ep -> F1 ~37.5, val loss ~2.08 (WORSE than attn-only 53.17): MLP LoRA destabilises"
     },
     "expa-lora16-all:multi_token:s3407": {
       "account": "acc6",
       "kernel": "knull0d/mvlm-expa-lora16-all-multi-token-s3407",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-06T21:00:09",
       "collected": false,
       "bridge": "multi_token",
@@ -1220,7 +1222,8 @@
       "answer_sampling": null,
       "align": null,
       "lora": "16",
-      "lora_targets": "q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj"
+      "lora_targets": "q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj",
+      "result": "attn+MLP LoRA r16 1ep -> F1 ~37.5, val loss ~2.08 (WORSE than attn-only 53.17): MLP LoRA destabilises"
     }
   }
 }

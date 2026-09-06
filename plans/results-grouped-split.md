@@ -56,48 +56,64 @@ seed 42 KHÔNG lưu checkpoint epoch-2 (chỉ epoch-4) → không re-eval đư�
 
 ### residual seed-42 @ 4ep là LẦN CHẠY HỎNG, không phải "bridge yếu"
 
-| residual | best val loss | F1(token) | CIDEr-D |
+| residual | best val loss | F1(token) | CIDEr-D (corpus, full-val) |
 |---|--:|--:|--:|
-| seed 42 @ 4ep (đang dùng ở §1, §4b, blueprint) | **2.354** ⚠️ | 36.45 | 56.3 |
-| seed 123 @ 2ep (TIER-1, mới) | 1.672 | 45.14 | 85.4 corpus |
-| seed 3407 @ 2ep (TIER-1, mới) | 1.676 | 45.88 | 86.7 corpus |
+| seed 42 @ 4ep (số cũ ở §1, §4b, blueprint) | **2.354** ⚠️ | 36.45 | 56.3 |
+| seed 42 @ 2ep (re-run) | **1.650** ✅ | **45.91** | **81.6** |
+| seed 123 @ 2ep | 1.672 | 45.14 | 80.2 |
+| seed 3407 @ 2ep | 1.676 | 45.88 | 81.5 |
+| **mean 3-seed @ 2ep** | | **45.64** | **~81.1** |
 
-val loss 2.35 bất thường (mọi bridge/seed khác 1.5–1.7). Đây là training
-instability của riêng seed 42, KHÔNG phải đặc tính kiến trúc residual.
+**ĐÃ XÁC NHẬN:** val loss 2.35 của seed-42 @ 4ep là bất thường (mọi seed/bridge
+khác 1.5–1.7). seed-42 @ 2ep re-run cho val loss 1.65, F1 45.91 — bình thường
+hoá hoàn toàn. Lần chạy 4ep là training instability, KHÔNG phải đặc tính residual.
 
 **Hệ quả cho paper:** câu chuyện "residual = bridge tệ nhất (F1 36.5) → sau LoRA
-lên ngang hàng (52.7), ΔF1 +16.2" (§4b, §5.6/§5.7 draft) **phần lớn do lần chạy
-hỏng này**. Với seed bình thường residual plain ≈ F1 45.5 → ΔF1 từ LoRA chỉ ~+7,
-giống các bridge khác. Điểm "san bằng bridge" VẪN đúng (mọi bridge → 52–53 F1 /
-101–103 CIDEr-D sau LoRA) nhưng BỚT kịch tính — bỏ con số +16.2. Chờ seed-42
-residual @ 2ep xác nhận s42 có bình thường hoá không.
+lên ngang hàng, ΔF1 +16.2" (§4b, §5.6/§5.7 draft) **bị bác bỏ**. residual plain
+= F1 45.6 (3-seed) → + LoRA ~52.6 = **ΔF1 ~+7**, giống các bridge khác. Điểm
+"san bằng bridge" VẪN đúng (mọi bridge plain 45–50 → + LoRA 52–53) nhưng bỏ hẳn
+con số +16.2 và "started 38 points apart" (thực ra ~7–8 điểm).
 
-### Số 1a sơ bộ (seed 123/3407 @ 2ep, full-val, in-house F1 / CIDEr-D corpus)
+### GOTCHA rescore: dùng text_predictions_epoch_1.json (full-val 5463), KHÔNG phải epoch_2 (600-subset)
 
-| bridge · seed | F1 | CIDEr | BLEU | ROUGE | MET | val loss | CIDEr-D | BLEU-4 | ROUGE-L |
+Job 2-epoch ghi text-metrics epoch 2 chỉ trên 600 mẫu (`--text-metrics-max-samples
+600`); bước `src.cli.evaluate` cuối ghi `text_predictions_epoch_1.json` full-val.
+Các số CIDEr-D dưới đây đã rescore lại đúng từ epoch_1 (n=5463).
+
+### Số 1a + neg rows (seed @ 2ep, full-val n=5463, in-house F1/CIDEr + corpus CIDEr-D)
+
+| bridge · seed | F1 | CIDEr(ih) | BLEU(ih) | ROUGE(ih) | MET(ih) | val loss | CIDEr-D | BLEU-4 | ROUGE-L |
 |---|--:|--:|--:|--:|--:|--:|--:|--:|--:|
-| mini_qformer · 123 | 46.16 | 86.33 | 13.43 | 44.45 | 36.79 | 1.615 | 84.9 | 15.6 | 45.1 |
-| mini_qformer · 3407 | 45.54 | 84.28 | 13.03 | 43.87 | 36.13 | 1.603 | 84.7 | 15.4 | 46.9 |
-| qformer · 3407 | 47.13 | 89.01 | 14.01 | 45.38 | 37.62 | 1.566 | 90.4 | 16.5 | 47.5 |
-| residual · 123 | 45.14 | 85.38 | 12.50 | 43.23 | 36.27 | 1.672 | 80.2 | 15.2 | 43.9 |
-| residual · 3407 | 45.88 | 86.67 | 12.70 | 44.10 | 36.82 | 1.676 | 89.3 | 15.3 | 47.1 |
-| tile_attention · 123 | 46.49 | 86.48 | 12.66 | 44.60 | 37.12 | 1.646 | 84.0 | 15.5 | 45.2 |
-| tile_attention · 3407 | 44.51 | 82.37 | 12.13 | 42.59 | 35.53 | 1.706 | 83.6 | 14.3 | 45.0 |
-| answer-random · 123 | 48.19 | 91.28 | 14.14 | 46.41 | 38.43 | 1.551 | 90.5 | 16.0 | 48.3 |
-| answer-random · 3407 | 48.01 | 90.53 | 14.34 | 46.37 | 38.54 | 1.552 | 90.9 | 19.0 | 48.3 |
+| multi_token · 42 | 49.61 | 96.72 | 15.28 | 47.86 | 40.05 | 1.4933 | 92.5 | 18.5 | 48.9 |
+| mini_qformer · 123 | 46.16 | 86.33 | 13.43 | 44.45 | 36.79 | 1.615 | 81.7 | 16.2 | 45.5 |
+| mini_qformer · 3407 | 45.54 | 84.28 | 13.03 | 43.87 | 36.13 | 1.603 | 79.7 | 15.8 | 44.9 |
+| qformer · 3407 | 47.13 | 89.01 | 14.01 | 45.38 | 37.62 | 1.566 | 84.8 | 17.0 | 46.5 |
+| residual · 42 | 45.91 | 86.70 | 12.89 | 43.92 | 36.38 | 1.6503 | 81.6 | 15.7 | 45.2 |
+| residual · 123 | 45.14 | 85.38 | 12.50 | 43.23 | 36.27 | 1.672 | 80.2 | 14.8 | 44.5 |
+| residual · 3407 | 45.88 | 86.67 | 12.70 | 44.10 | 36.82 | 1.676 | 81.5 | 15.5 | 45.2 |
+| tile_attention · 123 | 46.49 | 86.48 | 12.66 | 44.60 | 37.12 | 1.646 | 81.9 | 15.5 | 45.8 |
+| tile_attention · 3407 | 44.51 | 82.37 | 12.13 | 42.59 | 35.53 | 1.706 | 77.2 | 14.5 | 43.8 |
+| answer-random · 42 | 48.05 | 89.89 | 14.31 | 46.26 | 38.04 | 1.7749 | 86.3 | 17.6 | 47.2 |
+| answer-random · 123 | 48.19 | 91.28 | 14.14 | 46.41 | 38.43 | 1.551 | 87.5 | 17.2 | 47.4 |
+| answer-random · 3407 | 48.01 | 90.53 | 14.34 | 46.37 | 38.54 | 1.552 | 86.4 | 17.3 | 47.4 |
+| align-feat · 123 | 49.38 | 96.41 | 15.65 | — | — | 1.495 | 92.3 | 18.8 | 48.8 |
+| align-feat · 3407 | 49.39 | 96.14 | 15.13 | — | — | 1.496 | 91.7 | 18.1 | 48.9 |
+| align-logit · 42 | 39.67 | 74.71 | 7.66 | — | — | 2.097 | 68.3 | 9.3 | 38.9 |
+| align-logit · 123 | 40.04 | 74.72 | 8.70 | — | — | 2.101 | 68.3 | 10.4 | 39.4 |
+| align-logit · 3407 | 42.54 | 82.09 | 9.54 | — | — | 1.964 | 75.5 | 11.5 | 42.0 |
 
-Checkpoint đã stage vào `checkpoints/expA/seed{123,3407}/<bridge>/` và
-`checkpoints/expA-random/seed{123,3407}/multi_token/`. **Chưa tính mean / cập
-nhật bảng** — chờ seed-42 @ 2ep để 3-seed đồng nhất epoch.
+**Đang chờ seed-42 @ 2ep:** qformer, mini_qformer, tile_attention, align-feat.
 
-Nhận xét sơ bộ: seed 123/3407 @ 2ep thấp hơn seed-42 @ 4ep ~0.5–1 điểm F1 cho
-mini_qformer/qformer/tile_attention/answer-random (đúng như dự đoán epoch). Với
-2 epoch, các bridge phụ chụm quanh F1 44.5–47, CIDEr-D 84–90 — chênh lệch giữa
-bridge nhỏ hơn nhiều so với bảng §1 (dùng seed-42 với residual hỏng).
+Nhận xét: với 2 epoch, các bridge phụ chụm F1 44.5–49.6, CIDEr-D 77–92 — chênh
+lệch giữa bridge nhỏ hơn NHIỀU so với bảng §1 cũ (dùng seed-42 với residual hỏng).
+answer-random ≈ F1 48.1 (ΔF1 −1.5 vs anchor 49.56) — âm nhẹ, nhất quán.
+align-logit ≈ F1 40.75 (ΔF1 −8.8, val loss ~2.05) — âm mạnh, KL@α=1.0 lấn CE.
 
-### Còn chạy (13:15 UTC)
+### Còn chạy (20:00 UTC)
 
-- 1b align-logit × 3 seed (s42/s123/s3407) + align-feat s123/s3407 — 5 job
+- seed-42 @ 2ep: qformer, mini_qformer, tile_attention, align-feat — 4 job
+- LoRA 5ep (epoch curve) — 1 job
+- TIER-2 MLP-only × 3 seed — 3 job
 - 7 job seed-42 @ 2ep re-run vừa launch
 
 ---

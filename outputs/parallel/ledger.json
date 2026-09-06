@@ -976,26 +976,28 @@
     "expa:multi_token:s42": {
       "account": "acc1",
       "kernel": "nguyennn263/mvlm-expa-multi-token-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-06T20:12:31",
       "collected": false,
       "bridge": "multi_token",
       "seed": 42,
       "tiles": null,
       "answer_sampling": null,
-      "align": null
+      "align": null,
+      "result": "2ep re-run F1 49.61 CIDEr-D 92.5"
     },
     "expa:residual:s42": {
       "account": "acc8",
       "kernel": "lelynhan/mvlm-expa-residual-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-06T20:12:37",
       "collected": false,
       "bridge": "residual",
       "seed": 42,
       "tiles": null,
       "answer_sampling": null,
-      "align": null
+      "align": null,
+      "result": "2ep re-run F1 45.91 val-loss 1.65 - NORMALISED (4ep was bad run 36.45/2.35)"
     },
     "expa:tile_attention:s42": {
       "account": "acc10",
@@ -1024,14 +1026,15 @@
     "expa-random:multi_token:s42": {
       "account": "acc14",
       "kernel": "nguyendinhdoanh/mvlm-expa-random-multi-token-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-06T20:12:46",
       "collected": false,
       "bridge": "multi_token",
       "seed": 42,
       "tiles": null,
       "answer_sampling": "random",
-      "align": null
+      "align": null,
+      "result": "2ep re-run F1 48.05"
     },
     "expa-lora16-5ep:multi_token:s42": {
       "account": "acc16",

@@ -666,33 +666,47 @@
     "expa-lora16-3ep:multi_token:s42": {
       "account": "acc16",
       "kernel": "nguynrichard/mvlm-expa-lora16-multi-token-s42",
-      "status": "running",
-      "collected": false,
+      "status": "done",
+      "collected": true,
       "bridge": "multi_token",
       "seed": 42,
       "lora": "16",
       "epochs": 3,
-      "note": "testing if more epochs improve on the locked 1-epoch LoRA result (F1 53.16)"
+      "note": "3 epoch, ~7.8h. F1 54.52 vs 1-epoch ~53.2. Gain plateaus by epoch 2.",
+      "f1": 54.52,
+      "cider_d_corpus": 105.6,
+      "bleu4_corpus": 24.6,
+      "rouge_l_corpus": 54.0
     },
     "expa-lora16-3ep:multi_token:s123": {
       "account": "acc1",
       "kernel": "nguyennn263/mvlm-expa-lora16-multi-token-s123",
-      "status": "running",
-      "collected": false,
+      "status": "done",
+      "collected": true,
       "bridge": "multi_token",
       "seed": 123,
       "lora": "16",
-      "epochs": 3
+      "epochs": 3,
+      "f1": 54.67,
+      "cider_d_corpus": 107.9,
+      "bleu4_corpus": 25.4,
+      "rouge_l_corpus": 54.2,
+      "note": "3 epoch, ~7.8h. F1 54.67 vs 1-epoch ~53.2. Gain plateaus by epoch 2."
     },
     "expa-lora16-3ep:multi_token:s3407": {
       "account": "acc2",
       "kernel": "nguyennn2501/mvlm-expa-lora16-multi-token-s3407",
-      "status": "running",
-      "collected": false,
+      "status": "done",
+      "collected": true,
       "bridge": "multi_token",
       "seed": 3407,
       "lora": "16",
-      "epochs": 3
+      "epochs": 3,
+      "f1": 54.81,
+      "cider_d_corpus": 106.8,
+      "bleu4_corpus": 25.1,
+      "rouge_l_corpus": 54.3,
+      "note": "3 epoch, ~7.8h. F1 54.81 vs 1-epoch ~53.2. Gain plateaus by epoch 2."
     }
   }
 }

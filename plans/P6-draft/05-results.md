@@ -29,6 +29,14 @@ generation metric** while trailing on token-F1:
 METEOR is omitted from cross-paper comparison — it is implementation-dependent
 (in-house 41.1 vs pycocoevalcap multi-ref 28.5 on identical predictions).
 
+The CIDEr-D advantage over ViMoE-VQA is not marginal: a bootstrap over the
+5 463 val samples (2 000 resamples, `scripts/bootstrap_ci.py`) puts
+`multi_token`-plain's corpus CIDEr-D at 94.4, 95% CI **[91.3, 97.1]** — the
+whole interval is above ViMoE's reported 88.7. The token-F1 gap is likewise
+real and in ViMoE's favour (their 60.7 is far outside our interval on either
+F1 convention). We do not have per-sample predictions for ViMoE-VQA, so these
+are one-sample intervals on our own estimate, not a paired test.
+
 This is at **1 image tile**, on a backbone where InternViT and Qwen2-0.5B are
 both **fully frozen** — only the bridge (0.78% of total parameters) is trained.
 The reference recipes it is compared against are not: Vintern-1B full-finetunes
@@ -360,6 +368,21 @@ LoRA'd bridges (`multi_token` 101.7, `qformer` 101.9, `mini_qformer` 103.3,
 `residual` 100.0) now cluster within 3.3 points of each other, despite starting
 38 points apart (56.3 to 94.4) as plain bridges.
 
+**Every LoRA lift is significant by paired bootstrap** (seed 42, 5 463 val
+samples, resampled indices scoring both models each iteration;
+`scripts/bootstrap_ci.py`). The plain→LoRA delta and its 95% CI, on the two
+metrics that support a per-sample or resampled-corpus bootstrap:
+
+| bridge | ΔF1 [95% CI] | ΔCIDEr-D [95% CI] | P(Δ>0) |
+|---|---|---|---|
+| `multi_token` | +2.50 [1.92, 3.07] | +7.31 [5.14, 9.07] | 1.000 / 1.000 |
+| `qformer` | +5.44 [4.83, 6.06] | +15.24 [13.11, 17.31] | 1.000 / 1.000 |
+| `mini_qformer` | +6.75 [6.08, 7.43] | +19.53 [17.49, 21.80] | 1.000 / 1.000 |
+| `residual` | +16.22 [15.44, 17.01] | +43.66 [41.26, 46.25] | 1.000 / 1.000 |
+
+No interval touches zero; the effect is not a seed-42 artifact in the
+per-sample sense either.
+
 **This changes the reading from "bridge-agnostic lift" to "decoder-capacity
 equalizes bridge quality."** It is not that LoRA adds a fixed bonus per bridge;
 once the decoder has even a little capacity to use whatever representation it
@@ -485,7 +508,14 @@ should be read.
 **§5 is content-complete and locked as of 2026-09-06.** All parallel Kaggle
 work done. §6.1/§6.3/§6.4 already rewritten to match the reordered §5.
 
-Remaining (not blocking a complete §5; camera-ready / reviewer-response items):
+- [x] **G10**: paired-bootstrap 95% CIs (`scripts/bootstrap_ci.py`,
+      `outputs/bootstrap_ci.json`) — folded into §5.1 (multi_token CIDEr-D CI
+      [91.3, 97.1] entirely above ViMoE 88.7) and §5.6 (all 4 bridges' LoRA
+      lift: every ΔF1/ΔCIDEr-D CI clear of zero, P(Δ>0)=1.000).
+
+Remaining (not blocking a complete §5; a light budget-allocation reframe of §5
+is queued for when the TIER-1 3-seed numbers land; other camera-ready /
+reviewer-response items):
 - [ ] §5.5: multi-seed numbers + CI for the answer-sampling / align-KD rows;
       re-run align-feat/logit on full val (both were cut short) if a reviewer
       asks for it

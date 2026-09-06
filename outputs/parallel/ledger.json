@@ -729,7 +729,7 @@
       "answer_sampling": null,
       "align": null,
       "lora": "16",
-      "result": "pulled+evaluated+rescored 2026-09-06, merged into Bảng 3/5/A3"
+      "result": "pulled+evaluated+rescored 2026-09-06, merged into B\u1ea3ng 3/5/A3"
     },
     "expa-lora16:residual:s123": {
       "account": "acc14",
@@ -743,7 +743,7 @@
       "answer_sampling": null,
       "align": null,
       "lora": "16",
-      "result": "pulled+evaluated+rescored 2026-09-06, merged into Bảng 3/5/A3"
+      "result": "pulled+evaluated+rescored 2026-09-06, merged into B\u1ea3ng 3/5/A3"
     },
     "expa-lora16:mini_qformer:s3407": {
       "account": "acc16",
@@ -757,7 +757,7 @@
       "answer_sampling": null,
       "align": null,
       "lora": "16",
-      "result": "pulled+evaluated+rescored 2026-09-06, merged into Bảng 3/5/A3"
+      "result": "pulled+evaluated+rescored 2026-09-06, merged into B\u1ea3ng 3/5/A3"
     },
     "expa-lora16:residual:s3407": {
       "account": "acc8",
@@ -771,7 +771,7 @@
       "answer_sampling": null,
       "align": null,
       "lora": "16",
-      "result": "pulled+evaluated+rescored 2026-09-06, merged into Bảng 3/5/A3"
+      "result": "pulled+evaluated+rescored 2026-09-06, merged into B\u1ea3ng 3/5/A3"
     },
     "expa-lora16:tile_attention:s42": {
       "account": "acc1",
@@ -785,7 +785,7 @@
       "answer_sampling": null,
       "align": null,
       "lora": "16",
-      "result": "pulled+evaluated+rescored 2026-09-06, merged into Bảng 3/5/A3"
+      "result": "pulled+evaluated+rescored 2026-09-06, merged into B\u1ea3ng 3/5/A3"
     },
     "expa-align-feat:multi_token:s123": {
       "account": "acc2",
@@ -980,30 +980,6 @@
       "answer_sampling": null,
       "align": null
     },
-    "expa:qformer:s42": {
-      "account": "acc4",
-      "kernel": "nguyennn251/mvlm-expa-qformer-s42",
-      "status": "running",
-      "pushed_at": "2026-09-06T20:12:32",
-      "collected": false,
-      "bridge": "qformer",
-      "seed": 42,
-      "tiles": null,
-      "answer_sampling": null,
-      "align": null
-    },
-    "expa:mini_qformer:s42": {
-      "account": "acc5",
-      "kernel": "nguyennguyen263/mvlm-expa-mini-qformer-s42",
-      "status": "running",
-      "pushed_at": "2026-09-06T20:12:35",
-      "collected": false,
-      "bridge": "mini_qformer",
-      "seed": 42,
-      "tiles": null,
-      "answer_sampling": null,
-      "align": null
-    },
     "expa:residual:s42": {
       "account": "acc8",
       "kernel": "lelynhan/mvlm-expa-residual-s42",
@@ -1084,6 +1060,162 @@
       "account": "acc16(orig)",
       "kernel": "nguynrichard/mvlm-lora16-eval",
       "note": "1-epoch, locked in results-grouped-split.md"
+    },
+    "expa:qformer:s42__acc45_cancelled_lowquota": {
+      "account": "acc4",
+      "kernel": "nguyennn251/mvlm-expa-qformer-s42",
+      "status": "running",
+      "pushed_at": "2026-09-06T20:12:32",
+      "collected": false,
+      "bridge": "qformer",
+      "seed": 42,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null
+    },
+    "expa:mini_qformer:s42__acc45_cancelled_lowquota": {
+      "account": "acc5",
+      "kernel": "nguyennguyen263/mvlm-expa-mini-qformer-s42",
+      "status": "running",
+      "pushed_at": "2026-09-06T20:12:35",
+      "collected": false,
+      "bridge": "mini_qformer",
+      "seed": 42,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null
+    },
+    "expa:qformer:s42__moved_again": {
+      "account": "acc11",
+      "kernel": "chalicetrncthnh/mvlm-expa-qformer-s42",
+      "status": "running",
+      "pushed_at": "2026-09-06T20:42:47",
+      "collected": false,
+      "bridge": "qformer",
+      "seed": 42,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null
+    },
+    "expa:mini_qformer:s42__moved_again": {
+      "account": "acc9",
+      "kernel": "masalamohammad/mvlm-expa-mini-qformer-s42",
+      "status": "running",
+      "pushed_at": "2026-09-06T20:42:49",
+      "collected": false,
+      "bridge": "mini_qformer",
+      "seed": 42,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null
+    },
+    "expa:qformer:s42": {
+      "account": "acc14",
+      "kernel": "nguyendinhdoanh/mvlm-expa-qformer-s42",
+      "status": "running",
+      "pushed_at": "2026-09-06T20:44:27",
+      "collected": false,
+      "bridge": "qformer",
+      "seed": 42,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null
+    },
+    "expa:mini_qformer:s42": {
+      "account": "acc13",
+      "kernel": "avanrager/mvlm-expa-mini-qformer-s42",
+      "status": "running",
+      "pushed_at": "2026-09-06T20:44:29",
+      "collected": false,
+      "bridge": "mini_qformer",
+      "seed": 42,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null
+    },
+    "expa-lora16-mlp:multi_token:s42": {
+      "account": "acc4",
+      "kernel": "nguyennn251/mvlm-expa-lora16-mlp-multi-token-s42",
+      "status": "running",
+      "pushed_at": "2026-09-06T20:59:58",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 42,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null,
+      "lora": "16",
+      "lora_targets": "gate_proj,up_proj,down_proj"
+    },
+    "expa-lora16-mlp:multi_token:s123": {
+      "account": "acc5",
+      "kernel": "nguyennguyen263/mvlm-expa-lora16-mlp-multi-token-s123",
+      "status": "running",
+      "pushed_at": "2026-09-06T21:00:00",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 123,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null,
+      "lora": "16",
+      "lora_targets": "gate_proj,up_proj,down_proj"
+    },
+    "expa-lora16-mlp:multi_token:s3407": {
+      "account": "acc11",
+      "kernel": "chalicetrncthnh/mvlm-expa-lora16-mlp-multi-token-s3407",
+      "status": "running",
+      "pushed_at": "2026-09-06T21:00:02",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 3407,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null,
+      "lora": "16",
+      "lora_targets": "gate_proj,up_proj,down_proj"
+    },
+    "expa-lora16-all:multi_token:s42": {
+      "account": "acc10",
+      "kernel": "giapht/mvlm-expa-lora16-all-multi-token-s42",
+      "status": "running",
+      "pushed_at": "2026-09-06T21:00:05",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 42,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null,
+      "lora": "16",
+      "lora_targets": "q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj"
+    },
+    "expa-lora16-all:multi_token:s123": {
+      "account": "acc8",
+      "kernel": "lelynhan/mvlm-expa-lora16-all-multi-token-s123",
+      "status": "running",
+      "pushed_at": "2026-09-06T21:00:06",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 123,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null,
+      "lora": "16",
+      "lora_targets": "q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj"
+    },
+    "expa-lora16-all:multi_token:s3407": {
+      "account": "acc6",
+      "kernel": "knull0d/mvlm-expa-lora16-all-multi-token-s3407",
+      "status": "running",
+      "pushed_at": "2026-09-06T21:00:09",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 3407,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null,
+      "lora": "16",
+      "lora_targets": "q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj"
     }
   }
 }

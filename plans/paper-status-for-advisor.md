@@ -45,14 +45,21 @@ này là động lực cho phần phân tích điểm nghẽn.
 | Mô hình | Acc | Prec | Rec | F1 | BLEU | ROUGE | METEOR | CIDEr |
 |---|--:|--:|--:|--:|--:|--:|--:|--:|
 | Vintern-1B (gốc, zero-shot) | 0.12 | 17.52 | 19.87 | 17.55 | 1.91 | 25.84 | 23.93 | 8.54 |
+| ViT5_ViT | 7.97 | 46.84 | 50.33 | 48.52 | 4.13 | 46.89 | 31.02 | 72.68 |
+| BARTPhoBEiT | 8.81 | 45.30 | 46.48 | 45.88 | 4.33 | 44.83 | 24.57 | 188.96 ᵃ |
 | Vintern-1B (fine-tuned) | 13.01 | 52.47 | 55.12 | 53.76 | 6.11 | 51.93 | 35.25 | 72.84 |
+| Llama 3.2 (zero-shot) | 0.36 | 23.96 | 73.71 | 36.16 | 3.62 | 36.11 | 30.01 | 62.84 |
+| Gemini 2.0 Flash | 0.55 | 27.20 | 74.10 | 39.79 | 4.41 | 39.60 | 31.72 | 74.42 |
+| Gemini 2.5 Flash | 0.22 | 24.43 | 76.66 | 24.75 | 0.39 | 37.27 | 31.22 | 71.90 |
 | GPT-5 (zero-shot) | 10.84 | 47.20 | 55.20 | 50.89 | 6.07 | 47.30 | 33.34 | 84.20 |
 | ViMoE-VQA | 9.65 | 62.89 | 58.65 | 60.69 | 12.54 | 47.07 | 39.10 | 88.67 |
 | **Bridge Multi-Token (0.78%, 1 tile)** | **8.28** | **50.53** | **51.72** | **49.82** | **15.99** | **48.11** | **40.47** | **96.98** |
 | **  + LoRA cho decoder, r=16 (~1.0%)** | **10.42** | **53.85** | **55.00** | **53.17** | **19.44** | **51.48** | **43.91** | **105.59** |
 | **  + LoRA cho decoder, r=16, 3 epoch** | **11.78** | **55.54** | **56.25** | **54.67** | **20.98** | **52.92** | **45.24** | **109.60** |
 
-Bài báo trình bày bảng đầy đủ với chín baseline.
+*In đậm = phương pháp đề xuất. ᵃ CIDEr của BARTPhoBEiT là giá trị ngoại lai do
+mô hình sinh câu dài; không đưa vào so sánh. Các dòng baseline lấy theo báo cáo
+của benchmark AutoViVQA.*
 
 Theo cách đo corpus (dùng để so sánh với các công trình khác): Bridge Multi-Token
 đạt CIDEr-D 92.8 ± 1.1 (khoảng tin cậy 95%: [91.3, 97.1], nằm hoàn toàn trên mức

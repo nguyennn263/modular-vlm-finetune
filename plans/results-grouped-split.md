@@ -29,6 +29,79 @@
 Vẫn thua F1 rõ rệt (49.8 vs 60.7, −10.9) — nhất quán với 3-way negative ở mục 3
 (frozen decoder là trần). Đây là dòng headline chính thức cho paper.
 
+---
+
+## TIER-1 progress + epoch audit — 06/09/2026 13:15 UTC (ĐANG XỬ LÝ, chưa chốt)
+
+### Epoch KHÔNG đồng đều giữa các seed — đang chuẩn hoá về 2 epoch
+
+Kiểm tra `epochs_trained` trong summary.json:
+
+| Nhóm | seed 42 | seed 123 / 2026 / 3407 |
+|---|:--:|:--:|
+| Bridge plain (5 bridge) | **4 ep** (~10h) | **2 ep** (~5h) |
+| multi_token plain 4-seed "khoá" | s42 = 4 ep | s123/2026/3407 = 2 ep |
+| Decoder-LoRA r=16 (mọi bridge, mọi seed) | 1 ep | 1 ep ✅ |
+| Decoder-LoRA biến thể dài | 3 ep | 3 ep (multi_token) ✅ |
+| Dòng âm answer-random | s42 = 4 ep | s123/s3407 = 2 ep |
+| Dòng âm align-feat | s42 = **3 ep** (lạ) | s123/s3407 = 2 ep |
+
+→ LoRA an toàn. Bridge plain + dòng âm bị lệch epoch giữa s42 và các seed khác.
+seed 42 KHÔNG lưu checkpoint epoch-2 (chỉ epoch-4) → không re-eval được.
+
+**Hành động:** đã stash 7 key seed-42 (`__Nep_locked`), checkpoint 4ep lưu ở
+`checkpoints/expA-4ep/seed42/`. Launched lại 7 job seed-42 @ `--epochs 2`
+(2026-09-06 ~13:15 UTC, acc1/4/5/8/10/13/14). Dự kiến ~18:15 UTC. Chuẩn 2 epoch
+= default `run.py` + CIDEr bão hoà từ ep2.
+
+### residual seed-42 @ 4ep là LẦN CHẠY HỎNG, không phải "bridge yếu"
+
+| residual | best val loss | F1(token) | CIDEr-D |
+|---|--:|--:|--:|
+| seed 42 @ 4ep (đang dùng ở §1, §4b, blueprint) | **2.354** ⚠️ | 36.45 | 56.3 |
+| seed 123 @ 2ep (TIER-1, mới) | 1.672 | 45.14 | 85.4 corpus |
+| seed 3407 @ 2ep (TIER-1, mới) | 1.676 | 45.88 | 86.7 corpus |
+
+val loss 2.35 bất thường (mọi bridge/seed khác 1.5–1.7). Đây là training
+instability của riêng seed 42, KHÔNG phải đặc tính kiến trúc residual.
+
+**Hệ quả cho paper:** câu chuyện "residual = bridge tệ nhất (F1 36.5) → sau LoRA
+lên ngang hàng (52.7), ΔF1 +16.2" (§4b, §5.6/§5.7 draft) **phần lớn do lần chạy
+hỏng này**. Với seed bình thường residual plain ≈ F1 45.5 → ΔF1 từ LoRA chỉ ~+7,
+giống các bridge khác. Điểm "san bằng bridge" VẪN đúng (mọi bridge → 52–53 F1 /
+101–103 CIDEr-D sau LoRA) nhưng BỚT kịch tính — bỏ con số +16.2. Chờ seed-42
+residual @ 2ep xác nhận s42 có bình thường hoá không.
+
+### Số 1a sơ bộ (seed 123/3407 @ 2ep, full-val, in-house F1 / CIDEr-D corpus)
+
+| bridge · seed | F1 | CIDEr | BLEU | ROUGE | MET | val loss | CIDEr-D | BLEU-4 | ROUGE-L |
+|---|--:|--:|--:|--:|--:|--:|--:|--:|--:|
+| mini_qformer · 123 | 46.16 | 86.33 | 13.43 | 44.45 | 36.79 | 1.615 | 84.9 | 15.6 | 45.1 |
+| mini_qformer · 3407 | 45.54 | 84.28 | 13.03 | 43.87 | 36.13 | 1.603 | 84.7 | 15.4 | 46.9 |
+| qformer · 3407 | 47.13 | 89.01 | 14.01 | 45.38 | 37.62 | 1.566 | 90.4 | 16.5 | 47.5 |
+| residual · 123 | 45.14 | 85.38 | 12.50 | 43.23 | 36.27 | 1.672 | 80.2 | 15.2 | 43.9 |
+| residual · 3407 | 45.88 | 86.67 | 12.70 | 44.10 | 36.82 | 1.676 | 89.3 | 15.3 | 47.1 |
+| tile_attention · 123 | 46.49 | 86.48 | 12.66 | 44.60 | 37.12 | 1.646 | 84.0 | 15.5 | 45.2 |
+| tile_attention · 3407 | 44.51 | 82.37 | 12.13 | 42.59 | 35.53 | 1.706 | 83.6 | 14.3 | 45.0 |
+| answer-random · 123 | 48.19 | 91.28 | 14.14 | 46.41 | 38.43 | 1.551 | 90.5 | 16.0 | 48.3 |
+| answer-random · 3407 | 48.01 | 90.53 | 14.34 | 46.37 | 38.54 | 1.552 | 90.9 | 19.0 | 48.3 |
+
+Checkpoint đã stage vào `checkpoints/expA/seed{123,3407}/<bridge>/` và
+`checkpoints/expA-random/seed{123,3407}/multi_token/`. **Chưa tính mean / cập
+nhật bảng** — chờ seed-42 @ 2ep để 3-seed đồng nhất epoch.
+
+Nhận xét sơ bộ: seed 123/3407 @ 2ep thấp hơn seed-42 @ 4ep ~0.5–1 điểm F1 cho
+mini_qformer/qformer/tile_attention/answer-random (đúng như dự đoán epoch). Với
+2 epoch, các bridge phụ chụm quanh F1 44.5–47, CIDEr-D 84–90 — chênh lệch giữa
+bridge nhỏ hơn nhiều so với bảng §1 (dùng seed-42 với residual hỏng).
+
+### Còn chạy (13:15 UTC)
+
+- 1b align-logit × 3 seed (s42/s123/s3407) + align-feat s123/s3407 — 5 job
+- 7 job seed-42 @ 2ep re-run vừa launch
+
+---
+
 ## 1. So 5 bridge (val, grouped split, seed 42, 1 tile) — ĐÃ KHÓA
 
 Metric pycocoevalcap corpus (chuẩn để so paper khác).
@@ -39,7 +112,11 @@ Metric pycocoevalcap corpus (chuẩn để so paper khác).
 | Full Q-Former (16 query) | 69.4M | 6.91 | 86.7 | 17.5 | 47.1 | 43.3 | 1.57 |
 | Light Q-Former (8 query) | 27.6M | 2.87 | 83.8 | 16.8 | 46.0 | 42.9 | 1.59 |
 | Tile-Attention (8 tok) | 4.14M | 0.44 | 82.7 | 16.3 | 46.1 | 43.0 | 1.62 |
-| Residual (1 tok) | 4.86M | 0.52 | 56.3 | 8.1 | 36.0 | 37.6 | 2.35 |
+| Residual (1 tok) | 4.86M | 0.52 | 56.3 ⚠️ | 8.1 ⚠️ | 36.0 ⚠️ | 37.6 ⚠️ | 2.35 ⚠️ |
+
+⚠️ **Dòng residual = lần chạy hỏng seed 42** (val CE 2.35 bất thường). seed
+123/3407 @ 2ep cho residual F1 ~45.5, CIDEr-D ~85 — xem "epoch audit" phía trên.
+Cần thay bằng 3-seed @ 2ep khi seed-42 re-run land.
 
 Multi-token tốt nhất mọi mặt **và** có CE thấp nhất — quan trọng cho §2 dưới.
 
@@ -278,6 +355,11 @@ Cực kỳ khít (std 0.11, nhỏ hơn cả multi_token's 0.03... thực ra tư�
 nhận chắc chắn decoder-LoRA generalize sang qformer, không phải may rủi seed.
 
 ### Bridge-agnostic 5/5: mini_qformer + residual + tile_attention — ĐÃ XONG (TIER-1 land 06/09)
+
+⚠️ **residual plain (36.45) là seed-42 hỏng — xem "epoch audit" đầu file.** ΔF1 +16.2
+cho residual sẽ giảm còn ~+7 khi dùng residual plain @ 2ep (~45.5). Bảng dưới giữ
+số cũ, ĐÁNH DẤU để sửa sau khi seed-42 @ 2ep land. Điểm "san bằng 5/5" (kết quả +LoRA
+đều ~52–53) không đổi.
 
 LoRA r=16 (1 epoch) áp thêm lên 3 bridge nữa. mini_qformer + residual: **mean 3-seed**
 (s42/123/3407, full-val n=5463). tile_attention: seed 42.

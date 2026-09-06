@@ -162,7 +162,7 @@ thấp hơn hẳn plain (1.37–1.39 vs 1.49).
 **Ý nghĩa cho paper:** đây là can thiệp DUY NHẤT trong tất cả các thử (routing, answer-
 sampling, align-KD, decoder-LoRA) thực sự cải thiện F1 — và nó là can thiệp DUY NHẤT
 đụng vào decoder. Càng củng cố §6.1: **frozen decoder là trần**; mở nó ra (dù rất nhẹ,
-~2% param LoRA) mới nhích được, còn mọi can thiệp phía thị giác/training đều vô ích.
+0.23% param LoRA) mới nhích được, còn mọi can thiệp phía thị giác/training đều vô ích.
 
 Đóng khung: multi_token + LoRA vẫn KHÔNG phải "frozen backbone" nữa — trình bày như
 **phần bổ sung/reference point**, không phải spine chính (spine chính vẫn là bridge
@@ -296,7 +296,7 @@ LoRA r=16 áp thêm lên 2 bridge nữa (seed42, full-val n=5463, in-house + cor
 với mọi bridge khác sau LoRA (CIDEr-D 100.0, so với multi_token+LoRA 101.7, qformer+LoRA
 101.9, mini_qformer+LoRA 103.3)** — chênh lệch giữa các bridge gần như BIẾN MẤT sau khi
 mở decoder. Đây là bằng chứng mạnh nhất cho luận điểm §6.1: khi decoder được mở (dù
-chỉ LoRA r=16, ~2% param), **bridge nào cho decoder cũng dùng được gần như nhau** —
+chỉ LoRA r=16, 0.23% param), **bridge nào cho decoder cũng dùng được gần như nhau** —
 cái quyết định chất lượng cuối không phải bridge tinh vi cỡ nào, mà là decoder có
 capacity để khai thác hay không. Giờ đã 4/5 bridge (multi_token, qformer, mini_qformer,
 residual) đều xác nhận decoder-LoRA có lợi, chỉ còn tile_attention chưa test.

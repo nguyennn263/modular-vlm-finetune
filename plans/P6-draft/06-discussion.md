@@ -26,8 +26,8 @@ the finding:
    improve on.
 
 3. **Decoder-LoRA is the one intervention that moves F1, and it is
-   bridge-agnostic (§5.6).** Opening ~2% of Qwen2-0.5B's parameters (LoRA
-   r=16 on `q/k/v/o`) lifts F1 +3.4 on `multi_token` (3/3 seeds locked) and
+   bridge-agnostic (§5.6).** Opening 0.23% of Qwen2-0.5B's parameters (LoRA
+   r=16 on `q/k/v/o`, 2.16M) lifts F1 +3.4 on `multi_token` (3/3 seeds locked) and
    +5.4 on `qformer` — a *larger* effect on a different bridge, which rules out
    "one bridge's LoRA got lucky" as an explanation. Both lifts come with lower
    validation CE, and the corpus-level (pycocoevalcap) rescore confirms the

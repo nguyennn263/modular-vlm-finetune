@@ -371,7 +371,9 @@ LoRA'd bridges (`multi_token` 101.7, `qformer` 101.9, `mini_qformer` 103.3,
 **Every LoRA lift is significant by paired bootstrap** (seed 42, 5 463 val
 samples, resampled indices scoring both models each iteration;
 `scripts/bootstrap_ci.py`). The plain→LoRA delta and its 95% CI, on the two
-metrics that support a per-sample or resampled-corpus bootstrap:
+metrics that support a per-sample or resampled-corpus bootstrap (F1 here is the
+in-house best-over-refs word-overlap F1 used throughout §5.6, i.e. the
+`multi_token` 50.7→53.2 column — not §5.1's cross-paper pycoco F1):
 
 | bridge | ΔF1 [95% CI] | ΔCIDEr-D [95% CI] | P(Δ>0) |
 |---|---|---|---|

@@ -351,23 +351,26 @@ though still below `multi_token`-plain's CIDEr-D (94.4).
 This is now **the strongest single number across every bridge/variant tested**,
 plain or LoRA — it beats ViMoE-VQA on all three corpus metrics (+13.0/+10.7/+5.6)
 *and* beats `multi_token`-plain's own CIDEr-D (94.4), which nothing else in this
-paper does. Both LoRA bridges now have complete in-house + corpus numbers.
+paper does.
 
-**Extends to 4/5 bridges — and the pattern is convergence, not just a lift.**
-LoRA r=16 on the remaining two bridges (seed 42, full-val, corpus metrics):
+**Extends to 5/5 bridges — and the pattern is convergence, not just a lift.**
+LoRA r=16 on the remaining three bridges (`mini_qformer`/`residual` are 3-seed
+means, `tile_attention` seed 42; full-val, corpus CIDEr-D):
 
-| bridge | F1 | Δ | CIDEr-D (plain → LoRA) | Δ | BLEU-4 | Δ |
-|---|---:|---:|---:|---:|---:|---:|
-| `mini_qformer` | 46.63 → **53.39** | +6.8 | 83.8 → **103.3** | +19.5 | 16.8 → **24.1** | +7.3 |
-| `residual` (weakest plain bridge) | 36.45 → **52.66** | **+16.2** | 56.3 → **100.0** | **+43.7** | 8.1 → **22.1** | +14.0 |
+| bridge | plain F1 → +LoRA | ΔF1 | plain CIDEr-D → +LoRA | ΔCIDEr-D |
+|---|---:|---:|---:|---:|
+| `mini_qformer` (3-seed, std 0.13) | 46.63 → **53.21** | +6.6 | 83.8 → **103.0** | +19.2 |
+| `residual` (3-seed, std 0.03; weakest plain bridge) | 36.45 → **52.63** | **+16.2** | 56.3 → **100.8** | **+44.5** |
+| `tile_attention` (seed 42) | 46.69 → **52.99** | +6.3 | 87.5 → **102.0** | +14.5 |
 
 `residual` — the weakest plain bridge by a wide margin (CIDEr-D 56.3, far below
-the 82–94 cluster the other four occupy) — gets **by far the largest LoRA
-lift of any bridge tested (+43.7 CIDEr-D)** and lands at 100.0, statistically
-indistinguishable from the other three LoRA'd bridges (101.7–103.3). All four
-LoRA'd bridges (`multi_token` 101.7, `qformer` 101.9, `mini_qformer` 103.3,
-`residual` 100.0) now cluster within 3.3 points of each other, despite starting
-38 points apart (56.3 to 94.4) as plain bridges.
+the 82–94 band the other four occupy) — gets **by far the largest LoRA lift of
+any bridge tested (+44.5 CIDEr-D)** and lands at 100.8, statistically
+indistinguishable from the rest. **All five** LoRA'd bridges (`multi_token`
+101.7, `qformer` 102.4, `mini_qformer` 103.0, `residual` 100.8,
+`tile_attention` 102.0) now sit inside a 2.6-point band, despite starting
+~38 points apart (56.3 to 94.4) as plain bridges. `residual`'s 3-seed F1 std
+of 0.03 is as tight as `multi_token`'s — the equalization is not a seed artifact.
 
 **Every LoRA lift is significant by paired bootstrap** (seed 42, 5 463 val
 samples, resampled indices scoring both models each iteration;
@@ -391,9 +394,10 @@ equalizes bridge quality."** It is not that LoRA adds a fixed bonus per bridge;
 once the decoder has even a little capacity to use whatever representation it
 is given, *which* bridge supplies that representation stops mattering much.
 The bottleneck is decoder capacity, not bridge sophistication — the strongest
-single piece of evidence in §5.6 for the frozen-decoder-ceiling reading. 4/5
-bridges are now confirmed (only `tile_attention`, dropped in §5.1 for a P100
-OOM, is untested).
+single piece of evidence in §5.6 for the frozen-decoder-ceiling reading. **All
+5/5 bridges** are now confirmed, including `tile_attention` (which was dropped
+from the oracle action space in §5.1 for a P100 OOM at >1 tile, but LoRA-tunes
+fine at 1 tile).
 
 **Training duration.** All LoRA numbers above are 1 epoch, matching the
 headline bridge's schedule. Extending `multi_token`+LoRA r=16 to 3 epochs
@@ -411,10 +415,10 @@ it is the only one that touches the decoder. It does not weaken the
 frozen-backbone efficiency claim (§5.1–5.2) — it is reported here as a
 robustness/reference point, quantifying exactly how much headroom exists once
 the one deliberate departure from "everything but the bridge is frozen" is
-allowed, not as a replacement for the main spine. All four LoRA'd bridges' F1/
-CIDEr/BLEU numbers are locked at r=16 (3/3 seeds for `multi_token`/`qformer`,
-1 seed for `mini_qformer`/`residual`, in-house and corpus); the rank robustness
-check above rules out r=16 being a cherry-picked lucky value.
+allowed, not as a replacement for the main spine. All five LoRA'd bridges'
+F1/CIDEr/BLEU numbers are locked at r=16 (3-seed for `multi_token`/`qformer`/
+`mini_qformer`/`residual`, seed 42 for `tile_attention`, in-house and corpus);
+the rank robustness check above rules out r=16 being a cherry-picked lucky value.
 
 ## 5.7 Summary of findings
 
@@ -426,15 +430,16 @@ to ViMoE-VQA were tried on top of the frozen-backbone, 1-tile bridge:
 | visual-compute allocation | reasoning-type-adaptive tile routing | no policy beats fixed 1-tile (§5.3–5.4) |
 | training target | multi-reference (`answer-sampling=random`) | F1 −1.7, no lift (§5.5) |
 | representation alignment | projector-KD from Vintern's `mlp1` | F1 −1.0 (`feat`), −10 mis-weighted (`logit`) (§5.5) |
-| decoder capacity | LoRA r=16 on Qwen2 attention | **F1 +6.8 to +16.2** across 4/5 bridges — the one positive (§5.6) |
+| decoder capacity | LoRA r=16 on Qwen2 attention | **F1 +2.5 to +16.2** across 5/5 bridges — the one positive (§5.6) |
 
 **Reading:** three vision-/training-side interventions, all negative;
 one decoder-side intervention, clearly positive **and not just bridge-agnostic
-— bridge-equalizing**. LoRA lifts F1 on every bridge tested (`multi_token`
-+3.4, `qformer` +5.4, `mini_qformer` +6.8, `residual` +16.2), and the plain
-bridges' 38-point CIDEr-D spread (56.3–94.4) collapses to a 3.3-point cluster
-(100.0–103.3) once LoRA'd — the weakest plain bridge gains the most. This is
-not noise — it localizes the bottleneck. With a fully frozen, small (0.5B)
+— bridge-equalizing**. LoRA lifts F1 on all 5/5 bridges tested (`multi_token`
++2.5, `qformer` +5.4, `mini_qformer` +6.6, `residual` +16.2,
+`tile_attention` +6.3), and the plain bridges' ~38-point CIDEr-D spread
+(56.3–94.4) collapses to a 2.6-point band (100.8–103.0) once LoRA'd — the
+weakest plain bridge gains the most. This is not noise — it localizes the
+bottleneck. With a fully frozen, small (0.5B)
 decoder, additional visual detail, training signal, or representation
 alignment on the vision side has nothing to attach to; the frozen decoder is
 the ceiling, not the vision pipeline — and once that ceiling is even slightly
@@ -529,5 +534,5 @@ reviewer-response items):
       benefit from tiles unlike `multi_token`; needs a standalone full-val eval
       before use. Does not touch locked §5.2/§5.3 — `residual` isn't in the
       |A|=9 oracle action space.
-- [ ] `tile_attention` is the one untested bridge for the LoRA sweep (4/5 done);
-      dropped in §5.1 for a P100 OOM, low priority.
+- [x] LoRA bridge coverage complete — 5/5 bridges (`tile_attention`+LoRA F1
+      52.99 / CIDEr-D 102.0, seed 42) confirm bridge-equalizing.

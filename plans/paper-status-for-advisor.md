@@ -90,6 +90,18 @@ ban đầu (RQ6).*
 
 *→ Bridge sụp ngay khi vượt 1 tile (RQ3).*
 
+*Chi phí encode thị giác của InternViT trên mỗi ảnh (Tesla P100-16GB):*
+
+| Số tile | GFLOPs | Độ trễ (ms) | Thông lượng (ảnh/s) |
+|--:|--:|--:|--:|
+| 1 (của ta) | 362 | 229 | 6.00 |
+| 2 | 724 | 374 | 3.30 |
+| 4 | 1 448 | 648 | 1.70 |
+| 6 | 2 172 | 922 | 1.15 |
+
+*→ Tăng số tile vừa làm hỏng chất lượng vừa đắt: 1→6 tile là FLOPs ×6, độ trễ
+×4. Recipe dùng 1 tile nên không tốn chi phí này.*
+
 **Nhận định:** Bốn trục phía thị giác đều không cải thiện; chỉ can thiệp vào
 decoder (LoRA) là có tác dụng, và lặp lại nhất quán trên mọi loại bridge → frozen
 decoder là điểm nghẽn đáng kể. Ngoài ra, các bridge vốn chênh lệch lớn về CIDEr-D

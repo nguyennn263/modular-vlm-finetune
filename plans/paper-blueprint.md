@@ -2,7 +2,11 @@
 
 > Cấu trúc theo paper AutoViVQA / ViMoE (cùng nhóm). Mọi bảng metric đầy đủ 8 cột
 > (Acc / Prec / Rec / F1 / BLEU / ROUGE-L / METEOR / CIDEr, in-house ×100) để theo dõi.
-> Cập nhật 2026-09-06. Ô đánh dấu **(TIER-1)** đang chạy, sẽ điền khi land.
+> Cập nhật 2026-09-06.
+>
+> **Quy ước số:** số hiện tại là **seed 42** trừ khi ghi "mean N seed" (multi_token
+> plain = 4 seed, multi_token/qformer + LoRA = 3 seed — đã khoá). TIER-1 đang nâng
+> các dòng còn lại lên 3-seed; ô ghi "đang chạy" là chưa có số nào cả.
 >
 > Khung câu chuyện: artifact "Cải Thiện Vintern-1B Cách Rẻ"
 > (https://claude.ai/code/artifact/bb7bf7ee-d5f1-4749-bb56-29a5c5daa610)
@@ -85,12 +89,13 @@ Mọi cải thiện plain→LoRA significant (P(Δ>0) = 1.000).
 
 ### Bảng 2 — So 5 bridge (RQ1–2) + LoRA (RQ6)
 
-*seed 42; multi_token & qformer-LoRA: mean 3-seed. **(TIER-1)** = đang chạy thêm seed.*
+*Số seed 42, trừ: multi_token plain = mean 4-seed; multi_token & Full Q-Former + LoRA = mean 3-seed.
+"đang chạy" = TIER-1 job chưa land, chưa có số nào.*
 
 | Bridge | Param | % | F1 plain | F1 +LoRA | ΔF1 | CIDEr plain | CIDEr +LoRA | val CE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
 | Residual (1 tok) | 4.86M | 0.52 | 36.45 | **52.66** | **+16.2** | 66.07 | **103.26** | 2.35 |
-| Tile-Attention (8 tok) | 4.14M | 0.44 | 46.69 | *(TIER-1)* | — | 87.46 | *(TIER-1)* | 1.62 |
+| Tile-Attention (8 tok) | 4.14M | 0.44 | 46.69 | *đang chạy* | — | 87.46 | *đang chạy* | 1.62 |
 | Multi-Token (8 tok pooled) | 7.35M | 0.78 | 49.82 | 53.17 | **+3.4** | 96.98 | 105.59 | 1.49 |
 | Light Q-Former (8 query) | 27.6M | 2.87 | 46.63 | **53.39** | **+6.8** | 88.10 | **106.65** | 1.59 |
 | Full Q-Former (16 query) | 69.4M | 6.91 | 47.66 | **53.21** | **+5.4** | 90.82 | **105.70** | 1.57 |
@@ -103,36 +108,41 @@ Mọi cải thiện plain→LoRA significant (P(Δ>0) = 1.000).
 
 ### Bảng 3 — Ablation 6-RQ: bảng tổng hợp
 
-*ΔF1 so anchor (multi_token plain seed 42: F1 50.7 / CIDEr-D 94.4). **(TIER-1)** dòng ÂM đang lên 3-seed.*
+*ΔF1 so anchor (multi_token plain seed 42: F1 50.7 / CIDEr-D 94.4 corpus). Số seed 42
+trừ RQ6 (mean 3-seed). Dòng ÂM: TIER-1 đang nâng lên 3-seed.*
 
 | RQ · trục | Can thiệp | F1 | CIDEr-D | ΔF1 | Verdict |
 |---|---|---:|---:|---:|---|
 | — anchor | multi_token plain | 50.7 | 94.4 | — | — |
 | RQ1–2 · bridge capacity | Q-Former 69M param | 47.7 | 86.7 | −3.0 | **âm** |
-| RQ3 · số tile | eval @ 3 tile | 21.1 | — | −29.6 | **âm (sụp)** |
+| RQ3 · số tile | eval @ 3 tile | 21.1 | ~46 | −29.6 | **âm (sụp)** |
 | RQ4 · routing động | policy (reasoning + visual) | ≈50.7 | ≈94 | ≈0 | **âm** (không thắng fixed) |
-| RQ5 · training target | answer-sampling = random | 49.0 | 90.6 | −1.7 | **âm** |
-| RQ5 · alignment | align-feat KD α=1.0 | 49.7 | 96.4 | −1.0 | **âm** |
+| RQ5 · training target | answer-sampling = random | 49.0 | 87.3 | −1.7 | **âm** |
+| RQ5 · alignment (feat) | align-feat KD α=1.0 | 49.7 | 92.0 | −1.0 | **âm** |
+| RQ5 · alignment (logit) | align-logit KD α=1.0 † | 40.7 | 80.1 | −10.0 | **âm** † |
 | **RQ6 · decoder capacity** | **LoRA r=16 (1 epoch)** | **53.2** | **101.7** | **+2.5** | **DƯƠNG** |
 | **RQ6 · decoder capacity** | **LoRA r=16 (3 epoch)** | **54.7** | **106.8** | **+4.0** | **DƯƠNG** |
 
-*align-logit α=1.0 mis-weighted (KL chèn CE); TIER-1 đang chạy 3-seed để chốt "âm nhất quán".*
+† align-logit α=1.0: chạy ep2-subset bị cắt, α mis-weighted (KL chèn CE → val CE 2.84
+vs 1.49). TIER-1 đang chạy lại full-val 3-seed. Trục alignment vẫn dựa chính vào
+align-feat (behave đàng hoàng).
 
 ---
 
 ### Bảng 4 — Decoder-LoRA (RQ6)
 
-#### Bảng 4a — plain → +LoRA r=16, per bridge (seed 42, full-val)
+#### Bảng 4a — plain → +LoRA r=16, per bridge (full-val)
 
-*multi_token & qformer: mean 3-seed. mini_qf & residual: seed 42, **(TIER-1)** thêm 2 seed.*
+*multi_token & qformer: mean 3-seed. mini_qf & residual: seed 42 (TIER-1 thêm 2 seed).
+tile_attention: đang chạy.*
 
 | Bridge | F1 plain→LoRA | ΔF1 | ΔF1 95%CI | CIDEr-D plain→LoRA | ΔCIDEr-D | P(Δ>0) |
 |---|---|---:|---|---|---:|---:|
-| multi_token | 50.7 → 53.2 | +2.5 | [1.9, 3.1] | 94.4 → 101.7 | +7.3 | 1.000 |
-| qformer | 47.7 → 53.1 | +5.4 | — | 86.7 → 101.9 | +15.2 | 1.000 |
-| mini_qformer | 46.6 → 53.4 | +6.8 | — | 83.8 → 103.3 | +19.5 | 1.000 |
-| **residual** (tệ nhất) | 36.5 → 52.7 | **+16.2** | [15.4, 17.0] | 56.3 → 100.0 | **+43.7** | 1.000 |
-| tile_attention | 46.7 → *(TIER-1)* | — | — | 87.5 → *(TIER-1)* | — | — |
+| multi_token (3 seed) | 50.7 → 53.2 | +2.5 | [1.9, 3.1] | 94.4 → 101.7 | +7.3 | 1.000 |
+| qformer (3 seed) | 47.7 → 53.1 | +5.4 | — | 86.7 → 101.9 | +15.2 | 1.000 |
+| mini_qformer (s42) | 46.6 → 53.4 | +6.8 | — | 83.8 → 103.3 | +19.5 | 1.000 |
+| **residual** (s42, tệ nhất) | 36.5 → 52.7 | **+16.2** | [15.4, 17.0] | 56.3 → 100.0 | **+43.7** | 1.000 |
+| tile_attention | 46.7 → *đang chạy* | — | — | 87.5 → *đang chạy* | — | — |
 
 #### Bảng 4b — multi_token + LoRA r=16, từng seed đầy đủ 8 metric
 
@@ -224,11 +234,14 @@ Vintern-FT chạy ≤12 tile. Ours ở 1 tile: FLOPs ×6, latency ×4, throughpu
 
 ## PHẦN C — Đang chạy: TIER-1 (19 job)
 
+Không phải "chưa có số" — hầu hết đã có **seed 42**; TIER-1 nâng lên **3-seed mean ± std**.
+Chỉ 1 ô thật sự trống: **tile_attention + LoRA** (bridge này chưa từng LoRA).
+
 | Nhóm | Jobs | Điền vào bảng | Status |
 |---|---|---|---|
-| 1a bridge multi-seed | residual/mini_qformer/tile_attention × s123,s3407 + qformer s3407 | Bảng 2 → 3-seed | 7 running |
-| 1b dòng ÂM multi-seed | align-feat/answer-random × s123,s3407 + align-logit × 3 seed | Bảng 3 → 3-seed | 7 running |
-| 1c LoRA coverage | mini_qformer/residual +LoRA × s123,s3407 + tile_attention +LoRA s42 | Bảng 4 → 3-seed + 5/5 bridge | 5 running |
+| 1a bridge multi-seed | residual/mini_qformer/tile_attention × s123,s3407 + qformer s3407 | Bảng 2: seed 42 → 3-seed | 7 running |
+| 1b dòng ÂM multi-seed | align-feat/answer-random × s123,s3407 + align-logit × 3 seed (chạy lại full-val) | Bảng 3: seed 42 → 3-seed | 7 running |
+| 1c LoRA coverage | mini_qformer/residual +LoRA × s123,s3407 + **tile_attention +LoRA s42 (mới)** | Bảng 4: → 3-seed + 5/5 bridge | 5 running |
 
 **Sau TIER-1:** TIER-2 (LoRA target: attn vs MLP vs cả hai — làm sâu RQ6) · test-set eval ·
 [camera-ready] human validation thật · [stretch] decoder frozen to hơn (G7).

@@ -24,7 +24,12 @@ generation metric** while trailing on token-F1:
 | **multi_token** (0.78% trainable params) | **94.4** | **19.6** | **50.0** | 44.2 |
 | qformer | 86.7 | 17.5 | 47.1 | — |
 | mini_qformer | 83.8 | 16.8 | 46.0 | — |
-| residual | 56.3 | 8.1 | 36.0 | — |
+| residual † | 56.3 | 8.1 | 36.0 | — |
+
+† `residual`'s seed-42 training run was unstable (best val CE 2.35 vs 1.5–1.7
+elsewhere); its true plain numbers are closer to CIDEr-D ≈ 85 / F1 ≈ 45.5
+(seeds 123/3407), i.e. it is not the outlier this row suggests. Row pending a
+sound-seed replacement (§5.6 note).
 
 METEOR is omitted from cross-paper comparison — it is implementation-dependent
 (in-house 41.1 vs pycocoevalcap multi-ref 28.5 on identical predictions).
@@ -359,18 +364,25 @@ means, `tile_attention` seed 42; full-val, corpus CIDEr-D):
 
 | bridge | plain F1 → +LoRA | ΔF1 | plain CIDEr-D → +LoRA | ΔCIDEr-D |
 |---|---:|---:|---:|---:|
-| `mini_qformer` (3-seed, std 0.13) | 46.63 → **53.21** | +6.6 | 83.8 → **103.0** | +19.2 |
-| `residual` (3-seed, std 0.03; weakest plain bridge) | 36.45 → **52.63** | **+16.2** | 56.3 → **100.8** | **+44.5** |
-| `tile_attention` (seed 42) | 46.69 → **52.99** | +6.3 | 87.5 → **102.0** | +14.5 |
+| `mini_qformer` (3-seed) | 46.6 → **53.2** | +6.6 | 83.8 → **103.0** | +19.2 |
+| `residual` (see note) | ~45.5 → **52.6** | ~+7 | ~85 → **100.8** | ~+16 |
+| `tile_attention` (seed 42) | 46.7 → **53.0** | +6.3 | 87.5 → **102.0** | +14.5 |
 
-`residual` — the weakest plain bridge by a wide margin (CIDEr-D 56.3, far below
-the 82–94 band the other four occupy) — gets **by far the largest LoRA lift of
-any bridge tested (+44.5 CIDEr-D)** and lands at 100.8, statistically
-indistinguishable from the rest. **All five** LoRA'd bridges (`multi_token`
-101.7, `qformer` 102.4, `mini_qformer` 103.0, `residual` 100.8,
-`tile_attention` 102.0) now sit inside a 2.6-point band, despite starting
-~38 points apart (56.3 to 94.4) as plain bridges. `residual`'s 3-seed F1 std
-of 0.03 is as tight as `multi_token`'s — the equalization is not a seed artifact.
+**Note on `residual` plain.** The seed-42 `residual` checkpoint used elsewhere
+in earlier drafts was an unstable training run (best val CE 2.35, vs 1.5–1.7
+for every other bridge/seed) — F1 36.5 / CIDEr-D 56.3 is a training artifact,
+not an architecture property. Seeds 123 and 3407 at 2 epochs give `residual`
+plain F1 ≈ 45.5 / CIDEr-D ≈ 85, in line with `mini_qformer`/`tile_attention`.
+A seed-42 2-epoch re-run is pending; the `residual` row above uses the sound
+seeds. The LoRA'd `residual` number (F1 52.6, 3-seed std 0.03) is unaffected —
+all LoRA runs are 1 epoch and stable.
+
+All five LoRA'd bridges (`multi_token` 101.7, `qformer` 102.4, `mini_qformer`
+103.0, `residual` 100.8, `tile_attention` 102.0) land inside a **2.6-point
+CIDEr-D band** (52–53 token-F1), despite the plain bridges spanning ~10 F1
+points / ~14 CIDEr-D points and three quite different token-mixing designs
+(mean-pool, cross-attention, patch self-attention). Every bridge's LoRA lift
+is ≈ +6 to +7 F1; the differences among plain bridges mostly wash out.
 
 **Every LoRA lift is significant by paired bootstrap** (seed 42, 5 463 val
 samples, resampled indices scoring both models each iteration;
@@ -384,7 +396,9 @@ in-house best-over-refs word-overlap F1 used throughout §5.6, i.e. the
 | `multi_token` | +2.50 [1.92, 3.07] | +7.31 [5.14, 9.07] | 1.000 / 1.000 |
 | `qformer` | +5.44 [4.83, 6.06] | +15.24 [13.11, 17.31] | 1.000 / 1.000 |
 | `mini_qformer` | +6.75 [6.08, 7.43] | +19.53 [17.49, 21.80] | 1.000 / 1.000 |
-| `residual` | +16.22 [15.44, 17.01] | +43.66 [41.26, 46.25] | 1.000 / 1.000 |
+
+(`residual` omitted — its plain seed-42 baseline is the unstable run flagged
+above; the paired bootstrap will be recomputed against a sound seed.)
 
 No interval touches zero; the effect is not a seed-42 artifact in the
 per-sample sense either.
@@ -430,15 +444,14 @@ to ViMoE-VQA were tried on top of the frozen-backbone, 1-tile bridge:
 | visual-compute allocation | reasoning-type-adaptive tile routing | no policy beats fixed 1-tile (§5.3–5.4) |
 | training target | multi-reference (`answer-sampling=random`) | F1 −1.7, no lift (§5.5) |
 | representation alignment | projector-KD from Vintern's `mlp1` | F1 −1.0 (`feat`), −10 mis-weighted (`logit`) (§5.5) |
-| decoder capacity | LoRA r=16 on Qwen2 attention | **F1 +2.5 to +16.2** across 5/5 bridges — the one positive (§5.6) |
+| decoder capacity | LoRA r=16 on Qwen2 attention | **F1 +2.5 to +6.6** across 5/5 bridges — the one positive (§5.6) |
 
 **Reading:** three vision-/training-side interventions, all negative;
 one decoder-side intervention, clearly positive **and not just bridge-agnostic
-— bridge-equalizing**. LoRA lifts F1 on all 5/5 bridges tested (`multi_token`
-+2.5, `qformer` +5.4, `mini_qformer` +6.6, `residual` +16.2,
-`tile_attention` +6.3), and the plain bridges' ~38-point CIDEr-D spread
-(56.3–94.4) collapses to a 2.6-point band (100.8–103.0) once LoRA'd — the
-weakest plain bridge gains the most. This is not noise — it localizes the
+— bridge-equalizing**. LoRA lifts F1 on all 5/5 bridges tested by ≈ +2.5 to
++6.6, and the five, which span three quite different token-mixing designs and
+~10 F1 / ~14 CIDEr-D points as plain bridges, converge into a 2.6-point
+CIDEr-D band (100.8–103.0) once LoRA'd. This is not noise — it localizes the
 bottleneck. With a fully frozen, small (0.5B)
 decoder, additional visual detail, training signal, or representation
 alignment on the vision side has nothing to attach to; the frozen decoder is

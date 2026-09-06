@@ -1085,7 +1085,7 @@
       "answer_sampling": null,
       "align": null
     },
-    "expa:qformer:s42": {
+    "expa:qformer:s42__moved_again": {
       "account": "acc11",
       "kernel": "chalicetrncthnh/mvlm-expa-qformer-s42",
       "status": "running",
@@ -1097,11 +1097,35 @@
       "answer_sampling": null,
       "align": null
     },
-    "expa:mini_qformer:s42": {
+    "expa:mini_qformer:s42__moved_again": {
       "account": "acc9",
       "kernel": "masalamohammad/mvlm-expa-mini-qformer-s42",
       "status": "running",
       "pushed_at": "2026-09-06T20:42:49",
+      "collected": false,
+      "bridge": "mini_qformer",
+      "seed": 42,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null
+    },
+    "expa:qformer:s42": {
+      "account": "acc14",
+      "kernel": "nguyendinhdoanh/mvlm-expa-qformer-s42",
+      "status": "running",
+      "pushed_at": "2026-09-06T20:44:27",
+      "collected": false,
+      "bridge": "qformer",
+      "seed": 42,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null
+    },
+    "expa:mini_qformer:s42": {
+      "account": "acc13",
+      "kernel": "avanrager/mvlm-expa-mini-qformer-s42",
+      "status": "running",
+      "pushed_at": "2026-09-06T20:44:29",
       "collected": false,
       "bridge": "mini_qformer",
       "seed": 42,

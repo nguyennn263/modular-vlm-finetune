@@ -96,8 +96,11 @@ def expa_worker(bridge: str, seed: int, branch: str, resume_ds: str | None, epoc
     algn = f"--align-distill --align-type {align} " if align else ""
     lora_flag = f"--lora --lora-r {lora} " if lora else ""
     # align logit adds a full teacher Qwen2 forward (256 vision + text tokens) ->
-    # OOMs the 16GB P100 at bs 8. Halve the micro-batch, keep effective batch 8.
-    bs, ga = (4, 2) if align == "logit" else (8, 1)
+    # OOMs the 16GB P100 at bs 8. tile_attention does dense patch self-attention;
+    # + LoRA (decoder grads through 24 layers) or + align also blows the 16GB.
+    # Halve the micro-batch in those cases, keep effective batch 8.
+    _heavy = align == "logit" or (bridge == "tile_attention" and (lora or align))
+    bs, ga = (4, 2) if _heavy else (8, 1)
     # tile augmentation makes each step ~3x slower (avg InternViT tiles). Fewer
     # mid-training val passes + a checkpoint every ~half epoch keeps the whole
     # kernel well under the 12h Kaggle cap (a CANCEL there persists nothing).

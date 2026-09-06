@@ -8,30 +8,36 @@
 ## 1. Câu hỏi nghiên cứu
 
 > Thay vì **xây một model mới** (như ViMoE-VQA), có thể **cải thiện Vintern-1B**
-> trên AutoViVQA một cách **rẻ** — chỉ train ~1% tham số, đóng băng toàn bộ
-> backbone — để đạt ngang mức fine-tune toàn bộ không? Nếu chưa đạt, **nút thắt
-> nằm ở đâu**?
+> trên AutoViVQA bằng cách **chỉ cập nhật một phần nhỏ tham số** (~1% tổng,
+> đóng băng toàn bộ backbone) để đạt ngang mức fine-tune không? Nếu chưa đạt,
+> **nút thắt nằm ở đâu**?
 
 **Định vị:**
 
-| | Cách làm | Chi phí |
+| | Cách làm | Tham số được cập nhật |
 |---|---|---|
-| Vintern-1B (fine-tuned) | Train **toàn bộ** InternViT-300M + projector + LoRA cho LLM, 3M cặp, 4×RTX-3090 | rất cao |
-| ViMoE-VQA | Thiết kế kiến trúc MoE **mới** | cao (model mới) |
-| **Của chúng tôi** | Đóng băng cả InternViT-300M lẫn Qwen2-0.5B, chỉ train **bridge 0.78%** (+ **LoRA decoder 0.23%**), 1 tile | **~1% tham số** |
+| Vintern-1B (fine-tuned) | Full fine-tune InternViT-300M + projector; Qwen2-0.5B dùng LoRA. 3M cặp, 4×RTX-3090 | phần lớn tham số phía thị giác + projector |
+| ViMoE-VQA | Thiết kế kiến trúc MoE **mới** | toàn bộ model mới |
+| **Của chúng tôi** | Đóng băng **cả** InternViT-300M lẫn Qwen2-0.5B, chỉ train **bridge 0.78%** + **LoRA decoder 0.23%**, 1 tile | **~1% tổng tham số** |
+
+*Lưu ý: hiện mới so được theo **số tham số train được** và **phạm vi đóng băng
+backbone**; chưa đo training time / GPU memory nên chưa khẳng định con số "rẻ hơn
+N lần" về chi phí huấn luyện.*
 
 ---
 
 ## 2. Trả lời hiện tại
 
-Phía **thị giác đã bão hoà** — bốn hướng can thiệp độc lập đều không cải thiện.
-**Decoder là trục duy nhất còn dư địa.** → Công thức:
-**bridge pooling rẻ (cố định) + LoRA decoder nhẹ.**
+Trong các can thiệp đã khảo sát, **tăng capacity ở phía thị giác** (bridge lớn
+hơn, nhiều tile hơn, routing thích ứng) **không đem lại cải thiện đáng kể**.
+**Decoder là trục duy nhất cho thấy tín hiệu cải thiện rõ ràng** trong các thí
+nghiệm hiện tại. → Công thức: **bridge pooling rẻ (cố định) + LoRA decoder nhẹ.**
 
-Recipe này **vượt Vintern-1B fine-tuned ở mọi metric sinh** (BLEU +14.9,
-METEOR +10.0, CIDEr +36.8) với ~1% chi phí, và **thắng ViMoE-VQA** ở
-BLEU / ROUGE / METEOR / CIDEr. Còn kém ViMoE ở token-F1 (−6.0) — chính khoảng
-cách này dẫn tới phần chẩn đoán.
+Recipe này **đạt hoặc vượt Vintern-1B fine-tuned trên các metric sinh**
+(BLEU +14.9, METEOR +10.0, CIDEr +36.8), **trong khi chỉ cập nhật ~1% tổng số
+tham số và đóng băng toàn bộ backbone** — giảm đáng kể chi phí adaptation. So với
+ViMoE-VQA: cao hơn ở BLEU / ROUGE / METEOR / CIDEr, thấp hơn ở token-F1 (−6.0) —
+chính khoảng cách F1 này dẫn tới phần chẩn đoán.
 
 ---
 
@@ -39,15 +45,15 @@ cách này dẫn tới phần chẩn đoán.
 
 | § | Nội dung |
 |---|---|
-| 1 · Introduction | ViMoE xây model mới · Vintern train nặng phía thị giác · câu hỏi: adapt rẻ được không, nút thắt ở đâu · 4 đóng góp |
+| 1 · Introduction | ViMoE xây model mới · Vintern train nặng phía thị giác · câu hỏi: adapt tiết kiệm tham số được không, nút thắt ở đâu · 3 đóng góp |
 | 2 · Related Work | VQA tiếng Việt · frozen-backbone + projector (BLIP-2, "Inference-Optimal VLMs") · adapt tiết kiệm tham số (LoRA) |
 | 3 · Method | Kiến trúc frozen · 5 bridge (thang capacity) · decoder-LoRA như can thiệp có chủ đích · 2 chỗ vặn × 6 câu hỏi |
-| 4 · Experimental Setup | AutoViVQA · **grouped split không rò rỉ** (chia theo image_id) · 8 metric |
-| 5 · Main Results | Recipe so với 9 baseline · khoảng tin cậy bootstrap · hiệu quả tính toán |
+| 4 · Experimental Setup | AutoViVQA · **grouped split không rò rỉ** (chia theo image_id) · 8 metric · nhiều seed |
+| 5 · Main Results | Recipe so với 9 baseline · khoảng tin cậy bootstrap · phân tích efficiency của visual tiles |
 | 6 · Ablation: truy tìm nút thắt | 6 câu hỏi RQ1–6 (xem §5 dưới đây) |
 | 7 · Human Validation & Error Analysis | Tự kiểm + [cần: 2 người chấm, Cohen's κ] · phân tích lỗi |
-| 8 · Discussion | Frozen decoder là trần · claim "reasoning-aware" của ViMoE cần đo trực tiếp · giới hạn |
-| 9 · Conclusion | Recipe rẻ + quy trình chẩn đoán. Không xây model mới |
+| 8 · Discussion | Frozen decoder là bottleneck đáng kể · claim "reasoning-aware" của ViMoE cần đo trực tiếp · giới hạn |
+| 9 · Conclusion | Recipe adapt tiết kiệm tham số + quy trình chẩn đoán. Không xây model mới |
 
 ---
 
@@ -68,7 +74,7 @@ cách này dẫn tới phần chẩn đoán.
 
 Đo kiểu corpus (so với paper khác): Multi-Token **CIDEr-D 92.8 ± 1.1** (khoảng
 tin cậy 95% [91.3, 97.1] — nằm hoàn toàn trên mức 88.7 của ViMoE); + LoRA 3
-epoch **106.8 ± 1.1**.
+epoch **106.8 ± 1.1**. Điểm yếu còn lại: token-F1 và Acc vẫn dưới ViMoE.
 
 ---
 
@@ -76,26 +82,33 @@ epoch **106.8 ± 1.1**.
 
 ΔF1 so với mốc (Multi-Token thường, seed 42: F1 50.66):
 
-| RQ · trục | Can thiệp | ΔF1 | Kết luận |
+| RQ · trục | Can thiệp | ΔF1 | Nhận xét |
 |---|---|--:|---|
-| RQ1–2 · capacity của bridge | Full Q-Former (69M, gấp 10×) | −3.00 | âm — bridge to hơn *tệ hơn* |
-| RQ3 · số tile thị giác | đánh giá ở 3 tile | −29.61 | âm — bridge sụp khi > 1 tile |
-| RQ4 · routing thích ứng | policy học được theo loại câu hỏi | ≈0 | âm — không hơn cấu hình cố định |
-| RQ5 · tín hiệu huấn luyện | lấy mẫu nhiều câu tham chiếu | −1.65 | âm |
-| RQ5 · căn chỉnh biểu diễn | KD projector (feat) | −1.00 | âm |
-| **RQ6 · capacity của decoder** | **LoRA r=16 (1 epoch)** | **+2.51** | **dương** |
-| **RQ6 · capacity của decoder** | **LoRA r=16 (3 epoch)** | **+4.01** | **dương** |
+| RQ1–2 · capacity của bridge | Full Q-Former (69M, gấp 10×) | −3.00 | bridge to hơn *không* tốt hơn trong khảo sát này |
+| RQ3 · số tile thị giác | **train 1 tile → eval 3 tile** | −29.61 | bridge train single-tile suy giảm mạnh khi inference multi-tile ᵃ |
+| RQ4 · routing thích ứng | policy học được theo loại câu hỏi | ≈0 | không hơn cấu hình cố định |
+| RQ5 · tín hiệu huấn luyện | lấy mẫu nhiều câu tham chiếu | −1.65 | không cải thiện |
+| RQ5 · căn chỉnh biểu diễn | KD projector (feat) | −1.00 | không cải thiện |
+| **RQ6 · capacity của decoder** | **LoRA r=16 (1 epoch)** | **+2.51** | **cải thiện nhất quán** |
+| **RQ6 · capacity của decoder** | **LoRA r=16 (3 epoch)** | **+4.01** | **cải thiện nhất quán** |
 
-**Ý nghĩa:** không phải một mẹo may mắn — mà là *chỉ* hướng thêm capacity cho
-decoder mới có tác dụng, bất kể bridge nào. → với lớp VLM này (ViT đóng băng,
-decoder nhỏ 0.5B đóng băng, vài token thị giác đã pool), **frozen decoder là
-trần** chứ không phải pipeline thị giác.
+ᵃ Đây là thí nghiệm *train 1 tile → test 3/6 tile*, nên chỉ kết luận: bridge
+train với input single-tile **generalize kém** sang inference multi-tile. **Chưa**
+khảo sát *train 3 tile → test 3 tile* (thí nghiệm đáng làm nếu còn quota) —
+chưa kết luận "multi-tile training không work".
+
+**Ý nghĩa:** hiệu ứng LoRA decoder xuất hiện *nhất quán trên mọi bridge* (không
+phải một cấu hình may mắn), trong khi bốn trục phía thị giác đều không có tín
+hiệu. Các kết quả hiện tại cho thấy **frozen decoder là một bottleneck đáng kể,
+trong khi tăng capacity ở bridge không mang lại lợi ích tương ứng**. Claim mạnh
+hơn — "decoder capacity là bottleneck chính" — cần thí nghiệm decoder frozen lớn
+hơn (0.5B → 1B/3B), xem §7 mục 6.
 
 Hai hình minh hoạ (xem `paper-blueprint.md`):
 - **Hình 1 — san bằng bridge:** các bridge thường trải CIDEr-D 56–97; sau LoRA
   decoder 0.23% đều hội tụ về 100–107.
-- **Hình 2 — tile-collapse:** F1 50.7 → 21 khi tăng từ 1 lên 3 tile; val loss
-  1.48 → 3.36.
+- **Hình 2 — tile-collapse:** F1 50.7 → 21 khi eval từ 1 lên 3 tile (bridge train
+  ở 1 tile); val loss 1.48 → 3.36.
 
 ---
 
@@ -131,17 +144,21 @@ Hai hình minh hoạ (xem `paper-blueprint.md`):
 | 3 | TIER-2: LoRA giúp ở đâu trong decoder (attn / MLP / cả hai) — làm sâu RQ6 | ~10 job |
 | 4 | Eval trên tập test (chốt số, hiện hầu hết là val) | quota |
 | 5 | **Human validation** (cần thầy) | lên lịch |
-| 6 | (nếu kịp) Thử decoder frozen lớn hơn — kiểm tra claim "decoder nhỏ là trần" | stretch |
-| 7 | Ráp bản thảo → chỉnh → nộp | ~25/09 |
+| 6 | (nếu kịp) Decoder frozen lớn hơn (0.5B → 1B/3B) — kiểm tra claim "decoder capacity là bottleneck chính" | stretch |
+| 7 | (nếu kịp) Train 3 tile → test 3 tile — trả lời câu "multi-tile training thì sao" | stretch |
+| 8 | Ráp bản thảo → chỉnh → nộp | ~25/09 |
 
 ---
 
-## 8. Bốn đóng góp
+## 8. Ba đóng góp
 
-1. **Recipe adapt rẻ:** frozen backbone + bridge pooling 0.78% + LoRA decoder
-   0.23% → vượt fine-tune toàn bộ trên metric sinh với ~1% chi phí.
-2. **Quy trình chẩn đoán 6 bước** khoanh nút thắt về frozen decoder — bằng *mẫu
-   hình* 4 trục âm / 1 trục dương, không phải một ablation lẻ.
-3. **Đặc tả hiệu quả tính toán** của đòn bẩy tile (FLOPs ×6, độ trễ ×4 từ 1→6
-   tile) — phân tích mà ViMoE-VQA để lại sau.
-4. **Grouped split không rò rỉ** + bảng oracle + toàn bộ code công bố.
+1. **Parameter-efficient adaptation recipe** — frozen vision + lightweight bridge
+   + decoder LoRA, chỉ ~1% trainable parameters nhưng đạt/vượt baseline
+   fine-tuned trên các generation metric.
+2. **Systematic bottleneck diagnosis** — khảo sát có hệ thống bridge capacity,
+   tile scaling, routing, supervision / alignment và decoder adaptation; kết quả
+   cho thấy decoder adaptation là hướng duy nhất đem lại cải thiện nhất quán
+   trong không gian can thiệp đã thử.
+3. **Reliable evaluation protocol** — grouped split chống leakage, đánh giá nhiều
+   seed, bootstrap confidence intervals, human validation + error analysis; kèm
+   phân tích efficiency của visual tiles.

@@ -369,6 +369,17 @@ single piece of evidence in §5.6 for the frozen-decoder-ceiling reading. 4/5
 bridges are now confirmed (only `tile_attention`, dropped in §5.1 for a P100
 OOM, is untested).
 
+**Training duration.** All LoRA numbers above are 1 epoch, matching the
+headline bridge's schedule. Extending `multi_token`+LoRA r=16 to 3 epochs
+(3/3 seeds, full-val) adds a modest, consistent lift — F1 53.17 → 54.67
+(+1.5, std 0.15), CIDEr-D 101.7 → 106.8, BLEU-4 23.2 → 25.0, ROUGE-L
+52.7 → 54.2, closing the F1 gap to ViMoE-VQA from 7.5 to 6.0 — but the
+per-epoch trace shows most of it is captured by epoch 2 and flat thereafter,
+so 1 epoch already gets ~80% of the effect. We keep the **1-epoch numbers as
+the headline** (cheaper, same schedule as everything else, still 3/3-seed
+locked) and note the 3-epoch result as the strongest form: decoder-LoRA does
+not need long training to demonstrate the ceiling-lifting effect.
+
 This is the **only one of the four axes tested (§5.3–5.6) that moves F1**, and
 it is the only one that touches the decoder. It does not weaken the
 frozen-backbone efficiency claim (§5.1–5.2) — it is reported here as a
@@ -470,38 +481,20 @@ should be read.
 ---
 
 ### Pending
-- [x] §5.6: qformer-LoRA generalization check landed — F1 +5.4, bridge-agnostic
-      confirmed
-- [x] §5.6: qformer-LoRA corpus-level (pycocoevalcap) rescore landed — beats
-      ViMoE on all 3 corpus metrics
-- [x] §5.6: multi_token-LoRA seed 42 landed (3/3 seed locked, std≈0.03 F1) +
-      corpus rescore landed — strongest single number in the paper, beats both
-      ViMoE and multi_token-plain's own CIDEr-D
-- [x] §5.6: qformer-LoRA 3/3-seed lock (mean 53.21±0.11) + rank robustness
-      check (r=4/8/16/32/64) folded in — r=16 confirmed as the right operating
-      point, no real rank trend once seed noise is accounted for
-- [x] §5.6: LoRA r=16 on mini_qformer + residual landed and folded in — 4/5
-      bridges confirmed, reading upgraded from "bridge-agnostic" to
-      "bridge-equalizing" (residual's +43.7 CIDEr-D is the largest single
-      effect in the paper; all 4 LoRA'd bridges converge to 100–103 CIDEr-D)
-- [ ] B2 (co-author): residual-tiled directional signal (val loss 2.35→1.71
-      under tile-aug, 300-subset only) — weakest bridge may benefit from tiles
-      unlike multi_token; needs standalone full-val eval before it's usable in
-      §5.2/§5.3 (residual isn't in the |A|=9 oracle action space, so this
-      wouldn't change locked numbers, just a possible future side-note)
-- [ ] §5.5: multi-seed numbers + CI once available; re-run align-feat/logit
-      on full val (both were cut short) if a reviewer needs it
-- [x] **§5.8 NEW**: human validation re-scoped to single-rater self-check (user:
-      no annotator time before deadline) — N=120, self+reasoning in
-      `outputs/human_validation/selfcheck_judgments.json`. Finding: "partial"
-      F1 bucket (largest, 51.5% of val) only 43.1% acceptable — reported
-      straight, not spun. Qualifies how every metric number in §5 should be read.
-- [ ] flag to co-author: §6.4's limitation item "human validation not yet
-      included" needs updating — it's now partially addressed (§5.8), should
-      note the reduced scope (1 rater, no image access, N=120 not 300-500) and
-      probably reference §5.8's finding (mid-range F1 unreliable) as its own
-      point, not just "not yet done"
-- [ ] flag to co-author: §6.1/§6.3 in `06-discussion.md` still reference the
-      pre-reorder §5 numbering/framing (old "reasoning-type supervision"
-      research question, §5.5 = compute-efficiency) — needs a matching pass
-      now that §5 is reordered and §5.6/§5.7 (LoRA, summary) exist
+
+**§5 is content-complete and locked as of 2026-09-06.** All parallel Kaggle
+work done. §6.1/§6.3/§6.4 already rewritten to match the reordered §5.
+
+Remaining (not blocking a complete §5; camera-ready / reviewer-response items):
+- [ ] §5.5: multi-seed numbers + CI for the answer-sampling / align-KD rows;
+      re-run align-feat/logit on full val (both were cut short) if a reviewer
+      asks for it
+- [ ] §5.8: real 2-annotator + image-access human validation (the self-check is
+      a time-constrained substitute)
+- [ ] B2 side-note (optional): residual-tiled directional signal (val loss
+      2.35→1.71 under tile-aug, 300-subset only) hints the weakest bridge may
+      benefit from tiles unlike `multi_token`; needs a standalone full-val eval
+      before use. Does not touch locked §5.2/§5.3 — `residual` isn't in the
+      |A|=9 oracle action space.
+- [ ] `tile_attention` is the one untested bridge for the LoRA sweep (4/5 done);
+      dropped in §5.1 for a P100 OOM, low priority.

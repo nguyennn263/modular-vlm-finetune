@@ -138,17 +138,17 @@ capacity**.
 corpus. ᵃ align-logit ở α=1.0 bị sai trọng số (KL lấn át CE, val CE 2.84 so với
 1.49); đang chạy lại full-val 3 seed. Trục alignment chủ yếu dựa vào align-feat.
 
-| RQ · trục | Can thiệp | F1 | CIDEr-D | ΔF1 | Kết luận |
+| RQ · axis | Intervention | F1 | CIDEr-D | ΔF1 | Kết luận |
 |---|---|--:|--:|--:|---|
 | — mốc | Multi-Token thường | 50.66 | 94.40 | — | — |
-| RQ1–2 · capacity của bridge | Full Q-Former (69M) | 47.66 | 86.70 | −3.00 | âm |
-| RQ3 · số tile thị giác | đánh giá ở 3 tile | 21.05 | ~46 | −29.61 | âm (sụp) |
-| RQ4 · routing thích ứng | policy học được (reasoning + thị giác) | ≈50.7 | ≈94 | ≈0 | âm (không hơn cố định) |
-| RQ5 · tín hiệu huấn luyện | lấy mẫu nhiều câu tham chiếu | 49.01 | 87.30 | −1.65 | âm |
-| RQ5 · căn chỉnh biểu diễn | KD projector (feat) | 49.66 | 92.00 | −1.00 | âm |
-| RQ5 · căn chỉnh biểu diễn | KD projector (logit) ᵃ | 40.70 | 80.10 | −9.96 | âm ᵃ |
-| **RQ6 · capacity của decoder** | **LoRA r=16 (1 epoch)** | **53.17** | **101.70** | **+2.51** | **dương** |
-| **RQ6 · capacity của decoder** | **LoRA r=16 (3 epoch)** | **54.67** | **106.80** | **+4.01** | **dương** |
+| RQ1–2 · Bridge capacity | Full Q-Former (69M params, 10×) | 47.66 | 86.70 | −3.00 | âm |
+| RQ3 · Number of visual tiles | Train 1 tile → evaluate 3 tiles | 21.05 | ~46 | −29.61 | âm (sụp) |
+| RQ4 · Adaptive routing | Learned policy (conditioned on question type) | ≈50.7 | ≈94 | ≈0 | âm (không hơn cố định) |
+| RQ5 · Training signal | Multi-reference answer sampling | 49.01 | 87.30 | −1.65 | âm |
+| RQ5 · Representation alignment | Projector-level feature KD | 49.66 | 92.00 | −1.00 | âm |
+| RQ5 · Representation alignment | Projector-level logit KD ᵃ | 40.70 | 80.10 | −9.96 | âm ᵃ |
+| **RQ6 · Decoder capacity** | **LoRA r=16 (1 epoch)** | **53.17** | **101.70** | **+2.51** | **dương** |
+| **RQ6 · Decoder capacity** | **LoRA r=16 (3 epochs)** | **54.67** | **106.80** | **+4.01** | **dương** |
 
 **Đọc:** Bốn trục độc lập phía thị giác / huấn luyện đều âm; trục duy nhất phía
 decoder rõ ràng dương. Chính *mẫu hình* này — không phải riêng một ablation nào —

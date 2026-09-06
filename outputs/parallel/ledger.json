@@ -729,7 +729,7 @@
       "answer_sampling": null,
       "align": null,
       "lora": "16",
-      "result": "pulled+evaluated+rescored 2026-09-06, merged into B\u1ea3ng 3/5/A3"
+      "result": "pulled+evaluated+rescored 2026-09-06, merged into Bảng 3/5/A3"
     },
     "expa-lora16:residual:s123": {
       "account": "acc14",
@@ -743,7 +743,7 @@
       "answer_sampling": null,
       "align": null,
       "lora": "16",
-      "result": "pulled+evaluated+rescored 2026-09-06, merged into B\u1ea3ng 3/5/A3"
+      "result": "pulled+evaluated+rescored 2026-09-06, merged into Bảng 3/5/A3"
     },
     "expa-lora16:mini_qformer:s3407": {
       "account": "acc16",
@@ -757,7 +757,7 @@
       "answer_sampling": null,
       "align": null,
       "lora": "16",
-      "result": "pulled+evaluated+rescored 2026-09-06, merged into B\u1ea3ng 3/5/A3"
+      "result": "pulled+evaluated+rescored 2026-09-06, merged into Bảng 3/5/A3"
     },
     "expa-lora16:residual:s3407": {
       "account": "acc8",
@@ -771,7 +771,7 @@
       "answer_sampling": null,
       "align": null,
       "lora": "16",
-      "result": "pulled+evaluated+rescored 2026-09-06, merged into B\u1ea3ng 3/5/A3"
+      "result": "pulled+evaluated+rescored 2026-09-06, merged into Bảng 3/5/A3"
     },
     "expa-lora16:tile_attention:s42": {
       "account": "acc1",
@@ -785,7 +785,7 @@
       "answer_sampling": null,
       "align": null,
       "lora": "16",
-      "result": "pulled+evaluated+rescored 2026-09-06, merged into B\u1ea3ng 3/5/A3"
+      "result": "pulled+evaluated+rescored 2026-09-06, merged into Bảng 3/5/A3"
     },
     "expa-align-feat:multi_token:s123": {
       "account": "acc2",
@@ -1124,14 +1124,15 @@
     "expa:mini_qformer:s42": {
       "account": "acc13",
       "kernel": "avanrager/mvlm-expa-mini-qformer-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-06T20:44:29",
       "collected": false,
       "bridge": "mini_qformer",
       "seed": 42,
       "tiles": null,
       "answer_sampling": null,
-      "align": null
+      "align": null,
+      "result": "2ep re-run F1 47.05 loss 1.58"
     },
     "expa-lora16-mlp:multi_token:s42": {
       "account": "acc4",

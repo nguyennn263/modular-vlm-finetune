@@ -1,0 +1,19 @@
+{
+  "experiment": "residual",
+  "best_val_loss": 1.673235088455904,
+  "best_model_path": "/kaggle/working/ck/seed123/residual/best_model.pt",
+  "global_step": 6444,
+  "training_duration": "4:55:48.357777",
+  "training_duration_hours": 4.9300993825,
+  "epochs_trained": 2,
+  "batch_size": 8,
+  "learning_rate": 0.0002,
+  "early_stopping_enabled": false,
+  "results_files": {
+    "epoch_results": "/kaggle/working/ck/seed123/residual/results/epoch_results.csv",
+    "training_logs": "/kaggle/working/ck/seed123/residual/results/training_20260906_063210.log",
+    "summary": "/kaggle/working/ck/seed123/residual/results/summary.json",
+    "text_metrics_all_epochs": "/kaggle/working/ck/seed123/residual/results/text_metrics_all_epochs.jsonl",
+    "metrics_summary": "/kaggle/working/ck/seed123/residual/results/final_metrics_summary.json"
+  }
+}

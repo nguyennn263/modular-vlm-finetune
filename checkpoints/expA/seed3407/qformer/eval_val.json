@@ -1,0 +1,20 @@
+{
+  "split": "val",
+  "n": 5463,
+  "bridge": "qformer",
+  "n_tiles": 1,
+  "checkpoint": "/kaggle/working/ck/seed3407/qformer/last_model.pt",
+  "loss": 1.5659398772749684,
+  "num_samples": 5463,
+  "perplexity": 4.787172317504883,
+  "accuracy": 0.06498261028738789,
+  "exact_match": 0.06754530477759473,
+  "bleu": 0.14010245889767878,
+  "rouge_l": 0.45381479950049597,
+  "meteor": 0.37623456532666566,
+  "cider": 0.890098081117197,
+  "precision": 0.4788317256603912,
+  "recall": 0.49187477003237573,
+  "f1": 0.4713375937221237,
+  "wups": 0.06498261028738789
+}

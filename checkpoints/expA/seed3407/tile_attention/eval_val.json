@@ -1,0 +1,20 @@
+{
+  "split": "val",
+  "n": 5463,
+  "bridge": "tile_attention",
+  "n_tiles": 1,
+  "checkpoint": "/kaggle/working/ck/seed3407/tile_attention/last_model.pt",
+  "loss": 1.7055131983377398,
+  "num_samples": 5463,
+  "perplexity": 5.504209995269775,
+  "accuracy": 0.03844041735310269,
+  "exact_match": 0.039721764598206116,
+  "bleu": 0.1212726606382027,
+  "rouge_l": 0.4259251308182594,
+  "meteor": 0.3553285424207613,
+  "cider": 0.823656027845266,
+  "precision": 0.44682977343603375,
+  "recall": 0.47588288417503133,
+  "f1": 0.44505729751038275,
+  "wups": 0.03844041735310269
+}

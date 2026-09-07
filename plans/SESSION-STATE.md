@@ -58,7 +58,7 @@ bootstrap. TEST corpus = từ 6 ckpt sạch mới (rescore epoch_1 = test 5468).
 | mini_qformer F1 (s42) | 47.05 | 47.25 | +0.20 |
 | residual F1 (s42) | 45.91 | 45.49 | −0.42 |
 | tile_attention F1 (s42) | 44.50 | 44.44 | −0.06 |
-| qformer F1 (s3407) | 47.36 | *(chạy lại — dataset phẳng mvlm-qf-test-ckpt)* | — |
+| qformer F1 (s3407) | 47.13 | **46.62** | −0.51 |
 | **+ LoRA 1ep F1 (3 seed)** | 53.52 | **53.15** | −0.37 |
 | **+ LoRA 1ep CIDEr(ih)** | 106.56 | **104.65** | −1.91 |
 | **+ LoRA 3ep F1 (3 seed)** | 54.71 | **54.28** | −0.43 |
@@ -70,13 +70,18 @@ giữ vững trên test. (LoRA test đo trên cùng 6 ckpt sạch re-run 2026-09
 ### 1d. 5 bridge plain @ 2ep 3-seed + LoRA
 | Bridge | Params | F1 plain | CIDEr-D plain | val CE | F1 +LoRA | ΔF1 | CIDEr-D +LoRA |
 |---|---|--:|--:|--:|--:|--:|--:|
-| multi_token | 7.35M (0.78%) | 49.55 ± 0.07 | 92.3 ± 0.6 | 1.49 | 53.17 | +3.6 | 101.7 |
+| multi_token | 7.35M (0.78%) | 49.55 ± 0.07 | 92.3 ± 0.6 | 1.49 | 53.52 | +4.0 | 101.7 § |
 | qformer (Full Q-Former) | 69.4M (6.91%) | 47.35 ± 0.17 | 85.4 ± 0.5 ‡ | 1.57 | 53.21 | +5.9 | 102.4 |
 | mini_qformer (Light Q-Former) | 27.6M (2.87%) | 46.25 ± 0.62 | 81.7 ± 1.7 ‡ | 1.60 | 53.21 | +7.0 | 103.0 |
 | residual | 4.86M (0.52%) | 45.64 ± 0.36 | 81.1 ± 0.6 | 1.67 | 52.64 | +7.0 | 100.8 |
 | tile_attention | 4.14M (0.44%) | 45.17 ± 0.94 | 79.0 ± 2.1 | 1.67 | 52.99† | +7.8 | 102.0 |
 
 † tile_attention +LoRA = seed 42 only.
+§ multi_token +LoRA F1 = **re-run sạch 3-seed** (53.52, ΔF1 +4.0). 4 bridge kia
+(qformer/mini_qf/residual/tile_attn +LoRA) = 3-seed sạch sẵn có, **KHÔNG đổi**
+(53.21/53.21/52.64/52.99). Băng F1 sau LoRA: 52.6–53.5 (trước: 45.2–49.6). Kết
+luận "LoRA san bằng mọi bridge" giữ nguyên. multi_token +LoRA corpus (101.7 val)
+đang chờ `lora-val-eval` — tạm giữ số val cũ.
 ‡ **SỬA 2026-09-07 (audit)**: qformer/mini_qformer CIDEr-D cũ (86.9 ± 2.3 / 83.7 ± 4.4)
 là **giá trị sơ bộ** — tính khi chưa đủ 3 seed corpus. Nay đủ cả 3 file
 `*_epoch_1_corpus.json`: qformer 85.4 ± 0.5 (BLEU-4 16.7, ROUGE-L 46.7),
@@ -103,14 +108,14 @@ F1 CI [48.9, 50.3] vs ViMoE 60.7. No paired test vs ViMoE (no per-sample data pu
 ### 1e. Ablation 6-RQ (anchor = multi_token 49.55)
 | RQ · trục | Can thiệp | F1 | ΔF1 | Verdict |
 |---|---|--:|--:|---|
-| RQ1–2 bridge capacity | Full Q-Former (69M, 10×) | 47.36 | −2.19 | âm |
+| RQ1–2 bridge capacity | Full Q-Former (69M, 10×) | 47.35 | −2.20 | âm |
 | RQ3 tile | train 1 tile → eval 3 tile | 21.05 | −28.5 | âm (sụp; val loss 1.48→3.35) |
 | RQ4 routing | learned policy theo loại câu hỏi | ≈50.7 | ≈0 | âm |
 | RQ5 training signal | multi-reference answer sampling | 48.08 | −1.47 | âm |
 | RQ5 alignment | projector feature-KD (align-feat) | 49.53 | **−0.03** | **âm — NULL TUYỆT ĐỐI** |
 | RQ5 alignment | projector logit-KD α=1.0 (align-logit) | 40.75 | −8.80 | âm (KL lấn CE, val CE ~2.05) |
-| **RQ6 decoder** | **LoRA r=16 attn (1ep)** | **53.17** | **+3.6** | **DƯƠNG** |
-| **RQ6 decoder** | **LoRA r=16 attn (3ep)** | **54.67** | **+5.1** | **DƯƠNG** |
+| **RQ6 decoder** | **LoRA r=16 attn (1ep)** | **53.52** | **+4.0** | **DƯƠNG** |
+| **RQ6 decoder** | **LoRA r=16 attn (3ep)** | **54.71** | **+5.2** | **DƯƠNG** |
 | RQ6 decoder | LoRA r=16 MLP-only (gate/up/down) | 20.24 ± 1.52 | −29 | 💥 phân kỳ (val loss ~3.7) |
 | RQ6 decoder | LoRA r=16 attn+MLP (cả 7) | 37.51 ± 1.70 | −12 | 💥 phân kỳ (val loss ~2.08) |
 
@@ -120,8 +125,8 @@ artifact, α=32 mạnh cho MLP dim ~4864 vs attn 896 — claim giới hạn ở 
 ### 1f. Đường cong epoch LoRA (multi_token attn, 3-seed)
 | epoch | F1 | CIDEr(ih) | CIDEr-D |
 |--:|--:|--:|--:|
-| 1 | 53.17 | 105.59 | 101.70 |
-| 3 | 54.67 | 109.60 | 106.80 |
+| 1 | 53.52 | 106.56 | 101.7 § |
+| 3 | 54.71 | 110.49 | 106.8 § |
 | 5 | job bị cắt ở cap quota (~4ep, best_model.pt lưu ở epoch 1 — vô ích) |
 
 ### 1g. Chi phí tính toán tile (InternViT/ảnh, P100-16GB)

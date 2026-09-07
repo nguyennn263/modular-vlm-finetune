@@ -1199,13 +1199,11 @@
     "test-eval:qformer:s3407": {
       "account": "acc10",
       "kernel": "giapht/mvlm-test-eval-qf-s3407",
-      "status": "skip",
-      "pushed_at": "2026-09-07T12:46:53",
-      "collected": false,
+      "status": "done",
+      "collected": true,
       "bridge": "qformer",
       "seed": 3407,
-      "split": "test",
-      "result": "Kaggle mount quirk (/kaggle/input=[datasets]) after dataset re-version; 4/5 bridges + mt 4-seed test suffices"
+      "split": "test"
     },
     "expa-lora16-3ep:multi_token:s42__v1_ckpt_lost": {
       "account": "acc16",

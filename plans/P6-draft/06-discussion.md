@@ -137,7 +137,7 @@ router logs.
    sweep.
 8. **Human validation is done only in reduced form.** The plan called for
    300–500 samples, 2 annotators, Cohen's κ; time did not allow it before the
-   deadline. §5.8 substitutes a single-rater (assistant) self-check, N=120,
+   deadline. §7 substitutes a single-rater (assistant) self-check, N=120,
    no image access — a materially weaker check, stated as such where it is
    reported. Its finding — that F1's "partial" bucket (0.2–0.6), the largest
    single bucket, is only 43.1% semantically acceptable despite non-zero

@@ -22,7 +22,8 @@ Table~\ref{tab:abl-summary} is the summary; the subsections give the detail.
     RQ4 $\cdot$ adaptive routing & learned policy (reasoning $+$ visual) & ${\approx}0$ & negative \\
     RQ5 $\cdot$ training signal & multi-reference sampling & $-1.47$ & negative \\
     RQ5 $\cdot$ representation alignment & projector feature-KD & $-0.03$ & negative (null) \\
-    RQ5 $\cdot$ representation alignment & projector logit-KD ($\alpha{=}1$) & $-8.80$ & negative (mis-weighted) \\
+    RQ5 $\cdot$ representation alignment & projector logit-KD ($\alpha{=}0.1$) & $+0.20$ & negative (null) \\
+    RQ5 $\cdot$ representation alignment & projector logit-KD ($\alpha{=}1$) & $-8.80$ & negative (KL swamps CE) \\
     \textbf{RQ6 $\cdot$ decoder capacity} & \textbf{LoRA r=16 attention, 1 epoch} & \textbf{$+3.97$} & \textbf{positive} \\
     \textbf{RQ6 $\cdot$ decoder capacity} & \textbf{LoRA r=16 attention, 3 epochs} & \textbf{$+5.16$} & \textbf{positive} \\
     RQ6 $\cdot$ decoder capacity & LoRA r=16 MLP-only & $-29.31$ & diverges \\
@@ -107,9 +108,13 @@ adding the reasoning-type posterior changes nothing.
 help?} No (Table~\ref{tab:abl-summary}). Multi-reference answer sampling slightly
 hurts (\dF{}~$-1.47$); distilling the bridge toward Vintern's \emph{own}
 pre-aligned \texttt{mlp1} projector is an \textbf{absolute null}
-(\dF{}~$-0.03$) --- the bridge is already at the alignment the frozen decoder can
-use. (The logit-level KD at $\alpha=1.0$ is a known mis-weighting; since the
-feature-level variant already shows nothing, we did not weight-sweep.)
+(feature-KD \dF{}~$-0.03$) --- the bridge is already at the alignment the frozen
+decoder can use. Logit-level KD confirms it: a null at $\alpha=0.1$
+(\dF{}~$+0.20$, val CE $1.53$ vs.\ plain $1.49$) and destructive only at
+$\alpha=1.0$ (\dF{}~$-8.80$, val CE $2.05$), where the KL term simply overwhelms
+the CE loss --- not evidence that better-tuned alignment would help. Two KD
+variants at two strengths: representation alignment does nothing for this frozen
+decoder.
 
 \subsection{Decoder capacity: LoRA (RQ6)}
 \label{sec:abl-rq6}
@@ -154,8 +159,9 @@ epoch 2. The 1-epoch numbers are the headline, the 3-epoch the strongest form.
 \label{sec:abl-summary}
 
 Four independent axes on the vision / training side of the pipeline --- none of
-which touch the decoder --- produce no lift; \texttt{feat}-alignment is an
-\emph{absolute} null. The one axis that touches the decoder produces a clear lift
+which touch the decoder --- produce no lift; alignment KD is an
+\emph{absolute} null across two variants and two strengths. The one axis that
+touches the decoder produces a clear lift
 on every bridge, and localizes further to the decoder's \textbf{attention}. This
 \emph{pattern across six interventions} --- not any single ablation --- is what
 localizes the bottleneck: for this VLM class (frozen ViT, frozen 0.5B decoder, a

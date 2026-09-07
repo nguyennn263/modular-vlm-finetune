@@ -24,8 +24,10 @@ split is itself the finding:
   tile-augmented checkpoints.
 \item \textbf{Multi-reference training and projector-alignment KD do not lift F1}
   (Sec.~\ref{sec:abl-rq5}). Resampling references each epoch (\dF{}~$-1.5$) and
-  distilling toward Vintern's own pre-aligned projector (\dF{}~$-0.03$, an
-  \emph{absolute} null) both fail: the bridge is already close to CE-optimal.
+  distilling toward Vintern's own pre-aligned projector both fail (feature-KD
+  \dF{}~$-0.03$; logit-KD \dF{}~$+0.20$ at $\alpha{=}0.1$ --- an \emph{absolute}
+  null across two variants; the $\alpha{=}1$ collapse is pure KD-over-weighting,
+  not a tuning artefact): the bridge is already close to CE-optimal.
 \item \textbf{Decoder-LoRA is the one lever that moves F1, and only through
   attention} (Sec.~\ref{sec:abl-rq6}). Adapting $0.23\%$ of the decoder lifts F1
   $+4.0$ on \multitoken{} and $+5.9$--$7.8$ on the four other bridges (larger for

@@ -84,7 +84,7 @@ def _clone_cell(branch: str) -> dict:
 def expa_worker(bridge: str, seed: int, branch: str, resume_ds: str | None, epochs: int,
                 tile_choices: str | None = None, answer_sampling: str | None = None,
                 align: str | None = None, lora: str | None = None,
-                lora_targets: str | None = None) -> list[dict]:
+                lora_targets: str | None = None, align_weight: float | None = None) -> list[dict]:
     _ltsuf = ("-mlp" if lora_targets == "gate_proj,up_proj,down_proj"
               else "-all" if lora_targets and "gate_proj" in lora_targets
               else "")
@@ -97,7 +97,7 @@ def expa_worker(bridge: str, seed: int, branch: str, resume_ds: str | None, epoc
                  f"{ck}/{bridge}/ 2>/dev/null && echo RESUMED || echo FRESH") if resume_ds else "print('FRESH')"
     tc = f"--tile-choices {tile_choices} " if tile_choices else ""
     asamp = f"--answer-sampling {answer_sampling} " if answer_sampling else ""
-    algn = f"--align-distill --align-type {align} " if align else ""
+    algn = (f"--align-distill --align-type {align} " + (f"--align-weight {align_weight} " if align_weight is not None else "")) if align else ""
     lora_flag = f"--lora --lora-r {lora} " if lora else ""
     if lora and lora_targets:
         lora_flag += f"--lora-targets {lora_targets} "
@@ -245,7 +245,7 @@ def cmd_launch(args) -> None:
                   else "-all" if _lt and "gate_proj" in _lt else "")
         tag = ("-tiled" if args.tiles
                else "-lora" + args.lora + _ltsuf if args.lora
-               else "-align-" + args.align if args.align
+               else "-align-" + args.align + (f"-a{getattr(args,'align_weight',None)}".replace('.','') if getattr(args,"align_weight",None) is not None else "") if args.align
                else "-" + args.answer_sampling if args.answer_sampling else "")
         for i, (bridge, seed) in enumerate(combos):
             acc = pool[i % len(pool)]
@@ -256,7 +256,7 @@ def cmd_launch(args) -> None:
             slug = f"mvlm-expa{tag}-{bridge.replace('_','-')}-s{seed}"
             cells = expa_worker(bridge, seed, branch, None, args.epochs, tile_choices=args.tiles or None,
                                 answer_sampling=args.answer_sampling, align=args.align, lora=args.lora,
-                                lora_targets=_lt)
+                                lora_targets=_lt, align_weight=getattr(args,'align_weight',None))
             kid = _push_worker(acc, slug, cells, None)
             _register(led, job, acc, kid, {"bridge": bridge, "seed": seed, "tiles": args.tiles,
                                            "answer_sampling": args.answer_sampling, "align": args.align,
@@ -448,6 +448,8 @@ def main() -> None:
                     help="expa: train target picks among all 5 refs instead of ref[0]")
     lp.add_argument("--align", default=None, choices=["logit", "feat"],
                     help="expa: KD the bridge toward Vintern's mlp1 projector")
+    lp.add_argument("--align-weight", type=float, default=None, dest="align_weight",
+                    help="expa: weight on the alignment KD term (default 1.0)")
     lp.add_argument("--lora", default=None,
                     help="expa: LoRA-adapt Qwen2 (q/k/v/o); value = lora rank, e.g. --lora 16. "
                          "feat/decoder-lora branch — the ONE frozen-backbone departure.")

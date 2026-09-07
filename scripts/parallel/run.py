@@ -128,6 +128,9 @@ def expa_worker(bridge: str, seed: int, branch: str, resume_ds: str | None, epoc
     if not tile_choices:
         cells.append(_code(f"!python -m src.cli.evaluate --bridge {bridge} --split-dir data/splits --split val "
                            f"--checkpoint {ck}/{bridge}/last_model.pt"))
+        cells.append(_code(f"!python -m src.cli.evaluate --bridge {bridge} --split-dir data/splits --split test "
+                           f"--checkpoint {ck}/{bridge}/last_model.pt "
+                           f"--output {ck}/{bridge}/eval_test.json"))
     cells.append(_code(f"!mkdir -p /kaggle/working/out && cp -r {ck} /kaggle/working/out/ && "
                        f"cp -r data/splits /kaggle/working/out/ 2>/dev/null; ls -R /kaggle/working/out | tail -20"))
     return cells

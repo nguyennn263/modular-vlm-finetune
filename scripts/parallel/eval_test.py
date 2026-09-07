@@ -52,12 +52,17 @@ def cmd_bundle():
     got = []
     for pt, bridge, seed, label in SPECS:
         src = ROOT / pt
-        if not src.exists():
-            print(f"[skip] missing {pt}"); continue
+        if not src.exists() or src.stat().st_size == 0:
+            alt = src.parent / "best_model.pt"
+            if alt.exists() and alt.stat().st_size > 0:
+                print(f"[note] {label}: {src.name} empty/missing -> using best_model.pt")
+                src = alt
+            else:
+                print(f"[skip] missing/empty {pt}"); continue
         sub = d / label
         sub.mkdir()
         (sub / "model.pt").write_bytes(src.read_bytes())
-        got.append(label)
+        got.append(f"{label} ({src.stat().st_size//1024//1024}MB)")
     user = _user("acc1")
     (d / "dataset-metadata.json").write_text(json.dumps(
         {"id": f"{user}/{DS}", "title": DS, "licenses": [{"name": "unknown"}]}))

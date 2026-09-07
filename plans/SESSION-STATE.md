@@ -153,7 +153,7 @@ Light Q-Former 27.57M/2.87% · Full Q-Former 69.39M/6.91% · LoRA r=16 q/k/v/o
 | Job | Account | Kernel slug (feat/decoder-lora) | Pushed (UTC) | Cho ra | Xử lý khi land |
 |---|---|---|---|---|---|
 | LoRA 3ep re-run ×s42/123/3407 | acc14/acc7/acc3 | `<user>/mvlm-expa-lora16-multi-token-s<seed>` | ~04:00 (ETA ~12:00) | ckpt sạch + **val + test** cho recipe | pull → eval_test.json → §1c + Bảng 1 blueprint (3ep test row) |
-| LoRA 1ep re-run ×s42/123/3407 | acc2/acc8/acc13 | `<user>/mvlm-expa-lora16-multi-token-s<seed>` | ~08:14 (ETA ~11:00) | ckpt sạch (v1 hỏng) + val + test | pull → xác nhận 1ep val≈53.17 + thêm 1ep test |
+| LoRA 1ep re-run ×s42/123/3407 | acc2/acc8/acc13 | `<user>/mvlm-expa-lora16-multi-token-s<seed>` | ~08:14 (ETA ~11:00) | ckpt sạch (v1 hỏng) + val + test | pull → pull → 1ep val 53.52 (3-seed) + test |
 | align-logit α=0.1 ×s42/123 | acc12 (×2) | `kffddk/mvlm-expa-align-logit-a01-multi-token-s<seed>` | ~08:14 (ETA ~13:00) | RQ5: KL trọng số nhẹ có giúp F1? | pull → nếu vẫn âm → §1e bỏ caveat "sai trọng số" |
 | align-logit α=0.1 ×s3407 | acc4 | `nguyennn251/mvlm-expa-align-logit-a01-multi-token-s3407` | ~08:14 | ⚠️ acc4 quota thấp, có thể bị cắt → 2/3 seed | chấp nhận 2 seed nếu 2 seed kia nhất quán |
 | ~~qformer test-eval s3407~~ | acc10 | `giapht/mvlm-test-eval-qf-s3407` | — | **ERROR** (bỏ — mt 4-seed + 3 bridge đủ cho "test≈val") | không cần |

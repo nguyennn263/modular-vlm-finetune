@@ -58,10 +58,10 @@ của Qwen2-0.5B (~2.16M param) như một can thiệp có chủ đích vào dec
 | Residual Bridge | 4.83 | 46.09 | 48.79 | 45.64 | 12.70 | 44.34 | 36.49 | 86.25 |
 | Tile-Attention Bridge | 3.97 | 44.59 | 47.86 | 45.17 | 12.35 | 43.35 | 36.14 | 84.21 |
 | Light Q-Former (mini) | 6.04 | 47.34 | 49.57 | 46.25 | 13.48 | 44.53 | 36.82 | 86.80 |
-| Full Q-Former | 7.32 | 48.26 | 49.56 | 47.36 | 13.28 | 45.54 | 37.91 | 88.31 |
+| Full Q-Former | 7.32 | 48.26 | 49.56 | 47.35 | 13.28 | 45.54 | 37.91 | 89.98 |
 | **Multi-Token Bridge** (0.78% param, mean 4 seed) | 8.20 | 50.36 | 51.43 | 49.55 | **15.47** | 47.84 | **40.22** | **96.49** |
-| **★ Multi-Token + LoRA r=16** (~1.0% param, mean 3 seed) | **10.42** | 53.85 | 55.00 | 53.17 | **19.44** | 51.48 | **43.91** | **105.59** |
-| **★ Multi-Token + LoRA r=16, 3 epoch** (mean 3 seed) | **11.78** | 55.54 | 56.25 | 54.67 | **20.98** | **52.92** | **45.24** | **109.60** |
+| **★ Multi-Token + LoRA r=16** (~1.0% param, mean 3 seed, re-run sạch) | **10.93** | 54.39 | 55.11 | 53.52 | **19.72** | 51.81 | **44.11** | **106.56** |
+| **★ Multi-Token + LoRA r=16, 3 epoch** (mean 3 seed, re-run sạch) | **12.00** | 55.46 | 56.38 | 54.71 | **21.07** | **52.96** | **45.42** | **110.49** |
 
 <small>¹ BARTPhoBEiT CIDEr là outlier (sinh câu dài lê thê), không so.
 Baseline (dòng 1–9): lấy từ bảng AutoViVQA, độc lập với split.
@@ -99,9 +99,9 @@ F1/CIDEr in-house ×100.
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
 | Residual (1 tok) | 4.86M | 0.52 | 45.64 | 52.64 | **+7.0** | 86.25 | 104.05 | 1.67 |
 | Tile-Attention (8 tok) | 4.14M | 0.44 | 45.17 | 52.99 | **+7.8** | 84.21 | 105.04 | 1.67 |
-| Multi-Token (8 tok pooled) | 7.35M | 0.78 | 49.55 | 53.17 | **+3.6** | 96.49 | 105.59 | 1.49 |
+| Multi-Token (8 tok pooled) | 7.35M | 0.78 | 49.55 | 53.52 | **+4.0** | 96.49 | 105.59 | 1.49 |
 | Light Q-Former (8 query) | 27.6M | 2.87 | 46.25 | 53.21 | **+7.0** | 86.80 | 106.24 | 1.60 |
-| Full Q-Former (16 query) | 69.4M | 6.91 | 47.36 | 53.21 | **+5.9** | 88.31 | 105.70 | 1.57 |
+| Full Q-Former (16 query) | 69.4M | 6.91 | 47.35 | 53.21 | **+5.9** | 89.98 | 105.70 | 1.57 |
 
 **RQ1** — chỉ train bridge, đóng băng hết: Multi-Token (0.78% param) tốt nhất, vượt
 Vintern-FT trên generation. Nhưng thua F1.

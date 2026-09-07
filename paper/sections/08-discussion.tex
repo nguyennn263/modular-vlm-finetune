@@ -62,15 +62,13 @@ router logs.
 \subsection{What is robust}
 
 The \textbf{grouped split} closes an image-level leakage path; our bridge numbers
-are within $\le 0.5$ F1 / $\le 3$ CIDEr-D of the random-split table (for the four
-stable bridges --- one early Residual run was a training-instability outlier, val
-CE $2.35$, fixed by the 3-seed re-run). The \textbf{multi-token bridge} result
-holds across 4 seeds and on held-out test (F1 $49.2$ vs.\ val $49.6$). The
-\textbf{null on adaptive routing} is cross-validated on two independently-trained
-checkpoint generations. The \textbf{decoder-LoRA result} is the most-replicated
-finding: $+3.6$ F1 on \multitoken{} (3/3 seeds) and $+5.9$--$7.8$ on four other
-bridges, confirmed at corpus level and on test, with seed, bridge, metric and
-attention-vs-MLP checks all agreeing.
+are within $\le 0.5$ F1 / $\le 3$ CIDEr-D of the random-split table (one early
+Residual run was a training-instability outlier, fixed by the 3-seed re-run). The
+\textbf{multi-token bridge} result holds across 4 seeds and on held-out test. The
+\textbf{decoder-LoRA result} is the most-replicated finding: $+3.6$ F1 on
+\multitoken{} (3/3 seeds) and $+5.9$--$7.8$ on four other bridges, confirmed at
+corpus level and on test, with seed, bridge, metric and attention-vs-MLP checks
+all agreeing.
 
 \subsection{Limitations}
 

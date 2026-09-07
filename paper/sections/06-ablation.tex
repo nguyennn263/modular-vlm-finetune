@@ -87,44 +87,29 @@ architecture is built for, not a compromise.}
   \label{fig:tile-collapse}
 \end{figure}
 
-\subsection{Adaptive routing (RQ4)}
+\subsection{Adaptive routing (RQ4) and training signal / alignment (RQ5)}
 \label{sec:abl-routing}
-
-\textbf{RQ4 --- could a policy spend the tile lever adaptively, per sample,
-informed by question type (ViMoE's ``reasoning-aware'' idea) or cheap visual
-state?} No. We build an exhaustive oracle over the $|A|=9$
-$(\text{bridge} \times \ntiles)$ action space (per-sample CIDEr $M(a;x)$, cost
-$C(a) = \ntiles/6$; bridges are the tile-augmented retrains). On held-out test
-($3{,}739$ samples) the oracle beats the best fixed action
-\bridge{multi\_token$|$t1} by $+0.36$ CIDEr ($+40\%$), spread \emph{evenly}
-across all eight reasoning categories (per-category headroom $+0.28$ to $+0.65$).
-
-That headroom is not learnable. A policy MLP trained \emph{and} tested on the
-same split reproduces the oracle ($a^\ast$-match $0.98$), but $a^\ast$ does not
-transfer --- the val and test oracle-$a^\ast$ distributions disagree despite
-identical stratification, because per-sample CIDEr on single 4-word answers is a
-poor estimator of relative quality among near-tied actions. Three held-out policy
-arms --- \bridge{ours} $= P(r{\mid}Q)+f(I,Q)$, \bridge{rt\_only} $= P(r{\mid}Q)$,
-\bridge{visual\_only} $= f(I,Q)$ --- all converge onto
-\bridge{fixed: multi\_token$|$t1} ($a^\ast$-match $0.45$--$0.46$, mean CIDEr
-$0.90$--$0.90$, $\lambda$-independent), picking that action for
-$\ge 97.9\%$ of test questions. Adding the reasoning-type posterior changes
-nothing. No learned routing policy beats the fixed best-bridge / minimum-tiles
-policy.
-
-\subsection{Training signal and representation alignment (RQ5)}
 \label{sec:abl-rq5}
 
-\textbf{RQ5 --- does a better training target or a better vision--language
-alignment close the gap?} No (rows in Table~\ref{tab:abl-summary}, all 3-seed).
-Multi-reference answer sampling slightly hurts (\dF{}~$-1.47$).
-\texttt{align-feat} --- distilling the bridge toward Vintern's \emph{own}
-pre-aligned \texttt{mlp1} connector --- is an \textbf{absolute null}
-(\dF{}~$-0.03$): the bridge is already at the alignment the frozen decoder can
-use. \texttt{align-logit} at $\alpha=1.0$ is a known mis-weighting (the KL term
-swamps the generation objective); since the correctly-weighted \texttt{feat}
-variant already shows zero benefit, we did not pursue a weight sweep. Nothing on
-the training or alignment axis moves F1.
+\textbf{RQ4 --- can a policy spend the tile lever adaptively per question?} No.
+An exhaustive oracle over the $(\text{bridge} \times \ntiles)$ action space
+(Sec.~\ref{sec:method-adaptive}) beats the best fixed action
+\bridge{multi\_token$|$t1} by $+0.36$ CIDEr on held-out test, spread \emph{evenly}
+across all eight reasoning categories. But that headroom is not learnable: a
+policy trained \emph{and} tested on the same split reproduces the oracle, yet
+$a^\ast$ does not transfer (per-sample CIDEr on 4-word answers is a poor
+estimator among near-tied actions). All three held-out policy arms
+($P(r{\mid}Q)$, visual state $f(I,Q)$, or both) converge onto
+\bridge{fixed: multi\_token$|$t1}, picking it for $\ge 97.9\%$ of test questions;
+adding the reasoning-type posterior changes nothing.
+
+\textbf{RQ5 --- does a better training target or vision--language alignment
+help?} No (Table~\ref{tab:abl-summary}). Multi-reference answer sampling slightly
+hurts (\dF{}~$-1.47$); distilling the bridge toward Vintern's \emph{own}
+pre-aligned \texttt{mlp1} projector is an \textbf{absolute null}
+(\dF{}~$-0.03$) --- the bridge is already at the alignment the frozen decoder can
+use. (The logit-level KD at $\alpha=1.0$ is a known mis-weighting; since the
+feature-level variant already shows nothing, we did not weight-sweep.)
 
 \subsection{Decoder capacity: LoRA (RQ6)}
 \label{sec:abl-rq6}

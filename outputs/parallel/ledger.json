@@ -1270,12 +1270,13 @@
     "test-eval:qformer:s3407": {
       "account": "acc10",
       "kernel": "giapht/mvlm-test-eval-qf-s3407",
-      "status": "running",
+      "status": "error",
       "pushed_at": "2026-09-07T09:52:13",
       "collected": false,
       "bridge": "qformer",
       "seed": 3407,
-      "split": "test"
+      "split": "test",
+      "result": "dir-mode zip broke the glob; test-eval story solid w/ mt 4-seed + 3 bridges - skip"
     }
   }
 }

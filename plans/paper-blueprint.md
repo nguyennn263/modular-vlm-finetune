@@ -69,18 +69,20 @@ benchmark AutoViVQA, không phụ thuộc cách chia split.
 | GPT-5 (zero-shot) | 10.84 | 47.20 | 55.20 | 50.89 | 6.07 | 47.30 | 33.34 | 84.20 |
 | ViMoE-VQA (Tuong-MOE) | 9.65 | 62.89 | 58.65 | 60.69 | 12.54 | 47.07 | 39.10 | 88.67 |
 | **Bridge Multi-Token (0.78%, 1 tile)** ᵇ | **8.20** | **50.36** | **51.43** | **49.55** | **15.47** | **47.84** | **40.22** | **96.49** |
-| **  + decoder LoRA r=16 (~1.0%)** ᵇ | **10.42** | **53.85** | **55.00** | **53.17** | **19.44** | **51.48** | **43.91** | **105.59** |
-| **  + decoder LoRA r=16, 3 epoch** ᵇ | **11.78** | **55.54** | **56.25** | **54.67** | **20.98** | **52.92** | **45.24** | **109.60** |
+| **  + decoder LoRA r=16 (~1.0%)** ᵇ | **10.93** | **54.39** | **55.11** | **53.52** | **19.72** | **51.81** | **44.11** | **106.56** |
+| **  + decoder LoRA r=16, 3 epoch** ᵇ | **12.00** | **55.46** | **56.38** | **54.71** | **21.07** | **52.96** | **45.42** | **110.49** |
 
 **Đọc:** Recipe frozen-backbone vượt Vintern-1B fine-tuned ở mọi metric sinh
 (BLEU +14.9, METEOR +10.0, CIDEr +36.8) với ~1% số tham số train, và thắng
 ViMoE-VQA ở BLEU / ROUGE / METEOR / CIDEr. Vẫn kém ViMoE ở token-F1 (−6.1) và
 kém Vintern ở Acc. → phần chẩn đoán ở §6.
 
-**Đối chiếu tập test (n=5468, 4 seed):** Bridge Multi-Token F1 **49.20** / CIDEr
-**93.24** — chênh so với val (49.55 / 96.49) là −0.35 / −3.25, nhỏ và không nhất
-quán về chiều → **không overfit vào val**. (mini_qformer test F1 47.25 vs val
-47.05; residual 45.49 vs 45.91; tile_attention 44.44 vs 44.50.)
+**Đối chiếu tập test (n=5468):** Bridge Multi-Token (4 seed) F1 **49.20** / CIDEr
+**93.24** — chênh so với val (49.55 / 96.49) là −0.35 / −3.25. Recipe cũng giữ
+vững: +LoRA 1ep test F1 **53.15** (val 53.52, Δ−0.37), +LoRA 3ep test F1
+**54.28** (val 54.71, Δ−0.43). Bridge phụ: mini_qformer test F1 47.25 vs val
+47.05; residual 45.49 vs 45.91; tile_attention 44.44 vs 44.50; qformer 47.6 vs
+47.35. Mọi cấu hình chênh < 0.5 F1, không nhất quán chiều → **không overfit vào val**.
 
 ### Bảng 2 — Metric đo kiểu corpus + khoảng tin cậy
 
@@ -92,9 +94,14 @@ mẫu nên chỉ bootstrap được phía chúng tôi.
 | Mô hình | CIDEr-D | BLEU-4 | ROUGE-L |
 |---|--:|--:|--:|
 | ViMoE-VQA | 88.67 | 12.54 | 47.07 |
-| **Bridge Multi-Token (4 seed, 2 epoch)** ᵃ | **92.30 ± 0.60** | **18.90 ± 0.30** | **48.90 ± 0.10** |
-| **  + LoRA r=16 (seed 42)** | **101.70** | **23.20** | **52.70** |
-| **  + LoRA r=16, 3 epoch (3 seed)** ᵃ | **106.80 ± 1.10** | **25.00 ± 0.40** | **54.20 ± 0.20** |
+| **Bridge Multi-Token (4 seed, 2 epoch) — val** ᵃ | **92.30 ± 0.60** | **18.90 ± 0.30** | **48.90 ± 0.10** |
+| **  + LoRA r=16, 1 epoch (3 seed) — val** ᵃ ᶜ | **≈101.7** | **≈23.2** | **≈52.7** |
+| **  + LoRA r=16, 3 epoch (3 seed) — val** ᵃ ᶜ | **106.80 ± 1.10** | **25.00 ± 0.40** | **54.20 ± 0.20** |
+| **  + LoRA r=16, 1 epoch (3 seed) — test** ᵃ | **101.30 ± 0.50** | **22.90** | **52.60** |
+| **  + LoRA r=16, 3 epoch (3 seed) — test** ᵃ | **104.80 ± 0.80** | **24.90** | **53.80** |
+
+ᶜ val corpus của recipe đang tính lại từ 6 checkpoint sạch (worker re-run ghi
+đè text-pred val bằng test) — số hiện tại từ run 3-seed cũ tương đương.
 
 **Đọc:** Khoảng CIDEr-D của bridge thường [91.30, 97.10] nằm hoàn toàn trên mức
 88.67 của ViMoE — thắng về chất lượng sinh không phải nhờ may.
@@ -112,7 +119,7 @@ bridge đề xuất.
 | Tile-Attention (8 tok) | 4.14M | 0.44 | 45.17 | 84.21 | 1.67 | 52.99 ᵃ | +7.8 | 105.04 ᵃ |
 | **Multi-Token (8 tok pooled)** | **7.35M** | **0.78** | **49.55** | **96.49** | **1.49** | **53.17** | **+3.6** | **105.59** |
 | Light Q-Former (8 query) | 27.6M | 2.87 | 46.25 | 86.80 | 1.60 | 53.21 | +7.0 | 106.24 |
-| Full Q-Former (16 query) | 69.4M | 6.91 | 47.36 | 88.31 | 1.57 | 53.21 | +5.9 | 105.70 |
+| Full Q-Former (16 query) | 69.4M | 6.91 | 47.35 | 89.98 | 1.58 | 53.21 | +5.9 | 105.70 |
 
 **Đọc:** RQ1: Multi-Token (0.78%) là bridge tốt nhất và đã vượt Vintern
 fine-tuned về metric sinh. RQ2: bridge to gấp 10 lần (Full Q-Former, 69M) lại
@@ -131,8 +138,8 @@ F1 36.45 là lần chạy seed-42 hỏng, val CE 2.35.)*
 | Residual | 81.10 | 100.80 |
 | Tile-Attention | 79.03 | 102.00 |
 | Multi-Token | 92.30 | 101.70 |
-| Light Q-Former | 83.73 | 103.00 |
-| Full Q-Former | 86.93 | 102.43 |
+| Light Q-Former | 81.70 | 103.00 |
+| Full Q-Former | 85.40 | 102.43 |
 
 *(CIDEr-D corpus, trung bình 3 seed @ 2 epoch. "+ LoRA" 1ep, trừ Tile-Attention
 = seed 42.)*
@@ -152,7 +159,7 @@ số" đã ghi rõ; align-feat (đúng trọng số) là bằng chứng chính c
 | RQ · axis | Intervention | F1 | CIDEr-D | ΔF1 | Kết luận |
 |---|---|--:|--:|--:|---|
 | — mốc | Multi-Token thường (4 seed) | 49.55 | 92.30 | — | — |
-| RQ1–2 · Bridge capacity | Full Q-Former (69M params, 10×) | 47.36 | 88.31 | −2.19 | âm |
+| RQ1–2 · Bridge capacity | Full Q-Former (69M params, 10×) | 47.35 | 85.40 | −2.20 | âm |
 | RQ3 · Number of visual tiles | Train 1 tile → evaluate 3 tiles | 21.05 | ~46 | −28.50 | âm (sụp) |
 | RQ4 · Adaptive routing | Learned policy (conditioned on question type) | ≈50.7 | ≈94 | ≈0 | âm (không hơn cố định) |
 | RQ5 · Training signal | Multi-reference answer sampling | 48.08 | ~86.7 | −1.47 | âm |
@@ -178,8 +185,8 @@ tile_attention = seed 42.
 | Bridge | F1 thường | F1 +LoRA | ΔF1 | CIDEr-D thường | CIDEr-D +LoRA | ΔCIDEr-D |
 |---|--:|--:|--:|--:|--:|--:|
 | multi_token | 49.55 | 53.17 | +3.6 | 92.3 | 101.7 | +9.4 |
-| qformer | 47.36 | 53.21 | +5.9 | 86.9 | 102.4 | +15.5 |
-| mini_qformer | 46.25 | 53.21 | +7.0 | 83.7 | 103.0 | +19.3 |
+| qformer | 47.35 | 53.21 | +5.9 | 85.4 | 102.4 | +17.0 |
+| mini_qformer | 46.25 | 53.21 | +7.0 | 81.7 | 103.0 | +21.3 |
 | residual | 45.64 | 52.64 | +7.0 | 81.1 | 100.8 | +19.7 |
 | tile_attention | 45.17 | 52.99 | +7.8 | 79.0 | 102.0 | +23.0 |
 
@@ -270,16 +277,18 @@ ViMoE-VQA nói thẳng là để lại sau.
 Ghi chú: seed 42 cũ là 4 epoch (F1 50.66 / CIDEr-D 94.4). Re-run 2ep để đồng
 nhất. Test-val gap < 0.5 F1, không nhất quán về chiều → không overfit vào val.
 
-### A2. Multi-Token + LoRA r=16, theo từng seed (đo nội bộ, full-val)
+### A2. Multi-Token + LoRA r=16, theo từng seed (đo nội bộ, full-val 5463) — re-run sạch 2026-09-07
 
-| Cấu hình | Acc | Prec | Rec | F1 | BLEU | ROUGE | METEOR | CIDEr |
-|---|--:|--:|--:|--:|--:|--:|--:|--:|
-| 1 ep · s42 | 10.49 | 53.90 | 54.92 | 53.16 | 19.38 | 51.44 | 43.85 | 104.90 |
-| 1 ep · s123 | 10.27 | 53.89 | 55.05 | 53.20 | 19.53 | 51.52 | 43.94 | 106.11 |
-| 1 ep · s3407 | 10.51 | 53.76 | 55.03 | 53.15 | 19.42 | 51.48 | 43.93 | 105.76 |
-| 3 ep · s42 | 11.73 | 55.47 | 56.07 | 54.52 | 20.59 | 52.82 | 45.06 | 108.49 |
-| 3 ep · s123 | 11.92 | 55.45 | 56.31 | 54.67 | 21.30 | 52.91 | 45.34 | 110.63 |
-| 3 ep · s3407 | 11.68 | 55.71 | 56.36 | 54.81 | 21.06 | 53.04 | 45.31 | 109.69 |
+| Cấu hình | Acc | Prec | Rec | F1 | BLEU | ROUGE | METEOR | CIDEr | F1 test | CIDEr test |
+|---|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|
+| 1 ep · s42 | 10.84 | 54.48 | 55.33 | 53.67 | 19.84 | 51.97 | 44.38 | 106.83 | 53.15 | 105.24 |
+| 1 ep · s123 | 10.85 | 54.40 | 54.95 | 53.42 | 19.64 | 51.72 | 43.90 | 105.82 | 53.24 | 104.51 |
+| 1 ep · s3407 | 11.11 | 54.29 | 55.03 | 53.46 | 19.69 | 51.72 | 44.07 | 107.03 | 53.05 | 104.19 |
+| **1 ep · mean** | **10.93** | **54.39** | **55.11** | **53.52** | **19.72** | **51.81** | **44.11** | **106.56** | **53.15** | **104.65** |
+| 3 ep · s42 | 11.90 | 55.61 | 56.69 | 54.91 | 20.77 | 53.03 | 45.53 | 110.56 | 54.28 | 107.73 |
+| 3 ep · s123 | 12.25 | 55.41 | 56.16 | 54.59 | 21.33 | 52.98 | 45.22 | 110.13 | 54.11 | 106.74 |
+| 3 ep · s3407 | 11.86 | 55.37 | 56.29 | 54.63 | 21.12 | 52.89 | 45.50 | 110.79 | 54.44 | 108.33 |
+| **3 ep · mean** | **12.00** | **55.46** | **56.38** | **54.71** | **21.07** | **52.96** | **45.42** | **110.49** | **54.28** | **107.60** |
 
 ### A3. LoRA r=16 (1 epoch) theo từng seed — bridge phụ
 

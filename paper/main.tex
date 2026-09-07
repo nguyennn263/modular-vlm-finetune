@@ -1,0 +1,81 @@
+\documentclass[runningheads]{llncs}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{siunitx}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xspace}
+
+\graphicspath{{figures/}}
+
+% --- convenience macros -------------------------------------------------------
+\newcommand{\ie}{i.e.\xspace}
+\newcommand{\eg}{e.g.\xspace}
+\newcommand{\bridge}[1]{\texttt{#1}}
+\newcommand{\ntiles}{\ensuremath{n_{\text{tiles}}}\xspace}
+\newcommand{\multitoken}{\bridge{multi\_token}\xspace}
+\newcommand{\dF}{\ensuremath{\Delta}F1\xspace}
+% CIDEr-D etc. reported x100 throughout.
+
+\begin{document}
+
+\title{Improving a Frozen-Backbone Vietnamese VLM Cheaply:\\
+A Six-Question Diagnosis of the Bottleneck}
+\titlerunning{Improving a Frozen-Backbone Vietnamese VLM Cheaply}
+
+\author{Anonymous}
+\authorrunning{Anonymous}
+\institute{Anonymous}
+
+\maketitle
+
+\begin{abstract}
+Adapting a strong Vietnamese vision--language model such as Vintern-1B to a new
+benchmark is expensive: its own recipe fully fine-tunes the vision encoder and
+projector and LoRA-tunes the decoder over millions of pairs, and a recent
+alternative, ViMoE-VQA, discards the backbone and trains a new mixture-of-experts
+model from scratch. We ask whether the existing model can instead be improved
+\emph{cheaply} --- both backbones frozen, ${\sim}1\%$ of parameters trainable, a
+single image tile --- and, where that falls short, \emph{where the bottleneck
+is}. A frozen-backbone multi-token bridge at one tile already beats the fully
+fine-tuned Vintern-1B on BLEU, METEOR and CIDEr; a rank-16 LoRA on the decoder's
+attention projections (a further $0.23\%$ of parameters) lifts token-F1 from
+$49.6$ to $54.7$ and puts the recipe above Vintern-1B on every generation metric,
+holding up on a held-out test split. We then run a six-question ablation ladder
+over the vision and language sides of the frozen model. Five vision- and
+training-side levers --- a $10\times$-larger bridge, more image tiles, a learned
+per-question routing policy, multi-reference training, and projector-level
+representation alignment --- leave token-F1 unchanged or worse (alignment is an
+absolute null, \dF{}~$-0.03$). The one lever that helps is the decoder-attention
+LoRA, and it helps on every bridge architecture, with a larger effect on weaker
+bridges, after which all five bridges collapse into a $0.6$-point F1 band. Moving
+the same budget to the decoder's feed-forward layers diverges training. The
+useful headroom is specifically in the frozen decoder's attention, not the visual
+pipeline. This is also a direct counterpoint to ViMoE-VQA's ``reasoning-aware''
+account: on the same benchmark, question type carries no usable signal about how
+much visual computation a question needs.
+
+\keywords{Vietnamese VQA \and frozen-backbone VLM \and parameter-efficient
+adaptation \and LoRA \and ablation}
+\end{abstract}
+
+\input{sections/01-introduction}
+\input{sections/02-related-work}
+\input{sections/03-method}
+\input{sections/04-setup}
+\input{sections/05-results}
+\input{sections/06-ablation}
+\input{sections/07-human-validation}
+\input{sections/08-discussion}
+\input{sections/09-conclusion}
+
+\bibliographystyle{splncs04}
+\bibliography{references}
+
+\end{document}

@@ -1,0 +1,115 @@
+\section{Main Results}
+\label{sec:results}
+
+Freeze InternViT-300M and Qwen2-0.5B; train only a bridge (the \multitoken{}
+projector, 7.35\,M params, $0.78\%$). Optionally add a rank-16 LoRA on the
+decoder's attention projections ($q/k/v/o$; 2.16\,M, $0.23\%$), for $1.01\%$
+trainable in total. One tile, grouped leak-free 70/15/15 split
+(Sec.~\ref{sec:setup}), greedy decoding.
+
+\subsection{Recipe vs.\ prior work}
+\label{sec:results-main}
+
+Table~\ref{tab:main-inhouse} reports all AutoViVQA baselines and our recipe on
+the eight in-house metrics ($\times 100$). Even the \textbf{bridge alone}
+($0.78\%$ trainable, one tile, no LoRA) beats the fully fine-tuned Vintern-1B on
+BLEU ($+9.4$), METEOR ($+5.0$) and CIDEr ($+23.7$), and is within ${\sim}4$
+points on ROUGE-L. Adding the $0.23\%$ decoder LoRA lifts all four: at
+\textbf{3 epochs} the recipe beats Vintern-FT on \emph{every} generation metric
+(BLEU $+14.9$, ROUGE-L $+1.0$, METEOR $+10.0$, CIDEr $+36.8$) --- at ${\sim}1\%$
+of the trainable parameters, no backbone fine-tuning, and one tile instead of up
+to twelve. It also beats ViMoE-VQA on BLEU / ROUGE / METEOR / CIDEr. It trails
+ViMoE on token-F1 ($-11.2$ bridge alone, $-7.5$ with 1-epoch LoRA, $-6.0$ at
+3 epochs) and Vintern-FT on Acc. Sec.~\ref{sec:ablation} diagnoses where that
+remaining F1 gap lives.
+
+\begin{table}[t]
+  \centering
+  \caption{Recipe vs.\ prior work on AutoViVQA (val), in-house metrics
+  ($\times 100$). \textbf{Bold} = ours; baselines as reported by the benchmark.
+  BARTPhoBEiT's CIDEr ($188.96$) is a verbosity outlier and omitted.
+  $^{\dagger}$ 4-seed (bridge) / 3-seed (+LoRA) mean; std in
+  Table~\ref{tab:main-corpus}.}
+  \label{tab:main-inhouse}
+  \begin{tabular}{lrrrrrr}
+    \toprule
+    Model & F1 & BLEU & ROUGE & METEOR & CIDEr & Acc \\
+    \midrule
+    Vintern-1B (base, zero-shot)        & 17.6 & 1.9  & 25.8 & 23.9 & 8.5  & 0.1 \\
+    Vintern-1B (fine-tuned, $\le$12 tiles) & 53.8 & 6.1 & 51.9 & 35.3 & 72.8 & 13.0 \\
+    GPT-5 (zero-shot)                   & 50.9 & 6.1  & 47.3 & 33.3 & 84.2 & 10.8 \\
+    ViMoE-VQA (Tuong-MOE, 5-seed)       & 60.7 & 12.5 & 47.1 & 39.1 & 88.7 & 9.7 \\
+    \midrule
+    \textbf{Bridge \multitoken{} ($0.78\%$, 1 tile)}$^{\dagger}$ & \textbf{49.55} & \textbf{15.47} & \textbf{47.84} & \textbf{40.22} & \textbf{96.49} & \textbf{8.20} \\
+    \textbf{\quad + decoder LoRA r=16 ($1.01\%$)}$^{\dagger}$    & \textbf{53.17} & \textbf{19.44} & \textbf{51.48} & \textbf{43.91} & \textbf{105.59} & \textbf{10.42} \\
+    \textbf{\quad + decoder LoRA r=16, 3 epochs}$^{\dagger}$     & \textbf{54.67} & \textbf{20.98} & \textbf{52.92} & \textbf{45.24} & \textbf{109.60} & \textbf{11.78} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Corpus metrics and confidence intervals}
+\label{sec:results-corpus}
+
+The in-house metrics match the AutoViVQA convention but are not directly
+comparable across implementations. Table~\ref{tab:main-corpus} reports the
+cross-paper corpus metrics (pycocoevalcap). A bootstrap over the $5{,}463$ val
+samples ($2{,}000$ resamples; \texttt{scripts/bootstrap\_ci.py}) puts
+\multitoken{}-plain's corpus CIDEr-D at $92.5$, $95\%$ CI $[89.9, 95.3]$ --- the
+whole interval above ViMoE's $88.7$, so the generation-quality win is not a lucky
+draw. The token-F1 gap is likewise real and in ViMoE's favour ($60.7$ vs.\ our
+$49.6$, CI $[48.9, 50.3]$). ViMoE publishes no per-sample predictions, so these
+are one-sample intervals on our own estimate, not a paired test.
+
+\begin{table}[t]
+  \centering
+  \caption{Corpus metrics (pycocoevalcap), for cross-paper comparison.
+  Mean $\pm$ std over seeds where applicable.}
+  \label{tab:main-corpus}
+  \begin{tabular}{lccc}
+    \toprule
+    Model & CIDEr-D & BLEU-4 & ROUGE-L \\
+    \midrule
+    ViMoE-VQA & 88.67 & 12.54 & 47.07 \\
+    \midrule
+    \textbf{\multitoken{} (4-seed, 2 epoch)} & \textbf{$92.30 \pm 0.60$} & \textbf{$18.90 \pm 0.30$} & \textbf{$48.90 \pm 0.10$} \\
+    \textbf{\quad + LoRA r=16 (seed 42)}     & \textbf{101.70} & \textbf{23.20} & \textbf{52.70} \\
+    \textbf{\quad + LoRA r=16, 3 epochs (3-seed)} & \textbf{$106.80 \pm 1.10$} & \textbf{$25.00 \pm 0.40$} & \textbf{$54.20 \pm 0.20$} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Held-out (test) evaluation}
+\label{sec:results-test}
+
+Most numbers above are on val. On the held-out test split ($n = 5{,}468$,
+4 seeds), \multitoken{}-plain scores F1 $49.20$ / CIDEr $93.24$ vs.\ val
+$49.55$ / $96.49$ --- a gap of $-0.35$ F1 / $-3.25$ CIDEr, small and \emph{not
+consistent in direction} across bridges (\bridge{mini\_qformer} test $47.25$
+vs.\ val $47.05$; \bridge{residual} $45.49$ vs.\ $45.91$; \bridge{tile\_attention}
+$44.44$ vs.\ $44.50$). The recipe is \textbf{not over-fit to val}.
+
+\subsection{Compute-efficiency of the tile lever}
+\label{sec:abl-compute}
+
+\ntiles{} is a genuine compute lever. Profiled on a Tesla P100-16GB
+(Table~\ref{tab:compute}, per image): dynamic range $1{\rightarrow}6$ is FLOPs
+$\times 6.0$, latency $\times 4.0$, throughput $\times 5.2$. The recipe spends
+\textbf{none} of it. Sec.~\ref{sec:abl-tiles} shows why spending it is not just
+unhelpful but actively harmful for this bridge; this is the FLOPs/latency
+analysis ViMoE-VQA explicitly deferred.
+
+\begin{table}[t]
+  \centering
+  \caption{InternViT visual-encode cost per image (Tesla P100-16GB).}
+  \label{tab:compute}
+  \begin{tabular}{cccc}
+    \toprule
+    \ntiles{} & GFLOPs & latency (ms) & throughput (img/s) \\
+    \midrule
+    \textbf{1 (recipe)} & \textbf{362} & \textbf{229} & \textbf{6.0} \\
+    2 & 724   & 374 & 3.3 \\
+    4 & 1{,}448 & 648 & 1.7 \\
+    6 & 2{,}172 & 922 & 1.15 \\
+    \bottomrule
+  \end{tabular}
+\end{table}

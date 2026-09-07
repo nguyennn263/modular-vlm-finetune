@@ -1,0 +1,132 @@
+\section{Method}
+\label{sec:method}
+
+\subsection{Frozen-backbone VLM with a trainable bridge}
+\label{sec:method-arch}
+
+Our base model follows Vintern-1B: a vision encoder \textbf{InternViT-300M} and a
+language model \textbf{Qwen2-0.5B}, connected by a projector. Unlike Vintern-1B's
+own downstream-adaptation recipe (full fine-tuning of the encoder and projector,
+LoRA on the decoder), we freeze both backbones and replace only the projector
+with a trainable \emph{bridge} module. Training optimises the bridge alone, by
+cross-entropy on a reference answer (Fig.~\ref{fig:method}).
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{fig_method}
+  \caption{The frozen-backbone architecture. An image is encoded as $1$--$T$
+  tiles by a frozen InternViT-300M; a trainable bridge (green, ${\sim}1\%$ of
+  parameters) maps the patch tokens to $k$ vision tokens; a frozen Qwen2-0.5B
+  decoder --- optionally with a rank-16 attention LoRA --- generates the
+  Vietnamese answer.}
+  \label{fig:method}
+\end{figure}
+
+We study five bridges spanning a capacity ladder from a one-token linear
+projector to a 16-query Q-Former (Table~\ref{tab:bridges}). The
+\textbf{multi-token bridge} --- eight mean-pooled tokens, one anchor plus seven
+semantic --- is our default: it has the lowest trainable-parameter count among
+the multi-token designs (0.78\,\%) and the lowest validation cross-entropy of all
+five.
+
+\begin{table}[t]
+  \centering
+  \caption{The five bridge designs, ordered by trainable-parameter count.}
+  \label{tab:bridges}
+  \begin{tabular}{lccl}
+    \toprule
+    Bridge & $k$ tokens & Trainable params & Mechanism \\
+    \midrule
+    Residual        & 1  & 4.86\,M (0.52\,\%) & linear projector $+$ LayerNorm/GELU residual \\
+    \textbf{Multi-Token} & 8  & 7.35\,M (0.78\,\%) & mean-pool patches $\rightarrow$ 8 tokens (1 anchor $+$ 7 semantic) \\
+    Tile-Attention  & 8  & 4.14\,M (0.44\,\%) & dense patch self-attention, then pool \\
+    Light Q-Former  & 8  & 27.6\,M (2.87\,\%) & 8 learned queries, 2-layer cross-attention \\
+    Full Q-Former   & 16 & 69.4\,M (6.91\,\%) & 16 learned queries, 4 layers, image--text fusion \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Two knobs, one diagnostic ladder}
+\label{sec:method-ladder}
+
+Given a frozen backbone, a small additional parameter or compute budget can be
+spent on the \textbf{vision side} or the \textbf{language side} of the pipeline.
+We work through six research questions, one lever at a time, each measured as
+\dF{} against a fixed anchor (the multi-token bridge, one tile, no LoRA):
+
+\begin{table}[t]
+  \centering
+  \caption{The six research questions. RQ1--RQ4 are vision/training-side; RQ5
+  straddles; RQ6 is the language side.}
+  \label{tab:rqs}
+  \begin{tabular}{clc}
+    \toprule
+    & Question & Lever \\
+    \midrule
+    RQ1 & Does a larger / more expressive bridge close the token-F1 gap? & bridge capacity \\
+    RQ2 & Is the bridge itself the constraint, or already near-optimal? & validation CE across bridges \\
+    RQ3 & Does more visual resolution --- more image tiles --- help? & \ntiles{} \\
+    RQ4 & Does \emph{adaptive}, per-question visual-compute allocation help, driven by question type? & router $+$ policy \\
+    RQ5 & Does a richer training signal or explicit representation alignment help? & sampling, projector-KD \\
+    RQ6 & Does adding capacity to the \emph{frozen decoder} help, and where? & attention vs.\ FFN LoRA \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The shape of the answers --- which levers move F1 and which do not --- is the
+paper's main finding (Sec.~\ref{sec:abl-summary}).
+
+\subsection{Adaptive visual computation (RQ3--RQ4)}
+\label{sec:method-adaptive}
+
+\paragraph{Tile lever.}
+An image is split into $\ntiles \in \{1, 3, 6\}$ tiles of $448{\times}448$; each
+tile is a separate InternViT forward pass, so \ntiles{} is the primary
+visual-compute knob (Sec.~\ref{sec:abl-compute} characterises its FLOPs/latency
+cost).
+
+\paragraph{Router.}
+Running in parallel with --- and far more cheaply than --- the vision encoder,
+the router produces two signals. A \textbf{cognitive prior} $P(r \mid Q)$: a
+PhoBERT head over AutoViVQA's eight reasoning types, seeing the question text only
+(validation macro-F1 $0.91$; since the reasoning-type label is largely derivable
+from question surface form, this is effectively a question-pattern prior). A
+\textbf{cheap visual state} $f(I, Q)$: the InternViT CLS embedding at one tile
+(PCA to 64 dims) plus question length and three image scalars (clarity,
+occlusion, object density).
+
+\paragraph{Offline oracle-guided policy.}
+For a cost trade-off $\lambda$, define the oracle action over the discrete space
+$a = (\ntiles, \text{bridge})$ as
+$a^\ast(x, \lambda) = \arg\max_a \left[ M(a; x) - \lambda \cdot C(a) \right]$,
+where $M(a; x)$ is per-sample CIDEr against the five references and
+$C(a) = \ntiles / \max\text{tiles}$. We evaluate \emph{all} actions on
+\emph{every} train/val/test question once (the \emph{oracle sweep},
+Sec.~\ref{sec:setup-hw}), then train a policy MLP
+$\pi_\theta(P(r{\mid}Q), f(I,Q), \lambda)$ by supervised classification against
+$a^\ast$ on the training split. Ablation arms differ only in the policy's inputs:
+reasoning-type only, visual-state only, both, and fixed / random baselines. RQ4
+reduces to whether any learned policy beats the fixed policy ``best bridge at one
+tile'' on held-out test.
+
+\subsection{Training-signal and alignment interventions (RQ5)}
+\label{sec:method-rq5}
+
+Two ways to give the bridge a better target without touching the backbones:
+\textbf{(a) multi-reference answer sampling} --- instead of always training toward
+the first of the five references, resample a reference each epoch;
+\textbf{(b) projector-level knowledge distillation} --- add a KD term pulling the
+bridge output toward Vintern-1B's own pre-aligned \texttt{mlp1} projector, at the
+feature level (\texttt{align-feat}) or the decoder-logit level
+(\texttt{align-logit}), with weight $\alpha$ on the KD term.
+
+\subsection{Decoder LoRA as a targeted intervention (RQ6)}
+\label{sec:method-rq6}
+
+Finally, the smallest departure from ``backbone frozen'': a rank-16 LoRA
+($\alpha = 32$, 2.16\,M parameters, $0.23\%$ of the model) on the frozen Qwen2
+decoder, trained on top of a fixed bridge. We vary \textbf{which modules} the
+LoRA touches --- the attention projections $\{q,k,v,o\}$, the feed-forward
+projections $\{\text{gate},\text{up},\text{down}\}$, or all seven --- to localise
+where the decoder's useful headroom lies, and vary the number of LoRA epochs
+($1$, $3$) to bound the effect.

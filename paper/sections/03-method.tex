@@ -33,12 +33,14 @@ five.
   \centering
   \caption{The five bridge designs, ordered by trainable-parameter count.}
   \label{tab:bridges}
-  \begin{tabular}{lccl}
+  \small
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{@{}lcc p{5.1cm}@{}}
     \toprule
     Bridge & $k$ tokens & Trainable params & Mechanism \\
     \midrule
     Residual        & 1  & 4.86\,M (0.52\,\%) & linear projector $+$ LayerNorm/GELU residual \\
-    \textbf{Multi-Token} & 8  & 7.35\,M (0.78\,\%) & mean-pool patches $\rightarrow$ 8 tokens (1 anchor $+$ 7 semantic) \\
+    \textbf{Multi-Token} & 8  & 7.35\,M (0.78\,\%) & mean-pooled patches $\rightarrow$ 8 tokens (1 anchor, 7 semantic) \\
     Tile-Attention  & 8  & 4.14\,M (0.44\,\%) & dense patch self-attention, then pool \\
     Light Q-Former  & 8  & 27.6\,M (2.87\,\%) & 8 learned queries, 2-layer cross-attention \\
     Full Q-Former   & 16 & 69.4\,M (6.91\,\%) & 16 learned queries, 4 layers, image--text fusion \\
@@ -92,7 +94,8 @@ the first of the five references, resample a reference each epoch;
 \textbf{(b) projector-level knowledge distillation} --- add a KD term pulling the
 bridge output toward Vintern-1B's own pre-aligned \texttt{mlp1} projector, at the
 feature level (\texttt{align-feat}) or the decoder-logit level
-(\texttt{align-logit}), with weight $\alpha$ on the KD term.
+(\texttt{align-logit}), with weight $\alpha$ on the KD term; for
+\texttt{align-logit} we sweep $\alpha \in \{0.1, 1.0\}$.
 
 \subsection{Decoder LoRA as a targeted intervention (RQ6)}
 \label{sec:method-rq6}

@@ -114,7 +114,8 @@ F1 CI [48.9, 50.3] vs ViMoE 60.7. No paired test vs ViMoE (no per-sample data pu
 | RQ4 routing | learned policy theo loại câu hỏi | ≈50.7 | ≈0 | âm |
 | RQ5 training signal | multi-reference answer sampling | 48.08 | −1.47 | âm |
 | RQ5 alignment | projector feature-KD (align-feat) | 49.53 | **−0.03** | **âm — NULL TUYỆT ĐỐI** |
-| RQ5 alignment | projector logit-KD α=1.0 (align-logit) | 40.75 | −8.80 | âm (KL lấn CE, val CE ~2.05) |
+| RQ5 alignment | projector logit-KD α=0.1 (align-logit-a01) | 49.75 ± 0.29 | **+0.20** | **âm — NULL** (val CE 1.53, ≈ plain) |
+| RQ5 alignment | projector logit-KD α=1.0 (align-logit) | 40.75 | −8.80 | âm (KL lấn CE, val CE ~2.05 — CHỈ do α quá lớn) |
 | **RQ6 decoder** | **LoRA r=16 attn (1ep)** | **53.52** | **+4.0** | **DƯƠNG** |
 | **RQ6 decoder** | **LoRA r=16 attn (3ep)** | **54.71** | **+5.2** | **DƯƠNG** |
 | RQ6 decoder | LoRA r=16 MLP-only (gate/up/down) | 20.24 ± 1.52 | −29 | 💥 phân kỳ (val loss ~3.7) |

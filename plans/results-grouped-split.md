@@ -112,7 +112,7 @@ Các số CIDEr-D dưới đây đã rescore lại đúng từ epoch_1 (n=5463).
 Nhận xét: với 2 epoch, các bridge phụ chụm F1 44.5–49.6, CIDEr-D 77–92 — chênh
 lệch giữa bridge nhỏ hơn NHIỀU so với bảng §1 cũ (dùng seed-42 với residual hỏng).
 answer-random ≈ F1 48.1 (ΔF1 −1.5 vs anchor 49.56) — âm nhẹ, nhất quán.
-align-logit ≈ F1 40.75 (ΔF1 −8.8, val loss ~2.05) — âm mạnh, KL@α=1.0 lấn CE.
+align-logit α=1.0 ≈ F1 40.75 (ΔF1 −8.8, KL lấn CE); α=0.1 ≈ F1 49.75 (ΔF1 +0.20, NULL).
 
 ### Còn chạy (20:00 UTC)
 
@@ -171,12 +171,15 @@ file là ĐÚNG, đã confirm chứ không phải giả định.</small>
 | baseline `first` (multi_token) | 49.55 ± 0.07 | 92.3 | — | 1.49 |
 | answer-sampling=random (training target) | 48.08 ± 0.08 | ~86.7 | **−1.47** | 1.63 |
 | align-feat α=1.0 (representation alignment) | 49.53 ± 0.20 | 92.1 | **−0.03** | 1.50 |
+| align-logit **α=0.1** (representation alignment) | 49.75 ± 0.29 | 91.9 | **+0.20** | 1.53 |
 | align-logit α=1.0 (representation alignment) | 40.75 ± 1.27 | ~70.7 | **−8.80** | ~2.05 |
 
-<small>align-feat giờ là **NULL sạch** (ΔF1 −0.03, val CE ngang baseline) — bản cũ
-"−1.0" là seed-42-noise. align-logit: KL ở weight 1.0 lấn CE (val CE ~2.05 vs
-1.49) → generation sụp; đây là dòng "sai trọng số" đã ghi rõ, giờ có 3-seed
-full-val chứ không phải ep2-subset.</small>
+<small>align-feat = **NULL sạch** (ΔF1 −0.03). align-logit **α=0.1 cũng NULL**
+(ΔF1 +0.20, val CE 1.53 ≈ baseline 1.49) — 3-seed full-val, re-run 2026-09-07
+(bị cắt ở cap 12h nhưng train 2ep + eval val đã xong). align-logit α=1.0 sụp
+(ΔF1 −8.80, val CE ~2.05) **CHỈ do α quá lớn**: KL lấn CE gây nhiễu tối ưu, KHÔNG
+phải vì logit-KD tự thân xấu. → caveat "có thể do sai trọng số KD" ĐÃ BỎ — alignment
+ở mọi cường độ hợp lý là null thật.</small>
 
 **Kết luận (§6.1) — MẠNH HƠN:** bốn trục độc lập — phân bổ visual compute
 (routing, §5.2–5.4), số tile, training target, representation alignment — đều

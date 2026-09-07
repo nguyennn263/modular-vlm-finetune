@@ -27,7 +27,9 @@ from metrics.cider.cider import Cider  # noqa: E402
 
 VIMOE = {"cider_d": 88.7, "f1": 60.7, "bleu_4": 12.5, "rouge_l": 47.1}
 
-# seed-42 full-val prediction files (5463 samples), plain vs +LoRA r=16 1-epoch
+# seed-42 full-val prediction files (5463 samples), plain (2 epoch, standardised)
+# vs +LoRA r=16 1-epoch. epoch_1 here is the full-val eval index (verified: F1 /
+# CIDEr-D reproduce the blueprint headline rows exactly).
 PAIRS = {
     "multi_token": (
         "checkpoints/expA/seed42/multi_token/results/text_predictions_epoch_1.json",
@@ -44,6 +46,10 @@ PAIRS = {
     "residual": (
         "checkpoints/expA/seed42/residual/results/text_predictions_epoch_1.json",
         "checkpoints/expA-lora16/seed42/residual/results/text_predictions_epoch_1.json",
+    ),
+    "tile_attention": (
+        "checkpoints/expA/seed42/tile_attention/results/text_predictions_epoch_1.json",
+        "checkpoints/expA-lora16/seed42/tile_attention/results/text_predictions_epoch_1.json",
     ),
 }
 

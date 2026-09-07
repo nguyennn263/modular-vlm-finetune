@@ -131,8 +131,8 @@ F1/val CE = in-house; CIDEr-D/BLEU-4/ROUGE-L = pycocoevalcap corpus. Mọi số 
 | Bridge | Tham số | % | CIDEr-D | BLEU-4 | ROUGE-L | F1(token) | val CE |
 |---|---:|---:|---:|---:|---:|---:|---:|
 | **Multi-Token** (8 tok pooled) | 7.35M | 0.78 | **92.3** ± 0.6 | **18.9** | **48.9** | **49.55** ± 0.07 | **1.49** |
-| Full Q-Former (16 query) | 69.4M | 6.91 | 86.9 ± 2.3 | 16.9 | 46.6 | 47.36 ± 0.18 | 1.57 |
-| Light Q-Former (8 query) | 27.6M | 2.87 | 83.7 ± 4.4 | 15.9 | 45.1 | 46.25 ± 0.62 | 1.60 |
+| Full Q-Former (16 query) | 69.4M | 6.91 | 85.4 ± 0.5 | 16.7 | 46.7 | 47.35 ± 0.17 | 1.58 |
+| Light Q-Former (8 query) | 27.6M | 2.87 | 81.7 ± 1.7 | 16.3 | 45.5 | 46.25 ± 0.62 | 1.60 |
 | Tile-Attention (8 tok) | 4.14M | 0.44 | 79.0 ± 2.1 | 14.8 | 44.5 | 45.17 ± 0.94 | 1.67 |
 | Residual (1 tok) | 4.86M | 0.52 | 81.1 ± 0.6 | 15.3 | 45.0 | 45.64 ± 0.36 | 1.67 |
 
@@ -141,7 +141,7 @@ lai — F1 45.64 / CIDEr-D 81.1 (bản cũ 37.6 / 56.3 là lần chạy hỏng, 
 Khoảng CIDEr-D giữa 5 bridge giờ 79–92 (bản cũ 56–94). F1 giữa 5 bridge 45.2–49.6
 (chênh ~4.4 điểm, bản cũ ~13). Multi-Token vẫn tốt nhất mọi mặt + val CE thấp nhất.
 
-Per-seed (F1): multi_token {49.61, 49.46, 49.51, 49.64}; qformer {47.56, ~47.4,
+Per-seed (F1): multi_token {49.61, 49.46, 49.51, 49.64}; qformer {47.56, 47.35,
 47.13}; mini_qformer {47.05, 46.16, 45.54}; residual {45.91, 45.14, 45.88};
 tile_attention {44.50, 46.49, 44.51}.
 

@@ -1,4 +1,4 @@
-# SESSION STATE — Paper 3 (snapshot 2026-09-07 11:00 UTC)
+# SESSION STATE — Paper 3 (snapshot 2026-09-07 20:40 UTC)
 
 > Bản chốt trạng thái để không mất context khi compact. Số CANONICAL. Nếu số ở
 > file khác lệch → tin file này + `results-grouped-split.md` (recompute mới nhất).
@@ -7,7 +7,7 @@
 
 ## 0. TL;DR trạng thái
 
-- **Thực nghiệm: XONG** (còn 9 job đang chạy = re-run + probe, không đổi kết luận).
+- **Thực nghiệm: XONG HẲN 2026-09-07 20:40 UTC.** Không còn job nào chạy. LoRA re-run (6) + val corpus refresh (6) + qformer test + align-logit α=0.1 (3) — collect hết.
 - **Số đã tính lại toàn bộ theo 2-epoch, 3-seed** (multi_token = 4 seed).
 - **Peer đã restructure §5–§7** (05-results.md) + bootstrap CI trên số 2ep.
 - **§1–4 ĐÃ VIẾT XONG** (English, framing mới; commits 27dc49b/c6a8d6f/49aafc1/abcefd2). Chờ peer consistency pass.
@@ -150,23 +150,17 @@ Light Q-Former 27.57M/2.87% · Full Q-Former 69.39M/6.91% · LoRA r=16 q/k/v/o
 
 ---
 
-## 2. JOBS ĐANG CHẠY (check 2026-09-07 11:00 UTC — tất cả 9 job = RUNNING) — sẽ land trong ngày
+## 2. JOBS — TẤT CẢ ĐÃ XONG (2026-09-07 20:40 UTC)
 
-| Job | Account | Kernel slug (feat/decoder-lora) | Pushed (UTC) | Cho ra | Xử lý khi land |
-|---|---|---|---|---|---|
-| LoRA 3ep re-run ×s42/123/3407 | acc14/acc7/acc3 | `<user>/mvlm-expa-lora16-multi-token-s<seed>` | ~04:00 (ETA ~12:00) | ckpt sạch + **val + test** cho recipe | pull → eval_test.json → §1c + Bảng 1 blueprint (3ep test row) |
-| LoRA 1ep re-run ×s42/123/3407 | acc2/acc8/acc13 | `<user>/mvlm-expa-lora16-multi-token-s<seed>` | ~08:14 (ETA ~11:00) | ckpt sạch (v1 hỏng) + val + test | pull → pull → 1ep val 53.52 (3-seed) + test |
-| align-logit α=0.1 ×s42/123 | acc12 (×2) | `kffddk/mvlm-expa-align-logit-a01-multi-token-s<seed>` | ~08:14 (ETA ~13:00) | RQ5: KL trọng số nhẹ có giúp F1? | pull → nếu vẫn âm → §1e bỏ caveat "sai trọng số" |
-| align-logit α=0.1 ×s3407 | acc4 | `nguyennn251/mvlm-expa-align-logit-a01-multi-token-s3407` | ~08:14 | ⚠️ acc4 quota thấp, có thể bị cắt → 2/3 seed | chấp nhận 2 seed nếu 2 seed kia nhất quán |
-| ~~qformer test-eval s3407~~ | acc10 | `giapht/mvlm-test-eval-qf-s3407` | — | **ERROR** (bỏ — mt 4-seed + 3 bridge đủ cho "test≈val") | không cần |
+| Batch | Kết quả | Trạng thái |
+|---|---|---|
+| LoRA 1ep+3ep re-run ×3 seed | val F1 53.52 / 54.71, test 53.15 / 54.28; ckpt sạch staged | ✅ collect + docs |
+| lora-val-eval ×6 | val text-pred recovered → VAL corpus 103.2 / 107.5 (1ep/3ep) | ✅ collect + peer bootstrap |
+| qformer test-eval s3407 | F1 46.62 (val 47.13) — 5/5 bridge có test | ✅ collect + §1c |
+| align-logit α=0.1 ×3 | F1 49.75 ± 0.29, ΔF1 +0.20 = NULL → bỏ caveat §6.4 | ✅ collect (bị cut ở 12h cap nhưng train+val eval xong) |
+| qformer s42 stale-4ep local | thay bằng bản 2ep sạch pull acc14 (F1 47.56 = số cũ đã dùng) | ✅ audit fix |
 
-**Lưu ý giờ:** ledger `pushed_at` = giờ máy (UTC+7), không phải UTC. Trừ 7h.
-
-**Cách pull LoRA:** kernel slug `<user>/mvlm-expa-lora16-multi-token-s<seed>` (feat branch).
-eval_test.json ở `ck-lora/seed<N>/multi_token/`. Corpus rescore: **dùng
-`text_predictions_epoch_1.json` (full-val 5463), KHÔNG epoch_2 (600-subset!).**
-
----
+**KHÔNG còn job Kaggle nào chạy.** acc15 (`duongcubu`, 30h) chưa dùng — dự phòng.
 
 ## 3. ĐÃ XONG / ĐÃ COMMIT
 

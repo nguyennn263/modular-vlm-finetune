@@ -41,12 +41,15 @@ eight in-house metrics (Acc / Prec / Rec / F1 / BLEU / ROUGE / METEOR / CIDEr,
 | **  + decoder LoRA r=16 (1.01% total)** — 3-seed | 53.17 | 19.44 | 51.48 | 43.91 | 105.59 | 10.42 |
 | **  + decoder LoRA r=16, 3 epochs** — 3-seed | 54.67 | 20.98 | 52.92 | 45.24 | 109.60 | 11.78 |
 
-**Reading.** The frozen-backbone recipe beats **Vintern-1B fine-tuned on every
-generation metric** (BLEU +14.9, METEOR +10.0, CIDEr +36.8) at ~1% of the
-trainable parameters and 1 tile instead of up to 12, and beats **ViMoE-VQA on
-BLEU / ROUGE / METEOR / CIDEr**. It trails ViMoE on token-F1 (−11.2 for the
-bridge alone, −7.5 with LoRA, −6.0 at 3 epochs) and Vintern on Acc. §6 diagnoses
-where that remaining gap lives.
+**Reading.** The **bridge alone** (0.78% trainable, 1 tile, no LoRA) beats
+Vintern-1B fine-tuned on BLEU (+9.4), METEOR (+5.0) and CIDEr (+23.7), and is
+within ~4 points on ROUGE-L (47.8 vs 51.9). Adding the 0.23% decoder LoRA lifts
+all four: at **3 epochs** the recipe beats Vintern-FT on **every generation
+metric** (BLEU +14.9, ROUGE-L +1.0, METEOR +10.0, CIDEr +36.8) — at ~1% of the
+trainable parameters, no backbone fine-tuning, and 1 tile instead of up to 12.
+It also beats **ViMoE-VQA on BLEU / ROUGE / METEOR / CIDEr**. It trails ViMoE on
+token-F1 (−11.2 bridge alone, −7.5 with 1-epoch LoRA, −6.0 at 3 epochs) and
+Vintern-FT on Acc. §6 diagnoses where that remaining F1 gap lives.
 
 ### 5.2 Corpus metrics and confidence intervals
 

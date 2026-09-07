@@ -244,7 +244,8 @@
       "seed": 123,
       "tiles": null,
       "answer_sampling": null,
-      "align": null
+      "align": null,
+      "result": "2ep (earlier session) F1 ~47.4"
     },
     "lora16-eval:multi_token:s42": {
       "status": "done",
@@ -554,59 +555,6 @@
       "rouge_l_corpus": 52.1,
       "note": "BIGGEST lora effect of any bridge -- CIDEr-D +43.7, goes from worst bridge to on par with all others"
     },
-    "expa-lora16-3ep:multi_token:s42": {
-      "account": "acc16",
-      "kernel": "nguynrichard/mvlm-expa-lora16-multi-token-s42",
-      "status": "done",
-      "collected": true,
-      "bridge": "multi_token",
-      "seed": 42,
-      "lora": "16",
-      "epochs": 3,
-      "note": "3 epoch, ~7.8h. F1 54.52 vs 1-epoch ~53.2. Gain plateaus by epoch 2.",
-      "f1": 54.52,
-      "cider_d_corpus": 105.6,
-      "bleu4_corpus": 24.6,
-      "rouge_l_corpus": 54.0
-    },
-    "expa-lora16-3ep:multi_token:s123": {
-      "account": "acc1",
-      "kernel": "nguyennn263/mvlm-expa-lora16-multi-token-s123",
-      "status": "done",
-      "collected": true,
-      "bridge": "multi_token",
-      "seed": 123,
-      "lora": "16",
-      "epochs": 3,
-      "f1": 54.67,
-      "cider_d_corpus": 107.9,
-      "bleu4_corpus": 25.4,
-      "rouge_l_corpus": 54.2,
-      "note": "3 epoch, ~7.8h. F1 54.67 vs 1-epoch ~53.2. Gain plateaus by epoch 2."
-    },
-    "expa-lora16:multi_token:s123": {
-      "status": "done",
-      "collected": true
-    },
-    "expa-lora16-3ep:multi_token:s3407": {
-      "account": "acc2",
-      "kernel": "nguyennn2501/mvlm-expa-lora16-multi-token-s3407",
-      "status": "done",
-      "collected": true,
-      "bridge": "multi_token",
-      "seed": 3407,
-      "lora": "16",
-      "epochs": 3,
-      "f1": 54.81,
-      "cider_d_corpus": 106.8,
-      "bleu4_corpus": 25.1,
-      "rouge_l_corpus": 54.3,
-      "note": "3 epoch, ~7.8h. F1 54.81 vs 1-epoch ~53.2. Gain plateaus by epoch 2."
-    },
-    "expa-lora16:multi_token:s3407": {
-      "status": "done",
-      "collected": true
-    },
     "expa-lora4:multi_token:s42-retry": {
       "account": "acc10",
       "kernel": "giapht/mvlm-expa-lora4-multi-token-s42",
@@ -707,7 +655,7 @@
     "expa:qformer:s3407": {
       "account": "acc10",
       "kernel": "giapht/mvlm-expa-qformer-s3407",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-06T13:27:20",
       "collected": false,
       "bridge": "qformer",
@@ -715,7 +663,8 @@
       "tiles": null,
       "answer_sampling": null,
       "align": null,
-      "lora": null
+      "lora": null,
+      "result": "2ep (1a) F1 47.13"
     },
     "expa-lora16:mini_qformer:s123": {
       "account": "acc13",
@@ -790,7 +739,7 @@
     "expa-align-feat:multi_token:s123": {
       "account": "acc2",
       "kernel": "nguyennn2501/mvlm-expa-align-feat-multi-token-s123",
-      "status": "done",
+      "status": "running",
       "pushed_at": "2026-09-06T13:27:43",
       "collected": false,
       "bridge": "multi_token",
@@ -798,13 +747,12 @@
       "tiles": null,
       "answer_sampling": null,
       "align": "feat",
-      "lora": null,
-      "result": "2ep, F1~49.4, pulled+rescored 2026-09-06"
+      "lora": null
     },
     "expa-align-feat:multi_token:s3407": {
       "account": "acc3",
       "kernel": "nguyennn2603/mvlm-expa-align-feat-multi-token-s3407",
-      "status": "done",
+      "status": "running",
       "pushed_at": "2026-09-06T13:27:46",
       "collected": false,
       "bridge": "multi_token",
@@ -812,8 +760,7 @@
       "tiles": null,
       "answer_sampling": null,
       "align": "feat",
-      "lora": null,
-      "result": "2ep, F1~49.4, pulled+rescored 2026-09-06"
+      "lora": null
     },
     "expa-random:multi_token:s123": {
       "account": "acc4",
@@ -844,7 +791,7 @@
     "expa-align-logit:multi_token:s123": {
       "account": "acc7",
       "kernel": "tinquc220300nguyn/mvlm-expa-align-logit-multi-token-s123",
-      "status": "done",
+      "status": "running",
       "pushed_at": "2026-09-06T13:27:52",
       "collected": false,
       "bridge": "multi_token",
@@ -852,13 +799,12 @@
       "tiles": null,
       "answer_sampling": null,
       "align": "logit",
-      "lora": null,
-      "result": "2ep full-val, F1 ~40.7 3-seed (KL@a=1.0 swamps CE, loss ~2.05) - axis negative confirmed"
+      "lora": null
     },
     "expa-align-logit:multi_token:s3407": {
       "account": "acc9",
       "kernel": "masalamohammad/mvlm-expa-align-logit-multi-token-s3407",
-      "status": "done",
+      "status": "running",
       "pushed_at": "2026-09-06T13:27:54",
       "collected": false,
       "bridge": "multi_token",
@@ -866,8 +812,7 @@
       "tiles": null,
       "answer_sampling": null,
       "align": "logit",
-      "lora": null,
-      "result": "2ep full-val, F1 ~40.7 3-seed (KL@a=1.0 swamps CE, loss ~2.05) - axis negative confirmed"
+      "lora": null
     },
     "expa-align-logit:multi_token:s42__ep2subset_broken": {
       "account": "acc11",
@@ -884,7 +829,7 @@
     "expa-align-logit:multi_token:s42": {
       "account": "acc6",
       "kernel": "knull0d/mvlm-expa-align-logit-multi-token-s42",
-      "status": "done",
+      "status": "running",
       "pushed_at": "2026-09-06T13:28:14",
       "collected": false,
       "bridge": "multi_token",
@@ -892,8 +837,7 @@
       "tiles": null,
       "answer_sampling": null,
       "align": "logit",
-      "lora": null,
-      "result": "2ep full-val, F1 ~40.7 3-seed (KL@a=1.0 swamps CE, loss ~2.05) - axis negative confirmed"
+      "lora": null
     },
     "expa:residual:s42__Nep_locked": {
       "account": "acc1",
@@ -976,66 +920,63 @@
     "expa:multi_token:s42": {
       "account": "acc1",
       "kernel": "nguyennn263/mvlm-expa-multi-token-s42",
-      "status": "done",
+      "status": "running",
       "pushed_at": "2026-09-06T20:12:31",
       "collected": false,
       "bridge": "multi_token",
       "seed": 42,
       "tiles": null,
       "answer_sampling": null,
-      "align": null,
-      "result": "2ep re-run F1 49.61 CIDEr-D 92.5"
+      "align": null
     },
     "expa:residual:s42": {
       "account": "acc8",
       "kernel": "lelynhan/mvlm-expa-residual-s42",
-      "status": "done",
+      "status": "running",
       "pushed_at": "2026-09-06T20:12:37",
       "collected": false,
       "bridge": "residual",
       "seed": 42,
       "tiles": null,
       "answer_sampling": null,
-      "align": null,
-      "result": "2ep re-run F1 45.91 val-loss 1.65 - NORMALISED (4ep was bad run 36.45/2.35)"
+      "align": null
     },
     "expa:tile_attention:s42": {
       "account": "acc10",
       "kernel": "giapht/mvlm-expa-tile-attention-s42",
-      "status": "done",
+      "status": "running",
       "pushed_at": "2026-09-06T20:12:38",
       "collected": false,
       "bridge": "tile_attention",
       "seed": 42,
       "tiles": null,
       "answer_sampling": null,
-      "align": null,
-      "result": "2ep re-run F1 44.5"
+      "align": null
     },
     "expa-align-feat:multi_token:s42": {
       "account": "acc13",
       "kernel": "avanrager/mvlm-expa-align-feat-multi-token-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-06T20:12:45",
       "collected": false,
       "bridge": "multi_token",
       "seed": 42,
       "tiles": null,
       "answer_sampling": null,
-      "align": "feat"
+      "align": "feat",
+      "result": "2ep re-run F1 49.81 -> 3-seed mean 49.53, DeltaF1 ~0"
     },
     "expa-random:multi_token:s42": {
       "account": "acc14",
       "kernel": "nguyendinhdoanh/mvlm-expa-random-multi-token-s42",
-      "status": "done",
+      "status": "running",
       "pushed_at": "2026-09-06T20:12:46",
       "collected": false,
       "bridge": "multi_token",
       "seed": 42,
       "tiles": null,
       "answer_sampling": "random",
-      "align": null,
-      "result": "2ep re-run F1 48.05"
+      "align": null
     },
     "expa-lora16-5ep:multi_token:s42": {
       "account": "acc16",
@@ -1051,6 +992,281 @@
       "lora": "16",
       "epochs": 5,
       "note": "epoch-curve ablation: LoRA 1ep(53.17)/3ep(54.67)/5ep(this)"
+    },
+    "expa:mini_qformer:s42__acc45_cancelled_lowquota": {
+      "account": "acc5",
+      "kernel": "nguyennguyen263/mvlm-expa-mini-qformer-s42",
+      "status": "running",
+      "pushed_at": "2026-09-06T20:12:35",
+      "collected": false,
+      "bridge": "mini_qformer",
+      "seed": 42,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null
+    },
+    "expa:qformer:s42": {
+      "account": "acc14",
+      "kernel": "nguyendinhdoanh/mvlm-expa-qformer-s42",
+      "status": "done",
+      "pushed_at": "2026-09-06T20:44:27",
+      "collected": false,
+      "bridge": "qformer",
+      "seed": 42,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null,
+      "result": "2ep re-run F1 47.56 loss 1.605"
+    },
+    "expa:mini_qformer:s42": {
+      "account": "acc13",
+      "kernel": "avanrager/mvlm-expa-mini-qformer-s42",
+      "status": "done",
+      "pushed_at": "2026-09-06T20:44:29",
+      "collected": false,
+      "bridge": "mini_qformer",
+      "seed": 42,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null,
+      "result": "2ep re-run F1 47.05 loss 1.58"
+    },
+    "expa-lora16-mlp:multi_token:s42": {
+      "account": "acc4",
+      "kernel": "nguyennn251/mvlm-expa-lora16-mlp-multi-token-s42",
+      "status": "running",
+      "pushed_at": "2026-09-06T20:59:58",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 42,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null,
+      "lora": "16",
+      "lora_targets": "gate_proj,up_proj,down_proj"
+    },
+    "expa-lora16-mlp:multi_token:s123": {
+      "account": "acc5",
+      "kernel": "nguyennguyen263/mvlm-expa-lora16-mlp-multi-token-s123",
+      "status": "running",
+      "pushed_at": "2026-09-06T21:00:00",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 123,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null,
+      "lora": "16",
+      "lora_targets": "gate_proj,up_proj,down_proj"
+    },
+    "expa-lora16-mlp:multi_token:s3407": {
+      "account": "acc11",
+      "kernel": "chalicetrncthnh/mvlm-expa-lora16-mlp-multi-token-s3407",
+      "status": "running",
+      "pushed_at": "2026-09-06T21:00:02",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 3407,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null,
+      "lora": "16",
+      "lora_targets": "gate_proj,up_proj,down_proj"
+    },
+    "expa-lora16-all:multi_token:s42": {
+      "account": "acc10",
+      "kernel": "giapht/mvlm-expa-lora16-all-multi-token-s42",
+      "status": "running",
+      "pushed_at": "2026-09-06T21:00:05",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 42,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null,
+      "lora": "16",
+      "lora_targets": "q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj"
+    },
+    "expa-lora16-all:multi_token:s123": {
+      "account": "acc8",
+      "kernel": "lelynhan/mvlm-expa-lora16-all-multi-token-s123",
+      "status": "running",
+      "pushed_at": "2026-09-06T21:00:06",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 123,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null,
+      "lora": "16",
+      "lora_targets": "q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj"
+    },
+    "expa-lora16-all:multi_token:s3407": {
+      "account": "acc6",
+      "kernel": "knull0d/mvlm-expa-lora16-all-multi-token-s3407",
+      "status": "running",
+      "pushed_at": "2026-09-06T21:00:09",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 3407,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null,
+      "lora": "16",
+      "lora_targets": "q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj"
+    },
+    "test-eval:multi_token:s42": {
+      "account": "acc14",
+      "kernel": "nguyendinhdoanh/mvlm-test-eval-mt-s42",
+      "status": "done",
+      "pushed_at": "2026-09-07T08:27:39",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 42,
+      "split": "test"
+    },
+    "test-eval:multi_token:s123": {
+      "account": "acc7",
+      "kernel": "tinquc220300nguyn/mvlm-test-eval-mt-s123",
+      "status": "done",
+      "pushed_at": "2026-09-07T08:27:44",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 123,
+      "split": "test"
+    },
+    "test-eval:multi_token:s2026": {
+      "account": "acc3",
+      "kernel": "nguyennn2603/mvlm-test-eval-mt-s2026",
+      "status": "done",
+      "pushed_at": "2026-09-07T08:27:48",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 2026,
+      "split": "test"
+    },
+    "test-eval:multi_token:s3407": {
+      "account": "acc10",
+      "kernel": "giapht/mvlm-test-eval-mt-s3407",
+      "status": "done",
+      "pushed_at": "2026-09-07T08:27:53",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 3407,
+      "split": "test"
+    },
+    "test-eval:qformer:s42": {
+      "account": "acc2",
+      "kernel": "nguyennn2501/mvlm-test-eval-qf-s42",
+      "status": "error",
+      "pushed_at": "2026-09-07T08:27:57",
+      "collected": false,
+      "bridge": "qformer",
+      "seed": 42,
+      "split": "test",
+      "result": "corrupt bundled ckpt (EOFError) - re-run as qformer:s3407"
+    },
+    "test-eval:mini_qformer:s42": {
+      "account": "acc4",
+      "kernel": "nguyennn251/mvlm-test-eval-mq-s42",
+      "status": "done",
+      "pushed_at": "2026-09-07T08:28:02",
+      "collected": false,
+      "bridge": "mini_qformer",
+      "seed": 42,
+      "split": "test"
+    },
+    "test-eval:residual:s42": {
+      "account": "acc6",
+      "kernel": "knull0d/mvlm-test-eval-res-s42",
+      "status": "done",
+      "pushed_at": "2026-09-07T08:28:06",
+      "collected": false,
+      "bridge": "residual",
+      "seed": 42,
+      "split": "test"
+    },
+    "test-eval:tile_attention:s42": {
+      "account": "acc1",
+      "kernel": "nguyennn263/mvlm-test-eval-ta-s42",
+      "status": "done",
+      "pushed_at": "2026-09-07T08:28:09",
+      "collected": false,
+      "bridge": "tile_attention",
+      "seed": 42,
+      "split": "test"
+    },
+    "test-eval:qformer:s3407": {
+      "account": "acc10",
+      "kernel": "giapht/mvlm-test-eval-qf-s3407",
+      "status": "error",
+      "pushed_at": "2026-09-07T09:52:13",
+      "collected": false,
+      "bridge": "qformer",
+      "seed": 3407,
+      "split": "test",
+      "result": "dir-mode zip broke the glob; test-eval story solid w/ mt 4-seed + 3 bridges - skip"
+    },
+    "expa-lora16-3ep:multi_token:s42__v1_ckpt_lost": {
+      "account": "acc16",
+      "kernel": "nguynrichard/mvlm-expa-lora16-multi-token-s42",
+      "status": "done",
+      "collected": true,
+      "bridge": "multi_token",
+      "seed": 42,
+      "lora": "16",
+      "epochs": 3,
+      "note": "3 epoch, ~7.8h. F1 54.52 vs 1-epoch ~53.2. Gain plateaus by epoch 2.",
+      "f1": 54.52,
+      "cider_d_corpus": 105.6,
+      "bleu4_corpus": 24.6,
+      "rouge_l_corpus": 54.0
+    },
+    "expa-lora16-3ep:multi_token:s123__v1_ckpt_lost": {
+      "account": "acc1",
+      "kernel": "nguyennn263/mvlm-expa-lora16-multi-token-s123",
+      "status": "done",
+      "collected": true,
+      "bridge": "multi_token",
+      "seed": 123,
+      "lora": "16",
+      "epochs": 3,
+      "f1": 54.67,
+      "cider_d_corpus": 107.9,
+      "bleu4_corpus": 25.4,
+      "rouge_l_corpus": 54.2,
+      "note": "3 epoch, ~7.8h. F1 54.67 vs 1-epoch ~53.2. Gain plateaus by epoch 2."
+    },
+    "expa-lora16-3ep:multi_token:s3407__v1_ckpt_lost": {
+      "account": "acc2",
+      "kernel": "nguyennn2501/mvlm-expa-lora16-multi-token-s3407",
+      "status": "done",
+      "collected": true,
+      "bridge": "multi_token",
+      "seed": 3407,
+      "lora": "16",
+      "epochs": 3,
+      "f1": 54.81,
+      "cider_d_corpus": 106.8,
+      "bleu4_corpus": 25.1,
+      "rouge_l_corpus": 54.3,
+      "note": "3 epoch, ~7.8h. F1 54.81 vs 1-epoch ~53.2. Gain plateaus by epoch 2."
+    },
+    "expa-lora16-3ep:multi_token:s42": {
+      "account": "acc14",
+      "kernel": "nguyendinhdoanh/mvlm-expa-lora16-multi-token-s42",
+      "status": "running",
+      "pushed_at": "2026-09-07T10:59:28",
+      "collected": false,
+      "bridge": "multi_token",
+      "seed": 42,
+      "tiles": null,
+      "answer_sampling": null,
+      "align": null,
+      "lora": "16",
+      "lora_targets": null,
+      "epochs": 3,
+      "note": "3-epoch re-run (v1 ckpts lost); +test eval"
     },
     "expa-lora16:multi_token:s42": {
       "status": "done",
@@ -1070,98 +1286,11 @@
       "kernel": "nguynrichard/mvlm-lora16-eval",
       "note": "1-epoch, locked in results-grouped-split.md"
     },
-    "expa:qformer:s42__acc45_cancelled_lowquota": {
-      "account": "acc4",
-      "kernel": "nguyennn251/mvlm-expa-qformer-s42",
+    "expa-lora16-3ep:multi_token:s123": {
+      "account": "acc7",
+      "kernel": "tinquc220300nguyn/mvlm-expa-lora16-multi-token-s123",
       "status": "running",
-      "pushed_at": "2026-09-06T20:12:32",
-      "collected": false,
-      "bridge": "qformer",
-      "seed": 42,
-      "tiles": null,
-      "answer_sampling": null,
-      "align": null
-    },
-    "expa:mini_qformer:s42__acc45_cancelled_lowquota": {
-      "account": "acc5",
-      "kernel": "nguyennguyen263/mvlm-expa-mini-qformer-s42",
-      "status": "running",
-      "pushed_at": "2026-09-06T20:12:35",
-      "collected": false,
-      "bridge": "mini_qformer",
-      "seed": 42,
-      "tiles": null,
-      "answer_sampling": null,
-      "align": null
-    },
-    "expa:qformer:s42__moved_again": {
-      "account": "acc11",
-      "kernel": "chalicetrncthnh/mvlm-expa-qformer-s42",
-      "status": "running",
-      "pushed_at": "2026-09-06T20:42:47",
-      "collected": false,
-      "bridge": "qformer",
-      "seed": 42,
-      "tiles": null,
-      "answer_sampling": null,
-      "align": null
-    },
-    "expa:mini_qformer:s42__moved_again": {
-      "account": "acc9",
-      "kernel": "masalamohammad/mvlm-expa-mini-qformer-s42",
-      "status": "running",
-      "pushed_at": "2026-09-06T20:42:49",
-      "collected": false,
-      "bridge": "mini_qformer",
-      "seed": 42,
-      "tiles": null,
-      "answer_sampling": null,
-      "align": null
-    },
-    "expa:qformer:s42": {
-      "account": "acc14",
-      "kernel": "nguyendinhdoanh/mvlm-expa-qformer-s42",
-      "status": "running",
-      "pushed_at": "2026-09-06T20:44:27",
-      "collected": false,
-      "bridge": "qformer",
-      "seed": 42,
-      "tiles": null,
-      "answer_sampling": null,
-      "align": null
-    },
-    "expa:mini_qformer:s42": {
-      "account": "acc13",
-      "kernel": "avanrager/mvlm-expa-mini-qformer-s42",
-      "status": "running",
-      "pushed_at": "2026-09-06T20:44:29",
-      "collected": false,
-      "bridge": "mini_qformer",
-      "seed": 42,
-      "tiles": null,
-      "answer_sampling": null,
-      "align": null
-    },
-    "expa-lora16-mlp:multi_token:s42": {
-      "account": "acc4",
-      "kernel": "nguyennn251/mvlm-expa-lora16-mlp-multi-token-s42",
-      "status": "done",
-      "pushed_at": "2026-09-06T20:59:58",
-      "collected": false,
-      "bridge": "multi_token",
-      "seed": 42,
-      "tiles": null,
-      "answer_sampling": null,
-      "align": null,
-      "lora": "16",
-      "lora_targets": "gate_proj,up_proj,down_proj",
-      "result": "MLP-only LoRA r16 1ep -> F1 ~20, val loss ~3.7: DIVERGES. attn-only is the only stable+useful target."
-    },
-    "expa-lora16-mlp:multi_token:s123": {
-      "account": "acc5",
-      "kernel": "nguyennguyen263/mvlm-expa-lora16-mlp-multi-token-s123",
-      "status": "done",
-      "pushed_at": "2026-09-06T21:00:00",
+      "pushed_at": "2026-09-07T10:59:29",
       "collected": false,
       "bridge": "multi_token",
       "seed": 123,
@@ -1169,14 +1298,19 @@
       "answer_sampling": null,
       "align": null,
       "lora": "16",
-      "lora_targets": "gate_proj,up_proj,down_proj",
-      "result": "MLP-only LoRA r16 1ep -> F1 ~20, val loss ~3.7: DIVERGES. attn-only is the only stable+useful target."
+      "lora_targets": null,
+      "epochs": 3,
+      "note": "3-epoch re-run (v1 ckpts lost); +test eval"
     },
-    "expa-lora16-mlp:multi_token:s3407": {
-      "account": "acc11",
-      "kernel": "chalicetrncthnh/mvlm-expa-lora16-mlp-multi-token-s3407",
+    "expa-lora16:multi_token:s123": {
       "status": "done",
-      "pushed_at": "2026-09-06T21:00:02",
+      "collected": true
+    },
+    "expa-lora16-3ep:multi_token:s3407": {
+      "account": "acc3",
+      "kernel": "nguyennn2603/mvlm-expa-lora16-multi-token-s3407",
+      "status": "running",
+      "pushed_at": "2026-09-07T10:59:32",
       "collected": false,
       "bridge": "multi_token",
       "seed": 3407,
@@ -1184,53 +1318,13 @@
       "answer_sampling": null,
       "align": null,
       "lora": "16",
-      "lora_targets": "gate_proj,up_proj,down_proj",
-      "result": "MLP-only LoRA r16 1ep -> F1 ~20, val loss ~3.7: DIVERGES. attn-only is the only stable+useful target."
+      "lora_targets": null,
+      "epochs": 3,
+      "note": "3-epoch re-run (v1 ckpts lost); +test eval"
     },
-    "expa-lora16-all:multi_token:s42": {
-      "account": "acc10",
-      "kernel": "giapht/mvlm-expa-lora16-all-multi-token-s42",
+    "expa-lora16:multi_token:s3407": {
       "status": "done",
-      "pushed_at": "2026-09-06T21:00:05",
-      "collected": false,
-      "bridge": "multi_token",
-      "seed": 42,
-      "tiles": null,
-      "answer_sampling": null,
-      "align": null,
-      "lora": "16",
-      "lora_targets": "q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj",
-      "result": "attn+MLP LoRA r16 1ep -> F1 ~37.5, val loss ~2.08 (WORSE than attn-only 53.17): MLP LoRA destabilises"
-    },
-    "expa-lora16-all:multi_token:s123": {
-      "account": "acc8",
-      "kernel": "lelynhan/mvlm-expa-lora16-all-multi-token-s123",
-      "status": "done",
-      "pushed_at": "2026-09-06T21:00:06",
-      "collected": false,
-      "bridge": "multi_token",
-      "seed": 123,
-      "tiles": null,
-      "answer_sampling": null,
-      "align": null,
-      "lora": "16",
-      "lora_targets": "q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj",
-      "result": "attn+MLP LoRA r16 1ep -> F1 ~37.5, val loss ~2.08 (WORSE than attn-only 53.17): MLP LoRA destabilises"
-    },
-    "expa-lora16-all:multi_token:s3407": {
-      "account": "acc6",
-      "kernel": "knull0d/mvlm-expa-lora16-all-multi-token-s3407",
-      "status": "done",
-      "pushed_at": "2026-09-06T21:00:09",
-      "collected": false,
-      "bridge": "multi_token",
-      "seed": 3407,
-      "tiles": null,
-      "answer_sampling": null,
-      "align": null,
-      "lora": "16",
-      "lora_targets": "q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj",
-      "result": "attn+MLP LoRA r16 1ep -> F1 ~37.5, val loss ~2.08 (WORSE than attn-only 53.17): MLP LoRA destabilises"
+      "collected": true
     }
   }
 }

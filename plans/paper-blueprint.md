@@ -95,13 +95,10 @@ mẫu nên chỉ bootstrap được phía chúng tôi.
 |---|--:|--:|--:|
 | ViMoE-VQA | 88.67 | 12.54 | 47.07 |
 | **Bridge Multi-Token (4 seed, 2 epoch) — val** ᵃ | **92.30 ± 0.60** | **18.90 ± 0.30** | **48.90 ± 0.10** |
-| **  + LoRA r=16, 1 epoch (3 seed) — val** ᵃ ᶜ | **≈101.7** | **≈23.2** | **≈52.7** |
-| **  + LoRA r=16, 3 epoch (3 seed) — val** ᵃ ᶜ | **106.80 ± 1.10** | **25.00 ± 0.40** | **54.20 ± 0.20** |
+| **  + LoRA r=16, 1 epoch (3 seed) — val** ᵃ | **103.20 ± 0.50** | **23.60 ± 0.10** | **53.00 ± 0.10** |
+| **  + LoRA r=16, 3 epoch (3 seed) — val** ᵃ | **107.50 ± 0.30** | **25.10 ± 0.20** | **54.20 ± 0.10** |
 | **  + LoRA r=16, 1 epoch (3 seed) — test** ᵃ | **101.30 ± 0.50** | **22.90** | **52.60** |
 | **  + LoRA r=16, 3 epoch (3 seed) — test** ᵃ | **104.80 ± 0.80** | **24.90** | **53.80** |
-
-ᶜ val corpus của recipe đang tính lại từ 6 checkpoint sạch (worker re-run ghi
-đè text-pred val bằng test) — số hiện tại từ run 3-seed cũ tương đương.
 
 **Đọc:** Khoảng CIDEr-D của bridge thường [91.30, 97.10] nằm hoàn toàn trên mức
 88.67 của ViMoE — thắng về chất lượng sinh không phải nhờ may.
@@ -165,10 +162,10 @@ số" đã ghi rõ; align-feat (đúng trọng số) là bằng chứng chính c
 | RQ5 · Training signal | Multi-reference answer sampling | 48.08 | ~86.7 | −1.47 | âm |
 | RQ5 · Representation alignment | Projector-level feature KD | 49.53 | 92.10 | **−0.03** | âm (null sạch) |
 | RQ5 · Representation alignment | Projector-level logit KD ᵃ | 40.75 | ~70.7 | −8.80 | âm ᵃ |
-| **RQ6 · Decoder capacity** | **LoRA r=16 attn (1 epoch)** | **53.52** | **101.70** ᵈ | **+3.97** | **dương** |
+| **RQ6 · Decoder capacity** | **LoRA r=16 attn (1 epoch)** | **53.52** | **103.20** | **+3.97** | **dương** |
 
 ᵈ CIDEr-D val của recipe (101.7 / 106.8) từ run 3-seed cũ tương đương — bản mới đang tính lại (6 job `lora-val-eval`). In-house F1/CIDEr đã là bản re-run sạch.
-| **RQ6 · Decoder capacity** | **LoRA r=16 attn (3 epochs)** | **54.71** | **106.80** ᵈ | **+5.16** | **dương** |
+| **RQ6 · Decoder capacity** | **LoRA r=16 attn (3 epochs)** | **54.71** | **107.50** | **+5.16** | **dương** |
 | RQ6 · Decoder capacity | LoRA r=16 **MLP-only** | 20.24 | — | −29.31 | phân kỳ |
 | RQ6 · Decoder capacity | LoRA r=16 **attn + MLP** | 37.51 | — | −12.04 | phân kỳ |
 
@@ -334,8 +331,8 @@ trong khoảng nhiễu); seed 42 là seed thấp bất thường. **Khuyến ngh
 
 | LoRA epoch | F1 | CIDEr (nội bộ) | CIDEr-D |
 |--:|--:|--:|--:|
-| 1 | 53.52 | 106.56 | ≈101.7 ᵈ |
-| 3 | 54.71 | 110.49 | ≈106.8 ᵈ |
+| 1 | 53.52 | 106.56 | 103.20 |
+| 3 | 54.71 | 110.49 | 107.50 |
 | 5 | *job bị cắt ở cap quota (~4 ep, chưa kịp eval)* | | |
 
 1→3 ep: +1.5 F1 / +5 CIDEr-D. Trend phẳng dần → decoder-LoRA gần trần từ epoch 3.

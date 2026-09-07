@@ -33,7 +33,8 @@ VIMOE = {"cider_d": 88.7, "f1": 60.7, "bleu_4": 12.5, "rouge_l": 47.1}
 PAIRS = {
     "multi_token": (
         "checkpoints/expA/seed42/multi_token/results/text_predictions_epoch_1.json",
-        "checkpoints/expA-lora16/seed42/multi_token_full/results/text_predictions_epoch_1.json",
+        # clean 3-seed LoRA re-run, seed-42 val predictions (F1 53.67):
+        "checkpoints/expA-lora16/seed42/multi_token/results/text_predictions_val_epoch_1.json",
     ),
     "qformer": (
         "checkpoints/expA/seed42/qformer/results/text_predictions_epoch_1.json",

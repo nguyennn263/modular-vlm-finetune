@@ -161,11 +161,9 @@ dimension); we scope the claim to the recipe's configuration.
 
 \paragraph{Rank and duration.}
 A 3-seed rank sweep finds $r{=}16$, $32$ and $64$ statistically
-indistinguishable, so we keep \textbf{r=16} and make no ``higher rank is better''
-claim. Training the LoRA for 3 epochs rather than 1 adds F1 $53.17 \to 54.67$
-($+1.5$) and CIDEr-D $101.7 \to 106.8$, closing the F1 gap to ViMoE from $7.5$ to
-$6.0$; most of the gain lands by epoch 2. The 1-epoch numbers are the headline;
-the 3-epoch result is the strongest form.
+indistinguishable (we keep $r{=}16$); training the LoRA for 3 epochs rather than 1
+adds $+1.5$ F1 / $+5$ CIDEr-D and closes the gap to ViMoE to $6.0$, most of it by
+epoch 2. The 1-epoch numbers are the headline, the 3-epoch the strongest form.
 
 \subsection{Reading}
 \label{sec:abl-summary}

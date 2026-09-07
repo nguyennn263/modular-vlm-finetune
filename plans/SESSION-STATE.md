@@ -72,7 +72,7 @@ giữ vững trên test. (LoRA test đo trên cùng 6 ckpt sạch re-run 2026-09
 ### 1d. 5 bridge plain @ 2ep 3-seed + LoRA
 | Bridge | Params | F1 plain | CIDEr-D plain | val CE | F1 +LoRA | ΔF1 | CIDEr-D +LoRA |
 |---|---|--:|--:|--:|--:|--:|--:|
-| multi_token | 7.35M (0.78%) | 49.55 ± 0.07 | 92.3 ± 0.6 | 1.49 | 53.52 | +4.0 | 101.7 § |
+| multi_token | 7.35M (0.78%) | 49.55 ± 0.07 | 92.3 ± 0.6 | 1.49 | 53.52 | +4.0 | 103.2 |
 | qformer (Full Q-Former) | 69.4M (6.91%) | 47.35 ± 0.17 | 85.4 ± 0.5 ‡ | 1.57 | 53.21 | +5.9 | 102.4 |
 | mini_qformer (Light Q-Former) | 27.6M (2.87%) | 46.25 ± 0.62 | 81.7 ± 1.7 ‡ | 1.60 | 53.21 | +7.0 | 103.0 |
 | residual | 4.86M (0.52%) | 45.64 ± 0.36 | 81.1 ± 0.6 | 1.67 | 52.64 | +7.0 | 100.8 |

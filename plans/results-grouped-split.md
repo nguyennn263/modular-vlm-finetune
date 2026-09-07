@@ -91,6 +91,8 @@ Các số CIDEr-D dưới đây đã rescore lại đúng từ epoch_1 (n=5463).
 | mini_qformer · 123 | 46.16 | 86.33 | 13.43 | 44.45 | 36.79 | 1.615 | 81.7 | 16.2 | 45.5 |
 | mini_qformer · 3407 | 45.54 | 84.28 | 13.03 | 43.87 | 36.13 | 1.603 | 79.7 | 15.8 | 44.9 |
 | qformer · 3407 | 47.13 | 89.01 | 14.01 | 45.38 | 37.62 | 1.566 | 84.8 | 17.0 | 46.5 |
+| qformer · 42 | 47.56 | 90.11 | 13.81 | 45.86 | — | 1.606 | 85.4 | 16.6 | 47.0 |
+| qformer · 123 | 47.35 | 90.82 | — | — | — | 1.560 | 85.9 | 16.6 | 46.7 |
 | residual · 42 | 45.91 | 86.70 | 12.89 | 43.92 | 36.38 | 1.6503 | 81.6 | 15.7 | 45.2 |
 | residual · 123 | 45.14 | 85.38 | 12.50 | 43.23 | 36.27 | 1.672 | 80.2 | 14.8 | 44.5 |
 | residual · 3407 | 45.88 | 86.67 | 12.70 | 44.10 | 36.82 | 1.676 | 81.5 | 15.5 | 45.2 |
@@ -256,7 +258,7 @@ LoRA r=16 trên q/k/v/o của Qwen2-0.5B, huấn luyện cùng bridge multi_toke
 
 | | Plain (mean 4 seed) | **LoRA r=16 (mean 3 seed)** | Δ | ViMoE |
 |---|---:|---:|---:|---:|
-| F1 | 49.8 | **53.17** | **+3.4** | 60.7 |
+| F1 | 49.8 | **53.52** | **+3.7** | 60.7 |
 | CIDEr (in-house) | 97.0 | **~105.6** | **+8.6** | — |
 | BLEU | 16.0 | **~19.5** | **+3.5** | 12.5 |
 | Acc | 8.3 | **10.4** (2-seed) | **+2.1** | 9.7 |
@@ -281,7 +283,7 @@ Tất cả LoRA runs trước chỉ 1 epoch (cố tình test nhanh). Chạy lạ
 
 | | LoRA r=16 · 1 epoch (mean 3 seed) | **LoRA r=16 · 3 epoch (mean 3 seed)** | Δ | ViMoE |
 |---|---:|---:|---:|---:|
-| F1 (in-house) | 53.17 ± 0.03 | **54.67 ± 0.15** | **+1.5** | 60.7 |
+| F1 (in-house) | 53.52 ± 0.11 | **54.71 ± 0.14** | **+1.2** | 60.7 |
 | CIDEr-D (corpus) | 101.7 (seed42) | **106.8 ± 1.1** | **+5.1** | 88.7 |
 | BLEU-4 (corpus) | 23.2 (seed42) | **25.0 ± 0.4** | **+1.8** | 12.5 |
 | ROUGE-L (corpus) | 52.7 (seed42) | **54.2 ± 0.2** | **+1.5** | 47.1 |
@@ -390,7 +392,7 @@ plain = trung bình 3 seed @ 2 epoch (§1). +LoRA = LoRA r=16, 1 epoch (multi_to
 
 | bridge | F1 plain | F1 +LoRA | ΔF1 | CIDEr-D plain | CIDEr-D +LoRA | ΔCIDEr-D |
 |---|---:|---:|---:|---:|---:|---:|
-| multi_token | 49.55 | 53.17 | **+3.6** | 92.3 | 101.7 | +9.4 |
+| multi_token | 49.55 | 53.52 | **+4.0** | 92.3 | 101.7 | +9.4 |
 | qformer | 47.36 | 53.21 | **+5.9** | 86.9 | 102.4 | +15.5 |
 | mini_qformer | 46.25 | 53.21 | **+7.0** | 83.7 | 103.0 | +19.3 |
 | residual | 45.64 | 52.64 | **+7.0** | 81.1 | 100.8 | +19.7 |
@@ -400,7 +402,7 @@ plain = trung bình 3 seed @ 2 epoch (§1). +LoRA = LoRA r=16, 1 epoch (multi_to
 và CIDEr-D **79–92** (~13 điểm), với 3 kiểu trộn token khác nhau (pool / dense
 attention / query). Sau LoRA r=16 (0.23% param) tất cả hội tụ về **F1 52.6–53.2**
 (dải ~0.6) và **CIDEr-D 100.8–103.0** (dải ~2.2). Mức nâng LỚN HƠN khi bridge
-plain yếu hơn (multi_token +3.6 → tile_attention +7.8). → khi decoder có capacity,
+plain yếu hơn (multi_token +4.0 → tile_attention +7.8). → khi decoder có capacity,
 **thiết kế bridge gần như không còn ảnh hưởng đến chất lượng cuối**.
 
 *(Đã bỏ hẳn câu chuyện cũ "residual từ bridge tệ nhất F1 36.5 → +16.2": số 36.5
@@ -459,7 +461,7 @@ LoRA r=16, α=32, 1 epoch, multi_token, 3-seed. Thay đổi target module:
 
 | Target LoRA | F1 (3-seed) | val loss | Kết luận |
 |---|--:|--:|---|
-| **attn-only** (q/k/v/o) — recipe hiện tại | **53.17** | 1.37 | ✅ +2.5 vs plain, ổn định |
+| **attn-only** (q/k/v/o) — recipe hiện tại | **53.52** | 1.37 | ✅ +4.0 vs plain, ổn định |
 | MLP-only (gate/up/down_proj) | **20.24 ± 1.52** | ~3.7 | 💥 **PHÂN KỲ** |
 | attn + MLP (cả 7 module) | **37.51 ± 1.70** | ~2.08 | 💥 tệ (phần attn cứu lại một phần) |
 
@@ -485,8 +487,8 @@ per-seed attn+MLP F1: s42 38.11 / s123 39.22 / s3407 35.19 (loss 1.99/1.99/2.26)
 
 | epoch | F1 | CIDEr (ih) | CIDEr-D |
 |---|--:|--:|--:|
-| 1 | 53.17 | 105.59 | 101.70 |
-| 3 | 54.67 | 109.60 | 106.80 |
+| 1 | 53.52 | 106.56 | ≈101.7 |
+| 3 | 54.71 | 110.49 | ≈106.8 |
 | 5 | *đang chạy (acc16)* | | |
 
 1→3 ep: +1.5 F1, +5 CIDEr-D. Dự đoán 5ep phẳng dần (~55 F1) → củng cố "đã kịch trần".

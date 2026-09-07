@@ -62,12 +62,15 @@ directly comparable to numbers computed with a different implementation. **Table
 | **  + LoRA r=16 (seed 42)** | **101.70** | **23.20** | **52.70** |
 | **  + LoRA r=16, 3 epochs (3-seed)** | **106.80 ± 1.10** | **25.00 ± 0.40** | **54.20 ± 0.20** |
 
-A paired bootstrap over the 5 463 val samples (`scripts/bootstrap_ci.py`;
-CI **being recomputed on the 2-epoch predictions** — the [91.3, 97.1] interval
-below is from the earlier 4-epoch seed-42 run and is expected to shift only
-slightly) put `multi_token`-plain's CIDEr-D 95% CI entirely above ViMoE's 88.7:
-the generation-quality win is not a lucky draw. ViMoE publishes no per-sample
-predictions, so only a one-sample CI on our own estimate is possible.
+A bootstrap over the 5 463 val samples (2 000 resamples, seed-42 2-epoch
+predictions; `scripts/bootstrap_ci.py`, `outputs/bootstrap_ci.json`) puts
+`multi_token`-plain's corpus CIDEr-D at 92.5, 95% CI **[89.9, 95.3]** — the
+whole interval sits above ViMoE's reported 88.7, so the generation-quality win
+is not a lucky draw (the margin is tighter than the earlier 4-epoch estimate
+[91.3, 97.1] but the conclusion holds). The token-F1 gap is likewise real and
+in ViMoE's favour (their 60.7 vs our 49.6, CI [48.9, 50.3]). ViMoE publishes no
+per-sample predictions, so these are one-sample intervals on our own estimate,
+not a paired test.
 
 ### 5.3 Held-out (test) evaluation
 
@@ -239,9 +242,19 @@ decoder, **all five converge to F1 52.6–53.2 / CIDEr-D 100.8–103.0**. The li
 is larger for weaker bridges (+3.6 → +7.8). Once the decoder has capacity to use
 whatever representation it is given, *which bridge supplies it stops mattering* —
 the bottleneck is decoder capacity, not bridge sophistication. A paired
-bootstrap on the seed-42 predictions puts every plain→LoRA ΔF1/ΔCIDEr-D CI clear
-of zero, P(Δ>0) = 1.000 (`residual`'s row pending recompute against a sound
-seed).
+bootstrap over the 5 463 val samples (seed-42 2-epoch predictions) confirms
+every plain→LoRA lift on all five bridges:
+
+| bridge | ΔF1 [95% CI] | ΔCIDEr-D [95% CI] | P(Δ>0) |
+|---|---|---|---|
+| `multi_token` | +3.55 [2.94, 4.14] | +9.20 [7.15, 10.99] | 1.000 |
+| `qformer` | +5.44 [4.83, 6.06] | +15.24 [13.04, 17.41] | 1.000 |
+| `mini_qformer` | +6.75 [6.07, 7.43] | +19.53 [17.36, 21.89] | 1.000 |
+| `residual` | +6.75 [6.07, 7.39] | +18.40 [16.24, 20.98] | 1.000 |
+| `tile_attention` | +8.49 [7.80, 9.16] | +24.00 [21.86, 26.54] | 1.000 |
+
+No interval touches zero, and the monotonic widening from `multi_token` (+3.6)
+to `tile_attention` (+8.5) is the equalization pattern in the per-sample deltas.
 
 **Where in the decoder (TIER-2).** LoRA r=16, 1 epoch, 3-seed, `multi_token`:
 
@@ -279,6 +292,8 @@ cut by the compute quota at ~4 epochs.
 | RQ5 · representation alignment | projector feature-KD | −0.03 | negative (absolute null) |
 | **RQ6 · decoder capacity** | **LoRA r=16 attention, 1 epoch** | **+3.62** | **positive** |
 | **RQ6 · decoder capacity** | **LoRA r=16 attention, 3 epochs** | **+5.12** | **positive** |
+| RQ6 · decoder capacity | LoRA r=16 MLP-only | −29.31 | diverges |
+| RQ6 · decoder capacity | LoRA r=16 attention + MLP | −12.04 | diverges |
 
 **Reading.** Four independent axes on the vision / training side of the pipeline
 — none of which touch the decoder — produce no lift; the `feat`-alignment axis
@@ -339,11 +354,9 @@ image-access study remains the camera-ready item.
 
 **§5–§7 restructured to the blueprint 2026-09-07, numbers on the final 2-epoch
 3-seed set.** Remaining:
-- [ ] regenerate `outputs/bootstrap_ci.json` on the 2-epoch predictions
-      (`scripts/bootstrap_ci.py` paths point at seed-42; the [91.3, 97.1] CIDEr-D
-      CI in §5.2 and the §6.5 per-bridge CIs are from the 4-epoch run) — expect
-      small shifts; also recompute the `residual` per-bridge row against a sound
-      seed
+- [x] `outputs/bootstrap_ci.json` regenerated on the 2-epoch predictions, all
+      5 bridges — folded into §5.2 (CIDEr-D CI [89.9, 95.3]) and §6.5 (per-bridge
+      ΔF1/ΔCIDEr-D CIs, `residual` resolved to +6.75)
 - [ ] error analysis (§7): per-category error breakdown, noun-omission rate,
       generation-length comparison (co-author has draft material)
 - [ ] real 2-annotator + image-access human validation (§7) — camera-ready

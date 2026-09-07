@@ -1,62 +1,78 @@
 # 1. Introduction
 
-Vision-language models (VLMs) spend most of their inference budget in the vision
-encoder: encoding an image at high resolution, or as many tiles, costs far more
-than the language decoder's forward pass for a short answer. A natural idea is to
-*adapt* that visual budget per question — spend more vision compute on questions
-that need it, less on questions that do not. The open design question is what
-signal should drive that decision.
+Vietnamese visual question answering (VQA) has a small number of strong open
+models. **Vintern-1B** [cite] is representative: a 1-billion-parameter
+vision-language model (VLM) that pairs an InternViT-300M encoder with a
+Qwen2-0.5B decoder through a two-layer MLP projector, and reaches
+state-of-the-art accuracy on Vietnamese VQA benchmarks. Its strength comes at a
+cost, however. Adapting Vintern-1B to a new benchmark, as its authors do, means
+**fully fine-tuning the vision encoder and the projector and applying LoRA to the
+decoder, over roughly three million image–question pairs on four RTX-3090 GPUs**.
+A recent alternative, **ViMoE-VQA** [cite], improves accuracy on the AutoViVQA
+benchmark [cite] by discarding this backbone entirely and training a new
+mixture-of-experts VLM from scratch. Both routes are expensive, and both rewrite
+most of the model.
 
-One hypothesis, implicit in recent "reasoning-aware" mixture-of-experts VQA
-models such as ViMoE-VQA [cite], is that the *type of reasoning* a question
-demands is informative: a counting question and a yes/no question plausibly need
-different amounts of visual processing. If true, a cheap question-only classifier
-that predicts reasoning type could steer visual computation before the expensive
-vision encoder even runs.
+This paper asks a narrower and more practical question:
 
-This paper tests that hypothesis directly. We build a frozen-backbone Vietnamese
-VLM in which the only trainable component is a small *bridge* module between a
-frozen InternViT-300M encoder and a frozen Qwen2-0.5B decoder, and we define a
-discrete action space over (number of image tiles) × (bridge architecture). For
-every validation and test question we run an *oracle sweep*: we evaluate every
-action and record its answer quality, giving us, per question, the best possible
-action and the quality gap between actions. Against this oracle we ask: does a
-router that sees explicit reasoning-type supervision allocate visual computation
-better than a router that sees only cheap model-internal visual features, or than
-a trivial fixed policy?
+> *Can we improve Vintern-1B on AutoViVQA by training only a small fraction of its
+> parameters — freezing the entire backbone — and if that is not enough, where
+> exactly is the bottleneck?*
 
-**The answer is no, on three levels.** (i) Per reasoning-type category, the
-number of tiles has no statistically significant effect on answer quality
-(paired bootstrap CIs all include zero). (ii) Per sample, the oracle's apparent
-routing headroom is an artifact: the argmax over near-tied actions is dominated
-by CIDEr measurement noise and does not transfer from validation to test. (iii)
-No learned policy — with reasoning-type features, with visual features, or with
-both — beats the trivial fixed policy "use the best bridge at the minimum tile
-count" on held-out test data.
+Concretely, we **freeze both the InternViT-300M encoder and the Qwen2-0.5B
+decoder** and replace the original projector with a small trainable **bridge**
+module (0.78 % of all parameters). This is the cheapest possible adaptation: no
+gradients flow into either backbone, training fits on a single 16 GB GPU, and one
+run takes a few hours rather than days. We then treat the remaining
+performance gap as a diagnostic target. There are two places one could spend a
+small additional parameter budget — the **vision side** (a larger bridge, more
+image tiles, adaptive per-question visual compute) or the **language side** (a
+richer training signal, representation alignment to the decoder, or a light
+adapter on the decoder itself) — and we work through six research questions, one
+lever at a time, to find which of them actually moves the needle.
 
-We report this as a careful negative result. Along the way we also establish a
-positive, reproducible finding: on a leak-free grouped split of AutoViVQA, the
-multi-token bridge (0.78 % trainable parameters) reaches corpus CIDEr-D 0.94,
-above the ViMoE-VQA MoE baseline (0.887) and every other published model on this
-benchmark for generation metrics, while trailing on token-level F1.
+## Findings
+
+**The recipe works, cheaply.** A frozen-backbone multi-token bridge at a single
+image tile already surpasses the fully fine-tuned Vintern-1B on every generation
+metric (BLEU +9.4, METEOR +5.0, CIDEr +23.7) and beats ViMoE-VQA on corpus
+CIDEr-D, BLEU-4 and ROUGE-L — at about 1 % of the trainable parameters and none
+of the backbone fine-tuning. Adding a rank-16 LoRA on the decoder's attention
+projections (a further 0.23 %) lifts token-F1 from 49.6 to 54.7 and widens the
+generation lead. Held-out test numbers match validation within 0.5 F1, so the
+result is not an artefact of tuning to the validation set.
+
+**The bottleneck is the decoder's attention, and nothing on the vision side.**
+Of the six interventions, five are on the vision or training side — a 10×-larger
+bridge, more image tiles, a learned per-question routing policy, multi-reference
+training, and projector-level representation alignment — and **all five leave
+token-F1 unchanged or worse** (representation alignment is an absolute null:
+ΔF1 −0.03). The one intervention that helps is a LoRA adapter on the frozen
+decoder, and it helps on *every* bridge architecture we try, with a larger effect
+on the weaker bridges — after which all five bridges collapse into a 0.6-point
+F1 band. Moreover, moving the same LoRA budget from the decoder's attention to
+its feed-forward layers **diverges training** (validation loss 3–4 vs 1.4). The
+useful headroom is specifically in the frozen decoder's attention, not in the
+visual pipeline and not in the decoder broadly. This is also a direct
+counterpoint to ViMoE-VQA's "reasoning-aware" account of its own gains: on the
+same benchmark, question type carries no usable signal about how much visual
+computation a question needs.
 
 ## Contributions
 
-1. **A controlled instrumentation pipeline** (§3) for studying adaptive visual
-   computation in frozen-backbone VLMs: a bridge-only trainable VLM, a discrete
-   (tiles × bridge) action space with a normalised cost term, and an offline
-   oracle sweep that yields per-sample best-action and quality-gap labels.
-2. **A question-only cognitive-prior router** P(r|Q) (PhoBERT, macro-F1 0.91 over
-   8 reasoning types) and a cheap visual-state probe f(I,Q) (InternViT CLS
-   embedding at one tile, plus metadata features), combined by a policy MLP
-   trained by offline oracle-guided learning.
-3. **A negative result, rigorously established**: explicit reasoning-type
-   supervision does not improve visual-computation allocation beyond
-   model-internal signals — nor does any learned policy beat a fixed one — for
-   this VLM class on AutoViVQA. We trace this to (a) reasoning type not
-   predicting visual-compute demand and (b) per-sample oracle headroom being
-   measurement noise over near-tied actions.
-4. **A leak-free bridge-architecture benchmark** on AutoViVQA with a grouped
-   70/15/15 split (no image shared across splits), including a compute-efficiency
-   characterisation (FLOPs, latency, throughput by tile count) that prior work on
-   this benchmark explicitly deferred.
+1. **A parameter-efficient adaptation recipe for Vietnamese VLMs** (§3, §5):
+   a frozen InternViT + frozen Qwen2 + a lightweight pooled bridge + a rank-16
+   attention LoRA on the decoder — ~1 % trainable parameters, one 16 GB GPU,
+   no backbone fine-tuning — that matches or beats a fully fine-tuned Vintern-1B
+   on generation metrics and holds up on a held-out test split.
+2. **A systematic bottleneck diagnosis** (§6): a six-question ablation ladder
+   over the vision and language sides of a frozen-backbone VLM. Four independent
+   vision/training-side levers produce no lift; only decoder-attention capacity
+   does, on every bridge. We localise the ceiling to the frozen decoder's
+   attention projections — feed-forward LoRA at the same budget diverges.
+3. **A reliable evaluation protocol** for AutoViVQA: a leak-free grouped
+   70/15/15 split (no image shared across splits), 3-seed means with bootstrap
+   confidence intervals, matched validation/test reporting, a human-judgment
+   sanity check on the token-F1 metric, and a FLOPs/latency/throughput
+   characterisation of the image-tile lever that prior work on this benchmark
+   explicitly deferred.

@@ -91,11 +91,11 @@ mini_qformer 81.7 ± 1.7 (BLEU-4 16.3, ROUGE-L 45.5). **F1 không đổi.** qfor
 Nguyên nhân: local `checkpoints/expA/seed42/qformer/` từng là **mix cũ 4ep** (summary.json
 + file dự đoán 4ep) — đã thay bằng bản 2ep sạch pull từ acc14 (F1 47.56, đúng số cũ đã dùng).
 
-**Bootstrap CIs (2ep seed-42 preds, 2000 resamples; `outputs/bootstrap_ci.json`, commit f2dd5d0):**
+**Bootstrap CIs (clean 5-bridge re-run: 2ep plain vs 3-seed-clean LoRA val preds, seed-42 basis, `outputs/bootstrap_ci.json`, commit e06f824):**
 | Bridge | ΔF1 [95% CI] | ΔCIDEr-D [95% CI] | P(Δ>0) |
 |---|---|---|---|
-| multi_token | +3.55 [2.94, 4.14] | +9.20 [7.15, 10.99] | 1.000 |
-| qformer | +5.44 [4.83, 6.06] | +15.24 [13.04, 17.41] | 1.000 |
+| multi_token | +4.06 [3.49, 4.65] | +10.75 [8.83, 12.60] | 1.000 |
+| qformer | +5.54 [4.92, 6.19] | +16.51 [14.36, 18.64] | 1.000 |
 | mini_qformer | +6.75 [6.07, 7.43] | +19.53 [17.36, 21.89] | 1.000 |
 | residual | +6.75 [6.07, 7.39] | +18.40 [16.24, 20.98] | 1.000 |
 | tile_attention | +8.49 [7.80, 9.16] | +24.00 [21.86, 26.54] | 1.000 |
@@ -182,6 +182,9 @@ eval_test.json ở `ck-lora/seed<N>/multi_token/`. Corpus rescore: **dùng
   `checkpoints/expA-4ep/seed42/` (backup 4ep), `checkpoints/expA-lora16{,-mlp,-all}/`,
   `checkpoints/expA-align-{feat,logit}/`. (.pt của LoRA-1ep s123/s3407 HỎNG — đang re-run.)
 - `outputs/test_eval/` — 7 eval_test.json + summary.json
+- **`paper/` LaTeX skeleton (assistant)** — llncs, §1–9 + 3 figs + 7 tables, density-passed 21→16pp.
+  Number sync tới basis 53.52 + bootstrap CIs clean 5-bridge: commit **e06f824**. Builds clean, 16pp, no undefined refs.
+  Còn: overfull hbox 1 dòng ở `03-method.tex` L36–47 (peer-owned); real `.bib`; 2-rater human validation.
 
 ---
 

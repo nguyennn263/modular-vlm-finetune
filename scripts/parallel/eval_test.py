@@ -67,9 +67,9 @@ def cmd_bundle():
     (d / "dataset-metadata.json").write_text(json.dumps(
         {"id": f"{user}/{DS}", "title": DS, "licenses": [{"name": "unknown"}]}))
     try:
-        _kaggle("acc1", "datasets", "create", "-p", str(d), "--dir-mode", "zip", "--public")
+        _kaggle("acc1", "datasets", "create", "-p", str(d), "--public")
     except RuntimeError:
-        _kaggle("acc1", "datasets", "version", "-p", str(d), "-m", "test-ckpts", "--dir-mode", "zip")
+        _kaggle("acc1", "datasets", "version", "-p", str(d), "-m", "test-ckpts")
     print(f"[bundle] {got} -> {user}/{DS} (wait ~1-2 min for Kaggle to process)")
 
 

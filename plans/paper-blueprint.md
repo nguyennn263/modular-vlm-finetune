@@ -134,7 +134,7 @@ F1 36.45 là lần chạy seed-42 hỏng, val CE 2.35.)*
 |---|--:|--:|
 | Residual | 81.10 | 100.80 |
 | Tile-Attention | 79.03 | 102.00 |
-| Multi-Token | 92.30 | 101.70 |
+| Multi-Token | 92.30 | 103.20 |
 | Light Q-Former | 81.70 | 103.00 |
 | Full Q-Former | 85.40 | 102.43 |
 
@@ -183,7 +183,7 @@ tile_attention = seed 42.
 
 | Bridge | F1 thường | F1 +LoRA | ΔF1 | CIDEr-D thường | CIDEr-D +LoRA | ΔCIDEr-D |
 |---|--:|--:|--:|--:|--:|--:|
-| multi_token | 49.55 | 53.52 | +4.0 | 92.3 | 101.7 | +9.4 |
+| multi_token | 49.55 | 53.52 | +4.0 | 92.3 | 103.2 | +10.9 |
 | qformer | 47.35 | 53.21 | +5.9 | 85.4 | 102.4 | +17.0 |
 | mini_qformer | 46.25 | 53.21 | +7.0 | 81.7 | 103.0 | +21.3 |
 | residual | 45.64 | 52.64 | +7.0 | 81.1 | 100.8 | +19.7 |

@@ -16,7 +16,7 @@ multi-reference training, projector-level alignment --- produce no F1 improvemen
 (alignment is an exact null). The only lever that helps is a small LoRA on the
 frozen decoder; it helps on every bridge, works only through the attention
 projections (feed-forward LoRA destabilises training), and collapses the five
-bridges into a $0.6$-point F1 band. For this VLM class, the ceiling on
+bridges into a $0.9$-point F1 band. For this VLM class, the ceiling on
 token-level phrasing is the frozen decoder's attention capacity, not the visual
 pipeline --- and on the same benchmark, question type carries no signal about the
 optimal visual-compute action, a direct counterpoint to ``reasoning-aware''

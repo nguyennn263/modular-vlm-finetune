@@ -1,6 +1,6 @@
-# 6. Discussion & Limitations
+# 8. Discussion & Limitations
 
-## 6.1 Four axes, one positive: localizing the F1 ceiling to the decoder
+## 8.1 Four axes, one positive: localizing the F1 ceiling to the decoder
 
 §6.2–§6.5 push on four different levers that could, in principle, close the
 remaining F1 gap to ViMoE-VQA on top of the frozen-backbone, 1-tile bridge —
@@ -10,7 +10,7 @@ negative and only the decoder axis is positive — and even there, only when
 the LoRA is placed on the decoder's *attention* projections. The shape of that
 split is itself the finding:
 
-1. **Reasoning type does not predict visual-compute demand (§5.3–5.4).** Per
+1. **Reasoning type does not predict visual-compute demand (§6.3).** Per
    category, the effect of `n_tiles` on answer quality is not significant in
    any of the eight categories (paired bootstrap CIs all include zero); no
    learned policy — reasoning-type-informed or not — beats a fixed `multi_token
@@ -23,7 +23,7 @@ split is itself the finding:
    nor distilling the bridge toward Vintern's own pre-aligned `mlp1` projector
    (ΔF1 −0.03 — an *absolute* null: no measurable effect either way) moves F1
    upward. The bridge is already close to CE-optimal (lowest val CE of the five
-   architectures, §6.1) — there is little room for a training-signal or
+   architectures, §8.1) — there is little room for a training-signal or
    alignment tweak to improve on.
 
 3. **Decoder-LoRA is the one intervention that moves F1, it is bridge-agnostic,
@@ -60,7 +60,7 @@ main spine (§5.1–5.2) — the frozen, 0.78%-param bridge remains the primary
 contribution, and this finding explains why that architecture class tops out
 where it does rather than arguing it should be abandoned.
 
-## 6.2 Relation to ViMoE-VQA's "reasoning-aware" claim
+## 8.2 Relation to ViMoE-VQA's "reasoning-aware" claim
 
 ViMoE-VQA attributes part of its MoE gain to "approximate reasoning-aware expert
 selection". Our result does not contradict ViMoE's accuracy numbers, but it does
@@ -72,7 +72,7 @@ reasoning-type routing. Testing this on ViMoE directly (does expert activation
 correlate with question type?) is the obvious follow-up and requires only its
 router logs.
 
-## 6.3 What is robust
+## 8.3 What is robust
 
 - The **grouped split** closes an image-level leakage path; our bridge numbers
   are essentially unchanged from the random-split table (≤0.5 F1 / ≤3 CIDEr-D),
@@ -99,12 +99,12 @@ router logs.
   other bridges (three token-mixing designs), all converging to a 0.6-point F1
   band; confirmed at corpus level and on held-out test. Three checks (seed,
   bridge, metric implementation) plus the attention-vs-MLP contrast all agree.
-- Taken together, §6.6's six-axis table is the load-bearing summary for §6.1:
+- Taken together, §6.6's six-axis table is the load-bearing summary for §8.1:
   it is not one ablation but a *pattern across independent interventions* that
   localizes the bottleneck, more robust to any single intervention's
   idiosyncrasies than any one row would be alone.
 
-## 6.4 Limitations
+## 8.4 Limitations
 
 1. **3-seed, not 5.** Bridge and negative-axis runs are 3 seeds (`multi_token`
    4); routing/oracle runs are seed 42. A 5-seed protocol is the camera-ready
@@ -146,7 +146,7 @@ router logs.
    item for a camera-ready version, and would be needed to make a stronger
    claim than "this is suggestive, not confirmed."
 
-## 6.5 Ethical / reproducibility notes
+## 8.5 Ethical / reproducibility notes
 
 All models are frozen public checkpoints; only small bridges/heads are trained.
 The split script, action space, and oracle tables are released. No human-subjects

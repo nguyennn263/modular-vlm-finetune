@@ -23,7 +23,7 @@ split is itself the finding:
    nor distilling the bridge toward Vintern's own pre-aligned `mlp1` projector
    (ΔF1 −0.03 — an *absolute* null: no measurable effect either way) moves F1
    upward. The bridge is already close to CE-optimal (lowest val CE of the five
-   architectures, §8.1) — there is little room for a training-signal or
+   architectures, §6.1) — there is little room for a training-signal or
    alignment tweak to improve on.
 
 3. **Decoder-LoRA is the one intervention that moves F1, it is bridge-agnostic,
@@ -34,8 +34,8 @@ split is itself the finding:
    got lucky". After LoRA all five bridges collapse into a 0.6-point F1 band
    (52.6–53.2) and a 2.6-point CIDEr-D band (100.8–103.0), from plain spreads of
    ~4.4 F1 / ~13 CIDEr-D. Crucially, moving the same LoRA budget to the decoder's
-   feed-forward layers (`gate/up/down_proj`) *diverges* training (val loss 3–4
-   vs 1.37, F1 ~20); the useful headroom is specifically in attention, not the
+   feed-forward layers (`gate/up/down_proj`) *diverges* training (val loss 2–4
+   vs 1.37, F1 20–38); the useful headroom is specifically in attention, not the
    decoder broadly. (We flag the MLP result as possibly a hyperparameter
    artifact — α=32 is aggressive for the larger intermediate dimension — so the
    claim is scoped to the recipe's settings.)
@@ -79,7 +79,7 @@ router logs.
   so prior AutoViVQA bridge results were not inflated by leakage. *Caveat:* one
   early Residual-bridge run used in the first comparison was a training-
   instability outlier (val CE 2.35 vs ~1.5–1.7 elsewhere); with a sound 3-seed
-  run the Residual numbers rise sharply (F1 37.6→45.6, CIDEr-D 56.3→81.1) — so
+  run the Residual numbers rise sharply (F1 36.5→45.6, CIDEr-D 56.3→81.1) — so
   the "barely changed" claim holds for the four stable bridges, not for that
   single broken Residual run.
 - The **multi-token bridge** result — corpus CIDEr-D 92.3 / BLEU-4 18.9 /

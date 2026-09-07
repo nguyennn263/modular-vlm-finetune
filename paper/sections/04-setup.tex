@@ -1,0 +1,117 @@
+\section{Experimental Setup}
+\label{sec:setup}
+
+\subsection{Dataset and split}
+
+AutoViVQA provides 19{,}411 images / 37{,}077 Vietnamese questions, each with five
+diverse free-form answers and a reasoning-type label, released with an 80/20
+train/val division and no public test split. We re-partition into a
+\textbf{grouped 70/15/15 split}: every image is assigned to exactly one of
+train / val / test by hashed \texttt{image\_id} (seed 42), so no image --- and
+therefore no shared caption or scene context --- crosses splits, and the
+reasoning-type distribution is held approximately fixed across splits.
+
+\begin{table}[t]
+  \centering
+  \caption{Split statistics. Image overlap between any two splits is $0$.}
+  \label{tab:splits}
+  \begin{tabular}{lrrrr}
+    \toprule
+    Split & Questions (eval) & Images & Ans/q & Ans length \\
+    \midrule
+    Train & ${\sim}25{,}900$ & 13{,}576 & 5.00 & 4.3\,w \\
+    Val   & 5{,}463 & 2{,}908 & 5.00 & 4.3\,w \\
+    Test  & 5{,}468 & 2{,}914 & 5.00 & 4.3\,w \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+A random question-level split gives bridge numbers $\le 0.5$ F1 / $\le 3$ CIDEr-D
+higher than this grouped split, so prior AutoViVQA bridge results are not badly
+inflated by leakage; we adopt the grouped split for all numbers here.
+
+Reasoning-type (\texttt{category}) distribution: \texttt{relational}
+(${\sim}30\%$), \texttt{recognition} (${\sim}19\%$), \texttt{spatial}
+(${\sim}15\%$), \texttt{causal} (${\sim}13\%$), \texttt{counting} (${\sim}12\%$),
+with \texttt{action}, \texttt{context}, \texttt{yes/no} in the tail. We use the
+nominal \texttt{category} labels and treat them as unordered.
+
+\paragraph{Oracle-sweep subset (Sec.~\ref{sec:abl-routing} only).}
+Evaluating every action on every question is expensive, so the oracle sweep uses
+an equal-per-category subset (${\approx}625$ questions per category): 5{,}547
+train / 3{,}727 val / 3{,}739 test questions swept. This over-samples the tail
+categories; per-category oracle means are unweighted and overall means are
+re-weighted to the natural distribution.
+
+\subsection{Answer selection during training}
+
+Each question has five references. Bridge and LoRA training optimise cross-entropy
+against the \textbf{first} reference --- a fixed choice, for reproducibility. All
+\textbf{evaluation} uses all five references: per-sample max for token metrics,
+corpus multi-reference for CIDEr-D / BLEU / ROUGE / METEOR. Resampling a reference
+each epoch (\texttt{answer\_sampling = random}) is one of the RQ5 interventions
+(Sec.~\ref{sec:abl-rq5}) and is not otherwise used.
+
+\subsection{Training}
+
+InternViT-300M and Qwen2-0.5B are \textbf{frozen}; only the bridge (and, for RQ6,
+a rank-16 decoder LoRA) trains. AdamW, learning rate \num{2e-4}, micro-batch 8, no
+early stopping. \textbf{Two epochs} for the bridge: validation cross-entropy
+bottoms out within one epoch and corpus CIDEr plateaus by epoch 2 (multi-token
+CIDEr $1.025$ at epoch 2 $\rightarrow$ $1.029$ at epoch 4 on an 800-sample
+probe), so a third and fourth epoch add nothing and risk instability. The decoder
+LoRA is trained for 1 or 3 epochs on top of a fixed bridge
+(Sec.~\ref{sec:abl-rq6} reports both). One bridge run is ${\sim}5$ GPU-h; one
+LoRA run is ${\sim}3$ (1 epoch) to ${\sim}8$ (3 epochs) GPU-h.
+
+\paragraph{Note on a superseded run.}
+One early bridge run trained for four epochs; its seed-42 Residual checkpoint was
+a training-instability outlier (validation CE $2.35$ vs.\ $1.5$--$1.7$ for every
+other bridge and seed). We re-ran all bridges at two epochs and three seeds; the
+sound Residual numbers (F1 $45.6$, CIDEr-D $81.1$) are in line with the other
+bridges, and all reported numbers use the two-epoch, three-seed runs. An earlier
+auxiliary distillation term (MSE between the bridge's first token and a
+linear-projector baseline) is disabled everywhere --- it applied to only two of
+the five bridges and is an unfair confound.
+
+\subsection{Hardware, seeds, statistics}
+\label{sec:setup-hw}
+
+\begin{description}
+\item[Hardware.] All training, the oracle sweep, and all evaluation ran on Kaggle
+  P100 (16\,GB) and T4 GPU kernels, orchestrated across a pool of accounts. No
+  multi-GPU training. Total project compute is on the order of a few hundred
+  GPU-hours, dominated by the oracle sweeps and the multi-seed / LoRA-localisation
+  grids; a single headline recipe run (bridge $+$ 3-epoch LoRA) is
+  ${\sim}13$ GPU-h.
+\item[Seeds.] Every bridge, every negative-axis intervention, and the
+  decoder-LoRA rows are \textbf{three seeds} ($42$, $123$, $3407$); the
+  multi-token headline row is four (adds $2026$). Oracle / routing runs are seed
+  $42$. We report mean $\pm$ standard deviation.
+\item[Evaluation.] The full validation split ($5{,}463$) is scored every run; the
+  \textbf{test split ($5{,}468$) is scored once} for the headline recipe and the
+  five bridges, and never used for model selection.
+\item[Statistics.] Main comparisons use paired bootstrap ($2{,}000$ resamples)
+  over the evaluation split; we report $95\%$ CIs on $\Delta$ quantities and
+  $P(\Delta > 0)$.
+\item[Libraries.] PyTorch 2.x, Transformers, \texttt{pyvi} for Vietnamese
+  tokenisation, PhoBERT-base-v2, InternViT-300M / Qwen2-0.5B from
+  Vintern-1B-v3.5. Metrics: pycocoevalcap corpus CIDEr-D / BLEU / ROUGE / METEOR
+  (METEOR via the Meteor 1.5 jar); token-level P/R/F1 from an in-house scorer
+  whose values match the AutoViVQA baseline table.
+\end{description}
+
+\subsection{Metrics}
+
+Cross-paper generation claims use \textbf{corpus CIDEr-D} (most
+implementation-stable), corpus BLEU-4/BLEU-1 and ROUGE-L. METEOR is reported for
+completeness but not used for cross-paper claims (it varies by ${\sim}13$ points
+between implementations on identical predictions). Answer matching: token-level
+Precision / Recall / F1 and exact-match / WUPS, per-sample max over the five
+references. Because BARTPhoBEiT's CIDEr ($188.96$) is a verbosity outlier, it is
+excluded from generation comparisons. Sec.~\ref{sec:human} reports a
+human-judgment sanity check on token-F1 itself.
+
+The two metric conventions are kept in \textbf{separate tables}: an in-house
+table that matches the AutoViVQA baseline scores, and a corpus (pycocoevalcap)
+table for comparison with ViMoE-VQA and other papers.

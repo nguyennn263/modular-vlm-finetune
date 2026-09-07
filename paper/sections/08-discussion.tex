@@ -1,0 +1,145 @@
+\section{Discussion and Limitations}
+\label{sec:discussion}
+
+\subsection{Four vision/training axes, one language axis: localizing the ceiling}
+
+Sec.~\ref{sec:abl-bridge}--\ref{sec:abl-rq6} push on four vision- and
+training-side levers that could, in principle, close the remaining F1 gap to
+ViMoE-VQA on top of the frozen-backbone, 1-tile bridge --- bridge capacity,
+visual-compute allocation, training target and representation alignment --- plus
+one language-side lever, decoder capacity. The four vision/training axes are
+negative and only the decoder axis is positive --- and even there, only when the
+LoRA is placed on the decoder's \emph{attention} projections. The shape of that
+split is itself the finding:
+
+\begin{enumerate}
+\item \textbf{A bigger bridge does not help; the bridge is not the constraint
+  (Sec.~\ref{sec:abl-bridge}).} A $10\times$-larger connector (the 69\,M-parameter
+  Full Q-Former) is \emph{worse} than the 7\,M-parameter multi-token bridge on
+  both F1 ($-2.2$) and CIDEr-D, and the multi-token bridge already has the lowest
+  validation cross-entropy of all five architectures. Whatever the decoder cannot
+  do with eight pooled tokens, it also cannot do with sixteen learned queries and
+  four fusion layers.
+\item \textbf{Reasoning type does not predict visual-compute demand
+  (Sec.~\ref{sec:abl-routing}).} Per category, the effect of \ntiles{} on answer
+  quality is not significant in any of the eight categories; no learned policy ---
+  reasoning-type-informed or not --- beats a fixed \bridge{multi\_token$|$t1} on
+  held-out test. This holds on both the original and the tile-count-augmented
+  retrained checkpoints, so it is not an artefact of the bridge never having seen
+  $>1$ tile during training.
+\item \textbf{Multi-reference training and projector-alignment KD do not lift F1
+  (Sec.~\ref{sec:abl-rq5}).} Neither training on a resampled reference each epoch
+  (\dF{}~$-1.5$) nor distilling the bridge toward Vintern's own pre-aligned
+  \texttt{mlp1} projector (\dF{}~$-0.03$, an \emph{absolute} null) moves F1
+  upward. The bridge is already close to CE-optimal
+  (Sec.~\ref{sec:abl-bridge}) --- there is little room for a training-signal or
+  alignment tweak to improve on.
+\item \textbf{Decoder-LoRA is the one intervention that moves F1, it is
+  bridge-agnostic, and it works only on the attention projections
+  (Sec.~\ref{sec:abl-rq6}).} Adapting $0.23\%$ of Qwen2-0.5B's parameters lifts
+  F1 $+3.6$ on \multitoken{} and $+5.9$--$7.8$ on the four other bridges --- a
+  \emph{larger} effect on the weaker bridges, which rules out ``one bridge's LoRA
+  got lucky''. After LoRA all five bridges collapse into a $0.6$-point F1 band and
+  a $2.6$-point CIDEr-D band, from plain spreads of ${\sim}4.4$ F1 / ${\sim}13$
+  CIDEr-D. Moving the same LoRA budget to the decoder's feed-forward layers
+  \emph{diverges} training (val loss $2$--$4$ vs.\ $1.37$, F1 $20$--$38$); the
+  useful headroom is specifically in attention, not the decoder broadly. (We flag
+  the MLP result as possibly a hyperparameter artefact --- $\alpha=32$ is
+  aggressive for the larger intermediate dimension --- so the claim is scoped to
+  the recipe's settings.)
+\end{enumerate}
+
+\paragraph{Reading.}
+Every vision- and training-side lever produces no lift (alignment is a flat
+zero); the one lever that touches the decoder produces a lift on every bridge,
+and only through its attention projections. That pattern is more informative than
+any single ablation: it is not that we tried one clever trick and it happened to
+work, it is that \emph{only} the trick which adds attention capacity to the
+decoder worked, regardless of which bridge. For this VLM class --- frozen ViT,
+frozen small (0.5B) decoder, a few pooled vision tokens --- the frozen decoder is
+the ceiling on token-level phrasing match, not the vision pipeline. We report
+LoRA as a reference point quantifying that ceiling, not as a replacement for the
+paper's main spine (Sec.~\ref{sec:results-main}--\ref{sec:results-corpus}) --- the
+frozen, $0.78\%$-param bridge remains the primary contribution, and this finding
+explains why that architecture class tops out where it does rather than arguing
+it should be abandoned.
+
+\subsection{Relation to ViMoE-VQA's ``reasoning-aware'' claim}
+
+ViMoE-VQA attributes part of its MoE gain to ``approximate reasoning-aware expert
+selection''. Our result does not contradict ViMoE's accuracy numbers, but it does
+suggest the mechanism is mis-attributed: on the same benchmark, reasoning type
+carries no signal about the \emph{optimal} visual-compute action, and ViMoE's own
+leave-one-out ablation shows its experts are not strongly specialised. A more
+parsimonious account of the MoE gain is added capacity / ensembling, not
+reasoning-type routing. Testing this on ViMoE directly (does expert activation
+correlate with question type?) is the obvious follow-up and requires only its
+router logs.
+
+\subsection{What is robust}
+
+\begin{itemize}
+\item The \textbf{grouped split} closes an image-level leakage path; our bridge
+  numbers are essentially unchanged from the random-split table
+  ($\le 0.5$ F1 / $\le 3$ CIDEr-D). \emph{Caveat:} one early Residual-bridge run
+  used in the first comparison was a training-instability outlier (val CE $2.35$
+  vs.\ ${\sim}1.5$--$1.7$ elsewhere); with a sound 3-seed run the Residual numbers
+  rise sharply (F1 $36.5{\to}45.6$, CIDEr-D $56.3{\to}81.1$) --- so the ``barely
+  changed'' claim holds for the four stable bridges, not for that single broken
+  run.
+\item The \textbf{multi-token bridge} result --- corpus CIDEr-D $92.3$ / BLEU-4
+  $18.9$ / ROUGE-L $48.9$ on val, above ViMoE-VQA on all three, at $0.78\%$
+  trainable parameters --- holds across 4 seeds and \textbf{on held-out test}
+  (F1 $49.2$ vs.\ val $49.6$), a clean, reproducible positive with no val-set
+  overfitting.
+\item The \textbf{compute-efficiency characterisation}
+  (Sec.~\ref{sec:abl-compute}) is the FLOPs/latency analysis ViMoE-VQA explicitly
+  deferred.
+\item The \textbf{null result on adaptive visual-compute routing}
+  (Sec.~\ref{sec:abl-routing}) is cross-validated on two independently-trained
+  checkpoint generations --- the same conclusion both times rules out ``the
+  bridge just never learned to use tiles'' as a confound.
+\item The \textbf{decoder-LoRA result} (Sec.~\ref{sec:abl-rq6}) is the
+  most-replicated finding in the paper: $+3.6$ F1 on \multitoken{} (3/3 seeds) and
+  $+5.9$--$7.8$ on four other bridges, all converging to a $0.6$-point F1 band;
+  confirmed at corpus level and on held-out test. Three checks (seed, bridge,
+  metric implementation) plus the attention-vs-MLP contrast all agree.
+\end{itemize}
+
+\subsection{Limitations}
+
+\begin{enumerate}
+\item \textbf{3-seed, not 5.} Bridge and negative-axis runs are 3 seeds
+  (\multitoken{} 4); routing/oracle runs are seed 42. A 5-seed protocol is the
+  camera-ready target.
+\item \textbf{Frozen 0.5\,B decoder.} The negative routing/training/alignment
+  results may not generalise to VLMs with a trainable or larger decoder that
+  \emph{can} use extra visual tokens --- and Sec.~\ref{sec:abl-rq6}'s LoRA result
+  is direct evidence for exactly that. We claim the negatives for the
+  frozen-backbone / small-bridge regime only.
+\item \textbf{Decoder-LoRA epoch and rank grid is coarse.} The MLP / attn+MLP
+  divergence uses the recipe's $\alpha=32$ and learning rate --- a lower $\alpha$
+  or longer schedule might make MLP LoRA viable. Treat the \emph{direction and
+  bridge-agnosticism} of the effect as solid, the exact magnitude as provisional.
+\item \textbf{$\ntiles \in \{1,3,6\}$ and three oracle bridges.} A finer action
+  grid, or bridges that consume per-tile tokens without pooling, might expose
+  structure this study cannot see.
+\item \textbf{$M(a;x) =$ per-sample CIDEr} is noisy for 4-word answers; a less
+  noisy per-sample quality signal (\eg an LLM judge) could in principle recover
+  some headroom.
+\item \textbf{Cross-paper metric implementations.} Baseline rows are as-reported
+  and may use different implementations, especially for METEOR and BLEU; we
+  standardise our own numbers on pycocoevalcap.
+\item \textbf{Oracle-sweep subset} is equal-per-category; overall numbers are
+  re-weighted but tail categories are over-represented in the raw sweep.
+\item \textbf{Human validation is done only in reduced form.}
+  Sec.~\ref{sec:human} substitutes a single-rater self-check ($N=120$, no image
+  access) for the planned 2-annotator, Cohen's-$\kappa$ study; its finding is
+  informative but rests on one rater's judgment without an image.
+\end{enumerate}
+
+\subsection{Ethical and reproducibility notes}
+
+All models are frozen public checkpoints; only small bridges/heads are trained.
+The split script, action space, and oracle tables are released. No human-subjects
+data beyond the public AutoViVQA benchmark.

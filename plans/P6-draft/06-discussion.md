@@ -2,15 +2,24 @@
 
 ## 8.1 Four axes, one positive: localizing the F1 ceiling to the decoder
 
-§6.2–§6.5 push on four different levers that could, in principle, close the
-remaining F1 gap to ViMoE-VQA on top of the frozen-backbone, 1-tile bridge —
-visual-compute allocation, training target, representation alignment, and
-decoder capacity. §6.6 lays the result out as a single table; four axes are
-negative and only the decoder axis is positive — and even there, only when
-the LoRA is placed on the decoder's *attention* projections. The shape of that
-split is itself the finding:
+§6.1–§6.5 push on four vision- and training-side levers that could, in
+principle, close the remaining F1 gap to ViMoE-VQA on top of the
+frozen-backbone, 1-tile bridge — bridge capacity, visual-compute allocation,
+training target and representation alignment — plus one language-side lever,
+decoder capacity. §6.6 lays the result out as a single table; the four
+vision/training axes are negative and only the decoder axis is positive — and
+even there, only when the LoRA is placed on the decoder's *attention*
+projections. The shape of that split is itself the finding:
 
-1. **Reasoning type does not predict visual-compute demand (§6.3).** Per
+1. **A bigger bridge does not help; the bridge is not the constraint
+   (§6.1).** A 10×-larger connector (the 69 M-parameter Full Q-Former) is
+   *worse* than the 7 M-parameter multi-token bridge on both F1 (−2.2) and
+   CIDEr-D, and the multi-token bridge already has the lowest validation
+   cross-entropy of all five architectures. Whatever the decoder cannot do with
+   eight pooled tokens, it also cannot do with sixteen learned queries and four
+   fusion layers.
+
+2. **Reasoning type does not predict visual-compute demand (§6.3).** Per
    category, the effect of `n_tiles` on answer quality is not significant in
    any of the eight categories (paired bootstrap CIs all include zero); no
    learned policy — reasoning-type-informed or not — beats a fixed `multi_token
@@ -18,15 +27,14 @@ split is itself the finding:
    tile-count-augmented retrained checkpoints (§6.3's tile-augmented re-sweep), so it is not
    an artifact of the bridge never having seen >1 tile during training.
 
-2. **Multi-reference training and projector-alignment KD do not lift F1
+3. **Multi-reference training and projector-alignment KD do not lift F1
    (§6.4).** Neither training on a resampled reference each epoch (ΔF1 −1.5)
    nor distilling the bridge toward Vintern's own pre-aligned `mlp1` projector
    (ΔF1 −0.03 — an *absolute* null: no measurable effect either way) moves F1
-   upward. The bridge is already close to CE-optimal (lowest val CE of the five
-   architectures, §6.1) — there is little room for a training-signal or
-   alignment tweak to improve on.
+   upward. The bridge is already close to CE-optimal (§6.1) — there is little
+   room for a training-signal or alignment tweak to improve on.
 
-3. **Decoder-LoRA is the one intervention that moves F1, it is bridge-agnostic,
+4. **Decoder-LoRA is the one intervention that moves F1, it is bridge-agnostic,
    and it works only on the attention projections (§6.5).** Adapting 0.23% of
    Qwen2-0.5B's parameters (LoRA r=16 on `q/k/v/o`, 2.16M) lifts F1 +3.6 on
    `multi_token` (3/3 seeds, std 0.07) and +5.9–7.8 on the four other bridges —
@@ -40,13 +48,14 @@ split is itself the finding:
    artifact — α=32 is aggressive for the larger intermediate dimension — so the
    claim is scoped to the recipe's settings.)
 
-**Reading.** Four independent axes on the vision/training side of the
-pipeline — none of which touch the decoder — produce no lift (representation
-alignment is a flat zero); the one axis that does touch the decoder produces a
-lift on every bridge, and only through its attention projections. That pattern
-is more informative than any single ablation: it is not that we tried one clever
-trick and it happened to work, it is that *only* the trick which adds
-attention capacity to the decoder worked, regardless of which bridge.
+**Reading.** Every vision- and training-side lever — a larger bridge, more image
+tiles, adaptive per-question routing, richer supervision, representation
+alignment — produces no lift (alignment is a flat zero); the one lever that
+touches the decoder produces a lift on every bridge, and only through its
+attention projections. That pattern is more informative than any single
+ablation: it is not that we tried one clever trick and it happened to work, it
+is that *only* the trick which adds attention capacity to the decoder worked,
+regardless of which bridge.
 For this VLM class — frozen ViT, frozen small (0.5B) decoder, a few pooled
 vision tokens — the frozen decoder is the ceiling on token-level phrasing
 match, not the vision pipeline. The pooled bridge already discards per-tile

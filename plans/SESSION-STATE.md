@@ -40,15 +40,17 @@ Llama3.2 36.16, Gemini2.0 39.79, Gemini2.5 24.75. Full ở paper-blueprint.md B�
 |---|--:|--:|--:|
 | ViMoE-VQA | 88.67 | 12.54 | 47.07 |
 | Multi-Token bridge (4 seed, 2ep) — VAL | 92.3 ± 0.6 | 18.9 ± 0.3 | 48.9 ± 0.1 |
-| + LoRA r=16 1ep (3 seed) — VAL ⚠️cũ (seed42) | 101.7 | 23.2 | 52.7 |
-| + LoRA r=16 3ep (3 seed) — VAL ⚠️cũ | 106.8 ± 1.1 | 25.0 ± 0.4 | 54.2 ± 0.2 |
-| + LoRA r=16 1ep (3 seed) — **TEST** (sạch, mới) | 101.3 ± 0.5 | 22.9 | 52.6 |
-| + LoRA r=16 3ep (3 seed) — **TEST** (sạch, mới) | 104.8 ± 0.8 | 24.9 | 53.8 |
+| + LoRA r=16 1ep (3 seed) — VAL | 103.2 ± 0.5 | 23.6 ± 0.1 | 53.0 ± 0.1 |
+| + LoRA r=16 3ep (3 seed) — VAL | 107.5 ± 0.3 | 25.1 ± 0.2 | 54.2 ± 0.1 |
+| + LoRA r=16 1ep (3 seed) — **TEST** | 101.3 ± 0.5 | 22.9 | 52.6 |
+| + LoRA r=16 3ep (3 seed) — **TEST** | 104.8 ± 0.8 | 24.9 | 53.8 |
 | bootstrap 95% CI (multi_token plain CIDEr-D) | **[89.9, 95.3]** — trên hẳn ViMoE 88.7 | | |
 
-⚠️ VAL corpus LoRA = từ run 3-seed CŨ (ckpt đã mất). 6 job `lora-val-eval:*`
-đang chạy để lấy text-pred full-val cho 6 ckpt sạch mới → sẽ refresh VAL corpus +
-bootstrap. TEST corpus = từ 6 ckpt sạch mới (rescore epoch_1 = test 5468).
+✅ **2026-09-07 16:50 UTC**: VAL corpus LoRA refresh XONG — từ 6 checkpoint re-run
+sạch (6 job `lora-val-eval`, text-pred full-val 5463). Số cũ (1ep 101.7 / 3ep
+106.8) từ run 3-seed đã mất → thay bằng số trên. Val predictions ở
+`checkpoints/expA-lora16{,-3ep}/seed*/multi_token/results/text_predictions_val_epoch_1.json`
+→ đưa peer rerun bootstrap. TEST corpus = rescore epoch_1 (test 5468).
 
 ### 1c. TEST split — đối chiếu val
 | | val | test | Δ |
@@ -80,8 +82,7 @@ giữ vững trên test. (LoRA test đo trên cùng 6 ckpt sạch re-run 2026-09
 § multi_token +LoRA F1 = **re-run sạch 3-seed** (53.52, ΔF1 +4.0). 4 bridge kia
 (qformer/mini_qf/residual/tile_attn +LoRA) = 3-seed sạch sẵn có, **KHÔNG đổi**
 (53.21/53.21/52.64/52.99). Băng F1 sau LoRA: 52.6–53.5 (trước: 45.2–49.6). Kết
-luận "LoRA san bằng mọi bridge" giữ nguyên. multi_token +LoRA corpus (101.7 val)
-đang chờ `lora-val-eval` — tạm giữ số val cũ.
+luận "LoRA san bằng mọi bridge" giữ nguyên. multi_token +LoRA VAL corpus (1ep 103.2 / 3ep 107.5) đã refresh từ 6 ckpt sạch.
 ‡ **SỬA 2026-09-07 (audit)**: qformer/mini_qformer CIDEr-D cũ (86.9 ± 2.3 / 83.7 ± 4.4)
 là **giá trị sơ bộ** — tính khi chưa đủ 3 seed corpus. Nay đủ cả 3 file
 `*_epoch_1_corpus.json`: qformer 85.4 ± 0.5 (BLEU-4 16.7, ROUGE-L 46.7),
@@ -125,8 +126,8 @@ artifact, α=32 mạnh cho MLP dim ~4864 vs attn 896 — claim giới hạn ở 
 ### 1f. Đường cong epoch LoRA (multi_token attn, 3-seed)
 | epoch | F1 | CIDEr(ih) | CIDEr-D |
 |--:|--:|--:|--:|
-| 1 | 53.52 | 106.56 | 101.7 § |
-| 3 | 54.71 | 110.49 | 106.8 § |
+| 1 | 53.52 | 106.56 | 103.2 |
+| 3 | 54.71 | 110.49 | 107.5 |
 | 5 | job bị cắt ở cap quota (~4ep, best_model.pt lưu ở epoch 1 — vô ích) |
 
 ### 1g. Chi phí tính toán tile (InternViT/ảnh, P100-16GB)

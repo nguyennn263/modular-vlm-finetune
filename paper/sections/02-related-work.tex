@@ -2,55 +2,46 @@
 \label{sec:related}
 
 \paragraph{Vietnamese VQA and AutoViVQA.}
-Vietnamese VQA has moved from extractive, single-word datasets (ViVQA,
-OpenViVQA, ViTextVQA) toward free-form generative answering.
-\textbf{AutoViVQA}~\cite{autovivqa} provides 19{,}411 images and 37{,}077
-questions, each with five diverse free-form answers and a reasoning-type label,
-evaluated on Accuracy, word-level P/R/F1, BLEU, ROUGE-L, METEOR and CIDEr.
-Published results span seq2seq baselines (ViT5+ViT, BARTPhoBEiT), a fine-tuned
-\textbf{Vintern-1B}, proprietary LLMs, and \textbf{ViMoE-VQA}. AutoViVQA ships
-only an 80/20 train/val division with no public test split.
+Vietnamese VQA has moved from extractive datasets (ViVQA, OpenViVQA, ViTextVQA)
+toward free-form generative answering. \textbf{AutoViVQA}~\cite{autovivqa}
+provides 19{,}411 images and 37{,}077 questions, each with five free-form answers
+and a reasoning-type label, and no public test split; published results span
+seq2seq baselines, a fine-tuned \textbf{Vintern-1B}, proprietary LLMs, and
+\textbf{ViMoE-VQA}.
 
 \paragraph{Frozen-backbone VLMs and the vision--language bridge.}
-A large body of work adapts a frozen image encoder and a frozen language model by
-training only a small connector: \textbf{Frozen}~\cite{frozen} and
-\textbf{BLIP-2}~\cite{blip2} (a Q-Former of learned query tokens),
-\textbf{LLaVA}~\cite{llava} (an MLP projector, but with the LLM un-frozen during
-instruction tuning). Vintern-1B follows the LLaVA-style recipe but, when adapting
-downstream, fully fine-tunes the InternViT encoder and the projector and
-LoRA-tunes the decoder. We keep \emph{everything} frozen except a lightweight
-bridge, and study five bridge designs spanning a capacity ladder.
-``Inference-Optimal VLMs''~\cite{inferenceoptimalvlms} argues that, at a fixed
-compute budget, a smaller LLM with more visual tokens often beats a larger LLM
-with fewer; our tile and bridge ablations probe the frozen-backbone version of
-that trade-off and find the frozen decoder, not the visual token budget, to be
-the binding constraint.
+A large body of work adapts a frozen image encoder and frozen language model by
+training only a small connector --- \textbf{Frozen}~\cite{frozen},
+\textbf{BLIP-2}~\cite{blip2} (a Q-Former), \textbf{LLaVA}~\cite{llava} (an MLP
+projector, LLM un-frozen). Vintern-1B follows the LLaVA recipe but, downstream,
+fully fine-tunes the encoder and projector and LoRA-tunes the decoder; we keep
+everything frozen except a lightweight bridge and study a five-design capacity
+ladder. ``Inference-Optimal VLMs''~\cite{inferenceoptimalvlms} argues a smaller
+LLM with more visual tokens often beats a larger LLM with fewer; our ablations
+probe the frozen-backbone version and find the frozen decoder, not the visual
+token budget, to be the binding constraint.
 
 \paragraph{Parameter-efficient adaptation, and where in the decoder.}
-Parameter-efficient methods insert a few trainable weights: \textbf{adapters}
-\cite{adapters}, \textbf{prefix / prompt tuning}~\cite{prefixtuning}, and
-\textbf{LoRA}~\cite{lora}. Two questions the LoRA literature leaves partly open,
-and that we address for a frozen-backbone VLM, are \emph{where} in the decoder the
-adapter should go and how its benefit interacts with the choice of connector.
-Interpretability work distinguishes the sub-layers --- feed-forward layers as
-key--value memories of lexical associations~\cite{ffnkvmemory}, attention as
-inter-position routing --- and adapter-placement studies report attention-only
-adaptation is often competitive with adapting all linear layers. Our result --- a
-decoder-attention LoRA lifts token-F1 while a same-rank feed-forward LoRA
-destabilises training, and once the attention LoRA is present the five bridges
-become nearly interchangeable --- is a concrete data point for frozen 0.5\,B
-decoders on a low-resource generative VQA task.
+Parameter-efficient methods insert a few trainable weights ---
+\textbf{adapters}~\cite{adapters}, \textbf{prefix / prompt
+tuning}~\cite{prefixtuning}, \textbf{LoRA}~\cite{lora}. Two questions the LoRA
+literature leaves partly open, and that we address for a frozen-backbone VLM, are
+\emph{where} in the decoder the adapter goes and how its benefit interacts with
+the connector. Interpretability work casts feed-forward layers as key--value
+memories~\cite{ffnkvmemory} and attention as inter-position routing, and
+adapter-placement studies find attention-only adaptation often competitive with
+adapting all linear layers; our result --- an attention LoRA lifts token-F1 while
+a same-rank feed-forward LoRA destabilises training --- is a concrete data point
+for frozen 0.5\,B decoders on low-resource generative VQA.
 
 \paragraph{Mixture-of-experts and ``reasoning-aware'' routing.}
 \textbf{ViMoE-VQA}~\cite{vimoevqa} improves AutoViVQA accuracy by building a new
-generative model (frozen CLIP ViT-B/32 and PhoBERT, fusion layers, a four-expert
-Top-2 MoE, a six-layer decoder, trained from scratch) and attributes part of its
-gain to a router that ``implicitly enables approximate reasoning-aware expert
-selection''. We are a direct counterpoint on the \emph{same benchmark}: we
-improve the existing Vintern-1B rather than replace it, and we test the
-reasoning-aware premise directly (Sec.~\ref{sec:abl-routing}) --- reasoning type
-carries no signal about which visual-compute action is optimal, and no learned
-policy beats a fixed one. ViMoE's own leave-one-out ablation is consistent
-(removing any expert moves BLEU by only $0.11$--$0.44$), suggesting the MoE gain
-is better explained by added capacity than by specialisation. ViMoE also defers a
-FLOPs/latency characterisation, which Sec.~\ref{sec:abl-compute} supplies.
+generative model (frozen CLIP and PhoBERT, a four-expert Top-2 MoE, a six-layer
+decoder, trained from scratch) and attributes part of its gain to
+``approximate reasoning-aware expert selection''. We are a direct counterpoint on
+the \emph{same benchmark}: we improve the existing Vintern-1B rather than replace
+it, and we test the reasoning-aware premise directly
+(Sec.~\ref{sec:abl-routing}) --- reasoning type carries no signal about the
+optimal visual-compute action, and no learned policy beats a fixed one. ViMoE's
+own leave-one-out ablation is consistent (removing any expert moves BLEU by only
+$0.11$--$0.44$), suggesting the gain is added capacity rather than specialisation.

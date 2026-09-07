@@ -9,74 +9,60 @@ total. One tile, grouped leak-free 70/15/15 split, greedy decoding.
 \subsection{Recipe vs.\ prior work}
 \label{sec:results-main}
 
-Table~\ref{tab:main-inhouse} reports all AutoViVQA baselines and our recipe on
-the eight in-house metrics ($\times 100$). Even the \textbf{bridge alone} (no
-LoRA) beats the fully fine-tuned Vintern-1B on BLEU, METEOR and CIDEr and is
-within ${\sim}4$ points on ROUGE-L; adding the $0.23\%$ decoder LoRA at 3 epochs
-puts the recipe above Vintern-FT on \emph{every} generation metric --- at
-${\sim}1\%$ of the trainable parameters, no backbone fine-tuning, and one tile
-instead of up to twelve. The recipe also beats ViMoE-VQA on BLEU / ROUGE / METEOR
-/ CIDEr, but trails it on token-F1 ($-11.2$ bridge alone, $-6.0$ at 3 epochs) and
-Vintern-FT on Acc. Sec.~\ref{sec:ablation} diagnoses that F1 gap.
+Table~\ref{tab:main-inhouse} reports all AutoViVQA baselines and our recipe: the
+left block is the eight in-house metrics ($\times 100$, matching the benchmark's
+table), the right block is corpus pycocoevalcap CIDEr-D / BLEU-4 / ROUGE-L
+(implementation-stable, for cross-paper comparison; available only for our rows
+and ViMoE). Even the \textbf{bridge alone} (no LoRA) beats the fully fine-tuned
+Vintern-1B on BLEU, METEOR and CIDEr and is within ${\sim}4$ points on ROUGE-L;
+adding the $0.23\%$ decoder LoRA at 3 epochs puts the recipe above Vintern-FT on
+\emph{every} generation metric --- at ${\sim}1\%$ of the trainable parameters, no
+backbone fine-tuning, and one tile instead of up to twelve. The recipe also beats
+ViMoE-VQA on every generation and corpus metric, but trails it on token-F1
+($-11.2$ bridge alone, $-6.0$ at 3 epochs) and Vintern-FT on Acc.
+
+A bootstrap over the $5{,}463$ val samples (\texttt{scripts/bootstrap\_ci.py})
+puts \multitoken{}-plain's corpus CIDEr-D at $92.5$, $95\%$ CI $[89.9, 95.3]$ ---
+the whole interval above ViMoE's $88.7$, so the generation win is not a lucky
+draw. The F1 gap is likewise real ($60.7$ vs.\ our CI $[48.9, 50.3]$); ViMoE
+publishes no per-sample predictions, so these are one-sample intervals.
+Sec.~\ref{sec:ablation} diagnoses the F1 gap.
 
 \begin{table}[t]
   \centering\footnotesize
-  \caption{Recipe vs.\ prior work on AutoViVQA (val), in-house metrics
-  ($\times 100$). \textbf{Bold} = ours; baselines as reported by the benchmark.
-  BARTPhoBEiT's CIDEr ($188.96$) is a verbosity outlier and omitted.
-  $^{\dagger}$ 4-seed (bridge) / 3-seed ($+$LoRA) mean.}
+  \caption{Recipe vs.\ prior work on AutoViVQA (val). Left: in-house metrics
+  ($\times 100$), baselines as reported by the benchmark (BARTPhoBEiT's CIDEr
+  $188.96$ omitted as a verbosity outlier). Right: corpus (pycocoevalcap),
+  where available. \textbf{Bold} = ours; $^{\dagger}$ 4-seed (bridge) / 3-seed
+  ($+$LoRA) mean.}
   \label{tab:main-inhouse}
-  \resizebox{\columnwidth}{!}{%
-\begin{tabular}{lrrrrrr}
+  \resizebox{\textwidth}{!}{%
+\begin{tabular}{lrrrrrr@{\hskip 10pt}rrr}
     \toprule
-    Model & F1 & BLEU & ROUGE & METEOR & CIDEr & Acc \\
+    & \multicolumn{6}{c}{in-house} & \multicolumn{3}{c}{corpus} \\
+    \cmidrule(r){2-7}\cmidrule(l){8-10}
+    Model & F1 & BLEU & ROUGE & MET. & CIDEr & Acc & CIDEr-D & BLEU-4 & ROUGE-L \\
     \midrule
-    Vintern-1B (base, zero-shot)          & 17.6 & 1.9  & 25.8 & 23.9 & 8.5  & 0.1 \\
-    Vintern-1B (fine-tuned, $\le$12 tiles) & 53.8 & 6.1  & 51.9 & 35.3 & 72.8 & 13.0 \\
-    GPT-5 (zero-shot)                     & 50.9 & 6.1  & 47.3 & 33.3 & 84.2 & 10.8 \\
-    ViMoE-VQA (Tuong-MOE, 5-seed)         & 60.7 & 12.5 & 47.1 & 39.1 & 88.7 & 9.7 \\
+    Vintern-1B (base, zero-shot)          & 17.6 & 1.9  & 25.8 & 23.9 & 8.5  & 0.1 & -- & -- & -- \\
+    Vintern-1B (fine-tuned, $\le$12 tiles) & 53.8 & 6.1  & 51.9 & 35.3 & 72.8 & 13.0 & -- & -- & -- \\
+    GPT-5 (zero-shot)                     & 50.9 & 6.1  & 47.3 & 33.3 & 84.2 & 10.8 & -- & -- & -- \\
+    ViMoE-VQA (Tuong-MOE, 5-seed)         & 60.7 & 12.5 & 47.1 & 39.1 & 88.7 & 9.7 & 88.67 & 12.54 & 47.07 \\
     \midrule
-    \textbf{Bridge \multitoken{} ($0.78\%$, 1 tile)}$^{\dagger}$ & \textbf{49.55} & \textbf{15.47} & \textbf{47.84} & \textbf{40.22} & \textbf{96.49} & \textbf{8.20} \\
-    \textbf{\quad + decoder LoRA r=16 ($1.01\%$)}$^{\dagger}$    & \textbf{53.17} & \textbf{19.44} & \textbf{51.48} & \textbf{43.91} & \textbf{105.59} & \textbf{10.42} \\
-    \textbf{\quad + decoder LoRA r=16, 3 epochs}$^{\dagger}$     & \textbf{54.67} & \textbf{20.98} & \textbf{52.92} & \textbf{45.24} & \textbf{109.60} & \textbf{11.78} \\
+    \textbf{Bridge \multitoken{} ($0.78\%$, 1 tile)}$^{\dagger}$ & \textbf{49.55} & \textbf{15.47} & \textbf{47.84} & \textbf{40.22} & \textbf{96.49} & \textbf{8.20} & \textbf{92.3} & \textbf{18.9} & \textbf{48.9} \\
+    \textbf{\quad + decoder LoRA r=16 ($1.01\%$)}$^{\dagger}$    & \textbf{53.17} & \textbf{19.44} & \textbf{51.48} & \textbf{43.91} & \textbf{105.59} & \textbf{10.42} & \textbf{101.7} & \textbf{23.2} & \textbf{52.7} \\
+    \textbf{\quad + decoder LoRA r=16, 3 epochs}$^{\dagger}$     & \textbf{54.67} & \textbf{20.98} & \textbf{52.92} & \textbf{45.24} & \textbf{109.60} & \textbf{11.78} & \textbf{106.8} & \textbf{25.0} & \textbf{54.2} \\
     \bottomrule
   \end{tabular}}
 \end{table}
 
-\subsection{Corpus metrics, confidence intervals, held-out test}
+\subsection{Held-out test}
 \label{sec:results-corpus}
-
-The in-house metrics match the AutoViVQA convention but are not comparable across
-implementations; Table~\ref{tab:main-corpus} reports cross-paper corpus metrics
-(pycocoevalcap). A bootstrap over the $5{,}463$ val samples
-(\texttt{scripts/bootstrap\_ci.py}) puts \multitoken{}-plain's corpus CIDEr-D at
-$92.5$, $95\%$ CI $[89.9, 95.3]$ --- the whole interval above ViMoE's $88.7$, so
-the generation-quality win is not a lucky draw. The token-F1 gap is likewise real
-($60.7$ vs.\ our $49.6$, CI $[48.9, 50.3]$); ViMoE publishes no per-sample
-predictions, so these are one-sample intervals.
 
 On the held-out test split ($n = 5{,}468$, 4 seeds), \multitoken{}-plain scores
 F1 $49.20$ / CIDEr $93.24$ vs.\ val $49.55$ / $96.49$ --- a gap of $-0.35$ F1 that
 is \emph{not consistent in direction} across bridges (\bridge{mini\_qformer} test
 $47.25$ vs.\ val $47.05$; \bridge{residual} $45.49$ vs.\ $45.91$). The recipe is
 not over-fit to val.
-
-\begin{table}[t]
-  \centering
-  \caption{Corpus metrics (pycocoevalcap), mean $\pm$ std over seeds.}
-  \label{tab:main-corpus}
-  \begin{tabular}{lccc}
-    \toprule
-    Model & CIDEr-D & BLEU-4 & ROUGE-L \\
-    \midrule
-    ViMoE-VQA & 88.67 & 12.54 & 47.07 \\
-    \midrule
-    \textbf{\multitoken{} (4-seed, 2 epoch)} & \textbf{$92.30 \pm 0.60$} & \textbf{$18.90 \pm 0.30$} & \textbf{$48.90 \pm 0.10$} \\
-    \textbf{\quad + LoRA r=16 (seed 42)}     & \textbf{101.70} & \textbf{23.20} & \textbf{52.70} \\
-    \textbf{\quad + LoRA r=16, 3 epochs (3-seed)} & \textbf{$106.80 \pm 1.10$} & \textbf{$25.00 \pm 0.40$} & \textbf{$54.20 \pm 0.20$} \\
-    \bottomrule
-  \end{tabular}
-\end{table}
 
 \subsection{Compute-efficiency of the tile lever}
 \label{sec:abl-compute}

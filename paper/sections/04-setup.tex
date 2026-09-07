@@ -87,9 +87,8 @@ Cross-paper generation claims use \textbf{corpus CIDEr-D / BLEU-4 / ROUGE-L}
 (pycocoevalcap); METEOR is reported but not used for cross-paper claims (it
 varies by ${\sim}13$ points between implementations). Answer matching is
 token-level P/R/F1 and exact-match, per-sample max over the five references, from
-an in-house scorer whose values match the AutoViVQA baseline table. The two
-metric conventions are kept in separate tables (in-house
-Table~\ref{tab:main-inhouse}, corpus Table~\ref{tab:main-corpus}). Main
+an in-house scorer whose values match the AutoViVQA baseline table
+(Table~\ref{tab:main-inhouse} reports both conventions side by side). Main
 comparisons use paired bootstrap ($2{,}000$ resamples); we report $95\%$ CIs on
 $\Delta$ quantities and $P(\Delta > 0)$. The full validation split is scored
 every run; the \textbf{test split is scored once} and never used for model

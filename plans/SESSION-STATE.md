@@ -70,13 +70,20 @@ giữ vững trên test. (LoRA test đo trên cùng 6 ckpt sạch re-run 2026-09
 ### 1d. 5 bridge plain @ 2ep 3-seed + LoRA
 | Bridge | Params | F1 plain | CIDEr-D plain | val CE | F1 +LoRA | ΔF1 | CIDEr-D +LoRA |
 |---|---|--:|--:|--:|--:|--:|--:|
-| multi_token | 7.35M (0.78%) | 49.55 ± 0.07 | 92.3 | 1.49 | 53.17 | +3.6 | 101.7 |
-| qformer (Full Q-Former) | 69.4M (6.91%) | 47.36 ± 0.18 | 86.9 | 1.57 | 53.21 | +5.9 | 102.4 |
-| mini_qformer (Light Q-Former) | 27.6M (2.87%) | 46.25 ± 0.62 | 83.7 | 1.60 | 53.21 | +7.0 | 103.0 |
-| residual | 4.86M (0.52%) | 45.64 ± 0.36 | 81.1 | 1.67 | 52.64 | +7.0 | 100.8 |
-| tile_attention | 4.14M (0.44%) | 45.17 ± 0.94 | 79.0 | 1.67 | 52.99† | +7.8 | 102.0 |
+| multi_token | 7.35M (0.78%) | 49.55 ± 0.07 | 92.3 ± 0.6 | 1.49 | 53.17 | +3.6 | 101.7 |
+| qformer (Full Q-Former) | 69.4M (6.91%) | 47.35 ± 0.17 | 85.4 ± 0.5 ‡ | 1.57 | 53.21 | +5.9 | 102.4 |
+| mini_qformer (Light Q-Former) | 27.6M (2.87%) | 46.25 ± 0.62 | 81.7 ± 1.7 ‡ | 1.60 | 53.21 | +7.0 | 103.0 |
+| residual | 4.86M (0.52%) | 45.64 ± 0.36 | 81.1 ± 0.6 | 1.67 | 52.64 | +7.0 | 100.8 |
+| tile_attention | 4.14M (0.44%) | 45.17 ± 0.94 | 79.0 ± 2.1 | 1.67 | 52.99† | +7.8 | 102.0 |
 
 † tile_attention +LoRA = seed 42 only.
+‡ **SỬA 2026-09-07 (audit)**: qformer/mini_qformer CIDEr-D cũ (86.9 ± 2.3 / 83.7 ± 4.4)
+là **giá trị sơ bộ** — tính khi chưa đủ 3 seed corpus. Nay đủ cả 3 file
+`*_epoch_1_corpus.json`: qformer 85.4 ± 0.5 (BLEU-4 16.7, ROUGE-L 46.7),
+mini_qformer 81.7 ± 1.7 (BLEU-4 16.3, ROUGE-L 45.5). **F1 không đổi.** qformer/mini_qf
++LoRA CIDEr-D (102.4 / 103.0) cũng cần verify lại từ corpus json khi rảnh.
+Nguyên nhân: local `checkpoints/expA/seed42/qformer/` từng là **mix cũ 4ep** (summary.json
++ file dự đoán 4ep) — đã thay bằng bản 2ep sạch pull từ acc14 (F1 47.56, đúng số cũ đã dùng).
 
 **Bootstrap CIs (2ep seed-42 preds, 2000 resamples; `outputs/bootstrap_ci.json`, commit f2dd5d0):**
 | Bridge | ΔF1 [95% CI] | ΔCIDEr-D [95% CI] | P(Δ>0) |

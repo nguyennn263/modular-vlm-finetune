@@ -1,67 +1,80 @@
 # 2. Related Work
 
-## 2.1 Adaptive visual computation in VLMs
+## 2.1 Vietnamese VQA and the AutoViVQA benchmark
 
-Reducing the vision-side cost of VLMs has been approached from several angles.
-**Visual token pruning / merging** (e.g. token pooling, ToMe-style merging,
-FastV, PruMerge) drops or fuses patch tokens after encoding, cutting decoder
-cost but not encoder cost. **Early-exit and layer-skipping** in the vision
-encoder trade depth for latency. **Mixture-of-resolution / dynamic resolution**
-methods (e.g. adaptive tiling in InternVL-style pipelines, LLaVA-NeXT dynamic
-resolution) vary how many high-resolution tiles an image is split into. Our
-`n_tiles` axis is exactly this last lever, applied to a frozen InternViT-300M
-encoder.
+Vietnamese VQA has moved from extractive, single-word-answer datasets (ViVQA,
+OpenViVQA, ViTextVQA) toward free-form generative answering. **AutoViVQA**
+[cite — arXiv 2603.09689] provides 19,411 images and 37,077 questions, each with
+five diverse free-form Vietnamese answers and a reasoning-type label, and is
+evaluated with a mixed set of token-overlap and generation metrics (Accuracy,
+word-level Precision/Recall/F1, BLEU, ROUGE-L, METEOR, CIDEr). Published results
+span sequence-to-sequence baselines (ViT5+ViT, BARTPhoBEiT), a fine-tuned
+**Vintern-1B**, proprietary LLMs (GPT-5, Gemini 2.0/2.5 Flash, Llama 3.2), and
+**ViMoE-VQA**. AutoViVQA ships only an 80/20 train/validation division with no
+public test split.
 
-What these methods share is that the routing signal is *model-internal*: a
-learned gate reads intermediate activations, attention scores, or a small
-auxiliary head on the visual features. None of them uses an *external, explicit
-label for the type of reasoning the question requires*. Our study isolates
-precisely that comparison: reasoning-type supervision versus cheap
-model-internal visual features, against a common oracle.
+## 2.2 Frozen-backbone VLMs and the vision–language bridge
 
-## 2.2 Reasoning-aware routing and MoE for VQA
+A large body of work adapts a frozen image encoder and a frozen language model
+to multimodal tasks by training only a small connector. **Frozen** [cite] and
+**BLIP-2** [cite] established the pattern: BLIP-2's Q-Former learns a fixed set
+of query tokens that cross-attend to the frozen visual features and feed the
+frozen LLM. **LLaVA** [cite] simplifies the connector to an MLP projector but
+un-freezes the LLM during instruction tuning. Vintern-1B follows the LLaVA-style
+recipe — an MLP projector — but, when adapting to a downstream benchmark,
+fully fine-tunes the InternViT encoder and the projector and LoRA-tunes the
+decoder. Our work keeps *everything* frozen except a lightweight bridge, and
+studies five bridge designs spanning a capacity ladder: a residual MLP (one
+output token), a mean-pooled multi-token bridge (eight tokens), a dense
+patch-self-attention bridge, and small and full Q-Formers (8 and 16 queries).
+"Inference-Optimal VLMs" [cite — arXiv 2411.03312] argues that, under a fixed
+compute budget, a smaller LLM with more visual tokens is often preferable to a
+larger LLM with fewer; our tile and bridge ablations probe the frozen-backbone
+version of that trade-off and find the frozen decoder, not the visual token
+budget, to be the binding constraint.
 
-Sparse mixture-of-experts (MoE) has been proposed for VQA as a way to let
-different questions use different sub-networks. **ViMoE-VQA** [cite — KES 2026]
-is the most directly relevant: a generative Vietnamese VQA model with a frozen
-CLIP ViT-B/32 encoder and frozen PhoBERT text encoder, two transformer fusion
-layers, a four-expert Top-2 noisy-gated MoE (Vision / Text / Multimodal /
-Specialized experts), and a six-layer autoregressive decoder, trained with a
-cross-entropy plus load-balancing objective. ViMoE-VQA reports that its router
-"implicitly captures both visual and linguistic cues, enabling approximate
-reasoning-aware expert selection."
+## 2.3 Parameter-efficient adaptation
 
-We take this claim as our starting hypothesis and test it explicitly. Two
-observations motivate scrutiny. First, ViMoE-VQA's own leave-one-out ablation
-shows that removing *any* single expert degrades BLEU by only 0.11–0.44 points,
-and all configurations activate all experts — i.e. the experts are not strongly
-specialised. Second, the paper reports no analysis linking expert routing to
-question type or reasoning type; the "reasoning-aware" property is asserted, not
-measured. Our oracle analysis (§5) supplies the missing measurement, on the same
-benchmark, and finds that reasoning type does not predict which visual-compute
-action is optimal.
+Rather than fine-tune a full model, parameter-efficient methods insert a small
+number of trainable weights: **adapters** [cite], **prefix / prompt tuning**
+[cite], and **LoRA** [cite], which adds low-rank updates to selected linear
+layers. LoRA is now standard for adapting LLM decoders, including in Vintern-1B's
+own training. Two questions that the LoRA literature leaves partly open, and that
+we address empirically for a frozen-backbone VLM, are *where* in the decoder the
+adapter should go (attention projections vs. feed-forward) and how the benefit
+of an adapter interacts with the choice of upstream connector. We find that a
+rank-16 LoRA on the decoder's `q/k/v/o` projections is both necessary and
+sufficient for the F1 gain — the same budget on the feed-forward layers diverges
+training — and that once this adapter is present, the five bridge designs become
+nearly interchangeable.
 
-ViMoE-VQA also explicitly defers "a detailed system-level characterization
-(FLOPs, latency, memory consumption)" as future work. Our §5.5 compute-efficiency
-table fills that gap for the bridge-based frozen-backbone setting.
+## 2.4 Mixture-of-experts and "reasoning-aware" routing for VQA
 
-## 2.3 Offline / oracle-guided policy learning
+**ViMoE-VQA** [cite — KES 2026] improves AutoViVQA accuracy by building a new
+generative model: a frozen CLIP ViT-B/32 and frozen PhoBERT, two fusion layers,
+a four-expert Top-2 noisy-gated MoE, and a six-layer decoder, trained from
+scratch with a load-balancing objective. The paper attributes part of its gain
+to a router that "implicitly enables approximate reasoning-aware expert
+selection." Our study is a direct counterpoint on the *same benchmark*. First,
+we improve the existing Vintern-1B rather than replace it, at a fraction of the
+cost. Second, we test the reasoning-aware premise directly (§6.3): using
+AutoViVQA's own reasoning-type labels and an oracle sweep over visual-compute
+actions, we find that reasoning type carries no signal about which action is
+optimal, and no learned routing policy beats a fixed one. ViMoE-VQA's own
+leave-one-out ablation is consistent with this — removing any single expert
+changes BLEU by only 0.11–0.44 points, and all experts stay active — suggesting
+the MoE gain is better explained by added capacity than by reasoning-type
+specialisation. ViMoE-VQA also explicitly defers a FLOPs/latency/memory
+characterisation; our §5.4 supplies it for the frozen-backbone bridge setting.
 
-Learning a routing policy from a pre-computed oracle over a discrete action set
-is a form of offline policy learning / imitation of an oracle. We do not use
-reinforcement learning or bandit exploration: for every training question we
-exhaustively evaluate all actions once, then train the policy by supervised
-classification against the utility-maximising action a\*(x, λ) at each cost
-trade-off λ. This makes the study fully reproducible and removes exploration
-variance as a confound, at the cost of an expensive one-time sweep (§4.4).
+## 2.5 Where transformer capacity helps
 
-## 2.4 Vietnamese VQA and the AutoViVQA benchmark
-
-AutoViVQA [cite — arXiv 2603.09689] provides 19,411 images and 37,077 questions,
-each with five diverse free-form Vietnamese answers, annotated with a
-reasoning-type label. Prior results on the benchmark include ViT5+ViT,
-BARTPhoBEiT, a fine-tuned Vintern-1B, several proprietary LLMs (GPT-5,
-Gemini 2.0/2.5 Flash, Llama 3.2), and ViMoE-VQA. AutoViVQA ships only an
-80/20 train/val division with no public test split; we construct a grouped
-70/15/15 split (§4.1) so that no image appears in more than one split, closing
-a caption/context leakage path that a random question-level split leaves open.
+A line of interpretability and pruning work distinguishes the roles of attention
+and feed-forward sub-layers: feed-forward layers are often described as
+key–value memories storing factual/lexical associations [cite], while attention
+routes information between positions. Empirically, adapter and LoRA placement
+studies report that attention-only adaptation is frequently competitive with
+adapting all linear layers at a fraction of the parameters. Our localisation
+result — a decoder-attention LoRA lifts token-F1 while a same-rank feed-forward
+LoRA destabilises training — is a concrete data point for this class of frozen
+0.5B decoders on a low-resource generative VQA task.

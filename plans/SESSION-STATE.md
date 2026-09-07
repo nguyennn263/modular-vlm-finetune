@@ -10,7 +10,8 @@
 - **Thực nghiệm: XONG** (còn 9 job đang chạy = re-run + probe, không đổi kết luận).
 - **Số đã tính lại toàn bộ theo 2-epoch, 3-seed** (multi_token = 4 seed).
 - **Peer đã restructure §5–§7** (05-results.md) + bootstrap CI trên số 2ep.
-- **Còn lại: viết §1–4 (mình), English pass toàn draft (peer), 3 hình, human validation (user).**
+- **§1–4 ĐÃ VIẾT XONG** (English, framing mới; commits 27dc49b/c6a8d6f/49aafc1/abcefd2). Chờ peer consistency pass.
+- **Còn lại: English consistency pass toàn draft (peer), 3 hình, human validation (user), §7 Conclusion (chưa).**
 - Branch: `chore/repo-restructure` (docs + plain expa), `feat/decoder-lora` (LoRA + run.py patches). Ledger sync 2 branch.
 
 ---
@@ -155,16 +156,14 @@ eval_test.json ở `ck-lora/seed<N>/multi_token/`. Corpus rescore: **dùng
 
 ## 4. CÒN LÀM (không cần Kaggle)
 
-| # | Việc | Ai | Ghi chú |
+| # | Việc | Ai | Trạng thái |
 |---|---|---|---|
-| 1 | **Viết §1 Introduction** | mình | Viết lại hẳn tiếng Anh: framing "improve Vintern-1B cheaply / 6-RQ ladder / where's the bottleneck". Bỏ hết "reasoning-aware routing". File `P6-draft/01-introduction.md` (hiện là bản cũ 1ed66d3). |
-| 2 | **Viết §2 Related Work** | mình | VQA tiếng Việt (ViVQA/OpenViVQA/ViTextVQA/AutoViVQA/ViMoE) · frozen-backbone+projector (BLIP-2, "Inference-Optimal VLMs" arXiv 2411.03312) · PEFT/LoRA · MoE-VQA |
-| 3 | **Viết §3 Method** | mình | frozen arch (InternViT-300M + bridge + Qwen2-0.5B, cả 2 đóng băng) · 5 bridge (thang capacity) · decoder-LoRA attn như can thiệp có chủ đích · 2 chỗ vặn (thị giác/ngôn ngữ) × 6 RQ |
-| 4 | **Viết §4 Setup** | mình | AutoViVQA · grouped 70/15/15 theo image_id (leak-free) · 8 metric (Acc/P/R/F1/BLEU/ROUGE-L/METEOR/CIDEr) · in-house vs corpus pycocoevalcap · Vintern-FT recipe = ViT+proj full + Qwen2 LoRA (**cần verify §4 AutoViVQA**) · 2 epoch, 3 seed, P100 |
-| 5 | **English pass toàn draft** | peer | Sau khi §1–4 land |
-| 6 | **3 hình matplotlib** | mình/peer | (a) bridge-equalizing: 5 bridge plain→+LoRA CIDEr-D bar (79–92 → 100.8–103) (b) tile-collapse: F1 + val loss theo n_tiles {1,3,6} (c) sơ đồ kiến trúc method |
-| 7 | **Human validation THẬT** | **user + 1 người** | 300–500 mẫu, 2 annotator, Cohen's κ. Script `scripts/human_validation_sample.py`. Cho Trust4NLP. |
-| 8 | (optional, sau Fri reset) | — | LoRA 5ep sạch (cần resume vì >12h cap) · TIER-2 MLP retune HP · align-feat 5-seed |
+| 1–4 | **§1 Intro / §2 Related Work / §3 Method / §4 Setup** — viết lại English, framing mới | mình | ✅ XONG (27dc49b / c6a8d6f / 49aafc1 / abcefd2). Cần verify Vintern-FT recipe ở §4 AutoViVQA. |
+| 5 | **§7 Conclusion** — viết ngắn | mình | ⬜ chưa (peer's 05-results có §7 = Human Validation; conclusion riêng = 07-conclusion.md) |
+| 6 | **English consistency pass toàn draft §1–7** | peer | ⬜ chờ — §1–4 đã land, ping peer |
+| 7 | **3 hình matplotlib** | mình/peer | ⬜ (a) bridge-equalizing bar (79–92 → 100.8–103) (b) tile-collapse F1+loss vs n_tiles (c) sơ đồ kiến trúc |
+| 8 | **Human validation THẬT** | **user + 1 người** | ⬜ 300–500 mẫu, 2 annotator, Cohen's κ. `scripts/human_validation_sample.py`. Trust4NLP. |
+| 9 | (optional, sau Fri reset) | — | LoRA 5ep sạch (>12h cap, cần resume) · TIER-2 MLP retune HP · align-feat 5-seed |
 
 ---
 

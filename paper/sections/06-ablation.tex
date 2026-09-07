@@ -23,8 +23,8 @@ Table~\ref{tab:abl-summary} is the summary; the subsections give the detail.
     RQ5 $\cdot$ training signal & multi-reference sampling & $-1.47$ & negative \\
     RQ5 $\cdot$ representation alignment & projector feature-KD & $-0.03$ & negative (null) \\
     RQ5 $\cdot$ representation alignment & projector logit-KD ($\alpha{=}1$) & $-8.80$ & negative (mis-weighted) \\
-    \textbf{RQ6 $\cdot$ decoder capacity} & \textbf{LoRA r=16 attention, 1 epoch} & \textbf{$+3.62$} & \textbf{positive} \\
-    \textbf{RQ6 $\cdot$ decoder capacity} & \textbf{LoRA r=16 attention, 3 epochs} & \textbf{$+5.12$} & \textbf{positive} \\
+    \textbf{RQ6 $\cdot$ decoder capacity} & \textbf{LoRA r=16 attention, 1 epoch} & \textbf{$+3.97$} & \textbf{positive} \\
+    \textbf{RQ6 $\cdot$ decoder capacity} & \textbf{LoRA r=16 attention, 3 epochs} & \textbf{$+5.16$} & \textbf{positive} \\
     RQ6 $\cdot$ decoder capacity & LoRA r=16 MLP-only & $-29.31$ & diverges \\
     RQ6 $\cdot$ decoder capacity & LoRA r=16 attention $+$ MLP & $-12.04$ & diverges \\
     \bottomrule
@@ -60,9 +60,9 @@ with the other sub-bridges.)
     \midrule
     Residual        & 4.86\,M (0.52) & 45.64 & 52.64 & $+7.0$~[6.1, 7.4] & $81.1 \to 100.8$ \\
     Tile-Attention  & 4.14\,M (0.44) & 45.17 & 52.99 & $+7.8$~[7.8, 9.2] & $79.0 \to 102.0$ \\
-    \textbf{Multi-Token} & \textbf{7.35\,M (0.78)} & \textbf{49.55} & \textbf{53.17} & \textbf{$+3.6$~[2.9, 4.1]} & \textbf{$92.3 \to 101.7$} \\
-    Light Q-Former  & 27.6\,M (2.87) & 46.25 & 53.21 & $+7.0$~[6.1, 7.4] & $83.7 \to 103.0$ \\
-    Full Q-Former   & 69.4\,M (6.91) & 47.36 & 53.21 & $+5.9$~[4.8, 6.1] & $86.9 \to 102.4$ \\
+    \textbf{Multi-Token} & \textbf{7.35\,M (0.78)} & \textbf{49.55} & \textbf{53.52} & \textbf{$+4.0$~[3.5, 4.7]} & \textbf{$92.3 \to 103.2$} \\
+    Light Q-Former  & 27.6\,M (2.87) & 46.25 & 53.21 & $+7.0$~[6.1, 7.4] & $81.7 \to 103.0$ \\
+    Full Q-Former   & 69.4\,M (6.91) & 47.35 & 53.21 & $+5.9$~[4.9, 6.2] & $85.4 \to 102.4$ \\
     \bottomrule
   \end{tabular}}
 \end{table}
@@ -122,9 +122,9 @@ decoder.
 Table~\ref{tab:abl-bridges} gives the LoRA lift for each bridge. The five plain
 bridges span F1 $45.2$--$49.6$ / CIDEr-D $79$--$92$ --- real quality differences
 across three token-mixing designs. After a $0.23\%$ LoRA on the decoder,
-\textbf{all five converge to F1 $52.6$--$53.2$ / CIDEr-D $100.8$--$103.0$}
+\textbf{all five converge to F1 $52.6$--$53.5$ / CIDEr-D $100.8$--$103.3$}
 (Fig.~\ref{fig:bridge-equalizing}); the lift is larger for weaker bridges
-($+3.6 \to +7.8$), and every plain$\to$LoRA CI clears zero. Once the decoder has
+($+4.0 \to +7.8$), and every plain$\to$LoRA CI clears zero. Once the decoder has
 capacity to use whatever representation it is given, \emph{which bridge supplies
 it stops mattering}.
 
@@ -147,7 +147,7 @@ dimension); we scope the claim to the recipe's configuration.
 \paragraph{Rank and duration.}
 A 3-seed rank sweep finds $r{=}16$, $32$ and $64$ statistically
 indistinguishable (we keep $r{=}16$); training the LoRA for 3 epochs rather than 1
-adds $+1.5$ F1 / $+5$ CIDEr-D and closes the gap to ViMoE to $6.0$, most of it by
+adds $+1.2$ F1 / $+4$ CIDEr-D and closes the gap to ViMoE to $6.0$, most of it by
 epoch 2. The 1-epoch numbers are the headline, the 3-epoch the strongest form.
 
 \subsection{Reading}

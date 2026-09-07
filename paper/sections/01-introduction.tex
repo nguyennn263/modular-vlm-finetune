@@ -52,7 +52,7 @@ multi-reference training, and projector-level representation alignment --- and a
 five leave token-F1 unchanged or worse (alignment is an absolute null,
 \dF{}~$-0.03$). The one that helps is a LoRA adapter on the frozen decoder; it
 helps on \emph{every} bridge architecture, with a larger effect on weaker
-bridges, after which all five collapse into a $0.6$-point F1 band. Moving the same
+bridges, after which all five collapse into a $0.9$-point F1 band. Moving the same
 budget to the decoder's feed-forward layers instead diverges training. The useful
 headroom is specifically in the frozen decoder's attention. This is also a direct
 counterpoint to ViMoE-VQA's ``reasoning-aware'' account: on the same benchmark,

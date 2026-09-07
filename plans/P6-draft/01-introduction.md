@@ -34,13 +34,14 @@ lever at a time, to find which of them actually moves the needle.
 ## Findings
 
 **The recipe works, cheaply.** A frozen-backbone multi-token bridge at a single
-image tile already surpasses the fully fine-tuned Vintern-1B on every generation
-metric (BLEU +9.4, METEOR +5.0, CIDEr +23.7) and beats ViMoE-VQA on corpus
-CIDEr-D, BLEU-4 and ROUGE-L — at about 1 % of the trainable parameters and none
-of the backbone fine-tuning. Adding a rank-16 LoRA on the decoder's attention
-projections (a further 0.23 %) lifts token-F1 from 49.6 to 54.7 and widens the
-generation lead. Held-out test numbers match validation within 0.5 F1, so the
-result is not an artefact of tuning to the validation set.
+image tile already surpasses the fully fine-tuned Vintern-1B on BLEU (+9.4),
+METEOR (+5.0) and CIDEr (+23.7), and beats ViMoE-VQA on corpus CIDEr-D, BLEU-4
+and ROUGE-L — at about 1 % of the trainable parameters and none of the backbone
+fine-tuning. Adding a rank-16 LoRA on the decoder's attention projections (a
+further 0.23 %) lifts token-F1 from 49.6 to 54.7 and puts the recipe above
+Vintern-1B on *every* generation metric including ROUGE-L. Held-out test numbers
+match validation within 0.5 F1, so the result is not an artefact of tuning to
+the validation set.
 
 **The bottleneck is the decoder's attention, and nothing on the vision side.**
 Of the six interventions, five are on the vision or training side — a 10×-larger
@@ -51,7 +52,7 @@ token-F1 unchanged or worse** (representation alignment is an absolute null:
 decoder, and it helps on *every* bridge architecture we try, with a larger effect
 on the weaker bridges — after which all five bridges collapse into a 0.6-point
 F1 band. Moreover, moving the same LoRA budget from the decoder's attention to
-its feed-forward layers **diverges training** (validation loss 3–4 vs 1.4). The
+its feed-forward layers **diverges training** (validation loss 2–4 vs 1.4). The
 useful headroom is specifically in the frozen decoder's attention, not in the
 visual pipeline and not in the decoder broadly. This is also a direct
 counterpoint to ViMoE-VQA's "reasoning-aware" account of its own gains: on the

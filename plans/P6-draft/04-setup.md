@@ -92,7 +92,7 @@ used for cross-paper claims (it varies by ~13 points between implementations on
 identical predictions). Answer matching: token-level Precision / Recall / F1 and
 exact-match / WUPS, per-sample max over the five references. Because BARTPhoBEiT's
 CIDEr (188.96) is a verbosity outlier, it is excluded from generation
-comparisons. §6.7 reports a human-judgment sanity check on token-F1 itself.
+comparisons. §7 reports a human-judgment sanity check on token-F1 itself.
 
 The two metric conventions are kept in **separate tables**: an in-house table
 that matches the AutoViVQA baseline scores, and a corpus (pycocoevalcap) table

@@ -54,30 +54,33 @@ của Qwen2-0.5B (~2.16M param) như một can thiệp có chủ đích vào dec
 | Gemini 2.5 Flash | 0.22 | 24.43 | 76.66 | 24.75 | 0.39 | 37.27 | 31.22 | 71.90 |
 | GPT-5 (zero-shot) | 10.84 | 47.20 | 55.20 | 50.89 | 6.07 | 47.30 | 33.34 | 84.20 |
 | **ViMoE-VQA (Tuong-MOE, 5 seed)** | 9.65 | **62.89** | 58.65 | **60.69** | 12.54 | 47.07 | **39.10** | 88.67 |
-| — *Ours (frozen backbone):* | | | | | | | | |
-| Residual Bridge (seed 42) | 1.87 | 34.57 | 43.70 | 36.45 | 6.11 | 34.12 | 30.33 | 66.07 |
-| Full Q-Former (seed 42) | 7.34 | 48.31 | 49.78 | 47.66 | 14.58 | 45.96 | 38.25 | 90.82 |
-| Light Q-Former (seed 42) | 5.99 | 47.18 | 49.00 | 46.63 | 13.80 | 44.81 | 37.30 | 88.10 |
-| Tile-Attention Bridge (seed 42) | 6.06 | 47.11 | 49.13 | 46.69 | 13.52 | 44.91 | 37.36 | 87.46 |
-| **Multi-Token Bridge** (0.78% param, mean 4 seed) | 8.28 | 50.53 | 51.72 | 49.82 | **15.99** | 48.11 | **40.47** | **96.98** |
+| — *Ours (frozen backbone, 1 tile, 2 epoch, mean 3 seed²):* | | | | | | | | |
+| Residual Bridge | 4.83 | 46.09 | 48.79 | 45.64 | 12.70 | 44.34 | 36.49 | 86.25 |
+| Tile-Attention Bridge | 3.97 | 44.59 | 47.86 | 45.17 | 12.35 | 43.35 | 36.14 | 84.21 |
+| Light Q-Former (mini) | 6.04 | 47.34 | 49.57 | 46.25 | 13.48 | 44.53 | 36.82 | 86.80 |
+| Full Q-Former | 7.32 | 48.26 | 49.56 | 47.36 | 13.28 | 45.54 | 37.91 | 88.31 |
+| **Multi-Token Bridge** (0.78% param, mean 4 seed) | 8.20 | 50.36 | 51.43 | 49.55 | **15.47** | 47.84 | **40.22** | **96.49** |
 | **★ Multi-Token + LoRA r=16** (~1.0% param, mean 3 seed) | **10.42** | 53.85 | 55.00 | 53.17 | **19.44** | 51.48 | **43.91** | **105.59** |
 | **★ Multi-Token + LoRA r=16, 3 epoch** (mean 3 seed) | **11.78** | 55.54 | 56.25 | 54.67 | **20.98** | **52.92** | **45.24** | **109.60** |
 
 <small>¹ BARTPhoBEiT CIDEr là outlier (sinh câu dài lê thê), không so.
 Baseline (dòng 1–9): lấy từ bảng AutoViVQA, độc lập với split.
-Bridge (dòng 10–14): grouped split leak-free của mình.</small>
+Bridge (dòng 10–14): grouped split leak-free, **2 epoch, trung bình 3 seed**
+(multi_token = 4 seed). ² Acc/Prec/Rec: seed 42; các cột còn lại: mean 3 seed.
+Bản trước dùng seed-42-only + residual có 1 lần chạy hỏng (F1 36.45 → thật 45.64).</small>
 
 **Đọc:**
-- **Chỉ train bridge (Multi-Token, 0.78% param, 1 tile)** đã **vượt Vintern finetune-toàn-bộ** trên BLEU (+9.9), METEOR (+5.2), CIDEr (+24.1) — ở ~1% chi phí train.
-- **+ LoRA decoder (~1.0% param tổng)** đẩy F1 49.8 → 53.2 → 54.7 (3 epoch), thắng cả Vintern-FT lẫn GPT-5 trên F1, và **vượt ViMoE trên mọi metric sinh** (BLEU, CIDEr; ROUGE, METEOR ở 3-epoch).
-- **Vẫn thua ViMoE trên F1 token-level** (54.7 vs 60.7, gap 6.0) và Acc-của-ViMoE thì thấp hơn ours. → xem chẩn đoán §RQ.
+- **Chỉ train bridge (Multi-Token, 0.78% param, 1 tile)** đã **vượt Vintern finetune-toàn-bộ** trên BLEU (+9.4), METEOR (+5.0), CIDEr (+23.7) — ở ~1% chi phí train.
+- **+ LoRA decoder (~1.0% param tổng)** đẩy F1 49.6 → 53.2 → 54.7 (3 epoch), thắng cả Vintern-FT lẫn GPT-5 trên F1, và **vượt ViMoE trên mọi metric sinh** (BLEU, CIDEr; ROUGE, METEOR ở 3-epoch).
+- **Vẫn thua ViMoE trên F1 token-level** (54.7 vs 60.7, gap 6.0). → xem chẩn đoán §RQ.
+- **5 bridge plain chụm F1 45.2–49.6** (chênh ~4.4 điểm) — residual KHÔNG còn là ngoại lai.
 
 ### Corpus pycocoevalcap (chuẩn so cross-paper)
 
 | Mô hình | CIDEr-D | BLEU-4 | ROUGE-L |
 |---|---:|---:|---:|
 | ViMoE-VQA | 88.7 | 12.5 | 47.1 |
-| Multi-Token Bridge (mean 4 seed) | **92.8 ± 1.1** | **19.2 ± 0.3** | **49.2 ± 0.5** |
+| Multi-Token Bridge (mean 4 seed, 2ep) | **92.3 ± 0.6** | **18.9 ± 0.3** | **48.9 ± 0.1** |
 | Multi-Token + LoRA r=16 (seed 42) | **101.7** | **23.2** | **52.7** |
 | Multi-Token + LoRA r=16, 3 epoch (mean 3 seed) | **106.8 ± 1.1** | **25.0 ± 0.4** | **54.2 ± 0.2** |
 
@@ -88,26 +91,29 @@ Mọi cải thiện plain→LoRA significant (P(Δ>0) = 1.000).
 
 ## Bảng 2 — So 5 bridge (RQ1–2) + LoRA (RQ6)
 
+Mọi số plain = **2 epoch, mean 3 seed** (multi_token = 4 seed). LoRA = r=16, 1 ep
+(multi_token/qformer/mini_qformer/residual = mean 3 seed; tile_attention = seed 42).
+F1/CIDEr in-house ×100.
+
 | Bridge | Param | % | F1 plain | F1 +LoRA | ΔF1 | CIDEr plain | CIDEr +LoRA | val CE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| Residual (1 tok) | 4.86M | 0.52 | 36.45 | **52.64**‡ | **+16.2** | 66.07 | **104.05**‡ | 2.35 |
-| Tile-Attention (8 tok) | 4.14M | 0.44 | 46.69 | 52.99 | **+6.3** | 87.46 | 105.04 | 1.62 |
-| Multi-Token (8 tok pooled) | 7.35M | 0.78 | 49.82† | 53.17† | **+3.4** | 96.98† | 105.59† | 1.49 |
-| Light Q-Former (8 query) | 27.6M | 2.87 | 46.63 | **53.21**‡ | **+6.6** | 88.10 | **106.24**‡ | 1.59 |
-| Full Q-Former (16 query) | 69.4M | 6.91 | 47.66 | **53.21**‡ | **+5.6** | 90.82 | **105.70**‡ | 1.57 |
-
-<small>Cột F1/CIDEr plain + val CE: seed 42 (Multi-Token plain = mean 4-seed; TIER-1
-đang thêm seed 123/3407 cho 4 bridge phụ). † Multi-Token LoRA: mean 3-seed.
-‡ residual / Light Q-Former / Full Q-Former LoRA: mean 3-seed. Tile-Attention LoRA:
-seed 42. CIDEr ở đây là in-house ×100.</small>
+| Residual (1 tok) | 4.86M | 0.52 | 45.64 | 52.64 | **+7.0** | 86.25 | 104.05 | 1.67 |
+| Tile-Attention (8 tok) | 4.14M | 0.44 | 45.17 | 52.99 | **+7.8** | 84.21 | 105.04 | 1.67 |
+| Multi-Token (8 tok pooled) | 7.35M | 0.78 | 49.55 | 53.17 | **+3.6** | 96.49 | 105.59 | 1.49 |
+| Light Q-Former (8 query) | 27.6M | 2.87 | 46.25 | 53.21 | **+7.0** | 86.80 | 106.24 | 1.60 |
+| Full Q-Former (16 query) | 69.4M | 6.91 | 47.36 | 53.21 | **+5.9** | 88.31 | 105.70 | 1.57 |
 
 **RQ1** — chỉ train bridge, đóng băng hết: Multi-Token (0.78% param) tốt nhất, vượt
 Vintern-FT trên generation. Nhưng thua F1.
 **RQ2** — F1 thua tại bridge chưa đủ to? **Không**: Full Q-Former (69M param, ×10) *tệ hơn*
 Multi-Token; Multi-Token có CE thấp nhất → không phải capacity bridge.
 **RQ6** — mở decoder (LoRA): trục **duy nhất** nhích F1. **Bridge-equalizing**: 5 bridge
-từ CIDEr 66–97 → sau LoRA đều 103–107 (chênh lệch gần như biến mất). → capacity
+plain trải F1 45.2–49.6 / CIDEr 84–96 → sau LoRA đều F1 52.6–53.2 / CIDEr 104–106
+(chênh lệch gần như biến mất; mức nâng lớn hơn khi bridge yếu hơn). → capacity
 decoder, không phải độ tinh vi bridge, quyết định chất lượng.
+**RQ6 sâu (§4d results-grouped-split)** — LoRA chỉ giúp khi gắn vào **attention**
+của decoder (q/k/v/o). Gắn vào feed-forward (gate/up/down) làm training **phân kỳ**
+(F1 ~20, val loss ~3.7). → dư địa của decoder nằm cụ thể ở attention layers.
 
 ---
 

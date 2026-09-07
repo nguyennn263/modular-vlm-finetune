@@ -731,7 +731,7 @@
       "answer_sampling": null,
       "align": null,
       "lora": "16",
-      "result": "pulled+evaluated+rescored 2026-09-06, merged into B\u1ea3ng 3/5/A3"
+      "result": "pulled+evaluated+rescored 2026-09-06, merged into Bảng 3/5/A3"
     },
     "expa-lora16:residual:s123": {
       "account": "acc14",
@@ -745,7 +745,7 @@
       "answer_sampling": null,
       "align": null,
       "lora": "16",
-      "result": "pulled+evaluated+rescored 2026-09-06, merged into B\u1ea3ng 3/5/A3"
+      "result": "pulled+evaluated+rescored 2026-09-06, merged into Bảng 3/5/A3"
     },
     "expa-lora16:mini_qformer:s3407": {
       "account": "acc16",
@@ -759,7 +759,7 @@
       "answer_sampling": null,
       "align": null,
       "lora": "16",
-      "result": "pulled+evaluated+rescored 2026-09-06, merged into B\u1ea3ng 3/5/A3"
+      "result": "pulled+evaluated+rescored 2026-09-06, merged into Bảng 3/5/A3"
     },
     "expa-lora16:residual:s3407": {
       "account": "acc8",
@@ -773,7 +773,7 @@
       "answer_sampling": null,
       "align": null,
       "lora": "16",
-      "result": "pulled+evaluated+rescored 2026-09-06, merged into B\u1ea3ng 3/5/A3"
+      "result": "pulled+evaluated+rescored 2026-09-06, merged into Bảng 3/5/A3"
     },
     "expa-lora16:tile_attention:s42": {
       "account": "acc1",
@@ -787,7 +787,7 @@
       "answer_sampling": null,
       "align": null,
       "lora": "16",
-      "result": "pulled+evaluated+rescored 2026-09-06, merged into B\u1ea3ng 3/5/A3"
+      "result": "pulled+evaluated+rescored 2026-09-06, merged into Bảng 3/5/A3"
     },
     "expa-align-feat:multi_token:s123": {
       "account": "acc2",
@@ -1189,7 +1189,7 @@
     "test-eval:multi_token:s42": {
       "account": "acc14",
       "kernel": "nguyendinhdoanh/mvlm-test-eval-mt-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-07T08:27:39",
       "collected": false,
       "bridge": "multi_token",
@@ -1199,7 +1199,7 @@
     "test-eval:multi_token:s123": {
       "account": "acc7",
       "kernel": "tinquc220300nguyn/mvlm-test-eval-mt-s123",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-07T08:27:44",
       "collected": false,
       "bridge": "multi_token",
@@ -1209,7 +1209,7 @@
     "test-eval:multi_token:s2026": {
       "account": "acc3",
       "kernel": "nguyennn2603/mvlm-test-eval-mt-s2026",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-07T08:27:48",
       "collected": false,
       "bridge": "multi_token",
@@ -1219,7 +1219,7 @@
     "test-eval:multi_token:s3407": {
       "account": "acc10",
       "kernel": "giapht/mvlm-test-eval-mt-s3407",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-07T08:27:53",
       "collected": false,
       "bridge": "multi_token",
@@ -1229,17 +1229,18 @@
     "test-eval:qformer:s42": {
       "account": "acc2",
       "kernel": "nguyennn2501/mvlm-test-eval-qf-s42",
-      "status": "running",
+      "status": "error",
       "pushed_at": "2026-09-07T08:27:57",
       "collected": false,
       "bridge": "qformer",
       "seed": 42,
-      "split": "test"
+      "split": "test",
+      "result": "corrupt bundled ckpt (EOFError) - re-run as qformer:s3407"
     },
     "test-eval:mini_qformer:s42": {
       "account": "acc4",
       "kernel": "nguyennn251/mvlm-test-eval-mq-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-07T08:28:02",
       "collected": false,
       "bridge": "mini_qformer",
@@ -1249,7 +1250,7 @@
     "test-eval:residual:s42": {
       "account": "acc6",
       "kernel": "knull0d/mvlm-test-eval-res-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-07T08:28:06",
       "collected": false,
       "bridge": "residual",
@@ -1259,11 +1260,21 @@
     "test-eval:tile_attention:s42": {
       "account": "acc1",
       "kernel": "nguyennn263/mvlm-test-eval-ta-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-07T08:28:09",
       "collected": false,
       "bridge": "tile_attention",
       "seed": 42,
+      "split": "test"
+    },
+    "test-eval:qformer:s3407": {
+      "account": "acc10",
+      "kernel": "giapht/mvlm-test-eval-qf-s3407",
+      "status": "running",
+      "pushed_at": "2026-09-07T09:52:13",
+      "collected": false,
+      "bridge": "qformer",
+      "seed": 3407,
       "split": "test"
     }
   }

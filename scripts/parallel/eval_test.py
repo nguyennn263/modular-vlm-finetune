@@ -26,7 +26,7 @@ SPECS = [
     ("checkpoints/expA/seed123/multi_token/last_model.pt",      "multi_token", 123,  "mt-s123"),
     ("checkpoints/expA/seed2026/multi_token/last_model.pt",     "multi_token", 2026, "mt-s2026"),
     ("checkpoints/expA/seed3407/multi_token/last_model.pt",     "multi_token", 3407, "mt-s3407"),
-    ("checkpoints/expA/seed42/qformer/last_model.pt",           "qformer",     42,   "qf-s42"),
+    ("checkpoints/expA/seed3407/qformer/last_model.pt",       "qformer",     3407, "qf-s3407"),
     ("checkpoints/expA/seed42/mini_qformer/last_model.pt",      "mini_qformer",42,   "mq-s42"),
     ("checkpoints/expA/seed42/residual/last_model.pt",          "residual",    42,   "res-s42"),
     ("checkpoints/expA/seed42/tile_attention/last_model.pt",    "tile_attention",42, "ta-s42"),
@@ -89,9 +89,10 @@ def _eval_cells(bridge: str, seed: int, label: str) -> list[dict]:
               f"--split test --seed {seed} "
               f"--checkpoint /kaggle/working/ck/{bridge}/model.pt "
               f"--output /kaggle/working/eval_test.json"),
-        _code("!mkdir -p /kaggle/working/out && cp /kaggle/working/eval_test.json /kaggle/working/out/ && "
-              "cp /kaggle/working/ck/*/results/*.json /kaggle/working/out/ 2>/dev/null; "
-              "import json; print(json.dumps(json.load(open('/kaggle/working/eval_test.json')), indent=2)[:800])"),
+        _code("import json, os, shutil",
+              "os.makedirs('/kaggle/working/out', exist_ok=True)",
+              "shutil.copy('/kaggle/working/eval_test.json', '/kaggle/working/out/')",
+              "print(json.dumps(json.load(open('/kaggle/working/eval_test.json')), indent=2)[:800])"),
     ]
 
 

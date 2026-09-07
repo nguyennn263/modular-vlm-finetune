@@ -1,0 +1,20 @@
+{
+  "split": "test",
+  "n": 5468,
+  "bridge": "residual",
+  "n_tiles": 1,
+  "checkpoint": "/kaggle/working/ck/residual/model.pt",
+  "loss": 1.6626619117684667,
+  "num_samples": 5468,
+  "perplexity": 5.273329257965088,
+  "accuracy": 0.05431602048280907,
+  "exact_match": 0.056327724945135334,
+  "bleu": 0.12680804047124453,
+  "rouge_l": 0.4365256582973765,
+  "meteor": 0.3602346379591841,
+  "cider": 0.8399634601751976,
+  "precision": 0.45886594253913204,
+  "recall": 0.48082296320683304,
+  "f1": 0.45491200721872954,
+  "wups": 0.05431602048280907
+}

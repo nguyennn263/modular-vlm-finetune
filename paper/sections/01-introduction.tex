@@ -36,31 +36,28 @@ light adapter on the decoder itself) --- and we work through six research
 questions, one lever at a time, to find which of them actually moves the needle.
 
 \paragraph{Findings.}
-\textbf{The recipe works, cheaply.} A frozen-backbone multi-token bridge at a
-single image tile already surpasses the fully fine-tuned Vintern-1B on BLEU
-($+9.4$), METEOR ($+5.0$) and CIDEr ($+23.7$), and beats ViMoE-VQA on corpus
-CIDEr-D, BLEU-4 and ROUGE-L --- at about 1\,\% of the trainable parameters and
-none of the backbone fine-tuning. Adding a rank-16 LoRA on the decoder's
-attention projections (a further $0.23\%$) lifts token-F1 from $49.6$ to $54.7$
-and puts the recipe above Vintern-1B on \emph{every} generation metric including
-ROUGE-L. Held-out test numbers match validation within $0.5$ F1, so the result is
-not an artefact of tuning to the validation set.
+\textbf{The recipe works, cheaply.} A frozen-backbone multi-token bridge at one
+tile already surpasses the fully fine-tuned Vintern-1B on BLEU ($+9.4$), METEOR
+($+5.0$) and CIDEr ($+23.7$), and beats ViMoE-VQA on corpus CIDEr-D, BLEU-4 and
+ROUGE-L --- at about 1\,\% of the trainable parameters and no backbone
+fine-tuning. A rank-16 LoRA on the decoder's attention projections (a further
+$0.23\%$) lifts token-F1 from $49.6$ to $54.7$ and puts the recipe above
+Vintern-1B on \emph{every} generation metric. Held-out test numbers match
+validation within $0.5$ F1.
 
 \textbf{The bottleneck is the decoder's attention, and nothing on the vision
 side.} Of the six interventions, five are on the vision or training side --- a
 $10\times$-larger bridge, more image tiles, a learned per-question routing policy,
-multi-reference training, and projector-level representation alignment --- and
-all five leave token-F1 unchanged or worse (representation alignment is an
-absolute null: \dF{}~$-0.03$). The one intervention that helps is a LoRA adapter
-on the frozen decoder, and it helps on \emph{every} bridge architecture we try,
-with a larger effect on the weaker bridges --- after which all five bridges
-collapse into a $0.6$-point F1 band. Moreover, moving the same LoRA budget from
-the decoder's attention to its feed-forward layers diverges training
-(validation loss $2$--$4$ vs.\ $1.4$). The useful headroom is specifically in the
-frozen decoder's attention, not in the visual pipeline and not in the decoder
-broadly. This is also a direct counterpoint to ViMoE-VQA's ``reasoning-aware''
-account of its own gains: on the same benchmark, question type carries no usable
-signal about how much visual computation a question needs.
+multi-reference training, and projector-level representation alignment --- and all
+five leave token-F1 unchanged or worse (alignment is an absolute null,
+\dF{}~$-0.03$). The one that helps is a LoRA adapter on the frozen decoder; it
+helps on \emph{every} bridge architecture, with a larger effect on weaker
+bridges, after which all five collapse into a $0.6$-point F1 band. Moving the same
+budget to the decoder's feed-forward layers instead diverges training. The useful
+headroom is specifically in the frozen decoder's attention. This is also a direct
+counterpoint to ViMoE-VQA's ``reasoning-aware'' account: on the same benchmark,
+question type carries no usable signal about how much visual computation a
+question needs.
 
 \paragraph{Contributions.}
 \begin{enumerate}

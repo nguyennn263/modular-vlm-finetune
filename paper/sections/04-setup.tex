@@ -36,12 +36,10 @@ Reasoning-type (\texttt{category}) distribution: \texttt{relational}
 with \texttt{action}, \texttt{context}, \texttt{yes/no} in the tail. We use the
 nominal \texttt{category} labels and treat them as unordered.
 
-\paragraph{Oracle-sweep subset (Sec.~\ref{sec:abl-routing} only).}
-Evaluating every action on every question is expensive, so the oracle sweep uses
-an equal-per-category subset (${\approx}625$ questions per category): 5{,}547
-train / 3{,}727 val / 3{,}739 test questions swept. This over-samples the tail
-categories; per-category oracle means are unweighted and overall means are
-re-weighted to the natural distribution.
+The oracle sweep (Sec.~\ref{sec:abl-routing}) evaluates every action on every
+question, so it uses an equal-per-category subset
+($5{,}547$ / $3{,}727$ / $3{,}739$ questions for train / val / test); overall
+means are re-weighted to the natural distribution.
 
 \subsection{Answer selection during training}
 
@@ -74,44 +72,26 @@ auxiliary distillation term (MSE between the bridge's first token and a
 linear-projector baseline) is disabled everywhere --- it applied to only two of
 the five bridges and is an unfair confound.
 
-\subsection{Hardware, seeds, statistics}
+\subsection{Hardware, seeds, metrics, statistics}
 \label{sec:setup-hw}
 
-\begin{description}
-\item[Hardware.] All training, the oracle sweep, and all evaluation ran on Kaggle
-  P100 (16\,GB) and T4 GPU kernels, orchestrated across a pool of accounts. No
-  multi-GPU training. Total project compute is on the order of a few hundred
-  GPU-hours, dominated by the oracle sweeps and the multi-seed / LoRA-localisation
-  grids; a single headline recipe run (bridge $+$ 3-epoch LoRA) is
-  ${\sim}13$ GPU-h.
-\item[Seeds.] Every bridge, every negative-axis intervention, and the
-  decoder-LoRA rows are \textbf{three seeds} ($42$, $123$, $3407$); the
-  multi-token headline row is four (adds $2026$). Oracle / routing runs are seed
-  $42$. We report mean $\pm$ standard deviation.
-\item[Evaluation.] The full validation split ($5{,}463$) is scored every run; the
-  \textbf{test split ($5{,}468$) is scored once} for the headline recipe and the
-  five bridges, and never used for model selection.
-\item[Statistics.] Main comparisons use paired bootstrap ($2{,}000$ resamples)
-  over the evaluation split; we report $95\%$ CIs on $\Delta$ quantities and
-  $P(\Delta > 0)$.
-\item[Libraries.] PyTorch 2.x, Transformers, \texttt{pyvi} for Vietnamese
-  tokenisation, PhoBERT-base-v2, InternViT-300M / Qwen2-0.5B from
-  Vintern-1B-v3.5. Metrics: pycocoevalcap corpus CIDEr-D / BLEU / ROUGE / METEOR
-  (METEOR via the Meteor 1.5 jar); token-level P/R/F1 from an in-house scorer
-  whose values match the AutoViVQA baseline table.
-\end{description}
+All training and evaluation ran on Kaggle P100 (16\,GB) and T4 GPU kernels, no
+multi-GPU. Total project compute is on the order of a few hundred GPU-hours; a
+single headline recipe run (bridge $+$ 3-epoch LoRA) is ${\sim}13$ GPU-h. Every
+bridge and negative-axis intervention and the decoder-LoRA rows are
+\textbf{three seeds} ($42$, $123$, $3407$; the multi-token headline row adds
+$2026$); oracle / routing runs are seed $42$. We report mean $\pm$ standard
+deviation.
 
-\subsection{Metrics}
-
-Cross-paper generation claims use \textbf{corpus CIDEr-D} (most
-implementation-stable), corpus BLEU-4/BLEU-1 and ROUGE-L. METEOR is reported for
-completeness but not used for cross-paper claims (it varies by ${\sim}13$ points
-between implementations on identical predictions). Answer matching: token-level
-Precision / Recall / F1 and exact-match / WUPS, per-sample max over the five
-references. Because BARTPhoBEiT's CIDEr ($188.96$) is a verbosity outlier, it is
-excluded from generation comparisons. Sec.~\ref{sec:human} reports a
-human-judgment sanity check on token-F1 itself.
-
-The two metric conventions are kept in \textbf{separate tables}: an in-house
-table that matches the AutoViVQA baseline scores, and a corpus (pycocoevalcap)
-table for comparison with ViMoE-VQA and other papers.
+Cross-paper generation claims use \textbf{corpus CIDEr-D / BLEU-4 / ROUGE-L}
+(pycocoevalcap); METEOR is reported but not used for cross-paper claims (it
+varies by ${\sim}13$ points between implementations). Answer matching is
+token-level P/R/F1 and exact-match, per-sample max over the five references, from
+an in-house scorer whose values match the AutoViVQA baseline table. The two
+metric conventions are kept in separate tables (in-house
+Table~\ref{tab:main-inhouse}, corpus Table~\ref{tab:main-corpus}). Main
+comparisons use paired bootstrap ($2{,}000$ resamples); we report $95\%$ CIs on
+$\Delta$ quantities and $P(\Delta > 0)$. The full validation split is scored
+every run; the \textbf{test split is scored once} and never used for model
+selection. Libraries: PyTorch~2, Transformers, \texttt{pyvi}, PhoBERT-base-v2;
+InternViT-300M / Qwen2-0.5B from Vintern-1B-v3.5.

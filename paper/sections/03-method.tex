@@ -52,29 +52,18 @@ five.
 Given a frozen backbone, a small additional parameter or compute budget can be
 spent on the \textbf{vision side} or the \textbf{language side} of the pipeline.
 We work through six research questions, one lever at a time, each measured as
-\dF{} against a fixed anchor (the multi-token bridge, one tile, no LoRA):
-
-\begin{table}[t]
-  \centering
-  \caption{The six research questions. RQ1--RQ4 are vision/training-side; RQ5
-  straddles; RQ6 is the language side.}
-  \label{tab:rqs}
-  \begin{tabular}{clc}
-    \toprule
-    & Question & Lever \\
-    \midrule
-    RQ1 & Does a larger / more expressive bridge close the token-F1 gap? & bridge capacity \\
-    RQ2 & Is the bridge itself the constraint, or already near-optimal? & validation CE across bridges \\
-    RQ3 & Does more visual resolution --- more image tiles --- help? & \ntiles{} \\
-    RQ4 & Does \emph{adaptive}, per-question visual-compute allocation help, driven by question type? & router $+$ policy \\
-    RQ5 & Does a richer training signal or explicit representation alignment help? & sampling, projector-KD \\
-    RQ6 & Does adding capacity to the \emph{frozen decoder} help, and where? & attention vs.\ FFN LoRA \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-The shape of the answers --- which levers move F1 and which do not --- is the
-paper's main finding (Sec.~\ref{sec:abl-summary}).
+\dF{} against a fixed anchor (the multi-token bridge, one tile, no LoRA).
+\textbf{RQ1--RQ2} (vision): does a larger or more expressive bridge close the F1
+gap, or is the bridge already near-optimal for the frozen decoder?
+\textbf{RQ3} (vision): does more visual resolution --- more image tiles --- help?
+\textbf{RQ4} (vision): does \emph{adaptive} per-question visual-compute
+allocation help, driven by question type (ViMoE's premise)?
+\textbf{RQ5} (training): does a richer training signal (multi-reference sampling)
+or explicit representation alignment to the decoder (projector-KD) help?
+\textbf{RQ6} (language): does adding capacity to the \emph{frozen decoder} help,
+and where --- attention or feed-forward? The shape of the answers --- which
+levers move F1 and which do not --- is the paper's main finding
+(Table~\ref{tab:abl-summary}).
 
 \subsection{Adaptive visual computation (RQ3--RQ4)}
 \label{sec:method-adaptive}

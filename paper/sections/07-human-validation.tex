@@ -5,14 +5,12 @@ Every result above is read through automatic metrics against five reference
 answers. This section asks how much those metrics track answer \emph{correctness}.
 
 \paragraph{Scope, stated up front.}
-The plan called for human validation --- 300--500 samples, 2 annotators, Cohen's
-$\kappa$. Time did not allow it before the deadline; what follows is a
-\textbf{single-rater self-check substitute}, not human validation: $N = 120$, one
-rater, no image access --- judged for plausibility against the five references
-only, which for open-ended categories (causal/context) is a materially weaker
-check than true human validation. Sampled proportionally by
-category $\times$ the \emph{actual} F1 bucket of each prediction; all 120
-judgments with reasoning are released.
+The planned protocol was 300--500 samples, 2 annotators, Cohen's $\kappa$; time
+did not allow it before the deadline. What follows is a \textbf{single-rater
+self-check substitute}, not human validation: $N = 120$, one rater, no image
+access --- judged for plausibility against the five references only, a materially
+weaker check for open-ended categories. Samples are drawn proportionally by
+category $\times$ actual F1 bucket; all 120 judgments are released.
 
 \begin{table}[t]
   \centering
@@ -33,20 +31,12 @@ judgments with reasoning are released.
   \end{tabular}
 \end{table}
 
-\paragraph{Reported straight.}
-The ``strong'' bucket is reliable ($91.1\%$ acceptable) --- high F1 is a good
-correctness signal there. But the \textbf{``partial'' bucket ($0.2$--$0.6$) is
-both the \emph{largest} single bucket ($51.5\%$ of val) and the \emph{least}
-reliable} --- only $43.1\%$ acceptable, $55.2\%$ actually wrong despite sharing
-filler tokens with the reference. The failure mode is not random noise: wrong
-colour / count / object, or answering the wrong facet of the question (a ``when''
-answered with weather, a yes/no answer inverted) --- errors a fluent decoder
-produces while still overlapping enough vocabulary to score mid-range F1.
-
-Overall, \textbf{$37.0\%$ of val predictions are fully correct, $57.1\%$
-acceptable} by this check --- lower than headline numbers like CIDEr-D $92.3$ or
-F1 $49.6$ might suggest to a reader unfamiliar with the metrics' scales.
-\textbf{Mid-range token-F1 is not a reliable correctness signal}, which qualifies
-how every CIDEr-D / F1 number in Sec.~\ref{sec:results}--\ref{sec:ablation} should
-be read. This is a time-constrained substitute; a real 2-annotator, image-access
-study remains the camera-ready item.
+The ``strong'' bucket ($\ge 0.6$ F1) is reliable ($91.1\%$ acceptable), but the
+\textbf{``partial'' bucket ($0.2$--$0.6$) --- the \emph{largest} single bucket,
+$51.5\%$ of val --- is only $43.1\%$ acceptable}, $55.2\%$ actually wrong despite
+non-zero token overlap. The errors are not random noise (wrong colour / count /
+object, or the wrong facet of the question), which is why they still score
+mid-range F1. Overall $37.0\%$ of val predictions are fully correct, $57.1\%$
+acceptable. \textbf{Mid-range token-F1 is not a reliable correctness signal},
+which qualifies how the CIDEr-D / F1 numbers elsewhere should be read. A real
+2-annotator, image-access study remains the camera-ready item.

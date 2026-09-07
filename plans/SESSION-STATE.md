@@ -26,8 +26,11 @@
 | GPT-5 zero-shot | 10.84 | 47.20 | 55.20 | 50.89 | 6.07 | 47.30 | 33.34 | 84.20 |
 | ViMoE-VQA (5 seed) | 9.65 | 62.89 | 58.65 | 60.69 | 12.54 | 47.07 | 39.10 | 88.67 |
 | **Multi-Token bridge (0.78%, 1 tile)** | 8.20 | 50.36 | 51.43 | **49.55** | 15.47 | 47.84 | 40.22 | 96.49 |
-| **+ LoRA r=16 attn (1 epoch)** | 10.42 | 53.85 | 55.00 | **53.17** | 19.44 | 51.48 | 43.91 | 105.59 |
-| **+ LoRA r=16 attn (3 epoch)** | 11.78 | 55.54 | 56.25 | **54.67** | 20.98 | 52.92 | 45.24 | 109.60 |
+| **+ LoRA r=16 attn (1 epoch)** ‡ | 10.93 | 54.39 | 55.11 | **53.52** | 19.72 | 51.81 | 44.11 | 106.56 |
+| **+ LoRA r=16 attn (3 epoch)** ‡ | 12.00 | 55.46 | 56.38 | **54.71** | 21.07 | 52.96 | 45.42 | 110.49 |
+
+‡ **CẬP NHẬT 2026-09-07 ~15:30 UTC**: LoRA re-run sạch (v1 ckpt hỏng), 3-seed
+@ full-val 5463. F1 std: 1ep 0.11, 3ep 0.14. Cũ (seed-42, đã thay): 1ep 53.17 / 3ep 54.67.
 
 *Baseline khác: ViT5_ViT F1 48.52, BARTPhoBEiT F1 45.88 (CIDEr 188.96 = outlier bỏ),
 Llama3.2 36.16, Gemini2.0 39.79, Gemini2.5 24.75. Full ở paper-blueprint.md Bảng 1.*
@@ -36,21 +39,33 @@ Llama3.2 36.16, Gemini2.0 39.79, Gemini2.5 24.75. Full ở paper-blueprint.md B�
 | Model | CIDEr-D | BLEU-4 | ROUGE-L |
 |---|--:|--:|--:|
 | ViMoE-VQA | 88.67 | 12.54 | 47.07 |
-| Multi-Token bridge (4 seed, 2ep) | 92.3 ± 0.6 | 18.9 ± 0.3 | 48.9 ± 0.1 |
-| + LoRA r=16 (seed 42, 1ep) | 101.7 | 23.2 | 52.7 |
-| + LoRA r=16 3ep (3 seed) | 106.8 ± 1.1 | 25.0 ± 0.4 | 54.2 ± 0.2 |
+| Multi-Token bridge (4 seed, 2ep) — VAL | 92.3 ± 0.6 | 18.9 ± 0.3 | 48.9 ± 0.1 |
+| + LoRA r=16 1ep (3 seed) — VAL ⚠️cũ (seed42) | 101.7 | 23.2 | 52.7 |
+| + LoRA r=16 3ep (3 seed) — VAL ⚠️cũ | 106.8 ± 1.1 | 25.0 ± 0.4 | 54.2 ± 0.2 |
+| + LoRA r=16 1ep (3 seed) — **TEST** (sạch, mới) | 101.3 ± 0.5 | 22.9 | 52.6 |
+| + LoRA r=16 3ep (3 seed) — **TEST** (sạch, mới) | 104.8 ± 0.8 | 24.9 | 53.8 |
 | bootstrap 95% CI (multi_token plain CIDEr-D) | **[89.9, 95.3]** — trên hẳn ViMoE 88.7 | | |
 
-### 1c. TEST split (n=5468, 4 seed) — đối chiếu val
+⚠️ VAL corpus LoRA = từ run 3-seed CŨ (ckpt đã mất). 6 job `lora-val-eval:*`
+đang chạy để lấy text-pred full-val cho 6 ckpt sạch mới → sẽ refresh VAL corpus +
+bootstrap. TEST corpus = từ 6 ckpt sạch mới (rescore epoch_1 = test 5468).
+
+### 1c. TEST split — đối chiếu val
 | | val | test | Δ |
 |---|--:|--:|--:|
-| Multi-Token F1 | 49.55 | **49.20** | −0.35 |
-| Multi-Token CIDEr(ih) | 96.49 | **93.24** | −3.25 |
+| Multi-Token bridge F1 (n=5468, 4 seed) | 49.55 | **49.20** | −0.35 |
+| Multi-Token bridge CIDEr(ih) | 96.49 | **93.24** | −3.25 |
 | mini_qformer F1 (s42) | 47.05 | 47.25 | +0.20 |
 | residual F1 (s42) | 45.91 | 45.49 | −0.42 |
 | tile_attention F1 (s42) | 44.50 | 44.44 | −0.06 |
+| qformer F1 (s3407) | 47.36 | *(chạy lại — dataset phẳng mvlm-qf-test-ckpt)* | — |
+| **+ LoRA 1ep F1 (3 seed)** | 53.52 | **53.15** | −0.37 |
+| **+ LoRA 1ep CIDEr(ih)** | 106.56 | **104.65** | −1.91 |
+| **+ LoRA 3ep F1 (3 seed)** | 54.71 | **54.28** | −0.43 |
+| **+ LoRA 3ep CIDEr(ih)** | 110.49 | **107.60** | −2.89 |
 
-→ gap < 0.5 F1, không nhất quán chiều → **KHÔNG overfit val**. (qformer test bỏ — Kaggle mount lỗi.)
+→ gap < 0.5 F1 mọi cấu hình, không nhất quán chiều → **KHÔNG overfit val**. Recipe
+giữ vững trên test. (LoRA test đo trên cùng 6 ckpt sạch re-run 2026-09-07.)
 
 ### 1d. 5 bridge plain @ 2ep 3-seed + LoRA
 | Bridge | Params | F1 plain | CIDEr-D plain | val CE | F1 +LoRA | ΔF1 | CIDEr-D +LoRA |

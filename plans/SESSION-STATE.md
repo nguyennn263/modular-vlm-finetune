@@ -60,8 +60,19 @@ Llama3.2 36.16, Gemini2.0 39.79, Gemini2.5 24.75. Full ở paper-blueprint.md B�
 | residual | 4.86M (0.52%) | 45.64 ± 0.36 | 81.1 | 1.67 | 52.64 | +7.0 | 100.8 |
 | tile_attention | 4.14M (0.44%) | 45.17 ± 0.94 | 79.0 | 1.67 | 52.99† | +7.8 | 102.0 |
 
-† tile_attention +LoRA = seed 42 only. bootstrap ΔF1 CIs: +3.55/+5.44/+6.75/+6.75/+8.49
-(mt→qf→mq→res→ta), all P(Δ>0)=1.000. residual ΔF1 [6.07, 7.39].
+† tile_attention +LoRA = seed 42 only.
+
+**Bootstrap CIs (2ep seed-42 preds, 2000 resamples; `outputs/bootstrap_ci.json`, commit f2dd5d0):**
+| Bridge | ΔF1 [95% CI] | ΔCIDEr-D [95% CI] | P(Δ>0) |
+|---|---|---|---|
+| multi_token | +3.55 [2.94, 4.14] | +9.20 [7.15, 10.99] | 1.000 |
+| qformer | +5.44 [4.83, 6.06] | +15.24 [13.04, 17.41] | 1.000 |
+| mini_qformer | +6.75 [6.07, 7.43] | +19.53 [17.36, 21.89] | 1.000 |
+| residual | +6.75 [6.07, 7.39] | +18.40 [16.24, 20.98] | 1.000 |
+| tile_attention | +8.49 [7.80, 9.16] | +24.00 [21.86, 26.54] | 1.000 |
+
+multi_token-plain CIDEr-D 92.5, 95% CI **[89.9, 95.3]** (one-sample; entirely above ViMoE 88.7).
+F1 CI [48.9, 50.3] vs ViMoE 60.7. No paired test vs ViMoE (no per-sample data published).
 
 **⚠️ residual: số cũ F1 36.45 / CIDEr-D 56.3 / val CE 2.35 là LẦN CHẠY SEED-42 HỎNG
 (training instability). Số thật 45.64. "ΔF1 +16.2 từ bridge tệ nhất" ĐÃ BỎ.**

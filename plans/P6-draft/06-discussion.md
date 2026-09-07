@@ -15,7 +15,7 @@ split is itself the finding:
    any of the eight categories (paired bootstrap CIs all include zero); no
    learned policy — reasoning-type-informed or not — beats a fixed `multi_token
    |t1` on held-out test. This holds on both the original and the
-   tile-count-augmented retrained checkpoints (§5.3's C3 re-sweep), so it is not
+   tile-count-augmented retrained checkpoints (§6.3's tile-augmented re-sweep), so it is not
    an artifact of the bridge never having seen >1 tile during training.
 
 2. **Multi-reference training and projector-alignment KD do not lift F1
@@ -50,9 +50,9 @@ attention capacity to the decoder worked, regardless of which bridge.
 For this VLM class — frozen ViT, frozen small (0.5B) decoder, a few pooled
 vision tokens — the frozen decoder is the ceiling on token-level phrasing
 match, not the vision pipeline. The pooled bridge already discards per-tile
-detail the decoder has no way to exploit even when present (§5.3); more
+detail the decoder has no way to exploit even when present (§6.3); more
 training signal or a better-aligned representation has nothing further to
-attach to once the bridge is already CE-optimal (§5.5); and the one lever that
+attach to once the bridge is already CE-optimal (§6.4); and the one lever that
 is *not* about what the decoder is given, but about what the decoder itself
 can do with it, is the one that moves the needle (§6.5). We report LoRA as a
 reference point quantifying that ceiling, not as a replacement for the paper's

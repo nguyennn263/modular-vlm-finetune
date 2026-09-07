@@ -117,14 +117,14 @@ bridge đề xuất.
 |---|--:|--:|--:|--:|--:|--:|--:|--:|
 | Residual (1 tok) | 4.86M | 0.52 | 45.64 | 86.25 | 1.67 | 52.64 | +7.0 | 104.05 |
 | Tile-Attention (8 tok) | 4.14M | 0.44 | 45.17 | 84.21 | 1.67 | 52.99 ᵃ | +7.8 | 105.04 ᵃ |
-| **Multi-Token (8 tok pooled)** | **7.35M** | **0.78** | **49.55** | **96.49** | **1.49** | **53.17** | **+3.6** | **105.59** |
+| **Multi-Token (8 tok pooled)** | **7.35M** | **0.78** | **49.55** | **96.49** | **1.49** | **53.52** | **+4.0** | **105.59** |
 | Light Q-Former (8 query) | 27.6M | 2.87 | 46.25 | 86.80 | 1.60 | 53.21 | +7.0 | 106.24 |
 | Full Q-Former (16 query) | 69.4M | 6.91 | 47.35 | 89.98 | 1.58 | 53.21 | +5.9 | 105.70 |
 
 **Đọc:** RQ1: Multi-Token (0.78%) là bridge tốt nhất và đã vượt Vintern
 fine-tuned về metric sinh. RQ2: bridge to gấp 10 lần (Full Q-Former, 69M) lại
 *tệ hơn*; Multi-Token có val CE thấp nhất — capacity không phải nút thắt. RQ6:
-LoRA nâng F1 ở mọi bridge (mức nâng lớn hơn khi bridge yếu hơn: +3.6 → +7.8) và
+LoRA nâng F1 ở mọi bridge (mức nâng lớn hơn khi bridge yếu hơn: +4.0 → +7.8) và
 san bằng khoảng chênh CIDEr (Hình 1). *(residual không còn là ngoại lai — số cũ
 F1 36.45 là lần chạy seed-42 hỏng, val CE 2.35.)*
 
@@ -165,8 +165,10 @@ số" đã ghi rõ; align-feat (đúng trọng số) là bằng chứng chính c
 | RQ5 · Training signal | Multi-reference answer sampling | 48.08 | ~86.7 | −1.47 | âm |
 | RQ5 · Representation alignment | Projector-level feature KD | 49.53 | 92.10 | **−0.03** | âm (null sạch) |
 | RQ5 · Representation alignment | Projector-level logit KD ᵃ | 40.75 | ~70.7 | −8.80 | âm ᵃ |
-| **RQ6 · Decoder capacity** | **LoRA r=16 attn (1 epoch)** | **53.17** | **101.70** | **+3.62** | **dương** |
-| **RQ6 · Decoder capacity** | **LoRA r=16 attn (3 epochs)** | **54.67** | **106.80** | **+5.12** | **dương** |
+| **RQ6 · Decoder capacity** | **LoRA r=16 attn (1 epoch)** | **53.52** | **101.70** ᵈ | **+3.97** | **dương** |
+
+ᵈ CIDEr-D val của recipe (101.7 / 106.8) từ run 3-seed cũ tương đương — bản mới đang tính lại (6 job `lora-val-eval`). In-house F1/CIDEr đã là bản re-run sạch.
+| **RQ6 · Decoder capacity** | **LoRA r=16 attn (3 epochs)** | **54.71** | **106.80** ᵈ | **+5.16** | **dương** |
 | RQ6 · Decoder capacity | LoRA r=16 **MLP-only** | 20.24 | — | −29.31 | phân kỳ |
 | RQ6 · Decoder capacity | LoRA r=16 **attn + MLP** | 37.51 | — | −12.04 | phân kỳ |
 
@@ -184,14 +186,14 @@ tile_attention = seed 42.
 
 | Bridge | F1 thường | F1 +LoRA | ΔF1 | CIDEr-D thường | CIDEr-D +LoRA | ΔCIDEr-D |
 |---|--:|--:|--:|--:|--:|--:|
-| multi_token | 49.55 | 53.17 | +3.6 | 92.3 | 101.7 | +9.4 |
+| multi_token | 49.55 | 53.52 | +4.0 | 92.3 | 101.7 | +9.4 |
 | qformer | 47.35 | 53.21 | +5.9 | 85.4 | 102.4 | +17.0 |
 | mini_qformer | 46.25 | 53.21 | +7.0 | 81.7 | 103.0 | +21.3 |
 | residual | 45.64 | 52.64 | +7.0 | 81.1 | 100.8 | +19.7 |
 | tile_attention | 45.17 | 52.99 | +7.8 | 79.0 | 102.0 | +23.0 |
 
 **Đọc:** 5 bridge plain trải F1 45.2–49.6 / CIDEr-D 79–92 → sau LoRA đều F1
-52.6–53.2 / CIDEr-D 100.8–103.0. Mức nâng lớn hơn khi bridge yếu hơn (+3.6 →
+52.6–53.5 / CIDEr-D 100.8–103.0. Mức nâng lớn hơn khi bridge yếu hơn (+4.0 →
 +7.8). Đây là hiện tượng san bằng ở Hình 1; per-seed ở Phụ lục A3.
 
 ### Bảng 5b — Decoder-LoRA: vị trí trong decoder (TIER-2, RQ6 sâu) — 3-seed, multi_token
@@ -200,7 +202,7 @@ tile_attention = seed 42.
 
 | Target module | F1 (3-seed) | val loss | Kết luận |
 |---|--:|--:|---|
-| attention (q/k/v/o) — recipe | **53.17** | 1.37 | ✅ +3.6 vs plain, ổn định |
+| attention (q/k/v/o) — recipe | **53.52** | 1.37 | ✅ +4.0 vs plain, ổn định |
 | MLP (gate/up/down_proj) | 20.24 ± 1.52 | ~3.7 | 💥 phân kỳ |
 | attention + MLP (cả 7) | 37.51 ± 1.70 | ~2.08 | 💥 phân kỳ (attn cứu một phần) |
 
@@ -332,8 +334,8 @@ trong khoảng nhiễu); seed 42 là seed thấp bất thường. **Khuyến ngh
 
 | LoRA epoch | F1 | CIDEr (nội bộ) | CIDEr-D |
 |--:|--:|--:|--:|
-| 1 | 53.17 | 105.59 | 101.70 |
-| 3 | 54.67 | 109.60 | 106.80 |
+| 1 | 53.52 | 106.56 | ≈101.7 ᵈ |
+| 3 | 54.71 | 110.49 | ≈106.8 ᵈ |
 | 5 | *job bị cắt ở cap quota (~4 ep, chưa kịp eval)* | | |
 
 1→3 ep: +1.5 F1 / +5 CIDEr-D. Trend phẳng dần → decoder-LoRA gần trần từ epoch 3.

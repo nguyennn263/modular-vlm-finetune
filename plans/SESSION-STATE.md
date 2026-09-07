@@ -1,4 +1,4 @@
-# SESSION STATE — Paper 3 (snapshot 2026-09-07 08:20 UTC)
+# SESSION STATE — Paper 3 (snapshot 2026-09-07 11:00 UTC)
 
 > Bản chốt trạng thái để không mất context khi compact. Số CANONICAL. Nếu số ở
 > file khác lệch → tin file này + `results-grouped-split.md` (recompute mới nhất).
@@ -121,14 +121,17 @@ Light Q-Former 27.57M/2.87% · Full Q-Former 69.39M/6.91% · LoRA r=16 q/k/v/o
 
 ---
 
-## 2. JOBS ĐANG CHẠY (2026-09-07 08:20 UTC) — sẽ land trong ngày
+## 2. JOBS ĐANG CHẠY (check 2026-09-07 11:00 UTC — tất cả 9 job = RUNNING) — sẽ land trong ngày
 
-| Job | Account | Cho ra | Xử lý khi land |
-|---|---|---|---|
-| LoRA 3ep re-run ×s42/123/3407 | acc14/acc7/acc3 | ckpt sạch + **val + test** cho recipe | pull → eval_test.json → cập nhật §1c + Bảng 1 blueprint (3ep test row) |
-| LoRA 1ep re-run ×s42/123/3407 | acc2/acc8/acc13 | ckpt sạch (v1 hỏng) + val + test | pull → xác nhận 1ep val≈53.17 + thêm 1ep test |
-| align-logit α=0.1 ×s42/123 | acc12 (×2) | RQ5: KL trọng số nhẹ có giúp F1? | pull → nếu vẫn âm → §1e bỏ caveat "sai trọng số" |
-| align-logit α=0.1 ×s3407 | acc4 (4.1h) | ⚠️ sẽ bị cắt ~4h → 2/3 seed | chấp nhận 2 seed nếu 2 seed kia nhất quán |
+| Job | Account | Kernel slug (feat/decoder-lora) | Pushed (UTC) | Cho ra | Xử lý khi land |
+|---|---|---|---|---|---|
+| LoRA 3ep re-run ×s42/123/3407 | acc14/acc7/acc3 | `<user>/mvlm-expa-lora16-multi-token-s<seed>` | ~04:00 (ETA ~12:00) | ckpt sạch + **val + test** cho recipe | pull → eval_test.json → §1c + Bảng 1 blueprint (3ep test row) |
+| LoRA 1ep re-run ×s42/123/3407 | acc2/acc8/acc13 | `<user>/mvlm-expa-lora16-multi-token-s<seed>` | ~08:14 (ETA ~11:00) | ckpt sạch (v1 hỏng) + val + test | pull → xác nhận 1ep val≈53.17 + thêm 1ep test |
+| align-logit α=0.1 ×s42/123 | acc12 (×2) | `kffddk/mvlm-expa-align-logit-a01-multi-token-s<seed>` | ~08:14 (ETA ~13:00) | RQ5: KL trọng số nhẹ có giúp F1? | pull → nếu vẫn âm → §1e bỏ caveat "sai trọng số" |
+| align-logit α=0.1 ×s3407 | acc4 | `nguyennn251/mvlm-expa-align-logit-a01-multi-token-s3407` | ~08:14 | ⚠️ acc4 quota thấp, có thể bị cắt → 2/3 seed | chấp nhận 2 seed nếu 2 seed kia nhất quán |
+| ~~qformer test-eval s3407~~ | acc10 | `giapht/mvlm-test-eval-qf-s3407` | — | **ERROR** (bỏ — mt 4-seed + 3 bridge đủ cho "test≈val") | không cần |
+
+**Lưu ý giờ:** ledger `pushed_at` = giờ máy (UTC+7), không phải UTC. Trừ 7h.
 
 **Cách pull LoRA:** kernel slug `<user>/mvlm-expa-lora16-multi-token-s<seed>` (feat branch).
 eval_test.json ở `ck-lora/seed<N>/multi_token/`. Corpus rescore: **dùng
@@ -162,7 +165,7 @@ eval_test.json ở `ck-lora/seed<N>/multi_token/`. Corpus rescore: **dùng
 | 5 | **§7 Conclusion** — viết ngắn | mình | ⬜ chưa (peer's 05-results có §7 = Human Validation; conclusion riêng = 07-conclusion.md) |
 | 6 | **English consistency pass toàn draft §1–7** | peer | ⬜ chờ — §1–4 đã land, ping peer |
 | 7 | **3 hình matplotlib** | mình/peer | ⬜ (a) bridge-equalizing bar (79–92 → 100.8–103) (b) tile-collapse F1+loss vs n_tiles (c) sơ đồ kiến trúc |
-| 8 | **Human validation THẬT** | **user + 1 người** | ⬜ 300–500 mẫu, 2 annotator, Cohen's κ. `scripts/human_validation_sample.py`. Trust4NLP. |
+| 8 | **Human validation THẬT** | **user + 1 người** | 🟡 TOOLING XONG (commit sau 9bd5d46): `scripts/human_validation_build.py` → 300 mẫu (plain multi_token s42, stratified theo category), 2 form trắng `outputs/human_validation/annotation_form_{A,B}.csv` + `answer_key.json` (token-F1 ẩn) + `ANNOTATION_README.md` (rubric 4 mức). User + 1 người annotate → `scripts/human_validation_kappa.py` cho Cohen's κ + cross-tab F1-bucket. Còn chờ: 2 người annotate. |
 | 9 | (optional, sau Fri reset) | — | LoRA 5ep sạch (>12h cap, cần resume) · TIER-2 MLP retune HP · align-feat 5-seed |
 
 ---

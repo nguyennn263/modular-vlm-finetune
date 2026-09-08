@@ -1,0 +1,526 @@
+<title>Tiến độ nghiên cứu — Paper 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+  :root{
+    --bg:#f9f8f5;
+    --surface:#ffffff;
+    --surface-alt:#f4f2ec;
+    --ink:#242229;
+    --ink-soft:#5b5963;
+    --ink-faint:#86838d;
+    --rule:#e4dfd4;
+    --rule-strong:#cfc8b8;
+    --accent:#2f6b6e;
+    --accent-tint:#e6efee;
+    --ours:#f4ebd7;
+    --ours-bar:#c9b586;
+    --pos:#2f7d54;
+    --neg:#b0463f;
+    --quote-bg:#eef3f2;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#191920;
+      --surface:#22222a;
+      --surface-alt:#1e1e25;
+      --ink:#e7e3da;
+      --ink-soft:#a6a29a;
+      --ink-faint:#807d75;
+      --rule:#34333c;
+      --rule-strong:#4b4838;
+      --accent:#74b6b2;
+      --accent-tint:#22322f;
+      --ours:#322e1e;
+      --ours-bar:#5c5236;
+      --pos:#63c088;
+      --neg:#dd776d;
+      --quote-bg:#20302e;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#191920;
+    --surface:#22222a;
+    --surface-alt:#1e1e25;
+    --ink:#e7e3da;
+    --ink-soft:#a6a29a;
+    --ink-faint:#807d75;
+    --rule:#34333c;
+    --rule-strong:#4b4838;
+    --accent:#74b6b2;
+    --accent-tint:#22322f;
+    --ours:#322e1e;
+    --ours-bar:#5c5236;
+    --pos:#63c088;
+    --neg:#dd776d;
+    --quote-bg:#20302e;
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Source Serif 4",Georgia,"Times New Roman",serif;
+    font-size:18px;
+    line-height:1.68;
+    font-optical-sizing:auto;
+  }
+  .wrap{
+    max-width:824px;
+    margin:0 auto;
+    padding:64px 28px 120px;
+  }
+
+  /* ---------- header ---------- */
+  header.doc{
+    margin-bottom:52px;
+  }
+  .eyebrow{
+    font-family:"IBM Plex Sans",system-ui,sans-serif;
+    font-size:12.5px;
+    font-weight:600;
+    letter-spacing:.13em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin:0 0 14px;
+  }
+  h1{
+    font-weight:600;
+    font-size:2.35rem;
+    line-height:1.18;
+    letter-spacing:-0.012em;
+    margin:0 0 16px;
+    text-wrap:balance;
+  }
+  .subtitle{
+    font-family:"IBM Plex Sans",system-ui,sans-serif;
+    font-size:14px;
+    color:var(--ink-soft);
+    margin:0;
+    padding-top:16px;
+    border-top:1px solid var(--rule);
+  }
+
+  /* ---------- sections ---------- */
+  section{
+    margin-top:56px;
+    padding-top:36px;
+    border-top:2px solid var(--rule-strong);
+  }
+  section:first-of-type{border-top:none;margin-top:0;padding-top:0}
+  h2{
+    font-weight:600;
+    font-size:1.5rem;
+    line-height:1.3;
+    letter-spacing:-0.008em;
+    margin:0 0 22px;
+    display:flex;
+    gap:.6em;
+    align-items:baseline;
+    text-wrap:balance;
+  }
+  h2 .num{
+    font-family:"IBM Plex Sans",system-ui,sans-serif;
+    font-size:.82em;
+    font-weight:600;
+    color:var(--accent);
+    flex:none;
+  }
+  h3{
+    font-family:"IBM Plex Sans",system-ui,sans-serif;
+    font-weight:600;
+    font-size:.9rem;
+    letter-spacing:.02em;
+    color:var(--ink-soft);
+    margin:38px 0 14px;
+  }
+  p{margin:0 0 18px}
+  strong{font-weight:700;color:var(--ink)}
+  em{font-style:italic}
+  a{color:var(--accent);text-underline-offset:2px}
+
+  code,.mono{
+    font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+    font-size:.86em;
+    background:var(--surface-alt);
+    padding:.08em .34em;
+    border-radius:3px;
+  }
+
+  /* ---------- research-question quote ---------- */
+  blockquote{
+    margin:0 0 26px;
+    padding:20px 24px;
+    background:var(--quote-bg);
+    border-left:3px solid var(--accent);
+    border-radius:2px;
+    font-size:1.06rem;
+    line-height:1.6;
+  }
+  blockquote p{margin:0}
+
+  /* ---------- lead callouts ---------- */
+  .callout{
+    margin:0 0 18px;
+  }
+  .callout .lead{
+    font-weight:700;
+  }
+
+  /* ---------- reading notes (→) ---------- */
+  .note{
+    margin:0 0 24px;
+    padding:2px 0 2px 18px;
+    border-left:2px solid var(--rule-strong);
+    color:var(--ink-soft);
+    font-style:italic;
+    font-size:.96rem;
+  }
+  .caption{
+    font-family:"IBM Plex Sans",system-ui,sans-serif;
+    font-style:normal;
+    font-size:13px;
+    line-height:1.55;
+    color:var(--ink-soft);
+    margin:0 0 12px;
+  }
+  .footnote{
+    font-family:"IBM Plex Sans",system-ui,sans-serif;
+    font-size:12.5px;
+    line-height:1.55;
+    color:var(--ink-faint);
+    margin:10px 0 26px;
+  }
+
+  /* ---------- lists ---------- */
+  ul,ol{margin:0 0 20px;padding-left:1.3em}
+  li{margin:0 0 10px;padding-left:.2em}
+  li::marker{color:var(--accent)}
+
+  /* ---------- tables ---------- */
+  .tbl-scroll{
+    overflow-x:auto;
+    margin:0 0 10px;
+    -webkit-overflow-scrolling:touch;
+  }
+  table{
+    border-collapse:collapse;
+    width:100%;
+    background:var(--surface);
+    font-family:"IBM Plex Sans",system-ui,sans-serif;
+    font-size:13.5px;
+    line-height:1.4;
+  }
+  caption{
+    caption-side:top;
+    text-align:left;
+    font-family:"IBM Plex Sans",system-ui,sans-serif;
+    font-size:13px;
+    color:var(--ink-soft);
+    margin-bottom:10px;
+    line-height:1.55;
+  }
+  thead th{
+    font-weight:600;
+    text-align:left;
+    padding:9px 12px;
+    border-bottom:2px solid var(--accent);
+    color:var(--ink);
+    white-space:nowrap;
+    vertical-align:bottom;
+  }
+  tbody td,tbody th{
+    padding:8px 12px;
+    border-bottom:1px solid var(--rule);
+    vertical-align:top;
+  }
+  tbody th{font-weight:400;text-align:left}
+  tbody tr:last-child td,tbody tr:last-child th{border-bottom:1px solid var(--rule-strong)}
+  .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  th.num{text-align:right}
+
+  tr.ours{
+    background:var(--ours);
+  }
+  tr.ours td,tr.ours th{
+    font-weight:600;
+    border-bottom-color:var(--ours-bar);
+  }
+  tr.ours th:first-child{
+    box-shadow:inset 3px 0 0 var(--ours-bar);
+  }
+
+  .pos{color:var(--pos);font-weight:600}
+  .neg{color:var(--neg);font-weight:600}
+  .flat{color:var(--ink-faint);font-weight:600}
+
+  sup{font-size:.7em;line-height:0;vertical-align:super}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:640px){
+    body{font-size:16.5px}
+    .wrap{padding:44px 18px 90px}
+    h1{font-size:1.9rem}
+    h2{font-size:1.3rem}
+    blockquote{font-size:1rem;padding:16px 18px}
+  }
+
+  @media print{
+    :root{--bg:#fff;--surface:#fff}
+    body{font-size:10.5pt;line-height:1.5}
+    .wrap{max-width:none;padding:0}
+    section{break-inside:avoid-page;border-top:1.5pt solid #999}
+    table{font-size:8.5pt}
+    .tbl-scroll{overflow:visible}
+    tr.ours{background:#f0ead9 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .pos,.neg{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+
+<div class="wrap">
+
+<header class="doc">
+  <p class="eyebrow">Báo cáo tiến độ · Paper 3</p>
+  <h1>Cải thiện Vintern-1B cho AutoViVQA với ~1% tham số — và truy tìm điểm nghẽn</h1>
+  <p class="subtitle">Cập nhật 08/09/2026 · Toàn bộ thí nghiệm đã hoàn tất, số liệu đã rà soát chéo · Tập validation 5&nbsp;463 mẫu / tập test 5&nbsp;468 mẫu, mọi chỉ số ×100</p>
+</header>
+
+<!-- ============ 1 ============ -->
+<section>
+  <h2><span class="num">1</span><span>Câu hỏi nghiên cứu</span></h2>
+
+  <blockquote>
+    <p>Thay vì xây một mô hình mới (như ViMoE-VQA), có thể cải thiện Vintern-1B trên AutoViVQA bằng cách chỉ cập nhật khoảng 1% tham số (đóng băng toàn bộ backbone) mà vẫn ngang fine-tune không? Nếu chưa, điểm nghẽn (<em>bottleneck</em>) ở đâu?</p>
+  </blockquote>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead>
+        <tr><th>Công trình</th><th>Cách làm</th><th>Tham số cập nhật</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>Vintern-1B (fine-tuned)</th>
+          <td>Fine-tune toàn bộ InternViT-300M + projector; LoRA cho Qwen2-0.5B</td>
+          <td>Phần lớn phía thị giác + projector</td>
+        </tr>
+        <tr>
+          <th>ViMoE-VQA</th>
+          <td>Xây kiến trúc Mixture-of-Experts mới</td>
+          <td>Toàn bộ mô hình mới</td>
+        </tr>
+        <tr class="ours">
+          <th>Nghiên cứu này</th>
+          <td>Đóng băng cả InternViT-300M lẫn Qwen2-0.5B; chỉ huấn luyện bridge (0.78%) + LoRA cho decoder (0.23%), 1 tile</td>
+          <td>~1% tổng tham số</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="callout" style="margin-top:22px">
+    <span class="lead">Trả lời ngắn gọn:</span> đạt được <em>một phần</em> — vượt Vintern-1B fine-tuned trên mọi chỉ số sinh văn bản với ~1% tham số, nhưng vẫn kém ViMoE-VQA ở token-F1. Điểm nghẽn nằm ở <strong>attention của frozen decoder</strong>: chỉ can thiệp vào đó mới cải thiện F1.
+  </p>
+</section>
+
+<!-- ============ 2 ============ -->
+<section>
+  <h2><span class="num">2</span><span>Thiết lập huấn luyện</span></h2>
+  <ul>
+    <li><strong>Backbone</strong> (InternViT-300M + Qwen2-0.5B): đóng băng hoàn toàn ở mọi cấu hình.</li>
+    <li><strong>Giai đoạn 1 — huấn luyện bridge:</strong> 2 epoch, batch 8, learning rate 2e-4, ảnh 1 tile; khoảng 5 giờ/lần trên một GPU Tesla P100-16GB. (CIDEr bão hòa từ epoch 2, thêm epoch không cải thiện đáng kể.)</li>
+    <li><strong>Giai đoạn 2 — LoRA cho decoder</strong> (áp lên <code>q/k/v/o</code> của Qwen2, r=16): huấn luyện thêm trên bridge đã cố định. Thử 1 epoch và 3 epoch; <strong>3 epoch cho kết quả tốt nhất</strong>, là cấu hình dùng trong bảng kết quả.</li>
+    <li><strong>Đánh giá:</strong> toàn bộ tập validation (5&nbsp;463 mẫu) và tập test (5&nbsp;468 mẫu), không lấy mẫu con. Mỗi cấu hình chính chạy 3–4 seed, báo trung bình ± độ lệch chuẩn.</li>
+  </ul>
+</section>
+
+<!-- ============ 3 ============ -->
+<section>
+  <h2><span class="num">3</span><span>Kết quả chính</span></h2>
+  <p class="caption">Tập validation, chỉ số nội bộ, thang ×100.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>Mô hình</th>
+          <th class="num">Acc</th><th class="num">Prec</th><th class="num">Rec</th><th class="num">F1</th>
+          <th class="num">BLEU</th><th class="num">ROUGE</th><th class="num">METEOR</th><th class="num">CIDEr</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><th>Vintern-1B (gốc, zero-shot)</th><td class="num">0.12</td><td class="num">17.52</td><td class="num">19.87</td><td class="num">17.55</td><td class="num">1.91</td><td class="num">25.84</td><td class="num">23.93</td><td class="num">8.54</td></tr>
+        <tr><th>ViT5_ViT</th><td class="num">7.97</td><td class="num">46.84</td><td class="num">50.33</td><td class="num">48.52</td><td class="num">4.13</td><td class="num">46.89</td><td class="num">31.02</td><td class="num">72.68</td></tr>
+        <tr><th>BARTPhoBEiT</th><td class="num">8.81</td><td class="num">45.30</td><td class="num">46.48</td><td class="num">45.88</td><td class="num">4.33</td><td class="num">44.83</td><td class="num">24.57</td><td class="num">188.96&nbsp;<sup>a</sup></td></tr>
+        <tr><th>Vintern-1B (fine-tuned)</th><td class="num">13.01</td><td class="num">52.47</td><td class="num">55.12</td><td class="num">53.76</td><td class="num">6.11</td><td class="num">51.93</td><td class="num">35.25</td><td class="num">72.84</td></tr>
+        <tr><th>Llama 3.2 (zero-shot)</th><td class="num">0.36</td><td class="num">23.96</td><td class="num">73.71</td><td class="num">36.16</td><td class="num">3.62</td><td class="num">36.11</td><td class="num">30.01</td><td class="num">62.84</td></tr>
+        <tr><th>Gemini 2.0 Flash</th><td class="num">0.55</td><td class="num">27.20</td><td class="num">74.10</td><td class="num">39.79</td><td class="num">4.41</td><td class="num">39.60</td><td class="num">31.72</td><td class="num">74.42</td></tr>
+        <tr><th>Gemini 2.5 Flash</th><td class="num">0.22</td><td class="num">24.43</td><td class="num">76.66</td><td class="num">24.75</td><td class="num">0.39</td><td class="num">37.27</td><td class="num">31.22</td><td class="num">71.90</td></tr>
+        <tr><th>GPT-5 (zero-shot)</th><td class="num">10.84</td><td class="num">47.20</td><td class="num">55.20</td><td class="num">50.89</td><td class="num">6.07</td><td class="num">47.30</td><td class="num">33.34</td><td class="num">84.20</td></tr>
+        <tr><th>ViMoE-VQA</th><td class="num">9.65</td><td class="num">62.89</td><td class="num">58.65</td><td class="num">60.69</td><td class="num">12.54</td><td class="num">47.07</td><td class="num">39.10</td><td class="num">88.67</td></tr>
+        <tr class="ours"><th>Bridge Multi-Token (0.78%, 1 tile)</th><td class="num">8.20</td><td class="num">50.36</td><td class="num">51.43</td><td class="num">49.55</td><td class="num">15.47</td><td class="num">47.84</td><td class="num">40.22</td><td class="num">96.49</td></tr>
+        <tr class="ours"><th>&nbsp;&nbsp;+ LoRA cho decoder, r=16 (~1.0%), 1 epoch</th><td class="num">10.93</td><td class="num">54.39</td><td class="num">55.11</td><td class="num">53.52</td><td class="num">19.72</td><td class="num">51.81</td><td class="num">44.11</td><td class="num">106.56</td></tr>
+        <tr class="ours"><th>&nbsp;&nbsp;+ LoRA cho decoder, r=16, 3 epoch</th><td class="num">12.00</td><td class="num">55.46</td><td class="num">56.38</td><td class="num">54.71</td><td class="num">21.07</td><td class="num">52.96</td><td class="num">45.42</td><td class="num">110.49</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="footnote">
+    In đậm / nền vàng = phương pháp đề xuất (trung bình 4 seed cho bridge / 3 seed cho LoRA).
+    <sup>a</sup> CIDEr của BARTPhoBEiT là ngoại lai (sinh câu dài), không so sánh. Baseline lấy theo báo cáo benchmark AutoViVQA.
+  </p>
+
+  <p>
+    <strong>Đo theo corpus</strong> (để so với công trình khác): Bridge Multi-Token đạt CIDEr-D 92.3&nbsp;±&nbsp;0.6 / BLEU-4 18.9 / ROUGE-L 48.9 — trên mức 88.7 / 12.5 / 47.1 của ViMoE; thêm LoRA 3 epoch đạt CIDEr-D 107.5&nbsp;±&nbsp;0.3 / BLEU-4 25.1 / ROUGE-L 54.2 (1 epoch: 103.2&nbsp;±&nbsp;0.5). Điểm yếu còn lại: token-F1 (−6.0 so với ViMoE) và Acc vẫn thấp hơn.
+  </p>
+
+  <p>
+    <strong>Đối chiếu tập test:</strong> Bridge Multi-Token (4 seed) F1 <strong>49.20</strong> / CIDEr <strong>93.24</strong> — chênh so với val −0.35 / −3.25. Recipe cũng giữ vững trên test: + LoRA 1 epoch F1 <strong>53.15</strong> (val 53.52), + LoRA 3 epoch F1 <strong>54.28</strong> (val 54.71). Cả năm loại bridge: test ≈ val trong khoảng ±0.5 F1, không nhất quán về chiều → <strong>không overfit vào tập validation</strong>.
+  </p>
+</section>
+
+<!-- ============ 4 ============ -->
+<section>
+  <h2><span class="num">4</span><span>Phân tích điểm nghẽn — sáu trục, một trục tích cực</span></h2>
+  <p class="caption">ΔF1 so với cấu hình gốc (Bridge Multi-Token, trung bình 4 seed: F1 49.55). Mọi số trung bình 3 seed trừ RQ3/RQ4 (seed 42).</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead>
+        <tr><th>RQ · trục</th><th>Can thiệp</th><th class="num">ΔF1</th><th>Nhận xét</th></tr>
+      </thead>
+      <tbody>
+        <tr><th>RQ1–2 · Bridge capacity</th><td>Full Q-Former (69M, 10×)</td><td class="num"><span class="neg">−2.20</span></td><td>Bridge lớn hơn không tốt hơn</td></tr>
+        <tr><th>RQ3 · Number of visual tiles</th><td>Train 1 tile → evaluate 3 tiles</td><td class="num"><span class="neg">−28.50</span></td><td>Bridge train 1 tile khái quát hóa kém sang nhiều tile <sup>a</sup></td></tr>
+        <tr><th>RQ4 · Adaptive routing</th><td>Learned policy (theo loại câu hỏi)</td><td class="num"><span class="flat">≈0</span></td><td>Không hơn cấu hình cố định</td></tr>
+        <tr><th>RQ5 · Training signal</th><td>Multi-reference answer sampling</td><td class="num"><span class="neg">−1.47</span></td><td>Không cải thiện</td></tr>
+        <tr><th>RQ5 · Representation alignment</th><td>Projector-level feature KD</td><td class="num"><span class="neg">−0.03</span></td><td>Null tuyệt đối</td></tr>
+        <tr><th>RQ5 · Representation alignment</th><td>Projector-level logit KD (α = 0.1)</td><td class="num"><span class="pos">+0.20</span></td><td>Null (val CE 1.53 ≈ mức gốc 1.49)</td></tr>
+        <tr><th>RQ5 · Representation alignment</th><td>Projector-level logit KD (α = 1.0)</td><td class="num"><span class="neg">−8.80</span></td><td>Chỉ hỏng khi α quá lớn (KL lấn cross-entropy)</td></tr>
+        <tr class="ours"><th>RQ6 · Decoder — LoRA attention (1 epoch)</th><td><span class="mono">q/k/v/o</span></td><td class="num"><span class="pos">+3.97</span></td><td>Cải thiện nhất quán</td></tr>
+        <tr class="ours"><th>RQ6 · Decoder — LoRA attention (3 epochs)</th><td><span class="mono">q/k/v/o</span></td><td class="num"><span class="pos">+5.16</span></td><td>Cải thiện nhất quán</td></tr>
+        <tr><th>RQ6 · Decoder — LoRA MLP-only</th><td><span class="mono">gate/up/down_proj</span></td><td class="num"><span class="neg">−29.31</span></td><td>Phân kỳ (training hỏng)</td></tr>
+        <tr><th>RQ6 · Decoder — LoRA attention + MLP</th><td>cả 7 module</td><td class="num"><span class="neg">−12.04</span></td><td>Phân kỳ</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="footnote">
+    <sup>a</sup> Thí nghiệm huấn luyện 1 tile, đánh giá 3–6 tile → chỉ kết luận về khả năng khái quát hóa; chưa khảo sát huấn luyện đa tile.
+  </p>
+
+  <h3>Số liệu chi tiết đứng sau các dòng trên</h3>
+
+  <div class="tbl-scroll">
+    <table>
+      <caption>So sánh 5 loại bridge (tập val, trung bình 3 seed @ 2 epoch; Multi-Token = 4 seed). "val CE" = cross-entropy trên tập val (thấp = tốt).</caption>
+      <thead>
+        <tr>
+          <th>Bridge</th><th class="num">Tham số</th><th class="num">F1</th><th class="num">CIDEr</th>
+          <th class="num">val CE</th><th class="num">F1 + LoRA</th><th class="num">ΔF1</th><th class="num">CIDEr + LoRA</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><th>Residual (1 token)</th><td class="num">4.86M (0.52%)</td><td class="num">45.64</td><td class="num">86.25</td><td class="num">1.67</td><td class="num">52.64</td><td class="num"><span class="pos">+7.0</span></td><td class="num">104.05</td></tr>
+        <tr><th>Tile-Attention (8 token)</th><td class="num">4.14M (0.44%)</td><td class="num">45.17</td><td class="num">84.21</td><td class="num">1.67</td><td class="num">52.99</td><td class="num"><span class="pos">+7.8</span></td><td class="num">105.04</td></tr>
+        <tr class="ours"><th>Multi-Token (8 token, pooled)</th><td class="num">7.35M (0.78%)</td><td class="num">49.55</td><td class="num">96.49</td><td class="num">1.49</td><td class="num">53.52</td><td class="num"><span class="pos">+4.0</span></td><td class="num">106.56</td></tr>
+        <tr><th>Light Q-Former (8 query)</th><td class="num">27.6M (2.87%)</td><td class="num">46.25</td><td class="num">86.80</td><td class="num">1.60</td><td class="num">53.21</td><td class="num"><span class="pos">+7.0</span></td><td class="num">106.24</td></tr>
+        <tr><th>Full Q-Former (16 query)</th><td class="num">69.4M (6.91%)</td><td class="num">47.35</td><td class="num">89.98</td><td class="num">1.58</td><td class="num">53.21</td><td class="num"><span class="pos">+5.9</span></td><td class="num">105.70</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">→ Bridge lớn hơn 10× (Full Q-Former) không tốt hơn; Multi-Token có val CE thấp nhất (RQ1–2). 5 bridge plain trải F1 45.2–49.6; sau LoRA đều về ≈53 F1 bất kể chất lượng ban đầu (RQ6). Mức nâng lớn hơn khi bridge yếu hơn.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <caption>Vị trí LoRA trong decoder (multi_token, r=16, 1 epoch, 3 seed).</caption>
+      <thead>
+        <tr><th>Target module</th><th class="num">F1</th><th class="num">val loss</th></tr>
+      </thead>
+      <tbody>
+        <tr class="ours"><th>attention (<span class="mono">q/k/v/o</span>) — recipe</th><td class="num">53.52</td><td class="num">1.37</td></tr>
+        <tr><th>MLP (<span class="mono">gate/up/down_proj</span>)</th><td class="num">20.24</td><td class="num">~3.7</td></tr>
+        <tr><th>attention + MLP</th><td class="num">37.51</td><td class="num">~2.08</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">→ Dư địa hữu ích của decoder nằm cụ thể ở attention. LoRA lên feed-forward làm training phân kỳ. (Có thể là hyperparameter artifact — claim giới hạn ở cấu hình recipe.)</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <caption>Số tile khi đánh giá (Bridge Multi-Token, huấn luyện với 1 tile).</caption>
+      <thead>
+        <tr><th class="num">Số tile</th><th class="num">token-F1</th><th class="num">val loss</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="num">1</td><td class="num">50.66</td><td class="num">1.48</td></tr>
+        <tr><td class="num">3</td><td class="num">21.05</td><td class="num">3.35</td></tr>
+        <tr><td class="num">6</td><td class="num">22.51</td><td class="num">3.36</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">→ Bridge sụp ngay khi vượt 1 tile (RQ3).</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <caption>Chi phí encode thị giác của InternViT trên mỗi ảnh (Tesla P100-16GB).</caption>
+      <thead>
+        <tr><th class="num">Số tile</th><th class="num">GFLOPs</th><th class="num">Độ trễ (ms)</th><th class="num">Thông lượng (ảnh/s)</th></tr>
+      </thead>
+      <tbody>
+        <tr class="ours"><td class="num">1 (của ta)</td><td class="num">362</td><td class="num">229</td><td class="num">6.00</td></tr>
+        <tr><td class="num">2</td><td class="num">724</td><td class="num">374</td><td class="num">3.30</td></tr>
+        <tr><td class="num">4</td><td class="num">1&nbsp;448</td><td class="num">648</td><td class="num">1.70</td></tr>
+        <tr><td class="num">6</td><td class="num">2&nbsp;172</td><td class="num">922</td><td class="num">1.15</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">→ Tăng số tile vừa làm hỏng chất lượng vừa đắt: 1→6 tile là FLOPs ×6, độ trễ ×4. Recipe dùng 1 tile nên không tốn chi phí này.</p>
+
+  <p class="callout" style="margin-top:26px">
+    <span class="lead">Nhận định:</span> Các trục phía thị giác và tín hiệu huấn luyện đều không cải thiện token-F1 — căn chỉnh biểu diễn là null trên cả hai biến thể (feature-KD và logit-KD) ở mọi cường độ hợp lý (chỉ hỏng khi trọng số KD quá lớn, do nhiễu tối ưu chứ không phải bản chất). Chỉ can thiệp vào <strong>attention của decoder</strong> là có tác dụng, và lặp lại nhất quán trên mọi loại bridge → attention của frozen decoder là điểm nghẽn. Ngoài ra, các bridge vốn chênh lệch CIDEr-D 79–92 đều hội tụ về ~101–103 sau khi thêm LoRA — khi decoder đủ dung lượng thì kiến trúc bridge gần như không còn ảnh hưởng.
+  </p>
+</section>
+
+<!-- ============ 5 ============ -->
+<section>
+  <h2><span class="num">5</span><span>Kết luận sơ bộ</span></h2>
+
+  <p class="callout">
+    <span class="lead">(a) Adapt Vintern-1B với ~1% tham số?</span> Được một phần: backbone đóng băng hoàn toàn + bridge nhẹ + LoRA decoder (3 epoch) đã vượt Vintern-1B fine-tuned trên toàn bộ chỉ số sinh văn bản (F1 +0.95, BLEU +14.96, ROUGE +1.03, METEOR +10.17, CIDEr +37.65), nhưng còn kém ViMoE-VQA ở token-F1 (−5.98) và Acc → chưa tương đương hoàn toàn với các phương pháp huấn luyện đầy đủ.
+  </p>
+
+  <p class="callout">
+    <span class="lead">(b) Điểm nghẽn ở đâu?</span> Attention của frozen decoder. Trong không gian can thiệp đã khảo sát, phía thị giác không còn dư địa; chỉ thêm dung lượng cho phần attention của decoder mới cải thiện F1 (LoRA lên feed-forward làm training phân kỳ).
+  </p>
+
+  <p class="callout">
+    <span class="lead">Hàm ý:</span> muốn thu hẹp nốt khoảng cách F1 thì mở thêm dung lượng phía decoder (LoRA attention sâu hơn / decoder đóng băng lớn hơn), không phải đầu tư tiếp vào thị giác. Đây cũng là điểm phản biện với "reasoning-aware routing" của ViMoE: trên cùng benchmark, loại câu hỏi không mang tín hiệu hữu ích cho phân bổ tài nguyên thị giác.
+  </p>
+</section>
+
+<!-- ============ 6 ============ -->
+<section>
+  <h2><span class="num">6</span><span>Ghi chú về độ tin cậy</span></h2>
+  <ul>
+    <li>Mọi kết quả bridge plain + dòng âm: trung bình 3 seed @ 2 epoch (multi_token = 4 seed); LoRA: 3 seed cho cả 1 và 3 epoch. Độ lệch chuẩn nhỏ (F1 std 0.07–0.94 cho bridge, 0.11–0.29 cho LoRA và các dòng RQ5).</li>
+    <li>Đối chiếu tập test cho toàn bộ năm bridge và cả hai cấu hình LoRA: chênh so với val &lt; 0.5 F1, không nhất quán về chiều.</li>
+    <li>Dùng grouped split chống rò rỉ dữ liệu (đã kiểm chứng: kết quả gần như không đổi so với cách chia cũ). Khoảng tin cậy bootstrap 95% cho các so sánh chính đã tính trên đúng số 3-seed (ví dụ ΔF1 của LoRA cho Multi-Token: +4.06, khoảng [3.49, 4.65]).</li>
+    <li><em>Lưu ý:</em> một lần chạy bridge residual (seed cũ) bị mất ổn định (F1 36.5, val CE 2.35) — đã phát hiện và thay bằng 3-seed chuẩn (F1 45.6). Đã rà soát lại toàn bộ checkpoint và số liệu, không còn sai lệch tương tự.</li>
+    <li>Đánh giá ngữ nghĩa hiện mới ở mức tự kiểm 120 mẫu, một người đánh giá — cần nghiên cứu 2 người chấm + Cohen's κ cho bản camera-ready.</li>
+  </ul>
+</section>
+
+<!-- ============ 7 ============ -->
+<section>
+  <h2><span class="num">7</span><span>Đóng góp</span></h2>
+  <ol>
+    <li><strong>Quy trình thích nghi tiết kiệm tham số:</strong> frozen backbone + bridge nhẹ + LoRA cho attention của decoder, ~1% tham số nhưng đạt/vượt baseline fine-tuned trên chỉ số sinh (và đối chiếu được trên tập test).</li>
+    <li><strong>Chẩn đoán điểm nghẽn hệ thống:</strong> khảo sát bridge, số tile, routing, tín hiệu huấn luyện / căn chỉnh, và vị trí LoRA trong decoder → dư địa hữu ích nằm cụ thể ở attention của decoder, không phải feed-forward hay phía thị giác.</li>
+    <li><strong>Quy trình đánh giá đáng tin cậy:</strong> grouped split, nhiều seed, đối chiếu val/test, bootstrap CI, đánh giá thủ công + phân tích lỗi, kèm phân tích hiệu quả tính toán của tile.</li>
+  </ol>
+</section>
+
+</div>

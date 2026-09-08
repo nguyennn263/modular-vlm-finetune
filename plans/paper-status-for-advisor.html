@@ -332,8 +332,9 @@
   <h2><span class="num">2</span><span>Thiết lập huấn luyện</span></h2>
   <ul>
     <li><strong>Backbone</strong> (InternViT-300M + Qwen2-0.5B): đóng băng hoàn toàn ở mọi cấu hình.</li>
-    <li><strong>Giai đoạn 1 — huấn luyện bridge:</strong> 2 epoch, batch 8, learning rate 2e-4, ảnh 1 tile; khoảng 5 giờ/lần trên một GPU Tesla P100-16GB. (CIDEr bão hòa từ epoch 2, thêm epoch không cải thiện đáng kể.)</li>
-    <li><strong>Giai đoạn 2 — LoRA cho decoder</strong> (áp lên <code>q/k/v/o</code> của Qwen2, r=16): huấn luyện thêm trên bridge đã cố định. Thử 1 epoch và 3 epoch; <strong>3 epoch cho kết quả tốt nhất</strong>, là cấu hình dùng trong bảng kết quả.</li>
+    <li><strong>Giai đoạn 1 — huấn luyện bridge:</strong> <strong>2 epoch</strong> (đồng đều cho cả 5 loại bridge, mọi seed, mọi dòng ablation), batch 8, learning rate 2e-4, ảnh 1 tile; khoảng 5 giờ/lần trên một GPU Tesla P100-16GB. Chọn 2 epoch vì <strong>CIDEr và F1 bão hòa từ epoch 2</strong> — bridge chỉ học một ánh xạ hẹp (đặc trưng thị giác → không gian embedding của Qwen2), hội tụ nhanh; thêm epoch không cải thiện.</li>
+    <li><strong>Giai đoạn 2 — LoRA cho decoder</strong> (áp lên <code>q/k/v/o</code> của Qwen2, r=16): huấn luyện thêm trên bridge đã cố định. LoRA là adapter nhỏ vào attention của decoder đóng băng, <strong>học chậm và dần</strong> — chưa bão hòa ở epoch 1, nên báo cáo cả <strong>1 và 3 epoch</strong> như một đường cong: 1 epoch đã đạt ΔF1 +3.97 (~80% lợi ích), <strong>3 epoch là điểm tốt nhất (ΔF1 +5.16)</strong> và là cấu hình recipe. (Có thử 5 epoch nhưng job bị cắt ở giới hạn quota Kaggle → không dùng.)</li>
+    <li><strong>Số epoch có đồng đều không?</strong> Bridge: <strong>có</strong> — cố định 2 epoch khắp nơi. (Trong quá trình làm từng có một số job seed-42 vô tình chạy 4 epoch; đã phát hiện, re-run về 2, và rà soát lại toàn bộ.) LoRA: 1 và 3 là hai mức <em>có chủ đích</em> để vẽ đường cong, không phải chạy lệch.</li>
     <li><strong>Đánh giá:</strong> toàn bộ tập validation (5&nbsp;463 mẫu) và tập test (5&nbsp;468 mẫu), không lấy mẫu con. Mỗi cấu hình chính chạy 3–4 seed, báo trung bình ± độ lệch chuẩn.</li>
   </ul>
 </section>

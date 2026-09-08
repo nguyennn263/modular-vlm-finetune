@@ -25,12 +25,21 @@ nghẽn nằm ở **attention của frozen decoder**: chỉ can thiệp vào đ�
 ## 2. Thiết lập huấn luyện
 
 - **Backbone** (InternViT-300M + Qwen2-0.5B): đóng băng hoàn toàn ở mọi cấu hình.
-- **Giai đoạn 1 — huấn luyện bridge:** 2 epoch, batch 8, learning rate 2e-4, ảnh
-  1 tile; khoảng 5 giờ/lần trên một GPU Tesla P100-16GB. (CIDEr bão hòa từ epoch
-  2, thêm epoch không cải thiện đáng kể.)
+- **Giai đoạn 1 — huấn luyện bridge:** **2 epoch** (đồng đều cho cả 5 loại bridge,
+  mọi seed, mọi dòng ablation), batch 8, learning rate 2e-4, ảnh 1 tile; khoảng
+  5 giờ/lần trên một GPU Tesla P100-16GB. Chọn 2 epoch vì **CIDEr và F1 bão hòa
+  từ epoch 2** — bridge chỉ học một ánh xạ hẹp (đặc trưng thị giác → không gian
+  embedding của Qwen2), hội tụ nhanh; thêm epoch không cải thiện.
 - **Giai đoạn 2 — LoRA cho decoder** (áp lên `q/k/v/o` của Qwen2, r=16): huấn
-  luyện thêm trên bridge đã cố định. Thử 1 epoch và 3 epoch; **3 epoch cho kết
-  quả tốt nhất**, là cấu hình dùng trong bảng kết quả.
+  luyện thêm trên bridge đã cố định. LoRA là adapter nhỏ vào attention của decoder
+  đóng băng, **học chậm và dần** — chưa bão hòa ở epoch 1, nên báo cáo cả **1 và
+  3 epoch** như một đường cong: 1 epoch đã đạt ΔF1 +3.97 (~80% lợi ích), **3
+  epoch là điểm tốt nhất (ΔF1 +5.16)** và là cấu hình recipe. (Có thử 5 epoch
+  nhưng job bị cắt ở giới hạn quota Kaggle → không dùng.)
+- **Số epoch có đồng đều không?** Bridge: **có** — cố định 2 epoch khắp nơi.
+  (Trong quá trình làm từng có một số job seed-42 vô tình chạy 4 epoch; đã phát
+  hiện, re-run về 2, và rà soát lại toàn bộ.) LoRA: 1 và 3 là hai mức *có chủ
+  đích* để vẽ đường cong, không phải chạy lệch.
 - **Đánh giá:** toàn bộ tập validation (5 463 mẫu) và tập test (5 468 mẫu), không
   lấy mẫu con. Mỗi cấu hình chính chạy 3–4 seed, báo trung bình ± độ lệch chuẩn.
 

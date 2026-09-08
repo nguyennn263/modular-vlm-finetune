@@ -76,7 +76,7 @@ LoRA = 3 seed (42/123/3407). "val CE" = cross-entropy (không nhân 100).*
 | Cấu hình | Split | Acc | Prec | Rec | F1 | BLEU | ROUGE | METEOR | CIDEr | CE |
 |---|---|--:|--:|--:|--:|--:|--:|--:|--:|--:|
 | Bridge Multi-Token | val | 8.17 ± 0.10 | 50.21 ± 0.09 | 51.50 ± 0.12 | 49.55 ± 0.07 | 15.72 ± 0.30 | 47.84 ± 0.06 | 40.22 ± 0.18 | 96.49 ± 0.59 | 1.49 |
-| Bridge Multi-Token | test | — | — | — | 49.20 ± 0.10 | — | — | — | 93.24 | — |
+| Bridge Multi-Token | test | 7.98 ± 0.24 | 49.83 ± 0.17 | 51.21 ± 0.18 | 49.20 ± 0.18 | 15.36 ± 0.33 | 47.37 ± 0.13 | 39.74 ± 0.18 | 93.24 ± 0.71 | 1.500 ± 0.002 |
 | + LoRA r=16, 1 epoch | val | 10.93 ± 0.13 | 54.39 ± 0.08 | 55.11 ± 0.16 | 53.52 ± 0.11 | 19.72 ± 0.09 | 51.81 ± 0.12 | 44.11 ± 0.20 | 106.56 ± 0.53 | 1.374 ± 0.005 |
 | + LoRA r=16, 1 epoch | test | 10.49 ± 0.22 | 53.99 ± 0.11 | 54.77 ± 0.07 | 53.15 ± 0.07 | 18.98 ± 0.24 | 51.34 ± 0.09 | 43.73 ± 0.18 | 104.65 ± 0.44 | 1.382 ± 0.007 |
 | + LoRA r=16, 3 epoch | val | 12.00 ± 0.17 | 55.46 ± 0.11 | 56.38 ± 0.23 | 54.71 ± 0.14 | 21.07 ± 0.23 | 52.96 ± 0.06 | 45.42 ± 0.14 | 110.49 ± 0.27 | 1.327 ± 0.004 |
@@ -127,11 +127,14 @@ token-F1 60.69. Recipe (3 epoch) vượt trên mọi chỉ số corpus, vẫn k�
 
 **Val cao hơn test một chút, và đều đặn — nhưng chênh rất nhỏ:**
 
-| Cấu hình | val F1 | test F1 | Δ | val CIDEr-D | test CIDEr-D | Δ |
+| Cấu hình | val F1 | test F1 | Δ F1 | val CIDEr(ih) | test CIDEr(ih) | Δ CIDEr |
 |---|--:|--:|--:|--:|--:|--:|
-| Bridge Multi-Token | 49.55 | 49.20 | −0.35 | 92.3 | ~89.9 | −2.4 |
-| + LoRA 1 epoch | 53.52 | 53.15 | −0.37 | 103.2 | 101.3 | −1.9 |
-| + LoRA 3 epoch | 54.71 | 54.28 | −0.43 | 107.5 | 104.8 | −2.7 |
+| Bridge Multi-Token | 49.55 | 49.20 | −0.35 | 96.49 | 93.24 | −3.25 |
+| + LoRA 1 epoch | 53.52 | 53.15 | −0.37 | 106.56 | 104.65 | −1.91 |
+| + LoRA 3 epoch | 54.71 | 54.28 | −0.43 | 110.49 | 107.60 | −2.89 |
+
+Đo theo corpus CIDEr-D thì recipe cũng giữ vững: LoRA 1 epoch 103.2 (val) →
+101.3 (test), LoRA 3 epoch 107.5 → 104.8.
 
 Gap F1 < 0.5 ở mọi cấu hình; CIDEr chênh 2–3 điểm. Trên 5 loại bridge thì chiều
 lệch **không nhất quán** (mini_qformer test còn cao hơn val +0.20) → không phải

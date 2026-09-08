@@ -289,7 +289,7 @@
       </thead>
       <tbody>
         <tr class="ours"><th>Bridge Multi-Token</th><td>val</td><td class="num">8.17 ± 0.10</td><td class="num">50.21 ± 0.09</td><td class="num">51.50 ± 0.12</td><td class="num">49.55 ± 0.07</td><td class="num">15.72 ± 0.30</td><td class="num">47.84 ± 0.06</td><td class="num">40.22 ± 0.18</td><td class="num">96.49 ± 0.59</td><td class="num">1.49</td></tr>
-        <tr class="ours"><th>Bridge Multi-Token</th><td>test</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">49.20 ± 0.10</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">93.24</td><td class="num">—</td></tr>
+        <tr class="ours"><th>Bridge Multi-Token</th><td>test</td><td class="num">7.98 ± 0.24</td><td class="num">49.83 ± 0.17</td><td class="num">51.21 ± 0.18</td><td class="num">49.20 ± 0.18</td><td class="num">15.36 ± 0.33</td><td class="num">47.37 ± 0.13</td><td class="num">39.74 ± 0.18</td><td class="num">93.24 ± 0.71</td><td class="num">1.500 ± 0.002</td></tr>
         <tr class="ours"><th>+ LoRA r=16, 1 epoch</th><td>val</td><td class="num">10.93 ± 0.13</td><td class="num">54.39 ± 0.08</td><td class="num">55.11 ± 0.16</td><td class="num">53.52 ± 0.11</td><td class="num">19.72 ± 0.09</td><td class="num">51.81 ± 0.12</td><td class="num">44.11 ± 0.20</td><td class="num">106.56 ± 0.53</td><td class="num">1.374 ± 0.005</td></tr>
         <tr class="ours"><th>+ LoRA r=16, 1 epoch</th><td>test</td><td class="num">10.49 ± 0.22</td><td class="num">53.99 ± 0.11</td><td class="num">54.77 ± 0.07</td><td class="num">53.15 ± 0.07</td><td class="num">18.98 ± 0.24</td><td class="num">51.34 ± 0.09</td><td class="num">43.73 ± 0.18</td><td class="num">104.65 ± 0.44</td><td class="num">1.382 ± 0.007</td></tr>
         <tr class="ours"><th>+ LoRA r=16, 3 epoch</th><td>val</td><td class="num">12.00 ± 0.17</td><td class="num">55.46 ± 0.11</td><td class="num">56.38 ± 0.23</td><td class="num">54.71 ± 0.14</td><td class="num">21.07 ± 0.23</td><td class="num">52.96 ± 0.06</td><td class="num">45.42 ± 0.14</td><td class="num">110.49 ± 0.27</td><td class="num">1.327 ± 0.004</td></tr>
@@ -358,14 +358,15 @@
   <p class="callout"><strong>Val cao hơn test một chút, và đều đặn — nhưng chênh rất nhỏ:</strong></p>
   <div class="tbl-scroll">
     <table>
-      <thead><tr><th>Cấu hình</th><th class="num">val F1</th><th class="num">test F1</th><th class="num">Δ</th><th class="num">val CIDEr-D</th><th class="num">test CIDEr-D</th><th class="num">Δ</th></tr></thead>
+      <thead><tr><th>Cấu hình</th><th class="num">val F1</th><th class="num">test F1</th><th class="num">Δ F1</th><th class="num">val CIDEr(ih)</th><th class="num">test CIDEr(ih)</th><th class="num">Δ CIDEr</th></tr></thead>
       <tbody>
-        <tr class="ours"><th>Bridge Multi-Token</th><td class="num">49.55</td><td class="num">49.20</td><td class="num"><span class="neg">−0.35</span></td><td class="num">92.3</td><td class="num">~89.9</td><td class="num"><span class="neg">−2.4</span></td></tr>
-        <tr class="ours"><th>+ LoRA 1 epoch</th><td class="num">53.52</td><td class="num">53.15</td><td class="num"><span class="neg">−0.37</span></td><td class="num">103.2</td><td class="num">101.3</td><td class="num"><span class="neg">−1.9</span></td></tr>
-        <tr class="ours"><th>+ LoRA 3 epoch</th><td class="num">54.71</td><td class="num">54.28</td><td class="num"><span class="neg">−0.43</span></td><td class="num">107.5</td><td class="num">104.8</td><td class="num"><span class="neg">−2.7</span></td></tr>
+        <tr class="ours"><th>Bridge Multi-Token</th><td class="num">49.55</td><td class="num">49.20</td><td class="num"><span class="neg">−0.35</span></td><td class="num">96.49</td><td class="num">93.24</td><td class="num"><span class="neg">−3.25</span></td></tr>
+        <tr class="ours"><th>+ LoRA 1 epoch</th><td class="num">53.52</td><td class="num">53.15</td><td class="num"><span class="neg">−0.37</span></td><td class="num">106.56</td><td class="num">104.65</td><td class="num"><span class="neg">−1.91</span></td></tr>
+        <tr class="ours"><th>+ LoRA 3 epoch</th><td class="num">54.71</td><td class="num">54.28</td><td class="num"><span class="neg">−0.43</span></td><td class="num">110.49</td><td class="num">107.60</td><td class="num"><span class="neg">−2.89</span></td></tr>
       </tbody>
     </table>
   </div>
+  <p>Đo theo corpus CIDEr-D thì recipe cũng giữ vững: LoRA 1 epoch 103.2 (val) → 101.3 (test), LoRA 3 epoch 107.5 → 104.8.</p>
   <p>Gap F1 &lt; 0.5 ở mọi cấu hình; CIDEr chênh 2–3 điểm. Trên 5 loại bridge thì chiều lệch <strong>không nhất quán</strong> (mini_qformer test còn cao hơn val +0.20) → không phải overfit, chỉ là phân phối test hơi khó hơn. <strong>Kết luận: không overfit vào tập validation.</strong></p>
 </section>
 

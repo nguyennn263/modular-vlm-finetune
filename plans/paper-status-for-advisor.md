@@ -58,31 +58,93 @@ nghẽn nằm ở **attention của frozen decoder**: chỉ can thiệp vào đ�
 | Gemini 2.5 Flash | 0.22 | 24.43 | 76.66 | 24.75 | 0.39 | 37.27 | 31.22 | 71.90 |
 | GPT-5 (zero-shot) | 10.84 | 47.20 | 55.20 | 50.89 | 6.07 | 47.30 | 33.34 | 84.20 |
 | ViMoE-VQA | 9.65 | 62.89 | 58.65 | 60.69 | 12.54 | 47.07 | 39.10 | 88.67 |
-| **Bridge Multi-Token (0.78%, 1 tile)** | **8.20** | **50.36** | **51.43** | **49.55** | **15.47** | **47.84** | **40.22** | **96.49** |
+| **Bridge Multi-Token (0.78%, 1 tile)** | **8.17** | **50.21** | **51.50** | **49.55** | **15.72** | **47.84** | **40.22** | **96.49** |
 | **  + LoRA cho decoder, r=16 (~1.0%), 1 epoch** | **10.93** | **54.39** | **55.11** | **53.52** | **19.72** | **51.81** | **44.11** | **106.56** |
 | **  + LoRA cho decoder, r=16, 3 epoch** | **12.00** | **55.46** | **56.38** | **54.71** | **21.07** | **52.96** | **45.42** | **110.49** |
 
 *In đậm = phương pháp đề xuất (trung bình 4 seed cho bridge / 3 seed cho LoRA).
 ᵃ CIDEr của BARTPhoBEiT là ngoại lai (sinh câu dài), không so sánh. Baseline lấy
-theo báo cáo benchmark AutoViVQA.*
+theo báo cáo benchmark AutoViVQA — các dòng baseline chỉ có 1 số, không có
+per-seed nên không kèm ± ở bảng trên; phần ± đầy đủ cho phương pháp đề xuất ở
+ngay dưới.*
 
-Đo theo corpus (để so với công trình khác): Bridge Multi-Token đạt CIDEr-D
-92.3 ± 0.6 / BLEU-4 18.9 / ROUGE-L 48.9 — trên mức 88.7 / 12.5 / 47.1 của ViMoE;
-thêm LoRA 3 epoch đạt CIDEr-D 107.5 ± 0.3 / BLEU-4 25.1 / ROUGE-L 54.2 (1 epoch:
-103.2 ± 0.5). Điểm yếu còn lại: token-F1 (−6.0 so với ViMoE) và Acc vẫn thấp hơn.
+### 3.1. Phương pháp đề xuất — mean ± std đầy đủ (mọi chỉ số, cả val và test)
 
-**Đối chiếu tập test:** Bridge Multi-Token (4 seed) F1 **49.20** / CIDEr **93.24**
-— chênh so với val −0.35 / −3.25. Recipe cũng giữ vững trên test: + LoRA 1 epoch
-F1 **53.15** (val 53.52), + LoRA 3 epoch F1 **54.28** (val 54.71). Cả năm loại
-bridge: test ≈ val trong khoảng ±0.5 F1, không nhất quán về chiều → **không
-overfit vào tập validation**.
+*Chỉ số nội bộ (in-house), thang ×100. Bridge = 4 seed (42/123/2026/3407);
+LoRA = 3 seed (42/123/3407). "val CE" = cross-entropy (không nhân 100).*
+
+| Cấu hình | Split | Acc | Prec | Rec | F1 | BLEU | ROUGE | METEOR | CIDEr | CE |
+|---|---|--:|--:|--:|--:|--:|--:|--:|--:|--:|
+| Bridge Multi-Token | val | 8.17 ± 0.10 | 50.21 ± 0.09 | 51.50 ± 0.12 | 49.55 ± 0.07 | 15.72 ± 0.30 | 47.84 ± 0.06 | 40.22 ± 0.18 | 96.49 ± 0.59 | 1.49 |
+| Bridge Multi-Token | test | — | — | — | 49.20 ± 0.10 | — | — | — | 93.24 | — |
+| + LoRA r=16, 1 epoch | val | 10.93 ± 0.13 | 54.39 ± 0.08 | 55.11 ± 0.16 | 53.52 ± 0.11 | 19.72 ± 0.09 | 51.81 ± 0.12 | 44.11 ± 0.20 | 106.56 ± 0.53 | 1.374 ± 0.005 |
+| + LoRA r=16, 1 epoch | test | 10.49 ± 0.22 | 53.99 ± 0.11 | 54.77 ± 0.07 | 53.15 ± 0.07 | 18.98 ± 0.24 | 51.34 ± 0.09 | 43.73 ± 0.18 | 104.65 ± 0.44 | 1.382 ± 0.007 |
+| + LoRA r=16, 3 epoch | val | 12.00 ± 0.17 | 55.46 ± 0.11 | 56.38 ± 0.23 | 54.71 ± 0.14 | 21.07 ± 0.23 | 52.96 ± 0.06 | 45.42 ± 0.14 | 110.49 ± 0.27 | 1.327 ± 0.004 |
+| + LoRA r=16, 3 epoch | test | 11.21 ± 0.20 | 55.06 ± 0.14 | 55.95 ± 0.08 | 54.28 ± 0.13 | 20.72 ± 0.25 | 52.44 ± 0.18 | 44.82 ± 0.17 | 107.60 ± 0.65 | 1.329 ± 0.007 |
+
+*Chỉ số corpus (pycocoevalcap, để so cross-paper), thang ×100:*
+
+| Cấu hình | Split | CIDEr-D | BLEU-4 | ROUGE-L |
+|---|---|--:|--:|--:|
+| Bridge Multi-Token | val | 92.28 ± 0.57 | 18.90 ± 0.27 | 48.90 ± 0.07 |
+| + LoRA r=16, 1 epoch | val | 103.20 ± 0.45 | 23.60 ± 0.08 | 53.00 ± 0.14 |
+| + LoRA r=16, 1 epoch | test | 101.30 ± 0.43 | 22.93 ± 0.33 | 52.60 ± 0.08 |
+| + LoRA r=16, 3 epoch | val | 107.50 ± 0.29 | 25.10 ± 0.22 | 54.17 ± 0.09 |
+| + LoRA r=16, 3 epoch | test | 104.80 ± 0.65 | 24.87 ± 0.26 | 53.80 ± 0.16 |
+
+*ViMoE-VQA (5 seed) để đối chiếu: CIDEr-D 88.67 / BLEU-4 12.54 / ROUGE-L 47.07 /
+token-F1 60.69. Recipe (3 epoch) vượt trên mọi chỉ số corpus, vẫn kém token-F1
+(−5.98) và Acc.*
+
+### 3.2. Số per-seed (thô, không lấy trung bình)
+
+*Bridge Multi-Token plain — in-house val:*
+
+| seed | Acc | Prec | Rec | F1 | BLEU | ROUGE | METEOR | CIDEr |
+|---|--:|--:|--:|--:|--:|--:|--:|--:|
+| 42 | 8.20 | 50.36 | 51.43 | 49.61 | 15.28 | 47.86 | 40.05 | 96.72 |
+| 123 | 8.00 | 50.10 | 51.40 | 49.46 | 16.05 | 47.76 | 40.16 | 95.84 |
+| 2026 | 8.24 | 50.20 | 51.70 | 49.64 | 15.91 | 47.93 | 40.53 | 97.35 |
+| 3407 | 8.24 | 50.20 | 51.47 | 49.51 | 15.64 | 47.80 | 40.13 | 96.05 |
+
+*+ LoRA 1 epoch — in-house val:*
+
+| seed | Acc | Prec | Rec | F1 | BLEU | ROUGE | METEOR | CIDEr | CE |
+|---|--:|--:|--:|--:|--:|--:|--:|--:|--:|
+| 42 | 10.84 | 54.48 | 55.33 | 53.67 | 19.84 | 51.97 | 44.38 | 106.83 | 1.370 |
+| 123 | 10.85 | 54.40 | 54.95 | 53.42 | 19.64 | 51.72 | 43.90 | 105.82 | 1.381 |
+| 3407 | 11.11 | 54.29 | 55.03 | 53.46 | 19.69 | 51.72 | 44.07 | 107.03 | 1.371 |
+
+*+ LoRA 3 epoch — in-house val:*
+
+| seed | Acc | Prec | Rec | F1 | BLEU | ROUGE | METEOR | CIDEr | CE |
+|---|--:|--:|--:|--:|--:|--:|--:|--:|--:|
+| 42 | 11.90 | 55.61 | 56.69 | 54.91 | 20.77 | 53.03 | 45.53 | 110.56 | 1.326 |
+| 123 | 12.25 | 55.41 | 56.16 | 54.59 | 21.33 | 52.98 | 45.22 | 110.13 | 1.332 |
+| 3407 | 11.86 | 55.37 | 56.29 | 54.63 | 21.12 | 52.89 | 45.50 | 110.79 | 1.322 |
+
+### 3.3. Val hay test cao hơn?
+
+**Val cao hơn test một chút, và đều đặn — nhưng chênh rất nhỏ:**
+
+| Cấu hình | val F1 | test F1 | Δ | val CIDEr-D | test CIDEr-D | Δ |
+|---|--:|--:|--:|--:|--:|--:|
+| Bridge Multi-Token | 49.55 | 49.20 | −0.35 | 92.3 | ~89.9 | −2.4 |
+| + LoRA 1 epoch | 53.52 | 53.15 | −0.37 | 103.2 | 101.3 | −1.9 |
+| + LoRA 3 epoch | 54.71 | 54.28 | −0.43 | 107.5 | 104.8 | −2.7 |
+
+Gap F1 < 0.5 ở mọi cấu hình; CIDEr chênh 2–3 điểm. Trên 5 loại bridge thì chiều
+lệch **không nhất quán** (mini_qformer test còn cao hơn val +0.20) → không phải
+overfit, chỉ là phân phối test hơi khó hơn. **Kết luận: không overfit vào tập
+validation.**
 
 ---
 
 ## 4. Phân tích điểm nghẽn — sáu trục, một trục tích cực
 
 ΔF1 so với cấu hình gốc (Bridge Multi-Token, trung bình 4 seed: F1 49.55).
-Mọi số trung bình 3 seed trừ RQ3/RQ4 (seed 42).
+Mọi số trung bình 3 seed trừ RQ3/RQ4 (seed 42). ΔF1 là hiệu trung bình; riêng
+dòng RQ6 LoRA (1 epoch) có bootstrap 95% CI +4.06 [3.49, 4.65] (xem §6).
 
 | RQ · axis | Intervention | ΔF1 | Nhận xét |
 |---|---|--:|---|
@@ -91,7 +153,7 @@ Mọi số trung bình 3 seed trừ RQ3/RQ4 (seed 42).
 | RQ4 · Adaptive routing | Learned policy (theo loại câu hỏi) | ≈0 | Không hơn cấu hình cố định |
 | RQ5 · Training signal | Multi-reference answer sampling | −1.47 | Không cải thiện |
 | RQ5 · Representation alignment | Projector-level feature KD | **−0.03** | Null tuyệt đối |
-| RQ5 · Representation alignment | Projector-level logit KD (α = 0.1) | **+0.20** | Null (val CE 1.53 ≈ mức gốc 1.49) |
+| RQ5 · Representation alignment | Projector-level logit KD (α = 0.1) | **+0.20** | Null — F1 49.75 ± 0.29, val CE 1.53 ≈ mức gốc 1.49 |
 | RQ5 · Representation alignment | Projector-level logit KD (α = 1.0) | **−8.80** | Chỉ hỏng khi α quá lớn (KL lấn cross-entropy) |
 | **RQ6 · Decoder — LoRA attention (1 epoch)** | q/k/v/o | **+3.97** | **Cải thiện nhất quán** |
 | **RQ6 · Decoder — LoRA attention (3 epochs)** | q/k/v/o | **+5.16** | **Cải thiện nhất quán** |
@@ -106,25 +168,29 @@ khái quát hóa; chưa khảo sát huấn luyện đa tile.
 *So sánh 5 loại bridge (tập val, trung bình 3 seed @ 2 epoch; Multi-Token = 4
 seed). "val CE" = cross-entropy trên tập val (thấp = tốt).*
 
-| Bridge | Tham số | F1 | CIDEr | val CE | F1 + LoRA | ΔF1 | CIDEr + LoRA |
+*F1 / CIDEr = in-house; ± = độ lệch chuẩn qua seed.*
+
+| Bridge | Tham số | F1 | CIDEr | val CE | F1 + LoRA (1ep) | ΔF1 | CIDEr + LoRA |
 |---|--:|--:|--:|--:|--:|--:|--:|
-| Residual (1 token) | 4.86M (0.52%) | 45.64 | 86.25 | 1.67 | 52.64 | +7.0 | 104.05 |
-| Tile-Attention (8 token) | 4.14M (0.44%) | 45.17 | 84.21 | 1.67 | 52.99 | +7.8 | 105.04 |
-| **Multi-Token (8 token, pooled)** | **7.35M (0.78%)** | **49.55** | **96.49** | **1.49** | **53.52** | **+4.0** | **106.56** |
-| Light Q-Former (8 query) | 27.6M (2.87%) | 46.25 | 86.80 | 1.60 | 53.21 | +7.0 | 106.24 |
-| Full Q-Former (16 query) | 69.4M (6.91%) | 47.35 | 89.98 | 1.58 | 53.21 | +5.9 | 105.70 |
+| Residual (1 token) | 4.86M (0.52%) | 45.64 ± 0.36 | 86.25 ± 0.61 | 1.67 | 52.64 ± 0.03 | +7.0 | 104.05 |
+| Tile-Attention (8 token) | 4.14M (0.44%) | 45.17 ± 0.94 | 84.21 ± 1.71 | 1.67 | 52.99 ᵇ | +7.8 | 105.04 |
+| **Multi-Token (8 token, pooled)** | **7.35M (0.78%)** | **49.55 ± 0.07** | **96.49 ± 0.59** | **1.49** | **53.52 ± 0.11** | **+4.0** | **106.56** |
+| Light Q-Former (8 query) | 27.6M (2.87%) | 46.25 ± 0.62 | 86.80 ± 2.28 | 1.60 | 53.21 ± 0.13 | +7.0 | 106.24 |
+| Full Q-Former (16 query) | 69.4M (6.91%) | 47.35 ± 0.17 | 89.98 ± 0.74 | 1.58 | 53.21 ± 0.09 | +5.9 | 105.70 |
+
+ᵇ Tile-Attention + LoRA mới có seed 42 (các cấu hình còn lại đủ 3 seed).
 
 *→ Bridge lớn hơn 10× (Full Q-Former) không tốt hơn; Multi-Token có val CE thấp
-nhất (RQ1–2). 5 bridge plain trải F1 45.2–49.6; sau LoRA đều về ≈53 F1 bất kể
-chất lượng ban đầu (RQ6). Mức nâng lớn hơn khi bridge yếu hơn.*
+nhất (RQ1–2). 5 bridge plain trải F1 45.2–49.6; sau LoRA đều về 52.6–53.5 (băng
+0.9 điểm) bất kể chất lượng ban đầu (RQ6). Mức nâng lớn hơn khi bridge yếu hơn.*
 
-*Vị trí LoRA trong decoder (multi_token, r=16, 1 epoch, 3 seed):*
+*Vị trí LoRA trong decoder (multi_token, r=16, 1 epoch, 3 seed; ± qua seed):*
 
 | Target module | F1 | val loss |
 |---|--:|--:|
-| attention (q/k/v/o) — recipe | 53.52 | 1.37 |
-| MLP (gate/up/down_proj) | 20.24 | ~3.7 |
-| attention + MLP | 37.51 | ~2.08 |
+| attention (q/k/v/o) — recipe | 53.52 ± 0.11 | 1.37 |
+| MLP (gate/up/down_proj) | 20.24 ± 1.52 | ~3.7 |
+| attention + MLP | 37.51 ± 1.70 | ~2.08 |
 
 *→ Dư địa hữu ích của decoder nằm cụ thể ở attention. LoRA lên feed-forward làm
 training phân kỳ. (Có thể là hyperparameter artifact — claim giới hạn ở cấu hình
@@ -187,8 +253,9 @@ nguyên thị giác.
 ## 6. Ghi chú về độ tin cậy
 
 - Mọi kết quả bridge plain + dòng âm: trung bình 3 seed @ 2 epoch (multi_token =
-  4 seed); LoRA: 3 seed cho cả 1 và 3 epoch. Độ lệch chuẩn nhỏ (F1 std 0.07–0.94
-  cho bridge, 0.11–0.29 cho LoRA và các dòng RQ5).
+  4 seed); LoRA: 3 seed cho cả 1 và 3 epoch. Độ lệch chuẩn nhỏ: F1 std 0.07–0.17
+  cho các cấu hình chính (tối đa 0.94 ở bridge phụ yếu nhất), mọi chỉ số in-house
+  khác std ≤ 0.6, corpus std ≤ 0.65 — chi tiết đầy đủ ở §3.1.
 - Đối chiếu tập test cho toàn bộ năm bridge và cả hai cấu hình LoRA: chênh so với
   val < 0.5 F1, không nhất quán về chiều.
 - Dùng grouped split chống rò rỉ dữ liệu (đã kiểm chứng: kết quả gần như không

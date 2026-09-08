@@ -70,74 +70,40 @@
     font-optical-sizing:auto;
   }
   .wrap{
-    max-width:824px;
+    max-width:860px;
     margin:0 auto;
     padding:64px 28px 120px;
   }
 
-  /* ---------- header ---------- */
-  header.doc{
-    margin-bottom:52px;
-  }
+  header.doc{margin-bottom:52px}
   .eyebrow{
     font-family:"IBM Plex Sans",system-ui,sans-serif;
-    font-size:12.5px;
-    font-weight:600;
-    letter-spacing:.13em;
-    text-transform:uppercase;
-    color:var(--accent);
-    margin:0 0 14px;
+    font-size:12.5px;font-weight:600;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--accent);margin:0 0 14px;
   }
   h1{
-    font-weight:600;
-    font-size:2.35rem;
-    line-height:1.18;
-    letter-spacing:-0.012em;
-    margin:0 0 16px;
-    text-wrap:balance;
+    font-weight:600;font-size:2.35rem;line-height:1.18;
+    letter-spacing:-0.012em;margin:0 0 16px;text-wrap:balance;
   }
   .subtitle{
     font-family:"IBM Plex Sans",system-ui,sans-serif;
-    font-size:14px;
-    color:var(--ink-soft);
-    margin:0;
-    padding-top:16px;
-    border-top:1px solid var(--rule);
+    font-size:14px;color:var(--ink-soft);margin:0;
+    padding-top:16px;border-top:1px solid var(--rule);
   }
 
-  /* ---------- sections ---------- */
-  section{
-    margin-top:56px;
-    padding-top:36px;
-    border-top:2px solid var(--rule-strong);
-  }
+  section{margin-top:56px;padding-top:36px;border-top:2px solid var(--rule-strong)}
   section:first-of-type{border-top:none;margin-top:0;padding-top:0}
   h2{
-    font-weight:600;
-    font-size:1.5rem;
-    line-height:1.3;
-    letter-spacing:-0.008em;
-    margin:0 0 22px;
-    display:flex;
-    gap:.6em;
-    align-items:baseline;
-    text-wrap:balance;
+    font-weight:600;font-size:1.5rem;line-height:1.3;letter-spacing:-0.008em;
+    margin:0 0 22px;display:flex;gap:.6em;align-items:baseline;text-wrap:balance;
   }
-  h2 .num{
-    font-family:"IBM Plex Sans",system-ui,sans-serif;
-    font-size:.82em;
-    font-weight:600;
-    color:var(--accent);
-    flex:none;
-  }
+  h2 .num{font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:.82em;font-weight:600;color:var(--accent);flex:none}
   h3{
-    font-family:"IBM Plex Sans",system-ui,sans-serif;
-    font-weight:600;
-    font-size:.9rem;
-    letter-spacing:.02em;
-    color:var(--ink-soft);
-    margin:38px 0 14px;
+    font-family:"IBM Plex Sans",system-ui,sans-serif;font-weight:600;
+    font-size:1rem;letter-spacing:.01em;color:var(--ink);
+    margin:40px 0 6px;padding-top:8px;border-top:1px solid var(--rule);
   }
+  h3 .h3num{color:var(--accent);margin-right:.4em}
   p{margin:0 0 18px}
   strong{font-weight:700;color:var(--ink)}
   em{font-style:italic}
@@ -145,114 +111,59 @@
 
   code,.mono{
     font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;
-    font-size:.86em;
-    background:var(--surface-alt);
-    padding:.08em .34em;
-    border-radius:3px;
+    font-size:.86em;background:var(--surface-alt);padding:.08em .34em;border-radius:3px;
   }
 
-  /* ---------- research-question quote ---------- */
   blockquote{
-    margin:0 0 26px;
-    padding:20px 24px;
-    background:var(--quote-bg);
-    border-left:3px solid var(--accent);
-    border-radius:2px;
-    font-size:1.06rem;
-    line-height:1.6;
+    margin:0 0 26px;padding:20px 24px;background:var(--quote-bg);
+    border-left:3px solid var(--accent);border-radius:2px;
+    font-size:1.06rem;line-height:1.6;
   }
   blockquote p{margin:0}
 
-  /* ---------- lead callouts ---------- */
-  .callout{
-    margin:0 0 18px;
-  }
-  .callout .lead{
-    font-weight:700;
-  }
+  .callout{margin:0 0 18px}
+  .callout .lead{font-weight:700}
 
-  /* ---------- reading notes (→) ---------- */
   .note{
-    margin:0 0 24px;
-    padding:2px 0 2px 18px;
-    border-left:2px solid var(--rule-strong);
-    color:var(--ink-soft);
-    font-style:italic;
-    font-size:.96rem;
+    margin:0 0 24px;padding:2px 0 2px 18px;border-left:2px solid var(--rule-strong);
+    color:var(--ink-soft);font-style:italic;font-size:.96rem;
   }
   .caption{
-    font-family:"IBM Plex Sans",system-ui,sans-serif;
-    font-style:normal;
-    font-size:13px;
-    line-height:1.55;
-    color:var(--ink-soft);
-    margin:0 0 12px;
+    font-family:"IBM Plex Sans",system-ui,sans-serif;font-style:normal;
+    font-size:13px;line-height:1.55;color:var(--ink-soft);margin:0 0 12px;
   }
   .footnote{
-    font-family:"IBM Plex Sans",system-ui,sans-serif;
-    font-size:12.5px;
-    line-height:1.55;
-    color:var(--ink-faint);
-    margin:10px 0 26px;
+    font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:12.5px;
+    line-height:1.55;color:var(--ink-faint);margin:10px 0 26px;
   }
 
-  /* ---------- lists ---------- */
   ul,ol{margin:0 0 20px;padding-left:1.3em}
   li{margin:0 0 10px;padding-left:.2em}
   li::marker{color:var(--accent)}
 
-  /* ---------- tables ---------- */
-  .tbl-scroll{
-    overflow-x:auto;
-    margin:0 0 10px;
-    -webkit-overflow-scrolling:touch;
-  }
+  .tbl-scroll{overflow-x:auto;margin:0 0 10px;-webkit-overflow-scrolling:touch}
   table{
-    border-collapse:collapse;
-    width:100%;
-    background:var(--surface);
-    font-family:"IBM Plex Sans",system-ui,sans-serif;
-    font-size:13.5px;
-    line-height:1.4;
+    border-collapse:collapse;width:100%;background:var(--surface);
+    font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:13px;line-height:1.4;
   }
   caption{
-    caption-side:top;
-    text-align:left;
-    font-family:"IBM Plex Sans",system-ui,sans-serif;
-    font-size:13px;
-    color:var(--ink-soft);
-    margin-bottom:10px;
-    line-height:1.55;
+    caption-side:top;text-align:left;font-family:"IBM Plex Sans",system-ui,sans-serif;
+    font-size:13px;color:var(--ink-soft);margin-bottom:10px;line-height:1.55;
   }
   thead th{
-    font-weight:600;
-    text-align:left;
-    padding:9px 12px;
-    border-bottom:2px solid var(--accent);
-    color:var(--ink);
-    white-space:nowrap;
-    vertical-align:bottom;
+    font-weight:600;text-align:left;padding:9px 11px;
+    border-bottom:2px solid var(--accent);color:var(--ink);
+    white-space:nowrap;vertical-align:bottom;
   }
-  tbody td,tbody th{
-    padding:8px 12px;
-    border-bottom:1px solid var(--rule);
-    vertical-align:top;
-  }
+  tbody td,tbody th{padding:7px 11px;border-bottom:1px solid var(--rule);vertical-align:top}
   tbody th{font-weight:400;text-align:left}
   tbody tr:last-child td,tbody tr:last-child th{border-bottom:1px solid var(--rule-strong)}
   .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
   th.num{text-align:right}
 
-  tr.ours{
-    background:var(--ours);
-  }
-  tr.ours td,tr.ours th{
-    font-weight:600;
-    border-bottom-color:var(--ours-bar);
-  }
-  tr.ours th:first-child{
-    box-shadow:inset 3px 0 0 var(--ours-bar);
-  }
+  tr.ours{background:var(--ours)}
+  tr.ours td,tr.ours th{font-weight:600;border-bottom-color:var(--ours-bar)}
+  tr.ours th:first-child{box-shadow:inset 3px 0 0 var(--ours-bar)}
 
   .pos{color:var(--pos);font-weight:600}
   .neg{color:var(--neg);font-weight:600}
@@ -260,24 +171,26 @@
 
   sup{font-size:.7em;line-height:0;vertical-align:super}
 
-  /* ---------- responsive ---------- */
   @media (max-width:640px){
     body{font-size:16.5px}
-    .wrap{padding:44px 18px 90px}
+    .wrap{padding:44px 16px 90px}
     h1{font-size:1.9rem}
     h2{font-size:1.3rem}
     blockquote{font-size:1rem;padding:16px 18px}
+    table{font-size:12px}
+    thead th,tbody td,tbody th{padding:6px 8px}
   }
 
   @media print{
     :root{--bg:#fff;--surface:#fff}
-    body{font-size:10.5pt;line-height:1.5}
+    body{font-size:10pt;line-height:1.5}
     .wrap{max-width:none;padding:0}
-    section{break-inside:avoid-page;border-top:1.5pt solid #999}
-    table{font-size:8.5pt}
+    section{break-inside:auto;border-top:1.5pt solid #999}
+    h2,h3{break-after:avoid}
+    table{font-size:8pt}
     .tbl-scroll{overflow:visible}
     tr.ours{background:#f0ead9 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-    .pos,.neg{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .pos,.neg,.flat{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   }
 </style>
 
@@ -286,7 +199,7 @@
 <header class="doc">
   <p class="eyebrow">Báo cáo tiến độ · Paper 3</p>
   <h1>Cải thiện Vintern-1B cho AutoViVQA với ~1% tham số — và truy tìm điểm nghẽn</h1>
-  <p class="subtitle">Cập nhật 08/09/2026 · Toàn bộ thí nghiệm đã hoàn tất, số liệu đã rà soát chéo · Tập validation 5&nbsp;463 mẫu / tập test 5&nbsp;468 mẫu, mọi chỉ số ×100</p>
+  <p class="subtitle">Cập nhật 08/09/2026 · Toàn bộ thí nghiệm đã hoàn tất, số liệu đã rà soát chéo · Tập validation 5&nbsp;463 mẫu / tập test 5&nbsp;468 mẫu, mọi chỉ số ×100 · ± = độ lệch chuẩn qua seed</p>
 </header>
 
 <!-- ============ 1 ============ -->
@@ -303,21 +216,9 @@
         <tr><th>Công trình</th><th>Cách làm</th><th>Tham số cập nhật</th></tr>
       </thead>
       <tbody>
-        <tr>
-          <th>Vintern-1B (fine-tuned)</th>
-          <td>Fine-tune toàn bộ InternViT-300M + projector; LoRA cho Qwen2-0.5B</td>
-          <td>Phần lớn phía thị giác + projector</td>
-        </tr>
-        <tr>
-          <th>ViMoE-VQA</th>
-          <td>Xây kiến trúc Mixture-of-Experts mới</td>
-          <td>Toàn bộ mô hình mới</td>
-        </tr>
-        <tr class="ours">
-          <th>Nghiên cứu này</th>
-          <td>Đóng băng cả InternViT-300M lẫn Qwen2-0.5B; chỉ huấn luyện bridge (0.78%) + LoRA cho decoder (0.23%), 1 tile</td>
-          <td>~1% tổng tham số</td>
-        </tr>
+        <tr><th>Vintern-1B (fine-tuned)</th><td>Fine-tune toàn bộ InternViT-300M + projector; LoRA cho Qwen2-0.5B</td><td>Phần lớn phía thị giác + projector</td></tr>
+        <tr><th>ViMoE-VQA</th><td>Xây kiến trúc Mixture-of-Experts mới</td><td>Toàn bộ mô hình mới</td></tr>
+        <tr class="ours"><th>Nghiên cứu này</th><td>Đóng băng cả InternViT-300M lẫn Qwen2-0.5B; chỉ huấn luyện bridge (0.78%) + LoRA cho decoder (0.23%), 1 tile</td><td>~1% tổng tham số</td></tr>
       </tbody>
     </table>
   </div>
@@ -342,7 +243,7 @@
 <!-- ============ 3 ============ -->
 <section>
   <h2><span class="num">3</span><span>Kết quả chính</span></h2>
-  <p class="caption">Tập validation, chỉ số nội bộ, thang ×100.</p>
+  <p class="caption">Tập validation, chỉ số nội bộ (in-house), thang ×100.</p>
 
   <div class="tbl-scroll">
     <table>
@@ -363,30 +264,115 @@
         <tr><th>Gemini 2.5 Flash</th><td class="num">0.22</td><td class="num">24.43</td><td class="num">76.66</td><td class="num">24.75</td><td class="num">0.39</td><td class="num">37.27</td><td class="num">31.22</td><td class="num">71.90</td></tr>
         <tr><th>GPT-5 (zero-shot)</th><td class="num">10.84</td><td class="num">47.20</td><td class="num">55.20</td><td class="num">50.89</td><td class="num">6.07</td><td class="num">47.30</td><td class="num">33.34</td><td class="num">84.20</td></tr>
         <tr><th>ViMoE-VQA</th><td class="num">9.65</td><td class="num">62.89</td><td class="num">58.65</td><td class="num">60.69</td><td class="num">12.54</td><td class="num">47.07</td><td class="num">39.10</td><td class="num">88.67</td></tr>
-        <tr class="ours"><th>Bridge Multi-Token (0.78%, 1 tile)</th><td class="num">8.20</td><td class="num">50.36</td><td class="num">51.43</td><td class="num">49.55</td><td class="num">15.47</td><td class="num">47.84</td><td class="num">40.22</td><td class="num">96.49</td></tr>
+        <tr class="ours"><th>Bridge Multi-Token (0.78%, 1 tile)</th><td class="num">8.17</td><td class="num">50.21</td><td class="num">51.50</td><td class="num">49.55</td><td class="num">15.72</td><td class="num">47.84</td><td class="num">40.22</td><td class="num">96.49</td></tr>
         <tr class="ours"><th>&nbsp;&nbsp;+ LoRA cho decoder, r=16 (~1.0%), 1 epoch</th><td class="num">10.93</td><td class="num">54.39</td><td class="num">55.11</td><td class="num">53.52</td><td class="num">19.72</td><td class="num">51.81</td><td class="num">44.11</td><td class="num">106.56</td></tr>
         <tr class="ours"><th>&nbsp;&nbsp;+ LoRA cho decoder, r=16, 3 epoch</th><td class="num">12.00</td><td class="num">55.46</td><td class="num">56.38</td><td class="num">54.71</td><td class="num">21.07</td><td class="num">52.96</td><td class="num">45.42</td><td class="num">110.49</td></tr>
       </tbody>
     </table>
   </div>
   <p class="footnote">
-    In đậm / nền vàng = phương pháp đề xuất (trung bình 4 seed cho bridge / 3 seed cho LoRA).
-    <sup>a</sup> CIDEr của BARTPhoBEiT là ngoại lai (sinh câu dài), không so sánh. Baseline lấy theo báo cáo benchmark AutoViVQA.
+    In đậm / nền vàng = phương pháp đề xuất (trung bình 4 seed cho bridge / 3 seed cho LoRA — giá trị điểm; ± đầy đủ ở §3.1).
+    <sup>a</sup> CIDEr của BARTPhoBEiT là ngoại lai (sinh câu dài), không so sánh. Baseline lấy theo báo cáo benchmark AutoViVQA — các dòng baseline chỉ có 1 số, không có per-seed nên không kèm ± ở bảng này.
   </p>
 
-  <p>
-    <strong>Đo theo corpus</strong> (để so với công trình khác): Bridge Multi-Token đạt CIDEr-D 92.3&nbsp;±&nbsp;0.6 / BLEU-4 18.9 / ROUGE-L 48.9 — trên mức 88.7 / 12.5 / 47.1 của ViMoE; thêm LoRA 3 epoch đạt CIDEr-D 107.5&nbsp;±&nbsp;0.3 / BLEU-4 25.1 / ROUGE-L 54.2 (1 epoch: 103.2&nbsp;±&nbsp;0.5). Điểm yếu còn lại: token-F1 (−6.0 so với ViMoE) và Acc vẫn thấp hơn.
-  </p>
+  <h3><span class="h3num">3.1</span>Phương pháp đề xuất — mean ± std đầy đủ (mọi chỉ số, cả val và test)</h3>
+  <p class="caption">Chỉ số nội bộ (in-house), thang ×100. Bridge = 4 seed (42/123/2026/3407); LoRA = 3 seed (42/123/3407). "CE" = cross-entropy (không nhân 100).</p>
 
-  <p>
-    <strong>Đối chiếu tập test:</strong> Bridge Multi-Token (4 seed) F1 <strong>49.20</strong> / CIDEr <strong>93.24</strong> — chênh so với val −0.35 / −3.25. Recipe cũng giữ vững trên test: + LoRA 1 epoch F1 <strong>53.15</strong> (val 53.52), + LoRA 3 epoch F1 <strong>54.28</strong> (val 54.71). Cả năm loại bridge: test ≈ val trong khoảng ±0.5 F1, không nhất quán về chiều → <strong>không overfit vào tập validation</strong>.
-  </p>
+  <div class="tbl-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>Cấu hình</th><th>Split</th>
+          <th class="num">Acc</th><th class="num">Prec</th><th class="num">Rec</th><th class="num">F1</th>
+          <th class="num">BLEU</th><th class="num">ROUGE</th><th class="num">METEOR</th><th class="num">CIDEr</th><th class="num">CE</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="ours"><th>Bridge Multi-Token</th><td>val</td><td class="num">8.17 ± 0.10</td><td class="num">50.21 ± 0.09</td><td class="num">51.50 ± 0.12</td><td class="num">49.55 ± 0.07</td><td class="num">15.72 ± 0.30</td><td class="num">47.84 ± 0.06</td><td class="num">40.22 ± 0.18</td><td class="num">96.49 ± 0.59</td><td class="num">1.49</td></tr>
+        <tr class="ours"><th>Bridge Multi-Token</th><td>test</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">49.20 ± 0.10</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">93.24</td><td class="num">—</td></tr>
+        <tr class="ours"><th>+ LoRA r=16, 1 epoch</th><td>val</td><td class="num">10.93 ± 0.13</td><td class="num">54.39 ± 0.08</td><td class="num">55.11 ± 0.16</td><td class="num">53.52 ± 0.11</td><td class="num">19.72 ± 0.09</td><td class="num">51.81 ± 0.12</td><td class="num">44.11 ± 0.20</td><td class="num">106.56 ± 0.53</td><td class="num">1.374 ± 0.005</td></tr>
+        <tr class="ours"><th>+ LoRA r=16, 1 epoch</th><td>test</td><td class="num">10.49 ± 0.22</td><td class="num">53.99 ± 0.11</td><td class="num">54.77 ± 0.07</td><td class="num">53.15 ± 0.07</td><td class="num">18.98 ± 0.24</td><td class="num">51.34 ± 0.09</td><td class="num">43.73 ± 0.18</td><td class="num">104.65 ± 0.44</td><td class="num">1.382 ± 0.007</td></tr>
+        <tr class="ours"><th>+ LoRA r=16, 3 epoch</th><td>val</td><td class="num">12.00 ± 0.17</td><td class="num">55.46 ± 0.11</td><td class="num">56.38 ± 0.23</td><td class="num">54.71 ± 0.14</td><td class="num">21.07 ± 0.23</td><td class="num">52.96 ± 0.06</td><td class="num">45.42 ± 0.14</td><td class="num">110.49 ± 0.27</td><td class="num">1.327 ± 0.004</td></tr>
+        <tr class="ours"><th>+ LoRA r=16, 3 epoch</th><td>test</td><td class="num">11.21 ± 0.20</td><td class="num">55.06 ± 0.14</td><td class="num">55.95 ± 0.08</td><td class="num">54.28 ± 0.13</td><td class="num">20.72 ± 0.25</td><td class="num">52.44 ± 0.18</td><td class="num">44.82 ± 0.17</td><td class="num">107.60 ± 0.65</td><td class="num">1.329 ± 0.007</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="caption">Chỉ số corpus (pycocoevalcap, để so cross-paper), thang ×100.</p>
+  <div class="tbl-scroll">
+    <table>
+      <thead>
+        <tr><th>Cấu hình</th><th>Split</th><th class="num">CIDEr-D</th><th class="num">BLEU-4</th><th class="num">ROUGE-L</th></tr>
+      </thead>
+      <tbody>
+        <tr class="ours"><th>Bridge Multi-Token</th><td>val</td><td class="num">92.28 ± 0.57</td><td class="num">18.90 ± 0.27</td><td class="num">48.90 ± 0.07</td></tr>
+        <tr class="ours"><th>+ LoRA r=16, 1 epoch</th><td>val</td><td class="num">103.20 ± 0.45</td><td class="num">23.60 ± 0.08</td><td class="num">53.00 ± 0.14</td></tr>
+        <tr class="ours"><th>+ LoRA r=16, 1 epoch</th><td>test</td><td class="num">101.30 ± 0.43</td><td class="num">22.93 ± 0.33</td><td class="num">52.60 ± 0.08</td></tr>
+        <tr class="ours"><th>+ LoRA r=16, 3 epoch</th><td>val</td><td class="num">107.50 ± 0.29</td><td class="num">25.10 ± 0.22</td><td class="num">54.17 ± 0.09</td></tr>
+        <tr class="ours"><th>+ LoRA r=16, 3 epoch</th><td>test</td><td class="num">104.80 ± 0.65</td><td class="num">24.87 ± 0.26</td><td class="num">53.80 ± 0.16</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="footnote">ViMoE-VQA (5 seed) để đối chiếu: CIDEr-D 88.67 / BLEU-4 12.54 / ROUGE-L 47.07 / token-F1 60.69. Recipe (3 epoch) vượt trên mọi chỉ số corpus, vẫn kém token-F1 (−5.98) và Acc.</p>
+
+  <h3><span class="h3num">3.2</span>Số per-seed (thô, không lấy trung bình)</h3>
+
+  <p class="caption">Bridge Multi-Token plain — in-house val.</p>
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th class="num">seed</th><th class="num">Acc</th><th class="num">Prec</th><th class="num">Rec</th><th class="num">F1</th><th class="num">BLEU</th><th class="num">ROUGE</th><th class="num">METEOR</th><th class="num">CIDEr</th></tr></thead>
+      <tbody>
+        <tr><td class="num">42</td><td class="num">8.20</td><td class="num">50.36</td><td class="num">51.43</td><td class="num">49.61</td><td class="num">15.28</td><td class="num">47.86</td><td class="num">40.05</td><td class="num">96.72</td></tr>
+        <tr><td class="num">123</td><td class="num">8.00</td><td class="num">50.10</td><td class="num">51.40</td><td class="num">49.46</td><td class="num">16.05</td><td class="num">47.76</td><td class="num">40.16</td><td class="num">95.84</td></tr>
+        <tr><td class="num">2026</td><td class="num">8.24</td><td class="num">50.20</td><td class="num">51.70</td><td class="num">49.64</td><td class="num">15.91</td><td class="num">47.93</td><td class="num">40.53</td><td class="num">97.35</td></tr>
+        <tr><td class="num">3407</td><td class="num">8.24</td><td class="num">50.20</td><td class="num">51.47</td><td class="num">49.51</td><td class="num">15.64</td><td class="num">47.80</td><td class="num">40.13</td><td class="num">96.05</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="caption">+ LoRA 1 epoch — in-house val.</p>
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th class="num">seed</th><th class="num">Acc</th><th class="num">Prec</th><th class="num">Rec</th><th class="num">F1</th><th class="num">BLEU</th><th class="num">ROUGE</th><th class="num">METEOR</th><th class="num">CIDEr</th><th class="num">CE</th></tr></thead>
+      <tbody>
+        <tr><td class="num">42</td><td class="num">10.84</td><td class="num">54.48</td><td class="num">55.33</td><td class="num">53.67</td><td class="num">19.84</td><td class="num">51.97</td><td class="num">44.38</td><td class="num">106.83</td><td class="num">1.370</td></tr>
+        <tr><td class="num">123</td><td class="num">10.85</td><td class="num">54.40</td><td class="num">54.95</td><td class="num">53.42</td><td class="num">19.64</td><td class="num">51.72</td><td class="num">43.90</td><td class="num">105.82</td><td class="num">1.381</td></tr>
+        <tr><td class="num">3407</td><td class="num">11.11</td><td class="num">54.29</td><td class="num">55.03</td><td class="num">53.46</td><td class="num">19.69</td><td class="num">51.72</td><td class="num">44.07</td><td class="num">107.03</td><td class="num">1.371</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="caption">+ LoRA 3 epoch — in-house val.</p>
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th class="num">seed</th><th class="num">Acc</th><th class="num">Prec</th><th class="num">Rec</th><th class="num">F1</th><th class="num">BLEU</th><th class="num">ROUGE</th><th class="num">METEOR</th><th class="num">CIDEr</th><th class="num">CE</th></tr></thead>
+      <tbody>
+        <tr><td class="num">42</td><td class="num">11.90</td><td class="num">55.61</td><td class="num">56.69</td><td class="num">54.91</td><td class="num">20.77</td><td class="num">53.03</td><td class="num">45.53</td><td class="num">110.56</td><td class="num">1.326</td></tr>
+        <tr><td class="num">123</td><td class="num">12.25</td><td class="num">55.41</td><td class="num">56.16</td><td class="num">54.59</td><td class="num">21.33</td><td class="num">52.98</td><td class="num">45.22</td><td class="num">110.13</td><td class="num">1.332</td></tr>
+        <tr><td class="num">3407</td><td class="num">11.86</td><td class="num">55.37</td><td class="num">56.29</td><td class="num">54.63</td><td class="num">21.12</td><td class="num">52.89</td><td class="num">45.50</td><td class="num">110.79</td><td class="num">1.322</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3><span class="h3num">3.3</span>Val hay test cao hơn?</h3>
+  <p class="callout"><strong>Val cao hơn test một chút, và đều đặn — nhưng chênh rất nhỏ:</strong></p>
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Cấu hình</th><th class="num">val F1</th><th class="num">test F1</th><th class="num">Δ</th><th class="num">val CIDEr-D</th><th class="num">test CIDEr-D</th><th class="num">Δ</th></tr></thead>
+      <tbody>
+        <tr class="ours"><th>Bridge Multi-Token</th><td class="num">49.55</td><td class="num">49.20</td><td class="num"><span class="neg">−0.35</span></td><td class="num">92.3</td><td class="num">~89.9</td><td class="num"><span class="neg">−2.4</span></td></tr>
+        <tr class="ours"><th>+ LoRA 1 epoch</th><td class="num">53.52</td><td class="num">53.15</td><td class="num"><span class="neg">−0.37</span></td><td class="num">103.2</td><td class="num">101.3</td><td class="num"><span class="neg">−1.9</span></td></tr>
+        <tr class="ours"><th>+ LoRA 3 epoch</th><td class="num">54.71</td><td class="num">54.28</td><td class="num"><span class="neg">−0.43</span></td><td class="num">107.5</td><td class="num">104.8</td><td class="num"><span class="neg">−2.7</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Gap F1 &lt; 0.5 ở mọi cấu hình; CIDEr chênh 2–3 điểm. Trên 5 loại bridge thì chiều lệch <strong>không nhất quán</strong> (mini_qformer test còn cao hơn val +0.20) → không phải overfit, chỉ là phân phối test hơi khó hơn. <strong>Kết luận: không overfit vào tập validation.</strong></p>
 </section>
 
 <!-- ============ 4 ============ -->
 <section>
   <h2><span class="num">4</span><span>Phân tích điểm nghẽn — sáu trục, một trục tích cực</span></h2>
-  <p class="caption">ΔF1 so với cấu hình gốc (Bridge Multi-Token, trung bình 4 seed: F1 49.55). Mọi số trung bình 3 seed trừ RQ3/RQ4 (seed 42).</p>
+  <p class="caption">ΔF1 so với cấu hình gốc (Bridge Multi-Token, trung bình 4 seed: F1 49.55). Mọi số trung bình 3 seed trừ RQ3/RQ4 (seed 42). ΔF1 là hiệu trung bình; riêng dòng RQ6 LoRA (1 epoch) có bootstrap 95% CI +4.06 [3.49, 4.65] (xem §6).</p>
 
   <div class="tbl-scroll">
     <table>
@@ -399,7 +385,7 @@
         <tr><th>RQ4 · Adaptive routing</th><td>Learned policy (theo loại câu hỏi)</td><td class="num"><span class="flat">≈0</span></td><td>Không hơn cấu hình cố định</td></tr>
         <tr><th>RQ5 · Training signal</th><td>Multi-reference answer sampling</td><td class="num"><span class="neg">−1.47</span></td><td>Không cải thiện</td></tr>
         <tr><th>RQ5 · Representation alignment</th><td>Projector-level feature KD</td><td class="num"><span class="neg">−0.03</span></td><td>Null tuyệt đối</td></tr>
-        <tr><th>RQ5 · Representation alignment</th><td>Projector-level logit KD (α = 0.1)</td><td class="num"><span class="pos">+0.20</span></td><td>Null (val CE 1.53 ≈ mức gốc 1.49)</td></tr>
+        <tr><th>RQ5 · Representation alignment</th><td>Projector-level logit KD (α = 0.1)</td><td class="num"><span class="pos">+0.20</span></td><td>Null — F1 49.75 ± 0.29, val CE 1.53 ≈ mức gốc 1.49</td></tr>
         <tr><th>RQ5 · Representation alignment</th><td>Projector-level logit KD (α = 1.0)</td><td class="num"><span class="neg">−8.80</span></td><td>Chỉ hỏng khi α quá lớn (KL lấn cross-entropy)</td></tr>
         <tr class="ours"><th>RQ6 · Decoder — LoRA attention (1 epoch)</th><td><span class="mono">q/k/v/o</span></td><td class="num"><span class="pos">+3.97</span></td><td>Cải thiện nhất quán</td></tr>
         <tr class="ours"><th>RQ6 · Decoder — LoRA attention (3 epochs)</th><td><span class="mono">q/k/v/o</span></td><td class="num"><span class="pos">+5.16</span></td><td>Cải thiện nhất quán</td></tr>
@@ -408,42 +394,39 @@
       </tbody>
     </table>
   </div>
-  <p class="footnote">
-    <sup>a</sup> Thí nghiệm huấn luyện 1 tile, đánh giá 3–6 tile → chỉ kết luận về khả năng khái quát hóa; chưa khảo sát huấn luyện đa tile.
-  </p>
+  <p class="footnote"><sup>a</sup> Thí nghiệm huấn luyện 1 tile, đánh giá 3–6 tile → chỉ kết luận về khả năng khái quát hóa; chưa khảo sát huấn luyện đa tile.</p>
 
-  <h3>Số liệu chi tiết đứng sau các dòng trên</h3>
+  <h3><span class="h3num">4.1</span>Số liệu chi tiết đứng sau các dòng trên</h3>
 
   <div class="tbl-scroll">
     <table>
-      <caption>So sánh 5 loại bridge (tập val, trung bình 3 seed @ 2 epoch; Multi-Token = 4 seed). "val CE" = cross-entropy trên tập val (thấp = tốt).</caption>
+      <caption>So sánh 5 loại bridge (tập val, trung bình 3 seed @ 2 epoch; Multi-Token = 4 seed). F1 / CIDEr = in-house; "val CE" = cross-entropy trên tập val (thấp = tốt); ± = độ lệch chuẩn qua seed.</caption>
       <thead>
         <tr>
           <th>Bridge</th><th class="num">Tham số</th><th class="num">F1</th><th class="num">CIDEr</th>
-          <th class="num">val CE</th><th class="num">F1 + LoRA</th><th class="num">ΔF1</th><th class="num">CIDEr + LoRA</th>
+          <th class="num">val CE</th><th class="num">F1 + LoRA (1ep)</th><th class="num">ΔF1</th><th class="num">CIDEr + LoRA</th>
         </tr>
       </thead>
       <tbody>
-        <tr><th>Residual (1 token)</th><td class="num">4.86M (0.52%)</td><td class="num">45.64</td><td class="num">86.25</td><td class="num">1.67</td><td class="num">52.64</td><td class="num"><span class="pos">+7.0</span></td><td class="num">104.05</td></tr>
-        <tr><th>Tile-Attention (8 token)</th><td class="num">4.14M (0.44%)</td><td class="num">45.17</td><td class="num">84.21</td><td class="num">1.67</td><td class="num">52.99</td><td class="num"><span class="pos">+7.8</span></td><td class="num">105.04</td></tr>
-        <tr class="ours"><th>Multi-Token (8 token, pooled)</th><td class="num">7.35M (0.78%)</td><td class="num">49.55</td><td class="num">96.49</td><td class="num">1.49</td><td class="num">53.52</td><td class="num"><span class="pos">+4.0</span></td><td class="num">106.56</td></tr>
-        <tr><th>Light Q-Former (8 query)</th><td class="num">27.6M (2.87%)</td><td class="num">46.25</td><td class="num">86.80</td><td class="num">1.60</td><td class="num">53.21</td><td class="num"><span class="pos">+7.0</span></td><td class="num">106.24</td></tr>
-        <tr><th>Full Q-Former (16 query)</th><td class="num">69.4M (6.91%)</td><td class="num">47.35</td><td class="num">89.98</td><td class="num">1.58</td><td class="num">53.21</td><td class="num"><span class="pos">+5.9</span></td><td class="num">105.70</td></tr>
+        <tr><th>Residual (1 token)</th><td class="num">4.86M (0.52%)</td><td class="num">45.64 ± 0.36</td><td class="num">86.25 ± 0.61</td><td class="num">1.67</td><td class="num">52.64 ± 0.03</td><td class="num"><span class="pos">+7.0</span></td><td class="num">104.05</td></tr>
+        <tr><th>Tile-Attention (8 token)</th><td class="num">4.14M (0.44%)</td><td class="num">45.17 ± 0.94</td><td class="num">84.21 ± 1.71</td><td class="num">1.67</td><td class="num">52.99&nbsp;<sup>b</sup></td><td class="num"><span class="pos">+7.8</span></td><td class="num">105.04</td></tr>
+        <tr class="ours"><th>Multi-Token (8 token, pooled)</th><td class="num">7.35M (0.78%)</td><td class="num">49.55 ± 0.07</td><td class="num">96.49 ± 0.59</td><td class="num">1.49</td><td class="num">53.52 ± 0.11</td><td class="num"><span class="pos">+4.0</span></td><td class="num">106.56</td></tr>
+        <tr><th>Light Q-Former (8 query)</th><td class="num">27.6M (2.87%)</td><td class="num">46.25 ± 0.62</td><td class="num">86.80 ± 2.28</td><td class="num">1.60</td><td class="num">53.21 ± 0.13</td><td class="num"><span class="pos">+7.0</span></td><td class="num">106.24</td></tr>
+        <tr><th>Full Q-Former (16 query)</th><td class="num">69.4M (6.91%)</td><td class="num">47.35 ± 0.17</td><td class="num">89.98 ± 0.74</td><td class="num">1.58</td><td class="num">53.21 ± 0.09</td><td class="num"><span class="pos">+5.9</span></td><td class="num">105.70</td></tr>
       </tbody>
     </table>
   </div>
-  <p class="note">→ Bridge lớn hơn 10× (Full Q-Former) không tốt hơn; Multi-Token có val CE thấp nhất (RQ1–2). 5 bridge plain trải F1 45.2–49.6; sau LoRA đều về ≈53 F1 bất kể chất lượng ban đầu (RQ6). Mức nâng lớn hơn khi bridge yếu hơn.</p>
+  <p class="footnote"><sup>b</sup> Tile-Attention + LoRA mới có seed 42 (các cấu hình còn lại đủ 3 seed).</p>
+  <p class="note">→ Bridge lớn hơn 10× (Full Q-Former) không tốt hơn; Multi-Token có val CE thấp nhất (RQ1–2). 5 bridge plain trải F1 45.2–49.6; sau LoRA đều về 52.6–53.5 (băng 0.9 điểm) bất kể chất lượng ban đầu (RQ6). Mức nâng lớn hơn khi bridge yếu hơn.</p>
 
   <div class="tbl-scroll">
     <table>
-      <caption>Vị trí LoRA trong decoder (multi_token, r=16, 1 epoch, 3 seed).</caption>
-      <thead>
-        <tr><th>Target module</th><th class="num">F1</th><th class="num">val loss</th></tr>
-      </thead>
+      <caption>Vị trí LoRA trong decoder (multi_token, r=16, 1 epoch, 3 seed; ± qua seed).</caption>
+      <thead><tr><th>Target module</th><th class="num">F1</th><th class="num">val loss</th></tr></thead>
       <tbody>
-        <tr class="ours"><th>attention (<span class="mono">q/k/v/o</span>) — recipe</th><td class="num">53.52</td><td class="num">1.37</td></tr>
-        <tr><th>MLP (<span class="mono">gate/up/down_proj</span>)</th><td class="num">20.24</td><td class="num">~3.7</td></tr>
-        <tr><th>attention + MLP</th><td class="num">37.51</td><td class="num">~2.08</td></tr>
+        <tr class="ours"><th>attention (<span class="mono">q/k/v/o</span>) — recipe</th><td class="num">53.52 ± 0.11</td><td class="num">1.37</td></tr>
+        <tr><th>MLP (<span class="mono">gate/up/down_proj</span>)</th><td class="num">20.24 ± 1.52</td><td class="num">~3.7</td></tr>
+        <tr><th>attention + MLP</th><td class="num">37.51 ± 1.70</td><td class="num">~2.08</td></tr>
       </tbody>
     </table>
   </div>
@@ -452,9 +435,7 @@
   <div class="tbl-scroll">
     <table>
       <caption>Số tile khi đánh giá (Bridge Multi-Token, huấn luyện với 1 tile).</caption>
-      <thead>
-        <tr><th class="num">Số tile</th><th class="num">token-F1</th><th class="num">val loss</th></tr>
-      </thead>
+      <thead><tr><th class="num">Số tile</th><th class="num">token-F1</th><th class="num">val loss</th></tr></thead>
       <tbody>
         <tr><td class="num">1</td><td class="num">50.66</td><td class="num">1.48</td></tr>
         <tr><td class="num">3</td><td class="num">21.05</td><td class="num">3.35</td></tr>
@@ -467,9 +448,7 @@
   <div class="tbl-scroll">
     <table>
       <caption>Chi phí encode thị giác của InternViT trên mỗi ảnh (Tesla P100-16GB).</caption>
-      <thead>
-        <tr><th class="num">Số tile</th><th class="num">GFLOPs</th><th class="num">Độ trễ (ms)</th><th class="num">Thông lượng (ảnh/s)</th></tr>
-      </thead>
+      <thead><tr><th class="num">Số tile</th><th class="num">GFLOPs</th><th class="num">Độ trễ (ms)</th><th class="num">Thông lượng (ảnh/s)</th></tr></thead>
       <tbody>
         <tr class="ours"><td class="num">1 (của ta)</td><td class="num">362</td><td class="num">229</td><td class="num">6.00</td></tr>
         <tr><td class="num">2</td><td class="num">724</td><td class="num">374</td><td class="num">3.30</td></tr>
@@ -506,7 +485,7 @@
 <section>
   <h2><span class="num">6</span><span>Ghi chú về độ tin cậy</span></h2>
   <ul>
-    <li>Mọi kết quả bridge plain + dòng âm: trung bình 3 seed @ 2 epoch (multi_token = 4 seed); LoRA: 3 seed cho cả 1 và 3 epoch. Độ lệch chuẩn nhỏ (F1 std 0.07–0.94 cho bridge, 0.11–0.29 cho LoRA và các dòng RQ5).</li>
+    <li>Mọi kết quả bridge plain + dòng âm: trung bình 3 seed @ 2 epoch (multi_token = 4 seed); LoRA: 3 seed cho cả 1 và 3 epoch. Độ lệch chuẩn nhỏ: F1 std 0.07–0.17 cho các cấu hình chính (tối đa 0.94 ở bridge phụ yếu nhất), mọi chỉ số in-house khác std ≤ 0.6, corpus std ≤ 0.65 — chi tiết đầy đủ ở §3.1.</li>
     <li>Đối chiếu tập test cho toàn bộ năm bridge và cả hai cấu hình LoRA: chênh so với val &lt; 0.5 F1, không nhất quán về chiều.</li>
     <li>Dùng grouped split chống rò rỉ dữ liệu (đã kiểm chứng: kết quả gần như không đổi so với cách chia cũ). Khoảng tin cậy bootstrap 95% cho các so sánh chính đã tính trên đúng số 3-seed (ví dụ ΔF1 của LoRA cho Multi-Token: +4.06, khoảng [3.49, 4.65]).</li>
     <li><em>Lưu ý:</em> một lần chạy bridge residual (seed cũ) bị mất ổn định (F1 36.5, val CE 2.35) — đã phát hiện và thay bằng 3-seed chuẩn (F1 45.6). Đã rà soát lại toàn bộ checkpoint và số liệu, không còn sai lệch tương tự.</li>

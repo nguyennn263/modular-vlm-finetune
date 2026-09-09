@@ -60,8 +60,8 @@ def cells(seed: int, br: str) -> list[dict]:
             "    if os.path.isdir('repo'): break",
             "    time.sleep(15)",
             f"os.chdir('/tmp/wk/repo'); os.system('git checkout -q {br} && git pull -q')",
-            f"subprocess.call('git clone -q {VINTERN_URL} /tmp/wk/Vintern', shell=True)",
-            "print('repo:', os.getcwd()); os.system('ls /tmp/wk')",
+            f"subprocess.call('git clone -q --depth 1 {VINTERN_URL} /tmp/wk/Vintern', shell=True)",
+            "print('repo:', os.getcwd()); os.system('ls /tmp/wk && ls /tmp/wk/Vintern/internvl_chat')",
         ),
         code(
             "# cookbook deps (colab cells 1-2)",
@@ -95,19 +95,20 @@ def cells(seed: int, br: str) -> list[dict]:
             "  '/tmp/wk/Vintern/internvl_chat/shell/internvl2.0/2nd_finetune/autovivqa_lora.sh')",
         ),
         code(
-            "import torch; ng = torch.cuda.device_count()",
-            "print('GPUs:', ng, [torch.cuda.get_device_name(i) for i in range(ng)])",
-            "pdev, gacc = (4, 2) if ng >= 2 else (4, 4)",
-            "open('/tmp/wk/gpuenv.sh','w').write(f'export GPUS={ng}\\nexport PER_DEVICE_BATCH_SIZE={pdev}\\n')",
-        ),
-        code(
             "%cd /tmp/wk/Vintern/internvl_chat",
-            "import os; os.environ['PYTHONPATH']=os.getcwd()",
-            f"os.environ['MODEL_PATH']='/tmp/wk/Vintern/pretrained/Vintern-1B-v3_5'",
-            "os.environ['META_PATH']='./shell/data/meta_autovivqa.json'",
-            f"os.environ['OUTPUT_DIR']='{ft_out}'",
-            f"os.environ['SEED']='{seed}'",
-            "!source /tmp/wk/gpuenv.sh && bash shell/internvl2.0/2nd_finetune/autovivqa_lora.sh 2>&1 | tail -40",
+            "import os, torch",
+            "ng = torch.cuda.device_count()",
+            "print('GPUs:', ng, [torch.cuda.get_device_name(i) for i in range(ng)])",
+            "# cookbook total batch = 16; smaller per-device on a single 16GB card",
+            "os.environ['GPUS'] = str(ng)",
+            "os.environ['BATCH_SIZE'] = '16'",
+            "os.environ['PER_DEVICE_BATCH_SIZE'] = '4' if ng >= 2 else '2'",
+            "os.environ['PYTHONPATH'] = os.getcwd()",
+            "os.environ['MODEL_PATH'] = '/tmp/wk/Vintern/pretrained/Vintern-1B-v3_5'",
+            "os.environ['META_PATH'] = './shell/data/meta_autovivqa.json'",
+            f"os.environ['OUTPUT_DIR'] = '{ft_out}'",
+            f"os.environ['SEED'] = '{seed}'",
+            "!bash shell/internvl2.0/2nd_finetune/autovivqa_lora.sh 2>&1 | tail -50",
         ),
         code(
             "# merge LoRA (cookbook cell 41-47)",
@@ -118,33 +119,28 @@ def cells(seed: int, br: str) -> list[dict]:
             f"!ls {merged}",
         ),
         code(
-            "import os; os.environ['PYTHONPATH']='/tmp/wk/repo'",
+            "# generation only (stays in the 4.47 / InternVL env); scoring is local",
             "%cd /tmp/wk/repo",
-            f"!python experiments/vintern-ft/eval_vintern.py --model-path {merged} "
+            f"!python experiments/vintern-ft/gen_vintern.py --model-path {merged} "
             f"--split val --data experiments/vintern-ft/data/autovivqa_val.jsonl "
-            f"--images-dir {IMAGES} --out /kaggle/working/out/val --max-num 6 2>&1 | tail -20",
+            f"--images-dir {IMAGES} --out /kaggle/working/out/val --max-num 6 2>&1 | tail -15",
         ),
         code(
             "%cd /tmp/wk/repo",
-            f"!python experiments/vintern-ft/eval_vintern.py --model-path {merged} "
+            f"!python experiments/vintern-ft/gen_vintern.py --model-path {merged} "
             f"--split test --data experiments/vintern-ft/data/autovivqa_test.jsonl "
-            f"--images-dir {IMAGES} --out /kaggle/working/out/test --max-num 6 2>&1 | tail -20",
+            f"--images-dir {IMAGES} --out /kaggle/working/out/test --max-num 6 2>&1 | tail -15",
         ),
         code(
-            "%cd /tmp/wk/repo",
-            "!python scripts/rescore_corpus.py --pred /kaggle/working/out/val/results/text_predictions_epoch_1.json --label vintern-ft-val",
-            "!python scripts/rescore_corpus.py --pred /kaggle/working/out/test/results/text_predictions_epoch_1.json --label vintern-ft-test",
-        ),
-        code(
-            "import shutil, os, json",
-            f"shutil.copytree('{merged}', '/kaggle/working/out/model_merge', dirs_exist_ok=True)",
-            f"for p in ['{ft_out}/training_log.txt','{ft_out}/trainer_state.json']:",
-            "    if os.path.exists(p): shutil.copy(p, '/kaggle/working/out/')",
-            "print('=== SUMMARY ===')",
-            "for s in ['val','test']:",
-            "    m=json.load(open(f'/kaggle/working/out/{s}/results/inhouse_metrics.json'))",
-            "    print(s, m['scale_x100'])",
-            "os.system('du -sh /kaggle/working/out; ls -R /kaggle/working/out | head -40')",
+            "import shutil, os",
+            f"os.makedirs('/kaggle/working/out/lora_adapter', exist_ok=True)",
+            f"for f in os.listdir('{ft_out}'):",
+            f"    p=os.path.join('{ft_out}',f)",
+            "    if os.path.isfile(p) and (f.endswith('.json') or f.endswith('.txt') or 'adapter' in f or f.endswith('.safetensors')):",
+            "        shutil.copy(p, '/kaggle/working/out/lora_adapter/')",
+            "print('=== predictions written ===')",
+            "os.system('du -sh /kaggle/working/out; find /kaggle/working/out -name text_predictions_epoch_1.json -exec wc -l {} +')",
+            "os.system('ls -R /kaggle/working/out | head -40')",
         ),
     ]
 

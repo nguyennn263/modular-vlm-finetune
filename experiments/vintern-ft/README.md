@@ -55,11 +55,14 @@ which recipe AutoViVQA used: if this lands near F1 53.76, they used the cookbook
 3. **merge LoRA** — `reference/` cell 41 (`tools/merge_lora.py` from the Vintern
    repo) then copy `*.py` + `config.json` from the base model (cookbook cells
    45/47).
-4. **`eval_vintern.py`** — greedy `model.chat` over val + test at `max_num=6`,
-   writes `text_predictions_epoch_1.json` (bridge-pipeline format) + in-house
-   8-metric `inhouse_metrics.json`.
-5. **`scripts/rescore_corpus.py`** on the prediction file → corpus CIDEr-D /
-   BLEU-4 / ROUGE-L (cross-paper convention).
+4. **`gen_vintern.py`** — greedy `InternVLChatModel.chat` over val + test at
+   `max_num=6`, writes `text_predictions_epoch_1.json` (bridge-pipeline format).
+   Generation only — no metric deps in the kernel (stays in the transformers
+   4.47 / InternVL training env).
+5. **`score_local.py`** (run after fetch, locally) — `metrics.compute_score.
+   compute_all_data` (same function behind Table 1) for the in-house 8 metrics +
+   corpus CIDEr-D / BLEU-4 / ROUGE-L. This keeps the number apples-to-apples with
+   our bridge rows.
 
 ## Kaggle
 

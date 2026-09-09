@@ -1,0 +1,583 @@
+
+===== cell [0] MD =====
+# **Fine-tuning Vintern-1B-v3_5 on 5CD/Viet-Receipt-VQA**
+
+In this notebook, we will fine-tune Vintern-1B by 5CD/Viet-Receipt-VQA an Vietnamese dataset, a new vision language model capable of various tasks, on document question answering for Vietnamese.
+
+Reference: https://internvl.readthedocs.io/en/latest/internvl2.0/finetune.html
+
+Check it more about us: [Fifth Civil Defender - 5CD - AI](https://huggingface.co/5CD-AI)
+
+Let's start by installing the dependencies and loading the dataset.
+===== cell [1] CODE =====
+!pip install -q timm einops peft wandb deepspeed accelerate bitsandbytes decord tensorboardX gdown
+===== cell [2] CODE =====
+!pip install -U datasets
+!pip install transformers==4.47.0
+!pip install flash_attn==2.7.2.post1
+===== cell [3] CODE =====
+!git clone https://github.com/5CD-AI/Vintern.git
+%cd Vintern
+===== cell [4] MD =====
+# **Load dataset**
+===== cell [5] CODE =====
+from datasets import load_dataset, Image
+vi_receipt_dataset = load_dataset("5CD-AI/Viet-Receipt-VQA")
+===== cell [6] CODE =====
+vi_receipt_dataset
+===== cell [7] CODE =====
+vi_receipt_dataset['train'][0]
+===== cell [8] MD =====
+# **Prepare model**
+===== cell [9] MD =====
+## Download model
+===== cell [10] MD =====
+Before starting the second fine-tuning, download the pre-trained model is provided.
+===== cell [11] CODE =====
+!mkdir -p pretrained
+%cd pretrained/
+# Download 5CD-AI/Vintern-1B-v2 ---- Vision Part:InternViT‑300M‑448px + Language Part: Qwen2‑0.5B‑Instruct
+# !huggingface-cli download --resume-download --local-dir-use-symlinks False 5CD-AI/Vintern-1B-v2 --local-dir Vintern-1B-v2
+!huggingface-cli download --resume-download --local-dir-use-symlinks False 5CD-AI/Vintern-1B-v3_5 --local-dir Vintern-1B-v3_5
+===== cell [12] MD =====
+## Test single image
+===== cell [13] MD =====
+Let's do inference with our dataset first to see how the model performs already with our dataset before fine-tuning. After testing you should clear the gpu (restart session) for next steps.
+===== cell [14] CODE =====
+#### Do not use flash attention if your device not support
+
+# import json
+# with open('pretrained/InternVL2-1B/config.json', 'r') as f:
+#     config = json.load(f)
+# config["vision_config"]["use_flash_attn"] = False
+# with open('pretrained/InternVL2-1B/config.json', 'w') as f:
+#     json.dump(config, f)
+===== cell [15] CODE =====
+import os
+import numpy as np
+import torch
+import torchvision.transforms as T
+from PIL import Image
+from torchvision.transforms.functional import InterpolationMode
+from transformers import AutoModel, AutoTokenizer
+import matplotlib.pyplot as plt
+
+IMAGENET_MEAN = (0.485, 0.456, 0.406)
+IMAGENET_STD = (0.229, 0.224, 0.225)
+
+def build_transform(input_size):
+    MEAN, STD = IMAGENET_MEAN, IMAGENET_STD
+    transform = T.Compose([
+        T.Lambda(lambda img: img.convert('RGB') if img.mode != 'RGB' else img),
+        T.Resize((input_size, input_size), interpolation=InterpolationMode.BICUBIC),
+        T.ToTensor(),
+        T.Normalize(mean=MEAN, std=STD)
+    ])
+    return transform
+
+def find_closest_aspect_ratio(aspect_ratio, target_ratios, width, height, image_size):
+    best_ratio_diff = float('inf')
+    best_ratio = (1, 1)
+    area = width * height
+    for ratio in target_ratios:
+        target_aspect_ratio = ratio[0] / ratio[1]
+        ratio_diff = abs(aspect_ratio - target_aspect_ratio)
+        if ratio_diff < best_ratio_diff:
+            best_ratio_diff = ratio_diff
+            best_ratio = ratio
+        elif ratio_diff == best_ratio_diff:
+            if area > 0.5 * image_size * image_size * ratio[0] * ratio[1]:
+                best_ratio = ratio
+    return best_ratio
+
+def dynamic_preprocess(image, min_num=1, max_num=12, image_size=448, use_thumbnail=False):
+    orig_width, orig_height = image.size
+    aspect_ratio = orig_width / orig_height
+
+    # calculate the existing image aspect ratio
+    target_ratios = set(
+        (i, j) for n in range(min_num, max_num + 1) for i in range(1, n + 1) for j in range(1, n + 1) if
+        i * j <= max_num and i * j >= min_num)
+    target_ratios = sorted(target_ratios, key=lambda x: x[0] * x[1])
+
+    # find the closest aspect ratio to the target
+    target_aspect_ratio = find_closest_aspect_ratio(
+        aspect_ratio, target_ratios, orig_width, orig_height, image_size)
+
+    # calculate the target width and height
+    target_width = image_size * target_aspect_ratio[0]
+    target_height = image_size * target_aspect_ratio[1]
+    blocks = target_aspect_ratio[0] * target_aspect_ratio[1]
+
+    # resize the image
+    resized_img = image.resize((target_width, target_height))
+    processed_images = []
+    for i in range(blocks):
+        box = (
+            (i % (target_width // image_size)) * image_size,
+            (i // (target_width // image_size)) * image_size,
+            ((i % (target_width // image_size)) + 1) * image_size,
+            ((i // (target_width // image_size)) + 1) * image_size
+        )
+        # split the image
+        split_img = resized_img.crop(box)
+        processed_images.append(split_img)
+    assert len(processed_images) == blocks
+    if use_thumbnail and len(processed_images) != 1:
+        thumbnail_img = image.resize((image_size, image_size))
+        processed_images.append(thumbnail_img)
+    return processed_images
+
+def load_image(image_file, input_size=448, max_num=12):
+    #check image_file is a path or image
+    if isinstance(image_file, str):
+        image = Image.open(image_file).convert('RGB')
+    else:
+        image = image_file
+    transform = build_transform(input_size=input_size)
+    images = dynamic_preprocess(image, image_size=input_size, use_thumbnail=True, max_num=max_num)
+    pixel_values = [transform(image) for image in images]
+    pixel_values = torch.stack(pixel_values)
+    return pixel_values
+===== cell [16] CODE =====
+## load pretrained model
+model_name = "/content/Vintern/pretrained/Vintern-1B-v3_5"
+tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True, use_fast=False)
+model = AutoModel.from_pretrained(
+    model_name,
+    torch_dtype=torch.bfloat16,
+    low_cpu_mem_usage=True,
+    trust_remote_code=True,
+    use_flash_attn=False,
+).eval().cuda()
+===== cell [17] CODE =====
+### Test samples
+for i in range(3):
+    image = vi_receipt_dataset['train'][i]['image']
+
+    plt.figure(figsize=(5,5))
+    plt.imshow(image)
+    plt.show()
+
+    pixel_values = load_image(image, max_num=12).to(torch.bfloat16).cuda()
+    generation_config = dict(max_new_tokens= 1024, do_sample=False, num_beams = 3, repetition_penalty=2.0)
+
+    question = '<image>\nTrích xuất thông tin hoá đơn trong ảnh.'
+
+    response = model.chat(tokenizer, pixel_values, question, generation_config)
+    print(f'User: {question}\nAssistant: {response}')
+    print("="*30)
+===== cell [18] CODE =====
+torch.cuda.empty_cache()
+===== cell [19] MD =====
+# **Prepare Your Customized Training Data**
+===== cell [20] CODE =====
+%cd /content/Vintern
+===== cell [21] MD =====
+## Single-Image Data
+First you need to create a dataset json file to describe each item of your dataset
+
+For single-image data, we use a **JSONL** file to store the data. Each entry is a dictionary organized in the following format. Note that each entry for single-image data must contain an image field, which is a string.
+
+The path in the image field is relative to the root field. Concatenating the root field and the image field gives the complete path to the image. It is recommended to include width and height information for each data sample for future use.
+```
+{
+  "id": 0,
+  "image": "path/to/image.jpg",
+  "width": 111,
+  "height": 222,
+  "conversations": [
+    {"from": "human", "value": "<image>\nuser input"},
+    {"from": "gpt", "value": "assistant output"},
+    {"from": "human", "value": "user input"},
+    {"from": "gpt", "value": "assistant output"}
+  ]
+}
+```
+===== cell [22] MD =====
+Save image to image folder to get image_path to follow format of dataset
+===== cell [23] CODE =====
+import os
+from tqdm import tqdm
+FOLDER_IMAGES = "/content/Viet-Receipt-VQA-images"
+os.makedirs(FOLDER_IMAGES, exist_ok=True)
+===== cell [24] CODE =====
+
+### Save image dataset
+for i in tqdm(range(len(vi_receipt_dataset['train']))):
+    image = vi_receipt_dataset['train'][i]['image']
+    id = vi_receipt_dataset['train'][i]['id']
+
+    #resize 448x448
+    image = image.resize((448, 448)) # Just for saving vram
+    image.save(f"{FOLDER_IMAGES}/{id}.jpg")
+===== cell [25] MD =====
+Format each item data follow format above
+===== cell [26] CODE =====
+import json
+
+all_data = []
+
+for item in tqdm(vi_receipt_dataset['train']):
+    # Just 500 items for example
+    if len(all_data) >= 50:
+        break
+    id = item['id']
+    image = f"{FOLDER_IMAGES}/{item['id']}.jpg"
+    width = item['image'].width
+    height = item['image'].height
+    conversations = [
+            {"from": "human", "value": '<image>\nTrích xuất thông tin hoá đơn trong ảnh.'},
+            {"from": "gpt", "value": str(item["extractions"])}
+        ]
+    data = {
+        "id": id,
+        "image": image,
+        "width": width,
+        "height": height,
+        "conversations": conversations
+    }
+    all_data.append(data)
+
+print(len(all_data))
+print(all_data[0:5])
+===== cell [27] CODE =====
+### Write JSONL line
+with open('/content/Vintern/internvl_chat/shell/data/viet-receipt-vqa.jsonl', 'w', encoding='utf-8') as f:
+    for data in tqdm(all_data):
+        f.write(json.dumps(data, ensure_ascii=False) + '\n')
+===== cell [28] MD =====
+## Create meta file to manage the meta information of all datasets
+===== cell [29] MD =====
+After downloading the pre-trained model, prepare your customized SFT (Supervised Fine-Tuning) data. Create a JSON file in `internvl_chat/shell/data/` similar to [this example](https://github.com/OpenGVLab/InternVL/blob/main/internvl_chat/shell/data/internvl_1_2_finetune.json)
+
+The format for the JSON file should be:
+
+```
+{
+  "your-custom-dataset-1": {
+    "root": "path/to/the/image/",
+    "annotation": "path/to/the/jsonl/annotation",
+    "data_augment": false,
+    "repeat_time": 1,
+    "length": "number of your data"
+  },
+  ...
+}```
+
+
+===== cell [30] CODE =====
+metadata_datasets = {
+  "vi-receipt-vqa": {
+    "root": "/content/Viet-Receipt-VQA-images",
+    "annotation": "/content/Vintern/internvl_chat/shell/data/viet-receipt-vqa.jsonl",
+    "data_augment": False,
+    "repeat_time": 1,
+    "length": 50
+  }
+}
+
+with open('/content/Vintern/internvl_chat/shell/data/custom_fintune_datasets.json', 'w', encoding='utf-8') as f:
+    json.dump(metadata_datasets, f, ensure_ascii=False, indent=4)
+
+===== cell [31] MD =====
+# Training
+===== cell [32] MD =====
+## LoRA fine-tuning
+===== cell [33] MD =====
+Fine-tune the pre-trained models using either the script for training the [full LLM](https://internvl.readthedocs.io/en/latest/internvl2.0/finetune.html#:~:text=script%20for%20training%20the%20full%20LLM) or the script for training the [LoRA adapter](https://github.com/OpenGVLab/InternVL/blob/main/internvl_chat/shell/internvl2.0/2nd_finetune/internvl2_1b_qwen2_0_5b_dynamic_res_2nd_finetune_lora.sh), depending on your available GPU resources.
+
+Before fine-tuning, set the --meta_path to the path of the JSON file you created in the previous step. The default pre-trained model path in these shell scripts is ./pretrained/InternVL2-1B.
+
+In the default settings, I have frozen the visual encoder. You can unfreeze it if needed. Generally, unfreezing the visual encoder will result in better performance.
+
+
+===== cell [34] MD =====
+Edit file `InternVL/internvl_chat/shell/internvl2.0/2nd_finetune/internvl2_1b_qwen2_0_5b_dynamic_res_2nd_finetune_lora.sh` for train LoRA LLM follow example below
+===== cell [35] CODE =====
+train_bash_content = '''set -x
+
+GPUS=${GPUS:-1}
+BATCH_SIZE=${BATCH_SIZE:-1}
+PER_DEVICE_BATCH_SIZE=${PER_DEVICE_BATCH_SIZE:-1}
+GRADIENT_ACC=$((BATCH_SIZE / PER_DEVICE_BATCH_SIZE / GPUS))
+
+
+export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+export MASTER_PORT=34229
+export TF_CPP_MIN_LOG_LEVEL=3
+export LAUNCHER=pytorch
+
+OUTPUT_DIR='/content/work_dirs/internvl_chat_v2_0/Vintern_1B_v3_5_finetune_lora_viet_receipt_vqa'
+
+if [ ! -d "$OUTPUT_DIR" ]; then
+  mkdir -p "$OUTPUT_DIR"
+fi
+
+# number of gpus: 2
+# batch size per gpu: 4
+# gradient accumulation steps: 2
+# total batch size: 16
+# epoch: 1
+torchrun \
+  --nnodes=1 \
+  --node_rank=0 \
+  --master_addr=127.0.0.1 \
+  --nproc_per_node=${GPUS} \
+  --master_port=${MASTER_PORT} \
+  internvl/train/internvl_chat_finetune.py \
+  --model_name_or_path "/content/Vintern/pretrained/Vintern-1B-v3_5" \
+  --conv_style "Hermes-2" \
+  --output_dir ${OUTPUT_DIR} \
+  --meta_path "/content/Vintern/internvl_chat/shell/data/custom_fintune_datasets.json" \
+  --overwrite_output_dir True \
+  --force_image_size 448 \
+  --max_dynamic_patch 6 \
+  --down_sample_ratio 0.5 \
+  --drop_path_rate 0.0 \
+  --freeze_llm True \
+  --freeze_mlp True \
+  --freeze_backbone True \
+  --use_llm_lora 16 \
+  --vision_select_layer -1 \
+  --dataloader_num_workers 4 \
+  --bf16 True \
+  --num_train_epochs 1 \
+  --per_device_train_batch_size ${PER_DEVICE_BATCH_SIZE} \
+  --gradient_accumulation_steps ${GRADIENT_ACC} \
+  --evaluation_strategy "no" \
+  --save_strategy "steps" \
+  --save_steps 500 \
+  --save_total_limit 2 \
+  --learning_rate 4e-5 \
+  --weight_decay 0.01 \
+  --warmup_ratio 0.03 \
+  --lr_scheduler_type "cosine" \
+  --logging_steps 10 \
+  --max_seq_length 700 \
+  --do_train True \
+  --grad_checkpoint True \
+  --group_by_length True \
+  --dynamic_image_size True \
+  --use_thumbnail True \
+  --ps_version 'v2' \
+  --deepspeed "zero_stage1_config.json" \
+  --report_to "tensorboard" \
+  2>&1 | tee -a "${OUTPUT_DIR}/training_log.txt"
+'''
+===== cell [36] CODE =====
+with open("/content/Vintern/internvl_chat/shell/internvl2.0/2nd_finetune/internvl2_1b_qwen2_0_5b_dynamic_res_2nd_finetune_lora.sh", "w") as text_file:
+    text_file.write(train_bash_content)
+===== cell [37] MD =====
+Let's go training. It take about just 15 minutes with T4
+===== cell [38] CODE =====
+%cd /content/Vintern/internvl_chat
+!sh shell/internvl2.0/2nd_finetune/internvl2_1b_qwen2_0_5b_dynamic_res_2nd_finetune_lora.sh
+===== cell [39] CODE =====
+import torch
+torch.cuda.empty_cache()
+===== cell [40] MD =====
+## Merging LoRA Weights
+After evaluating the fine-tuned model, you may want to merge the LoRA weights back into the original InternVL2 model. Follow these steps to accomplish this.
+
+Use the provided script to merge the LoRA weights into the base model. The script takes two arguments: the input path of the fine-tuned model and the output path for the merged model.
+
+`python tools/merge_lora.py <input_path> <output_path>`
+===== cell [41] CODE =====
+merge_lora_content = '''import torch
+import sys
+sys.path.append("/content/Vintern/internvl_chat")
+from internvl.model.internvl_chat import InternVLChatModel
+from transformers import AutoTokenizer
+import argparse
+
+argparse = argparse.ArgumentParser()
+argparse.add_argument("input_path", type=str, help="Path to the input model")
+argparse.add_argument("output_path", type=str, help="Path to the output model")
+args = argparse.parse_args()
+
+print("Loading model...")
+model = InternVLChatModel.from_pretrained(
+    args.input_path, low_cpu_mem_usage=True, torch_dtype=torch.bfloat16).eval()
+print("Loading tokenizer...")
+tokenizer = AutoTokenizer.from_pretrained(args.input_path, trust_remote_code=True)
+
+if model.config.use_backbone_lora:
+    model.vision_model.merge_and_unload()
+    model.vision_model = model.vision_model.model
+    model.config.use_backbone_lora = 0
+if model.config.use_llm_lora:
+    model.language_model.merge_and_unload()
+    model.language_model = model.language_model.model
+    model.config.use_llm_lora = 0
+
+print("Saving model...")
+model.save_pretrained(args.output_path)
+print("Saving tokenizer...")
+tokenizer.save_pretrained(args.output_path)
+print("Done!")
+'''
+
+with open("/content/Vintern/internvl_chat/tools/merge_lora.py", "w") as text_file:
+    text_file.write(merge_lora_content)
+===== cell [42] CODE =====
+### If could not import internvl edit add
+### import sys
+### sys.path.append("/content/Vintern/internvl_chat")
+
+%cd /content/Vintern/internvl_chat
+!python tools/merge_lora.py /content/work_dirs/internvl_chat_v2_0/Vintern_1B_v3_5_finetune_lora_viet_receipt_vqa \
+                            /content/work_dirs/internvl_chat_v2_0/Vintern_1B_v3_5_finetune_lora_viet_receipt_vqa_merge
+===== cell [43] MD =====
+## Wrapping into AutoModel
+After merging the LoRA weights, you can wrap the fine-tuned InternVL2 model into an AutoModel for easier inference or deployment.
+
+First, copy all the Python scripts from the original InternVL2-2B directory to the new merged model directory:
+
+
+===== cell [44] CODE =====
+!ls /content/work_dirs/internvl_chat_v2_0/Vintern_1B_v3_5_finetune_lora_viet_receipt_vqa_merge
+===== cell [45] CODE =====
+!cp /content/Vintern/pretrained/Vintern-1B-v3_5/*.py \
+    /content/work_dirs/internvl_chat_v2_0/Vintern_1B_v3_5_finetune_lora_viet_receipt_vqa_merge
+===== cell [46] MD =====
+Next, copy the config.json file from the original InternVL2-1B directory to the new merged model directory:
+===== cell [47] CODE =====
+!cp /content/Vintern/pretrained/Vintern-1B-v3_5/config.json \
+    /content/work_dirs/internvl_chat_v2_0/Vintern_1B_v3_5_finetune_lora_viet_receipt_vqa_merge
+===== cell [48] MD =====
+# Inference with fintuned model
+===== cell [49] MD =====
+After copying the necessary files, you can now load and use the fine-tuned InternVL2 model with AutoModel for inference
+===== cell [50] CODE =====
+import os
+import numpy as np
+import torch
+import torchvision.transforms as T
+from PIL import Image
+from torchvision.transforms.functional import InterpolationMode
+from transformers import AutoModel, AutoTokenizer
+import matplotlib.pyplot as plt
+
+IMAGENET_MEAN = (0.485, 0.456, 0.406)
+IMAGENET_STD = (0.229, 0.224, 0.225)
+
+def build_transform(input_size):
+    MEAN, STD = IMAGENET_MEAN, IMAGENET_STD
+    transform = T.Compose([
+        T.Lambda(lambda img: img.convert('RGB') if img.mode != 'RGB' else img),
+        T.Resize((input_size, input_size), interpolation=InterpolationMode.BICUBIC),
+        T.ToTensor(),
+        T.Normalize(mean=MEAN, std=STD)
+    ])
+    return transform
+
+def find_closest_aspect_ratio(aspect_ratio, target_ratios, width, height, image_size):
+    best_ratio_diff = float('inf')
+    best_ratio = (1, 1)
+    area = width * height
+    for ratio in target_ratios:
+        target_aspect_ratio = ratio[0] / ratio[1]
+        ratio_diff = abs(aspect_ratio - target_aspect_ratio)
+        if ratio_diff < best_ratio_diff:
+            best_ratio_diff = ratio_diff
+            best_ratio = ratio
+        elif ratio_diff == best_ratio_diff:
+            if area > 0.5 * image_size * image_size * ratio[0] * ratio[1]:
+                best_ratio = ratio
+    return best_ratio
+
+def dynamic_preprocess(image, min_num=1, max_num=12, image_size=448, use_thumbnail=False):
+    orig_width, orig_height = image.size
+    aspect_ratio = orig_width / orig_height
+
+    # calculate the existing image aspect ratio
+    target_ratios = set(
+        (i, j) for n in range(min_num, max_num + 1) for i in range(1, n + 1) for j in range(1, n + 1) if
+        i * j <= max_num and i * j >= min_num)
+    target_ratios = sorted(target_ratios, key=lambda x: x[0] * x[1])
+
+    # find the closest aspect ratio to the target
+    target_aspect_ratio = find_closest_aspect_ratio(
+        aspect_ratio, target_ratios, orig_width, orig_height, image_size)
+
+    # calculate the target width and height
+    target_width = image_size * target_aspect_ratio[0]
+    target_height = image_size * target_aspect_ratio[1]
+    blocks = target_aspect_ratio[0] * target_aspect_ratio[1]
+
+    # resize the image
+    resized_img = image.resize((target_width, target_height))
+    processed_images = []
+    for i in range(blocks):
+        box = (
+            (i % (target_width // image_size)) * image_size,
+            (i // (target_width // image_size)) * image_size,
+            ((i % (target_width // image_size)) + 1) * image_size,
+            ((i // (target_width // image_size)) + 1) * image_size
+        )
+        # split the image
+        split_img = resized_img.crop(box)
+        processed_images.append(split_img)
+    assert len(processed_images) == blocks
+    if use_thumbnail and len(processed_images) != 1:
+        thumbnail_img = image.resize((image_size, image_size))
+        processed_images.append(thumbnail_img)
+    return processed_images
+
+def load_image(image_file, input_size=448, max_num=12):
+    #check image_file is a path or image
+    if isinstance(image_file, str):
+        image = Image.open(image_file).convert('RGB')
+    else:
+        image = image_file
+    image = image.resize((input_size, input_size))
+
+    transform = build_transform(input_size=input_size)
+    images = dynamic_preprocess(image, image_size=input_size, use_thumbnail=True, max_num=max_num)
+    pixel_values = [transform(image) for image in images]
+    pixel_values = torch.stack(pixel_values)
+    return pixel_values
+===== cell [51] CODE =====
+## load pretrained model
+model_name = "/content/work_dirs/internvl_chat_v2_0/Vintern_1B_v3_5_finetune_lora_viet_receipt_vqa_merge"
+
+model = AutoModel.from_pretrained(model_name,
+                                  torch_dtype=torch.bfloat16,
+                                  use_flash_attn=False,
+                                  low_cpu_mem_usage=True,
+                                  trust_remote_code=True).eval().cuda()
+tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True, use_fast=False)
+
+===== cell [52] CODE =====
+!gdown https://drive.google.com/drive/folders/17FFnVEgJjWCgKlHzppYOeXfBRQIV--3D?usp=sharing --folder -O /content/test
+===== cell [53] CODE =====
+### Test samples
+test_folder = '/content/test'
+for filename in os.listdir(test_folder):
+    image_path = os.path.join(test_folder, filename)
+    image = Image.open(image_path).convert('RGB')
+
+    plt.figure(figsize=(5,5))
+    plt.imshow(image)
+    plt.show()
+
+    pixel_values = load_image(image_path, max_num=12).to(torch.bfloat16).cuda()
+    generation_config = dict(max_new_tokens= 1024, do_sample=False, num_beams = 3, repetition_penalty=2.0)
+
+    question = '<image>\nTrích xuất thông tin hoá đơn trong ảnh.'
+
+    response = model.chat(tokenizer, pixel_values, question, generation_config)
+    print(f'User: {question}\nAssistant: {response}')
+    print("="*30)
+===== cell [54] MD =====
+This guide provided a step-by-step approach to enhancing the InternVL2 model on Viet-Receipt-VQA using LoRA fine-tuning. By following these instructions, you should be able to achieve improved performance in extraction tasks.  Viet-Receipt-VQA is just one example; you can replace it with other downstream datasets for fine-tuning. Happy fine-tuning!
+
+DON'T WORRY ABOUT IT! WE HERE FOR YOU <3
+
+You could find more Vietnamese datasets here.
+
+Check it more about us: [Fifth Civil Defender - 5CD - AI](https://huggingface.co/5CD-AI)
+
+
+===== cell [55] CODE =====

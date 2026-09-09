@@ -29,6 +29,13 @@ export LAUNCHER=pytorch
 
 mkdir -p "$OUTPUT_DIR"
 
+# deepspeed is optional for a single-GPU LoRA run; drop it if unavailable
+DS_ARG="--deepspeed zero_stage1_config.json"
+if [ "${SKIP_DEEPSPEED:-0}" = "1" ] || [ ! -f "zero_stage1_config.json" ]; then
+  DS_ARG=""
+  echo "[finetune] deepspeed disabled (SKIP_DEEPSPEED=${SKIP_DEEPSPEED:-0}, config present=$([ -f zero_stage1_config.json ] && echo yes || echo no))"
+fi
+
 torchrun \
   --nnodes=1 --node_rank=0 --master_addr=127.0.0.1 \
   --nproc_per_node=${GPUS} --master_port=${MASTER_PORT} \
@@ -69,6 +76,6 @@ torchrun \
   --dynamic_image_size True \
   --use_thumbnail True \
   --ps_version 'v2' \
-  --deepspeed "zero_stage1_config.json" \
+  ${DS_ARG} \
   --report_to "tensorboard" \
   2>&1 | tee -a "${OUTPUT_DIR}/training_log.txt"

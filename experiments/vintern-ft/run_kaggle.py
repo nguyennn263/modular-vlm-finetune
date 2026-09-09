@@ -64,10 +64,21 @@ def cells(seed: int, br: str) -> list[dict]:
             "print('repo:', os.getcwd()); os.system('ls /tmp/wk && ls /tmp/wk/Vintern/internvl_chat')",
         ),
         code(
-            "# cookbook deps (colab cells 1-2)",
-            "!pip -q install timm einops peft deepspeed accelerate bitsandbytes decord tensorboardX",
-            "!pip -q install transformers==4.47.0 datasets",
-            "!pip -q install flash_attn==2.7.2.post1 || echo 'flash_attn skipped (train falls back to eager)'",
+            "# minimal deps for phase0 (keep Kaggle's native torch; no setup_kaggle.sh downgrade)",
+            "%cd /tmp/wk/repo",
+            "!pip -q install pyarrow pyyaml pydantic 'pandas>=2' && pip -q install -e . --no-deps",
+        ),
+        code(
+            "# build data/splits/{train,val,test}.jsonl (gitignored -> must regenerate on Kaggle)",
+            "%cd /tmp/wk/repo",
+            "!python scripts/phase0_build_data.py 2>&1 | tail -12",
+            "import os; assert os.path.exists('data/splits/train.jsonl'), 'phase0 did not produce data/splits'",
+            "print('splits:', {s: sum(1 for _ in open(f'data/splits/{s}.jsonl')) for s in ['train','val','test']})",
+        ),
+        code(
+            "# cookbook deps (colab cells 1-2) -- transformers 4.47 for the InternVL trainer.",
+            "# NO flash_attn: Kaggle P100/T4 are pre-Ampere, flash-attn v2 cannot run -> eager attn.",
+            "!pip -q install transformers==4.47.0 peft deepspeed accelerate timm einops bitsandbytes datasets tensorboardX",
         ),
         code(
             "import os",
@@ -77,7 +88,7 @@ def cells(seed: int, br: str) -> list[dict]:
             "2>&1 | tail -3",
         ),
         code(
-            "# build InternVL-format data from our splits (images are mounted here)",
+            "# convert our splits -> InternVL chat SFT format",
             "%cd /tmp/wk/repo",
             f"!python experiments/vintern-ft/build_data.py --images-dir {IMAGES} "
             f"--meta-image-root {IMAGES} --out-dir experiments/vintern-ft/data 2>&1 | tail -8",
@@ -108,11 +119,14 @@ def cells(seed: int, br: str) -> list[dict]:
             "os.environ['META_PATH'] = './shell/data/meta_autovivqa.json'",
             f"os.environ['OUTPUT_DIR'] = '{ft_out}'",
             f"os.environ['SEED'] = '{seed}'",
-            "!bash shell/internvl2.0/2nd_finetune/autovivqa_lora.sh 2>&1 | tail -50",
+            "print('zero config present:', os.path.exists('zero_stage1_config.json'))",
+            "!bash shell/internvl2.0/2nd_finetune/autovivqa_lora.sh 2>&1 | tail -60",
+            f"import os; print('train outputs:', sorted(os.listdir('{ft_out}')) if os.path.isdir('{ft_out}') else 'MISSING')",
         ),
         code(
             "# merge LoRA (cookbook cell 41-47)",
             "%cd /tmp/wk/Vintern/internvl_chat",
+            f"import os; assert any('adapter' in f or f=='pytorch_model.bin' or f.endswith('.safetensors') for f in os.listdir('{ft_out}')), 'no adapter/weights in {ft_out}'",
             f"!python /tmp/wk/repo/experiments/vintern-ft/merge_lora.py {ft_out} {merged}",
             f"!cp /tmp/wk/Vintern/pretrained/Vintern-1B-v3_5/*.py {merged}/",
             f"!cp /tmp/wk/Vintern/pretrained/Vintern-1B-v3_5/config.json {merged}/",

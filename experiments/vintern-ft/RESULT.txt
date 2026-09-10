@@ -1,65 +1,66 @@
 === terminal: ERROR -> fetching ===
+Output file downloaded to /Users/tcx/Documents/personal/Repo/modular-vlm-finetune/experiments/vintern-ft/out/work_dirs/vintern_lora/training_log.txt
 Kernel log downloaded to /Users/tcx/Documents/personal/Repo/modular-vlm-finetune/experiments/vintern-ft/out/mvlm-vintern-ft-repro.log 
 --- log tail ---
-,{"stream_name":"stdout","time":253.801493983,"data":"    from . import module_inject\n"}
-,{"stream_name":"stdout","time":253.801499295,"data":"  File \"/usr/local/lib/python3.12/dist-packages/deepspeed/module_inject/__init__.py\", line 6, in \u003cmodule\u003e\n"}
-,{"stream_name":"stdout","time":253.801505119,"data":"    from .replace_module import replace_transformer_layer, revert_transformer_layer, ReplaceWithTensorSlicing, GroupQuantizer, generic_injection\n"}
-,{"stream_name":"stdout","time":253.801511297,"data":"  File \"/usr/local/lib/python3.12/dist-packages/deepspeed/module_inject/replace_module.py\", line 669, in \u003cmodule\u003e\n"}
-,{"stream_name":"stdout","time":253.801516199,"data":"    from ..pipe import PipelineModule\n"}
-,{"stream_name":"stdout","time":253.801520571,"data":"  File \"/usr/local/lib/python3.12/dist-packages/deepspeed/pipe/__init__.py\", line 6, in \u003cmodule\u003e\n"}
-,{"stream_name":"stdout","time":253.801525467,"data":"    from ..runtime.pipe import PipelineModule, LayerSpec, TiedLayerSpec\n"}
-,{"stream_name":"stdout","time":253.801529914,"data":"  File \"/usr/local/lib/python3.12/dist-packages/deepspeed/runtime/pipe/__init__.py\", line 6, in \u003cmodule\u003e\n"}
-,{"stream_name":"stdout","time":253.801534516,"data":"    from .module import PipelineModule, LayerSpec, TiedLayerSpec\n"}
-,{"stream_name":"stdout","time":253.801538929,"data":"  File \"/usr/local/lib/python3.12/dist-packages/deepspeed/runtime/pipe/module.py\", line 19, in \u003cmodule\u003e\n"}
-,{"stream_name":"stdout","time":253.80154355,"data":"    from ..activation_checkpointing import checkpointing\n"}
-,{"stream_name":"stdout","time":253.801547934,"data":"  File \"/usr/local/lib/python3.12/dist-packages/deepspeed/runtime/activation_checkpointing/checkpointing.py\", line 26, in \u003cmodule\u003e\n"}
-,{"stream_name":"stdout","time":253.801552561,"data":"    from deepspeed.runtime.config import DeepSpeedConfig\n"}
-,{"stream_name":"stdout","time":253.801556989,"data":"  File \"/usr/local/lib/python3.12/dist-packages/deepspeed/runtime/config.py\", line 28, in \u003cmodule\u003e\n"}
-,{"stream_name":"stdout","time":253.801561727,"data":"    from ..compile.config import CompileConfig\n"}
-,{"stream_name":"stdout","time":253.801571744,"data":"  File \"/usr/local/lib/python3.12/dist-packages/deepspeed/compile/__init__.py\", line 6, in \u003cmodule\u003e\n"}
-,{"stream_name":"stdout","time":253.801591776,"data":"    from .util import pad_tensors\n"}
-,{"stream_name":"stdout","time":253.801596926,"data":"  File \"/usr/local/lib/python3.12/dist-packages/deepspeed/compile/util.py\", line 28, in \u003cmodule\u003e\n"}
-,{"stream_name":"stdout","time":253.801618841,"data":"    from .custom_ops import sp_dp_registry\n"}
-,{"stream_name":"stdout","time":253.801624425,"data":"  File \"/usr/local/lib/python3.12/dist-packages/deepspeed/compile/custom_ops/__init__.py\", line 7, in \u003cmodule\u003e\n"}
-,{"stream_name":"stdout","time":253.801641221,"data":"    from .tp_collectives import copy_to_tp_region, gather_from_tp_region, reduce_from_tp_region\n"}
-,{"stream_name":"stdout","time":253.801645221,"data":"  File \"/usr/local/lib/python3.12/dist-packages/deepspeed/compile/custom_ops/tp_collectives.py\", line 49, in \u003cmodule\u003e\n"}
-,{"stream_name":"stdout","time":253.801651053,"data":"    @torch.library.custom_op(\"autotp::gather_from_tp_region\", mutates_args=())\n"}
-,{"stream_name":"stdout","time":253.801654932,"data":"     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
-,{"stream_name":"stdout","time":253.801658686,"data":"  File \"/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py\", line 133, in inner\n"}
-,{"stream_name":"stdout","time":253.801662591,"data":"    schema_str = torch.library.infer_schema(fn, mutates_args=mutates_args)\n"}
-,{"stream_name":"stdout","time":253.80166624,"data":"                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
-,{"stream_name":"stdout","time":253.801669845,"data":"  File \"/usr/local/lib/python3.12/dist-packages/torch/_library/infer_schema.py\", line 106, in infer_schema\n"}
-,{"stream_name":"stdout","time":253.801673709,"data":"    error_fn(\n"}
-,{"stream_name":"stdout","time":253.801677089,"data":"  File \"/usr/local/lib/python3.12/dist-packages/torch/_library/infer_schema.py\", line 58, in error_fn\n"}
-,{"stream_name":"stdout","time":253.801682901,"data":"    raise ValueError(\n"}
-,{"stream_name":"stdout","time":253.801706243,"data":"ValueError: infer_schema(func): Parameter partition_sizes has unsupported type list[int]. The valid types are: dict_keys([\u003cclass 'torch.Tensor'\u003e, typing.Optional[torch.Tensor], typing.Sequence[torch.Tensor], typing.List[torch.Tensor], typing.Sequence[typing.Optional[torch.Tensor]], typing.List[typing.Optional[torch.Tensor]], \u003cclass 'int'\u003e, typing.Optional[int], typing.Sequence[int], typing.List[int], typing.Optional[typing.Sequence[int]], typing.Optional[typing.List[int]], \u003cclass 'float'\u003e, typing.Optional[float], typing.Sequence[float], typing.List[float], typing.Optional[typing.Sequence[float]], typing.Optional[typing.List[float]], \u003cclass 'bool'\u003e, typing.Optional[bool], typing.Sequence[bool], typing.List[bool], typing.Optional[typing.Sequence[bool]], typing.Optional[typing.List[bool]], \u003cclass 'str'\u003e, typing.Optional[str], typing.Union[int, float, bool], typing.Union[int, float, bool, NoneType], typing.Sequence[typing.Union[int, float, bool]], typing.List[typing.Union[int, float, bool]], \u003cclass 'torch.dtype'\u003e, typing.Optional[torch.dtype], \u003cclass 'torch.device'\u003e, typing.Optional[torch.device]]). Got func with signature (input: torch.Tensor, partition_sizes: list[int]) -\u003e torch.Tensor)\n"}
-,{"stream_name":"stdout","time":253.801719545,"data":"\n"}
-,{"stream_name":"stderr","time":254.194549566,"data":"Traceback (most recent call last):\n"}
-,{"stream_name":"stderr","time":254.194579896,"data":"  File \"\u003cstring\u003e\", line 1, in \u003cmodule\u003e\n"}
-,{"stream_name":"stderr","time":254.194586131,"data":"  File \"/usr/local/lib/python3.12/dist-packages/papermill/execute.py\", line 131, in execute_notebook\n"}
-,{"stream_name":"stderr","time":254.195321479,"data":"    raise_for_execution_errors(nb, output_path)\n"}
-,{"stream_name":"stderr","time":254.195340289,"data":"  File \"/usr/local/lib/python3.12/dist-packages/papermill/execute.py\", line 251, in raise_for_execution_errors\n"}
-,{"stream_name":"stderr","time":254.195502922,"data":"    raise error\n"}
-,{"stream_name":"stderr","time":254.195959186,"data":"papermill.exceptions.PapermillExecutionError: \n"}
-,{"stream_name":"stderr","time":254.195981745,"data":"---------------------------------------------------------------------------\n"}
-,{"stream_name":"stderr","time":254.195986428,"data":"Exception encountered at \"In [5]\":\n"}
-,{"stream_name":"stderr","time":254.195990312,"data":"---------------------------------------------------------------------------\n"}
-,{"stream_name":"stderr","time":254.195994783,"data":"AssertionError                            Traceback (most recent call last)\n"}
-,{"stream_name":"stderr","time":254.195998217,"data":"/tmp/ipykernel_24/2164898771.py in \u003ccell line: 0\u003e()\n"}
-,{"stream_name":"stderr","time":254.196002555,"data":"      9   capture_output=True, text=True)\n"}
-,{"stream_name":"stderr","time":254.196006706,"data":"     10 print(r.stdout); print(r.stderr)\n"}
-,{"stream_name":"stderr","time":254.196010086,"data":"---\u003e 11 assert 'OK' in r.stdout, 'internvl import chain still broken -- see stderr above'\n"}
-,{"stream_name":"stderr","time":254.196013707,"data":"\n"}
-,{"stream_name":"stderr","time":254.196016826,"data":"AssertionError: internvl import chain still broken -- see stderr above\n"}
-,{"stream_name":"stderr","time":254.196020323,"data":"\n"}
-,{"stream_name":"stderr","time":256.326077489,"data":"/usr/local/lib/python3.12/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
-,{"stream_name":"stderr","time":256.326108497,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
-,{"stream_name":"stderr","time":256.469077202,"data":"/usr/local/lib/python3.12/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
-,{"stream_name":"stderr","time":256.46910363,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
-,{"stream_name":"stderr","time":257.773326429,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to notebook\n"}
-,{"stream_name":"stderr","time":258.135517253,"data":"[NbConvertApp] Writing 29569 bytes to __notebook__.ipynb\n"}
-,{"stream_name":"stderr","time":260.452445088,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to html\n"}
-,{"stream_name":"stderr","time":261.298748498,"data":"[NbConvertApp] Writing 323589 bytes to __results__.html\n"}
+,{"stream_name":"stdout","time":493.97548827,"data":"             ^^^^^^\r\n"}
+,{"stream_name":"stdout","time":493.975492085,"data":"  File \"/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py\", line 355, in wrapper\r\n"}
+,{"stream_name":"stdout","time":493.975496625,"data":"    return f(*args, **kwargs)\r\n"}
+,{"stream_name":"stdout","time":493.975508141,"data":"           ^^^^^^^^^^^^^^^^^^\r\n"}
+,{"stream_name":"stdout","time":493.975516459,"data":"  File \"/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py\", line 919, in main\r\n"}
+,{"stream_name":"stdout","time":493.975519602,"data":"    run(args)\r\n"}
+,{"stream_name":"stdout","time":493.975522888,"data":"  File \"/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py\", line 910, in run\r\n"}
+,{"stream_name":"stdout","time":493.975541579,"data":"    elastic_launch(\r\n"}
+,{"stream_name":"stdout","time":493.975546462,"data":"  File \"/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py\", line 138, in __call__\r\n"}
+,{"stream_name":"stdout","time":493.975551644,"data":"    return launch_agent(self._config, self._entrypoint, list(args))\r\n"}
+,{"stream_name":"stdout","time":493.975555522,"data":"           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n"}
+,{"stream_name":"stdout","time":493.975560336,"data":"  File \"/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py\", line 269, in launch_agent\r\n"}
+,{"stream_name":"stdout","time":493.975565243,"data":"    raise ChildFailedError(\r\n"}
+,{"stream_name":"stdout","time":493.97556986,"data":"torch.distributed.elastic.multiprocessing.errors.ChildFailedError: \r\n"}
+,{"stream_name":"stdout","time":493.975573992,"data":"============================================================\r\n"}
+,{"stream_name":"stdout","time":493.975578013,"data":"internvl/train/internvl_chat_finetune.py FAILED\r\n"}
+,{"stream_name":"stdout","time":493.97558191,"data":"------------------------------------------------------------\r\n"}
+,{"stream_name":"stdout","time":493.975586222,"data":"Failures:\r\n"}
+,{"stream_name":"stdout","time":493.975589916,"data":"  \u003cNO_OTHER_FAILURES\u003e\r\n"}
+,{"stream_name":"stdout","time":493.97559391,"data":"------------------------------------------------------------\r\n"}
+,{"stream_name":"stdout","time":493.975597895,"data":"Root Cause (first observed failure):\r\n"}
+,{"stream_name":"stdout","time":493.975601727,"data":"[0]:\r\n"}
+,{"stream_name":"stdout","time":493.975605553,"data":"  time      : 2026-09-10_02:53:36\r\n"}
+,{"stream_name":"stdout","time":493.975609461,"data":"  host      : 1086b507c177\r\n"}
+,{"stream_name":"stdout","time":493.975613281,"data":"  rank      : 0 (local_rank: 0)\r\n"}
+,{"stream_name":"stdout","time":493.975617119,"data":"  exitcode  : 1 (pid: 412)\r\n"}
+,{"stream_name":"stdout","time":493.975622881,"data":"  error_file: \u003cN/A\u003e\r\n"}
+,{"stream_name":"stdout","time":493.975631499,"data":"  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html\r\n"}
+,{"stream_name":"stdout","time":493.975649324,"data":"============================================================\r\n"}
+,{"stream_name":"stdout","time":494.077890219,"data":"train outputs: ['training_log.txt']\n"}
+,{"stream_name":"stdout","time":494.203154364,"data":"/tmp/wk/Vintern/internvl_chat\n"}
+,{"stream_name":"stderr","time":495.294810266,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":495.294843754,"data":"  File \"\u003cstring\u003e\", line 1, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":495.294850505,"data":"  File \"/usr/local/lib/python3.12/dist-packages/papermill/execute.py\", line 131, in execute_notebook\n"}
+,{"stream_name":"stderr","time":495.296093653,"data":"    raise_for_execution_errors(nb, output_path)\n"}
+,{"stream_name":"stderr","time":495.296123502,"data":"  File \"/usr/local/lib/python3.12/dist-packages/papermill/execute.py\", line 251, in raise_for_execution_errors\n"}
+,{"stream_name":"stderr","time":495.296359753,"data":"    raise error\n"}
+,{"stream_name":"stderr","time":495.296577707,"data":"papermill.exceptions.PapermillExecutionError: \n"}
+,{"stream_name":"stderr","time":495.296585732,"data":"---------------------------------------------------------------------------\n"}
+,{"stream_name":"stderr","time":495.296589896,"data":"Exception encountered at \"In [9]\":\n"}
+,{"stream_name":"stderr","time":495.296593873,"data":"---------------------------------------------------------------------------\n"}
+,{"stream_name":"stderr","time":495.296598014,"data":"AssertionError                            Traceback (most recent call last)\n"}
+,{"stream_name":"stderr","time":495.296601879,"data":"/tmp/ipykernel_23/1578930055.py in \u003ccell line: 0\u003e()\n"}
+,{"stream_name":"stderr","time":495.296606297,"data":"      1 # merge LoRA (cookbook cell 41-47)\n"}
+,{"stream_name":"stderr","time":495.29661011,"data":"      2 get_ipython().run_line_magic('cd', '/tmp/wk/Vintern/internvl_chat')\n"}
+,{"stream_name":"stderr","time":495.296614046,"data":"----\u003e 3 import os; assert any('adapter' in f or f=='pytorch_model.bin' or f.endswith('.safetensors') for f in os.listdir('/kaggle/working/work_dirs/vintern_lora')), 'no adapter/weights in /kaggle/working/work_dirs/vintern_lora'\n"}
+,{"stream_name":"stderr","time":495.29662079,"data":"      4 get_ipython().system('python /tmp/wk/repo/experiments/vintern-ft/merge_lora.py /kaggle/working/work_dirs/vintern_lora /kaggle/working/work_dirs/vintern_lora_merge')\n"}
+,{"stream_name":"stderr","time":495.296629664,"data":"      5 get_ipython().system('cp /tmp/wk/Vintern/pretrained/Vintern-1B-v3_5/*.py /kaggle/working/work_dirs/vintern_lora_merge/')\n"}
+,{"stream_name":"stderr","time":495.296632476,"data":"\n"}
+,{"stream_name":"stderr","time":495.29663503,"data":"AssertionError: no adapter/weights in /kaggle/working/work_dirs/vintern_lora\n"}
+,{"stream_name":"stderr","time":495.296638859,"data":"\n"}
+,{"stream_name":"stderr","time":497.984571565,"data":"/usr/local/lib/python3.12/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":497.984627463,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":498.157239441,"data":"/usr/local/lib/python3.12/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":498.15727458,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":498.913493947,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to notebook\n"}
+,{"stream_name":"stderr","time":499.449438027,"data":"[NbConvertApp] Writing 36781 bytes to __notebook__.ipynb\n"}
+,{"stream_name":"stderr","time":502.424260005,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to html\n"}
+,{"stream_name":"stderr","time":503.397025737,"data":"[NbConvertApp] Writing 330110 bytes to __results__.html\n"}
 ]!! no predictions for val
 !! no predictions for test
 === compare: AutoViVQA cited Vintern-FT F1=53.76 / CIDEr(ih)=72.84 ===

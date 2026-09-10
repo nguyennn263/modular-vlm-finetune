@@ -2,65 +2,65 @@
 Output file downloaded to /Users/tcx/Documents/personal/Repo/modular-vlm-finetune/experiments/vintern-ft/out/work_dirs/vintern_lora/training_log.txt
 Kernel log downloaded to /Users/tcx/Documents/personal/Repo/modular-vlm-finetune/experiments/vintern-ft/out/mvlm-vintern-ft-repro.log 
 --- log tail ---
-,{"stream_name":"stdout","time":403.032187249,"data":"             ^^^^^^\r\n"}
-,{"stream_name":"stdout","time":403.032189845,"data":"  File \"/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py\", line 355, in wrapper\r\n"}
-,{"stream_name":"stdout","time":403.032192821,"data":"    return f(*args, **kwargs)\r\n"}
-,{"stream_name":"stdout","time":403.032195427,"data":"           ^^^^^^^^^^^^^^^^^^\r\n"}
-,{"stream_name":"stdout","time":403.03219806,"data":"  File \"/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py\", line 919, in main\r\n"}
-,{"stream_name":"stdout","time":403.032200821,"data":"    run(args)\r\n"}
-,{"stream_name":"stdout","time":403.032203613,"data":"  File \"/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py\", line 910, in run\r\n"}
-,{"stream_name":"stdout","time":403.032206508,"data":"    elastic_launch(\r\n"}
-,{"stream_name":"stdout","time":403.032209101,"data":"  File \"/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py\", line 138, in __call__\r\n"}
-,{"stream_name":"stdout","time":403.032211924,"data":"    return launch_agent(self._config, self._entrypoint, list(args))\r\n"}
-,{"stream_name":"stdout","time":403.032214664,"data":"           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n"}
-,{"stream_name":"stdout","time":403.032217336,"data":"  File \"/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py\", line 269, in launch_agent\r\n"}
-,{"stream_name":"stdout","time":403.032220248,"data":"    raise ChildFailedError(\r\n"}
-,{"stream_name":"stdout","time":403.032222835,"data":"torch.distributed.elastic.multiprocessing.errors.ChildFailedError: \r\n"}
-,{"stream_name":"stdout","time":403.032225496,"data":"============================================================\r\n"}
-,{"stream_name":"stdout","time":403.032228155,"data":"internvl/train/internvl_chat_finetune.py FAILED\r\n"}
-,{"stream_name":"stdout","time":403.032230818,"data":"------------------------------------------------------------\r\n"}
-,{"stream_name":"stdout","time":403.03223348,"data":"Failures:\r\n"}
-,{"stream_name":"stdout","time":403.03223603,"data":"  \u003cNO_OTHER_FAILURES\u003e\r\n"}
-,{"stream_name":"stdout","time":403.032238729,"data":"------------------------------------------------------------\r\n"}
-,{"stream_name":"stdout","time":403.032241418,"data":"Root Cause (first observed failure):\r\n"}
-,{"stream_name":"stdout","time":403.032247249,"data":"[0]:\r\n"}
-,{"stream_name":"stdout","time":403.032249993,"data":"  time      : 2026-09-10_00:23:18\r\n"}
-,{"stream_name":"stdout","time":403.032252652,"data":"  host      : fe34437ff62b\r\n"}
-,{"stream_name":"stdout","time":403.032255268,"data":"  rank      : 0 (local_rank: 0)\r\n"}
-,{"stream_name":"stdout","time":403.032257907,"data":"  exitcode  : 1 (pid: 210)\r\n"}
-,{"stream_name":"stdout","time":403.032260496,"data":"  error_file: \u003cN/A\u003e\r\n"}
-,{"stream_name":"stdout","time":403.032263181,"data":"  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html\r\n"}
-,{"stream_name":"stdout","time":403.03226624,"data":"============================================================\r\n"}
-,{"stream_name":"stdout","time":403.135223869,"data":"train outputs: ['training_log.txt']\n"}
-,{"stream_name":"stdout","time":403.258171249,"data":"/tmp/wk/Vintern/internvl_chat\n"}
-,{"stream_name":"stderr","time":404.445112964,"data":"Traceback (most recent call last):\n"}
-,{"stream_name":"stderr","time":404.445144639,"data":"  File \"\u003cstring\u003e\", line 1, in \u003cmodule\u003e\n"}
-,{"stream_name":"stderr","time":404.445151407,"data":"  File \"/usr/local/lib/python3.12/dist-packages/papermill/execute.py\", line 131, in execute_notebook\n"}
-,{"stream_name":"stderr","time":404.44599197,"data":"    raise_for_execution_errors(nb, output_path)\n"}
-,{"stream_name":"stderr","time":404.446020699,"data":"  File \"/usr/local/lib/python3.12/dist-packages/papermill/execute.py\", line 251, in raise_for_execution_errors\n"}
-,{"stream_name":"stderr","time":404.446245077,"data":"    raise error\n"}
-,{"stream_name":"stderr","time":404.446492336,"data":"papermill.exceptions.PapermillExecutionError: \n"}
-,{"stream_name":"stderr","time":404.446501953,"data":"---------------------------------------------------------------------------\n"}
-,{"stream_name":"stderr","time":404.446506565,"data":"Exception encountered at \"In [8]\":\n"}
-,{"stream_name":"stderr","time":404.44651084,"data":"---------------------------------------------------------------------------\n"}
-,{"stream_name":"stderr","time":404.44651521,"data":"AssertionError                            Traceback (most recent call last)\n"}
-,{"stream_name":"stderr","time":404.446519788,"data":"/tmp/ipykernel_23/1578930055.py in \u003ccell line: 0\u003e()\n"}
-,{"stream_name":"stderr","time":404.446524192,"data":"      1 # merge LoRA (cookbook cell 41-47)\n"}
-,{"stream_name":"stderr","time":404.446528242,"data":"      2 get_ipython().run_line_magic('cd', '/tmp/wk/Vintern/internvl_chat')\n"}
-,{"stream_name":"stderr","time":404.446532413,"data":"----\u003e 3 import os; assert any('adapter' in f or f=='pytorch_model.bin' or f.endswith('.safetensors') for f in os.listdir('/kaggle/working/work_dirs/vintern_lora')), 'no adapter/weights in /kaggle/working/work_dirs/vintern_lora'\n"}
-,{"stream_name":"stderr","time":404.446539417,"data":"      4 get_ipython().system('python /tmp/wk/repo/experiments/vintern-ft/merge_lora.py /kaggle/working/work_dirs/vintern_lora /kaggle/working/work_dirs/vintern_lora_merge')\n"}
-,{"stream_name":"stderr","time":404.446548548,"data":"      5 get_ipython().system('cp /tmp/wk/Vintern/pretrained/Vintern-1B-v3_5/*.py /kaggle/working/work_dirs/vintern_lora_merge/')\n"}
-,{"stream_name":"stderr","time":404.446568281,"data":"\n"}
-,{"stream_name":"stderr","time":404.446577953,"data":"AssertionError: no adapter/weights in /kaggle/working/work_dirs/vintern_lora\n"}
-,{"stream_name":"stderr","time":404.446583223,"data":"\n"}
-,{"stream_name":"stderr","time":407.185407466,"data":"/usr/local/lib/python3.12/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
-,{"stream_name":"stderr","time":407.185467282,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
-,{"stream_name":"stderr","time":407.365912803,"data":"/usr/local/lib/python3.12/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
-,{"stream_name":"stderr","time":407.365962391,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
-,{"stream_name":"stderr","time":408.106486685,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to notebook\n"}
-,{"stream_name":"stderr","time":408.651518317,"data":"[NbConvertApp] Writing 32236 bytes to __notebook__.ipynb\n"}
-,{"stream_name":"stderr","time":411.693834285,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to html\n"}
-,{"stream_name":"stderr","time":412.711579505,"data":"[NbConvertApp] Writing 323301 bytes to __results__.html\n"}
+,{"stream_name":"stdout","time":461.294496179,"data":"             ^^^^^^\r\n"}
+,{"stream_name":"stdout","time":461.294500896,"data":"  File \"/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py\", line 355, in wrapper\r\n"}
+,{"stream_name":"stdout","time":461.294505444,"data":"    return f(*args, **kwargs)\r\n"}
+,{"stream_name":"stdout","time":461.29450961,"data":"           ^^^^^^^^^^^^^^^^^^\r\n"}
+,{"stream_name":"stdout","time":461.294513869,"data":"  File \"/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py\", line 919, in main\r\n"}
+,{"stream_name":"stdout","time":461.294518443,"data":"    run(args)\r\n"}
+,{"stream_name":"stdout","time":461.294522523,"data":"  File \"/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py\", line 910, in run\r\n"}
+,{"stream_name":"stdout","time":461.29452723,"data":"    elastic_launch(\r\n"}
+,{"stream_name":"stdout","time":461.294531774,"data":"  File \"/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py\", line 138, in __call__\r\n"}
+,{"stream_name":"stdout","time":461.294549171,"data":"    return launch_agent(self._config, self._entrypoint, list(args))\r\n"}
+,{"stream_name":"stdout","time":461.294553436,"data":"           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n"}
+,{"stream_name":"stdout","time":461.294557826,"data":"  File \"/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py\", line 269, in launch_agent\r\n"}
+,{"stream_name":"stdout","time":461.294562954,"data":"    raise ChildFailedError(\r\n"}
+,{"stream_name":"stdout","time":461.294568123,"data":"torch.distributed.elastic.multiprocessing.errors.ChildFailedError: \r\n"}
+,{"stream_name":"stdout","time":461.294572624,"data":"============================================================\r\n"}
+,{"stream_name":"stdout","time":461.29457707,"data":"internvl/train/internvl_chat_finetune.py FAILED\r\n"}
+,{"stream_name":"stdout","time":461.294581452,"data":"------------------------------------------------------------\r\n"}
+,{"stream_name":"stdout","time":461.294585752,"data":"Failures:\r\n"}
+,{"stream_name":"stdout","time":461.294589954,"data":"  \u003cNO_OTHER_FAILURES\u003e\r\n"}
+,{"stream_name":"stdout","time":461.294594828,"data":"------------------------------------------------------------\r\n"}
+,{"stream_name":"stdout","time":461.294599123,"data":"Root Cause (first observed failure):\r\n"}
+,{"stream_name":"stdout","time":461.294603343,"data":"[0]:\r\n"}
+,{"stream_name":"stdout","time":461.294607611,"data":"  time      : 2026-09-10_00:54:17\r\n"}
+,{"stream_name":"stdout","time":461.294611899,"data":"  host      : e8d14eb9e042\r\n"}
+,{"stream_name":"stdout","time":461.294616092,"data":"  rank      : 0 (local_rank: 0)\r\n"}
+,{"stream_name":"stdout","time":461.294620681,"data":"  exitcode  : 1 (pid: 352)\r\n"}
+,{"stream_name":"stdout","time":461.294624922,"data":"  error_file: \u003cN/A\u003e\r\n"}
+,{"stream_name":"stdout","time":461.294629326,"data":"  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html\r\n"}
+,{"stream_name":"stdout","time":461.294633935,"data":"============================================================\r\n"}
+,{"stream_name":"stdout","time":461.333585263,"data":"train outputs: ['training_log.txt']\n"}
+,{"stream_name":"stdout","time":461.456375279,"data":"/tmp/wk/Vintern/internvl_chat\n"}
+,{"stream_name":"stderr","time":462.640873697,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":462.640904577,"data":"  File \"\u003cstring\u003e\", line 1, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":462.640910891,"data":"  File \"/usr/local/lib/python3.12/dist-packages/papermill/execute.py\", line 131, in execute_notebook\n"}
+,{"stream_name":"stderr","time":462.64228349,"data":"    raise_for_execution_errors(nb, output_path)\n"}
+,{"stream_name":"stderr","time":462.642307679,"data":"  File \"/usr/local/lib/python3.12/dist-packages/papermill/execute.py\", line 251, in raise_for_execution_errors\n"}
+,{"stream_name":"stderr","time":462.642516357,"data":"    raise error\n"}
+,{"stream_name":"stderr","time":462.642709421,"data":"papermill.exceptions.PapermillExecutionError: \n"}
+,{"stream_name":"stderr","time":462.642745144,"data":"---------------------------------------------------------------------------\n"}
+,{"stream_name":"stderr","time":462.642750735,"data":"Exception encountered at \"In [8]\":\n"}
+,{"stream_name":"stderr","time":462.642755567,"data":"---------------------------------------------------------------------------\n"}
+,{"stream_name":"stderr","time":462.642760387,"data":"AssertionError                            Traceback (most recent call last)\n"}
+,{"stream_name":"stderr","time":462.642764795,"data":"/tmp/ipykernel_24/1578930055.py in \u003ccell line: 0\u003e()\n"}
+,{"stream_name":"stderr","time":462.642769372,"data":"      1 # merge LoRA (cookbook cell 41-47)\n"}
+,{"stream_name":"stderr","time":462.642773441,"data":"      2 get_ipython().run_line_magic('cd', '/tmp/wk/Vintern/internvl_chat')\n"}
+,{"stream_name":"stderr","time":462.642777499,"data":"----\u003e 3 import os; assert any('adapter' in f or f=='pytorch_model.bin' or f.endswith('.safetensors') for f in os.listdir('/kaggle/working/work_dirs/vintern_lora')), 'no adapter/weights in /kaggle/working/work_dirs/vintern_lora'\n"}
+,{"stream_name":"stderr","time":462.642782238,"data":"      4 get_ipython().system('python /tmp/wk/repo/experiments/vintern-ft/merge_lora.py /kaggle/working/work_dirs/vintern_lora /kaggle/working/work_dirs/vintern_lora_merge')\n"}
+,{"stream_name":"stderr","time":462.642786847,"data":"      5 get_ipython().system('cp /tmp/wk/Vintern/pretrained/Vintern-1B-v3_5/*.py /kaggle/working/work_dirs/vintern_lora_merge/')\n"}
+,{"stream_name":"stderr","time":462.642794775,"data":"\n"}
+,{"stream_name":"stderr","time":462.642797401,"data":"AssertionError: no adapter/weights in /kaggle/working/work_dirs/vintern_lora\n"}
+,{"stream_name":"stderr","time":462.642800404,"data":"\n"}
+,{"stream_name":"stderr","time":465.449139446,"data":"/usr/local/lib/python3.12/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":465.449177641,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":465.636976602,"data":"/usr/local/lib/python3.12/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":465.637007613,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":466.418441345,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to notebook\n"}
+,{"stream_name":"stderr","time":466.958093445,"data":"[NbConvertApp] Writing 33507 bytes to __notebook__.ipynb\n"}
+,{"stream_name":"stderr","time":469.97154054,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to html\n"}
+,{"stream_name":"stderr","time":471.003917775,"data":"[NbConvertApp] Writing 325179 bytes to __results__.html\n"}
 ]!! no predictions for val
 !! no predictions for test
 === compare: AutoViVQA cited Vintern-FT F1=53.76 / CIDEr(ih)=72.84 ===

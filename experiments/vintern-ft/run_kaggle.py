@@ -74,11 +74,18 @@ def cells(seed: int, br: str) -> list[dict]:
             "!python scripts/phase0_build_data.py 2>&1 | tail -12",
             "import os; assert os.path.exists('data/splits/train.jsonl'), 'phase0 did not produce data/splits'",
             "print('splits:', {s: sum(1 for _ in open(f'data/splits/{s}.jsonl')) for s in ['train','val','test']})",
+            "# resolve the REAL mounted image dir (same resolver the bridge pipeline uses)",
+            "from src.data.labeled_table import resolve_dirs",
+            "_texts, _imgs = resolve_dirs()",
+            "open('/tmp/wk/IMAGES', 'w').write(str(_imgs))",
+            "print('IMAGES =', _imgs, '| exists:', os.path.isdir(_imgs))",
         ),
         code(
-            "# cookbook deps (colab cells 1-2) -- transformers 4.47 for the InternVL trainer.",
-            "# NO flash_attn: Kaggle P100/T4 are pre-Ampere, flash-attn v2 cannot run -> eager attn.",
-            "!pip -q install transformers==4.47.0 peft deepspeed accelerate timm einops bitsandbytes datasets tensorboardX",
+            "# cookbook env: transformers 4.47 + a torch it was validated against (Kaggle ships",
+            "# a much newer torch that the 2024-era InternVL trainer / transformers 4.47 break on).",
+            "# NO flash_attn (Kaggle GPUs pre-Ampere -> eager); NO deepspeed (SKIP_DEEPSPEED=1).",
+            "!pip -q install torch==2.5.1 torchvision==0.20.1 --index-url https://download.pytorch.org/whl/cu121",
+            "!pip -q install transformers==4.47.0 'accelerate>=1.1,<1.3' peft timm einops bitsandbytes datasets tensorboardX 'numpy<2.1'",
         ),
         code(
             "import os",
@@ -88,18 +95,18 @@ def cells(seed: int, br: str) -> list[dict]:
             "2>&1 | tail -3",
         ),
         code(
-            "# convert our splits -> InternVL chat SFT format",
+            "# convert our splits -> InternVL chat SFT format (runtime-resolved image dir)",
             "%cd /tmp/wk/repo",
-            f"!python experiments/vintern-ft/build_data.py --images-dir {IMAGES} "
-            f"--meta-image-root {IMAGES} --out-dir experiments/vintern-ft/data 2>&1 | tail -8",
-            "import json, shutil, os",
+            "import subprocess, json, shutil, os",
+            "IMAGES = open('/tmp/wk/IMAGES').read().strip()",
+            "subprocess.run(['python', 'experiments/vintern-ft/build_data.py', '--images-dir', IMAGES,",
+            "                '--meta-image-root', IMAGES, '--out-dir', 'experiments/vintern-ft/data'], check=True)",
             "src='/tmp/wk/repo/experiments/vintern-ft/data'",
             "dst='/tmp/wk/Vintern/internvl_chat/shell/data'; os.makedirs(dst, exist_ok=True)",
             "for f in ['autovivqa_train.jsonl','autovivqa_val.jsonl','autovivqa_test.jsonl']:",
             "    shutil.copy(f'{src}/{f}', f'{dst}/{f}')",
-            "meta={'autovivqa-train':{'root':'" + IMAGES + "',",
-            "  'annotation':f'{dst}/autovivqa_train.jsonl','data_augment':False,'repeat_time':1,",
-            "  'length':sum(1 for _ in open(f'{dst}/autovivqa_train.jsonl'))}}",
+            "meta={'autovivqa-train':{'root':IMAGES,'annotation':f'{dst}/autovivqa_train.jsonl',",
+            "  'data_augment':False,'repeat_time':1,'length':sum(1 for _ in open(f'{dst}/autovivqa_train.jsonl'))}}",
             "json.dump(meta, open(f'{dst}/meta_autovivqa.json','w'), ensure_ascii=False, indent=2)",
             "print(meta)",
             "shutil.copy('/tmp/wk/repo/experiments/vintern-ft/finetune_lora.sh',",
@@ -136,15 +143,17 @@ def cells(seed: int, br: str) -> list[dict]:
         code(
             "# generation only (stays in the 4.47 / InternVL env); scoring is local",
             "%cd /tmp/wk/repo",
-            f"!python experiments/vintern-ft/gen_vintern.py --model-path {merged} "
-            f"--split val --data experiments/vintern-ft/data/autovivqa_val.jsonl "
-            f"--images-dir {IMAGES} --out /kaggle/working/out/val --max-num 6 2>&1 | tail -15",
+            "import subprocess; IMAGES = open('/tmp/wk/IMAGES').read().strip()",
+            f"subprocess.run(['python','experiments/vintern-ft/gen_vintern.py','--model-path','{merged}',",
+            "  '--split','val','--data','experiments/vintern-ft/data/autovivqa_val.jsonl',",
+            "  '--images-dir',IMAGES,'--out','/kaggle/working/out/val','--max-num','6'])",
         ),
         code(
             "%cd /tmp/wk/repo",
-            f"!python experiments/vintern-ft/gen_vintern.py --model-path {merged} "
-            f"--split test --data experiments/vintern-ft/data/autovivqa_test.jsonl "
-            f"--images-dir {IMAGES} --out /kaggle/working/out/test --max-num 6 2>&1 | tail -15",
+            "import subprocess; IMAGES = open('/tmp/wk/IMAGES').read().strip()",
+            f"subprocess.run(['python','experiments/vintern-ft/gen_vintern.py','--model-path','{merged}',",
+            "  '--split','test','--data','experiments/vintern-ft/data/autovivqa_test.jsonl',",
+            "  '--images-dir',IMAGES,'--out','/kaggle/working/out/test','--max-num','6'])",
         ),
         code(
             "import shutil, os",

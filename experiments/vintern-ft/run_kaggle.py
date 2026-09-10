@@ -94,9 +94,11 @@ def cells(seed: int, br: str) -> list[dict]:
             "!pip -q install torch==2.5.1 torchvision==0.20.1 --index-url https://download.pytorch.org/whl/cu121",
             "# deepspeed==0.15.4: latest deepspeed uses torch.library.custom_op(list[int]) which",
             "# torch 2.5.1's infer_schema rejects (fixed in torch 2.6). 0.15.4 imports clean on 2.5.",
-            "!DS_BUILD_OPS=0 pip -q install timm einops peft wandb deepspeed==0.15.4 bitsandbytes decord tensorboardX gdown imageio opencv-python-headless",
+            "!DS_BUILD_OPS=0 pip -q install timm einops 'peft==0.14.0' wandb deepspeed==0.15.4 bitsandbytes decord tensorboardX gdown imageio opencv-python-headless",
             "!pip -q install -U datasets",
             "!pip -q install transformers==4.47.0 'accelerate>=1.1,<1.3' 'numpy<2.1'",
+            "# peft's LoRA dispatcher raises on torchao<0.16 (Kaggle ships 0.10); we don't use it",
+            "!pip -q uninstall -y torchao 2>/dev/null; echo 'torchao removed (not needed)'",
         ),
         code(
             "# import smoke test BEFORE the slow model download — catches any remaining import gap",

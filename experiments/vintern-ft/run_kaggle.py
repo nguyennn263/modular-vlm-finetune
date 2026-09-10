@@ -61,7 +61,11 @@ def cells(seed: int, br: str) -> list[dict]:
             "    time.sleep(15)",
             f"os.chdir('/tmp/wk/repo'); os.system('git checkout -q {br} && git pull -q')",
             f"subprocess.call('git clone -q --depth 1 {VINTERN_URL} /tmp/wk/Vintern', shell=True)",
-            "print('repo:', os.getcwd()); os.system('ls /tmp/wk && ls /tmp/wk/Vintern/internvl_chat')",
+            "# InternVL patch/__init__ hard-imports flash_attn monkey-patches; the finetune script",
+            "# does not need them (Kaggle GPUs are pre-Ampere anyway). Strip those 2 import lines.",
+            "os.system(\"sed -i '/flash_attn_monkey_patch import/d' \"",
+            "          \"/tmp/wk/Vintern/internvl_chat/internvl/patch/__init__.py\")",
+            "print('repo:', os.getcwd()); os.system('ls /tmp/wk && head -4 /tmp/wk/Vintern/internvl_chat/internvl/patch/__init__.py')",
         ),
         code(
             "# minimal deps for phase0 (keep Kaggle's native torch; no setup_kaggle.sh downgrade)",

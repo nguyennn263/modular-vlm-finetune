@@ -83,9 +83,13 @@ def cells(seed: int, br: str) -> list[dict]:
         code(
             "# cookbook env: transformers 4.47 + a torch it was validated against (Kaggle ships",
             "# a much newer torch that the 2024-era InternVL trainer / transformers 4.47 break on).",
-            "# NO flash_attn (Kaggle GPUs pre-Ampere -> eager); NO deepspeed (SKIP_DEEPSPEED=1).",
+            "# NO flash_attn (Kaggle GPUs pre-Ampere -> eager). deepspeed installed importable-only",
+            "# (DS_BUILD_OPS=0, no CUDA-op compile) because internvl_chat_finetune.py imports it at",
+            "# module load; the trainer still runs plain (SKIP_DEEPSPEED=1 drops the --deepspeed arg).",
             "!pip -q install torch==2.5.1 torchvision==0.20.1 --index-url https://download.pytorch.org/whl/cu121",
             "!pip -q install transformers==4.47.0 'accelerate>=1.1,<1.3' peft timm einops bitsandbytes datasets tensorboardX 'numpy<2.1'",
+            "import os; os.environ['DS_BUILD_OPS'] = '0'",
+            "!DS_BUILD_OPS=0 pip -q install deepspeed==0.15.4",
         ),
         code(
             "import os",

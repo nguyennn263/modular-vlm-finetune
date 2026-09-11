@@ -104,6 +104,13 @@ def cells(seed: int, resume: bool, epochs: int) -> list[dict]:
             "!pip -q uninstall -y torchao 2>/dev/null; echo done",
         ),
         code(
+            "import os",
+            "print('=== /kaggle/input ==='); os.system('ls -la /kaggle/input')",
+            "os.system('ls -la /kaggle/input/autovivqa-internvl-sft 2>&1')",
+            "os.system('ls -la /kaggle/input/datasets 2>&1')",
+            "os.system('find /kaggle/input -iname \"autovivqa_train*\" 2>&1')",
+        ),
+        code(
             "import subprocess, sys, os",
             "os.chdir('/tmp/wk/Vintern/internvl_chat')",
             "r = subprocess.run([sys.executable, '-c',",
@@ -123,13 +130,20 @@ def cells(seed: int, resume: bool, epochs: int) -> list[dict]:
             "2>&1 | tail -3",
         ),
         code(
-            "# our pre-built splits (already committed as a tiny Kaggle dataset -- no repo clone needed)",
-            "import json, os",
+            "# our pre-built splits (already committed as a tiny Kaggle dataset -- no repo clone needed).",
+            "# Resolve the actual mount path by search -- Kaggle's input layout has varied",
+            "# (flat /kaggle/input/<slug>/ vs nested /kaggle/input/datasets/<owner>/<slug>/).",
+            "import json, os, glob",
+            "hits = glob.glob('/kaggle/input/**/autovivqa_train.jsonl', recursive=True)",
+            "assert hits, 'autovivqa_train.jsonl not found anywhere under /kaggle/input -- see the ls above'",
+            "data_dir = os.path.dirname(hits[0])",
+            "print('resolved DATA_DIR =', data_dir)",
             f"dst = '/tmp/wk/Vintern/internvl_chat/shell/data'; os.makedirs(dst, exist_ok=True)",
             f"meta = {{'autovivqa-train': {{'root': '{IMAGES}',",
-            f"  'annotation': '{DATA_DIR}/autovivqa_train.jsonl', 'data_augment': False, 'repeat_time': 1,",
-            f"  'length': sum(1 for _ in open('{DATA_DIR}/autovivqa_train.jsonl'))}}}}",
+            "  'annotation': f'{data_dir}/autovivqa_train.jsonl', 'data_augment': False, 'repeat_time': 1,",
+            "  'length': sum(1 for _ in open(f'{data_dir}/autovivqa_train.jsonl'))}}",
             "json.dump(meta, open(f'{dst}/meta_autovivqa.json', 'w'), ensure_ascii=False, indent=2)",
+            "open('/tmp/wk/DATA_DIR', 'w').write(data_dir)",
             "print(meta)",
         ),
     ]
@@ -194,15 +208,17 @@ def cells(seed: int, resume: bool, epochs: int) -> list[dict]:
         "if os.environ.get('EPOCH_DONE') == '1':",
         "    import sys; sys.path.append('/tmp/wk')",
         "    import subprocess",
+        "    data_dir = open('/tmp/wk/DATA_DIR').read().strip()",
         f"    subprocess.run(['python', '/tmp/wk/gen_vintern_standalone.py', '--model-path', '{merged}',",
-        f"      '--data', '{DATA_DIR}/autovivqa_val.jsonl', '--images-dir', '{IMAGES}',",
+        "      '--data', f'{data_dir}/autovivqa_val.jsonl', '--images-dir', '" + IMAGES + "',",
         "      '--out', '/kaggle/working/out/val', '--max-num', '6'])",
     ))
     c.append(code(
         "if os.environ.get('EPOCH_DONE') == '1':",
         "    import subprocess",
+        "    data_dir = open('/tmp/wk/DATA_DIR').read().strip()",
         f"    subprocess.run(['python', '/tmp/wk/gen_vintern_standalone.py', '--model-path', '{merged}',",
-        f"      '--data', '{DATA_DIR}/autovivqa_test.jsonl', '--images-dir', '{IMAGES}',",
+        "      '--data', f'{data_dir}/autovivqa_test.jsonl', '--images-dir', '" + IMAGES + "',",
         "      '--out', '/kaggle/working/out/test', '--max-num', '6'])",
     ))
     return c

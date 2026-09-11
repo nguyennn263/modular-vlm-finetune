@@ -21,6 +21,11 @@ META_PATH=${META_PATH:-"./shell/data/meta_autovivqa.json"}
 OUTPUT_DIR=${OUTPUT_DIR:-"work_dirs/vintern_1b_v3_5_autovivqa_lora"}
 EPOCHS=${EPOCHS:-1}
 SEED=${SEED:-42}
+RESUME_ARG=${RESUME_ARG:-}                       # e.g. "--resume_from_checkpoint <dir>/checkpoint-1000"
+
+# --overwrite_output_dir would wipe a resume checkpoint we just copied in.
+OVERWRITE=True
+[ -n "$RESUME_ARG" ] && OVERWRITE=False
 
 export PYTHONPATH="${PYTHONPATH}:$(pwd)"
 export MASTER_PORT=34229
@@ -44,7 +49,8 @@ torchrun \
   --conv_style "Hermes-2" \
   --output_dir ${OUTPUT_DIR} \
   --meta_path "${META_PATH}" \
-  --overwrite_output_dir True \
+  --overwrite_output_dir ${OVERWRITE} \
+  ${RESUME_ARG} \
   --force_image_size 448 \
   --max_dynamic_patch 6 \
   --down_sample_ratio 0.5 \
@@ -63,7 +69,7 @@ torchrun \
   --evaluation_strategy "no" \
   --save_strategy "steps" \
   --save_steps 500 \
-  --save_total_limit 1 \
+  --save_total_limit 2 \
   --learning_rate 4e-5 \
   --weight_decay 0.01 \
   --warmup_ratio 0.03 \

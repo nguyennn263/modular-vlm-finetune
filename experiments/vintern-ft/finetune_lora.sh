@@ -28,6 +28,7 @@ OVERWRITE=True
 [ -n "$RESUME_ARG" ] && OVERWRITE=False
 
 export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+export PYTHONUNBUFFERED=1  # so `tee` actually captures progress instead of losing it to a full stdout buffer on kill
 export MASTER_PORT=34229
 export TF_CPP_MIN_LOG_LEVEL=3
 export LAUNCHER=pytorch
@@ -41,6 +42,13 @@ if [ "${SKIP_DEEPSPEED:-0}" = "1" ] || [ ! -f "zero_stage1_config.json" ]; then
   echo "[finetune] deepspeed disabled (SKIP_DEEPSPEED=${SKIP_DEEPSPEED:-0}, config present=$([ -f zero_stage1_config.json ] && echo yes || echo no))"
 fi
 
+# save_only_model below is an infra fix, not a recipe change. Full checkpoints
+# (model + fp32 optimizer moments, ~10GB each with 2 kept) were too large to
+# reliably fetch off a killed 12h kernel over a flaky connection. Skips
+# optimizer/scheduler/rng state on save -- trainer_state.json (global_step) is
+# still written, so --resume_from_checkpoint still skips completed steps; only
+# the optimizer's momentum resets across a session boundary. LoRA/lr/tiles/
+# epoch unchanged.
 torchrun \
   --nnodes=1 --node_rank=0 --master_addr=127.0.0.1 \
   --nproc_per_node=${GPUS} --master_port=${MASTER_PORT} \
@@ -69,7 +77,8 @@ torchrun \
   --evaluation_strategy "no" \
   --save_strategy "steps" \
   --save_steps 500 \
-  --save_total_limit 2 \
+  --save_total_limit 1 \
+  --save_only_model True \
   --learning_rate 4e-5 \
   --weight_decay 0.01 \
   --warmup_ratio 0.03 \

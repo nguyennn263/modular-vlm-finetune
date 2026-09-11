@@ -71,9 +71,21 @@ which recipe AutoViVQA used: if this lands near F1 53.76, they used the cookbook
 - `run_kaggle.py` builds + pushes the worker notebook (clones this repo + the
   Vintern repo, pip-installs per cookbook, downloads `5CD-AI/Vintern-1B-v3_5`,
   trains, merges, evals, leaves everything under `/kaggle/working`).
-- Cost estimate: LoRA-only, 6 tiles, 1 epoch over 25.9k samples ≈ 3–5 h on
-  P100; eval ~11k greedy generations ≈ 2–4 h. One kernel session is enough.
-  Quota: acc15 (30 h fresh) is the intended runner.
+- Cost estimate (pre-run): LoRA-only, 6 tiles, 1 epoch over 25.9k samples ≈
+  3–5 h on P100; eval ≈ 2–4 h.
+- **Actual (2026-09-10, acc15): the estimate was wrong.** With 6 tiles + eager
+  attention (Kaggle P100/T4 are pre-Ampere → no flash-attn), training ran at
+  ≈38 s / optimizer step. Over 12 h it reached **step 1000 / ~1611** (≈62 % of
+  epoch 1) and was killed by the Kaggle 12 h cap before generation started. A
+  full epoch would need ≈17 h + ≈6 h generation ≈ **23 h — not doable in one
+  Kaggle session.** ~17.8 h of acc15's 30 h quota spent (5.5 h of that on a
+  wasted flash-attn source build in the first attempt; env debugging took 6
+  kernel iterations).
+- **Verdict: the cookbook recipe as-written cannot be reproduced end-to-end in
+  one Kaggle session.** Options: (a) resume from the mid-training checkpoint;
+  (b) rerun at `--max_dynamic_patch 1` (≈6× faster, and a "Vintern-FT @ 1 tile"
+  number is apples-to-apples with our 1-tile bridge); (c) subsample train to
+  ≈8k; (d) defer — the paper's framing fix does not depend on this number.
 
 ## Comparison target (our numbers, grouped split, for reference)
 
@@ -83,4 +95,4 @@ which recipe AutoViVQA used: if this lands near F1 53.76, they used the cookbook
 | our bridge + decoder-LoRA (1 ep) | 53.52 | 106.56 | 103.2 |
 | our bridge + decoder-LoRA (3 ep) | 54.71 | 110.49 | 107.5 |
 | AutoViVQA "Vintern-1B (fine-tuned)" (cited) | 53.76 | 72.84 | — |
-| **this experiment** | _tbd_ | _tbd_ | _tbd_ |
+| **this experiment (cut at step 1000/1611, no generation)** | _no result — see above_ | — | — |

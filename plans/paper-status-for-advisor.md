@@ -112,24 +112,6 @@ LoRA = 3 seed (42/123/3407). "val CE" = cross-entropy (không nhân 100).*
 | 123 | 12.25 | 55.41 | 56.16 | 54.59 | 21.33 | 52.98 | 45.22 | 110.13 | 1.332 |
 | 3407 | 11.86 | 55.37 | 56.29 | 54.63 | 21.12 | 52.89 | 45.50 | 110.79 | 1.322 |
 
-### 3.3. Val hay test cao hơn?
-
-**Val cao hơn test một chút, và đều đặn — nhưng chênh rất nhỏ:**
-
-| Cấu hình | val F1 | test F1 | Δ F1 | val CIDEr(ih) | test CIDEr(ih) | Δ CIDEr |
-|---|--:|--:|--:|--:|--:|--:|
-| Bridge Multi-Token | 49.55 | 49.20 | −0.35 | 96.49 | 93.24 | −3.25 |
-| + LoRA 1 epoch | 53.52 | 53.15 | −0.37 | 106.56 | 104.65 | −1.91 |
-| + LoRA 3 epoch | 54.71 | 54.28 | −0.43 | 110.49 | 107.60 | −2.89 |
-
-Đo theo corpus CIDEr-D thì recipe cũng giữ vững: LoRA 1 epoch 103.2 (val) →
-101.3 (test), LoRA 3 epoch 107.5 → 104.8.
-
-Gap F1 < 0.5 ở mọi cấu hình; CIDEr chênh 2–3 điểm. Trên 5 loại bridge thì chiều
-lệch **không nhất quán** (mini_qformer test còn cao hơn val +0.20) → không phải
-overfit, chỉ là phân phối test hơi khó hơn. **Kết luận: không overfit vào tập
-validation.**
-
 ---
 
 ## 4. Phân tích điểm nghẽn — sáu trục, một trục tích cực

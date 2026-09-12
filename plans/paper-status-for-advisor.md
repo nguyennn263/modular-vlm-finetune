@@ -180,16 +180,9 @@ recipe.)*
 
 | Số tile | token-F1 | val loss |
 |--:|--:|--:|
-| 1 | 50.66 ᶜ | 1.48 |
+| 1 | 49.55 | 1.49 |
 | 3 | 21.05 | 3.35 |
 | 6 | 22.51 | 3.36 |
-
-ᶜ Dòng tile=1 đo trên checkpoint seed-42 **cũ** (lúc đó vô tình chạy 4 epoch —
-xem §2). Sau khi phát hiện và re-run seed 42 về đúng 2 epoch, F1 seed-42 đúng là
-49.61 (khớp baseline 49.55 dùng cho mọi ΔF1 ở bảng RQ trên) — nhưng thí nghiệm
-sweep tile 3/6 này chạy **trước** khi phát hiện lỗi, nên chưa sweep lại trên
-checkpoint đã sửa. Chênh lệch ~1 điểm F1 ở baseline không đổi kết luận: rơi từ
-~50 xuống ~21 khi lên 3 tile vẫn là một cú sụp ~29 điểm dù dùng baseline nào.
 
 *→ Bridge sụp ngay khi vượt 1 tile (RQ3).*
 

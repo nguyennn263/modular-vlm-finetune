@@ -431,7 +431,7 @@
   <p class="note">→ Tăng số tile vừa làm hỏng chất lượng vừa đắt: 1→6 tile là FLOPs ×6, độ trễ ×4. Recipe dùng 1 tile nên không tốn chi phí này.</p>
 
   <p class="callout" style="margin-top:26px">
-    <span class="lead">Nhận định:</span> Các trục phía thị giác và tín hiệu huấn luyện đều không cải thiện token-F1 — căn chỉnh biểu diễn là null trên cả hai biến thể (feature-KD và logit-KD) ở mọi cường độ hợp lý (chỉ hỏng khi trọng số KD quá lớn, do nhiễu tối ưu chứ không phải bản chất). Chỉ can thiệp vào <strong>attention của decoder</strong> là có tác dụng, và lặp lại nhất quán trên mọi loại bridge → attention của frozen decoder là điểm nghẽn. Ngoài ra, 5 bridge plain vốn chênh lệch CIDEr 84–96 (bảng trên) đều hội tụ về ~104–107 sau khi thêm LoRA — khi decoder đủ dung lượng thì kiến trúc bridge gần như không còn ảnh hưởng.
+    <span class="lead">Nhận định:</span> Các trục phía thị giác và tín hiệu huấn luyện đều không cải thiện token-F1 — căn chỉnh biểu diễn là null trên cả hai biến thể (feature-KD và logit-KD) ở mọi cường độ hợp lý (chỉ hỏng khi trọng số KD quá lớn, do nhiễu tối ưu chứ không phải bản chất). Chỉ can thiệp vào <strong>attention của decoder</strong> là có tác dụng, và lặp lại nhất quán trên mọi loại bridge → attention của frozen decoder là điểm nghẽn. Ngoài ra, cả 5/5 bridge đều tăng CIDEr sau LoRA (bảng trên): plain trải 84.2–96.5 (rộng ~12.3 điểm) → +LoRA chỉ còn 104.1–106.6 (rộng ~2.5 điểm) — khi decoder đủ dung lượng thì kiến trúc bridge gần như không còn ảnh hưởng.
   </p>
 </section>
 

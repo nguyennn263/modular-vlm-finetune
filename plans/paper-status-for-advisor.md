@@ -1,6 +1,8 @@
 # Báo cáo tiến độ nghiên cứu — Paper 3
 
-*Cập nhật 08/09/2026. Toàn bộ thí nghiệm đã hoàn tất, số liệu đã rà soát chéo.*
+*Cập nhật 12/09/2026. Toàn bộ thí nghiệm chính đã hoàn tất, số liệu đã rà soát
+chéo. Một hạng mục phụ đang chạy (§6.3: tái lập baseline Vintern-FT bằng
+cookbook chính thức) — không chặn phần còn lại.*
 
 ---
 
@@ -12,9 +14,17 @@
 
 | Công trình | Cách làm | Tham số cập nhật |
 |---|---|---|
-| Vintern-1B (fine-tuned) | Fine-tune toàn bộ InternViT-300M + projector; LoRA cho Qwen2-0.5B | Phần lớn phía thị giác + projector |
+| Vintern-1B (fine-tuned) | Fine-tune toàn bộ InternViT-300M + projector; LoRA cho Qwen2-0.5B ᶜ | Phần lớn phía thị giác + projector |
 | ViMoE-VQA | Xây kiến trúc Mixture-of-Experts mới | Toàn bộ mô hình mới |
 | **Nghiên cứu này** | Đóng băng cả InternViT-300M lẫn Qwen2-0.5B; chỉ huấn luyện bridge (0.78%) + LoRA cho decoder (0.23%), 1 tile | **~1% tổng tham số** |
+
+ᶜ Đây là cách **Vintern-1B tự nó được huấn luyện** (đã xác nhận trực tiếp từ paper kỹ
+thuật của Vintern, arXiv 2408.12480 §4.1: full-parameter fine-tune ViT + projector,
+LoRA cho LLM, ≤12 tile, 3M+ cặp). Cookbook fine-tune **chính thức** để adapt Vintern
+xuống 1 task downstream (dùng cho §6.3 dưới) lại nhẹ hơn nhiều: đóng băng toàn bộ
+backbone, chỉ LoRA r=16 trên LLM, 6 tile — gần với ngân sách adapt của nghiên cứu
+này hơn là con số "100× nặng hơn". AutoViVQA không công bố recipe chính xác đã
+dùng cho dòng "Vintern-1B (fine-tuned)" — xem §6.3 để biết đang làm gì với việc này.
 
 **Trả lời ngắn gọn:** đạt được *một phần* — vượt Vintern-1B fine-tuned trên mọi
 chỉ số sinh văn bản với ~1% tham số, nhưng vẫn kém ViMoE-VQA ở token-F1. Điểm
@@ -52,7 +62,7 @@ nghẽn nằm ở **attention của frozen decoder**: chỉ can thiệp vào đ�
 | Vintern-1B (gốc, zero-shot) | 0.12 | 17.52 | 19.87 | 17.55 | 1.91 | 25.84 | 23.93 | 8.54 |
 | ViT5_ViT | 7.97 | 46.84 | 50.33 | 48.52 | 4.13 | 46.89 | 31.02 | 72.68 |
 | BARTPhoBEiT | 8.81 | 45.30 | 46.48 | 45.88 | 4.33 | 44.83 | 24.57 | 188.96 ᵃ |
-| Vintern-1B (fine-tuned) | 13.01 | 52.47 | 55.12 | 53.76 | 6.11 | 51.93 | 35.25 | 72.84 |
+| Vintern-1B (fine-tuned) ᶜ | 13.01 | 52.47 | 55.12 | 53.76 | 6.11 | 51.93 | 35.25 | 72.84 |
 | Llama 3.2 (zero-shot) | 0.36 | 23.96 | 73.71 | 36.16 | 3.62 | 36.11 | 30.01 | 62.84 |
 | Gemini 2.0 Flash | 0.55 | 27.20 | 74.10 | 39.79 | 4.41 | 39.60 | 31.72 | 74.42 |
 | Gemini 2.5 Flash | 0.22 | 24.43 | 76.66 | 24.75 | 0.39 | 37.27 | 31.22 | 71.90 |
@@ -270,6 +280,29 @@ nguyên thị giác.
   bộ checkpoint và số liệu, không còn sai lệch tương tự.
 - Đánh giá ngữ nghĩa hiện mới ở mức tự kiểm 120 mẫu, một người đánh giá — cần
   nghiên cứu 2 người chấm + Cohen's κ cho bản camera-ready.
+
+### 6.3. Đang tái lập dòng "Vintern-1B (fine-tuned)" bằng cookbook chính thức — chưa xong
+
+Dòng 53.76/72.84 ở Bảng §3 hiện là **số trích dẫn** từ AutoViVQA, đo trên split
+ngẫu nhiên của họ (không loại trừ rò rỉ ảnh) và recipe không công bố. Đang tự đo
+lại trên **grouped split của mình** bằng **cookbook fine-tune chính thức của
+Vintern** (tải notebook thật từ Kaggle của 5CD-AI, dùng nguyên hyperparameter —
+không đổi gì): đóng băng backbone + MLP, LoRA r=16 trên Qwen2.5-0.5B, 6 tile,
+lr 4e-5, 1 epoch, template Hermes-2.
+
+**Vướng mắc kỹ thuật (không phải vấn đề khoa học):** codebase gốc (InternVL, viết
+2024) chạy trên hạ tầng Kaggle hiện tại phải vá nhiều lỗi môi trường (phiên bản
+thư viện, dependency), và ở 6 tile không có flash-attention trên GPU miễn phí của
+Kaggle nên train rất chậm (~38s/step) → **1 epoch cần nhiều hơn 1 phiên 12h của
+Kaggle**, phải nối nhiều phiên (train → cắt → lưu checkpoint → phiên sau train
+tiếp). Đang chạy song song trên 2 tài khoản, dự kiến có số trong 1–2 ngày tới.
+
+**Không chặn phần còn lại của báo cáo này** — mọi kết luận ở §1, §4, §5 không phụ
+thuộc vào con số này. Khi có kết quả sẽ cập nhật: (a) xác nhận/đối chiếu số
+53.76 trên split công bằng, (b) làm rõ recipe fine-tune thật của AutoViVQA nặng
+cỡ nào so với recipe của mình (nếu họ dùng cookbook thay vì recipe build gốc của
+Vintern, câu chuyện "rẻ hơn 100×" sẽ cần chỉnh thành "cùng ngân sách adapt,
+thiết kế + chẩn đoán tốt hơn" — xem ghi chú ᶜ ở §1).
 
 ## 7. Đóng góp
 

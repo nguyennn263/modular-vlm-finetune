@@ -235,7 +235,10 @@ def cmd_push(a):
     d = ROOT / "experiments" / "vintern-ft" / "worker_min"
     d.mkdir(parents=True, exist_ok=True)
     (d / "worker.ipynb").write_text(json.dumps(nb(cells(a.seed, a.resume, a.epochs))))
-    ds = [DATA_DS, IMAGES_DS]
+    # the jsonl-split dataset is private -> each account needs its own copy
+    # (glob-resolved at runtime inside the kernel, so the exact slug doesn't matter)
+    data_ds = f"{user(acc)}/autovivqa-internvl-sft"
+    ds = [data_ds, IMAGES_DS]
     if a.resume:
         ds.append(f"{user(acc)}/{CKPT_DS_SLUG}")
     (d / "kernel-metadata.json").write_text(json.dumps({

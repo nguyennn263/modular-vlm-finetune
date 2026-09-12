@@ -365,7 +365,7 @@
       </tbody>
     </table>
   </div>
-  <p class="footnote"><sup>a</sup> Thí nghiệm huấn luyện 1 tile, đánh giá 3–6 tile → chỉ kết luận về khả năng khái quát hóa; chưa khảo sát huấn luyện đa tile.</p>
+  <p class="footnote"><sup>a</sup> Thí nghiệm huấn luyện 1 tile, đánh giá 3–6 tile → generalize kém khi lệch số tile lúc test. Đã thử tiếp huấn luyện trực tiếp với tile-augmentation (<code>tile_choices=1,3,6</code>) trên cả 4 bridge (gồm Multi-Token và Full Q-Former): <strong>không giúp gì — F1/val loss đều hơi tệ hơn</strong> so với train chỉ 1 tile (đo trên subset 300 mẫu, không phải full-val nên không so tuyệt đối được, nhưng chiều hướng nhất quán ở cả 4 bridge). Kết luận: sụp đổ khi lệch tile không chỉ do thiếu tiếp xúc lúc train — kiến trúc bridge khó biểu diễn tốt nhiều tile dù có được huấn luyện với nó hay không.</p>
 
   <h3><span class="h3num">4.1</span>Số liệu chi tiết đứng sau các dòng trên</h3>
 
@@ -431,7 +431,7 @@
   <p class="note">→ Tăng số tile vừa làm hỏng chất lượng vừa đắt: 1→6 tile là FLOPs ×6, độ trễ ×4. Recipe dùng 1 tile nên không tốn chi phí này.</p>
 
   <p class="callout" style="margin-top:26px">
-    <span class="lead">Nhận định:</span> Các trục phía thị giác và tín hiệu huấn luyện đều không cải thiện token-F1 — căn chỉnh biểu diễn là null trên cả hai biến thể (feature-KD và logit-KD) ở mọi cường độ hợp lý (chỉ hỏng khi trọng số KD quá lớn, do nhiễu tối ưu chứ không phải bản chất). Chỉ can thiệp vào <strong>attention của decoder</strong> là có tác dụng, và lặp lại nhất quán trên mọi loại bridge → attention của frozen decoder là điểm nghẽn. Ngoài ra, các bridge vốn chênh lệch CIDEr-D 79–92 đều hội tụ về ~101–103 sau khi thêm LoRA — khi decoder đủ dung lượng thì kiến trúc bridge gần như không còn ảnh hưởng.
+    <span class="lead">Nhận định:</span> Các trục phía thị giác và tín hiệu huấn luyện đều không cải thiện token-F1 — căn chỉnh biểu diễn là null trên cả hai biến thể (feature-KD và logit-KD) ở mọi cường độ hợp lý (chỉ hỏng khi trọng số KD quá lớn, do nhiễu tối ưu chứ không phải bản chất). Chỉ can thiệp vào <strong>attention của decoder</strong> là có tác dụng, và lặp lại nhất quán trên mọi loại bridge → attention của frozen decoder là điểm nghẽn. Ngoài ra, 5 bridge plain vốn chênh lệch CIDEr 84–96 (bảng trên) đều hội tụ về ~104–107 sau khi thêm LoRA — khi decoder đủ dung lượng thì kiến trúc bridge gần như không còn ảnh hưởng.
   </p>
 </section>
 
@@ -440,7 +440,7 @@
   <h2><span class="num">5</span><span>Kết luận sơ bộ</span></h2>
 
   <p class="callout">
-    <span class="lead">(a) Adapt Vintern-1B với ~1% tham số?</span> Được một phần: backbone đóng băng hoàn toàn + bridge nhẹ + LoRA decoder (3 epoch) đã vượt Vintern-1B fine-tuned trên toàn bộ chỉ số sinh văn bản (F1 +0.95, BLEU +14.96, ROUGE +1.03, METEOR +10.17, CIDEr +37.65), nhưng còn kém ViMoE-VQA ở token-F1 (−5.98) và Acc → chưa tương đương hoàn toàn với các phương pháp huấn luyện đầy đủ.
+    <span class="lead">(a) Adapt Vintern-1B với ~1% tham số?</span> Được một phần: backbone đóng băng hoàn toàn + bridge nhẹ + LoRA decoder (3 epoch) đã vượt Vintern-1B fine-tuned trên toàn bộ chỉ số sinh văn bản (F1 +0.95, BLEU +14.96, ROUGE +1.03, METEOR +10.17, CIDEr +37.65), và cũng vượt ViMoE-VQA về Acc (+2.35) cùng BLEU/ROUGE/METEOR/CIDEr — nhưng còn kém ViMoE-VQA ở token-F1 (−5.98, do Precision/Recall đều thấp hơn) → chưa tương đương hoàn toàn với các phương pháp huấn luyện đầy đủ.
   </p>
 
   <p class="callout">
@@ -456,7 +456,7 @@
 <section>
   <h2><span class="num">6</span><span>Ghi chú về độ tin cậy</span></h2>
   <ul>
-    <li>Mọi kết quả bridge plain + dòng âm: trung bình 3 seed @ 2 epoch (multi_token = 4 seed); LoRA: 3 seed cho cả 1 và 3 epoch. Độ lệch chuẩn nhỏ: F1 std 0.07–0.17 cho các cấu hình chính (tối đa 0.94 ở bridge phụ yếu nhất), mọi chỉ số in-house khác std ≤ 0.6, corpus std ≤ 0.65 — chi tiết đầy đủ ở §3.1.</li>
+    <li>Mọi kết quả bridge plain + dòng âm: trung bình 3 seed @ 2 epoch (multi_token = 4 seed); LoRA: 3 seed cho cả 1 và 3 epoch. Độ lệch chuẩn nhỏ: F1 std 0.07–0.17 cho cấu hình đề xuất (Multi-Token, xem §3.1), tối đa 0.94 ở bridge phụ yếu nhất (Tile-Attention, xem bảng so bridge ở §4); mọi chỉ số in-house khác cũng std nhỏ tương tự.</li>
     <li>Đối chiếu tập test cho toàn bộ năm bridge và cả hai cấu hình LoRA: chênh so với val &lt; 0.5 F1, không nhất quán về chiều.</li>
     <li>Dùng grouped split chống rò rỉ dữ liệu (đã kiểm chứng: kết quả gần như không đổi so với cách chia cũ). Khoảng tin cậy bootstrap 95% cho các so sánh chính đã tính trên đúng số 3-seed (ví dụ ΔF1 của LoRA cho Multi-Token: +4.06, khoảng [3.49, 4.65]).</li>
     <li><em>Lưu ý:</em> một lần chạy bridge residual (seed cũ) bị mất ổn định (F1 36.5, val CE 2.35) — đã phát hiện và thay bằng 3-seed chuẩn (F1 45.6). Đã rà soát lại toàn bộ checkpoint và số liệu, không còn sai lệch tương tự.</li>

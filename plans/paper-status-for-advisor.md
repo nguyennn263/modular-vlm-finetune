@@ -134,8 +134,14 @@ dòng RQ6 LoRA (1 epoch) có bootstrap 95% CI +4.06 [3.49, 4.65] (xem §6).
 | RQ6 · Decoder — LoRA MLP-only | gate/up/down_proj | **−29.31** | Phân kỳ (training hỏng) |
 | RQ6 · Decoder — LoRA attention + MLP | cả 7 module | **−12.04** | Phân kỳ |
 
-ᵃ Thí nghiệm huấn luyện 1 tile, đánh giá 3–6 tile → chỉ kết luận về khả năng
-khái quát hóa; chưa khảo sát huấn luyện đa tile.
+ᵃ Thí nghiệm huấn luyện 1 tile, đánh giá 3–6 tile → generalize kém khi lệch số
+tile lúc test. Đã thử tiếp huấn luyện trực tiếp với tile-augmentation
+(`tile_choices=1,3,6`) trên cả 4 bridge (gồm Multi-Token và Full Q-Former):
+**không giúp gì — F1/val loss đều hơi tệ hơn** so với train chỉ 1 tile (đo trên
+subset 300 mẫu, không phải full-val nên không so tuyệt đối được, nhưng chiều
+hướng nhất quán ở cả 4 bridge). Kết luận: sụp đổ khi lệch tile không chỉ do
+thiếu tiếp xúc lúc train — kiến trúc bridge khó biểu diễn tốt nhiều tile dù có
+được huấn luyện với nó hay không.
 
 **Số liệu chi tiết đứng sau các dòng trên:**
 
@@ -197,9 +203,9 @@ token-F1 — căn chỉnh biểu diễn là null trên cả hai biến thể (fe
 logit-KD) ở mọi cường độ hợp lý (chỉ hỏng khi trọng số KD quá lớn, do nhiễu tối
 ưu chứ không phải bản chất). Chỉ can thiệp vào **attention của decoder** là có
 tác dụng, và lặp lại nhất quán trên mọi loại bridge → attention của frozen
-decoder là điểm nghẽn. Ngoài ra, các bridge vốn chênh lệch CIDEr-D 79–92 đều hội
-tụ về ~101–103 sau khi thêm LoRA — khi decoder đủ dung lượng thì kiến trúc bridge
-gần như không còn ảnh hưởng.
+decoder là điểm nghẽn. Ngoài ra, 5 bridge plain vốn chênh lệch CIDEr 84–96 (bảng
+trên) đều hội tụ về ~104–107 sau khi thêm LoRA — khi decoder đủ dung lượng thì
+kiến trúc bridge gần như không còn ảnh hưởng.
 
 ---
 
@@ -208,8 +214,9 @@ gần như không còn ảnh hưởng.
 **(a) Adapt Vintern-1B với ~1% tham số?** Được một phần: backbone đóng băng hoàn
 toàn + bridge nhẹ + LoRA decoder (3 epoch) đã vượt Vintern-1B fine-tuned trên
 toàn bộ chỉ số sinh văn bản (F1 +0.95, BLEU +14.96, ROUGE +1.03, METEOR +10.17,
-CIDEr +37.65), nhưng còn kém ViMoE-VQA ở token-F1 (−5.98) và Acc → chưa tương
-đương hoàn toàn với các phương pháp huấn luyện đầy đủ.
+CIDEr +37.65), và cũng vượt ViMoE-VQA về Acc (+2.35) cùng BLEU/ROUGE/METEOR/CIDEr
+— nhưng còn kém ViMoE-VQA ở token-F1 (−5.98, do Precision/Recall đều thấp hơn)
+→ chưa tương đương hoàn toàn với các phương pháp huấn luyện đầy đủ.
 
 **(b) Điểm nghẽn ở đâu?** Attention của frozen decoder. Trong không gian can
 thiệp đã khảo sát, phía thị giác không còn dư địa; chỉ thêm dung lượng cho phần
@@ -228,8 +235,9 @@ nguyên thị giác.
 
 - Mọi kết quả bridge plain + dòng âm: trung bình 3 seed @ 2 epoch (multi_token =
   4 seed); LoRA: 3 seed cho cả 1 và 3 epoch. Độ lệch chuẩn nhỏ: F1 std 0.07–0.17
-  cho các cấu hình chính (tối đa 0.94 ở bridge phụ yếu nhất), mọi chỉ số in-house
-  khác std ≤ 0.6, corpus std ≤ 0.65 — chi tiết đầy đủ ở §3.1.
+  cho cấu hình đề xuất (Multi-Token, xem §3.1), tối đa 0.94 ở bridge phụ yếu
+  nhất (Tile-Attention, xem bảng so bridge ở §4); mọi chỉ số in-house khác cũng
+  std nhỏ tương tự.
 - Đối chiếu tập test cho toàn bộ năm bridge và cả hai cấu hình LoRA: chênh so với
   val < 0.5 F1, không nhất quán về chiều.
 - Dùng grouped split chống rò rỉ dữ liệu (đã kiểm chứng: kết quả gần như không

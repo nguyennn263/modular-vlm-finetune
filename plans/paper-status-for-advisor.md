@@ -203,9 +203,10 @@ token-F1 — căn chỉnh biểu diễn là null trên cả hai biến thể (fe
 logit-KD) ở mọi cường độ hợp lý (chỉ hỏng khi trọng số KD quá lớn, do nhiễu tối
 ưu chứ không phải bản chất). Chỉ can thiệp vào **attention của decoder** là có
 tác dụng, và lặp lại nhất quán trên mọi loại bridge → attention của frozen
-decoder là điểm nghẽn. Ngoài ra, 5 bridge plain vốn chênh lệch CIDEr 84–96 (bảng
-trên) đều hội tụ về ~104–107 sau khi thêm LoRA — khi decoder đủ dung lượng thì
-kiến trúc bridge gần như không còn ảnh hưởng.
+decoder là điểm nghẽn. Ngoài ra, cả 5/5 bridge đều tăng CIDEr sau LoRA (bảng
+trên): plain trải 84.2–96.5 (rộng ~12.3 điểm) → +LoRA chỉ còn 104.1–106.6 (rộng
+~2.5 điểm) — khi decoder đủ dung lượng thì kiến trúc bridge gần như không còn
+ảnh hưởng.
 
 ---
 

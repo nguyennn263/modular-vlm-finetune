@@ -36,8 +36,6 @@ IMAGES_DS = "nguynrichard/auto-vqabest"
 CKPT_DS_SLUG = "vintern-ft-ckpt"
 IMAGES = "/kaggle/input/auto-vqabest/preprocessed_images"
 DATA_DIR = "/kaggle/input/autovivqa-internvl-sft"
-OUT_DIR_LOCAL = ROOT / "experiments" / "vintern-ft" / "out_min"
-CKPT_STAGE = ROOT / "experiments" / "vintern-ft" / "ckpt_stage"
 
 
 def kaggle(acc: str, *args: str, check: bool = True) -> str:
@@ -254,34 +252,46 @@ def cmd_status(a):
     print(kaggle(a.acc, "kernels", "status", f"{user(a.acc)}/{SLUG}"))
 
 
+def _out_dir(acc: str) -> Path:
+    # per-account dirs -- acc15 and acc2 run in parallel, must not clobber each other
+    return ROOT / "experiments" / "vintern-ft" / f"out_min_{acc}"
+
+
+def _ckpt_stage(acc: str) -> Path:
+    return ROOT / "experiments" / "vintern-ft" / f"ckpt_stage_{acc}"
+
+
 def cmd_fetch(a):
-    OUT_DIR_LOCAL.mkdir(parents=True, exist_ok=True)
-    print(kaggle(a.acc, "kernels", "output", f"{user(a.acc)}/{SLUG}", "-p", str(OUT_DIR_LOCAL)))
-    print(f"[fetched] -> {OUT_DIR_LOCAL}")
+    out_dir = _out_dir(a.acc)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    print(kaggle(a.acc, "kernels", "output", f"{user(a.acc)}/{SLUG}", "-p", str(out_dir)))
+    print(f"[fetched] -> {out_dir}")
 
 
 def cmd_promote(a):
     """Find the latest checkpoint under the fetched output and push it as/into
     the resume dataset so the next --resume session can load it."""
+    out_dir = _out_dir(a.acc)
+    ckpt_stage = _ckpt_stage(a.acc)
     ckpts = sorted(
-        glob.glob(str(OUT_DIR_LOCAL / "work_dirs" / "vintern_lora" / "checkpoint-*")),
+        glob.glob(str(out_dir / "work_dirs" / "vintern_lora" / "checkpoint-*")),
         key=lambda p: int(re.search(r"checkpoint-(\d+)", p).group(1)),
     )
     if not ckpts:
-        raise SystemExit(f"no checkpoint-* found under {OUT_DIR_LOCAL}")
+        raise SystemExit(f"no checkpoint-* found under {out_dir}")
     latest = Path(ckpts[-1])
     size = sum(f.stat().st_size for f in latest.rglob("*") if f.is_file())
     print(f"[promote] latest checkpoint: {latest} ({size/1e6:.1f} MB)")
-    if CKPT_STAGE.exists():
-        shutil.rmtree(CKPT_STAGE)
-    CKPT_STAGE.mkdir(parents=True)
-    shutil.copytree(latest, CKPT_STAGE / latest.name)
+    if ckpt_stage.exists():
+        shutil.rmtree(ckpt_stage)
+    ckpt_stage.mkdir(parents=True)
+    shutil.copytree(latest, ckpt_stage / latest.name)
     meta = {"title": "vintern-ft-ckpt", "id": f"{user(a.acc)}/{CKPT_DS_SLUG}", "licenses": [{"name": "CC0-1.0"}]}
-    (CKPT_STAGE / "dataset-metadata.json").write_text(json.dumps(meta))
+    (ckpt_stage / "dataset-metadata.json").write_text(json.dumps(meta))
     try:
-        print(kaggle(a.acc, "datasets", "create", "-p", str(CKPT_STAGE), "--dir-mode", "zip"))
+        print(kaggle(a.acc, "datasets", "create", "-p", str(ckpt_stage), "--dir-mode", "zip"))
     except RuntimeError:
-        print(kaggle(a.acc, "datasets", "version", "-p", str(CKPT_STAGE), "-m", latest.name, "--dir-mode", "zip"))
+        print(kaggle(a.acc, "datasets", "version", "-p", str(ckpt_stage), "-m", latest.name, "--dir-mode", "zip"))
     print(f"[promote] -> {user(a.acc)}/{CKPT_DS_SLUG} ({latest.name})")
 
 

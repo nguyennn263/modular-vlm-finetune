@@ -235,19 +235,19 @@ nguyên thị giác.
 ## 6. Ghi chú về độ tin cậy
 
 - Mọi kết quả bridge plain + dòng âm: trung bình 3 seed @ 2 epoch (multi_token =
-  4 seed); LoRA: 3 seed cho cả 1 và 3 epoch. Độ lệch chuẩn nhỏ: F1 std 0.07–0.17
+  4 seed); LoRA: 3 seed cho cả 1 và 3 epoch. Độ lệch chuẩn nhỏ: F1 std 0.07–0.18
   cho cấu hình đề xuất (Multi-Token, xem §3.1), tối đa 0.94 ở bridge phụ yếu
-  nhất (Tile-Attention, xem bảng so bridge ở §4); mọi chỉ số in-house khác cũng
-  std nhỏ tương tự.
+  nhất (Tile-Attention, xem bảng so bridge ở §4); CIDEr std tối đa 0.71 (cùng
+  thang, xem §3.1).
 - Đối chiếu tập test cho toàn bộ năm bridge và cả hai cấu hình LoRA: chênh so với
   val < 0.5 F1, không nhất quán về chiều.
 - Dùng grouped split chống rò rỉ dữ liệu (đã kiểm chứng: kết quả gần như không
   đổi so với cách chia cũ). Khoảng tin cậy bootstrap 95% cho các so sánh chính đã
   tính trên đúng số 3-seed (ví dụ ΔF1 của LoRA cho Multi-Token: +4.06, khoảng
   [3.49, 4.65]).
-- *Lưu ý:* một lần chạy bridge residual (seed cũ) bị mất ổn định (F1 36.5, val CE
-  2.35) — đã phát hiện và thay bằng 3-seed chuẩn (F1 45.6). Đã rà soát lại toàn
-  bộ checkpoint và số liệu, không còn sai lệch tương tự.
+- *Lưu ý:* một lần chạy bridge residual (seed cũ) bị mất ổn định — đã phát hiện
+  và thay bằng 3-seed chuẩn (F1 45.64, dùng xuyên suốt report này). Đã rà soát
+  lại toàn bộ checkpoint và số liệu, không còn sai lệch tương tự.
 - Đánh giá ngữ nghĩa hiện mới ở mức tự kiểm 120 mẫu, một người đánh giá — cần
   nghiên cứu 2 người chấm + Cohen's κ cho bản camera-ready.
 

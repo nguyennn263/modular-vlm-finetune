@@ -85,20 +85,6 @@ LoRA = 3 seed (42/123/3407). "val CE" = cross-entropy (không nhân 100).*
 | + LoRA r=16, 3 epoch | val | 12.00 ± 0.17 | 55.46 ± 0.11 | 56.38 ± 0.23 | 54.71 ± 0.14 | 21.07 ± 0.23 | 52.96 ± 0.06 | 45.42 ± 0.14 | 110.49 ± 0.27 | 1.327 ± 0.004 |
 | + LoRA r=16, 3 epoch | test | 11.21 ± 0.20 | 55.06 ± 0.14 | 55.95 ± 0.08 | 54.28 ± 0.13 | 20.72 ± 0.25 | 52.44 ± 0.18 | 44.82 ± 0.17 | 107.60 ± 0.65 | 1.329 ± 0.007 |
 
-*Chỉ số corpus (pycocoevalcap, để so cross-paper), thang ×100:*
-
-| Cấu hình | Split | CIDEr-D | BLEU-4 | ROUGE-L |
-|---|---|--:|--:|--:|
-| Bridge Multi-Token | val | 92.28 ± 0.57 | 18.90 ± 0.27 | 48.90 ± 0.07 |
-| + LoRA r=16, 1 epoch | val | 103.20 ± 0.45 | 23.60 ± 0.08 | 53.00 ± 0.14 |
-| + LoRA r=16, 1 epoch | test | 101.30 ± 0.43 | 22.93 ± 0.33 | 52.60 ± 0.08 |
-| + LoRA r=16, 3 epoch | val | 107.50 ± 0.29 | 25.10 ± 0.22 | 54.17 ± 0.09 |
-| + LoRA r=16, 3 epoch | test | 104.80 ± 0.65 | 24.87 ± 0.26 | 53.80 ± 0.16 |
-
-*ViMoE-VQA (5 seed) để đối chiếu: CIDEr-D 88.67 / BLEU-4 12.54 / ROUGE-L 47.07 /
-token-F1 60.69. Recipe (3 epoch) vượt trên mọi chỉ số corpus, vẫn kém token-F1
-(−5.98) và Acc.*
-
 ### 3.2. Số per-seed (thô, không lấy trung bình)
 
 *Bridge Multi-Token plain — in-house val:*

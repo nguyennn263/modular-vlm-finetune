@@ -42,13 +42,28 @@ if [ "${SKIP_DEEPSPEED:-0}" = "1" ] || [ ! -f "zero_stage1_config.json" ]; then
   echo "[finetune] deepspeed disabled (SKIP_DEEPSPEED=${SKIP_DEEPSPEED:-0}, config present=$([ -f zero_stage1_config.json ] && echo yes || echo no))"
 fi
 
-# save_only_model below is an infra fix, not a recipe change. Full checkpoints
-# (model + fp32 optimizer moments, ~10GB each with 2 kept) were too large to
-# reliably fetch off a killed 12h kernel over a flaky connection. Skips
-# optimizer/scheduler/rng state on save -- trainer_state.json (global_step) is
-# still written, so --resume_from_checkpoint still skips completed steps; only
-# the optimizer's momentum resets across a session boundary. LoRA/lr/tiles/
-# epoch unchanged.
+# --save_only_model alone did NOT shrink the checkpoint last time (still
+# ~21GB) -- this fork's Trainer plumbing doesn't seem to honor it. Belt and
+# suspenders: a background sweeper strips the known-huge, resume-unnecessary
+# files (optimizer/scheduler/rng/scaler state) out of the checkpoint dir every
+# 20s WHILE training runs, so even a mid-checkpoint SIGKILL at the 12h cap
+# leaves a small, fetchable directory on disk. Pure disk-management side
+# effect -- does not touch training math. trainer_state.json (global_step) is
+# untouched, so --resume_from_checkpoint still skips completed steps; only the
+# optimizer's momentum resets across a session boundary. LoRA/lr/tiles/epoch
+# unchanged.
+(
+  while true; do
+    sleep 20
+    find "$OUTPUT_DIR" -maxdepth 2 \( -name 'optimizer.pt' -o -name 'optimizer.bin' \
+      -o -name 'scheduler.pt' -o -name 'rng_state*.pth' -o -name 'scaler.pt' \) \
+      -exec rm -f {} + 2>/dev/null
+    du -sh "$OUTPUT_DIR" 2>/dev/null | sed 's/^/[sweeper] size: /'
+  done
+) &
+SWEEPER_PID=$!
+trap 'kill $SWEEPER_PID 2>/dev/null' EXIT
+
 torchrun \
   --nnodes=1 --node_rank=0 --master_addr=127.0.0.1 \
   --nproc_per_node=${GPUS} --master_port=${MASTER_PORT} \

@@ -408,12 +408,13 @@
       <caption>Số tile khi đánh giá (Bridge Multi-Token, huấn luyện với 1 tile).</caption>
       <thead><tr><th class="num">Số tile</th><th class="num">token-F1</th><th class="num">val loss</th></tr></thead>
       <tbody>
-        <tr><td class="num">1</td><td class="num">50.66</td><td class="num">1.48</td></tr>
+        <tr><td class="num">1</td><td class="num">50.66&nbsp;<sup>c</sup></td><td class="num">1.48</td></tr>
         <tr><td class="num">3</td><td class="num">21.05</td><td class="num">3.35</td></tr>
         <tr><td class="num">6</td><td class="num">22.51</td><td class="num">3.36</td></tr>
       </tbody>
     </table>
   </div>
+  <p class="footnote"><sup>c</sup> Dòng tile=1 đo trên checkpoint seed-42 <strong>cũ</strong> (lúc đó vô tình chạy 4 epoch — xem §2). Sau khi phát hiện và re-run seed 42 về đúng 2 epoch, F1 seed-42 đúng là 49.61 (khớp baseline 49.55 dùng cho mọi ΔF1 ở bảng RQ trên) — nhưng thí nghiệm sweep tile 3/6 này chạy <strong>trước</strong> khi phát hiện lỗi, nên chưa sweep lại trên checkpoint đã sửa. Chênh lệch ~1 điểm F1 ở baseline không đổi kết luận: rơi từ ~50 xuống ~21 khi lên 3 tile vẫn là một cú sụp ~29 điểm dù dùng baseline nào.</p>
   <p class="note">→ Bridge sụp ngay khi vượt 1 tile (RQ3).</p>
 
   <div class="tbl-scroll">

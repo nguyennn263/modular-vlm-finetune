@@ -14,17 +14,18 @@ cookbook chính thức) — không chặn phần còn lại.*
 
 | Công trình | Cách làm | Tham số cập nhật |
 |---|---|---|
-| Vintern-1B (fine-tuned) | Fine-tune toàn bộ InternViT-300M + projector; LoRA cho Qwen2-0.5B ᶜ | Phần lớn phía thị giác + projector |
+| Vintern-1B (fine-tuned) | **Không rõ recipe adapt xuống AutoViVQA** — AutoViVQA không công bố. Cột bên phải mô tả cách **5CD-AI xây ra Vintern-1B** (full fine-tune ViT + projector + LoRA LLM, ≤12 tile) — **KHÔNG phải** cách fine-tune xuống 1 task cụ thể. Cookbook fine-tune chính thức để làm việc đó (đang dùng ở §6.3) lại đóng băng **cả vision lẫn projector**, chỉ LoRA r=16 trên LLM. | Phần lớn phía thị giác + projector — *lúc xây Vintern-1B, không phải lúc fine-tune xuống task* |
 | ViMoE-VQA | Xây kiến trúc Mixture-of-Experts mới | Toàn bộ mô hình mới |
 | **Nghiên cứu này** | Đóng băng cả InternViT-300M lẫn Qwen2-0.5B; chỉ huấn luyện bridge (0.78%) + LoRA cho decoder (0.23%), 1 tile | **~1% tổng tham số** |
 
-ᶜ Đây là cách **Vintern-1B tự nó được huấn luyện** (đã xác nhận trực tiếp từ paper kỹ
-thuật của Vintern, arXiv 2408.12480 §4.1: full-parameter fine-tune ViT + projector,
-LoRA cho LLM, ≤12 tile, 3M+ cặp). Cookbook fine-tune **chính thức** để adapt Vintern
-xuống 1 task downstream (dùng cho §6.3 dưới) lại nhẹ hơn nhiều: đóng băng toàn bộ
-backbone, chỉ LoRA r=16 trên LLM, 6 tile — gần với ngân sách adapt của nghiên cứu
-này hơn là con số "100× nặng hơn". AutoViVQA không công bố recipe chính xác đã
-dùng cho dòng "Vintern-1B (fine-tuned)" — xem §6.3 để biết đang làm gì với việc này.
+**Vì sao dòng Vintern-1B rối:** "Fine-tune toàn bộ ViT + projector" là recipe **xây ra**
+Vintern-1B (paper kỹ thuật của Vintern, arXiv 2408.12480 §4.1, đã xác nhận trực tiếp:
+full-parameter ViT+projector, LoRA LLM, ≤12 tile, 3M+ cặp) — đây là việc 5CD-AI làm
+**một lần** để tạo model. Còn việc **adapt model đó xuống AutoViVQA** (thứ cần so
+sánh với recipe của mình) dùng cookbook fine-tune riêng, và cookbook đó **đóng băng
+toàn bộ backbone** (cả vision), chỉ LoRA LLM — gần ngân sách adapt của nghiên cứu
+này hơn nhiều so với "xây model". AutoViVQA không nói dùng recipe nào cho dòng
+53.76 — xem §6.3 để biết đang tái lập ra sao.
 
 **Trả lời ngắn gọn:** đạt được *một phần* — vượt Vintern-1B fine-tuned trên mọi
 chỉ số sinh văn bản với ~1% tham số, nhưng vẫn kém ViMoE-VQA ở token-F1. Điểm
@@ -62,7 +63,7 @@ nghẽn nằm ở **attention của frozen decoder**: chỉ can thiệp vào đ�
 | Vintern-1B (gốc, zero-shot) | 0.12 | 17.52 | 19.87 | 17.55 | 1.91 | 25.84 | 23.93 | 8.54 |
 | ViT5_ViT | 7.97 | 46.84 | 50.33 | 48.52 | 4.13 | 46.89 | 31.02 | 72.68 |
 | BARTPhoBEiT | 8.81 | 45.30 | 46.48 | 45.88 | 4.33 | 44.83 | 24.57 | 188.96 ᵃ |
-| Vintern-1B (fine-tuned) ᶜ | 13.01 | 52.47 | 55.12 | 53.76 | 6.11 | 51.93 | 35.25 | 72.84 |
+| Vintern-1B (fine-tuned) ᵇ | 13.01 | 52.47 | 55.12 | 53.76 | 6.11 | 51.93 | 35.25 | 72.84 |
 | Llama 3.2 (zero-shot) | 0.36 | 23.96 | 73.71 | 36.16 | 3.62 | 36.11 | 30.01 | 62.84 |
 | Gemini 2.0 Flash | 0.55 | 27.20 | 74.10 | 39.79 | 4.41 | 39.60 | 31.72 | 74.42 |
 | Gemini 2.5 Flash | 0.22 | 24.43 | 76.66 | 24.75 | 0.39 | 37.27 | 31.22 | 71.90 |
@@ -76,7 +77,8 @@ nghẽn nằm ở **attention của frozen decoder**: chỉ can thiệp vào đ�
 ᵃ CIDEr của BARTPhoBEiT là ngoại lai (sinh câu dài), không so sánh. Baseline lấy
 theo báo cáo benchmark AutoViVQA — các dòng baseline chỉ có 1 số, không có
 per-seed nên không kèm ± ở bảng trên; phần ± đầy đủ cho phương pháp đề xuất ở
-ngay dưới.*
+ngay dưới. ᵇ Số 53.76 là trích dẫn, recipe không rõ (xem giải thích ở §1 và §6.3
+— khác với cách 5CD-AI xây Vintern-1B).*
 
 ### 3.1. Phương pháp đề xuất — mean ± std đầy đủ (mọi chỉ số, cả val và test)
 
@@ -302,7 +304,7 @@ thuộc vào con số này. Khi có kết quả sẽ cập nhật: (a) xác nh�
 53.76 trên split công bằng, (b) làm rõ recipe fine-tune thật của AutoViVQA nặng
 cỡ nào so với recipe của mình (nếu họ dùng cookbook thay vì recipe build gốc của
 Vintern, câu chuyện "rẻ hơn 100×" sẽ cần chỉnh thành "cùng ngân sách adapt,
-thiết kế + chẩn đoán tốt hơn" — xem ghi chú ᶜ ở §1).
+thiết kế + chẩn đoán tốt hơn" — xem giải thích ở §1).
 
 ## 7. Đóng góp
 

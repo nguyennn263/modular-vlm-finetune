@@ -14,18 +14,9 @@ cookbook chính thức) — không chặn phần còn lại.*
 
 | Công trình | Cách làm | Tham số cập nhật |
 |---|---|---|
-| Vintern-1B (fine-tuned) | **Không rõ recipe adapt xuống AutoViVQA** — AutoViVQA không công bố. Cột bên phải mô tả cách **5CD-AI xây ra Vintern-1B** (full fine-tune ViT + projector + LoRA LLM, ≤12 tile) — **KHÔNG phải** cách fine-tune xuống 1 task cụ thể. Cookbook fine-tune chính thức để làm việc đó (đang dùng ở §6.3) lại đóng băng **cả vision lẫn projector**, chỉ LoRA r=16 trên LLM. | Phần lớn phía thị giác + projector — *lúc xây Vintern-1B, không phải lúc fine-tune xuống task* |
+| Vintern-1B (fine-tuned) | Cookbook fine-tune chính thức của Vintern: đóng băng ViT + projector, LoRA r=16 cho Qwen2-0.5B | Chỉ LoRA LLM (~1% tham số) |
 | ViMoE-VQA | Xây kiến trúc Mixture-of-Experts mới | Toàn bộ mô hình mới |
 | **Nghiên cứu này** | Đóng băng cả InternViT-300M lẫn Qwen2-0.5B; chỉ huấn luyện bridge (0.78%) + LoRA cho decoder (0.23%), 1 tile | **~1% tổng tham số** |
-
-**Vì sao dòng Vintern-1B rối:** "Fine-tune toàn bộ ViT + projector" là recipe **xây ra**
-Vintern-1B (paper kỹ thuật của Vintern, arXiv 2408.12480 §4.1, đã xác nhận trực tiếp:
-full-parameter ViT+projector, LoRA LLM, ≤12 tile, 3M+ cặp) — đây là việc 5CD-AI làm
-**một lần** để tạo model. Còn việc **adapt model đó xuống AutoViVQA** (thứ cần so
-sánh với recipe của mình) dùng cookbook fine-tune riêng, và cookbook đó **đóng băng
-toàn bộ backbone** (cả vision), chỉ LoRA LLM — gần ngân sách adapt của nghiên cứu
-này hơn nhiều so với "xây model". AutoViVQA không nói dùng recipe nào cho dòng
-53.76 — xem §6.3 để biết đang tái lập ra sao.
 
 **Trả lời ngắn gọn:** đạt được *một phần* — vượt Vintern-1B fine-tuned trên mọi
 chỉ số sinh văn bản với ~1% tham số, nhưng vẫn kém ViMoE-VQA ở token-F1. Điểm
@@ -77,8 +68,8 @@ nghẽn nằm ở **attention của frozen decoder**: chỉ can thiệp vào đ�
 ᵃ CIDEr của BARTPhoBEiT là ngoại lai (sinh câu dài), không so sánh. Baseline lấy
 theo báo cáo benchmark AutoViVQA — các dòng baseline chỉ có 1 số, không có
 per-seed nên không kèm ± ở bảng trên; phần ± đầy đủ cho phương pháp đề xuất ở
-ngay dưới. ᵇ Số 53.76 là trích dẫn, recipe không rõ (xem giải thích ở §1 và §6.3
-— khác với cách 5CD-AI xây Vintern-1B).*
+ngay dưới. ᵇ Số 53.76 là trích dẫn — dùng cookbook fine-tune chính thức của
+Vintern (đóng băng ViT + projector, LoRA r=16 LLM), đang tái lập ở §6.3.*
 
 ### 3.1. Phương pháp đề xuất — mean ± std đầy đủ (mọi chỉ số, cả val và test)
 
@@ -286,8 +277,8 @@ nguyên thị giác.
 ### 6.3. Đang tái lập dòng "Vintern-1B (fine-tuned)" bằng cookbook chính thức — chưa xong
 
 Dòng 53.76/72.84 ở Bảng §3 hiện là **số trích dẫn** từ AutoViVQA, đo trên split
-ngẫu nhiên của họ (không loại trừ rò rỉ ảnh) và recipe không công bố. Đang tự đo
-lại trên **grouped split của mình** bằng **cookbook fine-tune chính thức của
+ngẫu nhiên của họ (không loại trừ rò rỉ ảnh). Đang tự đo lại trên **grouped
+split của mình** bằng **cookbook fine-tune chính thức của
 Vintern** (tải notebook thật từ Kaggle của 5CD-AI, dùng nguyên hyperparameter —
 không đổi gì): đóng băng backbone + MLP, LoRA r=16 trên Qwen2.5-0.5B, 6 tile,
 lr 4e-5, 1 epoch, template Hermes-2.

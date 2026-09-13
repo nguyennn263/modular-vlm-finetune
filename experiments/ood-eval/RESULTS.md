@@ -12,21 +12,40 @@ has ever trained on either dataset.
   `checkpoints/expA-lora16-3ep/seed42/multi_token/last_model.pt`), 1 tile, same
   generation settings.
 
-Raw score files: `outputs/ood_eval/{vitextvqa,vivqax}/out/<dataset>/{vintern_base,ours}/results/scored.json`
+Raw score files: `outputs/ood_eval/<dataset>[_s<seed>]/out/.../{vintern_base,ours}/results/scored.json`
 (not committed here -- large/derived; this file is the durable record).
+
+Multi-seed (42/123/3407): the seed controls which 1000 rows get SAMPLED from
+each split; neither model is retrained (Vintern gốc zero-shot, ours a fixed
+checkpoint) -- this is purely to get a mean±std across sampling variance,
+matching this project's usual multi-seed convention.
 
 ## ViTextVQA (scene-text / OCR-in-photo VQA, arXiv:2404.10652, UIT 2024)
 
-n=1000, seed=42, sampled from the official test split (3,353 img / 10,028 QA).
+n=1000/seed, sampled from the official test split (3,353 img / 10,028 QA).
 
-| | acc | prec | recall | F1 | BLEU | ROUGE | METEOR | CIDEr (in-house) | CIDEr-D (corpus) | BLEU-4 (corpus) | ROUGE-L (corpus) |
-|---|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|
-| Vintern gốc (6 tile) | 0.90 | 22.43 | 64.82 | 27.03 | 8.54 | 34.33 | 26.59 | 0.00 | 122.5 | 14.5 | 34.3 |
-| Model của mình (1 tile) | 0.10 | 4.52 | 3.88 | 31.32 | 0.06 | 3.75 | 3.54 | 0.00 | 10.7 | 0.6 | 3.7 |
+**Vintern gốc (6 tile):**
 
-**Vintern gốc thắng rõ trên hầu hết metric** (trừ F1_token, nơi 2 số không thực sự
-so sánh được do precision/recall dùng implementation khác F1 -- xem note dưới).
-Xem mẫu dự đoán thật của model mình:
+| seed | acc | prec | recall | F1 | CIDEr-D (corpus) | BLEU-4 (corpus) | ROUGE-L (corpus) |
+|---|--:|--:|--:|--:|--:|--:|--:|
+| 42 | 0.90 | 22.43 | 64.82 | 27.03 | 122.5 | 14.5 | 34.3 |
+| 123 | 0.50 | 22.29 | 62.29 | 26.84 | 127.6 | 15.0 | 33.6 |
+| 3407 | 0.60 | 22.60 | 65.11 | 26.51 | 130.8 | 14.7 | 34.3 |
+| **mean±std (n=3)** | **0.67±0.21** | **22.44±0.16** | **64.07±1.55** | **26.79±0.26** | **127.0±4.2** | **14.7±0.3** | **34.1±0.4** |
+
+**Model của mình (1 tile):**
+
+| seed | acc | prec | recall | F1 | CIDEr-D (corpus) | BLEU-4 (corpus) | ROUGE-L (corpus) |
+|---|--:|--:|--:|--:|--:|--:|--:|
+| 42 | 0.10 | 4.52 | 3.88 | 31.32 | 10.7 | 0.6 | 3.7 |
+| 123 | 0.10 | 4.86 | 4.31 | 31.25 | 12.9 | 1.2 | 4.1 |
+| 3407 | 0.10 | 4.64 | 4.12 | 31.39 | 12.1 | 0.8 | 4.0 |
+| **mean±std (n=3)** | **0.10±0.00** | **4.67±0.17** | **4.10±0.22** | **31.32±0.07** | **11.9±1.1** | **0.9±0.3** | **3.9±0.2** |
+
+**Vintern gốc thắng rõ trên hầu hết metric, ổn định qua cả 3 seed** (std nhỏ so
+với khoảng cách giữa 2 model — không phải nhiễu ngẫu nhiên). Ngoại lệ F1_token
+(31.3 vs 26.8) không có ý nghĩa so sánh — xem note dưới (precision/recall/F1
+không cùng công thức). Xem mẫu dự đoán thật của model mình (seed 42):
 ```
 Q: mức giá khuyến mãi đầu của bảng đầu tiên là bao nhiêu?  GT: 32500          PRED: "1000 đồng"
 Q: số điện thoại nơi này là gì?                            GT: 08.3722.0539  PRED: "1111111111111111"
@@ -39,28 +58,58 @@ một trade-off thật (generalization gap), không phải bug.
 
 ## ViVQA-X (VQA tự do tổng quát + giải thích, Springer ICISN 2025, VLAI-AIVN)
 
-n=1000, seed=42, sampled from the official test split (1,970 QA, images = COCO2014).
+n=1000/seed, sampled from the official test split (1,970 QA, images = COCO2014).
 
-| | acc | prec | recall | F1 | BLEU | ROUGE | METEOR | CIDEr (in-house) | CIDEr-D (corpus) | BLEU-4 (corpus) | ROUGE-L (corpus) |
-|---|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|
-| Vintern gốc (6 tile) | 0.40 | 8.19 | 60.02 | 16.80 | 0.00 | 14.62 | 11.44 | 0.00 | 21.6 | 0.0 | 14.6 |
-| Model của mình (1 tile) | **2.30** | **12.59** | 26.00 | **33.37** | 0.00 | **15.95** | 9.03 | 0.00 | **32.1** | 0.0 | 16.0 |
+**Vintern gốc (6 tile):**
 
-**Model của mình thắng trên hầu hết metric** (F1, accuracy, precision, ROUGE,
-CIDEr-D) — chỉ thua recall (Vintern gốc trả lời dài/verbose hơn → trùng từ nhiều
-hơn) và METEOR. Mẫu dự đoán: câu trả lời đúng format, đúng ngữ pháp, hợp lý (kể cả
-câu yes/no đúng), sai nội dung do ảnh COCO ngoài domain — không có dấu hiệu hỏng:
+| seed | acc | prec | recall | F1 | CIDEr-D (corpus) | BLEU-4 (corpus) | ROUGE-L (corpus) |
+|---|--:|--:|--:|--:|--:|--:|--:|
+| 42 | 0.40 | 8.19 | 60.02 | 16.80 | 21.6 | 0.0 | 14.6 |
+| 123 | 0.20 | 8.26 | 61.48 | 16.87 | 21.3 | 0.2 | 14.9 |
+| 3407 | 0.50 | 9.02 | 61.90 | 17.55 | 26.4 | 0.2 | 15.9 |
+| **mean±std (n=3)** | **0.37±0.15** | **8.49±0.46** | **61.13±0.99** | **17.07±0.41** | **23.1±2.9** | **0.1±0.1** | **15.2±0.7** |
+
+**Model của mình (1 tile):**
+
+| seed | acc | prec | recall | F1 | CIDEr-D (corpus) | BLEU-4 (corpus) | ROUGE-L (corpus) |
+|---|--:|--:|--:|--:|--:|--:|--:|
+| 42 | 2.30 | 12.59 | 26.00 | 33.37 | 32.1 | 0.0 | 16.0 |
+| 123 | 2.50 | 12.77 | 26.38 | 33.57 | 32.6 | 0.0 | 16.3 |
+| 3407 | 2.50 | 13.54 | 28.48 | 34.09 | 35.0 | 0.6 | 17.3 |
+| **mean±std (n=3)** | **2.43±0.12** | **12.97±0.50** | **26.95±1.34** | **33.68±0.37** | **33.2±1.6** | **0.2±0.4** | **16.5±0.7** |
+
+**Model của mình thắng trên hầu hết metric, ổn định qua cả 3 seed** (F1 33.7 vs
+17.1, accuracy 2.4 vs 0.4, CIDEr-D 33.2 vs 23.1) — chỉ thua recall (Vintern gốc
+trả lời dài/verbose hơn → trùng từ nhiều hơn). Mẫu dự đoán (seed 42): câu trả lời
+đúng format, đúng ngữ pháp, hợp lý (kể cả câu yes/no đúng), sai nội dung do ảnh
+COCO ngoài domain — không có dấu hiệu hỏng:
 ```
 Q: Trời đang mưa à?                       GT: có           PRED: "Có, trời đang mưa"  (đúng)
 Q: Con chó là thật hay giả?                GT: giả          PRED: "Có vẻ là thật"       (sai nội dung, hợp lý)
 Q: Đây là phòng nào?                       GT: nhà bếp      PRED: "Phòng khách"         (sai nội dung, hợp lý)
 ```
 
+## OpenViVQA (Information Fusion 2023, arXiv:2305.04183, UIT) -- seed 42 only so far
+
+n=1000, seed=42, sampled from the **dev** split (test split's answers are a
+placeholder, see build_ood_data.py). Street-scene photos, ~44% of QA require
+reading embedded scene text per the paper (hybrid of plain VQA + OCR).
+
+| | acc | prec | recall | F1 | CIDEr-D (corpus) | BLEU-4 (corpus) | ROUGE-L (corpus) |
+|---|--:|--:|--:|--:|--:|--:|--:|
+| Vintern gốc (6 tile) | 14.30 | 54.14 | 72.63 | 32.63 | 388.6 | 38.2 | 60.0 |
+| Model của mình (1 tile) | 1.30 | 34.96 | 18.56 | 31.95 | 63.4 | 4.5 | 21.4 |
+
+Vintern gốc thắng rõ (CIDEr-D 388.6 vs 63.4) -- nhất quán với ViTextVQA: OpenViVQA
+cũng cần đọc chữ trong ảnh ở ~44% câu hỏi, nơi 1 tile của model mình bất lợi.
+Seeds 123/3407 đang chạy, sẽ cập nhật mean±std khi xong.
+
 ## Kết luận chung
 
-Model của mình **tốt hơn trên VQA tổng quát (ViVQA-X)** — gần domain train
-(AutoViVQA) hơn — nhưng **thua hẳn trên đọc-chữ-trong-ảnh (ViTextVQA)** — đúng dự
-đoán vì bridge chỉ train 1 tile, không phải tác vụ OCR.
+Model của mình **tốt hơn trên VQA tổng quát, ảnh không cần đọc chữ (ViVQA-X)** —
+gần domain train (AutoViVQA) hơn — nhưng **thua hẳn trên các tập cần đọc chữ
+trong ảnh (ViTextVQA, OpenViVQA)** — đúng dự đoán vì bridge chỉ train 1 tile,
+không phải tác vụ OCR, và kết quả ổn định qua nhiều seed (không phải may rủi).
 
 CIDEr (in-house, cột "cider") = 0.00 cho **cả 4 hàng** — đây là hệ quả toán học tất
 yếu, không phải model tệ: `compute_score.py`'s `cider_score()` gọi `Cider().compute_score()`

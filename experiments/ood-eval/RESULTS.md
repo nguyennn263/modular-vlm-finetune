@@ -89,20 +89,33 @@ Q: Con chó là thật hay giả?                GT: giả          PRED: "Có v
 Q: Đây là phòng nào?                       GT: nhà bếp      PRED: "Phòng khách"         (sai nội dung, hợp lý)
 ```
 
-## OpenViVQA (Information Fusion 2023, arXiv:2305.04183, UIT) -- seed 42 only so far
+## OpenViVQA (Information Fusion 2023, arXiv:2305.04183, UIT)
 
-n=1000, seed=42, sampled from the **dev** split (test split's answers are a
+n=1000/seed, sampled from the **dev** split (test split's answers are a
 placeholder, see build_ood_data.py). Street-scene photos, ~44% of QA require
 reading embedded scene text per the paper (hybrid of plain VQA + OCR).
 
-| | acc | prec | recall | F1 | CIDEr-D (corpus) | BLEU-4 (corpus) | ROUGE-L (corpus) |
-|---|--:|--:|--:|--:|--:|--:|--:|
-| Vintern gốc (6 tile) | 14.30 | 54.14 | 72.63 | 32.63 | 388.6 | 38.2 | 60.0 |
-| Model của mình (1 tile) | 1.30 | 34.96 | 18.56 | 31.95 | 63.4 | 4.5 | 21.4 |
+**Vintern gốc (6 tile):**
 
-Vintern gốc thắng rõ (CIDEr-D 388.6 vs 63.4) -- nhất quán với ViTextVQA: OpenViVQA
-cũng cần đọc chữ trong ảnh ở ~44% câu hỏi, nơi 1 tile của model mình bất lợi.
-Seeds 123/3407 đang chạy, sẽ cập nhật mean±std khi xong.
+| seed | acc | prec | recall | F1 | CIDEr-D (corpus) | BLEU-4 (corpus) | ROUGE-L (corpus) |
+|---|--:|--:|--:|--:|--:|--:|--:|
+| 42 | 14.30 | 54.14 | 72.63 | 32.63 | 388.6 | 38.2 | 60.0 |
+| 123 | 12.00 | 53.46 | 73.47 | 32.54 | 372.3 | 38.3 | 60.0 |
+| 3407 | 12.10 | 52.71 | 71.26 | 32.41 | 363.4 | 36.2 | 58.5 |
+| **mean±std (n=3)** | **12.80±1.30** | **53.44±0.72** | **72.45±1.12** | **32.53±0.11** | **374.8±12.8** | **37.6±1.2** | **59.5±0.9** |
+
+**Model của mình (1 tile):**
+
+| seed | acc | prec | recall | F1 | CIDEr-D (corpus) | BLEU-4 (corpus) | ROUGE-L (corpus) |
+|---|--:|--:|--:|--:|--:|--:|--:|
+| 42 | 1.30 | 34.96 | 18.56 | 31.95 | 63.4 | 4.5 | 21.4 |
+| 123 | 0.80 | 33.70 | 17.91 | 31.55 | 61.3 | 3.9 | 20.6 |
+| 3407 | 0.60 | 34.03 | 17.62 | 31.37 | 59.4 | 4.0 | 20.4 |
+| **mean±std (n=3)** | **0.90±0.36** | **34.23±0.65** | **18.03±0.48** | **31.62±0.30** | **61.4±2.0** | **4.1±0.3** | **20.8±0.5** |
+
+Vintern gốc thắng rõ, ổn định qua cả 3 seed (CIDEr-D 374.8±12.8 vs 61.4±2.0) --
+nhất quán với ViTextVQA: OpenViVQA cũng cần đọc chữ trong ảnh ở ~44% câu hỏi, nơi
+1 tile của model mình bất lợi.
 
 ## Kết luận chung
 

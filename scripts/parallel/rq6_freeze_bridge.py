@@ -34,24 +34,35 @@ ACCS = ["acc9", "acc10"]
 def _cells(label: str, lora_targets: str, limit: int) -> list[dict]:
     ck = f"/kaggle/working/ck-{label}/seed42"
     limit_arg = f"--limit {limit} " if limit else ""
+    # smoke (--limit) also caps the post-train eval to a few hundred samples --
+    # otherwise the eval alone (full 5463-sample generation-based val) dwarfs
+    # the point of a "quick" sanity check.
+    eval_limit_arg = f" --limit {min(limit * 10, 500)}" if limit else ""
     return [
         _clone_cell(BRANCH),
         _code("!bash setup_kaggle.sh 2>&1 | tail -5"),
         _code("!python scripts/phase0_build_data.py 2>&1 | tail -6"),
-        _code("import os, glob, shutil",
-              f"os.makedirs('{ck}/multi_token', exist_ok=True)",
+        # --init-bridge (NOT --resume): loads only bridge_state, no
+        # optimizer/scheduler/step restore. --resume would try to restore the
+        # OLD (bridge-only) optimizer state into a differently-shaped LoRA
+        # optimizer and crash ("parameter group doesn't match the size") --
+        # confirmed the hard way in the first smoke test attempt. Resolve the
+        # ckpt path and run training in the SAME cell (avoids relying on
+        # cross-cell shell/python variable interpolation).
+        _code("import os, glob",
               "pts = glob.glob('/kaggle/input/**/multi_token/best_model.pt', recursive=True) or "
               "glob.glob('/kaggle/input/**/best_model.pt', recursive=True)",
               "assert pts, 'pretrained bridge ckpt not found: ' + repr(os.listdir('/kaggle/input'))",
-              f"shutil.copy(pts[0], '{ck}/multi_token/last_model.pt')",
-              "print('resume ckpt ready:', pts[0])"),
-        _code(f"!python -m src.cli.train --bridge multi_token --split-dir data/splits --seed 42 "
-              f"--epochs 1 {limit_arg}--batch-size 8 --grad-accum 1 --eval-steps 800 --save-steps 800 "
-              f"--no-early-stopping --text-metrics-every 2 --text-metrics-max-samples 600 "
+              "print('bridge warm-start source:', pts[0])",
+              "rc = os.system(f\"python -m src.cli.train --bridge multi_token --split-dir data/splits "
+              f"--seed 42 --epochs 1 {limit_arg}--batch-size 8 --grad-accum 1 --eval-steps 800 "
+              f"--save-steps 800 --no-early-stopping --text-metrics-every 2 --text-metrics-max-samples 600 "
               f"--lora --lora-r 16 --lora-targets {lora_targets} --freeze-bridge "
-              f"--output-dir {ck} --resume"),
+              "--init-bridge {pts[0]!r} "
+              f"--output-dir {ck}\")",
+              "assert rc == 0, f'training exited {rc}'"),
         _code(f"!python -m src.cli.evaluate --bridge multi_token --split-dir data/splits --split val "
-              f"--checkpoint {ck}/multi_token/last_model.pt"),
+              f"--checkpoint {ck}/multi_token/last_model.pt{eval_limit_arg}"),
         _code(f"!mkdir -p /kaggle/working/out && cp -r {ck} /kaggle/working/out/ && "
               "ls -R /kaggle/working/out | tail -20"),
     ]

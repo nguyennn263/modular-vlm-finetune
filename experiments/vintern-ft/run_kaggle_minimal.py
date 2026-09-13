@@ -75,7 +75,6 @@ def _embed_file(dst: str, local_path: Path) -> dict:
 def cells(seed: int, resume: bool, epochs: int, limit: int | None = None) -> list[dict]:
     ft_out = "/kaggle/working/work_dirs/vintern_lora"
     merged = ft_out + "_merge"
-    resume_ckpt_dir = "/kaggle/input/" + CKPT_DS_SLUG
     here = ROOT / "experiments" / "vintern-ft"
 
     c = [
@@ -175,11 +174,16 @@ def cells(seed: int, resume: bool, epochs: int, limit: int | None = None) -> lis
     resume_arg = ""
     if resume:
         resume_setup = [code(
-            "# resume from the previous session's checkpoint (promoted to a Kaggle dataset)",
+            "# resume from the previous session's checkpoint (promoted to a Kaggle dataset).",
+            "# NOTE: Kaggle's mount layout for a given dataset has varied between flat",
+            "# (/kaggle/input/<slug>/...) and nested (/kaggle/input/datasets/<owner>/<slug>/...)",
+            "# for these accounts before (see DATA_DIR/IMAGES_DIR resolution above) -- glob",
+            "# recursively instead of hardcoding either layout.",
             "import shutil, os, glob",
             f"os.makedirs('{ft_out}', exist_ok=True)",
-            f"ckpts = sorted(glob.glob('{resume_ckpt_dir}/checkpoint-*'), key=lambda p: int(p.rsplit('-',1)[1]))",
-            "assert ckpts, 'no checkpoint found in resume dataset'",
+            f"ckpts = sorted(glob.glob('/kaggle/input/**/{CKPT_DS_SLUG}/checkpoint-*', recursive=True), "
+            "key=lambda p: int(p.rsplit('-',1)[1]))",
+            "assert ckpts, 'no checkpoint found in resume dataset -- ' + repr(os.listdir('/kaggle/input'))",
             "src = ckpts[-1]; step = os.path.basename(src)",
             f"dst = os.path.join('{ft_out}', step)",
             "shutil.copytree(src, dst)",

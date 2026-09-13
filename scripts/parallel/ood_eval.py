@@ -30,15 +30,16 @@ from run import ROOT, ACCT_DIR, _kaggle, _user, _code, _clone_cell, _nb, load_le
 BRANCH = "feat/decoder-lora"
 CKPT_DS = "mvlm-lora-mt-ckpt"
 CKPT_LABEL = "l3ep-s42"           # checkpoints/expA-lora16-3ep/seed42/multi_token/last_model.pt
-DATASETS = ["vitextvqa", "vivqax", "openvivqa"]
+DATASETS = ["vitextvqa", "vivqax", "openvivqa", "vivqa"]
 SEEDS = [42, 123, 3407]
 N_SAMPLES = 1000
 # legacy bare-key jobs (pre-dates multi-seed, already collected/running under
 # the old `ood-eval:<dataset>` naming) -- don't re-launch these under a seed key.
+# vivqa is NOT in here: added after multi-seed, all 3 of its seeds are new jobs.
 LEGACY_S42 = {"vitextvqa", "vivqax", "openvivqa"}
 # fresh accounts, untouched by vintern-ft-minimal (acc2, acc15), RQ6 reruns
 # (acc9, acc10), or the first-round OOD jobs (acc7, acc8, acc11).
-ACCS = ["acc3", "acc4", "acc5", "acc6", "acc12", "acc13", "acc14", "acc16"]
+ACCS = ["acc7", "acc8", "acc14", "acc3", "acc4", "acc5", "acc6", "acc12", "acc13", "acc16"]
 
 
 def _job_key(dataset: str, seed: int) -> str:

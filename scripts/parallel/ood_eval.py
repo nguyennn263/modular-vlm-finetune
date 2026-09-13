@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """OOD eval: Vintern-1B-v3_5 zero-shot vs our best checkpoint (Multi-Token
-bridge + decoder LoRA r16 3ep, seed42) on 2 external Vietnamese VQA datasets
-that neither model has ever trained on (ViTextVQA, ViVQA-X) -- 1000 sampled
-test-split rows each, seed=42, single seed, traced via manifest.json.
+bridge + decoder LoRA r16 3ep, seed42) on 3 external Vietnamese VQA datasets
+that neither model has ever trained on (ViTextVQA, ViVQA-X, OpenViVQA) --
+1000 sampled rows each (test split for the first two; OpenViVQA uses its DEV
+split, since its test-split answers are a placeholder), seed=42, single seed,
+traced via manifest.json. Results recorded in experiments/ood-eval/RESULTS.md.
 
-    python scripts/parallel/ood_eval.py launch                 # push 2 kernels
+    python scripts/parallel/ood_eval.py launch                 # push kernels (skips already-done jobs)
     python scripts/parallel/ood_eval.py collect                 # pull + score
 
 Reuses the existing `mvlm-lora-mt-ckpt` Kaggle dataset (uploaded by
@@ -20,10 +22,10 @@ from run import ROOT, ACCT_DIR, _kaggle, _user, _code, _clone_cell, _nb, load_le
 BRANCH = "feat/decoder-lora"
 CKPT_DS = "mvlm-lora-mt-ckpt"
 CKPT_LABEL = "l3ep-s42"           # checkpoints/expA-lora16-3ep/seed42/multi_token/last_model.pt
-DATASETS = ["vitextvqa", "vivqax"]
+DATASETS = ["vitextvqa", "vivqax", "openvivqa"]
 N_SAMPLES = 1000
 SEED = 42
-ACCS = ["acc7", "acc8", "acc9"]    # pick accounts NOT busy with the vintern-ft-minimal repro (acc2, acc15)
+ACCS = ["acc7", "acc8", "acc11"]    # pick accounts NOT busy with vintern-ft-minimal (acc2, acc15) or the RQ6 reruns (acc9, acc10)
 
 
 def _cells(dataset: str) -> list[dict]:

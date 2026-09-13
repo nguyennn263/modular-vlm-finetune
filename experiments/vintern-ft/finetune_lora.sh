@@ -19,6 +19,15 @@
 # shipped default script, pairing the identical max_dynamic_patch=6 -- uses
 # 4096. Using that value here instead: it's the official repo default, not
 # an invented number.
+#
+# CHECKPOINT CADENCE (pure infra, not a recipe hyperparameter -- doesn't touch
+# training math): at ~38s/optimizer step (measured, 6 tiles + eager attention
+# on Kaggle P100/T4), the earlier save_steps=500 only checkpointed every
+# ~5.3h -- just 1-2 opportunities in a whole 12h session. If the cap hit
+# between saves, all progress since the last one was lost, needing a fresh
+# --resume from further back. save_steps=100 (~1h between saves; even the
+# official repo_default_finetune_lora.sh uses 200, we go tighter given the
+# 12h-cap risk) bounds the worst-case loss to ~1h instead of ~5h.
 set -x
 
 GPUS=${GPUS:-1}
@@ -101,7 +110,7 @@ torchrun \
   --gradient_accumulation_steps ${GRADIENT_ACC} \
   --evaluation_strategy "no" \
   --save_strategy "steps" \
-  --save_steps 500 \
+  --save_steps 100 \
   --save_total_limit 1 \
   --save_only_model True \
   --learning_rate 4e-5 \

@@ -117,12 +117,45 @@ Vintern gốc thắng rõ, ổn định qua cả 3 seed (CIDEr-D 374.8±12.8 vs 
 nhất quán với ViTextVQA: OpenViVQA cũng cần đọc chữ trong ảnh ở ~44% câu hỏi, nơi
 1 tile của model mình bất lợi.
 
+## ViVQA (UIT-ViVQA gốc, PACLIC 2021, Tran et al.)
+
+n≈520/seed (KHÔNG đủ 1000 -- ~48% lượt tải ảnh COCO train2014 thất bại, có vẻ
+do rate-limit khi tải nhiều ảnh lẻ liên tục từ `images.cocodataset.org`; nhất
+quán ~505-520 qua cả 3 seed nên không phải ngẫu nhiên, nhưng không ảnh hưởng
+tính so sánh vì cùng ảnh cho cả 2 model). COCO-QA style, câu trả lời 1 từ
+(object/number/color/location).
+
+**Vintern gốc (6 tile):**
+
+| seed | n | acc | prec | recall | F1 | CIDEr-D (corpus) | ROUGE-L (corpus) |
+|---|--:|--:|--:|--:|--:|--:|--:|
+| 42 | 520 | 0.00 | 15.59 | 61.19 | 24.42 | 37.0 | 25.5 |
+| 123 | 505 | 0.00 | 15.96 | 62.05 | 24.65 | 37.6 | 26.1 |
+| 3407 | 512 | 0.00 | 15.61 | 59.28 | 24.66 | 34.9 | 25.7 |
+| **mean±std (n=3)** | | **0.00±0.00** | **15.72±0.21** | **60.84±1.42** | **24.58±0.14** | **36.5±1.4** | **25.8±0.3** |
+
+**Model của mình (1 tile):**
+
+| seed | n | acc | prec | recall | F1 | CIDEr-D (corpus) | ROUGE-L (corpus) |
+|---|--:|--:|--:|--:|--:|--:|--:|
+| 42 | 520 | 7.12 | 30.80 | 32.60 | 45.72 | 72.2 | 30.5 |
+| 123 | 505 | 8.12 | 32.39 | 35.84 | 46.43 | 74.3 | 32.8 |
+| 3407 | 512 | 7.03 | 32.47 | 34.15 | 46.09 | 72.9 | 32.1 |
+| **mean±std (n=3)** | | **7.42±0.61** | **31.89±0.94** | **34.20±1.62** | **46.08±0.36** | **73.1±1.1** | **31.8±1.2** |
+
+**Model của mình thắng rõ trên mọi metric, ổn định qua 3 seed** (F1 46.1±0.4 vs
+24.6±0.1, CIDEr-D 73.1±1.1 vs 36.5±1.4, accuracy 7.4 vs 0.0) — nhất quán với
+ViVQA-X: đây cũng là VQA tổng quát không cần đọc chữ, đúng sở trường của model
+mình. Vintern gốc gần như không bao giờ trả lời đúng-hệt-1-từ (accuracy≈0) vì nó
+có xu hướng trả lời câu dài hơn là 1 từ COCO-QA-style.
+
 ## Kết luận chung
 
-Model của mình **tốt hơn trên VQA tổng quát, ảnh không cần đọc chữ (ViVQA-X)** —
-gần domain train (AutoViVQA) hơn — nhưng **thua hẳn trên các tập cần đọc chữ
-trong ảnh (ViTextVQA, OpenViVQA)** — đúng dự đoán vì bridge chỉ train 1 tile,
-không phải tác vụ OCR, và kết quả ổn định qua nhiều seed (không phải may rủi).
+Model của mình **tốt hơn trên VQA tổng quát, ảnh không cần đọc chữ (ViVQA-X,
+ViVQA gốc)** — gần domain train (AutoViVQA) hơn — nhưng **thua hẳn trên các tập
+cần đọc chữ trong ảnh (ViTextVQA, OpenViVQA)** — đúng dự đoán vì bridge chỉ
+train 1 tile, không phải tác vụ OCR, và kết quả ổn định qua nhiều seed (không
+phải may rủi), nhất quán trên cả 4 dataset OOD test.
 
 CIDEr (in-house, cột "cider") = 0.00 cho **cả 4 hàng** — đây là hệ quả toán học tất
 yếu, không phải model tệ: `compute_score.py`'s `cider_score()` gọi `Cider().compute_score()`

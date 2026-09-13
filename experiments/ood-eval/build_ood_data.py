@@ -1,7 +1,8 @@
 """Download + sample a fixed-seed subset of an external Vietnamese VQA dataset's
-OFFICIAL TEST split, for out-of-distribution eval of Vintern-1B-v3_5 (zero-shot)
-vs our best bridge+LoRA checkpoint. Neither dataset is AutoViVQA/ViVQA/OpenViVQA
--- both are genuinely unseen by every model we evaluate here.
+OFFICIAL TEST split (or DEV, see openvivqa), for out-of-distribution eval of
+Vintern-1B-v3_5 (zero-shot) vs our best bridge+LoRA checkpoint. None of these
+4 datasets is AutoViVQA (this project's own training data) -- all genuinely
+unseen by every model evaluated here.
 
 Datasets (schemas verified by direct download+parse, not guessed):
   vitextvqa -- ViTextVQA (arXiv:2404.10652, UIT, 2024). Scene-text/OCR VQA.
@@ -23,6 +24,14 @@ Datasets (schemas verified by direct download+parse, not guessed):
     = {"images": {id: filename}, "annotations": {ann_id: {image_id, question,
     answer}}} (id keys are strings in `images`, ints in `annotations`). Images
     bundled in dev-images.zip, internal prefix "dev-images/<filename>".
+  vivqa -- UIT-ViVQA (PACLIC 2021, Tran et al., the ORIGINAL Vietnamese VQA
+    dataset -- not to be confused with ViVQA-X or OpenViVQA). COCO-QA-style:
+    single-word answers, object/number/color/location types. GitHub
+    `kh4nh12/ViVQA`, test.csv columns `,question,answer,img_id,type` (col0 =
+    row index). No formal license (paper: "available freely for research
+    purposes", no LICENSE file). Images NOT bundled -- every img_id resolves
+    against COCO **train2014 only** (verified by HEAD request against both
+    train2014/val2014), unlike ViVQA-X which mixes train2014/val2014.
 
 Writes, under --out:
   manifest.json   -- dataset, seed, n requested/actual, source URLs (traceability)
@@ -177,7 +186,45 @@ def build_openvivqa(n: int, seed: int, out: Path) -> dict:
             "note": "uses the DEV split (real answers); vlsp2023_test_data.json's answers are a placeholder"}
 
 
-BUILDERS = {"vitextvqa": build_vitextvqa, "vivqax": build_vivqax, "openvivqa": build_openvivqa}
+def build_vivqa(n: int, seed: int, out: Path) -> dict:
+    # UIT-ViVQA (PACLIC 2021, Tran et al.) -- the original Vietnamese VQA
+    # dataset (COCO-QA style: single-word answers, object/number/color/
+    # location types). CSV via GitHub raw (no HF mirror needed). Every img_id
+    # in test.csv resolves against COCO train2014 ONLY (verified by HEAD
+    # request against both train2014/val2014) -- not a val2014/train2014 mix
+    # like ViVQA-X. No formal license: paper says "available freely for
+    # research purposes", no LICENSE file in the repo -- flag if it matters.
+    import csv
+    work = out / "_raw"
+    test_csv = work / "test.csv"
+    _dl("https://raw.githubusercontent.com/kh4nh12/ViVQA/main/test.csv", test_csv, "ViVQA test.csv")
+    with open(test_csv, encoding="utf-8") as fh:
+        rows_all = list(csv.DictReader(fh))
+
+    rng = random.Random(seed)
+    n = min(n, len(rows_all))
+    picked = sorted(rng.sample(range(len(rows_all)), n), key=lambda i: int(rows_all[i][""]))
+
+    imgs_dir = out / "images"
+    imgs_dir.mkdir(parents=True, exist_ok=True)
+    rows = []
+    for i in picked:
+        r = rows_all[i]
+        fn = f"COCO_train2014_{int(r['img_id']):012d}.jpg"
+        dst = imgs_dir / fn
+        if not (dst.exists() and dst.stat().st_size > 0):
+            try:
+                _dl(f"{COCO_CDN}/train2014/{fn}", dst, f"COCO image {fn}")
+            except Exception as e:
+                print(f"[warn] failed to fetch {fn}: {e}")
+                continue
+        rows.append({"id": r[""], "image_name": fn, "question": r["question"], "answers": [r["answer"]]})
+    return {"dataset": "vivqa", "source_repo": "kh4nh12/ViVQA", "test_split_size": len(rows_all), "rows": rows,
+            "note": "no formal license in the source repo (paper: 'available freely for research purposes')"}
+
+
+BUILDERS = {"vitextvqa": build_vitextvqa, "vivqax": build_vivqax, "openvivqa": build_openvivqa,
+            "vivqa": build_vivqa}
 
 
 def main():

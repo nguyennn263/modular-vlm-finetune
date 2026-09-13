@@ -34,8 +34,12 @@ SLUG = "mvlm-vintern-ft-minimal"
 DATA_DS = "duongcubu/autovivqa-internvl-sft"
 IMAGES_DS = "nguynrichard/auto-vqabest"
 CKPT_DS_SLUG = "vintern-ft-ckpt"
-IMAGES = "/kaggle/input/auto-vqabest/preprocessed_images"
-DATA_DIR = "/kaggle/input/autovivqa-internvl-sft"
+# NOTE: no hardcoded flat /kaggle/input/<slug>/ paths here on purpose -- Kaggle's
+# actual mount layout for these two accounts turned out to be the NESTED style
+# (/kaggle/input/datasets/<owner>/<slug>/...), and a hardcoded flat IMAGES path
+# here previously made every single image load fail (root cause of the
+# FileNotFoundError storm). Both DATA_DIR and IMAGES_DIR are now glob-resolved
+# at runtime inside the kernel (see cells()).
 
 
 def kaggle(acc: str, *args: str, check: bool = True) -> str:
@@ -68,7 +72,7 @@ def _embed_file(dst: str, local_path: Path) -> dict:
     )
 
 
-def cells(seed: int, resume: bool, epochs: int) -> list[dict]:
+def cells(seed: int, resume: bool, epochs: int, limit: int | None = None) -> list[dict]:
     ft_out = "/kaggle/working/work_dirs/vintern_lora"
     merged = ft_out + "_merge"
     resume_ckpt_dir = "/kaggle/input/" + CKPT_DS_SLUG
@@ -127,23 +131,44 @@ def cells(seed: int, resume: bool, epochs: int) -> list[dict]:
             "--local-dir-use-symlinks False 5CD-AI/Vintern-1B-v3_5 --local-dir pretrained/Vintern-1B-v3_5 "
             "2>&1 | tail -3",
         ),
-        code(
-            "# our pre-built splits (already committed as a tiny Kaggle dataset -- no repo clone needed).",
-            "# Resolve the actual mount path by search -- Kaggle's input layout has varied",
-            "# (flat /kaggle/input/<slug>/ vs nested /kaggle/input/datasets/<owner>/<slug>/).",
-            "import json, os, glob",
-            "hits = glob.glob('/kaggle/input/**/autovivqa_train.jsonl', recursive=True)",
-            "assert hits, 'autovivqa_train.jsonl not found anywhere under /kaggle/input -- see the ls above'",
-            "data_dir = os.path.dirname(hits[0])",
-            "print('resolved DATA_DIR =', data_dir)",
-            f"dst = '/tmp/wk/Vintern/internvl_chat/shell/data'; os.makedirs(dst, exist_ok=True)",
-            f"meta = {{'autovivqa-train': {{'root': '{IMAGES}',",
-            "  'annotation': f'{data_dir}/autovivqa_train.jsonl', 'data_augment': False, 'repeat_time': 1,",
-            "  'length': sum(1 for _ in open(f'{data_dir}/autovivqa_train.jsonl'))}}",
-            "json.dump(meta, open(f'{dst}/meta_autovivqa.json', 'w'), ensure_ascii=False, indent=2)",
-            "open('/tmp/wk/DATA_DIR', 'w').write(data_dir)",
-            "print(meta)",
-        ),
+        code(*(
+            [
+                "# our pre-built splits (already committed as a tiny Kaggle dataset -- no repo clone needed).",
+                "# Resolve the actual mount path by search -- Kaggle's input layout has varied",
+                "# (flat /kaggle/input/<slug>/ vs nested /kaggle/input/datasets/<owner>/<slug>/).",
+                "import json, os, glob",
+                "hits = glob.glob('/kaggle/input/**/autovivqa_train.jsonl', recursive=True)",
+                "assert hits, 'autovivqa_train.jsonl not found anywhere under /kaggle/input -- see the ls above'",
+                "data_dir = os.path.dirname(hits[0])",
+                "print('resolved DATA_DIR =', data_dir)",
+                "dst = '/tmp/wk/Vintern/internvl_chat/shell/data'; os.makedirs(dst, exist_ok=True)",
+                "train_ann = f'{data_dir}/autovivqa_train.jsonl'",
+                "# same flat-vs-nested mount ambiguity applies to the IMAGES dataset -- a",
+                "# hardcoded flat path here silently made every single image load fail",
+                "# (root cause of the FileNotFoundError storm, not a transient read glitch).",
+                "img_hits = glob.glob('/kaggle/input/**/preprocessed_images', recursive=True)",
+                "assert img_hits, 'preprocessed_images not found anywhere under /kaggle/input -- see the ls above'",
+                "images_dir = img_hits[0]",
+                "print('resolved IMAGES_DIR =', images_dir)",
+                "open('/tmp/wk/IMAGES_DIR', 'w').write(images_dir)",
+            ]
+            + ([
+                "# DEBUG: --limit passed -- slice train jsonl to N lines so a smoke-test",
+                "# run finishes in minutes instead of hours (dataset size only, recipe unchanged).",
+                f"lines = open(train_ann).readlines()[:{limit}]",
+                "train_ann = '/tmp/wk/autovivqa_train_debug.jsonl'",
+                "open(train_ann, 'w').writelines(lines)",
+                f"print('DEBUG limit={limit} ->', len(lines), 'lines written to', train_ann)",
+            ] if limit else [])
+            + [
+                "meta = {'autovivqa-train': {'root': images_dir,",
+                "  'annotation': train_ann, 'data_augment': False, 'repeat_time': 1,",
+                "  'length': sum(1 for _ in open(train_ann))}}",
+                "json.dump(meta, open(f'{dst}/meta_autovivqa.json', 'w'), ensure_ascii=False, indent=2)",
+                "open('/tmp/wk/DATA_DIR', 'w').write(data_dir)",
+                "print(meta)",
+            ]
+        )),
     ]
 
     resume_setup = []
@@ -180,7 +205,7 @@ def cells(seed: int, resume: bool, epochs: int) -> list[dict]:
         "os.environ['SKIP_DEEPSPEED'] = '1'",
         (resume_arg if resume else "os.environ['RESUME_ARG'] = ''"),
         "print('RESUME_ARG=', os.environ['RESUME_ARG'])",
-        "!bash /tmp/wk/finetune_cookbook.sh 2>&1 | tail -80",
+        "!bash /tmp/wk/finetune_cookbook.sh",
         f"print('checkpoints now:', sorted(os.listdir('{ft_out}')) if os.path.isdir('{ft_out}') else 'MISSING')",
     ))
 
@@ -207,16 +232,18 @@ def cells(seed: int, resume: bool, epochs: int) -> list[dict]:
         "    import sys; sys.path.append('/tmp/wk')",
         "    import subprocess",
         "    data_dir = open('/tmp/wk/DATA_DIR').read().strip()",
+        "    images_dir = open('/tmp/wk/IMAGES_DIR').read().strip()",
         f"    subprocess.run(['python', '/tmp/wk/gen_vintern_standalone.py', '--model-path', '{merged}',",
-        "      '--data', f'{data_dir}/autovivqa_val.jsonl', '--images-dir', '" + IMAGES + "',",
+        "      '--data', f'{data_dir}/autovivqa_val.jsonl', '--images-dir', images_dir,",
         "      '--out', '/kaggle/working/out/val', '--max-num', '6'])",
     ))
     c.append(code(
         "if os.environ.get('EPOCH_DONE') == '1':",
         "    import subprocess",
         "    data_dir = open('/tmp/wk/DATA_DIR').read().strip()",
+        "    images_dir = open('/tmp/wk/IMAGES_DIR').read().strip()",
         f"    subprocess.run(['python', '/tmp/wk/gen_vintern_standalone.py', '--model-path', '{merged}',",
-        "      '--data', f'{data_dir}/autovivqa_test.jsonl', '--images-dir', '" + IMAGES + "',",
+        "      '--data', f'{data_dir}/autovivqa_test.jsonl', '--images-dir', images_dir,",
         "      '--out', '/kaggle/working/out/test', '--max-num', '6'])",
     ))
     return c
@@ -232,7 +259,7 @@ def cmd_push(a):
     kid = f"{user(acc)}/{SLUG}"
     d = ROOT / "experiments" / "vintern-ft" / "worker_min"
     d.mkdir(parents=True, exist_ok=True)
-    (d / "worker.ipynb").write_text(json.dumps(nb(cells(a.seed, a.resume, a.epochs))))
+    (d / "worker.ipynb").write_text(json.dumps(nb(cells(a.seed, a.resume, a.epochs, a.limit))))
     # the jsonl-split dataset is private -> each account needs its own copy
     # (glob-resolved at runtime inside the kernel, so the exact slug doesn't matter)
     data_ds = f"{user(acc)}/autovivqa-internvl-sft"
@@ -245,7 +272,7 @@ def cmd_push(a):
         "dataset_sources": ds, "competition_sources": [], "kernel_sources": [],
     }, indent=2))
     print(kaggle(acc, "kernels", "push", "-p", str(d)))
-    print(f"[pushed] {kid} resume={a.resume} epochs={a.epochs}")
+    print(f"[pushed] {kid} resume={a.resume} epochs={a.epochs} limit={a.limit}")
 
 
 def cmd_status(a):
@@ -305,5 +332,8 @@ if __name__ == "__main__":
             p.add_argument("--seed", type=int, default=42)
             p.add_argument("--resume", action="store_true")
             p.add_argument("--epochs", type=int, default=1)
+            p.add_argument("--limit", type=int, default=None,
+                            help="DEBUG: slice train jsonl to N lines for a fast smoke test "
+                                 "(dataset size only -- no recipe hyperparameter touched)")
     args = ap.parse_args()
     {"push": cmd_push, "status": cmd_status, "fetch": cmd_fetch, "promote": cmd_promote}[args.cmd](args)

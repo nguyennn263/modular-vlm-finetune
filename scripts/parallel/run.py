@@ -88,8 +88,22 @@ def expa_worker(bridge: str, seed: int, branch: str, resume_ds: str | None, epoc
             else "ck-align-" + align if align
             else "ck-" + answer_sampling if answer_sampling else "ck")
     ck = f"/kaggle/working/{_sub}/seed{seed}"
-    resume_cp = (f"!mkdir -p {ck}/{bridge} && cp /kaggle/input/{resume_ds.split('/')[-1]}/* "
-                 f"{ck}/{bridge}/ 2>/dev/null && echo RESUMED || echo FRESH") if resume_ds else "print('FRESH')"
+    # glob recursively -- Kaggle's mount layout for a given dataset has varied
+    # flat (/kaggle/input/<slug>/...) vs nested (/kaggle/input/datasets/<owner>/<slug>/...)
+    # across accounts/sessions; a hardcoded flat cp here silently no-ops (cp
+    # finds nothing, falls through to `|| echo FRESH`) on a nested mount,
+    # meaning a "resume" quietly starts from scratch instead of erroring loudly.
+    resume_cp = (
+        "import glob, os, shutil\n"
+        f"os.makedirs('{ck}/{bridge}', exist_ok=True)\n"
+        f"src = glob.glob('/kaggle/input/**/{resume_ds.split('/')[-1]}', recursive=True)\n"
+        "if src:\n"
+        "    for f in os.listdir(src[0]):\n"
+        f"        shutil.copy(os.path.join(src[0], f), '{ck}/{bridge}/')\n"
+        "    print('RESUMED from', src[0])\n"
+        "else:\n"
+        f"    print('FRESH -- ' + repr(os.listdir('/kaggle/input')) + ' did not contain {resume_ds.split('/')[-1]}')"
+    ) if resume_ds else "print('FRESH')"
     tc = f"--tile-choices {tile_choices} " if tile_choices else ""
     asamp = f"--answer-sampling {answer_sampling} " if answer_sampling else ""
     algn = f"--align-distill --align-type {align} " if align else ""

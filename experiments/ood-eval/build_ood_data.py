@@ -14,6 +14,15 @@ Datasets (schemas verified by direct download+parse, not guessed):
     answer, question_id, question_type, answer_type}. Images NOT bundled --
     fetched individually from the official COCO CDN by filename
     (COCO_{train,val}2014_<id>.jpg encodes which COCO split to hit).
+  openvivqa -- OpenViVQA (Information Fusion 2023, arXiv:2305.04183, UIT).
+    Vietnamese street-scene photos, ~44% of QA require reading embedded scene
+    text (hybrid of plain VQA + OCR-in-photo). HF `uitnlp/OpenViVQA-dataset`.
+    Uses the **dev** split, NOT test: vlsp2023_test_data.json's "answer" field
+    is the literal placeholder string "your answer" for every row (verified by
+    direct download -- answers are held out for the VLSP leaderboard). dev json
+    = {"images": {id: filename}, "annotations": {ann_id: {image_id, question,
+    answer}}} (id keys are strings in `images`, ints in `annotations`). Images
+    bundled in dev-images.zip, internal prefix "dev-images/<filename>".
 
 Writes, under --out:
   manifest.json   -- dataset, seed, n requested/actual, source URLs (traceability)
@@ -37,6 +46,7 @@ import requests
 HF = "https://huggingface.co/datasets"
 VITEXTVQA_REPO = "nhonhoccode/ViTextVQA"   # ungated mirror; schema-verified to match official minhquan6203/ViTextVQA
 VIVQAX_REPO = "VLAI-AIVN/ViVQA-X"
+OPENVIVQA_REPO = "uitnlp/OpenViVQA-dataset"
 COCO_CDN = "http://images.cocodataset.org"
 
 
@@ -122,7 +132,52 @@ def build_vivqax(n: int, seed: int, out: Path) -> dict:
     return {"dataset": "vivqax", "source_repo": VIVQAX_REPO, "test_split_size": len(rows_all), "rows": rows}
 
 
-BUILDERS = {"vitextvqa": build_vitextvqa, "vivqax": build_vivqax}
+def build_openvivqa(n: int, seed: int, out: Path) -> dict:
+    # dev, NOT test -- vlsp2023_test_data.json's "answer" is the literal
+    # placeholder "your answer" for every row (verified by direct download),
+    # held out for the VLSP leaderboard. dev is the closest thing to a
+    # held-out split with real ground truth.
+    work = out / "_raw"
+    dev_json = work / "vlsp2023_dev_data.json"
+    _dl(f"{HF}/{OPENVIVQA_REPO}/resolve/main/vlsp2023_dev_data.json", dev_json, "OpenViVQA dev json")
+    d = json.loads(dev_json.read_text())
+    images = d["images"]  # {"<id>": filename}
+    anns = d["annotations"]  # {"<ann_id>": {image_id (int), question, answer}}
+    ann_items = list(anns.items())
+
+    rng = random.Random(seed)
+    n = min(n, len(ann_items))
+    picked = sorted(rng.sample(range(len(ann_items)), n), key=lambda i: int(ann_items[i][0]))
+
+    needed_files = sorted({images[str(ann_items[i][1]["image_id"])] for i in picked})
+    zip_path = work / "dev-images.zip"
+    _dl(f"{HF}/{OPENVIVQA_REPO}/resolve/main/dev-images.zip", zip_path,
+        "OpenViVQA dev-images.zip (full archive, extracting subset only)")
+    imgs_dir = out / "images"
+    imgs_dir.mkdir(parents=True, exist_ok=True)
+    with zipfile.ZipFile(zip_path) as zf:
+        names = set(zf.namelist())
+        for fn in needed_files:
+            member = f"dev-images/{fn}"
+            if member not in names:
+                print(f"[warn] missing in zip: {member}")
+                continue
+            with zf.open(member) as src, open(imgs_dir / fn, "wb") as dst:
+                dst.write(src.read())
+    zip_path.unlink(missing_ok=True)
+
+    rows = []
+    for i in picked:
+        ann_id, a = ann_items[i]
+        fn = images[str(a["image_id"])]
+        if not (imgs_dir / fn).exists():
+            continue
+        rows.append({"id": ann_id, "image_name": fn, "question": a["question"], "answers": [a["answer"]]})
+    return {"dataset": "openvivqa", "source_repo": OPENVIVQA_REPO, "test_split_size": len(ann_items), "rows": rows,
+            "note": "uses the DEV split (real answers); vlsp2023_test_data.json's answers are a placeholder"}
+
+
+BUILDERS = {"vitextvqa": build_vitextvqa, "vivqax": build_vivqax, "openvivqa": build_openvivqa}
 
 
 def main():

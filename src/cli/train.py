@@ -91,6 +91,7 @@ def build_run_config(args: argparse.Namespace) -> dict[str, Any]:
         "patience": args.patience,
         "answer_sampling": args.answer_sampling,
         "resume_from": args.resume,
+        "init_bridge": args.init_bridge,
     }
     if args.distillation:
         cfg["distillation"] = True
@@ -206,6 +207,14 @@ def _parser() -> argparse.ArgumentParser:
     p.add_argument("--resume", default=None, nargs="?", const="auto",
                    help="Checkpoint to resume from. Bare --resume (or --resume auto) "
                         "picks the newest step_*.pt in the output dir.")
+    p.add_argument("--init-bridge", default=None, dest="init_bridge",
+                   help="Warm-start the bridge's weights ONLY from a *different* prior "
+                        "checkpoint (e.g. a plain-pretrained bridge, before starting a LoRA "
+                        "stage) -- loads just `bridge_state`, no optimizer/scheduler/step "
+                        "restore. Distinct from --resume, which restores full training state "
+                        "and requires the SAME trainable-param set (crashes with a param-group "
+                        "size mismatch otherwise, e.g. resuming a bridge-only optimizer into a "
+                        "run that now also has LoRA params).")
     p.add_argument("--dry-run", action="store_true",
                    help="Print the resolved config and exit (no model load, no training).")
     return p
@@ -258,6 +267,20 @@ def run(cfg: dict[str, Any]) -> None:
         align_teacher=bool(cfg.get("align_distill", False)),
         lora=cfg.get("lora"),
     )
+
+    if cfg.get("init_bridge"):
+        # Warm-start ONLY the bridge weights from a different prior checkpoint
+        # (e.g. a plain-pretrained bridge, ahead of a LoRA stage). Deliberately
+        # NOT going through _load_checkpoint/--resume: that also restores
+        # optimizer/scheduler state, which requires the SAME trainable-param
+        # set and raises "parameter group doesn't match the size" otherwise
+        # (e.g. bridge-only optimizer state loaded into a run that now also
+        # has LoRA params, or a frozen-bridge run resuming a bridge-trainable
+        # one). Training starts fresh at epoch 0/step 0.
+        _bridge_ckpt = torch.load(cfg["init_bridge"], map_location="cpu", weights_only=False)
+        model.bridge.load_state_dict(_bridge_ckpt.get("bridge_state", _bridge_ckpt))
+        print(f"[init_bridge] warm-started bridge weights from {cfg['init_bridge']} "
+              f"(training starts fresh at epoch 0/step 0, no optimizer/scheduler carried over)")
 
     train_config = TrainConfig(
         model_name=cfg["model_name"],

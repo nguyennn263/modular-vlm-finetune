@@ -9,6 +9,16 @@
 #
 # Only deviations: paths, GPU count, and total-batch plumbing for a single
 # 16 GB card. Recipe hyper-params are UNCHANGED.
+#
+# CORRECTED max_seq_length: the colab-cells transcription had 700, but that's
+# too short for max_dynamic_patch=6 on 4:3-aspect images (AutoViVQA/COCO's
+# dominant format resolves to the full 6 tiles -> ~1792 image tokens alone),
+# which silently zeroes the loss for most samples (InternVL's own
+# modeling_internvl_chat.py sets ignore_flag=True -> loss*0.0 on token-count
+# mismatch). repo_default_finetune_lora.sh -- the SAME official repo's own
+# shipped default script, pairing the identical max_dynamic_patch=6 -- uses
+# 4096. Using that value here instead: it's the official repo default, not
+# an invented number.
 set -x
 
 GPUS=${GPUS:-1}
@@ -99,7 +109,7 @@ torchrun \
   --warmup_ratio 0.03 \
   --lr_scheduler_type "cosine" \
   --logging_steps 10 \
-  --max_seq_length 700 \
+  --max_seq_length 4096 \
   --do_train True \
   --grad_checkpoint True \
   --group_by_length True \

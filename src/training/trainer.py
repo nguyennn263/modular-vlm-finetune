@@ -186,6 +186,15 @@ class TrainConfig:
     # feat/decoder-lora branch only. lora=None -> fully frozen (default).
     lora: Optional[dict] = None
 
+    # RQ6 bug fix (found auditing the attn-vs-MLP LoRA ablation against a report
+    # someone else sent us): _setup_optimization() below only ever froze
+    # vision_model + language_model -- the bridge was NEVER frozen anywhere in
+    # this codebase, so every "LoRA stage" run to date left the (already
+    # pretrained) bridge fully trainable, co-drifting with the decoder LoRA.
+    # This flag makes "freeze the bridge for the LoRA stage" an explicit choice
+    # instead of an undocumented accident. Only meaningful when `lora` is set.
+    freeze_bridge: bool = False
+
     # Per-epoch text-metric generation cost control. Defaults reproduce the old
     # behaviour (generate on the full val set every epoch). Raise `every` and/or
     # cap `max_samples` to cut the dominant wall-clock cost on slow GPUs; the
@@ -360,6 +369,10 @@ class BridgeTrainer:
         for name, param in self.model.language_model.named_parameters():
             if not (lora_on and "lora_" in name):
                 param.requires_grad = False
+        if lora_on and getattr(self.config, "freeze_bridge", False):
+            for param in self.model.bridge.parameters():
+                param.requires_grad = False
+            logger.info("[freeze_bridge] bridge parameters frozen for the LoRA stage")
 
         # Get trainable parameters
         trainable_params = [p for p in self.model.parameters() if p.requires_grad]

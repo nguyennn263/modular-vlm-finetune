@@ -102,6 +102,7 @@ def build_run_config(args: argparse.Namespace) -> dict[str, Any]:
     if args.lora:
         cfg["lora"] = {"r": args.lora_r, "alpha": args.lora_alpha,
                        "targets": [t for t in args.lora_targets.split(",") if t]}
+        cfg["freeze_bridge"] = bool(args.freeze_bridge)
     if args.tile_choices:
         cfg["tile_choices"] = [int(x) for x in str(args.tile_choices).split(",") if x.strip()]
     if args.no_early_stopping:
@@ -182,6 +183,11 @@ def _parser() -> argparse.ArgumentParser:
     p.add_argument("--lora-r", type=int, default=16, dest="lora_r")
     p.add_argument("--lora-alpha", type=int, default=32, dest="lora_alpha")
     p.add_argument("--lora-targets", default="q_proj,k_proj,v_proj,o_proj", dest="lora_targets")
+    p.add_argument("--freeze-bridge", action="store_true", dest="freeze_bridge",
+                   help="With --lora: also freeze the (already-pretrained) bridge for this run, "
+                        "so only the LoRA adapter trains. Without this flag the bridge stays "
+                        "trainable during the LoRA stage (RQ6's original, and it turns out "
+                        "undocumented, behaviour) and co-trains with the decoder LoRA.")
     p.add_argument("--align-distill", action="store_true", dest="align_distill",
                    help="KD the bridge toward Vintern's own pre-aligned projector (mlp1).")
     p.add_argument("--align-type", default="logit", choices=["logit", "feat"], dest="align_type",
@@ -279,6 +285,7 @@ def run(cfg: dict[str, Any]) -> None:
         align_weight=float(cfg.get("align_weight", 1.0)),
         align_type=cfg.get("align_type", "logit"),
         lora=cfg.get("lora"),
+        freeze_bridge=bool(cfg.get("freeze_bridge", False)),
         text_metrics_every=cfg.get("text_metrics_every") or 1,
         text_metrics_max_samples=cfg.get("text_metrics_max_samples") or 0,
         resume_from=cfg.get("resume_from"),

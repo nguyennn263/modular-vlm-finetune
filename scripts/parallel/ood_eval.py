@@ -30,7 +30,7 @@ from run import ROOT, ACCT_DIR, _kaggle, _user, _code, _clone_cell, _nb, load_le
 BRANCH = "feat/decoder-lora"
 CKPT_DS = "mvlm-lora-mt-ckpt"
 CKPT_LABEL = "l3ep-s42"           # checkpoints/expA-lora16-3ep/seed42/multi_token/last_model.pt
-DATASETS = ["vitextvqa", "vivqax", "openvivqa", "vivqa"]
+DATASETS = ["vitextvqa", "vivqax", "openvivqa", "vivqa", "vietcult"]
 SEEDS = [42, 123, 3407]
 N_SAMPLES = 1000
 # legacy bare-key jobs (pre-dates multi-seed, already collected/running under

@@ -223,8 +223,68 @@ def build_vivqa(n: int, seed: int, out: Path) -> dict:
             "note": "no formal license in the source repo (paper: 'available freely for research purposes')"}
 
 
+def build_vietcult(n: int, seed: int, out: Path) -> dict:
+    # Vietnamese Cultural VQA / VietMEAgent (FAIR 2025, arXiv:2511.09058).
+    # HF `Dangindev/viet-cultural-vqa`, Apache 2.0, ungated. Real Vietnamese-
+    # authored dataset (not MT-derived), 28,505 photos across 12 cultural
+    # categories (architecture, cuisine, festivals, daily life, ...) -- NOT
+    # OCR/infographic. CAVEAT (flagged deliberately, not hidden): the "answer"
+    # field is NOT consistently short -- avg 12.4 words across the full test
+    # split (verified by direct measurement), longer than every other OOD
+    # dataset here including OpenViVQA (7.3 words). Some answers are single
+    # short labels ("Xe bò"), many are full descriptive sentences. Included
+    # anyway at the user's request to see empirically how the comparison
+    # looks, with this caveat on record.
+    # Each test_data.json record: {image_path ("data/images/<cat>/<kw>/<id>.jpg"
+    # -- strip the "data/" prefix, the real repo root is "images/..."),
+    # questions: [{question_id, question, answer, detailed_explanation,
+    # cultural_significance}], category, keyword, image_id, ...}. Sample at
+    # the (image, question) pair level, like the other builders here.
+    work = out / "_raw"
+    test_json = work / "test_data.json"
+    _dl(f"{HF}/Dangindev/viet-cultural-vqa/resolve/main/splits/test_data.json", test_json,
+        "Vietnamese Cultural VQA test_data.json")
+    records = json.loads(test_json.read_text())
+
+    pairs = []  # (record_idx, question_idx)
+    for ri, r in enumerate(records):
+        for qi in range(len(r.get("questions", []))):
+            pairs.append((ri, qi))
+
+    rng = random.Random(seed)
+    n = min(n, len(pairs))
+    picked = sorted(rng.sample(range(len(pairs)), n))
+
+    imgs_dir = out / "images"
+    imgs_dir.mkdir(parents=True, exist_ok=True)
+    rows = []
+    for idx in picked:
+        ri, qi = pairs[idx]
+        r = records[ri]
+        q = r["questions"][qi]
+        repo_path = r["image_path"]
+        if repo_path.startswith("data/"):
+            repo_path = repo_path[len("data/"):]
+        import urllib.parse
+        url = f"{HF}/Dangindev/viet-cultural-vqa/resolve/main/" + "/".join(
+            urllib.parse.quote(seg) for seg in repo_path.split("/"))
+        ext = Path(repo_path).suffix or ".jpg"
+        fn = f"{r['image_id']}_{idx}{ext}"
+        dst = imgs_dir / fn
+        if not (dst.exists() and dst.stat().st_size > 0):
+            try:
+                _dl(url, dst, f"Cultural VQA image {fn}")
+            except Exception as e:
+                print(f"[warn] failed to fetch {fn}: {e}")
+                continue
+        rows.append({"id": f"{r['image_id']}-{q['question_id']}", "image_name": fn,
+                     "question": q["question"], "answers": [q["answer"]]})
+    return {"dataset": "vietcult", "source_repo": "Dangindev/viet-cultural-vqa", "test_split_size": len(pairs),
+            "rows": rows, "note": "answer field averages 12.4 words (long), see build_ood_data.py comment"}
+
+
 BUILDERS = {"vitextvqa": build_vitextvqa, "vivqax": build_vivqax, "openvivqa": build_openvivqa,
-            "vivqa": build_vivqa}
+            "vivqa": build_vivqa, "vietcult": build_vietcult}
 
 
 def main():

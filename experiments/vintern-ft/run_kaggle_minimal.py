@@ -326,9 +326,13 @@ def cmd_promote(a):
     shutil.copytree(latest, ckpt_stage / latest.name)
     meta = {"title": "vintern-ft-ckpt", "id": f"{user(a.acc)}/{CKPT_DS_SLUG}", "licenses": [{"name": "CC0-1.0"}]}
     (ckpt_stage / "dataset-metadata.json").write_text(json.dumps(meta))
-    try:
-        print(kaggle(a.acc, "datasets", "create", "-p", str(ckpt_stage), "--dir-mode", "zip"))
-    except RuntimeError:
+    # `kaggle datasets create` on a title that already exists prints an error
+    # message but still exits 0 (Kaggle CLI quirk) -- check=False + inspect the
+    # text ourselves, since a bare try/except RuntimeError never triggers here
+    # and the checkpoint silently fails to upload.
+    out = kaggle(a.acc, "datasets", "create", "-p", str(ckpt_stage), "--dir-mode", "zip", check=False)
+    print(out)
+    if "error" in out.lower():
         print(kaggle(a.acc, "datasets", "version", "-p", str(ckpt_stage), "-m", latest.name, "--dir-mode", "zip"))
     print(f"[promote] -> {user(a.acc)}/{CKPT_DS_SLUG} ({latest.name})")
 

@@ -24,6 +24,12 @@ BRANCH = "feat/decoder-lora"
 SPECS = [
     ("lora16-all-fb", "q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj"),
     ("lora16-mlp-fb", "gate_proj,up_proj,down_proj"),
+    # completes the RQ6 picture: the "attn-only (recipe)" reference number
+    # (F1=53.67) was ALSO a bridge-not-frozen run (the bug predates any config
+    # distinction) -- it just didn't diverge because attention-only LoRA is a
+    # gentler perturbation. This confirms whether it's stable BECAUSE frozen
+    # bridge doesn't matter for attn-only, or coincidentally similar either way.
+    ("lora16-attn-fb", "q_proj,k_proj,v_proj,o_proj"),
 ]
 # the pretrained (2-epoch, plain) multi_token bridge checkpoint, seed42 -- same
 # starting point the original (buggy) RQ6 runs resumed from.

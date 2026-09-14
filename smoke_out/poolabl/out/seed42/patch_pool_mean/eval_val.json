@@ -1,0 +1,20 @@
+{
+  "split": "val",
+  "n": 200,
+  "bridge": "patch_pool_mean",
+  "n_tiles": 1,
+  "checkpoint": "/kaggle/working/poolabl-mean/seed42/patch_pool_mean/last_model.pt",
+  "loss": 3.207163233757019,
+  "num_samples": 200,
+  "perplexity": 24.70889663696289,
+  "accuracy": 0.0,
+  "exact_match": 0.0,
+  "bleu": 0.016758323835981165,
+  "rouge_l": 0.16557411458698632,
+  "meteor": 0.27619375356862713,
+  "cider": 0.5167679986375395,
+  "precision": 0.14832005384630706,
+  "recall": 0.5301058802308802,
+  "f1": 0.2247528039959024,
+  "wups": 0.0
+}

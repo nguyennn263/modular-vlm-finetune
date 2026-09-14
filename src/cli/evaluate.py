@@ -33,6 +33,11 @@ def _parser() -> argparse.ArgumentParser:
     p.add_argument("--limit", type=int, default=None, help="Evaluate at most N samples.")
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--output", default=None, help="Where to write the JSON report.")
+    p.add_argument("--bridge-num-tokens", type=int, default=None, dest="bridge_num_tokens",
+                   help="Must match whatever --bridge-num-tokens the checkpoint was TRAINED "
+                        "with (train.py's flag of the same name) -- otherwise the bridge is "
+                        "rebuilt with the YAML default num_tokens and state_dict loading fails "
+                        "with a shape mismatch.")
     return p
 
 
@@ -46,6 +51,9 @@ def run(args: argparse.Namespace) -> dict:
 
     train_cfg = _load_yaml(REPO_ROOT / "configs" / "train.yaml")
     bridge_cfg = _load_yaml(REPO_ROOT / "configs" / "bridges" / f"{args.bridge}.yaml")
+    if args.bridge_num_tokens is not None:
+        bridge_cfg.setdefault("bridge_config", {})
+        bridge_cfg["bridge_config"]["num_tokens"] = args.bridge_num_tokens
     split_cfg = train_cfg.get("split", {})
 
     if args.split_dir:

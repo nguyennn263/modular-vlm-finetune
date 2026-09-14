@@ -1,0 +1,2405 @@
+{
+  "epoch": 1,
+  "samples": [
+    {
+      "index": 0,
+      "question": "Tại sao người đàn ông lại bị kéo xuống nước giữa hai con bò?",
+      "prediction": "Tôi xin lỗi, tôi không thể trả lời câu hỏi này vì tôi không có đủ thông tin về bối cảnh và bối cảnh của câu hỏi. Ví dụ, có thể là một câu chuyện, một bài báo, hoặc một câu",
+      "ground_truths": [
+        "Do bò kéo anh ta trong cuộc đua",
+        "Vì anh ta đang tham gia một cuộc đua",
+        "Bò làm anh ta mất thăng bằng",
+        "Do dòng nước bùn kéo đi",
+        "Có thể do vướng vào dây cương"
+      ]
+    },
+    {
+      "index": 1,
+      "question": "Tại sao khu vực này được coi là rất mất vệ sinh?",
+      "prediction": "Khu vực này được coi là rất mất vệ sinh vì nó là một khu vực có nhiều người đi lại, thường xuyên tiếp xúc với các chất độc hại như thuốc lá, thuốc trừ sâu, thuốc trừ sâu, thuốc trừ sâu, thuốc",
+      "ground_truths": [
+        "Vì đồ ăn đang được chuẩn bị ở đó",
+        "Do có nhiều vật chứa",
+        "Vì bếp bẩn thỉu",
+        "Do sự bừa bộn",
+        "Khu vực không được dọn dẹp"
+      ]
+    },
+    {
+      "index": 2,
+      "question": "Người đàn ông cầm bó chuối có thể là chủ cửa hàng hay khách hàng?",
+      "prediction": "Không thể xác định chắc chắn người đàn ông cầm bó chuối có phải là chủ cửa hàng hay không.  Tuy nhiên, có thể suy đoán rằng anh ta có thể là một người có mối quan hệ với cửa hàng,",
+      "ground_truths": [
+        "Có thể là chủ cửa hàng",
+        "Có vẻ là người bán hàng",
+        "Rất có thể là chủ cửa hàng",
+        "Anh ấy là người bán",
+        "Có khả năng là người bán hàng"
+      ]
+    },
+    {
+      "index": 3,
+      "question": "Mối quan hệ giữa người phụ nữ và quầy hàng của cô ấy là gì?",
+      "prediction": "Mối quan hệ giữa người phụ nữ và quầy hàng là một mối quan hệ xã hội, thể hiện sự tôn trọng và quan tâm đến người bán hàng.",
+      "ground_truths": [
+        "Cô ấy đang bán trái cây",
+        "Cô ấy là chủ quầy hàng",
+        "Cô ấy đang ngồi tại quầy",
+        "Cô ấy đang làm việc ở đó",
+        "Cô ấy đang bày bán"
+      ]
+    },
+    {
+      "index": 4,
+      "question": "Tại sao nhiều người lại cùng nhau thả diều?",
+      "prediction": "Các con chim diều là một loại động vật có khả năng di chuyển nhanh chóng và mạnh mẽ, thường được sử dụng để di chuyển trên đường đi bộ, đi bộ, đi xe đạp, đi xe máy, đi xe",
+      "ground_truths": [
+        "Để giải trí",
+        "Vì thời tiết đẹp",
+        "Để vui chơi cùng nhau",
+        "Tạo không khí lễ hội",
+        "Để tận hưởng không gian thoáng đãng"
+      ]
+    },
+    {
+      "index": 5,
+      "question": "Tại sao một số người tham gia bị bịt mắt?",
+      "prediction": "Có nhiều lý do tại sao một số người bị bịt mắt. Một số lý do có thể bao gồm: bị bệnh mắt, bị bệnh thần kinh, bị bệnh thần kinh, bị bệnh thần kinh, bị bệnh",
+      "ground_truths": [
+        "Để tăng độ khó",
+        "Đó là quy tắc cuộc thi",
+        "Để tạo bất ngờ",
+        "Là một phần của trò chơi",
+        "Để công bằng hơn"
+      ]
+    },
+    {
+      "index": 6,
+      "question": "Tại sao mọi người lại tụ tập trong công viên?",
+      "prediction": "Công viên là nơi để mọi người có thể tụ tập, thư giãn, giải trí và tận hưởng không khí trong lành. Nó là một nơi để mọi người có thể gặp gỡ, trò chuyện, vui chơi, thư giãn, giải",
+      "ground_truths": [
+        "Để chơi ném đĩa.",
+        "Để vui chơi.",
+        "Để thư giãn.",
+        "Có thể có sự kiện.",
+        "Để tham gia hoạt động."
+      ]
+    },
+    {
+      "index": 7,
+      "question": "Mối quan hệ giữa người đàn ông và hai con bò trắng là gì?",
+      "prediction": "Mối quan hệ giữa người đàn ông và hai con bò trắng là tình yêu.",
+      "ground_truths": [
+        "Người đàn ông được dẫn dắt bởi bò.",
+        "Bò kéo người đàn ông.",
+        "Mối quan hệ điều khiển.",
+        "Người và bò đang tương tác.",
+        "Người đàn ông bị bò chi phối."
+      ]
+    },
+    {
+      "index": 8,
+      "question": "Mối quan hệ giữa người trượt ván và người xem là gì?",
+      "prediction": "Mối quan hệ giữa người trượt ván và người xem là tình cảm yêu thương, tình cảm thân thiết và sự đồng cảm.",
+      "ground_truths": [
+        "Người biểu diễn và khán giả",
+        "Vận động viên và người hâm mộ",
+        "Người trượt ván và người quan sát",
+        "Màn trình diễn và người theo dõi",
+        "Đối tượng được chiêm ngưỡng"
+      ]
+    },
+    {
+      "index": 9,
+      "question": "Mối quan hệ giữa những người đứng gần bát thức ăn khô và các mặt hàng được trưng bày là gì?",
+      "prediction": "Mối quan hệ giữa những người đứng gần bát thức ăn khô và các mặt hàng được trưng bày là tình cảm thân thiết và sự gắn kết.",
+      "ground_truths": [
+        "Họ đang xem sản phẩm",
+        "Họ là khách hàng tiềm năng",
+        "Họ đang cân nhắc mua hàng",
+        "Họ đang xem xét thức ăn",
+        "Có thể họ là người mua"
+      ]
+    },
+    {
+      "index": 10,
+      "question": "Người chơi tennis có thể đang nghĩ gì khi thi đấu?",
+      "prediction": "Tôi không thể biết được ý kiến của người chơi tennis khi thi đấu.",
+      "ground_truths": [
+        "Làm sao để thắng trận",
+        "Tập trung vào cú đánh tiếp theo",
+        "Cố gắng hết sức mình",
+        "Vượt qua đối thủ",
+        "Giành điểm số quan trọng"
+      ]
+    },
+    {
+      "index": 11,
+      "question": "Tại sao người đàn ông lại đánh bóng tennis trên đường phố?",
+      "prediction": "Tương tự như con người, con vật cũng có thể đánh bóng.",
+      "ground_truths": [
+        "Có thể không có sân tennis.",
+        "Có thể để giải trí.",
+        "Có lẽ vì thích không gian rộng.",
+        "Có thể không có nơi nào khác để chơi.",
+        "Có lẽ vì đường phố vắng."
+      ]
+    },
+    {
+      "index": 12,
+      "question": "Tại sao cô gái mỉm cười trước ống kính khi lấy thức ăn?",
+      "prediction": "Tôi không thể biết cô gái mỉm cười trước ống kính vì tôi không có thông tin về cô ấy.",
+      "ground_truths": [
+        "Vì cô ấy hạnh phúc",
+        "Để thể hiện sự vui vẻ",
+        "Cô ấy đang tận hưởng bữa tiệc",
+        "Có lẽ cô ấy đang vui vẻ",
+        "Cô ấy cảm thấy thoải mái"
+      ]
+    },
+    {
+      "index": 13,
+      "question": "Tại sao người đàn ông lại nhảy ván trượt qua lan can?",
+      "prediction": "Tôi xin lỗi, tôi không thể biết thông tin này từ nguồn cung cấp.",
+      "ground_truths": [
+        "Để thực hiện một kỹ thuật trượt ván khó.",
+        "Để thể hiện kỹ năng trượt ván của mình.",
+        "Có thể anh ta đang luyện tập một cú nhảy.",
+        "Để vượt qua chướng ngại vật lan can.",
+        "Anh ta muốn biểu diễn một pha nguy hiểm."
+      ]
+    },
+    {
+      "index": 14,
+      "question": "Tại sao khán đài lại chật kín người xem trận đấu này?",
+      "prediction": "Tôi xin lỗi, tôi không thể biết được thông tin này.",
+      "ground_truths": [
+        "Vì đây là trận đấu quan trọng",
+        "Vì họ thích quần vợt",
+        "Để cổ vũ cho các vận động viên",
+        "Vì muốn xem trận đấu đôi",
+        "Vì tò mò về trận đấu"
+      ]
+    },
+    {
+      "index": 15,
+      "question": "Tại sao khán giả lại đang xem người trượt ván biểu diễn?",
+      "prediction": "Khán giả xem người trượt ván biểu diễn vì nó là một hoạt động thể thao thể hiện sự khéo léo, tài năng và sự khéo léo của người chơi.",
+      "ground_truths": [
+        "Vì có chương trình ngoài trời",
+        "Để xem kỳ công trên không",
+        "Vì có màn biểu diễn",
+        "Để ủng hộ người trượt ván",
+        "Để thưởng thức sự kiện"
+      ]
+    },
+    {
+      "index": 16,
+      "question": "Mối quan hệ giữa cậu bé và người đàn ông giữ ván lướt sóng là gì?",
+      "prediction": "Mối quan hệ giữa cậu bé và người đàn ông giữ ván lướt sóng là tình yêu.",
+      "ground_truths": [
+        "Người đàn ông đang hướng dẫn cậu bé",
+        "Người đàn ông đang hỗ trợ cậu bé",
+        "Người đàn ông đang dạy cậu bé",
+        "Người đàn ông đang giúp đỡ cậu bé",
+        "Người đàn ông đang giữ cho cậu bé"
+      ]
+    },
+    {
+      "index": 17,
+      "question": "Người đàn ông lướt sóng cân bằng trên ván và những người khác có mối quan hệ gì?",
+      "prediction": "Người đàn ông lướt sóng cân bằng trên ván là một nhóm người có mối quan hệ thân thiết với nhau, thường được gọi là \"người đàn ông lướt sóng\" hoặc \"người đàn ông lướ",
+      "ground_truths": [
+        "Có thể họ là bạn bè",
+        "Có thể họ cùng sở thích",
+        "Có thể họ đang thi đấu",
+        "Có thể họ là người hướng dẫn và học viên",
+        "Có thể họ chỉ là những người lạ"
+      ]
+    },
+    {
+      "index": 18,
+      "question": "Người đàn ông đang cố gắng làm gì với con chó của mình?",
+      "prediction": "Người đàn ông đang cố gắng đưa con chó đi đi bộ.",
+      "ground_truths": [
+        "Đưa chó đến đàn dê",
+        "Dẫn chó đến chỗ dê",
+        "Hướng chó về phía dê",
+        "Mang chó lại gần dê",
+        "Chỉ cho chó đàn dê"
+      ]
+    },
+    {
+      "index": 19,
+      "question": "Mục đích của việc quay video những người trượt ván đang thực hiện thủ thuật là gì?",
+      "prediction": "Mục đích của việc quay video những người trượt ván đang thực hiện thủ thuật là để ghi lại những khoảnh khắc đó trong thời gian ngắn, giúp người xem có cái nhìn toàn diện hơn về hành động của họ",
+      "ground_truths": [
+        "Để ghi lại thủ thuật",
+        "Để xem lại sau này",
+        "Để tạo kỷ niệm",
+        "Có thể để chia sẻ",
+        "Để học hỏi động tác"
+      ]
+    },
+    {
+      "index": 20,
+      "question": "Tại sao cầu thủ bóng chày lại vung gậy rất nhanh?",
+      "prediction": "Cầu thủ bóng chày vung gậy rất nhanh vì họ muốn tạo ra một hiệu ứng chuyển động mạnh mẽ và thu hút sự chú ý của người xem.",
+      "ground_truths": [
+        "Để đánh bật quả bóng",
+        "Muốn đánh bóng mạnh",
+        "Để đưa bóng đi xa",
+        "Nhằm đánh trúng bóng",
+        "Để ghi điểm"
+      ]
+    },
+    {
+      "index": 21,
+      "question": "Mối quan hệ giữa người đàn ông và ván trượt là gì khi anh ta đang nhảy?",
+      "prediction": "Mối quan hệ giữa người đàn ông và ván trượt là tình yêu.",
+      "ground_truths": [
+        "Người đàn ông đang điều khiển ván trượt.",
+        "Anh ta đang sử dụng ván trượt để biểu diễn.",
+        "Ván trượt là phương tiện di chuyển của anh ấy.",
+        "Người đàn ông đang giữ thăng bằng trên ván trượt.",
+        "Anh ta đang thực hiện động tác với ván trượt."
+      ]
+    },
+    {
+      "index": 22,
+      "question": "Nhóm phụ nữ lớn tuổi đang làm gì ở bàn ngoài trời?",
+      "prediction": "Nhóm phụ nữ lớn tuổi đang ngồi trên ghế đá, trò chuyện với nhau.",
+      "ground_truths": [
+        "Họ đang ăn mừng",
+        "Họ đang tụ tập ăn mừng",
+        "Họ đang ngồi ăn mừng",
+        "Họ đang kỷ niệm",
+        "Họ đang tụ tập bên ngoài"
+      ]
+    },
+    {
+      "index": 23,
+      "question": "Người lính đứng trong đống đổ nát có thể đang cảm thấy gì?",
+      "prediction": "Người lính đứng trong đống đổ nát có thể cảm thấy sợ hãi, sợ bị nguy hiểm, sợ bị giết chết, sợ bị giết chết của người khác.",
+      "ground_truths": [
+        "Có lẽ anh ta đang thất vọng",
+        "Có lẽ anh ta đang buồn",
+        "Có lẽ anh ta đang sốc",
+        "Có lẽ anh ta đang mệt mỏi",
+        "Có lẽ anh ta đang tuyệt vọng"
+      ]
+    },
+    {
+      "index": 24,
+      "question": "Tại sao mấy con chó trông không vui vẻ khi lướt sóng?",
+      "prediction": "Một số con chó có thể trông không vui vẻ khi lướt sóng vì nhiều lý do. Một số con chó có thể không vui vẻ vì chúng có thể bị thương hoặc bị đánh đập. Một số con chó có thể",
+      "ground_truths": [
+        "Chúng không thích lướt sóng",
+        "Chúng sợ nước",
+        "Có thể do sóng lớn",
+        "Chúng không thoải mái",
+        "Do cảm thấy bất an"
+      ]
+    },
+    {
+      "index": 25,
+      "question": "Có bao nhiêu nhóm người được nhắc đến trong chú thích hình ảnh?",
+      "prediction": "Có hai nhóm người được nhắc đến trong chú thích hình ảnh.",
+      "ground_truths": [
+        "Bốn nhóm",
+        "Bốn",
+        "Bốn nhóm người",
+        "Có 4 nhóm",
+        "Bốn đội"
+      ]
+    },
+    {
+      "index": 26,
+      "question": "Tại sao các em nhỏ lại lên xe buýt?",
+      "prediction": "Các em nhỏ lên xe buýt vì họ muốn đi học, đi chơi, đi chơi, đi chơi.",
+      "ground_truths": [
+        "Để đi học",
+        "Xe buýt là phương tiện di chuyển",
+        "Để đến trường",
+        "Vì là xe buýt trường học",
+        "Để được chở đi"
+      ]
+    },
+    {
+      "index": 27,
+      "question": "Tại sao người đàn ông và phụ nữ lại mỉm cười?",
+      "prediction": "Mỉm cười là hành động thể hiện sự hài lòng, vui vẻ, thân thiện và thân mật. Nó là một biểu hiện của sự tự tin, tự hào và hạnh phúc. Mỉm cười là một biểu tượng của sự",
+      "ground_truths": [
+        "Vì họ đang nâng cốc chúc mừng",
+        "Có thể họ đang vui vẻ",
+        "Vì họ đang thưởng thức rượu",
+        "Có lẽ họ đang trò chuyện vui vẻ",
+        "Vì họ đang có khoảnh khắc đẹp"
+      ]
+    },
+    {
+      "index": 28,
+      "question": "Mối quan hệ giữa người lính và đống đổ nát là gì?",
+      "prediction": "Mối quan hệ giữa người lính và đống đổ nát là một mối quan hệ xã hội, thể hiện sự đồng lòng, hợp tác và hợp tác giữa các thành viên trong một tổ chức hoặc nhóm.",
+      "ground_truths": [
+        "Anh ta có thể đang tìm kiếm ai đó",
+        "Anh ta có thể đang canh gác",
+        "Anh ta có thể đang điều tra",
+        "Anh ta có thể là một phần của sự tàn phá",
+        "Anh ta liên quan đến vụ việc"
+      ]
+    },
+    {
+      "index": 29,
+      "question": "Tại sao người đàn ông lại mặc đồ lặn khi lướt sóng trên sông?",
+      "prediction": "Người đàn ông mặc đồ lặn khi lướt sóng trên sông vì nó là một phương pháp truyền thống của người Việt Nam.",
+      "ground_truths": [
+        "Để giữ ấm",
+        "Để bảo vệ cơ thể",
+        "Tránh bị trầy xước",
+        "Do nước lạnh",
+        "Để dễ dàng di chuyển"
+      ]
+    },
+    {
+      "index": 30,
+      "question": "Tại sao một trong những người trượt ván lại nhảy lên không trung?",
+      "prediction": "Vòng trượt ván là một động tác thể hiện sự bất ngờ, bất ngờ, không có ý định. Nó thường được sử dụng để thể hiện sự bất ngờ, bất ngờ, hoặc sự bất ngờ. Vòng trượt ván",
+      "ground_truths": [
+        "Để thực hiện một thủ thuật",
+        "Để khoe kỹ năng của anh ấy",
+        "Để thực hiện động tác trượt ván",
+        "Anh ấy đang biểu diễn",
+        "Thực hiện một pha nguy hiểm"
+      ]
+    },
+    {
+      "index": 31,
+      "question": "Tại sao những người trượt tuyết lại trượt gần hàng rào?",
+      "prediction": "Những người trượt tuyết trượt gần hàng rào vì họ muốn tránh bị ngã.",
+      "ground_truths": [
+        "Để an toàn.",
+        "Có lẽ là để tránh chướng ngại vật.",
+        "Để xác định ranh giới đường trượt.",
+        "Có thể là để tránh lạc đường.",
+        "Hàng rào có thể giúp định hướng."
+      ]
+    },
+    {
+      "index": 32,
+      "question": "Tại sao vận động viên trượt ván lướt qua những ngọn đồi và thung lũng?",
+      "prediction": "Vận động viên trượt ván lướt qua những ngọn đồi và thung lũng là một hoạt động thể thao thể hiện sự kiên trì, kiên cường, và sự nỗ lực không ngừng nghỉ. Nó là một",
+      "ground_truths": [
+        "Để hoàn thành khóa học",
+        "Để duy trì tốc độ",
+        "Để thực hiện các động tác trượt ván",
+        "Vì địa hình của khóa học",
+        "Để di chuyển hiệu quả"
+      ]
+    },
+    {
+      "index": 33,
+      "question": "Những người này đang tụ tập ở chợ vì lý do gì?",
+      "prediction": "Các bạn đang tụ tập ở chợ vì họ muốn mua sắm và mua sắm.",
+      "ground_truths": [
+        "Để mua chuối",
+        "Vì có nhiều chuối xanh",
+        "Để buôn bán",
+        "Có lẽ là chợ phiên",
+        "Chuối đang giảm giá"
+      ]
+    },
+    {
+      "index": 34,
+      "question": "Tại sao những người đàn ông này lại đứng dựa vào hàng rào?",
+      "prediction": "Tôi xin lỗi, tôi không thể biết thông tin này từ hình ảnh.",
+      "ground_truths": [
+        "Để chụp ảnh",
+        "Để nghỉ ngơi",
+        "Có thể đang trò chuyện",
+        "Vì không có chỗ ngồi",
+        "Để không bị ngã"
+      ]
+    },
+    {
+      "index": 35,
+      "question": "Tại sao một nhóm người lại thả diều trên cánh đồng cỏ?",
+      "prediction": "Là một mô hình ngôn ngữ, tôi không thể trả lời câu hỏi này vì tôi không có khả năng hiểu và phân biệt ngôn ngữ. Tuy nhiên, một số người có thể có lý do khác nhau để thả diều trên cánh",
+      "ground_truths": [
+        "Để giải trí",
+        "Để vui chơi",
+        "Để thư giãn",
+        "Để tận hưởng không khí",
+        "Để chơi diều"
+      ]
+    },
+    {
+      "index": 36,
+      "question": "Những người đang xem người đàn ông lướt sóng có thể đang cảm thấy gì?",
+      "prediction": "Có thể có nhiều lý do khiến một người đàn ông lướt sóng. Một số lý do có thể bao gồm:  họ có thể đang cảm thấy vui vẻ, thích thú, hoặc thậm chí có thể đang bị rối loạn",
+      "ground_truths": [
+        "Có lẽ họ đang thích thú",
+        "Có thể họ đang ghen tị",
+        "Họ có thể đang học hỏi",
+        "Có thể họ đang chờ lượt",
+        "Có thể họ đang thư giãn"
+      ]
+    },
+    {
+      "index": 37,
+      "question": "Tại sao hai người đàn ông lại nhảy lên để bắt đĩa?",
+      "prediction": "Hai người đàn ông nhảy lên để bắt đĩa là một hành động thể hiện sự hào hứng, vui vẻ và tự tin. Họ có thể đang cố gắng bắt được một con mèo hoặc một con chó, hoặc",
+      "ground_truths": [
+        "Để đón đĩa ném",
+        "Vì đĩa bay cao",
+        "Để bắt đĩa tốt hơn",
+        "Muốn đón gọn đĩa",
+        "Để chơi trò ném đĩa"
+      ]
+    },
+    {
+      "index": 38,
+      "question": "Tại sao người đàn ông lại đứng trong vũng xi măng?",
+      "prediction": "Tôi xin lỗi, tôi không thể trả lời câu hỏi này vì tôi không có đủ thông tin.",
+      "ground_truths": [
+        "Để đặt ống xi măng",
+        "Để thi công đường ống",
+        "Để làm việc xây dựng",
+        "Để đổ bê tông",
+        "Để lắp đặt"
+      ]
+    },
+    {
+      "index": 39,
+      "question": "Mối quan hệ giữa người trượt tuyết và ván trượt là gì?",
+      "prediction": "Mối quan hệ giữa người trượt tuyết và ván trượt là một mối quan hệ tình cảm, tình yêu.",
+      "ground_truths": [
+        "Ván trượt là phương tiện di chuyển",
+        "Họ phối hợp để thực hiện các pha nguy hiểm",
+        "Người trượt phụ thuộc vào ván trượt",
+        "Ván trượt giúp người trượt giữ thăng bằng",
+        "Họ cùng nhau tạo nên màn trình diễn"
+      ]
+    },
+    {
+      "index": 40,
+      "question": "Tại sao hai người lại đứng bên lề đường gần một cái cây?",
+      "prediction": "Tôi xin lỗi, tôi không thể biết thông tin này từ hình.",
+      "ground_truths": [
+        "Có thể đang chờ đợi ai đó",
+        "Có thể đang nói chuyện điện thoại",
+        "Có thể đang đợi xe buýt",
+        "Có thể đang nghỉ ngơi",
+        "Có thể đang xem cảnh vật"
+      ]
+    },
+    {
+      "index": 41,
+      "question": "Mối quan hệ giữa cầu thủ và đám đông là gì?",
+      "prediction": "Mối quan hệ giữa cầu thủ và đám đông là một mối quan hệ xã hội, thể hiện sự gắn kết và hợp tác giữa hai bên trong một nhóm người.",
+      "ground_truths": [
+        "Cầu thủ biểu diễn cho đám đông",
+        "Đám đông đang xem cầu thủ",
+        "Cầu thủ là tâm điểm đám đông",
+        "Đám đông là khán giả của cầu thủ",
+        "Họ là người biểu diễn và khán giả"
+      ]
+    },
+    {
+      "index": 42,
+      "question": "Người phụ nữ mặc váy cam có thể đi đâu với chiếc ô?",
+      "prediction": "Và với chiếc ô, cô ấy có thể đi đến một số địa điểm khác nhau.",
+      "ground_truths": [
+        "Có lẽ cô ấy đi làm.",
+        "Có thể cô ấy đi mua sắm.",
+        "Cô ấy đang đi dạo phố.",
+        "Có lẽ cô ấy đi gặp bạn.",
+        "Cô ấy có thể về nhà."
+      ]
+    },
+    {
+      "index": 43,
+      "question": "Tại sao có nhiều người đang nhìn lên bầu trời?",
+      "prediction": "Câu hỏi này không có câu trả lời chắc chắn.",
+      "ground_truths": [
+        "Vì có nhiều diều bay.",
+        "Để xem những con diều.",
+        "Họ đang ngắm diều.",
+        "Họ bị thu hút bởi diều.",
+        "Để theo dõi những con diều."
+      ]
+    },
+    {
+      "index": 44,
+      "question": "Mối quan hệ giữa hai chàng trai trượt ván là gì?",
+      "prediction": "Mối quan hệ giữa hai chàng trai trượt ván là một mối quan hệ tình cảm, thể hiện qua sự đồng cảm, đồng tình và hợp tác trong việc trượt ván.",
+      "ground_truths": [
+        "Bạn bè",
+        "Đồng hành cùng nhau",
+        "Bạn tập",
+        "Những người quen",
+        "Đồng đội trượt ván"
+      ]
+    },
+    {
+      "index": 45,
+      "question": "Mối quan hệ giữa cậu bé và tay vịn là gì?",
+      "prediction": "Mối quan hệ giữa cậu bé và tay vịn là tình yêu.",
+      "ground_truths": [
+        "Cậu bé đang mài tay vịn.",
+        "Cậu bé muốn làm trơn tay vịn.",
+        "Cậu bé đang chuẩn bị trượt.",
+        "Cậu bé tương tác với tay vịn.",
+        "Cậu bé đang thử thách bản thân."
+      ]
+    },
+    {
+      "index": 46,
+      "question": "Mối quan hệ giữa người phụ nữ và cây vợt tennis là gì?",
+      "prediction": "Mối quan hệ giữa người phụ nữ và cây vợt tennis là một mối quan hệ tình cảm, thể hiện qua sự gắn kết, hợp tác và hợp tác giữa hai người.",
+      "ground_truths": [
+        "Người phụ nữ đang cầm vợt",
+        "Cô ấy sử dụng vợt để chơi",
+        "Vợt là dụng cụ của cô ấy",
+        "Vợt được cầm bởi người chơi",
+        "Họ đang tương tác trên sân"
+      ]
+    },
+    {
+      "index": 47,
+      "question": "Tại sao người đàn ông lại nhảy lên không trung?",
+      "prediction": "Tôi xin lỗi, tôi không thể trả lời câu hỏi này vì tôi không có khả năng hiểu ý nghĩa của nó. Vui lòng cung cấp thêm thông tin hoặc ngữ cảnh để tôi có thể cung cấp một câu trả lời chính xác",
+      "ground_truths": [
+        "Để đánh bóng tennis",
+        "Anh ta đang chơi tennis",
+        "Thực hiện động tác giao bóng",
+        "Có thể để tạo lực",
+        "Trong một pha bóng"
+      ]
+    },
+    {
+      "index": 48,
+      "question": "Mối quan hệ giữa người trượt tuyết và địa hình núi non là gì?",
+      "prediction": "Mối quan hệ giữa người trượt tuyết và địa hình núi non là một mối quan hệ xã hội.",
+      "ground_truths": [
+        "Người trượt tuyết đang nhìn vào địa hình",
+        "Người trượt tuyết đang ở trên địa hình núi",
+        "Người trượt tuyết chuẩn bị xuống dốc",
+        "Người trượt tuyết quan sát địa hình để trượt",
+        "Địa hình là nơi người trượt tuyết hoạt động"
+      ]
+    },
+    {
+      "index": 49,
+      "question": "Tại sao trọng tài lại nhìn người đánh bóng?",
+      "prediction": "Trọng tài thường được xem là những người có kỹ năng làm việc chăm chỉ, chịu khó, kiên trì, chịu khó, chịu khó, chịu khó, chịu khó, chịu khó, chịu khó, chịu khó, chịu khó, chịu khó",
+      "ground_truths": [
+        "Để theo dõi cú đánh.",
+        "Để đảm bảo tuân thủ luật.",
+        "Để đưa ra quyết định.",
+        "Để xem bóng có vào sân không.",
+        "Để kiểm soát trận đấu."
+      ]
+    },
+    {
+      "index": 50,
+      "question": "Tại sao những người phụ nữ này lại đội mũ bảo hiểm?",
+      "prediction": "Một số người phụ nữ đội mũ bảo hiểm vì nhiều lý do, bao gồm: để bảo vệ bản thân khỏi bị tấn công, để bảo vệ người khác, để bảo vệ bản thân khỏi bị bịt mắt, để bảo vệ bản",
+      "ground_truths": [
+        "Để đảm bảo an toàn",
+        "Để bảo vệ đầu",
+        "Tránh chấn thương",
+        "Giữ an toàn khi trượt",
+        "Phòng ngừa tai nạn"
+      ]
+    },
+    {
+      "index": 51,
+      "question": "Mối quan hệ giữa hai người phụ nữ trên sân tennis là gì?",
+      "prediction": "Mối quan hệ giữa hai người phụ nữ trên sân tennis là tình yêu.",
+      "ground_truths": [
+        "Họ là đồng đội.",
+        "Họ đang ăn mừng chiến thắng.",
+        "Họ vừa kết thúc một pha bóng.",
+        "Họ có thể là đối thủ.",
+        "Họ đang thể hiện tinh thần thể thao."
+      ]
+    },
+    {
+      "index": 52,
+      "question": "Mối quan hệ giữa những người trong công viên và diều là gì?",
+      "prediction": "Mối quan hệ giữa những người trong công viên là tình bạn.",
+      "ground_truths": [
+        "Họ đang thả diều cùng nhau",
+        "Nhiều người đang bay diều",
+        "Họ đang chơi với diều",
+        "Mọi người đang tham gia thả diều",
+        "Diều là hoạt động chung của họ"
+      ]
+    },
+    {
+      "index": 53,
+      "question": "Tại sao các cầu thủ bóng chày mặc đồng phục?",
+      "prediction": "Các cầu thủ bóng chày mặc đồng phục vì nó là một biểu tượng của một đội bóng chày, một tổ chức hoặc cá nhân có tổ chức. Đồng phục giúp các cầu thủ dễ dàng nhận biết và nhận diện, đồng thời cũng",
+      "ground_truths": [
+        "Để chơi bóng chày",
+        "Quy định của trận đấu",
+        "Nhận diện đội bóng",
+        "Tạo sự chuyên nghiệp",
+        "Đồng bộ trang phục"
+      ]
+    },
+    {
+      "index": 54,
+      "question": "Tại sao người trượt tuyết lại đi xuống theo một lộ trình nhất định?",
+      "prediction": "Người trượt tuyết đi xuống theo một lộ trình nhất định vì nó có thể giúp họ tìm thấy một nơi an toàn và dễ dàng hơn để đi lại.",
+      "ground_truths": [
+        "Để thi đấu.",
+        "Để đảm bảo an toàn.",
+        "Vì đường đua được thiết kế như vậy.",
+        "Để tránh chướng ngại vật.",
+        "Để đạt tốc độ cao nhất."
+      ]
+    },
+    {
+      "index": 55,
+      "question": "Mối quan hệ giữa người phụ nữ mặc đồ vàng và cậu bé là gì?",
+      "prediction": "Mối quan hệ giữa người phụ nữ mặc đồ vàng và cậu bé là tình yêu.",
+      "ground_truths": [
+        "Cô ấy dạy cậu bé",
+        "Cô ấy là người dạy",
+        "Người lớn và trẻ em",
+        "Huấn luyện viên và học viên",
+        "Cô ấy đang hướng dẫn"
+      ]
+    },
+    {
+      "index": 56,
+      "question": "Mối quan hệ giữa những người lướt sóng và đám đông là gì?",
+      "prediction": "Mối quan hệ giữa những người lướt sóng và đám đông là một mối quan hệ xã hội, thể hiện qua việc họ cùng nhau tham gia vào hoạt động lướt sóng, cùng nhau tạo ra những tác",
+      "ground_truths": [
+        "Đám đông đang theo dõi những người lướt sóng",
+        "Đám đông xem người lướt sóng",
+        "Họ đang được đám đông theo dõi",
+        "Người lướt sóng được đám đông xem",
+        "Đám đông theo dõi họ"
+      ]
+    },
+    {
+      "index": 57,
+      "question": "Tại sao người phụ nữ vươn tay ra trước khi đánh quả bóng?",
+      "prediction": "Vị trí này không có trong tiếng Việt.",
+      "ground_truths": [
+        "Để chuẩn bị tư thế",
+        "Để đón bóng tốt hơn",
+        "Để có lực đánh mạnh",
+        "Để chạm bóng chính xác",
+        "Để thực hiện cú đánh"
+      ]
+    },
+    {
+      "index": 58,
+      "question": "Tại sao người đàn ông lại sử dụng ván trượt trên đường phố?",
+      "prediction": "Ván trượt là một loại dụng cụ được sử dụng để trượt trên đường phố, thường được sử dụng để trượt trên đường phố, bao gồm cả xe máy, xe đạp, xe đạp, xe đạp nhảy",
+      "ground_truths": [
+        "Để tập thể dục",
+        "Để rèn luyện sức khỏe",
+        "Vì đó là một hình thức vận động",
+        "Để di chuyển nhanh hơn",
+        "Để giải trí ngoài trời"
+      ]
+    },
+    {
+      "index": 59,
+      "question": "Mối quan hệ giữa những người chơi và đám đông là gì?",
+      "prediction": "Mối quan hệ giữa những người chơi và đám đông là một mối quan hệ xã hội, nơi những người chơi cùng nhau tham gia vào một hoạt động nào đó, có thể là trò chơi, sự kiện hoặc một hoạt động",
+      "ground_truths": [
+        "Đang tương tác",
+        "Cổ vũ trận đấu",
+        "Là khán giả",
+        "Người chơi được đám đông ủng hộ",
+        "Đám đông đang xem"
+      ]
+    },
+    {
+      "index": 60,
+      "question": "Đàn bò có vẻ đang làm gì gần bờ sông?",
+      "prediction": "Đàn bò đang đứng trên bờ sông, nhìn về phía trước.",
+      "ground_truths": [
+        "Đứng nghỉ ngơi",
+        "Uống nước",
+        "Chờ đợi",
+        "Thư giãn",
+        "Gần gũi con người"
+      ]
+    },
+    {
+      "index": 61,
+      "question": "Tại sao những người khác lại đang xem?",
+      "prediction": "Tôi xem là một mô hình ngôn ngữ AI, tôi không có ý kiến ​​của tôi về lý do tại sao những người khác đang xem.",
+      "ground_truths": [
+        "Vì họ đang chơi",
+        "Để xem màn trình diễn",
+        "Vì họ là khán giả",
+        "Để dõi theo trò chơi",
+        "Họ đang chứng kiến"
+      ]
+    },
+    {
+      "index": 62,
+      "question": "Mối quan hệ giữa hai cô gái trẻ trong trận đấu là gì?",
+      "prediction": "Mối quan hệ giữa hai cô gái trẻ trong trận đấu là tình yêu.",
+      "ground_truths": [
+        "Đối thủ",
+        "Đồng đội",
+        "Người chơi",
+        "Vận động viên",
+        "Bạn chơi"
+      ]
+    },
+    {
+      "index": 63,
+      "question": "Tại sao nhóm người lại đứng trên bãi biển?",
+      "prediction": "Tôi xin lỗi, tôi không thể biết được lý do tại sao nhóm người trong hình ảnh này đứng trên bãi biển.",
+      "ground_truths": [
+        "Để thả diều",
+        "Vì họ đang chơi đùa",
+        "Để tận hưởng không khí biển",
+        "Vì có người đang thả diều",
+        "Có thể là để giải trí"
+      ]
+    },
+    {
+      "index": 64,
+      "question": "Mối quan hệ giữa người đàn ông và những con vẹt là gì?",
+      "prediction": "Mối quan hệ giữa người đàn ông và những con vẹt là một mối quan hệ xã hội, thể hiện sự gắn kết, hợp tác và hợp tác giữa hai bên.",
+      "ground_truths": [
+        "Chủ và thú cưng",
+        "Người huấn luyện chim",
+        "Người bán và hàng hóa",
+        "Bạn bè",
+        "Người lạ và chim"
+      ]
+    },
+    {
+      "index": 65,
+      "question": "Mục đích chính của các cô gái khi ở trên sân bóng là gì?",
+      "prediction": "Mục đích chính của các cô gái khi ở trên sân bóng là để tạo ra một không gian để họ chơi bóng và chơi trò chơi.",
+      "ground_truths": [
+        "Chơi bóng đá",
+        "Thi đấu bóng đá",
+        "Đuổi theo quả bóng",
+        "Tham gia thể thao",
+        "Tập luyện bóng đá"
+      ]
+    },
+    {
+      "index": 66,
+      "question": "Tại sao mọi người phải sử dụng áo khoác và ô dù trên đường phố?",
+      "prediction": "Mọi người nên sử dụng áo khoác và ô dù trên đường phố vì chúng giúp bảo vệ chúng ta khỏi các tác động của thời tiết. Áo khoác và ô dù giúp che chắn chúng ta khỏi nắng nóng, mưa to, giúp",
+      "ground_truths": [
+        "Vì đang có gió và mưa",
+        "Để che chắn khỏi mưa",
+        "Để chống lại gió",
+        "Thời tiết đang xấu",
+        "Do trời đang bão"
+      ]
+    },
+    {
+      "index": 67,
+      "question": "Mối quan hệ giữa người ném bóng và người mang găng tay là gì?",
+      "prediction": "Mối quan hệ giữa người ném bóng và người mang găng tay là tình yêu thương, đồng thời cũng là một mối quan hệ xã hội.",
+      "ground_truths": [
+        "Đồng đội",
+        "Người bắt bóng và người ném",
+        "Có thể là thầy trò",
+        "Họ đang tập luyện cùng nhau",
+        "Người ném và người đỡ bóng"
+      ]
+    },
+    {
+      "index": 68,
+      "question": "Có bao nhiêu nhóm người được nhắc đến trong mô tả?",
+      "prediction": "Có hai nhóm người được nhắc đến trong mô tả.",
+      "ground_truths": [
+        "Ba nhóm người",
+        "Ba nhóm",
+        "Có ba nhóm",
+        "Ba",
+        "Chỉ ba nhóm"
+      ]
+    },
+    {
+      "index": 69,
+      "question": "Mối quan hệ giữa người phụ nữ và những đứa trẻ ở bàn dã ngoại là gì?",
+      "prediction": "Mối quan hệ giữa người phụ nữ và những đứa trẻ ở bàn dã ngoại là một mối quan hệ xã hội, thể hiện sự gắn kết, tương tác và hợp tác giữa hai thế hệ.",
+      "ground_truths": [
+        "Người lớn và trẻ em",
+        "Cha mẹ và con cái",
+        "Người chăm sóc và trẻ",
+        "Gia đình",
+        "Người phụ nữ cùng các con"
+      ]
+    },
+    {
+      "index": 70,
+      "question": "Mối quan hệ giữa ông già và con thú nhồi bông là gì?",
+      "prediction": "Mối quan hệ giữa ông già và con thú nhồi bông là tình yêu thương, sự quan tâm và chăm sóc.",
+      "ground_truths": [
+        "Ông già ngồi cạnh thú nhồi bông.",
+        "Họ ở cùng nhau.",
+        "Không có mối quan hệ rõ ràng.",
+        "Thú nhồi bông là bạn đồng hành.",
+        "Chỉ là sự xuất hiện cùng nhau."
+      ]
+    },
+    {
+      "index": 71,
+      "question": "Điều gì có thể là lý do người đàn ông nhảy lên để bắt đĩa?",
+      "prediction": "Có nhiều lý do có thể dẫn đến việc một người đàn ông nhảy lên. Một số lý do có thể bao gồm:\n\n1. **Tình cảm:** Một người đàn ông có thể nhảy lên để thể hiện sự vui",
+      "ground_truths": [
+        "Để đĩa không rơi xuống.",
+        "Để tiếp tục trò chơi.",
+        "Để thể hiện kỹ năng.",
+        "Để bắt kịp đồng đội.",
+        "Để có được điểm."
+      ]
+    },
+    {
+      "index": 72,
+      "question": "Tại sao một số người đứng trong bóng râm?",
+      "prediction": "Câu hỏi này không có câu trả lời chắc chắn.",
+      "ground_truths": [
+        "Để tránh nắng",
+        "Tránh nóng",
+        "Để nghỉ ngơi",
+        "Để không bị ướt",
+        "Tránh ánh nắng trực tiếp"
+      ]
+    },
+    {
+      "index": 73,
+      "question": "Mối quan hệ giữa người chơi và khán giả là gì?",
+      "prediction": "Mối quan hệ giữa người chơi và khán giả là một mối quan hệ xã hội, nơi người chơi có quyền và trách nhiệm đối với khán giả của mình.",
+      "ground_truths": [
+        "Người chơi và khán giả",
+        "Người thi đấu và người xem",
+        "Vận động viên và cổ động viên",
+        "Người biểu diễn và người theo dõi",
+        "Người được cổ vũ và người cổ vũ"
+      ]
+    },
+    {
+      "index": 74,
+      "question": "Mối quan hệ giữa việc chơi thể thao và tình bạn thân thiết là gì?",
+      "prediction": "Mối quan hệ giữa việc chơi thể thao và tình bạn thân thiết là một mối quan hệ tình cảm gắn kết giữa hai người, thể hiện qua việc họ cùng tham gia vào một hoạt động thể thao và có thể có",
+      "ground_truths": [
+        "Thể thao giúp xây dựng tình bạn",
+        "Thể thao dạy tình bạn thân thiết",
+        "Tình bạn phát triển qua thể thao",
+        "Chơi cùng nhau tạo tình bạn",
+        "Thể thao là nền tảng tình bạn"
+      ]
+    },
+    {
+      "index": 75,
+      "question": "Mối quan hệ giữa cầu thủ đánh bóng và cầu thủ bắt bóng trong trận đấu là gì?",
+      "prediction": "Mối quan hệ giữa cầu thủ đánh bóng và cầu thủ bắt bóng là một mối quan hệ tình cảm, gắn kết chặt chẽ giữa hai người. Cầu thủ đánh bóng là người được trọng tài chọn để bắt bóng, còn cầu",
+      "ground_truths": [
+        "Đối thủ trên sân",
+        "Đối đầu nhau",
+        "Người chơi đối diện",
+        "Hai vị trí khác nhau",
+        "Người chơi tương tác"
+      ]
+    },
+    {
+      "index": 76,
+      "question": "Tại sao những người này lại phải chuyển hành lý?",
+      "prediction": "Các bạn có thể chuyển hành lý để đi đến một địa điểm nào đó khác.",
+      "ground_truths": [
+        "Để vận chuyển đến nơi khác.",
+        "Để hành lý được chuyển đi.",
+        "Để hành lý đến đúng địa điểm.",
+        "Do có quá nhiều hành lý.",
+        "Vì cần bốc dỡ hành lý."
+      ]
+    },
+    {
+      "index": 77,
+      "question": "Mối quan hệ giữa những người đi bộ và ô là gì?",
+      "prediction": "Mối quan hệ giữa những người đi bộ và ô là một mối quan hệ xã hội, nơi những người đi bộ cùng nhau đi lại, làm việc và giao tiếp với nhau.",
+      "ground_truths": [
+        "Họ dùng ô để che mưa",
+        "Ô là vật dụng che mưa",
+        "Ô để tránh bị ướt",
+        "Họ cầm ô đi dưới mưa",
+        "Mỗi người một ô"
+      ]
+    },
+    {
+      "index": 78,
+      "question": "Màu sắc của ván lướt sóng được đề cập trong chú thích là gì?",
+      "prediction": "Màu sắc của ván lướt sóng được đề cập trong chú thích là màu xanh lá cây.",
+      "ground_truths": [
+        "Màu vàng",
+        "Màu xanh lá cây",
+        "Vàng và xanh lá cây",
+        "Vàng",
+        "Xanh lá cây"
+      ]
+    },
+    {
+      "index": 79,
+      "question": "Tại sao người đàn ông lại đứng trên đỉnh núi để điều khiển máy bay?",
+      "prediction": "Người đàn ông đứng trên đỉnh núi để điều khiển máy bay vì nó là một hành động thể hiện sự tự tin, tự lực và sự tự do.",
+      "ground_truths": [
+        "Để có tầm nhìn tốt hơn.",
+        "Để tránh chướng ngại vật.",
+        "Để máy bay bay xa hơn.",
+        "Vì gió trên cao mạnh hơn.",
+        "Có thể là địa điểm quen thuộc."
+      ]
+    },
+    {
+      "index": 80,
+      "question": "Người đàn ông vung vợt để làm gì?",
+      "prediction": "Người đàn ông vung vợt để làm việc trong một số trường hợp, có thể là để làm việc trong một công việc cần sự nhanh nhẹn, hoặc để làm việc trong một môi trường nguy hiểm. Vung vợ",
+      "ground_truths": [
+        "Để đánh quả bóng",
+        "Để chơi tennis",
+        "Để giao bóng",
+        "Để trả giao bóng",
+        "Để thực hiện cú đánh"
+      ]
+    },
+    {
+      "index": 81,
+      "question": "Những người đàn ông này có mối quan hệ gì với nhau?",
+      "prediction": "Các người đàn ông này là một nhóm người có mối quan hệ là bạn bè, đồng nghiệp, bạn thân, bạn bè thân thiết, bạn bè thân thiết.",
+      "ground_truths": [
+        "Có thể là đồng nghiệp.",
+        "Có lẽ là bạn bè.",
+        "Có thể là chủ và nhân viên.",
+        "Cùng làm việc ở chợ.",
+        "Có thể là người quen."
+      ]
+    },
+    {
+      "index": 82,
+      "question": "Mối quan hệ giữa người đàn ông và chiếc ô của anh ta là gì?",
+      "prediction": "Mối quan hệ giữa người đàn ông và chiếc ô là tình yêu.",
+      "ground_truths": [
+        "Chiếc ô bị gió giật mất",
+        "Chiếc ô không còn hữu ích",
+        "Anh ta đang buông bỏ chiếc ô",
+        "Chiếc ô không kiểm soát được",
+        "Anh ta đang ném chiếc ô"
+      ]
+    },
+    {
+      "index": 83,
+      "question": "Người đàn ông mặc đồ ướt để làm gì?",
+      "prediction": "Người đàn ông mặc đồ ướt để bảo vệ cơ thể khỏi bị ẩm mốc và bảo vệ da khỏi bị ẩm mốc.",
+      "ground_truths": [
+        "Để giữ ấm",
+        "Chống lạnh dưới nước",
+        "Để thoải mái lướt sóng",
+        "Tránh bị ướt quá nhiều",
+        "Bảo vệ da"
+      ]
+    },
+    {
+      "index": 84,
+      "question": "Tại sao một số vận động viên trượt băng lại tập trung gần cầu thang nhỏ?",
+      "prediction": "Vận động viên trượt băng tập trung gần cầu thang nhỏ vì cầu thang nhỏ thường có độ cao thấp hơn, không đủ rộng để trượt băng.",
+      "ground_truths": [
+        "Để thực hiện các thủ thuật.",
+        "Để nghỉ ngơi.",
+        "Để xem các vận động viên khác.",
+        "Có thể chuẩn bị trượt xuống.",
+        "Vì chỗ đó có lan can."
+      ]
+    },
+    {
+      "index": 85,
+      "question": "Mối quan hệ giữa người đàn ông và con chó là gì?",
+      "prediction": "Mối quan hệ giữa người đàn ông và con chó là một mối quan hệ thân thiết, gắn bó, gắn kết. Nó thể hiện sự gắn kết, tình cảm, sự quan tâm, yêu thương và sự gắn bó giữa hai",
+      "ground_truths": [
+        "Chủ nhân và thú cưng",
+        "Họ đang đi bộ cùng nhau",
+        "Người đàn ông và con chó của ông ấy",
+        "Họ dường như là bạn đồng hành",
+        "Con chó đi trước mặt người đàn ông"
+      ]
+    },
+    {
+      "index": 86,
+      "question": "Mọi người đang làm gì với bánh rán?",
+      "prediction": "Mọi người đang làm việc với bánh rán để làm bánh.",
+      "ground_truths": [
+        "Ăn bánh rán",
+        "Thi ăn bánh rán",
+        "Cố gắng ăn bánh rán",
+        "Họ đang dùng miệng ăn",
+        "Đang tham gia trò chơi"
+      ]
+    },
+    {
+      "index": 87,
+      "question": "Tại sao tóc trên đầu của vận động viên trượt ván lại đứng vững?",
+      "prediction": "Tóc trên đầu của vận động viên trượt ván đứng vững vì nó được thiết kế để hỗ trợ cho việc trượt ván.",
+      "ground_truths": [
+        "Có lẽ do tốc độ nhanh.",
+        "Có thể vì gió mạnh khi trượt.",
+        "Do tác động của không khí.",
+        "Biểu hiện của sự phấn khích.",
+        "Tóc dựng lên tự nhiên khi vận động."
+      ]
+    },
+    {
+      "index": 88,
+      "question": "Người phụ nữ đang làm gì khi đứng trước cửa hàng Trung Quốc?",
+      "prediction": "Người phụ nữ đang đứng trước cửa hàng Trung Quốc là một người phụ nữ đang đứng trước cửa hàng Trung Quốc.",
+      "ground_truths": [
+        "Cô ấy đang chụp ảnh",
+        "Cô ấy đang tạo dáng",
+        "Cô ấy đang chụp ảnh bình",
+        "Cô ấy đang chụp ảnh với bình",
+        "Cô ấy đang đứng chụp ảnh"
+      ]
+    },
+    {
+      "index": 89,
+      "question": "Người phụ nữ trên thuyền đang làm gì với trái cây?",
+      "prediction": "Người phụ nữ đang cầm một quả dưa hấu và đang cầm một chiếc thìa.",
+      "ground_truths": [
+        "Mang theo trái cây",
+        "Sắp xếp trái cây",
+        "Có trái cây bên cạnh",
+        "Chuyên chở trái cây",
+        "Có trái cây trên thuyền"
+      ]
+    },
+    {
+      "index": 90,
+      "question": "Mục đích của việc giơ điện thoại lên trời là gì?",
+      "prediction": "Mục đích của việc giơ điện thoại lên trời là để tạo ra một hình ảnh hoặc hình ảnh của một vật thể nào đó.",
+      "ground_truths": [
+        "Để chụp ảnh",
+        "Chụp ảnh tự sướng",
+        "Ghi lại khoảnh khắc",
+        "Chụp ảnh",
+        "Lấy góc tốt hơn"
+      ]
+    },
+    {
+      "index": 91,
+      "question": "Mối quan hệ giữa người phụ nữ trẻ và quả bóng là gì?",
+      "prediction": "Mối quan hệ giữa người phụ nữ và quả bóng là một mối quan hệ tình cảm, thể hiện qua sự gắn kết, hợp tác và hợp tác giữa hai người.",
+      "ground_truths": [
+        "Cô ấy đang đá bóng",
+        "Cô ấy đang tương tác với quả bóng",
+        "Cô ấy đang chơi bóng đá với nó",
+        "Cô ấy đang điều khiển quả bóng",
+        "Cô ấy đang dùng chân tác động vào bóng"
+      ]
+    },
+    {
+      "index": 92,
+      "question": "Tại sao người phụ nữ lại cho ngựa vằn ăn?",
+      "prediction": "Người phụ nữ cho ngựa vằn ăn vì nó là một phương pháp truyền thống của người Việt Nam.  Ngựa vằn là một loài động vật có bộ lông màu vàng, thường được sử dụng để đánh bắt",
+      "ground_truths": [
+        "Vì đó là công việc của cô ấy",
+        "Để chăm sóc ngựa vằn",
+        "Để duy trì sức khỏe cho chúng",
+        "Để cung cấp thức ăn",
+        "Có lẽ ngựa vằn đang đói"
+      ]
+    },
+    {
+      "index": 93,
+      "question": "Mối quan hệ giữa những người trượt ván và người phụ nữ đang nhìn là gì?",
+      "prediction": "Mối quan hệ giữa những người trượt ván và người phụ nữ đang nhìn là tình yêu.",
+      "ground_truths": [
+        "Họ đang cạnh tranh sự chú ý của cô ấy",
+        "Họ muốn cô ấy chú ý",
+        "Người trượt ván muốn cô ấy xem",
+        "Người trượt ván đang cố gắng gây ấn tượng với cô ấy",
+        "Có sự cạnh tranh để thu hút sự chú ý của cô ấy"
+      ]
+    },
+    {
+      "index": 94,
+      "question": "Mối quan hệ giữa người đàn ông và con chó là gì trong việc giữ cừu?",
+      "prediction": "Mối quan hệ giữa người đàn ông và con chó là một mối quan hệ thân thiết, gắn bó, gắn kết. Nó thể hiện sự gắn bó, tình cảm, sự quan tâm, yêu thương và sự gắn bó sâu sắc",
+      "ground_truths": [
+        "Người đàn ông giữ chó lại",
+        "Họ cùng chăn cừu",
+        "Là chủ và vật nuôi",
+        "Hợp tác chăn cừu",
+        "Chó hỗ trợ chăn cừu"
+      ]
+    },
+    {
+      "index": 95,
+      "question": "Người phụ nữ được so sánh với nhân vật nào trong phim Brave?",
+      "prediction": "Người phụ nữ được so sánh với nhân vật Ruby in ấn trong phim \"The Little Mermaid\".",
+      "ground_truths": [
+        "Merida",
+        "Merida trong phim Brave",
+        "Nhân vật Merida",
+        "Matilda",
+        "Matilda trong Brave"
+      ]
+    },
+    {
+      "index": 96,
+      "question": "Mối quan hệ giữa người đàn ông và những tấm ván lướt sóng là gì?",
+      "prediction": "Mối quan hệ giữa người đàn ông và những tấm ván lướt sóng là một mối quan hệ xã hội, thể hiện sự gắn kết, hợp tác và hợp tác giữa hai cá nhân hoặc nhóm người.",
+      "ground_truths": [
+        "Anh ấy đang cầm chúng",
+        "Anh ấy đứng cạnh chúng",
+        "Anh ấy nhìn vào chúng",
+        "Anh ấy sở hữu chúng",
+        "Anh ấy tương tác với chúng"
+      ]
+    },
+    {
+      "index": 97,
+      "question": "Vì sao người đàn ông lại thả diều?",
+      "prediction": "Tôi xin lỗi, tôi không thể trả lời câu hỏi này vì tôi không có khả năng hiểu ý nghĩa của câu hỏi. Vui lòng cung cấp thêm thông tin hoặc ngữ cảnh để tôi có thể trả lời chính xác hơn.",
+      "ground_truths": [
+        "Để giải trí",
+        "Cho vui",
+        "Để thư giãn",
+        "Để tiêu khiển",
+        "Chắc là thích"
+      ]
+    },
+    {
+      "index": 98,
+      "question": "Mối quan hệ giữa người đàn ông và ván trượt là gì?",
+      "prediction": "Mối quan hệ giữa người đàn ông và ván trượt là một mối quan hệ tình cảm, thể hiện qua sự gắn kết, hợp tác và hợp tác giữa hai người.",
+      "ground_truths": [
+        "Người đàn ông đang đứng trên ván trượt",
+        "Anh ấy đang giữ thăng bằng trên đó",
+        "Người đó đang sử dụng ván trượt",
+        "Ván trượt là đạo cụ của anh ấy",
+        "Anh ta đang biểu diễn với ván trượt"
+      ]
+    },
+    {
+      "index": 99,
+      "question": "Mối quan hệ giữa người phụ nữ và hai đứa trẻ là gì?",
+      "prediction": "Mối quan hệ giữa người phụ nữ và hai đứa trẻ là tình yêu.",
+      "ground_truths": [
+        "Họ là một gia đình",
+        "Người lớn và trẻ nhỏ",
+        "Người thân",
+        "Họ đang đi cùng nhau",
+        "Người phụ nữ trông nom trẻ"
+      ]
+    },
+    {
+      "index": 100,
+      "question": "Mối quan hệ giữa chàng trai và lan can là gì?",
+      "prediction": "Mối quan hệ giữa chàng trai và lan can là một mối quan hệ xã hội, thể hiện sự gắn kết, hợp tác và hợp tác giữa hai cá thể.",
+      "ground_truths": [
+        "Anh ấy đang ở giữa không trung trên lan can",
+        "Anh ấy đang nhảy qua lan can",
+        "Lan can là vật thể để anh ấy biểu diễn",
+        "Lan can là một phần của cảnh quan",
+        "Anh ấy đang tương tác với lan can"
+      ]
+    },
+    {
+      "index": 101,
+      "question": "Người đàn ông cầm dây diều có khả năng đang làm gì khác?",
+      "prediction": "Người đàn ông cầm dây diều có thể đang cố gắng tấn công hoặc bảo vệ bản thân hoặc người khác.",
+      "ground_truths": [
+        "Thả diều",
+        "Chuẩn bị thả diều",
+        "Đang điều khiển diều",
+        "Sẵn sàng bay diều",
+        "Bay nhiều diều"
+      ]
+    },
+    {
+      "index": 102,
+      "question": "Mối quan hệ giữa người đàn ông và sóng là gì?",
+      "prediction": "Mối quan hệ giữa người đàn ông và sóng là một mối quan hệ xã hội, thể hiện qua việc người đàn ông có thể có những hành động, quan điểm, hành động khác nhau so với người khác, và có",
+      "ground_truths": [
+        "Người đàn ông đang cưỡi sóng",
+        "Người đàn ông đang đánh lừa sóng",
+        "Người đàn ông đang trên sóng",
+        "Sóng đang đỡ người đàn ông",
+        "Họ đang tương tác"
+      ]
+    },
+    {
+      "index": 103,
+      "question": "Mối quan hệ giữa những người cầm ô và đống lửa là gì?",
+      "prediction": "Mối quan hệ giữa những người cầm ô và đống lửa là tình yêu.",
+      "ground_truths": [
+        "Họ đang quan sát đống lửa.",
+        "Họ đứng gần đống lửa.",
+        "Họ có thể đang sưởi ấm.",
+        "Họ giữ khoảng cách an toàn với lửa.",
+        "Họ đang chứng kiến một sự kiện."
+      ]
+    },
+    {
+      "index": 104,
+      "question": "Mối quan hệ giữa người phụ nữ mặc quân phục và đứa trẻ là gì?",
+      "prediction": "Mối quan hệ giữa người phụ nữ mặc quân phục và đứa trẻ là tình yêu thương, sự tôn trọng và sự quan tâm.",
+      "ground_truths": [
+        "Quân nhân và trẻ em",
+        "Người lớn và trẻ nhỏ",
+        "Người an ủi và người được an ủi",
+        "Người mẹ và con",
+        "Người lính và công dân"
+      ]
+    },
+    {
+      "index": 105,
+      "question": "Những người đi xe đạp này có vẻ đang làm gì cùng nhau?",
+      "prediction": "Có, họ đang đi bộ trên đường phố.",
+      "ground_truths": [
+        "Tụ tập",
+        "Gặp gỡ",
+        "Đi chung",
+        "Đi theo nhóm",
+        "Tập trung lại"
+      ]
+    },
+    {
+      "index": 106,
+      "question": "Đám đông cổ vũ lớn có vẻ đang đứng ở đâu?",
+      "prediction": "Đám đông cổ vũ lớn đang đứng ở một khu vực đông đúc, có nhiều người đi bộ và đi xe máy.",
+      "ground_truths": [
+        "Ở bên lề đường đua.",
+        "Ở khu vực khán giả.",
+        "Đứng gần đường trượt tuyết.",
+        "Trên các khán đài.",
+        "Trong khu vực dành cho người hâm mộ."
+      ]
+    },
+    {
+      "index": 107,
+      "question": "Có bao nhiêu nhóm người được nhắc đến trong mô tả?",
+      "prediction": "Có hai nhóm người được nhắc đến trong mô tả.",
+      "ground_truths": [
+        "Bốn nhóm",
+        "Bốn",
+        "Có bốn",
+        "Bốn cụm",
+        "Bốn tốp"
+      ]
+    },
+    {
+      "index": 108,
+      "question": "Tại sao hai người phụ nữ lại đập tay nhau?",
+      "prediction": "Tôi xin lỗi, tôi không thể trả lời câu hỏi này vì tôi không thể hiểu ý nghĩa của câu hỏi. Vui lòng cung cấp thêm thông tin hoặc ngữ cảnh để tôi có thể cung cấp một câu trả lời chính xác hơn",
+      "ground_truths": [
+        "Để ăn mừng một điểm tốt.",
+        "Thể hiện sự ủng hộ lẫn nhau.",
+        "Để khích lệ tinh thần.",
+        "Vì họ vui mừng.",
+        "Để chúc mừng nhau."
+      ]
+    },
+    {
+      "index": 109,
+      "question": "Tại sao các cậu bé lại đuổi theo quả bóng đá?",
+      "prediction": "Các cậu bé đuổi theo quả bóng đá vì họ muốn chơi bóng.",
+      "ground_truths": [
+        "Để ghi bàn thắng",
+        "Để tiếp tục chơi",
+        "Để giành quyền kiểm soát",
+        "Vì đó là một trận đấu",
+        "Do bản năng chơi bóng"
+      ]
+    },
+    {
+      "index": 110,
+      "question": "Tại sao người trượt tuyết lại mỉm cười trong hình ảnh này?",
+      "prediction": "Tôi xin lỗi, tôi không thể hiểu ý nghĩa của câu hỏi này. Bạn có thể cung cấp thêm thông tin hoặc ngữ cảnh để tôi có thể trả lời chính xác hơn.",
+      "ground_truths": [
+        "Vì anh ấy vui vẻ",
+        "Có thể vì thời tiết đẹp",
+        "Vì anh ấy đang tận hưởng",
+        "Do cảm thấy hạnh phúc",
+        "Có lẽ đang rất sảng khoái"
+      ]
+    },
+    {
+      "index": 111,
+      "question": "Mối quan hệ giữa việc nhảy và trượt tuyết của chàng trai là gì?",
+      "prediction": "Mối quan hệ giữa việc nhảy và trượt tuyết là một mối quan hệ tình cảm.",
+      "ground_truths": [
+        "Một phần của trượt tuyết",
+        "Hành động liên quan",
+        "Kỹ thuật trong trượt tuyết",
+        "Hoạt động chung",
+        "Động tác trượt tuyết"
+      ]
+    },
+    {
+      "index": 112,
+      "question": "Mục đích của việc người trượt ván đang nhảy là gì?",
+      "prediction": "Mục đích của việc người trượt ván đang nhảy là để tạo ra một động tác ván, thường được gọi là \"trượt ván\".",
+      "ground_truths": [
+        "Thực hiện pha nguy hiểm",
+        "Làm một trick",
+        "Thực hành kỹ năng",
+        "Biểu diễn kỹ thuật",
+        "Để nhảy qua nệm"
+      ]
+    },
+    {
+      "index": 113,
+      "question": "Mối quan hệ giữa người đàn ông và con chó trên thuyền là gì?",
+      "prediction": "Mối quan hệ giữa người đàn ông và con chó là tình yêu.",
+      "ground_truths": [
+        "Chủ và vật nuôi",
+        "Họ là bạn đồng hành",
+        "Người đàn ông là chủ của chó",
+        "Con chó đi cùng người đàn ông",
+        "Người đàn ông và chó đi thuyền cùng nhau"
+      ]
+    },
+    {
+      "index": 114,
+      "question": "Mối quan hệ giữa người lướt sóng và khán giả trên bãi biển là gì?",
+      "prediction": "Mối quan hệ giữa người lướt sóng và khán giả trên bãi biển là một mối quan hệ xã hội, thể hiện qua việc người lướt sóng thường xuyên xuyên đến các bãi biển để tìm kiếm và thưởng thức những",
+      "ground_truths": [
+        "Người lướt sóng biểu diễn, khán giả xem",
+        "Một bên hành động, một bên quan sát",
+        "Người lướt sóng tạo niềm vui cho khán giả",
+        "Khán giả chứng kiến kỹ năng của người lướt sóng",
+        "Một bên là vận động viên, một bên là người hâm mộ"
+      ]
+    },
+    {
+      "index": 115,
+      "question": "Có bao nhiêu cầu thủ bóng chày được nhắc đến trong chú thích?",
+      "prediction": "Có 3 cầu thủ bóng chày được nhắc đến trong chú thích.",
+      "ground_truths": [
+        "Hai cầu thủ",
+        "Có hai người",
+        "Chỉ có hai",
+        "Được hai người",
+        "Tổng cộng hai"
+      ]
+    },
+    {
+      "index": 116,
+      "question": "Động tác của tay vợt cho thấy điều gì về cú đánh sắp tới?",
+      "prediction": "Động tác của tay vợt cho thấy một cú đánh mạnh mẽ và mạnh mẽ, có thể là một cú đánh mạnh mẽ, một cú đánh mạnh mẽ hoặc một cú đánh mạnh mẽ.",
+      "ground_truths": [
+        "Sắp đánh mạnh",
+        "Đánh bóng bổng",
+        "Đánh topspin",
+        "Chuẩn bị giao bóng",
+        "Tập trung cao độ"
+      ]
+    },
+    {
+      "index": 117,
+      "question": "Mục đích của nhóm người khi di chuyển đồ đạc là gì?",
+      "prediction": "Mục đích của nhóm người khi di chuyển đồ đạc là để đi lại trong khu vực.",
+      "ground_truths": [
+        "Chuyển đến nhà mới",
+        "Dọn đồ đạc",
+        "Giúp chuyển nhà",
+        "Sắp xếp đồ đạc",
+        "Chuyển đồ cho người thừa kế"
+      ]
+    },
+    {
+      "index": 118,
+      "question": "Tại sao người đàn ông lại trượt ván trong bãi đậu xe?",
+      "prediction": "Tôi xin lỗi, tôi không thể biết được lý do tại sao một người đàn ông trượt ván trong bãi đậu xe. Điều này có thể do nhiều lý do, chẳng hạn như bị phạt, bị bắt giữ, bị bắt có",
+      "ground_truths": [
+        "Để tập luyện",
+        "Để giải trí",
+        "Để biểu diễn kỹ năng",
+        "Có thể để quay video",
+        "Để di chuyển"
+      ]
+    },
+    {
+      "index": 119,
+      "question": "Mối quan hệ giữa xe đạp và hoạt động mài dao là gì?",
+      "prediction": "Xe đạp là một phương tiện vận chuyển hàng hóa, được sử dụng phổ biến trong các hoạt động mài dao.",
+      "ground_truths": [
+        "Xe đạp cung cấp năng lượng",
+        "Xe đạp dùng để cuộn bánh mài",
+        "Xe đạp là dụng cụ mài dao",
+        "Xe đạp là phương tiện hỗ trợ",
+        "Xe đạp là một phần của quy trình"
+      ]
+    },
+    {
+      "index": 120,
+      "question": "Mối quan hệ giữa người phụ nữ và những quả chanh trên thuyền là gì?",
+      "prediction": "Mối quan hệ giữa người phụ nữ và những quả chanh trên thuyền là tình yêu.",
+      "ground_truths": [
+        "Cô ấy sở hữu chúng",
+        "Chúng là hàng hóa",
+        "Cô ấy vận chuyển chúng",
+        "Chúng nằm trên thuyền của cô",
+        "Chúng thuộc về cô ấy"
+      ]
+    },
+    {
+      "index": 121,
+      "question": "Điều gì có thể xảy ra nếu người đàn ông không nhìn đường khi đi bộ?",
+      "prediction": "Nếu người đàn ông không nhìn đường khi đi bộ, anh ta có thể bị tai nạn, bị thương hoặc bị mất đi sự tự tin.",
+      "ground_truths": [
+        "Có thể vấp ngã",
+        "Dễ bị tai nạn",
+        "Va vào người khác",
+        "Gặp nguy hiểm",
+        "Có thể bị thương"
+      ]
+    },
+    {
+      "index": 122,
+      "question": "Mối quan hệ giữa những người trên ván trượt và hoạt động đang diễn ra là gì?",
+      "prediction": "Mối quan hệ giữa những người trên ván trượt là một mối quan hệ tình cảm, tình bạn, đồng đội và bạn bè.",
+      "ground_truths": [
+        "Họ là những vận động viên",
+        "Họ là người tham gia cuộc đua",
+        "Họ đang thi đấu",
+        "Người trượt ván",
+        "Thí sinh đua"
+      ]
+    },
+    {
+      "index": 123,
+      "question": "Tại sao người phụ nữ lại ôm người đàn ông?",
+      "prediction": "Người phụ nữ thường ôm người đàn ông vì lý do đa số phụ nữ thường là do người đàn ông lớn tuổi hơn, thường có tuổi tác, tuổi thọ cao hơn và thường có nhiều thời gian hơn dành cho việc chăm",
+      "ground_truths": [
+        "Để thể hiện tình cảm",
+        "Vì họ là một cặp đôi",
+        "Để chụp ảnh đẹp",
+        "Để giữ ấm",
+        "Vì họ hạnh phúc"
+      ]
+    },
+    {
+      "index": 124,
+      "question": "Những người phụ nữ này đang đi đâu mang chuối?",
+      "prediction": "Tôi xin lỗi, tôi không thể biết được thông tin này.",
+      "ground_truths": [
+        "Có lẽ ra chợ bán",
+        "Có lẽ về nhà",
+        "Đến một khu dân cư",
+        "Đi giao hàng",
+        "Không rõ"
+      ]
+    },
+    {
+      "index": 125,
+      "question": "Tại sao cô gái mặc ván trượt lại đi theo người trượt tuyết mặc màu xanh?",
+      "prediction": "Cô gái mặc ván trượt lại đi theo người trượt tuyết mặc màu xanh vì cô ấy muốn tạo ra một hình ảnh đẹp và lãng mạn.",
+      "ground_truths": [
+        "Có thể để học hỏi kỹ thuật.",
+        "Có lẽ là bạn bè đi cùng nhau.",
+        "Có thể người kia là huấn luyện viên.",
+        "Có thể họ đi cùng một nhóm.",
+        "Có lẽ cô ấy mới bắt đầu."
+      ]
+    },
+    {
+      "index": 126,
+      "question": "Tại sao người đàn ông lại mặc đồ ướt?",
+      "prediction": "Người đàn ông mặc đồ ướt vì vì họ có thể bị ướt tay hoặc ướt mặt.",
+      "ground_truths": [
+        "Để giữ ấm",
+        "Vì đang lướt sóng",
+        "Để thoải mái hơn",
+        "Vì đã bị ướt",
+        "Để dễ vận động"
+      ]
+    },
+    {
+      "index": 127,
+      "question": "Mối quan hệ giữa người đàn ông cầm dù và người thả diều là gì?",
+      "prediction": "Mối quan hệ giữa người đàn ông cầm dù và người thả diều là tình yêu.",
+      "ground_truths": [
+        "Họ cùng ở trên cánh đồng.",
+        "Có thể là bạn bè.",
+        "Họ chia sẻ không gian công cộng.",
+        "Không có mối liên hệ rõ ràng.",
+        "Họ đều tận hưởng hoạt động ngoài trời."
+      ]
+    },
+    {
+      "index": 128,
+      "question": "Tại sao diều có thể bay được trong ngày nhiều mây?",
+      "prediction": "Diều có thể bay được trong ngày nhiều mây vì nó được làm từ chất lỏng, có thể bay được trong không khí.",
+      "ground_truths": [
+        "Do có gió",
+        "Vì có gió đủ mạnh",
+        "Do điều kiện thời tiết",
+        "Gió giúp diều bay",
+        "Nhờ sức gió"
+      ]
+    },
+    {
+      "index": 129,
+      "question": "Mối quan hệ giữa người đàn ông và quả bóng là gì?",
+      "prediction": "Mối quan hệ giữa người đàn ông và quả bóng là một mối quan hệ xã hội, thể hiện sự gắn kết, hợp tác và hợp tác giữa hai người.",
+      "ground_truths": [
+        "Anh ấy lặn cho quả bóng",
+        "Đang lặn để đánh bóng",
+        "Đánh bóng trở lại",
+        "Cố gắng đỡ bóng",
+        "Đang chơi với bóng"
+      ]
+    },
+    {
+      "index": 130,
+      "question": "Tại sao người đàn ông lại quỳ xuống bên cạnh con chó?",
+      "prediction": "Tôi xin lỗi, tôi không thể biết được lý do tại sao người đàn ông quỳ xuống bên cạnh con chó. Điều này có thể là do nhiều lý do, chẳng hạn như:  để che chắn khỏi nguy hiểm, để",
+      "ground_truths": [
+        "Để gần gũi hơn.",
+        "Để chơi cùng chó.",
+        "Để vuốt ve chó.",
+        "Để thể hiện tình cảm.",
+        "Vì chó đang ngồi."
+      ]
+    },
+    {
+      "index": 131,
+      "question": "Mối quan hệ giữa cậu bé và người lớn nhìn laptop là gì?",
+      "prediction": "Mối quan hệ giữa cậu bé và người lớn là tình yêu thương, đồng thời là sự phụ huynh - con cái.",
+      "ground_truths": [
+        "Họ là bố mẹ của cậu bé",
+        "Họ là người thân",
+        "Họ là gia đình",
+        "Là phụ huynh",
+        "Là cha mẹ"
+      ]
+    },
+    {
+      "index": 132,
+      "question": "Mối quan hệ giữa người cha và những đứa trẻ được thể hiện như thế nào trong hình ảnh?",
+      "prediction": "Mối quan hệ giữa người cha và những đứa trẻ được thể hiện trong hình ảnh là một mối quan hệ thân thiết, gần gũi và quan trọng.  Người cha là người có vai trò lãnh đạo, nuôi dưỡng và",
+      "ground_truths": [
+        "Là một gia đình",
+        "Cha và các con",
+        "Người cha chăm sóc con",
+        "Họ đi cùng nhau",
+        "Họ là cha con"
+      ]
+    },
+    {
+      "index": 133,
+      "question": "Tại sao người đàn ông lại đội mũ bảo hiểm khi đứng cạnh xe máy?",
+      "prediction": "Người đàn ông đội mũ bảo hiểm khi đứng cạnh xe máy vì nó giúp bảo vệ an toàn cho người đi đường.",
+      "ground_truths": [
+        "Để đảm bảo an toàn.",
+        "Để bảo vệ đầu.",
+        "Vì đang đi xe máy.",
+        "Phòng tránh tai nạn.",
+        "Thói quen lái xe."
+      ]
+    },
+    {
+      "index": 134,
+      "question": "Mối quan hệ giữa cậu bé và người bắt bóng trong trận bóng chày là gì?",
+      "prediction": "Mối quan hệ giữa cậu bé và người bắt bóng là tình yêu.",
+      "ground_truths": [
+        "Cậu bé ném bóng cho người bắt bóng",
+        "Họ đang chơi cùng nhau",
+        "Người bắt bóng nhận bóng từ cậu bé",
+        "Cậu bé là người ném bóng",
+        "Họ là đồng đội"
+      ]
+    },
+    {
+      "index": 135,
+      "question": "Tại sao hai người trượt tuyết lại nói chuyện với nhau?",
+      "prediction": "Câu trả lời cho câu hỏi này không thể được trả lời một cách chính xác vì không có thông tin về nguồn gốc của câu hỏi.",
+      "ground_truths": [
+        "Để trao đổi kinh nghiệm",
+        "Để thảo luận về đường trượt",
+        "Có thể họ quen biết",
+        "Để bàn về thời tiết",
+        "Để nghỉ ngơi"
+      ]
+    },
+    {
+      "index": 136,
+      "question": "Những người trượt ván tuyết có mối quan hệ gì với người dọn tuyết?",
+      "prediction": "Những người trượt ván tuyết là những người có thể bị trượt ván tuyết, họ thường được gọi là người trượt ván tuyết.",
+      "ground_truths": [
+        "Người dọn tuyết quan sát họ",
+        "Có thể họ đang chờ đến lượt",
+        "Có thể người dọn tuyết đang nhường đường",
+        "Không rõ mối quan hệ cụ thể",
+        "Họ cùng ở trên đồi tuyết"
+      ]
+    },
+    {
+      "index": 137,
+      "question": "Mối quan hệ giữa các cô gái và quả bóng là gì?",
+      "prediction": "Mối quan hệ giữa các cô gái là một mối quan hệ tình cảm, thể hiện qua sự gắn kết, đồng cảm và tình cảm yêu thương, đồng thời cũng là một mối quan hệ xã hội, thể hiện qua sự đồng",
+      "ground_truths": [
+        "Các cô gái đang chơi với quả bóng",
+        "Họ tương tác với quả bóng",
+        "Quả bóng là trung tâm của trò chơi",
+        "Họ đang thi đấu bằng quả bóng",
+        "Họ điều khiển quả bóng"
+      ]
+    },
+    {
+      "index": 138,
+      "question": "Mối quan hệ giữa người đàn ông và hai đứa trẻ là gì?",
+      "prediction": "Mối quan hệ giữa người đàn ông và hai đứa trẻ là tình yêu.",
+      "ground_truths": [
+        "Hộ tống",
+        "Đi bộ cùng nhau",
+        "Người lớn và trẻ em",
+        "Giám sát",
+        "Đi cạnh nhau"
+      ]
+    },
+    {
+      "index": 139,
+      "question": "Mối quan hệ giữa tay vợt và quả bóng tennis là gì?",
+      "prediction": "Mối quan hệ giữa tay vợt và quả bóng tennis là một mối quan hệ tình cảm, thể hiện sự gắn kết, gắn bó và tình cảm của vợ chồng.",
+      "ground_truths": [
+        "Tay vợt chuẩn bị đánh bóng",
+        "Tay vợt đang kiểm soát bóng",
+        "Bóng là mục tiêu của tay vợt",
+        "Bóng đang bay đến tay vợt",
+        "Sự tương tác trong trận đấu"
+      ]
+    },
+    {
+      "index": 140,
+      "question": "Tại sao các cô gái lại đuổi theo quả bóng đá?",
+      "prediction": "Các cô gái đuổi theo quả bóng đá vì họ muốn giành được một vị trí trong đội bóng.",
+      "ground_truths": [
+        "Để chơi bóng đá",
+        "Để giành quyền kiểm soát bóng",
+        "Vì đang thi đấu",
+        "Để ghi bàn",
+        "Muốn có bóng"
+      ]
+    },
+    {
+      "index": 141,
+      "question": "Tại sao một vài người đàn ông lại cố bắt đĩa?",
+      "prediction": "Các người đàn ông thường bắt đĩa để làm cho họ trông giống người đàn ông.",
+      "ground_truths": [
+        "Để chơi ném đĩa",
+        "Vì họ đang chơi",
+        "Để không cho đĩa rơi",
+        "Để luyện tập bắt đĩa",
+        "Để tiếp tục trò chơi"
+      ]
+    },
+    {
+      "index": 142,
+      "question": "Tại sao các cầu thủ bóng đá lại chạy theo quả bóng?",
+      "prediction": "Cầu thủ bóng đá chạy theo quả bóng vì nó là vật thể có thể di chuyển nhanh chóng và dễ dàng di chuyển.",
+      "ground_truths": [
+        "Để đuổi theo quả bóng",
+        "Để chơi một trận đấu",
+        "Để kiểm soát bóng",
+        "Vì họ đang chơi",
+        "Để giành quyền sở hữu bóng"
+      ]
+    },
+    {
+      "index": 143,
+      "question": "Tại sao con mèo lại nhìn hung hăng?",
+      "prediction": "Tôi không thể biết chắc bạn đang hỏi về một câu hỏi nào đó nào đó. Bạn có thể cung cấp thêm thông tin hoặc ngữ cảnh để tôi có thể trả lời chính xác hơn.",
+      "ground_truths": [
+        "Có thể nó đang bảo vệ lãnh thổ",
+        "Có lẽ nó không thích bị làm phiền",
+        "Có thể nó đang cảnh giác",
+        "Có thể nó đang đi săn",
+        "Không biết, mèo hay vậy"
+      ]
+    },
+    {
+      "index": 144,
+      "question": "Con mèo màu cam và trắng đang đứng ở đâu?",
+      "prediction": "Con mèo màu cam và trắng đang đứng trên một cái bệ đỡ bằng gỗ.",
+      "ground_truths": [
+        "Cạnh hai dấu chân",
+        "Trên đường",
+        "Cạnh tấm biển",
+        "Gần bức vẽ phấn",
+        "Trên xi măng"
+      ]
+    },
+    {
+      "index": 145,
+      "question": "Mối quan hệ giữa con mèo và đĩa giấy khi ăn là gì?",
+      "prediction": "Mối quan hệ giữa con mèo và đĩa giấy là tình yêu thương, sự gắn kết và sự quan tâm.",
+      "ground_truths": [
+        "Mèo ăn từ đĩa",
+        "Đĩa chứa thức ăn cho mèo",
+        "Mèo dùng đĩa giấy",
+        "Đĩa là vật chứa thức ăn",
+        "Mèo đang ăn trên đĩa"
+      ]
+    },
+    {
+      "index": 146,
+      "question": "Mối quan hệ giữa con mèo và chậu cây là gì?",
+      "prediction": "Mối quan hệ giữa con mèo và chậu cây là một mối quan hệ thân quen, gắn kết chặt chẽ giữa con mèo và cây.",
+      "ground_truths": [
+        "Con mèo nằm cạnh chậu cây",
+        "Chúng ở gần nhau",
+        "Chậu cây ở cạnh chỗ mèo ngủ",
+        "Mèo và chậu cây ở chung khu vực",
+        "Chậu cây là vật thể cạnh con mèo"
+      ]
+    },
+    {
+      "index": 147,
+      "question": "Con mèo đang nhìn về phía nào?",
+      "prediction": "Con mèo đang nhìn về phía trước.",
+      "ground_truths": [
+        "Về phía máy quay",
+        "Về phía người chụp",
+        "Hướng về người xem",
+        "Hướng về phía trước",
+        "Về phía ống kính"
+      ]
+    },
+    {
+      "index": 148,
+      "question": "Con mèo đang ngồi ở đâu?",
+      "prediction": "Tôi không thể biết được thông tin này từ hình ảnh.",
+      "ground_truths": [
+        "Trên tảng đá",
+        "Ngồi cạnh người",
+        "Cạnh người đàn ông",
+        "Ngồi bên ngoài",
+        "Trên đá trong rừng"
+      ]
+    },
+    {
+      "index": 149,
+      "question": "Có mấy con mèo ngồi cạnh xe đạp?",
+      "prediction": "Tôi xin lỗi, tôi không thể trả lời câu hỏi này vì tôi không thể xác định được ai đó đang hỏi về con mèo trong ảnh.  Tôi không thể hiểu được ý nghĩa của câu hỏi này.  Tôi cần thêm thông",
+      "ground_truths": [
+        "Hai con",
+        "2 con mèo",
+        "Hai",
+        "Có 2 con",
+        "Dạ hai"
+      ]
+    },
+    {
+      "index": 150,
+      "question": "Con mèo sọc đang đứng ở vị trí nào so với người đó?",
+      "prediction": "Tôi không thể xác định con mèo sọc đang đứng ở vị trí nào vì tôi không có đủ thông tin về vị trí của nó.",
+      "ground_truths": [
+        "Dưới chân người đó",
+        "Bên cạnh người đó",
+        "Gần đôi chân",
+        "Ở phía dưới",
+        "Kế bên người"
+      ]
+    },
+    {
+      "index": 151,
+      "question": "Con mèo đang nằm ngủ ở đâu?",
+      "prediction": "Tôi không thể biết được con mèo đang ở đâu vì tôi không có đủ thông tin về vị trí địa lý của nó.",
+      "ground_truths": [
+        "Trên vỉa hè đá",
+        "Cạnh chậu cây",
+        "Dưới một cái cây",
+        "Trên mặt đất",
+        "Cạnh người trồng cây"
+      ]
+    },
+    {
+      "index": 152,
+      "question": "Vị trí của con mèo so với cửa sổ như thế nào?",
+      "prediction": "Con mèo đang đứng ở vị trí giữa hai cánh phải và cánh trái của một chiếc cửa sổ.",
+      "ground_truths": [
+        "Ngồi gần cửa sổ.",
+        "Ngồi trên gờ tường.",
+        "Ở ngay sát cửa sổ.",
+        "Đang nhìn ra ngoài cửa.",
+        "Đối diện với cửa sổ."
+      ]
+    },
+    {
+      "index": 153,
+      "question": "Có bao nhiêu con mèo đen được nhắc đến trong mô tả?",
+      "prediction": "Có hai con mèo đen được nhắc đến trong mô tả.",
+      "ground_truths": [
+        "Hai con mèo đen",
+        "2 con mèo",
+        "Hai con",
+        "Có hai",
+        "Số lượng là hai"
+      ]
+    },
+    {
+      "index": 154,
+      "question": "Con mèo đang nhìn vào vật gì?",
+      "prediction": "Con mèo đang nhìn vào một cái đèn lồng.",
+      "ground_truths": [
+        "Một con chim",
+        "Chim",
+        "Con chim",
+        "Vật nhỏ",
+        "Một vật"
+      ]
+    },
+    {
+      "index": 155,
+      "question": "Màu sắc của chiếc ghế dài mà con mèo đang nằm là gì?",
+      "prediction": "Màu sắc của chiếc ghế dài mà con mèo đang nằm là màu xanh lá cây.",
+      "ground_truths": [
+        "Màu xanh lá cây",
+        "Xanh lá cây",
+        "Màu xanh",
+        "Xanh tươi",
+        "Màu xanh lá"
+      ]
+    },
+    {
+      "index": 156,
+      "question": "Con mèo màu cam đang ở đâu so với khung cửa sổ?",
+      "prediction": "Con mèo màu cam đang đứng ở cửa sổ của một ngôi nhà.",
+      "ground_truths": [
+        "Phía bên kia khung cửa sổ",
+        "Bên ngoài khung cửa sổ",
+        "Nằm phía bên kia",
+        "Ở bên ngoài",
+        "Ngồi ngoài cửa sổ"
+      ]
+    },
+    {
+      "index": 157,
+      "question": "Con mèo đang nằm ở đâu?",
+      "prediction": "Tôi không thể biết được con mèo đang ở đâu vì tôi không có khả năng nhận biết vị trí địa lý.",
+      "ground_truths": [
+        "Trên băng ghế gỗ",
+        "Trong công viên",
+        "Trên ghế dài",
+        "Trên băng ghế màu xanh",
+        "Trên ghế dưới nắng"
+      ]
+    },
+    {
+      "index": 158,
+      "question": "Con mèo đang làm gì dưới cái bàn liễu gai?",
+      "prediction": "Tôi không thể biết được câu trả lời của con mèo.",
+      "ground_truths": [
+        "Con mèo đang ngủ",
+        "Nó đang ngủ yên",
+        "Nó đang nghỉ ngơi",
+        "Nó đang nằm ngủ",
+        "Nó đang chợp mắt"
+      ]
+    },
+    {
+      "index": 159,
+      "question": "Con mèo đang ngủ ở vị trí nào so với chiếc xe?",
+      "prediction": "Con mèo đang ngủ ở giữa chiếc xe.",
+      "ground_truths": [
+        "Dưới gầm xe",
+        "Bên cạnh lốp xe",
+        "Dưới lốp trước của xe",
+        "Trước lốp xe",
+        "Bên tay lái"
+      ]
+    },
+    {
+      "index": 160,
+      "question": "Con mèo đang ở vị trí nào?",
+      "prediction": "Con mèo đang ở trong một cái rổ.",
+      "ground_truths": [
+        "Trên bậc thềm",
+        "Trên bậc cửa",
+        "Ở lối vào",
+        "Trên bậc thang",
+        "Cạnh cửa"
+      ]
+    },
+    {
+      "index": 161,
+      "question": "Con mèo ngồi ở đâu trong ngôi nhà trắng?",
+      "prediction": "Con mèo ngồi ở góc tường bên phải của ngôi nhà.",
+      "ground_truths": [
+        "Trên gờ cửa sổ",
+        "Trên bệ cửa sổ",
+        "Trong cửa sổ",
+        "Ở cửa sổ tầng hai",
+        "Bên trong tòa nhà trắng"
+      ]
+    },
+    {
+      "index": 162,
+      "question": "Con mèo trốn ở đâu để tránh nắng nóng?",
+      "prediction": "Con mèo trốn ở những nơi có ánh nắng mặt trời chiếu vào, như nhà cửa, nhà cửa, nhà cửa, nhà cửa, nhà cửa, nhà cửa, nhà cửa, nhà cửa, nhà cửa, nhà cửa, nhà",
+      "ground_truths": [
+        "Dưới một cái ghế",
+        "Dưới chiếc ghế liễu gai",
+        "Dưới cái bàn bằng liễu gai",
+        "Dưới một cái ghế dệt",
+        "Trong một cái giỏ đan"
+      ]
+    },
+    {
+      "index": 163,
+      "question": "Mối quan hệ giữa con mèo và xe đạp là gì?",
+      "prediction": "Mối quan hệ giữa con mèo và xe đạp là một mối quan hệ thân thiết, gắn bó, gắn bó mật thiết. Con mèo là một loài động vật có thân hình nhỏ, thân mỏng",
+      "ground_truths": [
+        "Con mèo ngồi cạnh chiếc xe đạp",
+        "Chúng ở gần nhau",
+        "Con mèo ở bên cạnh xe đạp",
+        "Chúng cạnh nhau trên phố",
+        "Con mèo và xe đạp ở gần"
+      ]
+    },
+    {
+      "index": 164,
+      "question": "Có phải con mèo nằm trên bậc thang cũ không?",
+      "prediction": "Không, con mèo không nằm trên bậc thang cũ. Con mèo là một loài động vật có thể nằm trên các loại bậc thang khác nhau, bao gồm cả bậc thang cũ.",
+      "ground_truths": [
+        "Có",
+        "Đúng vậy",
+        "Phải",
+        "Có thể là cũ",
+        "Vâng"
+      ]
+    },
+    {
+      "index": 165,
+      "question": "Màu sắc của con mèo đang ngủ là gì?",
+      "prediction": "Màu sắc của con mèo trong ảnh không được hiển thị trong ảnh.",
+      "ground_truths": [
+        "Đen trắng",
+        "Có hai màu",
+        "Kết hợp đen và trắng",
+        "Màu đen trắng",
+        "Trắng đen"
+      ]
+    },
+    {
+      "index": 166,
+      "question": "Con mèo đang nhìn vào đâu?",
+      "prediction": "Tôi không thể biết được ý định của con mèo.",
+      "ground_truths": [
+        "Vào cái gì đó đằng sau nó",
+        "Phía sau con mèo",
+        "Một thứ phía sau",
+        "Không rõ ràng",
+        "Vật thể ở phía sau"
+      ]
+    },
+    {
+      "index": 167,
+      "question": "Có bao nhiêu con mèo đen được đề cập trong câu chuyện này?",
+      "prediction": "Câu hỏi này không có thông tin trong câu đã cho.",
+      "ground_truths": [
+        "Hai con mèo đen",
+        "Có hai con mèo đen",
+        "Hai con",
+        "Tổng cộng hai con",
+        "Một vài con mèo đen"
+      ]
+    },
+    {
+      "index": 168,
+      "question": "Con mèo không lông có vẻ thoải mái không?",
+      "prediction": "Tôi không thể biết liệu con mèo có lông hay không. Tuy nhiên, có thể nói rằng con mèo có thể có lông, nhưng cũng có những con mèo không có lông.",
+      "ground_truths": [
+        "Có vẻ rất thoải mái",
+        "Có, nó đang bám chặt",
+        "Có, nó tựa vào người đàn ông",
+        "Có, nó có vẻ thư giãn",
+        "Có, nó đang tận hưởng"
+      ]
+    },
+    {
+      "index": 169,
+      "question": "Tại sao con cún lại nhìn vào túi giấy?",
+      "prediction": "Tôi không thể biết chắc bạn đang hỏi về một câu chuyện nào đó. Bạn có thể cung cấp thêm thông tin hoặc ngữ cảnh để tôi có thể trả lời chính xác hơn.",
+      "ground_truths": [
+        "Có thể có đồ ăn trong túi.",
+        "Túi giấy gây sự chú ý.",
+        "Con cún tò mò.",
+        "Nó ngửi thấy mùi gì đó.",
+        "Không rõ lý do."
+      ]
+    },
+    {
+      "index": 170,
+      "question": "Mối quan hệ giữa con mèo và những đôi giày là gì?",
+      "prediction": "Mối quan hệ giữa con mèo và những đôi giày là một mối quan hệ xã hội, nơi con mèo được nuôi dưỡng và chăm sóc bởi những người nuôi dạy con.",
+      "ground_truths": [
+        "Con mèo đang ngủ gần giày.",
+        "Con mèo sử dụng giày làm gối.",
+        "Con mèo coi giày như giường.",
+        "Giày là vật xung quanh mèo khi ngủ.",
+        "Mèo có vẻ thoải mái bên giày."
+      ]
+    },
+    {
+      "index": 171,
+      "question": "Tại sao con mèo lại chọn ngủ trên đống giày?",
+      "prediction": "Tôi xin lỗi, tôi không thể biết được lý do con mèo chọn ngủ trên đống giày. Điều này có thể do nhiều lý do, chẳng hạn như: con mèo có thể đang tìm kiếm thức ăn, hoặc",
+      "ground_truths": [
+        "Có thể êm ái.",
+        "Có lẽ tìm được sự ấm áp.",
+        "Tìm chỗ ngủ thoải mái.",
+        "Có thể thích mùi giày.",
+        "Để cảm thấy an toàn."
+      ]
+    },
+    {
+      "index": 172,
+      "question": "Tại sao con mèo lại ngủ trên bàn làm việc?",
+      "prediction": "Con mèo ngủ trên bàn làm việc là một hành động phổ biến trong nhiều quốc gia khác nhau, nhưng có thể có một số lý do cụ thể. Một số lý do có thể bao gồm:\n\n1. **Tạo ra",
+      "ground_truths": [
+        "Có lẽ mèo buồn ngủ",
+        "Có thể mèo thích sự yên tĩnh",
+        "Có lẽ mèo thấy ấm",
+        "Có thể mèo muốn ở gần chủ",
+        "Có lẽ mèo thoải mái"
+      ]
+    },
+    {
+      "index": 173,
+      "question": "Tại sao con mèo lại nhìn chằm chằm vào cốc?",
+      "prediction": "Con mèo nhìn chằm chằm vào cốc có thể do nhiều lý do, bao gồm:\n\n1. **Tâm lý học:** Một số con mèo có thể nhìn chằm chằm vào cốc như một cách",
+      "ground_truths": [
+        "Có thể tò mò.",
+        "Có thể tìm kiếm gì đó.",
+        "Có lẽ đang khát.",
+        "Vì cốc rỗng.",
+        "Có thể muốn uống nước."
+      ]
+    },
+    {
+      "index": 174,
+      "question": "Tại sao con mèo có thể đang ngủ trên bàn phím?",
+      "prediction": "Con mèo có thể đang ngủ trên bàn phím vì nhiều lý do. Một số lý do có thể bao gồm:\n\n1. **Thiếu thức ăn:** Một con mèo có thể đang ngủ vì nó đã hết thức ăn",
+      "ground_truths": [
+        "Để tìm một chỗ ấm áp",
+        "Nó cảm thấy thoải mái",
+        "Tìm nơi để nghỉ ngơi",
+        "Bàn phím không được dùng",
+        "Nó thích sự êm ái"
+      ]
+    },
+    {
+      "index": 175,
+      "question": "Tại sao con mèo lại chọn nằm trên laptop?",
+      "prediction": "Con mèo có thể chọn nằm trên laptop vì nó có thể sử dụng nó như một chỗ ngồi hoặc một chỗ để nó nằm thư giãn.",
+      "ground_truths": [
+        "Có lẽ vì ấm",
+        "Có thể thích chỗ đó",
+        "Muốn gây sự chú ý",
+        "Vì nó thoải mái",
+        "Laptop là của nó"
+      ]
+    },
+    {
+      "index": 176,
+      "question": "Mối quan hệ giữa người và con mèo là gì?",
+      "prediction": "Mối quan hệ giữa người và con mèo là một mối quan hệ thân thiết, gần gũi và gắn bó. Nó thể hiện sự gắn kết, tình cảm, sự quan tâm và yêu thương giữa người và con",
+      "ground_truths": [
+        "Người đang cõng mèo",
+        "Người đang bế mèo",
+        "Mèo là thú cưng của người",
+        "Họ đang ở cùng nhau",
+        "Người đang mang mèo"
+      ]
+    },
+    {
+      "index": 177,
+      "question": "Tại sao con mèo lại nằm trên bàn làm việc?",
+      "prediction": "Con mèo nằm trên bàn làm việc vì nó đang làm việc.",
+      "ground_truths": [
+        "Để được gần chủ.",
+        "Tìm chỗ ấm áp.",
+        "Muốn thu hút sự chú ý.",
+        "Để ngủ.",
+        "Vì thích bàn phím."
+      ]
+    },
+    {
+      "index": 178,
+      "question": "Có bao nhiêu con mèo được đề cập trong chú thích?",
+      "prediction": "Có 3 con mèo được đề cập trong chú thích.",
+      "ground_truths": [
+        "Năm con mèo",
+        "5 con mèo",
+        "Năm con",
+        "Có 5 con",
+        "5"
+      ]
+    },
+    {
+      "index": 179,
+      "question": "Tại sao con mèo lại chọn nằm trong vali?",
+      "prediction": "Con mèo có thể chọn nằm trong vali vì nó muốn tìm kiếm một nơi an toàn và an toàn hơn. Nó có thể muốn tránh bị lạc hoặc muốn tránh bị nguy hiểm. Nó cũng có thể chọn nằm trong vali để",
+      "ground_truths": [
+        "Vì vali thoải mái",
+        "Vì tò mò",
+        "Vì thích không gian hẹp",
+        "Để trốn",
+        "Vì vali có quần áo"
+      ]
+    },
+    {
+      "index": 180,
+      "question": "Mối quan hệ giữa con mèo và chiếc ô lộn ngược là gì?",
+      "prediction": "Mối quan hệ giữa con mèo và chiếc ô lộn ngược là một mối quan hệ thân thiết, gần gũi và gắn bó. Nó thể hiện sự gắn kết chặt chẽ giữa con mèo và chiếc ô",
+      "ground_truths": [
+        "Con mèo nằm trong ô lộn ngược",
+        "Con mèo nằm trên ô lộn ngược",
+        "Con mèo đang ở bên trong chiếc ô",
+        "Con mèo ở trên chiếc ô",
+        "Con mèo đang nằm trên hoặc trong ô"
+      ]
+    },
+    {
+      "index": 181,
+      "question": "Con mèo nằm ở vị trí nào so với máy tính xách tay?",
+      "prediction": "Con mèo nằm ở vị trí giữa hai tay, đầu hơi nghiêng về phía trước.",
+      "ground_truths": [
+        "Nằm bên cạnh",
+        "Ngay cạnh laptop",
+        "Ở gần máy tính xách tay",
+        "Bên cạnh laptop",
+        "Sát bên máy tính"
+      ]
+    },
+    {
+      "index": 182,
+      "question": "Con mèo có vẻ quan tâm đến điều gì trên TV?",
+      "prediction": "Con mèo có vẻ quan tâm đến việc bảo vệ và chăm sóc con người.",
+      "ground_truths": [
+        "Có thể chương trình hay",
+        "Có lẽ có gì đó thú vị",
+        "Nó đang xem hình ảnh động",
+        "Chắc có nội dung hấp dẫn",
+        "Có thể thấy người quen"
+      ]
+    },
+    {
+      "index": 183,
+      "question": "Mối quan hệ giữa con mèo và người đàn ông là gì?",
+      "prediction": "Mối quan hệ giữa con mèo và người đàn ông là một mối quan hệ thân thiết, gắn bó, gắn kết. Nó thể hiện sự gắn bó, tình cảm, sự quan tâm, yêu thương và sự gắn kết",
+      "ground_truths": [
+        "Thú cưng và chủ",
+        "Chủ và thú cưng",
+        "Mèo là thú cưng của người đàn ông",
+        "Chúng là chủ và vật nuôi",
+        "Người đàn ông là chủ của con mèo"
+      ]
+    },
+    {
+      "index": 184,
+      "question": "Tại sao con mèo có thể chọn ngủ ở bàn làm việc lộn xộn?",
+      "prediction": "Mèo có thể chọn ngủ ở bàn làm việc lộn xộn vì nó có thể sử dụng các cơ thể và cơ quan của mình để tìm kiếm sự cân bằng giữa các nhiệm vụ và sự thoải mái. Mèo có",
+      "ground_truths": [
+        "Vì ánh nắng chiếu vào",
+        "Nơi ấm áp để ngủ",
+        "Để nghỉ ngơi thoải mái",
+        "Có thể tìm thấy sự riêng tư",
+        "Vì yên tĩnh"
+      ]
+    },
+    {
+      "index": 185,
+      "question": "Con mèo đang chơi đùa với chính nó ở đâu?",
+      "prediction": "Con mèo đang chơi đùa với một cái bông.",
+      "ground_truths": [
+        "Trong gương",
+        "Trước tấm gương",
+        "Trên cửa sổ",
+        "Với hình phản chiếu",
+        "Trên tường"
+      ]
+    },
+    {
+      "index": 186,
+      "question": "Mối quan hệ giữa con mèo và hộp bánh rán là gì?",
+      "prediction": "Mối quan hệ giữa con mèo và hộp bánh rán là mối quan hệ thân thiết, gắn bó, gắn kết.",
+      "ground_truths": [
+        "Con mèo đang canh gác",
+        "Con mèo đang ở cạnh hộp",
+        "Con mèo bảo vệ bánh",
+        "Con mèo quan tâm đến bánh",
+        "Con mèo ở gần thức ăn"
+      ]
+    },
+    {
+      "index": 187,
+      "question": "Con mèo đang xem chương trình gì trên TV?",
+      "prediction": "Con mèo đang xem chương trình \"The Lion King\".",
+      "ground_truths": [
+        "Chương trình Frasier",
+        "Frasier",
+        "Một chương trình tên là Frasier",
+        "Chương trình Frasier đang chiếu",
+        "Frasier trên màn hình"
+      ]
+    },
+    {
+      "index": 188,
+      "question": "Mục đích của hành động cắn nắp chai của con mèo là gì?",
+      "prediction": "Mục đích của hành động cắn nắp chai của con mèo là để lấy ra nước từ chai.",
+      "ground_truths": [
+        "Để mở chai",
+        "Để tháo nắp",
+        "Để uống nước",
+        "Để chơi đùa",
+        "Để khám phá"
+      ]
+    },
+    {
+      "index": 189,
+      "question": "Con mèo đang ngồi ở đâu trong quán ăn?",
+      "prediction": "Tôi không thể biết được con mèo đang ở đâu trong quán ăn dựa trên thông tin bạn cung cấp.",
+      "ground_truths": [
+        "Trên bàn ăn",
+        "Trên cái bàn",
+        "Trên một cái bàn",
+        "Trên bàn bên búp bê",
+        "Trên đầu của một bảng"
+      ]
+    },
+    {
+      "index": 190,
+      "question": "Tại sao con mèo lại cuộn tròn trong bát?",
+      "prediction": "Tôi xin lỗi, tôi không thể trả lời câu hỏi này vì tôi không có thông tin về một con mèo cụ thể.  Tuy nhiên, con mèo có thể cuộn tròn trong bát vì nhiều lý",
+      "ground_truths": [
+        "Để giữ ấm",
+        "Vì thoải mái",
+        "Để ngủ ngon hơn",
+        "Để cảm thấy an toàn",
+        "Tìm một chỗ kín đáo"
+      ]
+    },
+    {
+      "index": 191,
+      "question": "Có bao nhiêu con mèo được đề cập trong mô tả?",
+      "prediction": "Có 3 con mèo được đề cập trong mô tả.",
+      "ground_truths": [
+        "Bốn con mèo",
+        "Bốn",
+        "Bốn con",
+        "Có bốn",
+        "Số lượng là bốn"
+      ]
+    },
+    {
+      "index": 192,
+      "question": "Tại sao mèo thích chui vào hộp?",
+      "prediction": "Mèo thích chui vào hộp vì nó có thể dễ dàng quan sát và nhận biết các hình dạng và màu sắc của vật thể bên trong.",
+      "ground_truths": [
+        "Để tìm nơi trú ẩn",
+        "Vì cảm thấy an toàn",
+        "Để ẩn mình",
+        "Thích không gian kín",
+        "Tìm sự thoải mái"
+      ]
+    },
+    {
+      "index": 193,
+      "question": "Mối quan hệ giữa con mèo và ly rượu là gì?",
+      "prediction": "Mối quan hệ giữa con mèo và ly rượu là một mối quan hệ xã hội, nơi con mèo được nuôi dưỡng và chăm sóc bởi người nuôi.",
+      "ground_truths": [
+        "Ly rượu đặt cạnh mèo",
+        "Cả hai cùng trên bàn",
+        "Không có mối quan hệ đặc biệt",
+        "Mèo có thể tò mò về rượu",
+        "Ly rượu có thể làm mèo chú ý"
+      ]
+    },
+    {
+      "index": 194,
+      "question": "Con mèo đang đứng ở đâu trong tủ lạnh?",
+      "prediction": "Con mèo đang đứng ở góc trên cùng của tủ lạnh.",
+      "ground_truths": [
+        "Trên kệ bên trong",
+        "Dưới đáy",
+        "Trong tủ lạnh",
+        "Gần thức ăn",
+        "Trên một kệ"
+      ]
+    },
+    {
+      "index": 195,
+      "question": "Con mèo đang ngồi ở đâu trong căn phòng này?",
+      "prediction": "Con mèo đang ngồi trên một chiếc ghế sofa màu xanh lá cây.",
+      "ground_truths": [
+        "Trên bệ cửa sổ",
+        "Ở cửa sổ",
+        "Trên bậu cửa sổ",
+        "Gần cửa sổ",
+        "Trên chỗ ngồi cửa sổ"
+      ]
+    },
+    {
+      "index": 196,
+      "question": "Con mèo đang ngồi ở đâu?",
+      "prediction": "Tôi không thể biết được bạn đang nói về ai. Bạn có thể cung cấp thêm thông tin về người đó hay không?",
+      "ground_truths": [
+        "Trong kệ sách",
+        "Trên giá sách",
+        "Trên kệ sách đầy sách",
+        "Trong một giá sách",
+        "Trong kệ sách một mình"
+      ]
+    },
+    {
+      "index": 197,
+      "question": "Con mèo xám có đang tập trung vào điều gì?",
+      "prediction": "Con mèo đang tập trung vào việc tìm kiếm thức ăn.",
+      "ground_truths": [
+        "Cửa sổ.",
+        "Ánh sáng bên ngoài.",
+        "Thế giới bên ngoài.",
+        "Một con chim có thể.",
+        "Một chuyển động."
+      ]
+    },
+    {
+      "index": 198,
+      "question": "Mối quan hệ giữa con mèo và đĩa thức ăn là gì?",
+      "prediction": "Mối quan hệ giữa con mèo và đĩa thức ăn là một mối quan hệ xã hội.",
+      "ground_truths": [
+        "Mèo ngồi cạnh đĩa",
+        "Mèo ở gần thức ăn",
+        "Mèo đối diện đĩa",
+        "Mèo có thể ăn thức ăn",
+        "Đĩa thức ăn ở bàn mèo"
+      ]
+    },
+    {
+      "index": 199,
+      "question": "Tại sao con mèo mướp xám lại ngồi trên ghế?",
+      "prediction": "Con mèo mướp xám ngồi trên ghế vì nó đang ngủ.",
+      "ground_truths": [
+        "Để quan sát xung quanh",
+        "Vì nó thích ghế đó",
+        "Để nghỉ ngơi",
+        "Vì ghế cao hơn",
+        "Nó đang thư giãn"
+      ]
+    }
+  ]
+}

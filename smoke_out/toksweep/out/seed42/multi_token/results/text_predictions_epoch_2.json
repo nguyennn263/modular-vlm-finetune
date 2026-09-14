@@ -1,0 +1,53 @@
+{
+  "epoch": 2,
+  "samples": [
+    {
+      "index": 0,
+      "question": "Tại sao người đàn ông lại bị kéo xuống nước giữa hai con bò?",
+      "prediction": "Đã được chuyển đổi thành người đàn ông.",
+      "ground_truths": [
+        "Do bò kéo anh ta trong cuộc đua",
+        "Vì anh ta đang tham gia một cuộc đua",
+        "Bò làm anh ta mất thăng bằng",
+        "Do dòng nước bùn kéo đi",
+        "Có thể do vướng vào dây cương"
+      ]
+    },
+    {
+      "index": 1,
+      "question": "Tại sao khu vực này được coi là rất mất vệ sinh?",
+      "prediction": "Kết quả được coi là rất mất vệ sinh.",
+      "ground_truths": [
+        "Vì đồ ăn đang được chuẩn bị ở đó",
+        "Do có nhiều vật chứa",
+        "Vì bếp bẩn thỉu",
+        "Do sự bừa bộn",
+        "Khu vực không được dọn dẹp"
+      ]
+    },
+    {
+      "index": 2,
+      "question": "Người đàn ông cầm bó chuối có thể là chủ cửa hàng hay khách hàng?",
+      "prediction": "Khách hàng",
+      "ground_truths": [
+        "Có thể là chủ cửa hàng",
+        "Có vẻ là người bán hàng",
+        "Rất có thể là chủ cửa hàng",
+        "Anh ấy là người bán",
+        "Có khả năng là người bán hàng"
+      ]
+    },
+    {
+      "index": 3,
+      "question": "Mối quan hệ giữa người phụ nữ và quầy hàng của cô ấy là gì?",
+      "prediction": "Mối quan hệ giữa người phụ nữ và quầy hàng của cô ấy là gì?",
+      "ground_truths": [
+        "Cô ấy đang bán trái cây",
+        "Cô ấy là chủ quầy hàng",
+        "Cô ấy đang ngồi tại quầy",
+        "Cô ấy đang làm việc ở đó",
+        "Cô ấy đang bày bán"
+      ]
+    }
+  ]
+}

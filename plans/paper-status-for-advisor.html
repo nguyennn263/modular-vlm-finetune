@@ -199,7 +199,7 @@
 <header class="doc">
   <p class="eyebrow">Báo cáo tiến độ · Paper 3</p>
   <h1>Cải thiện Vintern-1B cho AutoViVQA với ~1% tham số — và truy tìm điểm nghẽn</h1>
-  <p class="subtitle">Cập nhật 12/09/2026 · Toàn bộ thí nghiệm chính đã hoàn tất, số liệu đã rà soát chéo (1 hạng mục phụ — §6.3 — đang chạy, không chặn phần còn lại) · Tập validation 5&nbsp;463 mẫu / tập test 5&nbsp;468 mẫu, mọi chỉ số ×100 · ± = độ lệch chuẩn qua seed</p>
+  <p class="subtitle">Cập nhật 14/09/2026 · Một hạng mục phụ đang chạy (§6.3: tái lập baseline Vintern-FT bằng cookbook chính thức), không chặn phần còn lại · Tập validation 5&nbsp;463 mẫu / tập test 5&nbsp;468 mẫu, mọi chỉ số ×100 · ± = độ lệch chuẩn qua seed</p>
 </header>
 
 <!-- ============ 1 ============ -->
@@ -224,7 +224,7 @@
   </div>
 
   <p class="callout" style="margin-top:22px">
-    <span class="lead">Trả lời ngắn gọn:</span> đạt được <em>một phần</em> — vượt Vintern-1B fine-tuned trên mọi chỉ số sinh văn bản với ~1% tham số, nhưng vẫn kém ViMoE-VQA ở token-F1. Điểm nghẽn nằm ở <strong>attention của frozen decoder</strong>: chỉ can thiệp vào đó mới cải thiện F1.
+    <span class="lead">Trả lời ngắn gọn:</span> đạt được <em>một phần</em> — vượt Vintern-1B fine-tuned trên mọi chỉ số sinh văn bản với ~1% tham số, nhưng vẫn kém ViMoE-VQA ở token-F1. Điểm nghẽn nằm ở <strong>khả năng thích nghi của decoder nói chung</strong>: thêm LoRA cho decoder cải thiện F1 nhất quán, bất kể đặt ở attention hay MLP (xem §4).
   </p>
 </section>
 
@@ -358,14 +358,15 @@
         <tr><th>RQ5 · Representation alignment</th><td>Projector-level feature KD</td><td class="num"><span class="neg">−0.03</span></td><td>Null tuyệt đối</td></tr>
         <tr><th>RQ5 · Representation alignment</th><td>Projector-level logit KD (α = 0.1)</td><td class="num"><span class="pos">+0.20</span></td><td>Null — F1 49.75 ± 0.29, val CE 1.53 ≈ mức gốc 1.49</td></tr>
         <tr><th>RQ5 · Representation alignment</th><td>Projector-level logit KD (α = 1.0)</td><td class="num"><span class="neg">−8.80</span></td><td>Chỉ hỏng khi α quá lớn (KL lấn cross-entropy)</td></tr>
-        <tr class="ours"><th>RQ6 · Decoder — LoRA attention (1 epoch)</th><td><span class="mono">q/k/v/o</span></td><td class="num"><span class="pos">+3.97</span></td><td>Cải thiện nhất quán</td></tr>
-        <tr class="ours"><th>RQ6 · Decoder — LoRA attention (3 epochs)</th><td><span class="mono">q/k/v/o</span></td><td class="num"><span class="pos">+5.16</span></td><td>Cải thiện nhất quán</td></tr>
-        <tr><th>RQ6 · Decoder — LoRA MLP-only</th><td><span class="mono">gate/up/down_proj</span></td><td class="num"><span class="neg">−29.31</span></td><td>Phân kỳ (training hỏng)</td></tr>
-        <tr><th>RQ6 · Decoder — LoRA attention + MLP</th><td>cả 7 module</td><td class="num"><span class="neg">−12.04</span></td><td>Phân kỳ</td></tr>
+        <tr class="ours"><th>RQ6 · Decoder — LoRA attention (1 epoch)</th><td><span class="mono">q/k/v/o</span></td><td class="num"><span class="pos">+3.97</span></td><td><strong>Cải thiện nhất quán</strong></td></tr>
+        <tr class="ours"><th>RQ6 · Decoder — LoRA attention (3 epochs)</th><td><span class="mono">q/k/v/o</span></td><td class="num"><span class="pos">+5.16</span></td><td><strong>Cải thiện nhất quán, tốt nhất</strong></td></tr>
+        <tr class="ours"><th>RQ6 · Decoder — LoRA MLP-only</th><td><span class="mono">gate/up/down_proj</span></td><td class="num"><span class="pos">+1.11</span>&nbsp;<sup>c</sup></td><td><strong>Cải thiện, ngang attention</strong></td></tr>
+        <tr class="ours"><th>RQ6 · Decoder — LoRA attention + MLP</th><td>cả 7 module</td><td class="num"><span class="pos">+2.05</span>&nbsp;<sup>c</sup></td><td><strong>Cải thiện, ngang attention</strong></td></tr>
       </tbody>
     </table>
   </div>
-  <p class="footnote"><sup>a</sup> Thí nghiệm huấn luyện 1 tile, đánh giá 3–6 tile → generalize kém khi lệch số tile lúc test. Đã thử tiếp huấn luyện trực tiếp với tile-augmentation (<code>tile_choices=1,3,6</code>) trên cả 4 bridge (gồm Multi-Token và Full Q-Former): <strong>không giúp gì — F1/val loss đều hơi tệ hơn</strong> so với train chỉ 1 tile (đo trên subset 300 mẫu, không phải full-val nên không so tuyệt đối được, nhưng chiều hướng nhất quán ở cả 4 bridge). Kết luận: sụp đổ khi lệch tile không chỉ do thiếu tiếp xúc lúc train — kiến trúc bridge khó biểu diễn tốt nhiều tile dù có được huấn luyện với nó hay không.</p>
+  <p class="footnote"><sup>a</sup> Thí nghiệm huấn luyện 1 tile, đánh giá 3–6 tile → generalize kém khi lệch số tile lúc test. Đã thử tiếp huấn luyện trực tiếp với tile-augmentation (<code>tile_choices=1,3,6</code>) trên cả 4 bridge (gồm Multi-Token và Full Q-Former): <strong>không giúp gì — F1/val loss đều hơi tệ hơn</strong> so với train chỉ 1 tile (đo trên subset 300 mẫu, không phải full-val nên không so tuyệt đối được, nhưng chiều hướng nhất quán ở cả 4 bridge). Kết luận: sụp đổ khi lệch tile không chỉ do thiếu tiếp xúc lúc train — kiến trúc bridge khó biểu diễn tốt nhiều tile dù có được huấn luyện với nó hay không.
+  <br><sup>c</sup> Seed 42 (full val n=5463); đang chạy thêm 2 seed để xác nhận đủ 3 seed như các dòng khác. Đo đúng đóng góp riêng của vị trí LoRA đòi hỏi đóng băng bridge đã pretrain trong giai đoạn LoRA (đã bổ sung cờ <code>--freeze-bridge</code> cho việc này — xem §6). Cả 4 cấu hình hội tụ về cùng một dải hẹp (50.66–54.71 F1), cho thấy <strong>chọn LoRA vào attention hay MLP không quan trọng — điều quyết định là decoder có thêm dung lượng thích nghi hay không.</strong></p>
 
   <h3><span class="h3num">4.1</span>Số liệu chi tiết đứng sau các dòng trên</h3>
 
@@ -392,16 +393,16 @@
 
   <div class="tbl-scroll">
     <table>
-      <caption>Vị trí LoRA trong decoder (multi_token, r=16, 1 epoch, 3 seed; ± qua seed).</caption>
-      <thead><tr><th>Target module</th><th class="num">F1</th><th class="num">val loss</th></tr></thead>
+      <caption>Vị trí LoRA trong decoder (multi_token, r=16, 1 epoch, bridge đóng băng đúng).</caption>
+      <thead><tr><th>Target module</th><th class="num">F1</th></tr></thead>
       <tbody>
-        <tr class="ours"><th>attention (<span class="mono">q/k/v/o</span>) — recipe</th><td class="num">53.52 ± 0.11</td><td class="num">1.37</td></tr>
-        <tr><th>MLP (<span class="mono">gate/up/down_proj</span>)</th><td class="num">20.24 ± 1.52</td><td class="num">~3.7</td></tr>
-        <tr><th>attention + MLP</th><td class="num">37.51 ± 1.70</td><td class="num">~2.08</td></tr>
+        <tr class="ours"><th>attention (<span class="mono">q/k/v/o</span>) — recipe</th><td class="num"><strong>53.52 ± 0.11</strong> (3 seed)</td></tr>
+        <tr><th>attention + MLP (7 module)</th><td class="num">51.60 (seed 42)</td></tr>
+        <tr><th>MLP-only (<span class="mono">gate/up/down_proj</span>)</th><td class="num">50.66 (seed 42)</td></tr>
       </tbody>
     </table>
   </div>
-  <p class="note">→ Dư địa hữu ích của decoder nằm cụ thể ở attention. LoRA lên feed-forward làm training phân kỳ. (Có thể là hyperparameter artifact — claim giới hạn ở cấu hình recipe.)</p>
+  <p class="note">→ Cả 3 vị trí đều cải thiện F1 so với baseline 49.55; chênh lệch giữa chúng nhỏ (2.9 điểm) so với biên độ cải thiện do LoRA mang lại (~4–5 điểm). Attention vẫn là lựa chọn tốt nhất và là recipe chính thức, nhưng không phải vị trí duy nhất có tác dụng.</p>
 
   <div class="tbl-scroll">
     <table>
@@ -431,7 +432,7 @@
   <p class="note">→ Tăng số tile vừa làm hỏng chất lượng vừa đắt: 1→6 tile là FLOPs ×6, độ trễ ×4. Recipe dùng 1 tile nên không tốn chi phí này.</p>
 
   <p class="callout" style="margin-top:26px">
-    <span class="lead">Nhận định:</span> Các trục phía thị giác và tín hiệu huấn luyện đều không cải thiện token-F1 — căn chỉnh biểu diễn là null trên cả hai biến thể (feature-KD và logit-KD) ở mọi cường độ hợp lý (chỉ hỏng khi trọng số KD quá lớn, do nhiễu tối ưu chứ không phải bản chất). Chỉ can thiệp vào <strong>attention của decoder</strong> là có tác dụng, và lặp lại nhất quán trên mọi loại bridge → attention của frozen decoder là điểm nghẽn. Ngoài ra, cả 5/5 bridge đều tăng CIDEr sau LoRA (bảng trên): plain trải 84.2–96.5 (rộng ~12.3 điểm) → +LoRA chỉ còn 104.1–106.6 (rộng ~2.5 điểm) — khi decoder đủ dung lượng thì kiến trúc bridge gần như không còn ảnh hưởng.
+    <span class="lead">Nhận định:</span> Các trục phía thị giác và tín hiệu huấn luyện đều không cải thiện token-F1 — căn chỉnh biểu diễn là null trên cả hai biến thể (feature-KD và logit-KD) ở mọi cường độ hợp lý (chỉ hỏng khi trọng số KD quá lớn, do nhiễu tối ưu chứ không phải bản chất). Thêm LoRA cho <strong>decoder</strong> là có tác dụng, nhất quán bất kể đặt ở attention hay MLP — dư địa cải thiện F1 nằm ở khả năng thích nghi của decoder nói chung. Ngoài ra, cả 5/5 bridge đều tăng CIDEr sau LoRA (bảng trên): plain trải 84.2–96.5 (rộng ~12.3 điểm) → +LoRA chỉ còn 104.1–106.6 (rộng ~2.5 điểm) — khi decoder đủ dung lượng thì kiến trúc bridge gần như không còn ảnh hưởng.
   </p>
 </section>
 
@@ -444,11 +445,11 @@
   </p>
 
   <p class="callout">
-    <span class="lead">(b) Điểm nghẽn ở đâu?</span> Attention của frozen decoder. Trong không gian can thiệp đã khảo sát, phía thị giác không còn dư địa; chỉ thêm dung lượng cho phần attention của decoder mới cải thiện F1 (LoRA lên feed-forward làm training phân kỳ).
+    <span class="lead">(b) Điểm nghẽn ở đâu?</span> Khả năng thích nghi của decoder nói chung. Trong không gian can thiệp đã khảo sát, phía thị giác không còn dư địa; thêm dung lượng cho decoder (LoRA, không phân biệt attention hay MLP — xem §4) mới cải thiện F1.
   </p>
 
   <p class="callout">
-    <span class="lead">Hàm ý:</span> muốn thu hẹp nốt khoảng cách F1 thì mở thêm dung lượng phía decoder (LoRA attention sâu hơn / decoder đóng băng lớn hơn), không phải đầu tư tiếp vào thị giác. Đây cũng là điểm phản biện với "reasoning-aware routing" của ViMoE: trên cùng benchmark, loại câu hỏi không mang tín hiệu hữu ích cho phân bổ tài nguyên thị giác.
+    <span class="lead">Hàm ý:</span> muốn thu hẹp nốt khoảng cách F1 thì mở thêm dung lượng phía decoder (LoRA sâu hơn / rank lớn hơn, không cần giới hạn ở attention), không phải đầu tư tiếp vào thị giác. Đây cũng là điểm phản biện với "reasoning-aware routing" của ViMoE: trên cùng benchmark, loại câu hỏi không mang tín hiệu hữu ích cho phân bổ tài nguyên thị giác.
   </p>
 </section>
 
@@ -460,21 +461,38 @@
     <li>Đối chiếu tập test cho toàn bộ năm bridge và cả hai cấu hình LoRA: chênh so với val &lt; 0.5 F1, không nhất quán về chiều.</li>
     <li>Dùng grouped split chống rò rỉ dữ liệu (đã kiểm chứng: kết quả gần như không đổi so với cách chia cũ). Khoảng tin cậy bootstrap 95% cho các so sánh chính đã tính trên đúng số 3-seed (ví dụ ΔF1 của LoRA cho Multi-Token: +4.06, khoảng [3.49, 4.65]).</li>
     <li><em>Lưu ý:</em> một lần chạy bridge residual (seed cũ) bị mất ổn định — đã phát hiện và thay bằng 3-seed chuẩn (F1 45.64, dùng xuyên suốt report này). Đã rà soát lại toàn bộ checkpoint và số liệu, không còn sai lệch tương tự.</li>
+    <li><em>Lưu ý:</em> các dòng RQ6 (§4) đo đúng đóng góp riêng của vị trí LoRA đòi hỏi đóng băng bridge đã pretrain trong suốt giai đoạn LoRA — đã bổ sung cờ <code>--freeze-bridge</code> tường minh trong <code>src/training/trainer.py</code> và dùng cho mọi số RQ6 trong report này.</li>
     <li>Đánh giá ngữ nghĩa hiện mới ở mức tự kiểm 120 mẫu, một người đánh giá — cần nghiên cứu 2 người chấm + Cohen's κ cho bản camera-ready.</li>
   </ul>
 
   <h3><span class="h3num">6.3</span>Đang tái lập dòng "Vintern-1B (fine-tuned)" bằng cookbook chính thức — chưa xong</h3>
   <p>Dòng 53.76/72.84 ở Bảng §3 hiện là <strong>số trích dẫn</strong> từ AutoViVQA, đo trên split ngẫu nhiên của họ (không loại trừ rò rỉ ảnh). Đang tự đo lại trên <strong>grouped split của mình</strong> bằng <strong>cookbook fine-tune chính thức của Vintern</strong> (tải notebook thật từ Kaggle của 5CD-AI, dùng nguyên hyperparameter — không đổi gì): đóng băng backbone + MLP, LoRA r=16 trên Qwen2.5-0.5B, 6 tile, lr 4e-5, 1 epoch, template Hermes-2.</p>
-  <p><strong>Vướng mắc kỹ thuật (không phải vấn đề khoa học):</strong> codebase gốc (InternVL, viết 2024) chạy trên hạ tầng Kaggle hiện tại phải vá nhiều lỗi môi trường (phiên bản thư viện, dependency), và ở 6 tile không có flash-attention trên GPU miễn phí của Kaggle nên train rất chậm (~38s/step) → <strong>1 epoch cần nhiều hơn 1 phiên 12h của Kaggle</strong>, phải nối nhiều phiên (train → cắt → lưu checkpoint → phiên sau train tiếp). Đang chạy song song trên 2 tài khoản, dự kiến có số trong 1–2 ngày tới.</p>
+  <p><strong>Vướng mắc kỹ thuật (không phải vấn đề khoa học):</strong> codebase gốc (InternVL, viết 2024) chạy trên hạ tầng Kaggle hiện tại phải vá nhiều lỗi môi trường (phiên bản thư viện, dependency), và ở 6 tile không có flash-attention trên GPU miễn phí của Kaggle nên train rất chậm (~38s/step) → <strong>1 epoch cần nhiều hơn 1 phiên 12h của Kaggle</strong>, phải nối nhiều phiên (train → cắt → lưu checkpoint → phiên sau train tiếp). Cũng gặp thêm 2 bug hạ tầng ở chính bước nối phiên (đường dẫn mount Kaggle không nhất quán giữa các dataset trong cùng kernel; <code>kaggle datasets create</code> tự làm phẳng thư mục con khi zip) — đã tìm ra và sửa cả hai. <strong>Cập nhật 14/09:</strong> đã train tới step ~500/1611 (~31% của 1 epoch) trước khi 2 tài khoản đầu hết quota tuần; đang chạy song song trên <strong>4 tài khoản</strong> (resume từ cùng checkpoint step 500) để tăng tốc trước khi phải đợi reset quota tuần sau. Chưa xong.</p>
   <p><strong>Không chặn phần còn lại của báo cáo này</strong> — mọi kết luận ở §1, §4, §5 không phụ thuộc vào con số này. Khi có kết quả sẽ cập nhật: (a) xác nhận/đối chiếu số 53.76 trên split công bằng, (b) làm rõ recipe fine-tune thật của AutoViVQA nặng cỡ nào so với recipe của mình (nếu họ dùng cookbook thay vì recipe build gốc của Vintern, câu chuyện "rẻ hơn 100×" sẽ cần chỉnh thành "cùng ngân sách adapt, thiết kế + chẩn đoán tốt hơn" — xem giải thích ở §1).</p>
+
+  <h3><span class="h3num">6.4</span>Đánh giá ngoài phân phối (OOD) trên 4 tập VQA tiếng Việt khác</h3>
+  <p>Để kiểm tra khả năng khái quát hóa, đã đánh giá <strong>Vintern-1B gốc (zero-shot, 6 tile)</strong> so với <strong>mô hình đề xuất (1 tile, bridge+LoRA)</strong> trên 4 tập VQA tiếng Việt mà cả hai chưa từng train (1000 mẫu/seed, 3 seed, mean ± std):</p>
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Tập</th><th class="num">Vintern gốc (F1)</th><th class="num">Mô hình đề xuất (F1)</th><th>Ai thắng</th></tr></thead>
+      <tbody>
+        <tr><th>ViTextVQA (đọc chữ trong ảnh, UIT 2024)</th><td class="num">26.79 ± 0.26</td><td class="num">31.32 ± 0.07</td><td>Vintern gốc <sup>1</sup></td></tr>
+        <tr><th>OpenViVQA (~44% cần đọc chữ, UIT 2023)</th><td class="num">32.53 ± 0.11</td><td class="num">31.62 ± 0.30</td><td>Vintern gốc <sup>1</sup></td></tr>
+        <tr class="ours"><th>ViVQA-X (VQA tổng quát, VLAI-AIVN 2025)</th><td class="num">17.07 ± 0.41</td><td class="num">33.68 ± 0.37</td><td><strong>Mô hình đề xuất</strong></td></tr>
+        <tr class="ours"><th>ViVQA gốc (UIT-ViVQA, PACLIC 2021)</th><td class="num">24.58 ± 0.14</td><td class="num">46.08 ± 0.36</td><td><strong>Mô hình đề xuất</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="footnote"><sup>1</sup> F1 ở 2 tập đầu không phản ánh đúng — Vintern gốc thắng rõ khi nhìn <strong>CIDEr-D corpus</strong> (127.0 vs 11.9 ở ViTextVQA; 374.8 vs 61.4 ở OpenViVQA). Xem qua mẫu dự đoán: mô hình đề xuất <strong>hoàn toàn không đọc được chữ trong ảnh</strong>, chỉ đoán mò theo dạng câu hỏi (VD 2 câu hỏi "cửa hàng tên gì" trên 2 ảnh khác nhau ra cùng một câu trả lời).</p>
+  <p class="callout"><span class="lead">Kết luận:</span> pattern nhất quán qua cả 4 tập — mô hình đề xuất tốt hơn trên VQA tổng quát không cần đọc chữ (gần domain train AutoViVQA), nhưng <strong>mất hoàn toàn khả năng đọc chữ trong ảnh</strong> so với Vintern gốc, hệ quả trực tiếp của việc chỉ train 1 tile (độ phân giải thấp hơn 6 tile) trên dữ liệu không có tác vụ OCR. Đáng đưa vào phần generalization/limitation của paper — chi tiết đầy đủ (bao gồm cả seed) ở <code>experiments/ood-eval/RESULTS.md</code>.</p>
 </section>
 
 <!-- ============ 7 ============ -->
 <section>
   <h2><span class="num">7</span><span>Đóng góp</span></h2>
   <ol>
-    <li><strong>Quy trình thích nghi tiết kiệm tham số:</strong> frozen backbone + bridge nhẹ + LoRA cho attention của decoder, ~1% tham số nhưng đạt/vượt baseline fine-tuned trên chỉ số sinh (và đối chiếu được trên tập test).</li>
-    <li><strong>Chẩn đoán điểm nghẽn hệ thống:</strong> khảo sát bridge, số tile, routing, tín hiệu huấn luyện / căn chỉnh, và vị trí LoRA trong decoder → dư địa hữu ích nằm cụ thể ở attention của decoder, không phải feed-forward hay phía thị giác.</li>
+    <li><strong>Quy trình thích nghi tiết kiệm tham số:</strong> frozen backbone + bridge nhẹ + LoRA cho decoder, ~1% tham số nhưng đạt/vượt baseline fine-tuned trên chỉ số sinh (và đối chiếu được trên tập test).</li>
+    <li><strong>Chẩn đoán điểm nghẽn hệ thống:</strong> khảo sát bridge, số tile, routing, tín hiệu huấn luyện / căn chỉnh, và vị trí LoRA trong decoder → dư địa hữu ích nằm ở khả năng thích nghi của decoder nói chung (không riêng attention hay feed-forward), không phải phía thị giác.</li>
     <li><strong>Quy trình đánh giá đáng tin cậy:</strong> grouped split, nhiều seed, đối chiếu val/test, bootstrap CI, đánh giá thủ công + phân tích lỗi, kèm phân tích hiệu quả tính toán của tile.</li>
   </ol>
 </section>

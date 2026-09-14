@@ -22,7 +22,9 @@ from src.modeling.bridge_modules import (
     AttentionBridge,
     GatedFusionBridge,
     MiniQFormer,
-    QFormer
+    QFormer,
+    PatchPoolBridge,
+    ConvAbstractorBridge,
 )
 from src.utils.logging import data_loader_logger as logger
 
@@ -35,11 +37,15 @@ BRIDGE_TYPE = Literal[
     'gated_fusion',         # Exp 6: Gated residual
     'mini_qformer',         # Exp 4: 2-layer lightweight qformer
     'qformer',              # Exp 5: 4-layer full qformer
+    'patch_pool_mean',      # Advisor follow-up: mean-pool patches -> tokens
+    'patch_pool_max',       # Advisor follow-up: max-pool patches -> tokens
+    'conv_abstractor',      # Advisor follow-up: HoneyBee C-Abstractor (conv)
 ]
 
 
 # Bridge types that need full vision patches (not pooled)
-PATCH_BASED_BRIDGES = {'tile_attention', 'mini_qformer', 'qformer'}
+PATCH_BASED_BRIDGES = {'tile_attention', 'mini_qformer', 'qformer',
+                        'patch_pool_mean', 'patch_pool_max', 'conv_abstractor'}
 
 # Bridge types that need text embeddings (for semantic filtering)
 TEXT_CONDITIONING_BRIDGES = {'qformer'}
@@ -206,7 +212,24 @@ class VisionLanguageBridge(nn.Module):
                 num_heads=config.get('num_heads', 8),
                 num_layers=config.get('num_layers', 4)
             )
-        
+
+        elif self.bridge_type in ('patch_pool_mean', 'patch_pool_max'):
+            return PatchPoolBridge(
+                vision_dim=vision_dim,
+                hidden_dim=hidden_dim,
+                num_tokens=config.get('num_tokens', 8),
+                pool_type='mean' if self.bridge_type.endswith('mean') else 'max'
+            )
+
+        elif self.bridge_type == 'conv_abstractor':
+            return ConvAbstractorBridge(
+                vision_dim=vision_dim,
+                hidden_dim=hidden_dim,
+                num_tokens=config.get('num_tokens', 9),
+                num_resblocks=config.get('num_resblocks', 2),
+                internal_dim=config.get('internal_dim', 512)
+            )
+
         else:
             raise ValueError(f"Unknown bridge_type: {self.bridge_type}")
     

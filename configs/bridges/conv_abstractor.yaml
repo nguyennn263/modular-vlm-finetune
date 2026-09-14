@@ -1,0 +1,11 @@
+# Advisor follow-up — conv/deconv-based bridge: HoneyBee's C-Abstractor
+# (Cha et al., arXiv:2312.06742, CVPR 2024): L ResNet blocks -> adaptive avg
+# pool -> L ResNet blocks. num_tokens=9 (3x3 grid, closest perfect square to
+# the study's usual num_tokens=8 -- conv requires a square token grid).
+# internal_dim=512 (not hidden_dim=896) keeps params ~20M instead of ~58M --
+# see ConvAbstractorBridge docstring in src/modeling/bridge_modules.py.
+bridge_type: conv_abstractor
+bridge_config:
+  num_tokens: 9
+  num_resblocks: 2
+  internal_dim: 512

@@ -8,6 +8,7 @@ Philosophy: IMPROVE the baseline projection, don't replace it.
 
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 import math
 
 
@@ -385,6 +386,159 @@ class GatedFusionBridge(nn.Module):
         output = baseline + gate * improvement
         
         return output
+
+
+class PatchPoolBridge(nn.Module):
+    """
+    Patch pooling bridge: mean- or max-pool the patch grid down to num_tokens.
+
+    Philosophy: ISOLATE the pooling operator from everything else. Same first
+    step as AttentionBridge (per-patch Linear(1024 -> 896)) so that the ONLY
+    thing that differs between this and AttentionBridge is how patches -> tokens
+    (fixed pooling operator vs. learned attention) -- not param count, not the
+    per-patch projection. Deliberately has no other learnable weights: the point
+    of this ablation is to isolate the pooling *operator*, not add capacity.
+
+    Architecture:
+    - Per-patch projection: Linear(1024 -> 896)
+    - Pool num_patches -> num_tokens via F.adaptive_avg_pool1d / adaptive_max_pool1d
+      over the sequence dim (robust to any patch/token count -- no manual
+      reshape/grouping, avoids off-by-one edge cases when num_patches doesn't
+      divide evenly by num_tokens)
+
+    Note: F.adaptive_*_pool1d pools over the LAST dim, so the input must be
+    transposed to (B, hidden_dim, num_patches) before pooling and back to
+    (B, num_tokens, hidden_dim) after -- both transposes are load-bearing.
+    """
+
+    def __init__(self,
+                 vision_dim: int = 1024,
+                 hidden_dim: int = 896,
+                 num_tokens: int = 8,
+                 pool_type: str = "mean",
+                 **kwargs):
+        super().__init__()
+        if pool_type not in ("mean", "max"):
+            raise ValueError(f"pool_type must be 'mean' or 'max', got {pool_type!r}")
+        self.pool_type = pool_type
+        self.num_tokens = num_tokens
+        self.proj = nn.Linear(vision_dim, hidden_dim)
+
+    def forward(self, vision_features: torch.Tensor) -> torch.Tensor:
+        """
+        Args:
+            vision_features: (batch_size, num_patches, vision_dim)
+
+        Returns:
+            (batch_size, num_tokens, hidden_dim)
+        """
+        x = self.proj(vision_features)  # (B, num_patches, hidden_dim)
+        x = x.transpose(1, 2)  # (B, hidden_dim, num_patches) -- adaptive_*_pool1d pools the LAST dim
+        pool_fn = F.adaptive_avg_pool1d if self.pool_type == "mean" else F.adaptive_max_pool1d
+        x = pool_fn(x, self.num_tokens)  # (B, hidden_dim, num_tokens)
+        return x.transpose(1, 2)  # (B, num_tokens, hidden_dim)
+
+
+class _ConvResBlock(nn.Module):
+    """3x3 conv residual block with GroupNorm (not BatchNorm -- batch_size=8
+    makes BatchNorm running-stat estimates unstable/wrong at this scale)."""
+
+    def __init__(self, dim: int, num_groups: int = 32):
+        super().__init__()
+        self.conv1 = nn.Conv2d(dim, dim, kernel_size=3, padding=1)
+        self.gn1 = nn.GroupNorm(num_groups, dim)
+        self.conv2 = nn.Conv2d(dim, dim, kernel_size=3, padding=1)
+        self.gn2 = nn.GroupNorm(num_groups, dim)
+        self.act = nn.GELU()
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        residual = x
+        x = self.act(self.gn1(self.conv1(x)))
+        x = self.gn2(self.conv2(x))
+        return self.act(x + residual)
+
+
+class ConvAbstractorBridge(nn.Module):
+    """
+    Convolutional abstractor bridge, following HoneyBee's C-Abstractor
+    (Cha et al., "Honeybee: Locality-enhanced Projector for Multimodal LLM",
+    arXiv:2312.06742, CVPR 2024): "L ResNet blocks followed by adaptive average
+    pooling and another L ResNet blocks."
+
+    Philosophy: preserve LOCAL spatial context via convolution (unlike every
+    other bridge in this file, which either discards spatial structure entirely
+    -- MultiTokenMLP, sees a flat patch sequence with no 2D inductive bias --
+    AttentionBridge/MiniQFormer/QFormer, or does content-agnostic pooling --
+    PatchPoolBridge). Conv kernels only mix spatially-adjacent patches, so
+    nearby image regions influence each other before/after the token count is
+    reduced -- the "zoom in, compress, zoom out" design an advisor asked about.
+
+    Architecture:
+    - Reshape the flat patch sequence into a 2D (H, W) grid (requires a square
+      patch count -- true for InternViT-300M-448px/1-tile: 32x32=1024)
+    - 1x1 Conv2d projects vision_dim -> internal_dim
+    - num_resblocks _ConvResBlock's (pre-pool)
+    - AdaptiveAvgPool2d down to (grid, grid) where grid = sqrt(num_tokens)
+      (num_tokens MUST be a perfect square -- e.g. 9 (3x3), 4 (2x2))
+    - num_resblocks _ConvResBlock's (post-pool)
+    - Flatten back to a token sequence + Linear(internal_dim -> hidden_dim)
+
+    internal_dim defaults to 512 (not hidden_dim=896) to keep the param count
+    on the same order as the other bridges (~20M at num_resblocks=2) rather
+    than confounding "conv-based" with "biggest bridge in the study" (896-wide
+    4x ResBlocks would be ~58M, next to Full-QFormer's 69M).
+    """
+
+    def __init__(self,
+                 vision_dim: int = 1024,
+                 hidden_dim: int = 896,
+                 num_tokens: int = 9,
+                 num_resblocks: int = 2,
+                 internal_dim: int = 512,
+                 num_groups: int = 32,
+                 **kwargs):
+        super().__init__()
+        grid = int(round(num_tokens ** 0.5))
+        if grid * grid != num_tokens:
+            raise ValueError(f"ConvAbstractorBridge requires num_tokens to be a perfect "
+                              f"square (e.g. 4, 9, 16), got {num_tokens}")
+        self.grid = grid
+        self.num_tokens = num_tokens
+
+        self.proj_in = nn.Conv2d(vision_dim, internal_dim, kernel_size=1)
+        self.pre = nn.ModuleList(_ConvResBlock(internal_dim, num_groups) for _ in range(num_resblocks))
+        self.pool = nn.AdaptiveAvgPool2d((grid, grid))
+        self.post = nn.ModuleList(_ConvResBlock(internal_dim, num_groups) for _ in range(num_resblocks))
+        self.proj_out = nn.Linear(internal_dim, hidden_dim)
+
+    def forward(self, vision_features: torch.Tensor) -> torch.Tensor:
+        """
+        Args:
+            vision_features: (batch_size, num_patches, vision_dim) -- num_patches
+                MUST be a perfect square (a single tile's square patch grid).
+                Multi-tile input (T*num_patches, T>1) will fail the assertion
+                below unless T itself makes the product a perfect square --
+                this bridge is single-tile-only by construction.
+
+        Returns:
+            (batch_size, num_tokens, hidden_dim)
+        """
+        B, P, D = vision_features.shape
+        H = W = int(round(P ** 0.5))
+        if H * W != P:
+            raise ValueError(f"ConvAbstractorBridge requires a square patch grid, got "
+                              f"num_patches={P} (not a perfect square) -- likely multi-tile "
+                              f"input fed through a bridge that only supports a single "
+                              f"tile's square grid")
+        x = vision_features.transpose(1, 2).reshape(B, D, H, W)  # (B, vision_dim, H, W), NCHW
+        x = self.proj_in(x)
+        for blk in self.pre:
+            x = blk(x)
+        x = self.pool(x)  # (B, internal_dim, grid, grid)
+        for blk in self.post:
+            x = blk(x)
+        x = x.flatten(2).transpose(1, 2)  # (B, grid*grid, internal_dim)
+        return self.proj_out(x)  # (B, num_tokens, hidden_dim)
 
 
 class TileAttentionBridge(nn.Module):

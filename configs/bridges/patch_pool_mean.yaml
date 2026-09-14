@@ -1,0 +1,8 @@
+# Advisor follow-up — pooling-operator ablation: mean-pool patches -> tokens.
+# Same first step as tile_attention (per-patch Linear(1024->896)); only the
+# patches->tokens operator differs (fixed mean-pool here vs. learned attention
+# in tile_attention). No other learnable weights, deliberately, to isolate the
+# operator rather than add capacity.
+bridge_type: patch_pool_mean
+bridge_config:
+  num_tokens: 8

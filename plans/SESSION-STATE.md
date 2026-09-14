@@ -5,6 +5,41 @@
 
 ---
 
+## ⚠️ UPDATE 2026-09-14 — RQ6 kết luận CŨ SAI, đã tìm ra + sửa bug, PHẢI viết lại §6
+
+**Phát hiện quan trọng nhất kể từ snapshot 2026-09-07**: kết luận RQ6 ("LoRA trên MLP
+tự nó gây sập training, chỉ attention mới ổn định", ΔF1 −12.04 khi LoRA cả 7 module)
+là **SAI HOÀN TOÀN** — nguyên nhân thật là bug: `_setup_optimization()` trong
+`src/training/trainer.py` (branch `feat/decoder-lora`) **chưa bao giờ đóng băng
+bridge** trong giai đoạn LoRA (chỉ freeze `vision_model`+`language_model`), khiến
+bridge (đã pretrain) trôi dạt cùng LoRA suốt training — không phải do bản chất
+MLP-LoRA. Đã thêm `--freeze-bridge` thật (commit `929ea62` trên `feat/decoder-lora`)
+và chạy lại đủ cả 3 cấu hình, seed42, full val (n=5463):
+
+| Cấu hình LoRA (r=16) | Bridge KHÔNG freeze (bug cũ) | Bridge freeze thật (fix mới) | Δ khi fix |
+|---|--:|--:|--:|
+| attn-only (4 module: q/k/v/o) | F1 53.67 / loss 1.370 | F1 53.17 / loss 1.371 | ~0 |
+| attn+MLP (7 module) | F1 38.11 / loss 1.988 | F1 **51.60** / loss 1.420 | **+13.5** |
+| MLP-only (3 module: gate/up/down) | F1 18.68 / loss 3.411 | F1 **50.66** / loss 1.478 | **+32.0** |
+
+Khi bridge đóng băng đúng cách, **cả 3 cấu hình hội tụ về cùng 1 dải hẹp
+(50.66–53.17, chênh 2.5 điểm)** so với chênh lệch 35 điểm trong bug cũ. → chọn
+target module LoRA nào gần như không quan trọng; điều thật sự quan trọng là bridge
+phải đóng băng. **§6 (RQ6) trong paper cần viết lại hoàn toàn** theo hướng này,
+không còn là "attention là điểm nghẽn duy nhất" nữa.
+
+Raw: `outputs/rq6_freeze_bridge/lora16-{attn,all,mlp}-fb/*/multi_token/eval_val.json`.
+Orchestrator: `scripts/parallel/rq6_freeze_bridge.py` (smoke/launch/collect).
+
+**Cùng đợt này cũng xong**: 4 dataset OOD-eval ngoài AutoViVQA (ViTextVQA, ViVQA-X,
+OpenViVQA, ViVQA gốc — UIT-ViVQA 2021), mỗi tập 3 seed, so Vintern gốc (6 tile,
+zero-shot) vs model tốt nhất của mình (1 tile, bridge+LoRA). Kết luận: model mình
+tốt hơn trên VQA tổng quát không-OCR (ViVQA-X, ViVQA gốc), thua hẳn trên tập cần
+đọc chữ trong ảnh (ViTextVQA, OpenViVQA) — đáng đưa vào phần generalization/
+limitation. Chi tiết đầy đủ: `experiments/ood-eval/RESULTS.md`.
+
+---
+
 ## 0. TL;DR trạng thái
 
 - **Thực nghiệm: XONG HẲN 2026-09-07 20:40 UTC.** Không còn job nào chạy. LoRA re-run (6) + val corpus refresh (6) + qformer test + align-logit α=0.1 (3) — collect hết.

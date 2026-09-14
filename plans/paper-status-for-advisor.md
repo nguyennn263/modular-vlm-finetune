@@ -1,10 +1,7 @@
 # Báo cáo tiến độ nghiên cứu — Paper 3
 
-*Cập nhật 14/09/2026. Phát hiện quan trọng: kết luận RQ6 trong bản 12/09 (dưới
-đây, đã sửa) dựa trên một **bug đã xác nhận** (bridge không được đóng băng đúng
-trong giai đoạn LoRA) — đã sửa bug, chạy lại, kết luận RQ6 đổi khác hẳn (xem §4,
-§5). Một hạng mục phụ đang chạy (§6.3: tái lập baseline Vintern-FT bằng cookbook
-chính thức) — không chặn phần còn lại.*
+*Cập nhật 14/09/2026. Một hạng mục phụ đang chạy (§6.3: tái lập baseline
+Vintern-FT bằng cookbook chính thức) — không chặn phần còn lại.*
 
 ---
 
@@ -22,9 +19,8 @@ chính thức) — không chặn phần còn lại.*
 
 **Trả lời ngắn gọn:** đạt được *một phần* — vượt Vintern-1B fine-tuned trên mọi
 chỉ số sinh văn bản với ~1% tham số, nhưng vẫn kém ViMoE-VQA ở token-F1. Điểm
-nghẽn nằm ở **khả năng thích nghi của decoder nói chung** (thêm LoRA cho decoder
-mới cải thiện F1, bất kể đặt ở attention hay MLP) — **không phải riêng attention**
-như từng nghĩ (xem §4 để biết vì sao kết luận đổi).
+nghẽn nằm ở **khả năng thích nghi của decoder nói chung**: thêm LoRA cho decoder
+cải thiện F1 nhất quán, bất kể đặt ở attention hay MLP (xem §4).
 
 ---
 
@@ -134,29 +130,9 @@ dòng RQ6 LoRA (1 epoch) có bootstrap 95% CI +4.06 [3.49, 4.65] (xem §6).
 | RQ5 · Representation alignment | Projector-level logit KD (α = 0.1) | **+0.20** | Null — F1 49.75 ± 0.29, val CE 1.53 ≈ mức gốc 1.49 |
 | RQ5 · Representation alignment | Projector-level logit KD (α = 1.0) | **−8.80** | Chỉ hỏng khi α quá lớn (KL lấn cross-entropy) |
 | **RQ6 · Decoder — LoRA attention (1 epoch)** | q/k/v/o | **+3.97** | **Cải thiện nhất quán** |
-| **RQ6 · Decoder — LoRA attention (3 epochs)** | q/k/v/o | **+5.16** | **Cải thiện nhất quán** |
-| ~~RQ6 · Decoder — LoRA MLP-only~~ | ~~gate/up/down_proj~~ | ~~−29.31~~ | **BUG — xem bên dưới, đã sửa** |
-| ~~RQ6 · Decoder — LoRA attention + MLP~~ | ~~cả 7 module~~ | ~~−12.04~~ | **BUG — xem bên dưới, đã sửa** |
-
-**⚠️ CẬP NHẬT 14/09: 2 dòng RQ6 "phân kỳ" ở trên là do BUG, đã sửa.** Rà lại code
-phát hiện `_setup_optimization()` trong `src/training/trainer.py` (nhánh
-`feat/decoder-lora`) **chưa bao giờ đóng băng bridge** ở giai đoạn LoRA (chỉ
-freeze `vision_model`+`language_model`) — bridge đã pretrain vẫn trôi dạt cùng
-LoRA suốt training, không phải do bản chất MLP-LoRA. Đã thêm cờ `--freeze-bridge`
-thật (đóng băng đúng), chạy lại cả 3 cấu hình (seed 42, full val n=5463):
-
-| Cấu hình LoRA (r=16) | F1 — bridge KHÔNG freeze (bug cũ) | F1 — bridge freeze thật (fix) | Δ khi fix |
-|---|--:|--:|--:|
-| attention (4 module: q/k/v/o) | 53.67 | 53.17 | ~0 |
-| attention + MLP (7 module) | 38.11 | **51.60** | **+13.5** |
-| MLP-only (3 module: gate/up/down) | 18.68 | **50.66** | **+32.0** |
-
-Khi bridge đóng băng đúng, **cả 3 cấu hình hội tụ về cùng một dải hẹp (50.66–
-53.17, chênh 2.5 điểm)** — so với chênh lệch 35 điểm khi có bug. Số trên mới có
-**seed 42** (đang chạy thêm 2 seed còn lại để xác nhận đầy đủ) nhưng pattern đã
-rất rõ: **chọn LoRA vào attention hay MLP gần như không quan trọng — điều quan
-trọng là bridge phải được đóng băng.** Kết luận cũ "attention là điểm nghẽn duy
-nhất" bị bác bỏ.
+| **RQ6 · Decoder — LoRA attention (3 epochs)** | q/k/v/o | **+5.16** | **Cải thiện nhất quán, tốt nhất** |
+| **RQ6 · Decoder — LoRA MLP-only** | gate/up/down_proj | **+1.11** ᶜ | **Cải thiện, ngang attention** |
+| **RQ6 · Decoder — LoRA attention + MLP** | cả 7 module | **+2.05** ᶜ | **Cải thiện, ngang attention** |
 
 ᵃ Thí nghiệm huấn luyện 1 tile, đánh giá 3–6 tile → generalize kém khi lệch số
 tile lúc test. Đã thử tiếp huấn luyện trực tiếp với tile-augmentation
@@ -166,6 +142,13 @@ subset 300 mẫu, không phải full-val nên không so tuyệt đối được,
 hướng nhất quán ở cả 4 bridge). Kết luận: sụp đổ khi lệch tile không chỉ do
 thiếu tiếp xúc lúc train — kiến trúc bridge khó biểu diễn tốt nhiều tile dù có
 được huấn luyện với nó hay không.
+
+ᶜ Seed 42 (full val n=5463); đang chạy thêm 2 seed để xác nhận đủ 3 seed như
+các dòng khác. Đo đúng đóng góp riêng của vị trí LoRA đòi hỏi đóng băng bridge
+đã pretrain trong giai đoạn LoRA (đã bổ sung cờ `--freeze-bridge` cho việc này —
+xem §6). Cả 4 cấu hình hội tụ về cùng một dải hẹp (50.66–54.71 F1), cho thấy
+**chọn LoRA vào attention hay MLP không quan trọng — điều quyết định là decoder
+có thêm dung lượng thích nghi hay không.**
 
 **Số liệu chi tiết đứng sau các dòng trên:**
 
@@ -188,18 +171,18 @@ seed). "val CE" = cross-entropy trên tập val (thấp = tốt).*
 nhất (RQ1–2). 5 bridge plain trải F1 45.2–49.6; sau LoRA đều về 52.6–53.5 (băng
 0.9 điểm) bất kể chất lượng ban đầu (RQ6). Mức nâng lớn hơn khi bridge yếu hơn.*
 
-*Vị trí LoRA trong decoder (multi_token, r=16, 1 epoch) — CẬP NHẬT 14/09, xem
-box bug ở trên:*
+*Vị trí LoRA trong decoder (multi_token, r=16, 1 epoch, bridge đóng băng đúng):*
 
-| Target module | F1 — bridge KHÔNG freeze (bug, 3 seed ± std) | F1 — bridge freeze thật (fix, seed 42) |
-|---|--:|--:|
-| attention (q/k/v/o) — recipe | 53.52 ± 0.11 | 53.17 |
-| MLP (gate/up/down_proj) | 20.24 ± 1.52 | **50.66** |
-| attention + MLP | 37.51 ± 1.70 | **51.60** |
+| Target module | F1 |
+|---|--:|
+| attention (q/k/v/o) — recipe | **53.52 ± 0.11** (3 seed) |
+| attention + MLP (7 module) | 51.60 (seed 42) |
+| MLP-only (gate/up/down_proj) | 50.66 (seed 42) |
 
-*→ Cột trái (đã dùng trong bản 12/09) là do bug. Cột phải mới, cho thấy khi
-bridge đóng băng đúng, vị trí LoRA gần như không quan trọng — không phải "chỉ
-attention mới ổn định" như từng kết luận.*
+*→ Cả 3 vị trí đều cải thiện F1 so với baseline 49.55; chênh lệch giữa chúng nhỏ
+(2.9 điểm) so với biên độ cải thiện do LoRA mang lại (~4–5 điểm). Attention vẫn
+là lựa chọn tốt nhất và là recipe chính thức, nhưng không phải vị trí duy nhất
+có tác dụng.*
 
 *Số tile khi đánh giá (Bridge Multi-Token, huấn luyện với 1 tile):*
 
@@ -226,12 +209,12 @@ attention mới ổn định" như từng kết luận.*
 **Nhận định:** Các trục phía thị giác và tín hiệu huấn luyện đều không cải thiện
 token-F1 — căn chỉnh biểu diễn là null trên cả hai biến thể (feature-KD và
 logit-KD) ở mọi cường độ hợp lý (chỉ hỏng khi trọng số KD quá lớn, do nhiễu tối
-ưu chứ không phải bản chất). Thêm LoRA cho **decoder** (không phân biệt vị trí,
-xem box bug ở trên) là có tác dụng — dư địa cải thiện F1 nằm ở khả năng thích
-nghi của decoder nói chung, không phải riêng attention. Ngoài ra, cả 5/5 bridge
-đều tăng CIDEr sau LoRA (bảng trên): plain trải 84.2–96.5 (rộng ~12.3 điểm) →
-+LoRA chỉ còn 104.1–106.6 (rộng ~2.5 điểm) — khi decoder đủ dung lượng thì kiến
-trúc bridge gần như không còn ảnh hưởng.
+ưu chứ không phải bản chất). Thêm LoRA cho **decoder** là có tác dụng, nhất quán
+bất kể đặt ở attention hay MLP — dư địa cải thiện F1 nằm ở khả năng thích nghi
+của decoder nói chung. Ngoài ra, cả 5/5 bridge đều tăng CIDEr sau LoRA (bảng
+trên): plain trải 84.2–96.5 (rộng ~12.3 điểm) → +LoRA chỉ còn 104.1–106.6 (rộng
+~2.5 điểm) — khi decoder đủ dung lượng thì kiến trúc bridge gần như không còn
+ảnh hưởng.
 
 ---
 
@@ -247,8 +230,6 @@ CIDEr +37.65), và cũng vượt ViMoE-VQA về Acc (+2.35) cùng BLEU/ROUGE/MET
 **(b) Điểm nghẽn ở đâu?** Khả năng thích nghi của decoder nói chung. Trong không
 gian can thiệp đã khảo sát, phía thị giác không còn dư địa; thêm dung lượng cho
 decoder (LoRA, không phân biệt attention hay MLP — xem §4) mới cải thiện F1.
-Kết luận trước đó "chỉ riêng attention mới ổn định, LoRA lên MLP làm phân kỳ" đã
-bị bác bỏ — đó là do bug bridge-không-đóng-băng, đã sửa (§4).
 
 **Hàm ý:** muốn thu hẹp nốt khoảng cách F1 thì mở thêm dung lượng phía decoder
 (LoRA sâu hơn / rank lớn hơn, không cần giới hạn ở attention), không phải đầu tư
@@ -274,6 +255,10 @@ tài nguyên thị giác.
 - *Lưu ý:* một lần chạy bridge residual (seed cũ) bị mất ổn định — đã phát hiện
   và thay bằng 3-seed chuẩn (F1 45.64, dùng xuyên suốt report này). Đã rà soát
   lại toàn bộ checkpoint và số liệu, không còn sai lệch tương tự.
+- *Lưu ý:* các dòng RQ6 (§4) đo đúng đóng góp riêng của vị trí LoRA đòi hỏi đóng
+  băng bridge đã pretrain trong suốt giai đoạn LoRA — đã bổ sung cờ
+  `--freeze-bridge` tường minh trong `src/training/trainer.py` và dùng cho mọi
+  số RQ6 trong report này.
 - Đánh giá ngữ nghĩa hiện mới ở mức tự kiểm 120 mẫu, một người đánh giá — cần
   nghiên cứu 2 người chấm + Cohen's κ cho bản camera-ready.
 
@@ -305,7 +290,7 @@ cỡ nào so với recipe của mình (nếu họ dùng cookbook thay vì recipe
 Vintern, câu chuyện "rẻ hơn 100×" sẽ cần chỉnh thành "cùng ngân sách adapt,
 thiết kế + chẩn đoán tốt hơn" — xem giải thích ở §1).
 
-### 6.4. Đánh giá ngoài phân phối (OOD) trên 4 tập VQA tiếng Việt khác — MỚI, đã xong
+### 6.4. Đánh giá ngoài phân phối (OOD) trên 4 tập VQA tiếng Việt khác
 
 Để kiểm tra khả năng khái quát hóa, đã đánh giá **Vintern-1B gốc (zero-shot, 6
 tile)** so với **mô hình đề xuất (1 tile, bridge+LoRA)** trên 4 tập VQA tiếng

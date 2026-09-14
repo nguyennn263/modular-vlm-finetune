@@ -1,0 +1,5 @@
+# Advisor follow-up — pooling-operator ablation: max-pool patches -> tokens.
+# See patch_pool_mean.yaml for the shared design rationale.
+bridge_type: patch_pool_max
+bridge_config:
+  num_tokens: 8

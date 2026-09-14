@@ -35,6 +35,13 @@ BRIDGES = [
     "tile_attention",
     "mini_qformer",
     "qformer",
+    # Advisor follow-up ablations (bridge-design questions): isolate the
+    # patches->tokens pooling operator (mean/max, param-light, same first
+    # projection step as tile_attention) and a conv-based bridge (HoneyBee's
+    # C-Abstractor, arXiv:2312.06742) as an alternative to pure-MLP/attention.
+    "patch_pool_mean",
+    "patch_pool_max",
+    "conv_abstractor",
 ]
 
 
@@ -67,6 +74,13 @@ def build_run_config(args: argparse.Namespace) -> dict[str, Any]:
     if not bridge_cfg:
         raise SystemExit(f"No config for bridge '{args.bridge}' at configs/bridges/{args.bridge}.yaml")
     cfg = _deep_merge(cfg, bridge_cfg)
+
+    # Generic override for any bridge whose bridge_config has a num_tokens
+    # field (multi_token num_tokens sweep; conv_abstractor M=4 vs M=9) --
+    # there is no other path from the CLI into bridge_config.
+    if getattr(args, "bridge_num_tokens", None) is not None:
+        cfg.setdefault("bridge_config", {})
+        cfg["bridge_config"]["num_tokens"] = args.bridge_num_tokens
 
     smoke_preset = cfg.pop("smoke", {}) or {}
     cfg.setdefault("limit", None)
@@ -159,6 +173,10 @@ def _parser() -> argparse.ArgumentParser:
     p.add_argument("--seed", type=int, default=None)
     p.add_argument("--n-tiles", type=int, default=None, dest="n_tiles",
                    help="Visual budget: InternViT tiles per image (1 = single 336px image).")
+    p.add_argument("--bridge-num-tokens", type=int, default=None, dest="bridge_num_tokens",
+                   help="Override bridge_config['num_tokens'] after the YAML merge -- for the "
+                        "multi_token num_tokens sweep (4/6/8/10/12) and the conv_abstractor M=4 "
+                        "vs M=9 comparison. Must be a perfect square for conv_abstractor.")
     p.add_argument("--tile-choices", default=None, dest="tile_choices",
                    help="Comma list e.g. '1,3,6' — per-batch random tile count "
                         "(tile-count augmentation, for a bridge the oracle sweeps over n_tiles).")

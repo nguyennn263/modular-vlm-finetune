@@ -475,7 +475,8 @@ class ConvAbstractorBridge(nn.Module):
 
     Architecture:
     - Reshape the flat patch sequence into a 2D (H, W) grid (requires a square
-      patch count -- true for InternViT-300M-448px/1-tile: 32x32=1024)
+      patch count, or square+1 with a leading global token stripped -- true
+      for InternViT/1-tile/336px: 24x24=576 patches + 1 leading token = 577)
     - 1x1 Conv2d projects vision_dim -> internal_dim
     - num_resblocks _ConvResBlock's (pre-pool)
     - AdaptiveAvgPool2d down to (grid, grid) where grid = sqrt(num_tokens)
@@ -514,10 +515,24 @@ class ConvAbstractorBridge(nn.Module):
     def forward(self, vision_features: torch.Tensor) -> torch.Tensor:
         """
         Args:
-            vision_features: (batch_size, num_patches, vision_dim) -- num_patches
-                MUST be a perfect square (a single tile's square patch grid).
-                Multi-tile input (T*num_patches, T>1) will fail the assertion
-                below unless T itself makes the product a perfect square --
+            vision_features: (batch_size, num_patches, vision_dim). num_patches
+                must be a perfect square (a single tile's square patch grid),
+                OR (num_patches - 1) a perfect square -- InternViT's raw
+                `last_hidden_state` at 1-tile/336px is 577 = 24*24 + 1, i.e. a
+                24x24 patch grid PLUS one leading global/CLS-like token
+                (empirically confirmed: patch_size=14, image_size=336 for the
+                standard training path, not the 448px figure used elsewhere in
+                this file's docstrings for a *different* code path). The
+                leading token is dropped before reshaping -- it has no 2D
+                spatial position, so conv/pooling can't use it meaningfully;
+                every other patch-based bridge in this file (AttentionBridge,
+                MiniQFormer, QFormer) already implicitly includes it as if it
+                were an ordinary patch when they pool/attend over the full
+                sequence, so dropping it here is the ONE place in the codebase
+                that treats it differently -- worth flagging in the eventual
+                report, not silently glossed over.
+                Multi-tile input (T*577, T>1) will fail loudly below unless T
+                itself happens to make the (adjusted) count a perfect square --
                 this bridge is single-tile-only by construction.
 
         Returns:
@@ -525,12 +540,17 @@ class ConvAbstractorBridge(nn.Module):
         """
         B, P, D = vision_features.shape
         H = W = int(round(P ** 0.5))
-        if H * W != P:
-            raise ValueError(f"ConvAbstractorBridge requires a square patch grid, got "
-                              f"num_patches={P} (not a perfect square) -- likely multi-tile "
-                              f"input fed through a bridge that only supports a single "
-                              f"tile's square grid")
-        x = vision_features.transpose(1, 2).reshape(B, D, H, W)  # (B, vision_dim, H, W), NCHW
+        if H * W == P:
+            x = vision_features
+        elif int(round((P - 1) ** 0.5)) ** 2 == P - 1:
+            H = W = int(round((P - 1) ** 0.5))
+            x = vision_features[:, 1:, :]  # drop the leading global/CLS-like token
+        else:
+            raise ValueError(f"ConvAbstractorBridge requires a square patch grid (or square+1 "
+                              f"with a leading global token), got num_patches={P} -- likely "
+                              f"multi-tile input fed through a bridge that only supports a "
+                              f"single tile's square grid")
+        x = x.transpose(1, 2).reshape(B, D, H, W)  # (B, vision_dim, H, W), NCHW
         x = self.proj_in(x)
         for blk in self.pre:
             x = blk(x)

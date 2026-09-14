@@ -28,7 +28,14 @@ from src.modeling.bridge_modules import (
 
 VISION_DIM = 1024
 HIDDEN_DIM = 896
-NUM_PATCHES = 1024  # InternViT-300M-448px, 1 tile: 32x32 patches (a perfect square)
+# Empirically confirmed via a real Kaggle smoke run (not the 32x32=1024 figure
+# assumed pre-implementation): InternViT's raw last_hidden_state at 1-tile,
+# 336px (src/data/collator.py's actual default image_size, patch_size=14,
+# 336/14=24) is 577 = 24*24 + 1 -- a 24x24 patch grid PLUS one leading
+# global/CLS-like token. ConvAbstractorBridge must handle this (see its
+# forward() docstring); the other patch-based bridges just treat all 577 as
+# ordinary patches (existing, unchanged behaviour).
+NUM_PATCHES = 577
 BATCH = 2
 
 
@@ -73,7 +80,7 @@ def test_pooled_bridge_forward(cls, kwargs, expected_tokens):
     (MiniQFormer, {"num_tokens": 8}, 8),  # MiniQFormer reserves 1 for baseline -> output is num_tokens total
     (PatchPoolBridge, {"num_tokens": 8, "pool_type": "mean"}, 8),
     (PatchPoolBridge, {"num_tokens": 8, "pool_type": "max"}, 8),
-    (PatchPoolBridge, {"num_tokens": 6, "pool_type": "mean"}, 6),  # non-divisor of 1024, exercises adaptive pool
+    (PatchPoolBridge, {"num_tokens": 6, "pool_type": "mean"}, 6),  # non-divisor of 577, exercises adaptive pool
 ])
 def test_patch_bridge_forward(cls, kwargs, expected_tokens):
     bridge = cls(vision_dim=VISION_DIM, hidden_dim=HIDDEN_DIM, **kwargs)
@@ -93,12 +100,23 @@ def test_qformer_forward():
 # ---- ConvAbstractorBridge: perfect-square guards + real forward ----
 
 @pytest.mark.parametrize("num_tokens", [4, 9])
-def test_conv_abstractor_forward(num_tokens):
+def test_conv_abstractor_forward_with_leading_token(num_tokens):
+    """The REAL runtime shape: 577 = 24x24 + 1 leading token (must be stripped)."""
     bridge = ConvAbstractorBridge(vision_dim=VISION_DIM, hidden_dim=HIDDEN_DIM,
                                    num_tokens=num_tokens, num_resblocks=1, internal_dim=64)
-    x = torch.randn(BATCH, NUM_PATCHES, VISION_DIM)  # 1024 = 32x32, a perfect square
+    x = torch.randn(BATCH, NUM_PATCHES, VISION_DIM)  # 577 = 576 + 1
     out = bridge(x)
     _assert_bridge_output(bridge, out, num_tokens)
+
+
+def test_conv_abstractor_forward_pure_square():
+    """Defensive branch: a plain square patch count (no leading token) must
+    also work, e.g. if image_size/patch_size ever changes upstream."""
+    bridge = ConvAbstractorBridge(vision_dim=VISION_DIM, hidden_dim=HIDDEN_DIM,
+                                   num_tokens=9, num_resblocks=1, internal_dim=64)
+    x = torch.randn(BATCH, 576, VISION_DIM)  # 576 = 24x24, no +1
+    out = bridge(x)
+    _assert_bridge_output(bridge, out, 9)
 
 
 def test_conv_abstractor_rejects_non_square_num_tokens():
@@ -107,10 +125,11 @@ def test_conv_abstractor_rejects_non_square_num_tokens():
 
 
 def test_conv_abstractor_rejects_non_square_patch_grid():
-    """Multi-tile foot-gun: T*1024 patches (T>1) is only square for square T --
-    this must fail loudly at forward(), not silently reshape into garbage."""
+    """Multi-tile foot-gun: T*577 patches (T>1) is neither a perfect square nor
+    square+1 for T=2 (1154) -- this must fail loudly at forward(), not silently
+    reshape into garbage."""
     bridge = ConvAbstractorBridge(num_tokens=9, num_resblocks=1, internal_dim=64)
-    two_tiles = torch.randn(BATCH, 2 * NUM_PATCHES, VISION_DIM)  # 2048 patches, not a perfect square
+    two_tiles = torch.randn(BATCH, 2 * NUM_PATCHES, VISION_DIM)  # 1154 patches
     with pytest.raises(ValueError, match="square patch grid"):
         bridge(two_tiles)
 

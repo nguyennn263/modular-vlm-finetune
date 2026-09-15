@@ -1411,6 +1411,69 @@
       "align": "logit",
       "lora": null,
       "lora_targets": null
+    },
+    "toksweep:tok4": {
+      "account": "acc16",
+      "kernel": "nguynrichard/mvlm-toksweep-tok4",
+      "status": "done",
+      "pushed_at": "2026-09-14T23:00:20",
+      "collected": true,
+      "label": "tok4",
+      "num_tokens": 4
+    },
+    "toksweep:tok6": {
+      "account": "acc14",
+      "kernel": "nguyendinhdoanh/mvlm-toksweep-tok6",
+      "status": "done",
+      "pushed_at": "2026-09-14T23:00:25",
+      "collected": true,
+      "label": "tok6",
+      "num_tokens": 6
+    },
+    "toksweep:tok10": {
+      "account": "acc11",
+      "kernel": "chalicetrncthnh/mvlm-toksweep-tok10",
+      "status": "done",
+      "pushed_at": "2026-09-14T23:00:30",
+      "collected": true,
+      "label": "tok10",
+      "num_tokens": 10
+    },
+    "toksweep:tok12": {
+      "account": "acc12",
+      "kernel": "kffddk/mvlm-toksweep-tok12",
+      "status": "done",
+      "pushed_at": "2026-09-14T23:00:35",
+      "collected": true,
+      "label": "tok12",
+      "num_tokens": 12
+    },
+    "poolabl:mean": {
+      "account": "acc13",
+      "kernel": "avanrager/mvlm-poolabl-mean",
+      "status": "done",
+      "pushed_at": "2026-09-14T23:00:44",
+      "collected": true,
+      "label": "mean",
+      "bridge_type": "patch_pool_mean"
+    },
+    "poolabl:max": {
+      "account": "acc7",
+      "kernel": "tinquc220300nguyn/mvlm-poolabl-max",
+      "status": "done",
+      "pushed_at": "2026-09-14T23:00:49",
+      "collected": true,
+      "label": "max",
+      "bridge_type": "patch_pool_max"
+    },
+    "convabs:m9": {
+      "account": "acc8",
+      "kernel": "lelynhan/mvlm-convabs-m9",
+      "status": "done",
+      "pushed_at": "2026-09-14T23:00:57",
+      "collected": true,
+      "label": "m9",
+      "num_tokens": 9
     }
   }
 }

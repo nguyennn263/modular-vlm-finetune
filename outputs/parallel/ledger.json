@@ -1474,6 +1474,66 @@
       "collected": true,
       "label": "m9",
       "num_tokens": 9
+    },
+    "toksweep:tok14": {
+      "account": "acc12",
+      "kernel": "kffddk/mvlm-toksweep-tok14",
+      "status": "running",
+      "pushed_at": "2026-09-15T20:41:23",
+      "collected": false,
+      "label": "tok14",
+      "num_tokens": 14,
+      "seed": 42
+    },
+    "toksweep:tok16": {
+      "account": "acc11",
+      "kernel": "chalicetrncthnh/mvlm-toksweep-tok16",
+      "status": "running",
+      "pushed_at": "2026-09-15T22:10:41",
+      "collected": false,
+      "label": "tok16",
+      "num_tokens": 16,
+      "seed": 42
+    },
+    "toksweep:tok10-s123": {
+      "account": "acc13",
+      "kernel": "avanrager/mvlm-toksweep-tok10-s123",
+      "status": "running",
+      "pushed_at": "2026-09-15T22:10:43",
+      "collected": false,
+      "label": "tok10-s123",
+      "num_tokens": 10,
+      "seed": 123
+    },
+    "toksweep:tok10-s3407": {
+      "account": "acc7",
+      "kernel": "tinquc220300nguyn/mvlm-toksweep-tok10-s3407",
+      "status": "running",
+      "pushed_at": "2026-09-15T22:10:45",
+      "collected": false,
+      "label": "tok10-s3407",
+      "num_tokens": 10,
+      "seed": 3407
+    },
+    "toksweep:tok12-s123": {
+      "account": "acc8",
+      "kernel": "lelynhan/mvlm-toksweep-tok12-s123",
+      "status": "running",
+      "pushed_at": "2026-09-15T22:10:47",
+      "collected": false,
+      "label": "tok12-s123",
+      "num_tokens": 12,
+      "seed": 123
+    },
+    "toksweep:tok12-s3407": {
+      "account": "acc9",
+      "kernel": "masalamohammad/mvlm-toksweep-tok12-s3407",
+      "status": "running",
+      "pushed_at": "2026-09-15T22:10:49",
+      "collected": false,
+      "label": "tok12-s3407",
+      "num_tokens": 12,
+      "seed": 3407
     }
   }
 }

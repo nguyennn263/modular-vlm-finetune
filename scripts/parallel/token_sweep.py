@@ -89,6 +89,11 @@ def cmd_collect() -> None:
         if not job.startswith("toksweep:") or j.get("status") == "done":
             continue
         st = _kaggle(j["account"], "kernels", "status", j["kernel"], check=False)
+        if "CANCEL_ACKNOWLEDGED" in st or "ERROR" in st:
+            # explicit tag -- "CANCEL"/"ERROR" got buried inside the generic
+            # [wait] line's truncated text often enough to be misread as still
+            # RUNNING across several polling cycles (12h Kaggle session cap).
+            print(f"[CANCELLED] {job}: {st.strip()[:80]} -- needs relaunch"); continue
         if "COMPLETE" not in st:
             print(f"[wait] {job}: {st.strip()[:60]}"); continue
         dst = out_root / j["label"]

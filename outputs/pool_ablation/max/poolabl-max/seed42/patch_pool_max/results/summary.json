@@ -1,0 +1,19 @@
+{
+  "experiment": "patch_pool_max",
+  "best_val_loss": 1.6732189815878693,
+  "best_model_path": "/kaggle/working/poolabl-max/seed42/patch_pool_max/best_model.pt",
+  "global_step": 6444,
+  "training_duration": "4:59:02.171322",
+  "training_duration_hours": 4.983936478333333,
+  "epochs_trained": 2,
+  "batch_size": 8,
+  "learning_rate": 0.0002,
+  "early_stopping_enabled": false,
+  "results_files": {
+    "epoch_results": "/kaggle/working/poolabl-max/seed42/patch_pool_max/results/epoch_results.csv",
+    "training_logs": "/kaggle/working/poolabl-max/seed42/patch_pool_max/results/training_20260914_160558.log",
+    "summary": "/kaggle/working/poolabl-max/seed42/patch_pool_max/results/summary.json",
+    "text_metrics_all_epochs": "/kaggle/working/poolabl-max/seed42/patch_pool_max/results/text_metrics_all_epochs.jsonl",
+    "metrics_summary": "/kaggle/working/poolabl-max/seed42/patch_pool_max/results/final_metrics_summary.json"
+  }
+}

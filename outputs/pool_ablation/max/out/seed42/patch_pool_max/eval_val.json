@@ -1,0 +1,20 @@
+{
+  "split": "val",
+  "n": 5463,
+  "bridge": "patch_pool_max",
+  "n_tiles": 1,
+  "checkpoint": "/kaggle/working/poolabl-max/seed42/patch_pool_max/last_model.pt",
+  "loss": 1.6703805637765419,
+  "num_samples": 5463,
+  "perplexity": 5.314189910888672,
+  "accuracy": 0.010616877173714076,
+  "exact_match": 0.012630422844590884,
+  "bleu": 0.04584756463550208,
+  "rouge_l": 0.30424683206560826,
+  "meteor": 0.3252697909755549,
+  "cider": 0.6083947980138905,
+  "precision": 0.3006080249641376,
+  "recall": 0.5186718919008869,
+  "f1": 0.35710507680496645,
+  "wups": 0.010616877173714076
+}

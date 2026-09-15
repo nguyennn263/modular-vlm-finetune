@@ -1,0 +1,20 @@
+{
+  "split": "val",
+  "n": 5463,
+  "bridge": "multi_token",
+  "n_tiles": 1,
+  "checkpoint": "/kaggle/working/toksweep-tok10/seed42/multi_token/last_model.pt",
+  "loss": 1.4806335870978335,
+  "num_samples": 5463,
+  "perplexity": 4.395730018615723,
+  "accuracy": 0.0832875709317225,
+  "exact_match": 0.08658246384770273,
+  "bleu": 0.1570954310050315,
+  "rouge_l": 0.48241675330532025,
+  "meteor": 0.4047578050949015,
+  "cider": 0.9698027618841896,
+  "precision": 0.5092677320848654,
+  "recall": 0.5171613892646292,
+  "f1": 0.5006255918627579,
+  "wups": 0.0832875709317225
+}

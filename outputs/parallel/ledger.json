@@ -1757,6 +1757,50 @@
       "num_tokens": 14,
       "seed": 3407,
       "phase": "train"
+    },
+    "toksweep-train:tok18-s123": {
+      "account": "acc2",
+      "kernel": "nguyennn2501/mvlm-toksweep-tok18-s123",
+      "status": "running",
+      "pushed_at": "2026-09-19T17:39:08",
+      "collected": false,
+      "label": "tok18-s123",
+      "num_tokens": 18,
+      "seed": 123,
+      "phase": "train"
+    },
+    "toksweep-train:tok18-s3407": {
+      "account": "acc10",
+      "kernel": "giapht/mvlm-toksweep-tok18-s3407",
+      "status": "running",
+      "pushed_at": "2026-09-19T17:39:10",
+      "collected": false,
+      "label": "tok18-s3407",
+      "num_tokens": 18,
+      "seed": 3407,
+      "phase": "train"
+    },
+    "toksweep-train:tok20-s123": {
+      "account": "acc11",
+      "kernel": "chalicetrncthnh/mvlm-toksweep-tok20-s123",
+      "status": "running",
+      "pushed_at": "2026-09-19T17:39:11",
+      "collected": false,
+      "label": "tok20-s123",
+      "num_tokens": 20,
+      "seed": 123,
+      "phase": "train"
+    },
+    "toksweep-train:tok20-s3407": {
+      "account": "acc15",
+      "kernel": "duongcubu/mvlm-toksweep-tok20-s3407",
+      "status": "running",
+      "pushed_at": "2026-09-19T17:39:13",
+      "collected": false,
+      "label": "tok20-s3407",
+      "num_tokens": 20,
+      "seed": 3407,
+      "phase": "train"
     }
   }
 }

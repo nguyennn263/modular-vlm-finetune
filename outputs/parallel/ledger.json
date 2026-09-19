@@ -1735,6 +1735,28 @@
       "num_tokens": 20,
       "seed": 42,
       "phase": "train"
+    },
+    "toksweep-train:tok14-s123": {
+      "account": "acc8",
+      "kernel": "lelynhan/mvlm-toksweep-tok14-s123",
+      "status": "running",
+      "pushed_at": "2026-09-19T17:36:54",
+      "collected": false,
+      "label": "tok14-s123",
+      "num_tokens": 14,
+      "seed": 123,
+      "phase": "train"
+    },
+    "toksweep-train:tok14-s3407": {
+      "account": "acc9",
+      "kernel": "masalamohammad/mvlm-toksweep-tok14-s3407",
+      "status": "running",
+      "pushed_at": "2026-09-19T17:36:55",
+      "collected": false,
+      "label": "tok14-s3407",
+      "num_tokens": 14,
+      "seed": 3407,
+      "phase": "train"
     }
   }
 }

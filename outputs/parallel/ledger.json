@@ -1476,64 +1476,188 @@
       "num_tokens": 9
     },
     "toksweep:tok14": {
-      "account": "acc12",
-      "kernel": "kffddk/mvlm-toksweep-tok14",
+      "account": "acc6",
+      "kernel": "knull0d/mvlm-toksweep-tok14",
       "status": "running",
-      "pushed_at": "2026-09-15T20:41:23",
+      "pushed_at": "2026-09-16T10:41:05",
       "collected": false,
       "label": "tok14",
       "num_tokens": 14,
       "seed": 42
     },
     "toksweep:tok16": {
-      "account": "acc11",
-      "kernel": "chalicetrncthnh/mvlm-toksweep-tok16",
+      "account": "acc10",
+      "kernel": "giapht/mvlm-toksweep-tok16",
       "status": "running",
-      "pushed_at": "2026-09-15T22:10:41",
+      "pushed_at": "2026-09-16T10:41:07",
       "collected": false,
       "label": "tok16",
       "num_tokens": 16,
       "seed": 42
     },
     "toksweep:tok10-s123": {
-      "account": "acc13",
-      "kernel": "avanrager/mvlm-toksweep-tok10-s123",
+      "account": "acc1",
+      "kernel": "nguyennn263/mvlm-toksweep-tok10-s123",
       "status": "running",
-      "pushed_at": "2026-09-15T22:10:43",
+      "pushed_at": "2026-09-16T10:41:08",
       "collected": false,
       "label": "tok10-s123",
       "num_tokens": 10,
       "seed": 123
     },
     "toksweep:tok10-s3407": {
-      "account": "acc7",
-      "kernel": "tinquc220300nguyn/mvlm-toksweep-tok10-s3407",
+      "account": "acc16",
+      "kernel": "nguynrichard/mvlm-toksweep-tok10-s3407",
       "status": "running",
-      "pushed_at": "2026-09-15T22:10:45",
+      "pushed_at": "2026-09-16T10:41:10",
       "collected": false,
       "label": "tok10-s3407",
       "num_tokens": 10,
       "seed": 3407
     },
     "toksweep:tok12-s123": {
-      "account": "acc8",
-      "kernel": "lelynhan/mvlm-toksweep-tok12-s123",
+      "account": "acc14",
+      "kernel": "nguyendinhdoanh/mvlm-toksweep-tok12-s123",
       "status": "running",
-      "pushed_at": "2026-09-15T22:10:47",
+      "pushed_at": "2026-09-16T10:41:12",
       "collected": false,
       "label": "tok12-s123",
       "num_tokens": 12,
       "seed": 123
     },
     "toksweep:tok12-s3407": {
-      "account": "acc9",
-      "kernel": "masalamohammad/mvlm-toksweep-tok12-s3407",
+      "account": "acc3",
+      "kernel": "nguyennn2603/mvlm-toksweep-tok12-s3407",
       "status": "running",
-      "pushed_at": "2026-09-15T22:10:49",
+      "pushed_at": "2026-09-16T10:41:14",
       "collected": false,
       "label": "tok12-s3407",
       "num_tokens": 12,
       "seed": 3407
+    },
+    "toksweep-eval:tok4": {
+      "account": "acc16",
+      "kernel": "nguynrichard/mvlm-toksweep-tok4",
+      "status": "done",
+      "pushed_at": "2026-09-14T23:00:20",
+      "collected": true,
+      "label": "tok4",
+      "num_tokens": 4
+    },
+    "toksweep-eval:tok6": {
+      "account": "acc14",
+      "kernel": "nguyendinhdoanh/mvlm-toksweep-tok6",
+      "status": "done",
+      "pushed_at": "2026-09-14T23:00:25",
+      "collected": true,
+      "label": "tok6",
+      "num_tokens": 6
+    },
+    "toksweep-eval:tok10": {
+      "account": "acc11",
+      "kernel": "chalicetrncthnh/mvlm-toksweep-tok10",
+      "status": "done",
+      "pushed_at": "2026-09-14T23:00:30",
+      "collected": true,
+      "label": "tok10",
+      "num_tokens": 10
+    },
+    "toksweep-eval:tok12": {
+      "account": "acc12",
+      "kernel": "kffddk/mvlm-toksweep-tok12",
+      "status": "done",
+      "pushed_at": "2026-09-14T23:00:35",
+      "collected": true,
+      "label": "tok12",
+      "num_tokens": 12
+    },
+    "toksweep-train:tok14": {
+      "account": "acc6",
+      "kernel": "recovered-from-cancelled-kernel",
+      "status": "done",
+      "pushed_at": "2026-09-17T09:36:19",
+      "collected": false,
+      "label": "tok14",
+      "num_tokens": 14,
+      "seed": 42,
+      "phase": "train"
+    },
+    "toksweep-eval:tok14": {
+      "account": "acc1",
+      "kernel": "nguyennn263/mvlm-toksweep-eval-tok14",
+      "status": "done",
+      "pushed_at": "2026-09-17T12:53:56",
+      "collected": true,
+      "label": "tok14",
+      "num_tokens": 14,
+      "seed": 42,
+      "phase": "eval"
+    },
+    "toksweep-train:tok16": {
+      "account": "acc1",
+      "kernel": "nguyennn263/mvlm-toksweep-tok16",
+      "status": "running",
+      "pushed_at": "2026-09-18T01:36:42",
+      "collected": false,
+      "label": "tok16",
+      "num_tokens": 16,
+      "seed": 42,
+      "phase": "train"
+    },
+    "toksweep-train:tok10-s123": {
+      "account": "acc4",
+      "kernel": "nguyennn251/mvlm-toksweep-tok10-s123",
+      "status": "running",
+      "pushed_at": "2026-09-18T01:36:44",
+      "collected": false,
+      "label": "tok10-s123",
+      "num_tokens": 10,
+      "seed": 123,
+      "phase": "train"
+    },
+    "toksweep-train:tok10-s3407": {
+      "account": "acc4",
+      "kernel": "nguyennn251/mvlm-toksweep-tok10-s3407",
+      "status": "done",
+      "pushed_at": "2026-09-17T09:36:35",
+      "collected": false,
+      "label": "tok10-s3407",
+      "num_tokens": 10,
+      "seed": 3407,
+      "phase": "train"
+    },
+    "toksweep-train:tok12-s123": {
+      "account": "acc14",
+      "kernel": "nguyendinhdoanh/mvlm-toksweep-tok12-s123",
+      "status": "running",
+      "pushed_at": "2026-09-18T01:36:10",
+      "collected": false,
+      "label": "tok12-s123",
+      "num_tokens": 12,
+      "seed": 123,
+      "phase": "train"
+    },
+    "toksweep-eval:tok10-s3407": {
+      "account": "acc4",
+      "kernel": "nguyennn251/mvlm-toksweep-eval-tok10-s3407",
+      "status": "done",
+      "pushed_at": "2026-09-18T01:31:09",
+      "collected": true,
+      "label": "tok10-s3407",
+      "num_tokens": 10,
+      "seed": 3407,
+      "phase": "eval"
+    },
+    "toksweep-train:tok12-s3407": {
+      "account": "acc16",
+      "kernel": "nguynrichard/mvlm-toksweep-tok12-s3407",
+      "status": "running",
+      "pushed_at": "2026-09-18T01:36:12",
+      "collected": false,
+      "label": "tok12-s3407",
+      "num_tokens": 12,
+      "seed": 3407,
+      "phase": "train"
     }
   }
 }

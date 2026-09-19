@@ -34,6 +34,13 @@ SPECS = [
     ("tok14", 14, 42), ("tok16", 16, 42),
     ("tok10-s123", 10, 123), ("tok10-s3407", 10, 3407),
     ("tok12-s123", 12, 123), ("tok12-s3407", 12, 3407),
+    # Round 3 (2026-09-19, quota reset -> 14 accounts idle at 30h): 3-seed
+    # confirm tok16 (matches tok10/tok12's treatment) + push the sweep
+    # further to 18/20 since 14->16 hadn't shown a plateau yet when this was
+    # launched. All run in parallel with everything else -- zero extra
+    # wall-clock cost, quota was the only constraint and it just reset.
+    ("tok16-s123", 16, 123), ("tok16-s3407", 16, 3407),
+    ("tok18", 18, 42), ("tok20", 20, 42),
 ]
 # top-quota-remaining accounts as of 2026-09-15 (excludes acc2/acc15, exhausted).
 # Round-1 accounts (acc16/14/11/12) are free again -- their jobs finished.

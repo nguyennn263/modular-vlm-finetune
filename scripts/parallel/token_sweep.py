@@ -42,7 +42,14 @@ SPECS = [
     ("tok16-s123", 16, 123), ("tok16-s3407", 16, 3407),
     ("tok18", 18, 42), ("tok20", 20, 42),
     ("tok14-s123", 14, 123), ("tok14-s3407", 14, 3407),  # same 3-seed treatment as 10/12/16
+    ("tok18-s123", 18, 123), ("tok18-s3407", 18, 3407),
+    ("tok20-s123", 20, 123), ("tok20-s3407", 20, 3407),  # 18/20 also 3-seed now
 ]
+# 18/14 accounts now in flight (acc2/acc15, previously assumed permanently
+# exhausted from unrelated Vintern-FT work, turned out to also be on the same
+# weekly reset -- fully idle at 30h too, found by rechecking quota rather
+# than assuming). acc12/acc13 held in reserve for relaunching whatever the
+# confirmed-recurring Kaggle slowdown cancels next.
 # 10/14 accounts now in flight as of this round-3 spam-launch; acc10-13 kept
 # in reserve for relaunching whatever the confirmed-recurring Kaggle
 # slowdown cancels next, rather than opening yet more new sweep points.

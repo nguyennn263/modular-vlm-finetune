@@ -41,7 +41,11 @@ SPECS = [
     # wall-clock cost, quota was the only constraint and it just reset.
     ("tok16-s123", 16, 123), ("tok16-s3407", 16, 3407),
     ("tok18", 18, 42), ("tok20", 20, 42),
+    ("tok14-s123", 14, 123), ("tok14-s3407", 14, 3407),  # same 3-seed treatment as 10/12/16
 ]
+# 10/14 accounts now in flight as of this round-3 spam-launch; acc10-13 kept
+# in reserve for relaunching whatever the confirmed-recurring Kaggle
+# slowdown cancels next, rather than opening yet more new sweep points.
 # top-quota-remaining accounts as of 2026-09-15 (excludes acc2/acc15, exhausted).
 # Round-1 accounts (acc16/14/11/12) are free again -- their jobs finished.
 ACCS = ["acc6", "acc10", "acc16", "acc14", "acc12", "acc11", "acc13", "acc7", "acc8", "acc9"]

@@ -1860,9 +1860,9 @@
     "toksweep-eval:tok18-s123": {
       "account": "acc5",
       "kernel": "nguyennguyen263/mvlm-toksweep-eval-tok18-s123",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-20T18:23:01",
-      "collected": false,
+      "collected": true,
       "label": "tok18-s123",
       "num_tokens": 18,
       "seed": 123,
@@ -1871,9 +1871,9 @@
     "toksweep-eval:tok20-s123": {
       "account": "acc7",
       "kernel": "tinquc220300nguyn/mvlm-toksweep-eval-tok20-s123",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-20T18:28:04",
-      "collected": false,
+      "collected": true,
       "label": "tok20-s123",
       "num_tokens": 20,
       "seed": 123,

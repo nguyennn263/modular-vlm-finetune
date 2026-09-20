@@ -36,8 +36,8 @@ LoRA), 2 epoch, cùng protocol với Exp A gốc. `n=8` đã có sẵn 4-seed Ex
 | 12 | 50.27 | 49.99 | 50.43 | **50.23** | 0.22 | 3 |
 | 14 | 50.68 | 50.76 | *đang chạy* | 50.72 | 0.06 | 2/3 |
 | 16 | 50.95 | *đang chạy* | 50.51 | 50.73 | 0.31 | 2/3 |
-| 18 | *đang chạy* | *đang chạy* | 51.30 | 51.30 | — | 1/3 |
-| 20 | 50.85 | *đang chạy* | *đang chạy* | 50.85 | — | 1/3 |
+| 18 | *đang chạy* | 50.51 | 51.30 | 50.91 | 0.56 | 2/3 |
+| 20 | 50.85 | 50.98 | *đang chạy* | 50.92 | 0.09 | 2/3 |
 
 *(F1 ×100. CIDEr theo cùng thang trong log commit, không tách riêng ở đây —
 xem `outputs/token_sweep/tok*/eval/out/eval_val.json` cho số đầy đủ.)*
@@ -46,13 +46,15 @@ xem `outputs/token_sweep/tok*/eval/out/eval_val.json` cho số đầy đủ.)*
 
 1. **`n=8` chắc chắn không phải điểm tối ưu.** Mọi n≥10 đều vượt baseline
    49.55±0.07, kể cả sau khi lấy mean 3-seed (không phải nhiễu 1-seed).
-2. **Xu hướng KHÔNG tăng vô hạn — có dấu hiệu plateau quanh n=14-16.**
-   Mean 2-seed của n=14 (50.72) và n=16 (50.73) gần như bằng nhau — khác hẳn
-   ấn tượng "tăng đơn điệu" nhìn thấy ở dữ liệu 1-seed ban đầu (48.85 → 50.95
-   không có đỉnh). Đây là lý do vì sao phải chạy multi-seed trước khi kết
-   luận trend, không chỉ nhìn 1 điểm/n.
-3. n=18/20 vẫn cần 2 seed nữa mỗi bên để biết chắc: tiếp tục tăng nhẹ qua
-   plateau, hay chỉ dao động nhiễu quanh ~50.7-51.3.
+2. **Xu hướng có vẻ chững lại tạm thời quanh n=14-16 rồi nhích tiếp ở 18-20**
+   — không đơn giản là "tăng đơn điệu" như ấn tượng ban đầu từ dữ liệu 1-seed
+   (48.85 → 50.95 không đỉnh), nhưng cũng chưa hẳn là 1 plateau phẳng tuyệt
+   đối: mean 2-seed n=14 (50.72) ≈ n=16 (50.73), rồi n=18 (50.91) và n=20
+   (50.92) nhích cao hơn ~0.19. Chênh lệch này nhỏ, nằm gần mức nhiễu quan sát
+   được ở n=16 (std 0.31) — **chưa đủ seed để khẳng định chắc chắn** đây là xu
+   hướng tăng tiếp thật hay chỉ dao động ngẫu nhiên quanh ~50.7-50.9.
+3. n=14/18/20 mỗi cái còn thiếu 1 seed (3407 hoặc 42/123 tùy điểm) để đủ
+   3-seed đầy đủ, làm rõ bức tranh trên.
 4. **Không đổi recipe chính thức (giữ n=8)** — quyết định đã chốt với người
    dùng trước đó. Đây là ablation report-only cho advisor, không phải đề xuất
    đổi kiến trúc paper.

@@ -1750,7 +1750,7 @@
     "toksweep-train:tok14-s3407": {
       "account": "acc16",
       "kernel": "nguynrichard/mvlm-toksweep-tok14-s3407",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-20T18:29:00",
       "collected": false,
       "label": "tok14-s3407",
@@ -1922,6 +1922,28 @@
       "num_tokens": 16,
       "seed": 123,
       "phase": "train2"
+    },
+    "toksweep-eval:tok14-s3407": {
+      "account": "acc16",
+      "kernel": "nguynrichard/mvlm-toksweep-eval-tok14-s3407",
+      "status": "running",
+      "pushed_at": "2026-09-21T06:34:25",
+      "collected": false,
+      "label": "tok14-s3407",
+      "num_tokens": 14,
+      "seed": 3407,
+      "phase": "eval"
+    },
+    "toksweep-train1:tok18": {
+      "account": "acc11",
+      "kernel": "chalicetrncthnh/mvlm-toksweep-ep1-tok18",
+      "status": "running",
+      "pushed_at": "2026-09-21T06:34:56",
+      "collected": false,
+      "label": "tok18",
+      "num_tokens": 18,
+      "seed": 42,
+      "phase": "train1"
     }
   }
 }

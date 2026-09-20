@@ -1878,6 +1878,28 @@
       "num_tokens": 20,
       "seed": 123,
       "phase": "eval"
+    },
+    "toksweep-train1:tok16-s123": {
+      "account": "acc2",
+      "kernel": "nguyennn2501/mvlm-toksweep-ep1-tok16-s123",
+      "status": "running",
+      "pushed_at": "2026-09-20T18:40:09",
+      "collected": false,
+      "label": "tok16-s123",
+      "num_tokens": 16,
+      "seed": 123,
+      "phase": "train1"
+    },
+    "toksweep-train1:tok20-s3407": {
+      "account": "acc6",
+      "kernel": "knull0d/mvlm-toksweep-ep1-tok20-s3407",
+      "status": "running",
+      "pushed_at": "2026-09-20T18:40:11",
+      "collected": false,
+      "label": "tok20-s3407",
+      "num_tokens": 20,
+      "seed": 3407,
+      "phase": "train1"
     }
   }
 }

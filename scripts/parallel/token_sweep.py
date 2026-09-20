@@ -90,6 +90,67 @@ ACCS = ["acc6", "acc10", "acc16", "acc14", "acc12", "acc11", "acc13", "acc7", "a
 # works regardless of whether Kaggle's infra ever speeds back up.
 
 
+# Even the train-only split (2 epochs, no eval bundled) still cancels a
+# meaningful fraction of the time at the confirmed T4x2 pace (single-epoch
+# times observed 19509-23928s = 5.4-6.65h; 2 epochs can total ~11-13.3h,
+# occasionally over the 12h cap depending on per-run variance). Root cause
+# (2026-09-20): Kaggle retired the P100 on 2026-09-15 (confirmed via their
+# own "Sunsetting the NVIDIA Tesla P100 GPU" announcement) and switched
+# everyone to T4x2 -- this repo's trainer.py never uses more than 1 GPU
+# (`torch.device("cuda")` = cuda:0 only, no DataParallel/device_map
+# anywhere), so only 1 of the 2 T4s actually gets used, and that's evidently
+# slower than the old P100 for this workload. This is now PERMANENT (P100 is
+# gone), not a transient blip -- so split training itself per-epoch: each
+# session only needs to fit ONE epoch (~5.4-6.65h, comfortably under 12h
+# even at the worst observed single-epoch pace, with real margin), resuming
+# via the checkpoint's full state (epoch/global_step/optimizer/scheduler --
+# _ckpt_dict() saves all of it, verified in src/training/trainer.py) rather
+# than weights-only. This should make cancellations rare rather than common.
+
+
+def _cells_train1(label: str, n: int, seed: int, limit: int) -> list[dict]:
+    """Epoch 1/2 only. Bundles last_model.pt (full resumable state) for
+    _cells_train2 to pick up -- NOT the final checkpoint, do not eval this."""
+    ck = f"/kaggle/working/toksweep-{label}/seed{seed}"
+    limit_arg = f"--limit {limit} " if limit else ""
+    return [
+        _clone_cell(BRANCH),
+        _code("!bash setup_kaggle.sh 2>&1 | tail -5"),
+        _code("!python -c \"import torch; print('GPU count:', torch.cuda.device_count()); "
+              "print('GPU:', torch.cuda.get_device_name(0))\""),
+        _code("!python scripts/phase0_build_data.py 2>&1 | tail -6"),
+        _code(f"!python -m src.cli.train --bridge multi_token --bridge-num-tokens {n} "
+              f"--split-dir data/splits --seed {seed} --epochs 1 {limit_arg}"
+              f"--batch-size 8 --grad-accum 1 --eval-steps 800 --save-steps 800 "
+              f"--no-early-stopping --output-dir {ck}"),
+        _code(f"!mkdir -p /kaggle/working/out && cp -r {ck} /kaggle/working/out/ && "
+              "ls -R /kaggle/working/out | tail -20"),
+    ]
+
+
+def _cells_train2(label: str, n: int, seed: int, ds_id: str, limit: int) -> list[dict]:
+    """Resume from the epoch-1 checkpoint, train to epoch 2/2 (final). Mount
+    path and read-only-output_dir gotchas already solved for eval -- same
+    fixes apply here since --resume also reads from /kaggle/input/."""
+    ck = f"/kaggle/working/toksweep-{label}/seed{seed}"
+    limit_arg = f"--limit {limit} " if limit else ""
+    return [
+        _clone_cell(BRANCH),
+        _code("!bash setup_kaggle.sh 2>&1 | tail -5"),
+        _code("!python -c \"import torch; print('GPU count:', torch.cuda.device_count()); "
+              "print('GPU:', torch.cuda.get_device_name(0))\""),
+        _code("!python scripts/phase0_build_data.py 2>&1 | tail -6"),
+        _code(f"!python -m src.cli.train --bridge multi_token --bridge-num-tokens {n} "
+              f"--split-dir data/splits --seed {seed} --epochs 2 {limit_arg}"
+              f"--batch-size 8 --grad-accum 1 --eval-steps 800 --save-steps 800 "
+              f"--no-early-stopping --text-metrics-every 2 --text-metrics-max-samples 600 "
+              f"--resume /kaggle/input/datasets/{ds_id}/last_model.pt "
+              f"--output-dir {ck}"),
+        _code(f"!mkdir -p /kaggle/working/out && cp -r {ck} /kaggle/working/out/ && "
+              "ls -R /kaggle/working/out | tail -20"),
+    ]
+
+
 def _cells_train(label: str, n: int, seed: int, limit: int) -> list[dict]:
     ck = f"/kaggle/working/toksweep-{label}/seed{seed}"
     limit_arg = f"--limit {limit} " if limit else ""
@@ -204,7 +265,56 @@ def cmd_collect() -> None:
     out_root = ROOT / "outputs" / "token_sweep"
     out_root.mkdir(parents=True, exist_ok=True)
 
-    # phase 1: train jobs -> on COMPLETE, bundle checkpoint + launch eval job
+    # phase 1a: epoch-1-only jobs -> on COMPLETE, bundle + launch epoch-2 (resume)
+    for job, j in list(led["jobs"].items()):
+        if not job.startswith("toksweep-train1:") or j.get("status") == "done":
+            continue
+        label = j["label"]
+        st = _kaggle(j["account"], "kernels", "status", j["kernel"], check=False)
+        if "CANCEL_ACKNOWLEDGED" in st or "ERROR" in st:
+            print(f"[CANCELLED] {job}: {st.strip()[:80]} -- needs relaunch"); continue
+        if "COMPLETE" not in st:
+            print(f"[wait] {job}: {st.strip()[:60]}"); continue
+        dst = out_root / label / "train1"
+        _kaggle(j["account"], "kernels", "output", j["kernel"], "-p", str(dst), check=False)
+        pt = next(dst.rglob("last_model.pt"), None)
+        if not pt:
+            print(f"[partial] {job}: epoch-1 COMPLETE but no last_model.pt in {dst}"); continue
+        j["status"] = "done"
+        ds_id = _bundle_ckpt(j["account"], f"{label}-ep1", pt)
+        time.sleep(90)  # dataset processing delay, same as the eval bundle step
+        train2_job = f"toksweep-train2:{label}"
+        acc = j["account"]  # same-account rule applies here too (see _cells_eval note)
+        kid = _push_worker(acc, f"mvlm-toksweep-ep2-{label}", _cells_train2(label, j["num_tokens"], j["seed"], ds_id, 0), ds_id)
+        _register(led, train2_job, acc, kid, {"label": label, "num_tokens": j["num_tokens"], "seed": j.get("seed"), "phase": "train2"})
+        print(f"[ok] {job} epoch1 done -> bundled -> launched {train2_job} ({kid})")
+
+    # phase 1b: epoch-2 (resumed, final) jobs -> on COMPLETE, bundle final checkpoint + launch eval
+    for job, j in list(led["jobs"].items()):
+        if not job.startswith("toksweep-train2:") or j.get("status") == "done":
+            continue
+        label = j["label"]
+        st = _kaggle(j["account"], "kernels", "status", j["kernel"], check=False)
+        if "CANCEL_ACKNOWLEDGED" in st or "ERROR" in st:
+            print(f"[CANCELLED] {job}: {st.strip()[:80]} -- needs relaunch"); continue
+        if "COMPLETE" not in st:
+            print(f"[wait] {job}: {st.strip()[:60]}"); continue
+        dst = out_root / label / "train2"
+        _kaggle(j["account"], "kernels", "output", j["kernel"], "-p", str(dst), check=False)
+        pt = next(dst.rglob("last_model.pt"), None)
+        if not pt:
+            print(f"[partial] {job}: epoch-2 COMPLETE but no last_model.pt in {dst}"); continue
+        j["status"] = "done"
+        ds_id = _bundle_ckpt(j["account"], label, pt)
+        time.sleep(90)
+        eval_job = f"toksweep-eval:{label}"
+        acc = j["account"]
+        kid = _push_worker(acc, f"mvlm-toksweep-eval-{label}", _cells_eval(label, j["num_tokens"], j["seed"], ds_id, 0), ds_id)
+        _register(led, eval_job, acc, kid, {"label": label, "num_tokens": j["num_tokens"], "seed": j.get("seed"), "phase": "eval"})
+        print(f"[ok] {job} epoch2 (final) done -> bundled -> launched {eval_job} ({kid})")
+
+    # phase 1 (legacy, single 2-epoch session): still-running jobs launched
+    # before the epoch-split existed -- keep handling them until they drain.
     for job, j in list(led["jobs"].items()):
         if not job.startswith("toksweep-train:") or j.get("status") == "done":
             continue

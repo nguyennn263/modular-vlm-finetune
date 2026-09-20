@@ -1882,7 +1882,7 @@
     "toksweep-train1:tok16-s123": {
       "account": "acc2",
       "kernel": "nguyennn2501/mvlm-toksweep-ep1-tok16-s123",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-20T18:40:09",
       "collected": false,
       "label": "tok16-s123",
@@ -1910,6 +1910,17 @@
       "label": "tok20-s3407",
       "num_tokens": 20,
       "seed": 3407,
+      "phase": "train2"
+    },
+    "toksweep-train2:tok16-s123": {
+      "account": "acc2",
+      "kernel": "nguyennn2501/mvlm-toksweep-ep2-tok16-s123",
+      "status": "running",
+      "pushed_at": "2026-09-21T02:32:52",
+      "collected": false,
+      "label": "tok16-s123",
+      "num_tokens": 16,
+      "seed": 123,
       "phase": "train2"
     }
   }

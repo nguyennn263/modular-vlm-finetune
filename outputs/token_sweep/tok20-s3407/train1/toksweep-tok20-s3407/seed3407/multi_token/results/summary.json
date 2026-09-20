@@ -1,0 +1,19 @@
+{
+  "experiment": "multi_token",
+  "best_val_loss": 1.4947351705975622,
+  "best_model_path": "/kaggle/working/toksweep-tok20-s3407/seed3407/multi_token/best_model.pt",
+  "global_step": 3222,
+  "training_duration": "6:35:43.955634",
+  "training_duration_hours": 6.595543231666667,
+  "epochs_trained": 1,
+  "batch_size": 8,
+  "learning_rate": 0.0002,
+  "early_stopping_enabled": false,
+  "results_files": {
+    "epoch_results": "/kaggle/working/toksweep-tok20-s3407/seed3407/multi_token/results/epoch_results.csv",
+    "training_logs": "/kaggle/working/toksweep-tok20-s3407/seed3407/multi_token/results/training_20260920_114526.log",
+    "summary": "/kaggle/working/toksweep-tok20-s3407/seed3407/multi_token/results/summary.json",
+    "text_metrics_all_epochs": "/kaggle/working/toksweep-tok20-s3407/seed3407/multi_token/results/text_metrics_all_epochs.jsonl",
+    "metrics_summary": "/kaggle/working/toksweep-tok20-s3407/seed3407/multi_token/results/final_metrics_summary.json"
+  }
+}

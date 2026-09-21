@@ -1904,7 +1904,7 @@
     "toksweep-train2:tok20-s3407": {
       "account": "acc6",
       "kernel": "knull0d/mvlm-toksweep-ep2-tok20-s3407",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-21T01:28:43",
       "collected": false,
       "label": "tok20-s3407",
@@ -1944,6 +1944,17 @@
       "num_tokens": 18,
       "seed": 42,
       "phase": "train1"
+    },
+    "toksweep-eval:tok20-s3407": {
+      "account": "acc6",
+      "kernel": "knull0d/mvlm-toksweep-eval-tok20-s3407",
+      "status": "running",
+      "pushed_at": "2026-09-21T07:39:45",
+      "collected": false,
+      "label": "tok20-s3407",
+      "num_tokens": 20,
+      "seed": 3407,
+      "phase": "eval"
     }
   }
 }

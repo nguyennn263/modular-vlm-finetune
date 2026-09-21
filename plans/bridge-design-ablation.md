@@ -34,10 +34,10 @@ LoRA), 2 epoch, cùng protocol với Exp A gốc. `n=8` đã có sẵn 4-seed Ex
 | **8 (recipe hiện tại)** | — | — | — | **49.55** | 0.07 | 4 (Exp A) |
 | 10 | 50.06 | 50.11 | 49.81 | **49.99** | 0.16 | 3 |
 | 12 | 50.27 | 49.99 | 50.43 | **50.23** | 0.22 | 3 |
-| 14 | 50.68 | 50.76 | *đang chạy* | 50.72 | 0.06 | 2/3 |
+| 14 | 50.68 | 50.76 | 50.58 | **50.67** | 0.09 | 3 |
 | 16 | 50.95 | *đang chạy* | 50.51 | 50.73 | 0.31 | 2/3 |
 | 18 | *đang chạy* | 50.51 | 51.30 | 50.91 | 0.56 | 2/3 |
-| 20 | 50.85 | 50.98 | *đang chạy* | 50.92 | 0.09 | 2/3 |
+| 20 | 50.85 | 50.98 | 50.02 | **50.62** | 0.52 | 3 |
 
 *(F1 ×100. CIDEr theo cùng thang trong log commit, không tách riêng ở đây —
 xem `outputs/token_sweep/tok*/eval/out/eval_val.json` cho số đầy đủ.)*
@@ -46,15 +46,16 @@ xem `outputs/token_sweep/tok*/eval/out/eval_val.json` cho số đầy đủ.)*
 
 1. **`n=8` chắc chắn không phải điểm tối ưu.** Mọi n≥10 đều vượt baseline
    49.55±0.07, kể cả sau khi lấy mean 3-seed (không phải nhiễu 1-seed).
-2. **Xu hướng có vẻ chững lại tạm thời quanh n=14-16 rồi nhích tiếp ở 18-20**
-   — không đơn giản là "tăng đơn điệu" như ấn tượng ban đầu từ dữ liệu 1-seed
-   (48.85 → 50.95 không đỉnh), nhưng cũng chưa hẳn là 1 plateau phẳng tuyệt
-   đối: mean 2-seed n=14 (50.72) ≈ n=16 (50.73), rồi n=18 (50.91) và n=20
-   (50.92) nhích cao hơn ~0.19. Chênh lệch này nhỏ, nằm gần mức nhiễu quan sát
-   được ở n=16 (std 0.31) — **chưa đủ seed để khẳng định chắc chắn** đây là xu
-   hướng tăng tiếp thật hay chỉ dao động ngẫu nhiên quanh ~50.7-50.9.
-3. n=14/18/20 mỗi cái còn thiếu 1 seed (3407 hoặc 42/123 tùy điểm) để đủ
-   3-seed đầy đủ, làm rõ bức tranh trên.
+2. **Cập nhật quan trọng khi n=14 và n=20 đã đủ 3-seed đầy đủ: xu hướng
+   chững lại thật sự (plateau) từ khoảng n=14 trở đi**, không phải tiếp tục
+   tăng như dữ liệu bán phần trước đó gợi ý. Mean 3-seed: n=14=**50.67**,
+   n=20=**50.62** — n=20 thậm chí thấp hơn n=14 một chút, và cả 2 đều nằm
+   rất gần n=16's mean bán phần (50.73). Seed 3407 riêng của n=20 (F1=50.02)
+   kéo mean xuống đáng kể, khiến std của n=20 (0.52) cao hơn hẳn n=14 (0.09)
+   — dấu hiệu rõ n=18-20 đã vào vùng dao động nhiễu quanh ~50.6-50.9, không
+   còn tăng có ý nghĩa so với n=14.
+3. n=16 và n=18 mỗi cái còn thiếu 1 seed để đủ 3-seed đầy đủ, sẽ xác nhận
+   chắc chắn hơn bức tranh "plateau từ n=14" ở trên.
 4. **Không đổi recipe chính thức (giữ n=8)** — quyết định đã chốt với người
    dùng trước đó. Đây là ablation report-only cho advisor, không phải đề xuất
    đổi kiến trúc paper.

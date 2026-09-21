@@ -1959,9 +1959,9 @@
     "toksweep-eval:tok16-s123": {
       "account": "acc2",
       "kernel": "nguyennn2501/mvlm-toksweep-eval-tok16-s123",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-21T09:30:40",
-      "collected": false,
+      "collected": true,
       "label": "tok16-s123",
       "num_tokens": 16,
       "seed": 123,

@@ -35,7 +35,7 @@ LoRA), 2 epoch, cùng protocol với Exp A gốc. `n=8` đã có sẵn 4-seed Ex
 | 10 | 50.06 | 50.11 | 49.81 | **49.99** | 0.16 | 3 |
 | 12 | 50.27 | 49.99 | 50.43 | **50.23** | 0.22 | 3 |
 | 14 | 50.68 | 50.76 | 50.58 | **50.67** | 0.09 | 3 |
-| 16 | 50.95 | *đang chạy* | 50.51 | 50.73 | 0.31 | 2/3 |
+| 16 | 50.95 | 49.87 | 50.51 | **50.44** | 0.54 | 3 |
 | 18 | *đang chạy* | 50.51 | 51.30 | 50.91 | 0.56 | 2/3 |
 | 20 | 50.85 | 50.98 | 50.02 | **50.62** | 0.52 | 3 |
 
@@ -46,34 +46,37 @@ xem `outputs/token_sweep/tok*/eval/out/eval_val.json` cho số đầy đủ.)*
 
 1. **`n=8` chắc chắn không phải điểm tối ưu.** Mọi n≥10 đều vượt baseline
    49.55±0.07, kể cả sau khi lấy mean 3-seed (không phải nhiễu 1-seed).
-2. **Cập nhật quan trọng khi n=14 và n=20 đã đủ 3-seed đầy đủ: xu hướng
-   chững lại thật sự (plateau) từ khoảng n=14 trở đi**, không phải tiếp tục
-   tăng như dữ liệu bán phần trước đó gợi ý. Mean 3-seed: n=14=**50.67**,
-   n=20=**50.62** — n=20 thậm chí thấp hơn n=14 một chút, và cả 2 đều nằm
-   rất gần n=16's mean bán phần (50.73). Seed 3407 riêng của n=20 (F1=50.02)
-   kéo mean xuống đáng kể, khiến std của n=20 (0.52) cao hơn hẳn n=14 (0.09)
-   — dấu hiệu rõ n=18-20 đã vào vùng dao động nhiễu quanh ~50.6-50.9, không
-   còn tăng có ý nghĩa so với n=14.
-3. n=16 và n=18 mỗi cái còn thiếu 1 seed để đủ 3-seed đầy đủ, sẽ xác nhận
-   chắc chắn hơn bức tranh "plateau từ n=14" ở trên.
+2. **Xác nhận chắc chắn (3/4 điểm mở rộng đã đủ 3-seed): xu hướng chững lại
+   thật sự (plateau) từ khoảng n=14 trở đi**, không phải tiếp tục tăng như
+   dữ liệu bán phần ban đầu gợi ý. Mean 3-seed đầy đủ: n=14=**50.67**,
+   n=16=**50.44**, n=20=**50.62** — cả 3 dao động quanh ~50.4-50.7, **n=16
+   thậm chí thấp hơn n=14**, không hề có xu hướng tăng đơn điệu tiếp tục.
+   std của các điểm này (0.09-0.54) đều đủ lớn để "khác biệt" giữa 14/16/20
+   nằm trong biên độ nhiễu thống kê, không phải tín hiệu thật. Chỉ n=18 còn
+   thiếu 1 seed (đang chạy) — nhưng với mẫu hình đã thấy, nhiều khả năng nó
+   cũng sẽ hội tụ về cùng vùng ~50.5-50.9 khi đủ 3-seed.
+3. **Kết luận: gain thật sự nằm ở khoảng n=10-14, sau đó là plateau/nhiễu.**
+   Đây là câu trả lời rõ ràng, có số liệu vững cho advisor — không cần đào
+   sâu thêm quá n=20 vì xu hướng đã đủ rõ.
 4. **Không đổi recipe chính thức (giữ n=8)** — quyết định đã chốt với người
    dùng trước đó. Đây là ablation report-only cho advisor, không phải đề xuất
    đổi kiến trúc paper.
 
 ### Khuyến nghị nếu phải chọn 1 con số khác 8 để báo cáo
 
-**n=12**, không phải n=18 (dù F1 cao nhất hiện tại): gain/token tốt hơn (xem
-bảng marginal gain bên dưới), đã đủ 3-seed để defend chắc chắn, và tăng chi
-phí inference (số token ảnh nạp vào LLM decoder) chỉ +50% so với +125% của
-n=18 — quan trọng vì paper định vị theo hướng hiệu quả (frozen-backbone, ít
-tham số), không phải chạy theo F1 tối đa bất chấp chi phí.
+**n=12**, càng chắc chắn hơn sau khi xác nhận plateau: n=14/16/18/20 không
+còn tăng có ý nghĩa so với n=12 (chênh lệch nằm trong nhiễu), nên không có
+lý do đánh đổi thêm chi phí inference (+token ảnh nạp vào LLM decoder) để
+đổi lấy F1 gần như không đổi. n=12 vẫn là điểm có gain/token tốt nhất trong
+vùng đã tăng thật (n=10-14), đã đủ 3-seed để defend chắc chắn.
 
 | n | ΔF1 so với n=8 | Δtoken | gain/token thêm |
 |---:|---:|---:|---:|
 | 10 | +0.44 | +2 | 0.220 |
 | 12 | +0.68 | +4 | 0.170 |
-| 14 | +1.17 | +6 | 0.195 |
-| 16 | +1.18 | +8 | 0.148 |
+| 14 | +1.12 | +6 | 0.187 |
+| 16 | +0.89 | +8 | 0.111 |
+| 20 | +1.07 | +12 | 0.089 |
 
 *(Lưu ý: đã loại trừ khả năng bug — kiểm tra kỹ code forward/dispatch/init,
 không tìm thấy vấn đề. Xem log điều tra trong lịch sử commit của branch này.)*

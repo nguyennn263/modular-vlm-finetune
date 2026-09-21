@@ -1915,7 +1915,7 @@
     "toksweep-train2:tok16-s123": {
       "account": "acc2",
       "kernel": "nguyennn2501/mvlm-toksweep-ep2-tok16-s123",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-21T02:32:52",
       "collected": false,
       "label": "tok16-s123",
@@ -1926,9 +1926,9 @@
     "toksweep-eval:tok14-s3407": {
       "account": "acc16",
       "kernel": "nguynrichard/mvlm-toksweep-eval-tok14-s3407",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-21T06:34:25",
-      "collected": false,
+      "collected": true,
       "label": "tok14-s3407",
       "num_tokens": 14,
       "seed": 3407,
@@ -1948,12 +1948,23 @@
     "toksweep-eval:tok20-s3407": {
       "account": "acc6",
       "kernel": "knull0d/mvlm-toksweep-eval-tok20-s3407",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-21T07:39:45",
-      "collected": false,
+      "collected": true,
       "label": "tok20-s3407",
       "num_tokens": 20,
       "seed": 3407,
+      "phase": "eval"
+    },
+    "toksweep-eval:tok16-s123": {
+      "account": "acc2",
+      "kernel": "nguyennn2501/mvlm-toksweep-eval-tok16-s123",
+      "status": "running",
+      "pushed_at": "2026-09-21T09:30:40",
+      "collected": false,
+      "label": "tok16-s123",
+      "num_tokens": 16,
+      "seed": 123,
       "phase": "eval"
     }
   }

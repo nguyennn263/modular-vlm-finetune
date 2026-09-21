@@ -1970,13 +1970,24 @@
     "toksweep-train2:tok18": {
       "account": "acc11",
       "kernel": "chalicetrncthnh/mvlm-toksweep-ep2-tok18",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-21T16:11:15",
       "collected": false,
       "label": "tok18",
       "num_tokens": 18,
       "seed": 42,
       "phase": "train2"
+    },
+    "toksweep-eval:tok18": {
+      "account": "acc11",
+      "kernel": "chalicetrncthnh/mvlm-toksweep-eval-tok18",
+      "status": "running",
+      "pushed_at": "2026-09-22T03:27:13",
+      "collected": false,
+      "label": "tok18",
+      "num_tokens": 18,
+      "seed": 42,
+      "phase": "eval"
     }
   }
 }

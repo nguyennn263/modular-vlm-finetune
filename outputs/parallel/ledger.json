@@ -1981,9 +1981,9 @@
     "toksweep-eval:tok18": {
       "account": "acc1",
       "kernel": "nguyennn263/mvlm-toksweep-eval-tok18",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-22T03:29:47",
-      "collected": false,
+      "collected": true,
       "label": "tok18",
       "num_tokens": 18,
       "seed": 42,

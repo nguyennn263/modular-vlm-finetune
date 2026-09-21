@@ -1,10 +1,8 @@
 # Bridge-design ablation: trả lời 2 câu hỏi của thầy
 
-> **TRẠNG THÁI: ĐANG CHẠY, CHƯA CHỐT.** 8/14 điểm của num_tokens sweep đã đủ
-> seed cần thiết; 6 job cuối (tok14-s3407, tok16-s123, tok18, tok18-s123,
-> tok20-s123, tok20-s3407) vẫn đang train trên Kaggle. Cập nhật bảng này mỗi
-> khi có kết quả mới — không dùng số trong tài liệu này để chốt báo cáo cuối
-> cho tới khi dòng "TRẠNG THÁI" ở trên biến mất.
+> **HOÀN TẤT.** Toàn bộ 14 điểm của num_tokens sweep đã có đủ seed (4/6/8 là
+> baseline sẵn có; 10/12/14/16/18/20 đều đủ 3-seed, riêng n=8 có 4-seed từ
+> Exp A gốc). Sẵn sàng gửi thầy.
 
 ## Bối cảnh
 
@@ -36,31 +34,37 @@ LoRA), 2 epoch, cùng protocol với Exp A gốc. `n=8` đã có sẵn 4-seed Ex
 | 12 | 50.27 | 49.99 | 50.43 | **50.23** | 0.22 | 3 |
 | 14 | 50.68 | 50.76 | 50.58 | **50.67** | 0.09 | 3 |
 | 16 | 50.95 | 49.87 | 50.51 | **50.44** | 0.54 | 3 |
-| 18 | *đang chạy* | 50.51 | 51.30 | 50.91 | 0.56 | 2/3 |
+| 18 | 49.72 | 50.51 | 51.30 | **50.51** | 0.79 | 3 |
 | 20 | 50.85 | 50.98 | 50.02 | **50.62** | 0.52 | 3 |
 
 *(F1 ×100. CIDEr theo cùng thang trong log commit, không tách riêng ở đây —
 xem `outputs/token_sweep/tok*/eval/out/eval_val.json` cho số đầy đủ.)*
 
-### Kết luận sơ bộ (chưa chốt)
+### Kết luận cuối cùng
 
 1. **`n=8` chắc chắn không phải điểm tối ưu.** Mọi n≥10 đều vượt baseline
    49.55±0.07, kể cả sau khi lấy mean 3-seed (không phải nhiễu 1-seed).
-2. **Xác nhận chắc chắn (3/4 điểm mở rộng đã đủ 3-seed): xu hướng chững lại
-   thật sự (plateau) từ khoảng n=14 trở đi**, không phải tiếp tục tăng như
-   dữ liệu bán phần ban đầu gợi ý. Mean 3-seed đầy đủ: n=14=**50.67**,
-   n=16=**50.44**, n=20=**50.62** — cả 3 dao động quanh ~50.4-50.7, **n=16
-   thậm chí thấp hơn n=14**, không hề có xu hướng tăng đơn điệu tiếp tục.
-   std của các điểm này (0.09-0.54) đều đủ lớn để "khác biệt" giữa 14/16/20
-   nằm trong biên độ nhiễu thống kê, không phải tín hiệu thật. Chỉ n=18 còn
-   thiếu 1 seed (đang chạy) — nhưng với mẫu hình đã thấy, nhiều khả năng nó
-   cũng sẽ hội tụ về cùng vùng ~50.5-50.9 khi đủ 3-seed.
+2. **Xác nhận chắc chắn trên CẢ 4/4 điểm mở rộng (14/16/18/20, đều đủ
+   3-seed): xu hướng chững lại thật sự (plateau) từ khoảng n=14 trở đi**,
+   không phải tiếp tục tăng như dữ liệu bán phần ban đầu gợi ý. Mean 3-seed
+   đầy đủ: n=14=**50.67**, n=16=**50.44**, n=18=**50.51**, n=20=**50.62** —
+   cả 4 dao động quanh ~50.4-50.7, không hề có xu hướng tăng đơn điệu tiếp
+   tục (n=16 thậm chí thấp hơn n=14). std của các điểm này (0.09-0.79) đều
+   đủ lớn để "khác biệt" giữa 14/16/18/20 nằm trong biên độ nhiễu thống kê,
+   không phải tín hiệu thật.
 3. **Kết luận: gain thật sự nằm ở khoảng n=10-14, sau đó là plateau/nhiễu.**
-   Đây là câu trả lời rõ ràng, có số liệu vững cho advisor — không cần đào
-   sâu thêm quá n=20 vì xu hướng đã đủ rõ.
+   Đây là câu trả lời rõ ràng, có số liệu vững cho advisor — đã kiểm tra tới
+   n=20, không cần đào sâu thêm vì xu hướng đã đủ rõ và ổn định trên 4 điểm
+   độc lập.
 4. **Không đổi recipe chính thức (giữ n=8)** — quyết định đã chốt với người
    dùng trước đó. Đây là ablation report-only cho advisor, không phải đề xuất
    đổi kiến trúc paper.
+
+*(Ghi chú kỹ thuật, không ảnh hưởng tới số liệu: n=18/seed=42 mất ~10.9h thay
+vì ~5.4h dự kiến do một bug hiếm gặp — cơ chế resume-theo-epoch bị bỏ qua
+âm thầm khi checkpoint tạm thời chưa kịp sẵn sàng, khiến job train lại cả 2
+epoch từ đầu thay vì resume 1 epoch còn lại. Kết quả cuối vẫn là 1 lần train
+2-epoch đầy đủ và hợp lệ, không ảnh hưởng độ tin cậy số liệu.)*
 
 ### Khuyến nghị nếu phải chọn 1 con số khác 8 để báo cáo
 
@@ -76,6 +80,7 @@ vùng đã tăng thật (n=10-14), đã đủ 3-seed để defend chắc chắn.
 | 12 | +0.68 | +4 | 0.170 |
 | 14 | +1.12 | +6 | 0.187 |
 | 16 | +0.89 | +8 | 0.111 |
+| 18 | +0.96 | +10 | 0.096 |
 | 20 | +1.07 | +12 | 0.089 |
 
 *(Lưu ý: đã loại trừ khả năng bug — kiểm tra kỹ code forward/dispatch/init,
@@ -138,10 +143,14 @@ cho việc giữ nguyên Multi-Token làm recipe chính.
 
 ---
 
-## Việc còn lại trước khi chốt tài liệu này
+## Tóm tắt gửi thầy
 
-1. Chờ 6 job train-only cuối (tok14-s3407, tok16-s123, tok18×2 seed,
-   tok20×2 seed) — mỗi job cần ~11-13h train-only session trên Kaggle.
-2. Tính lại mean±std đầy đủ 3-seed cho n=14/16/18/20 khi có đủ dữ liệu.
-3. Xác nhận có plateau thật ở 14-16 hay xu hướng tiếp tục tăng nhẹ qua 18-20.
-4. Xóa dòng "TRẠNG THÁI: ĐANG CHẠY" ở đầu file khi hoàn tất.
+- **Câu 1 (num_tokens)**: `n=8` không tối ưu. Gain thật nằm ở n=10-14; sau
+  n=14 là plateau/nhiễu, đã xác nhận trên 4 điểm độc lập (14/16/18/20, mỗi
+  điểm 3-seed). Đề xuất report `n=12` là điểm cân bằng hợp lý nếu cần chọn 1
+  số khác 8 — không đổi recipe chính thức.
+- **Câu 2 (gộp/deconv)**: Multi-Token hiện tại không dùng toán tử gộp nào
+  (Linear thuần). Đã thử pooling (thua đậm), attention (thua), Conv-Abstractor
+  = đúng tinh thần "zoom in/nén/zoom out" (gần bằng, vẫn thua). DeConvolution
+  đúng nghĩa đen không hợp lý về hướng biến đổi (upsample vs downsample cần
+  thiết) nên không implement, đã giải thích rõ lý do kỹ thuật.

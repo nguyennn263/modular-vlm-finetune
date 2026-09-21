@@ -1966,6 +1966,17 @@
       "num_tokens": 16,
       "seed": 123,
       "phase": "eval"
+    },
+    "toksweep-train2:tok18": {
+      "account": "acc11",
+      "kernel": "chalicetrncthnh/mvlm-toksweep-ep2-tok18",
+      "status": "running",
+      "pushed_at": "2026-09-21T15:06:48",
+      "collected": false,
+      "label": "tok18",
+      "num_tokens": 18,
+      "seed": 42,
+      "phase": "train2"
     }
   }
 }

@@ -1937,7 +1937,7 @@
     "toksweep-train1:tok18": {
       "account": "acc11",
       "kernel": "chalicetrncthnh/mvlm-toksweep-ep1-tok18",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-21T06:34:56",
       "collected": false,
       "label": "tok18",
@@ -1971,7 +1971,7 @@
       "account": "acc11",
       "kernel": "chalicetrncthnh/mvlm-toksweep-ep2-tok18",
       "status": "running",
-      "pushed_at": "2026-09-21T15:06:48",
+      "pushed_at": "2026-09-21T16:11:15",
       "collected": false,
       "label": "tok18",
       "num_tokens": 18,

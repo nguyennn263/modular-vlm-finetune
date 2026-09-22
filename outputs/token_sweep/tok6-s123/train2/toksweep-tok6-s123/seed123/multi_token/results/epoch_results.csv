@@ -1,0 +1,2 @@
+epoch,global_step,train_loss,val_loss,perplexity,learning_rate,metric_bleu,metric_meteor,metric_rouge_l,metric_cider,metric_exact_match,metric_precision,metric_recall,metric_f1,metric_wups,early_stop_counter,is_best,time_seconds
+2,6444,1.521931613901252,1.5357234752893798,4.581065654754639,1e-06,0.15099354749644658,0.40505450535032705,0.47418563190622004,1.0151182747417353,0.07333333333333333,0.49474325211825215,0.5187281746031747,0.49156150996979164,0.07,1,False,20797.157755

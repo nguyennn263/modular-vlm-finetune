@@ -1,9 +1,8 @@
 # Bridge-design ablation: trả lời 2 câu hỏi của thầy
 
-> **ĐANG MỞ RỘNG (không phải chờ mới gửi được — số liệu chính vẫn đúng).**
-> n=10/12/14/16/18/20 đã đủ 3-seed, n=8 có 4-seed (Exp A). Phát hiện: n=4/6
-> trước đó chỉ có 1-seed — không đồng bộ với phần còn lại của bảng, đang
-> chạy thêm 2 seed mỗi điểm để khớp chuẩn (3-seed toàn bộ sweep).
+> **HOÀN TẤT.** Toàn bộ sweep n=4,6,10,12,14,16,18,20 đã đủ 3-seed; n=8 có
+> 4-seed (Exp A gốc). Không còn điểm nào thiếu seed — bảng dưới là số liệu
+> cuối cùng, có thể gửi thầy trực tiếp.
 
 ## Bối cảnh
 
@@ -28,8 +27,8 @@ LoRA), 2 epoch, cùng protocol với Exp A gốc. `n=8` đã có sẵn 4-seed Ex
 
 | n | seed 42 | seed 123 | seed 3407 | **mean** | std | n_seed |
 |---:|---:|---:|---:|---:|---:|---:|
-| 4 | 48.85 | — | — | 48.85 | — | 1 |
-| 6 | 49.38 | — | — | 49.38 | — | 1 |
+| 4 | 48.85 | 48.06 | 48.70 | **48.54** | 0.42 | 3 |
+| 6 | 49.38 | 49.10 | 48.61 | **49.03** | 0.39 | 3 |
 | **8 (recipe hiện tại)** | — | — | — | **49.55** | 0.07 | 4 (Exp A) |
 | 10 | 50.06 | 50.11 | 49.81 | **49.99** | 0.16 | 3 |
 | 12 | 50.27 | 49.99 | 50.43 | **50.23** | 0.22 | 3 |
@@ -45,7 +44,15 @@ xem `outputs/token_sweep/tok*/eval/out/eval_val.json` cho số đầy đủ.)*
 
 1. **`n=8` chắc chắn không phải điểm tối ưu.** Mọi n≥10 đều vượt baseline
    49.55±0.07, kể cả sau khi lấy mean 3-seed (không phải nhiễu 1-seed).
-2. **Xác nhận chắc chắn trên CẢ 4/4 điểm mở rộng (14/16/18/20, đều đủ
+2. **n=4 và n=6 đều thấp hơn baseline rõ ràng, đã xác nhận chắc chắn với
+   3-seed đầy đủ** (trước đó chỉ có seed42, không đủ tin cậy). Điểm đáng chú
+   ý: mean 3-seed của n=6 (49.03) thấp hơn baseline nhiều hơn so với gì mà
+   1 seed ban đầu gợi ý (seed42=49.38, gap chỉ -0.17) — mean thật cho gap
+   -0.52, lớn hơn cả std của chính điểm đó (0.39). n=4 cũng vậy: gap mean
+   -1.01 so với gap -0.70 của riêng seed42. Đây là ví dụ thực tế tại sao
+   không nên kết luận từ 1 seed — việc soát lại và chạy đủ 3-seed cho n=4/6
+   là cần thiết, không phải thừa.
+3. **Xác nhận chắc chắn trên CẢ 4/4 điểm mở rộng (14/16/18/20, đều đủ
    3-seed): xu hướng chững lại thật sự (plateau) từ khoảng n=14 trở đi**,
    không phải tiếp tục tăng như dữ liệu bán phần ban đầu gợi ý. Mean 3-seed
    đầy đủ: n=14=**50.67**, n=16=**50.44**, n=18=**50.51**, n=20=**50.62** —
@@ -53,11 +60,11 @@ xem `outputs/token_sweep/tok*/eval/out/eval_val.json` cho số đầy đủ.)*
    tục (n=16 thậm chí thấp hơn n=14). std của các điểm này (0.09-0.79) đều
    đủ lớn để "khác biệt" giữa 14/16/18/20 nằm trong biên độ nhiễu thống kê,
    không phải tín hiệu thật.
-3. **Kết luận: gain thật sự nằm ở khoảng n=10-14, sau đó là plateau/nhiễu.**
-   Đây là câu trả lời rõ ràng, có số liệu vững cho advisor — đã kiểm tra tới
-   n=20, không cần đào sâu thêm vì xu hướng đã đủ rõ và ổn định trên 4 điểm
-   độc lập.
-4. **Không đổi recipe chính thức (giữ n=8)** — quyết định đã chốt với người
+4. **Kết luận: gain thật sự nằm ở khoảng n=10-14, sau đó là plateau/nhiễu;
+   dưới n=8 (n=4, n=6) rõ ràng kém hơn.** Đây là câu trả lời rõ ràng, có số
+   liệu vững cho advisor — toàn bộ sweep n=4→20 đều đủ 3-seed, không cần đào
+   sâu thêm vì xu hướng đã đủ rõ và ổn định.
+5. **Không đổi recipe chính thức (giữ n=8)** — quyết định đã chốt với người
    dùng trước đó. Đây là ablation report-only cho advisor, không phải đề xuất
    đổi kiến trúc paper.
 
@@ -146,10 +153,11 @@ cho việc giữ nguyên Multi-Token làm recipe chính.
 
 ## Tóm tắt gửi thầy
 
-- **Câu 1 (num_tokens)**: `n=8` không tối ưu. Gain thật nằm ở n=10-14; sau
-  n=14 là plateau/nhiễu, đã xác nhận trên 4 điểm độc lập (14/16/18/20, mỗi
-  điểm 3-seed). Đề xuất report `n=12` là điểm cân bằng hợp lý nếu cần chọn 1
-  số khác 8 — không đổi recipe chính thức.
+- **Câu 1 (num_tokens)**: `n=8` không tối ưu. n=4/6 (dưới 8) rõ ràng kém hơn;
+  gain thật nằm ở n=10-14; sau n=14 là plateau/nhiễu. Toàn bộ sweep n=4→20
+  (9 điểm) đều đủ 3-seed (n=8 có 4-seed Exp A) — đã kiểm chứng thống kê đầy
+  đủ, không còn điểm nào chỉ dựa trên 1 seed. Đề xuất report `n=12` là điểm
+  cân bằng hợp lý nếu cần chọn 1 số khác 8 — không đổi recipe chính thức.
 - **Câu 2 (gộp/deconv)**: Multi-Token hiện tại không dùng toán tử gộp nào
   (Linear thuần). Đã thử pooling (thua đậm), attention (thua), Conv-Abstractor
   = đúng tinh thần "zoom in/nén/zoom out" (gần bằng, vẫn thua). DeConvolution

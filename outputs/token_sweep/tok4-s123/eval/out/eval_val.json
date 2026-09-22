@@ -1,0 +1,20 @@
+{
+  "split": "val",
+  "n": 5463,
+  "bridge": "multi_token",
+  "n_tiles": 1,
+  "checkpoint": "/kaggle/working/ckpt_for_eval/last_model.pt",
+  "loss": 1.5634840067426945,
+  "num_samples": 5463,
+  "perplexity": 4.775429725646973,
+  "accuracy": 0.06919275123558484,
+  "exact_match": 0.07285374336445177,
+  "bleu": 0.14364739999825307,
+  "rouge_l": 0.46137436557735173,
+  "meteor": 0.39226879489752864,
+  "cider": 0.9300082946837163,
+  "precision": 0.4805289906058714,
+  "recall": 0.5092205824358488,
+  "f1": 0.480561500671526,
+  "wups": 0.06919275123558484
+}

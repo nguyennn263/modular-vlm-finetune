@@ -2080,9 +2080,9 @@
     "toksweep-eval:tok4-s123": {
       "account": "acc1",
       "kernel": "nguyennn263/mvlm-toksweep-eval-tok4-s123",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-09-22T21:40:55",
-      "collected": false,
+      "collected": true,
       "label": "tok4-s123",
       "num_tokens": 4,
       "seed": 123,

@@ -44,6 +44,14 @@ SPECS = [
     ("tok14-s123", 14, 123), ("tok14-s3407", 14, 3407),  # same 3-seed treatment as 10/12/16
     ("tok18-s123", 18, 123), ("tok18-s3407", 18, 3407),
     ("tok20-s123", 20, 123), ("tok20-s3407", 20, 3407),  # 18/20 also 3-seed now
+    # 2026-09-22: user caught a real inconsistency -- tok4/tok6 (the low end
+    # of the sweep) never got 3-seed treatment like everything else >= n=10,
+    # since round 2's expansion only targeted "round-1 winners". n=6's gap to
+    # baseline (49.38 vs 49.55+-0.07 = -0.17) is smaller than several other
+    # points' single-seed std (e.g. n=18's 0.79), so 1 seed isn't enough to
+    # actually claim n=6 < n=8 with confidence. Filling in for consistency.
+    ("tok4-s123", 4, 123), ("tok4-s3407", 4, 3407),
+    ("tok6-s123", 6, 123), ("tok6-s3407", 6, 3407),
 ]
 # 18/14 accounts now in flight (acc2/acc15, previously assumed permanently
 # exhausted from unrelated Vintern-FT work, turned out to also be on the same

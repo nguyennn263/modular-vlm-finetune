@@ -1,8 +1,9 @@
 # Bridge-design ablation: trả lời 2 câu hỏi của thầy
 
-> **HOÀN TẤT.** Toàn bộ 14 điểm của num_tokens sweep đã có đủ seed (4/6/8 là
-> baseline sẵn có; 10/12/14/16/18/20 đều đủ 3-seed, riêng n=8 có 4-seed từ
-> Exp A gốc). Sẵn sàng gửi thầy.
+> **ĐANG MỞ RỘNG (không phải chờ mới gửi được — số liệu chính vẫn đúng).**
+> n=10/12/14/16/18/20 đã đủ 3-seed, n=8 có 4-seed (Exp A). Phát hiện: n=4/6
+> trước đó chỉ có 1-seed — không đồng bộ với phần còn lại của bảng, đang
+> chạy thêm 2 seed mỗi điểm để khớp chuẩn (3-seed toàn bộ sweep).
 
 ## Bối cảnh
 

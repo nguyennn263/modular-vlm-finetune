@@ -1,7 +1,8 @@
 # Báo cáo tiến độ nghiên cứu — Paper 3
 
-*Cập nhật 14/09/2026. Một hạng mục phụ đang chạy (§6.3: tái lập baseline
-Vintern-FT bằng cookbook chính thức) — không chặn phần còn lại.*
+*Cập nhật 23/09/2026 (bổ sung §6.5: trả lời 2 câu hỏi của thầy về thiết kế
+bridge). Một hạng mục phụ đang chạy (§6.3: tái lập baseline Vintern-FT bằng
+cookbook chính thức) — không chặn phần còn lại.*
 
 ---
 
@@ -315,6 +316,100 @@ khả năng đọc chữ trong ảnh** so với Vintern gốc, hệ quả trực
 train 1 tile (độ phân giải thấp hơn 6 tile) trên dữ liệu không có tác vụ OCR.
 Đáng đưa vào phần generalization/limitation của paper — chi tiết đầy đủ (bao gồm
 cả seed) ở `experiments/ood-eval/RESULTS.md`.
+
+### 6.5. Trả lời 2 câu hỏi của thầy về thiết kế bridge (đã hoàn tất)
+
+Thầy hỏi 2 câu về bridge Multi-Token (kiến trúc đề xuất, dòng in đậm ở §3):
+(1) tại sao chọn `num_tokens=8` mà không phải 6/10/12; (2) xu hướng "gộp" là
+gì — có thử deconvolution/zoom-in-zoom-out không, và khi gộp thành 8 token thì
+đang dùng max, avg, hay giữ nguyên. Cả hai câu đều đã có thí nghiệm thật trả
+lời, không phải giải thích chay. (Nhánh `feat/bridge-design-ablation`, riêng
+với nhánh chính đang dùng cho §1-§7 — recipe chính thức không đổi, xem cuối
+mục này. Chi tiết đầy đủ + số liệu per-seed: `plans/bridge-design-ablation.md`
+trên nhánh đó.)
+
+**Câu 1 — sweep `num_tokens`.** Giữ nguyên mọi thứ khác so với recipe (plain
+bridge, không LoRA, 2 epoch, cùng protocol §2). `n=8` đã có sẵn 4-seed từ
+Exp A gốc; các `n` khác train mới, 3 seed (42/123/3407) mỗi điểm:
+
+| n | mean F1 | std | n_seed |
+|--:|--:|--:|--:|
+| 4 | 48.54 | 0.42 | 3 |
+| 6 | 49.03 | 0.39 | 3 |
+| **8 (recipe hiện tại)** | **49.55** | 0.07 | 4 (Exp A) |
+| 10 | 49.99 | 0.16 | 3 |
+| 12 | 50.23 | 0.22 | 3 |
+| 14 | 50.67 | 0.09 | 3 |
+| 16 | 50.44 | 0.54 | 3 |
+| 18 | 50.51 | 0.79 | 3 |
+| 20 | 50.62 | 0.52 | 3 |
+
+*(F1 nội bộ, ×100, cùng thang với §3. Mỗi điểm đều mean/std qua đủ 3 seed —
+không còn điểm nào chỉ có 1 seed.)*
+
+`n=8` không phải điểm tối ưu: `n=4` và `n=6` (dưới 8) đều thấp hơn rõ ràng —
+chênh lệch so với baseline (−1.01 và −0.52) vượt cả độ lệch chuẩn của chính
+điểm đó (0.42 và 0.39), nên không phải nhiễu. Gain thật tập trung ở khoảng
+`n=10-14`: mọi `n≥10` đều vượt baseline, và `n=14` (50.67±0.09) là điểm có
+mean F1 cao nhất toàn sweep, với std rất nhỏ. Từ `n=14` trở đi là plateau/nhiễu
+thống kê, không phải xu hướng tăng tiếp: 4 điểm `14/16/18/20` dao động
+50.4-50.7 không đơn điệu (`n=16` thậm chí thấp hơn `n=14`), và chênh lệch giữa
+chúng nằm trong biên độ std của từng điểm.
+
+Nếu phải chọn 1 số khác 8 để báo cáo: **n=12** hoặc **n=14** đều hợp lý, hai
+điểm này gần nhau trong biên độ nhiễu (50.23±0.22 so với 50.67±0.09) —
+**n=12** nếu ưu tiên chi phí suy luận thấp hơn (ít token ảnh nạp vào decoder
+hơn), **n=14** nếu ưu tiên F1 cao nhất đã quan sát được. **Không đổi recipe
+chính thức** — mọi số ở §1-§7 của báo cáo này vẫn dùng `n=8`; đây là ablation
+trả lời câu hỏi của thầy, không phải đề xuất đổi kiến trúc.
+
+**Câu 2 — bản chất phép "gộp" trong Multi-Token, và 3 kiến trúc gộp khác cùng
+scale tham số.**
+
+Sự thật cần nói rõ trước: **Multi-Token hiện tại không dùng toán tử gộp
+(pooling) nào cả.** InternViT tự gộp toàn bộ ảnh thành 1 vector `(B, 1024)`
+bằng pooler riêng của nó trước khi bridge chạy; bridge chỉ là 2 lớp `Linear`
+chiếu thẳng từ vector đó ra `k` token, không hề nhìn patch riêng lẻ. Câu hỏi
+của thầy ngầm giả định có một bước "gộp bằng max/avg/gì đó" — thực tế không
+có bước gộp học được nào cả trong Multi-Token.
+
+Đã thử 3 kiến trúc "gộp" khác, cùng `num_tokens≈8`, so trực tiếp bằng F1:
+
+| Kiến trúc | Toán tử gộp | Trainable params | F1 | Δ so với Multi-Token |
+|---|---|--:|--:|--:|
+| **Multi-Token (hiện tại)** | không có — Linear thuần trên vector đã pool sẵn | 7.35M | **49.55 ± 0.07** | — |
+| Patch-Pool (mean) | trung bình cố định trên patch | 0.92M | 38.80 | −10.75 |
+| Patch-Pool (max) | max cố định trên patch | 0.92M | 35.71 | −13.84 |
+| Attention (= Tile-Attention, §4) | attention học được | 4.14M | 45.17 ± 0.94 | −4.38 |
+| Conv-Abstractor (HoneyBee-style) | conv → nén (adaptive avg pool) → conv | 19.87M | 48.87 | −0.68 |
+
+*(Conv-Abstractor: `num_tokens=9` vì kiến trúc cần lưới không gian vuông;
+theo Cha et al., "Honeybee: Locality-enhanced Projector for Multimodal LLM",
+CVPR 2024 — 2 khối ResNet trước và sau một adaptive-avg-pool.)*
+
+Trả lời cụ thể từng ý:
+- **"Zoom in → nén → zoom out"** = đúng tinh thần kiến trúc Conv-Abstractor đã
+  thử (conv xử lý cục bộ = zoom in, adaptive pool = nén, conv xử lý lại = zoom
+  out). Kết quả gần bằng nhưng vẫn thua Multi-Token (48.87 so với 49.55), và
+  tốn gấp 2.7× tham số (19.9M so với 7.3M) — không đáng đánh đổi.
+- **Pooling (max/avg) cố định**: thua đậm (35.7-38.8 so với 49.55) khi cô lập
+  hoàn toàn khỏi các thành phần khác (chỉ 1 `Linear` dùng chung + pooling cố
+  định, không thêm capacity nào khác) — đã rà lại kỹ code (shape, dispatch,
+  output thực tế) để loại trừ khả năng bug; kết luận là pooling cố định thật
+  sự không học được patch nào quan trọng.
+- **DeConvolution đúng nghĩa đen**: chưa implement, vì về mặt kỹ thuật deconv
+  (transposed convolution) là phép **upsample** — đi từ ít phần tử ra nhiều
+  phần tử không gian hơn — trong khi bài toán ở đây cần chiều ngược lại: nén
+  1024 giá trị đặc trưng patch xuống còn 8-20 token. Dùng deconv đúng chiều sẽ
+  đi ngược hướng cần thiết. Conv-Abstractor (conv thường + pool, không phải
+  deconv) là câu trả lời đúng tinh thần câu hỏi cho hướng "nén bằng
+  convolution".
+
+**Kết luận:** không có cách "gộp" nào trong số đã thử (pool thô, attention học
+được, hay conv+pool kiểu Conv-Abstractor) đánh bại được cách hiện tại (Linear
+thuần trên vector InternViT đã pool sẵn) ở cùng scale tham số hợp lý. Đây là
+bằng chứng số liệu thật cho việc giữ nguyên Multi-Token làm bridge chính thức
+của paper.
 
 ---
 

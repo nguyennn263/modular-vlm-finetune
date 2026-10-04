@@ -15,7 +15,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 from run import ROOT, ACCT_DIR, _kaggle, _user, load_ledger, save_ledger  # noqa
-import ood_full, regen_queue
+import input_diag, ood_full, regen_queue
 from ood_full import _idle
 from regen_queue import _cells
 from input_diag import DOCKER_IMAGE
@@ -44,10 +44,41 @@ PRIVATE = (
 )
 
 
+# input-diag kernels from the first (Python 3.13) launch that never finished; the
+# relaunch under the same slug runs beside a stuck session, so re-run them as "<tag>-r2"
+RERUN = ["mt-s123-t1-full", "l3ep-s123-t1-full", "l3ep-s3407-t1-full", "l3ep-s42-t1-crop"]
+
+
+def _launch_rerun(acc: str, tag: str, ckpt: str, n_tiles: int, pooled: str, gen_image: str) -> None:
+    job, slug = f"input-diag:{tag}", f"mvlm-diag-{tag}"
+    kid = f"{_user(acc)}/{slug}"
+    wd = ROOT / "outputs" / "parallel" / "workers" / slug
+    wd.mkdir(parents=True, exist_ok=True)
+    (wd / "worker.ipynb").write_text(json.dumps(regen_queue._nb(
+        input_diag._cells(tag, ckpt, n_tiles, pooled, gen_image))))
+    (wd / "kernel-metadata.json").write_text(json.dumps({
+        "id": kid, "title": slug[:50], "code_file": "worker.ipynb",
+        "language": "python", "kernel_type": "notebook", "is_private": True,
+        "enable_gpu": True, "enable_internet": True, "docker_image": DOCKER_IMAGE,
+        "dataset_sources": ["nguynrichard/auto-vqabest", f"{_user('acc1')}/{input_diag.PLAIN_DS}",
+                            f"{_user('acc1')}/{input_diag.LORA_DS}"],
+    }, indent=2))
+    _kaggle(acc, "kernels", "push", "-p", str(wd))
+    led = load_ledger()
+    led["jobs"][job] = {"account": acc, "kernel": kid, "status": "running",
+                        "pushed_at": time.strftime("%Y-%m-%dT%H:%M:%S"), "n_tiles": n_tiles,
+                        "pooled_input": pooled, "gen_image": gen_image, "ckpt": ckpt}
+    save_ledger(led)
+    print(f"[launch] {job} -> {acc} ({kid})", flush=True)
+
+
 def _queue() -> list[tuple]:
     jobs = load_ledger()["jobs"]
-    q = [("ood", d, s) for d in ood_full.DATASETS for s in ood_full.SEEDS
-         if f"ood-full:{d}:s{s}" not in jobs]
+    q = [("rerun", f"{t}-r2", *spec) for t, *spec in input_diag.JOBS
+         if t in RERUN and jobs.get(f"input-diag:{t}", {}).get("status") != "done"
+         and f"input-diag:{t}-r2" not in jobs]
+    q += [("ood", d, s) for d in ood_full.DATASETS for s in ood_full.SEEDS
+          if f"ood-full:{d}:s{s}" not in jobs]
     q += [("regen",) + j for j in regen_queue.JOBS
           if j[1] == "multi_token" and f"regen-full:{j[0]}" not in jobs]
     q += [("private",) + j for j in PRIVATE if j[0].startswith("rq5-") and f"regen-full:{j[0]}" not in jobs]
@@ -107,7 +138,7 @@ def cmd_fill() -> None:
                 continue
             kind, *spec = queue.pop(0)
             try:
-                {"ood": ood_full._launch, "regen": regen_queue._launch,
+                {"rerun": _launch_rerun, "ood": ood_full._launch, "regen": regen_queue._launch,
                  "private": _launch_private}[kind](acc, *spec)
             except Exception as exc:  # keep the loop alive; retry this job on another account
                 print(f"[error] {kind} {spec[0]} on {acc}: {exc}", flush=True)

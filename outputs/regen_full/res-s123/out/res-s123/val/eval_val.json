@@ -1,0 +1,22 @@
+{
+  "split": "val",
+  "n": 5463,
+  "bridge": "residual",
+  "n_tiles": 1,
+  "checkpoint": "/tmp/ck/residual/model.pt",
+  "pooled_input": "default",
+  "gen_image": "full",
+  "loss": 1.6718851582393988,
+  "num_samples": 5463,
+  "perplexity": 5.32219123840332,
+  "accuracy": 0.05125388980413692,
+  "exact_match": 0.05326743547501373,
+  "bleu": 0.12980344650123082,
+  "rouge_l": 0.4372443926389923,
+  "meteor": 0.3648534925195397,
+  "cider": 0.8577928787572985,
+  "precision": 0.4584982715130985,
+  "recall": 0.4846835024759242,
+  "f1": 0.4555826128636093,
+  "wups": 0.05125388980413692
+}

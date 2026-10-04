@@ -204,42 +204,37 @@ All ablations are measured on the validation split and compared with the
 bridge-only Multi-Token model (F1 50.74).
 
 \paragraph{Bridge architecture and decoder adaptation.}
-Table~\ref{tab:bridges} and Fig.~\ref{fig:results}a compare the five bridges. Without
-LoRA, they span 45.17--49.55 F1. The Multi-Token bridge is the best and has the
+Table~\ref{tab:bridges} and Fig.~\ref{fig:results}a compare the bridges. Without
+LoRA, they span 45.14--50.74 F1. The Multi-Token bridge is the best and has the
 lowest validation cross-entropy, while the Light Q-Former, with $3.8\times$ more
-parameters, is 3.3 F1 lower: a larger bridge does not help a frozen decoder.
+parameters, is 3.7 F1 lower: a larger bridge does not help a frozen decoder.
 Training with decoder LoRA improves \emph{every} bridge, even though the joint
 1-epoch run sees the data half as often as the 2-epoch bridge-only run, and the
-improvement is larger for weaker
-bridges ($+7.8$ for Tile-Attention, $+4.0$ for Multi-Token). After LoRA, the five
-bridges lie within 0.9 F1 (52.64--53.52) and 2.5 CIDEr points, compared with 4.4
-F1 and 12.3 CIDEr points before. Paired bootstrap 95\% confidence intervals of the
-gain (seed 42) lie above zero for all five bridges. Once the decoder can adapt, the choice of
-bridge therefore matters little. On a 600-question validation subset, ranks 32 and 64
-do not improve over rank 16 beyond seed variation.
+improvement is largest for the weakest bridges ($+7.7$ for Tile-Attention, $+6.7$
+for Residual, $+2.7$ for Multi-Token). After LoRA, the bridges lie within 0.8 F1
+(52.69--53.47) and 2.4 CIDEr points, compared with 5.6 F1 and 14.9 CIDEr points
+before. Once the decoder can adapt, the choice of bridge therefore matters little.
+\todo{add the Full Q-Former row (answer leak fixed, retraining in progress).}
 
 \begin{table}[t]
 \centering
-\caption{Bridge architectures before and after decoder LoRA (validation, 1 epoch,
-mean $\pm$ std over 3 seeds; Multi-Token 4 seeds; $^\ast$seed 42 only).
-\todo{still the first-crop evaluation; replace with the whole-image re-evaluation
-(plain + LoRA for all bridges, Full Q-Former retrained) when it lands.
-$^\dagger$these runs let the Q-Former attend to the reference answer during training;
-retraining with the answer masked is in progress.}}
+\caption{Bridge architectures before and after decoder LoRA (validation; bridge
+only: 2 epochs, + LoRA: joint 1 epoch; mean $\pm$ std over 3 seeds, Multi-Token
+bridge only 4 seeds; $^\ast$seed 42 only).}
 \label{tab:bridges}
 \footnotesize
-\setlength{\tabcolsep}{3.5pt}
-\begin{tabular}{lrrrrrr}
+\setlength{\tabcolsep}{3pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lrrrrrrrr}
 \toprule
-Bridge & $k$ & Params & CE & F1 & F1 + LoRA & $\Delta$F1 \\
+Bridge & $k$ & Params & CE & F1 & F1 + LoRA & $\Delta$F1 & CIDEr & CIDEr + LoRA \\
 \midrule
-Residual        & 1  & 4.86M (0.52\%) & 1.67 & $45.64\pm0.36$ & $52.64\pm0.03$ & $+7.0$ \\
-Tile-Attention  & 8  & 4.14M (0.44\%) & 1.68 & $45.17\pm0.94$ & $52.99^\ast$ & $+7.8$ \\
-\textbf{Multi-Token} & \textbf{8} & \textbf{7.35M (0.78\%)} & \textbf{1.49} & $\mathbf{49.55\pm0.07}$ & $\mathbf{53.52\pm0.11}$ & $+4.0$ \\
-Light Q-Former  & 8  & 27.6M (2.87\%) & 1.60 & $46.25\pm0.62$ & $53.21\pm0.13$ & $+7.0$ \\
-Full Q-Former$^\dagger$ & 16 & 69.4M (6.91\%) & 1.58 & $47.35\pm0.17$ & $53.21\pm0.09$ & $+5.9$ \\
+Residual        & 1 & 4.86M (0.52\%) & 1.67 & $46.02\pm0.36$ & $52.69\pm0.14$ & $+6.7$ & $86.5\pm0.8$ & $104.3\pm0.9$ \\
+Tile-Attention  & 8 & 4.14M (0.44\%) & 1.68 & $45.14\pm0.92$ & $52.82^\ast$ & $+7.7$ & $84.1\pm1.4$ & $104.7^\ast$ \\
+\textbf{Multi-Token} & \textbf{8} & \textbf{7.35M (0.78\%)} & \textbf{1.49} & $\mathbf{50.74\pm0.17}$ & $\mathbf{53.47\pm0.17}$ & $+2.7$ & $\mathbf{99.1\pm0.5}$ & $\mathbf{106.7\pm0.7}$ \\
+Light Q-Former  & 8 & 27.6M (2.87\%) & 1.60 & $47.06\pm0.66$ & $53.21\pm0.14$ & $+6.1$ & $88.1\pm1.9$ & $106.3\pm0.7$ \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 \paragraph{Training signal and representation alignment.}
@@ -273,7 +268,7 @@ Alignment & logit distillation, weight $\lambda=0.1$ / $\lambda=1$ & $-0.28$ / $
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{fig_results}
-\caption{(a) Validation F1 of the five bridges before and after decoder LoRA
+\caption{(a) Validation F1 of the bridges before and after decoder LoRA
 (mean $\pm$ std over seeds). (b) Validation F1 by reasoning type for the
 Multi-Token bridge before and after decoder LoRA (seed 42, number of questions in
 parentheses).}

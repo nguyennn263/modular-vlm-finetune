@@ -2844,7 +2844,7 @@
     "regen-full:l1ep-mq-s123": {
       "account": "acc14",
       "kernel": "nguyendinhdoanh/mvlm-regen-l1ep-mq-s123",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-04T23:07:26",
       "bridge": "mini_qformer",
       "splits": [

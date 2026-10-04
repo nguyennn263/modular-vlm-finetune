@@ -2666,7 +2666,7 @@
     "regen-full:ta-s42": {
       "account": "acc5",
       "kernel": "nguyennguyen263/mvlm-regen-ta-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-04T22:12:55",
       "bridge": "tile_attention",
       "splits": [
@@ -2784,7 +2784,7 @@
     "regen-full:l1ep-res-s42": {
       "account": "acc19",
       "kernel": "katekathi/mvlm-regen-l1ep-res-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-04T22:23:05",
       "bridge": "residual",
       "splits": [

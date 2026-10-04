@@ -1,0 +1,118 @@
+% ACIIDS 2027 submission -- LNCS/LNAI, 12--15 pages incl. references (CFP).
+% Structure mirrors the ACIIDS 2026 AutoViVQA paper (refs:autovqa/): main.tex +
+% Section/*.tex + splncs04.
+%
+% NUMBERS: taken from plans/paper-status-for-advisor.md (01/10/2026).
+% !! PENDING: the 2026-10-04 input diagnostic (branch exp/eval-input-diagnostic)
+% !! found that 1-tile generation fed the top-left 448px crop, and that pooled
+% !! bridges read CLS at 1 tile but the token mean at T>1. Every generation
+% !! number for OUR rows (Tables 2-7) and the RQ3 tile result must be re-checked
+% !! once those 13 eval jobs are collected. Search for \todo{} before submitting.
+
+\documentclass[runningheads]{llncs}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,fit}
+\usepackage[hidelinks]{hyperref}
+\usepackage{caption}
+\captionsetup{labelfont=bf}
+
+\graphicspath{{figures/}}
+
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\intextsep}{8pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+
+% Set to 0 for the submission build: hides every \todo{}.
+\newif\ifshowtodo \showtodotrue
+\newcommand{\todo}[1]{\ifshowtodo\textcolor{red}{[TODO: #1]}\fi}
+\newcommand{\dF}{$\Delta$F1}
+% corresponding-author envelope, as in the ACIIDS 2026 paper
+\newcommand{\mygraphic}[1]{\includegraphics[height=#1]{drawing.pdf}}
+\newcommand{\myenv}{(\raisebox{0pt}{\mygraphic{.6em}})}
+\newcommand{\myauthor}[1]{#1~\myenv}
+\newcommand\blfootnote[1]{\begingroup\renewcommand\thefootnote{}\footnote{#1}\addtocounter{footnote}{-1}\endgroup}
+% OOD study: \oodtexttrue = 4 datasets (incl. scene-text ViTextVQA/OpenViVQA);
+% \oodtextfalse = only the 2 general-domain datasets (ViVQA-X, ViVQA).
+% Decide after the whole-image OOD re-evaluation (ood-full jobs).
+\newif\ifoodtext \oodtexttrue
+
+\begin{document}
+
+% Named after the group's series: AutoViVQA (ACIIDS 2026) -> ViMoE-VQA -> ViBridge-VQA.
+% Earlier candidates: "Decoder, Not Vision: ..." (dropped: OOD scene-text result shows the
+% vision side matters), "Look Once, Tune the Decoder: ...".
+\title{ViBridge-VQA: Parameter-Efficient Adaptation of a Frozen Vision--Language Model for Vietnamese Visual Question Answering}
+\titlerunning{ViBridge-VQA: Parameter-Efficient Adaptation for Vietnamese VQA}
+
+% Author block taken from the ACIIDS 2026 AutoViVQA paper, first author moved to the front.
+\author{
+Nguyen~Trung~Quoc\orcidID{0009-0009-4569-3932} \and
+Nguyen~Anh~Tuong\orcidID{0009-0002-3457-5745} \and
+Phan~Ba~Duc\orcidID{0009-0000-1816-9224} \and
+Tran~Dac~Thinh\orcidID{0009-0007-8187-4605} \and
+Dang~Duy~Lan\orcidID{0009-0007-8658-6602} \and
+Nguyen~Quoc~Thinh\orcidID{0009-0001-6765-1276} \and
+\myauthor{Tung~Le}\orcidID{0000-0002-9900-7047}
+}
+\authorrunning{N. T. Quoc et al.}
+\institute{
+Faculty of Information Technology, University of Science, Ho Chi Minh City, Vietnam\\
+Vietnam National University, Ho Chi Minh City, Vietnam\\
+\email{\{22120071,22120182,22120301,22120347,}\\
+\email{22120348,22120412\}@student.hcmus.edu.vn, lttung@fit.hcmus.edu.vn}
+\blfootnote{\myenv{}Corresponding author: Tung Le -- lttung@fit.hcmus.edu.vn}
+}
+
+\maketitle
+
+\begin{abstract}
+Vision--language models (VLMs) have advanced Visual Question Answering (VQA)
+substantially, yet adapting them to Vietnamese benchmarks remains costly: the
+usual options are to fine-tune an existing VLM on high-resolution multi-tile inputs
+or to design a new architecture.
+In this work, we propose \textbf{ViBridge-VQA}, a parameter-efficient adaptation
+of the Vietnamese VLM Vintern-1B for generative VQA. Both pre-trained backbones,
+the InternViT-300M vision encoder and the Qwen2.5-0.5B language decoder, are kept
+frozen. A lightweight multi-token bridge maps a single global view of the image
+into the decoder, and a rank-16 LoRA adapts the decoder, so that only 1.01\% of the
+parameters are trained. On the AutoViVQA benchmark, ViBridge-VQA reaches a token
+F1 of 54.28 and a CIDEr of 107.60 on a held-out test split. It matches the
+fine-tuned Vintern-1B on F1 and clearly exceeds it, as well as zero-shot large
+language models, on all generation metrics, while still trailing the
+mixture-of-experts model ViMoE-VQA on F1. A systematic ablation shows that larger
+bridges and representation alignment do not help, whereas decoder adaptation
+helps every bridge design and makes them perform almost equally. \ifoodtext Evaluation on
+four further Vietnamese VQA datasets shows better generalisation on general VQA
+and reveals a clear limitation on reading scene text.\else Evaluation on two
+further general-domain Vietnamese VQA datasets shows that ViBridge-VQA also
+generalises better than the zero-shot Vintern-1B.\fi
+
+\keywords{Vietnamese Visual Question Answering \and Vision--Language Models \and
+Parameter-Efficient Fine-Tuning \and Low-Rank Adaptation \and Generative VQA}
+\end{abstract}
+
+\input{Section/Introduction}
+\input{Section/RelatedWorks}
+\input{Section/Method}
+\input{Section/Experiments}
+\input{Section/conclusion}
+
+\begin{credits}
+\subsubsection{\ackname} This research is funded by University of Science, VNU-HCM
+under grant number CNTT 2025-02.
+\end{credits}
+
+\bibliographystyle{splncs04}
+\bibliography{references}
+
+\end{document}

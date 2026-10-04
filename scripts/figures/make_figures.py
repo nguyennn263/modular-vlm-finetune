@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the three paper figures as vector PDFs into paper/figures/.
+"""Generate the three paper figures as vector PDFs into paper/draft-v1-2026-09/figures/.
 
     python scripts/figures/make_figures.py
 
@@ -12,7 +12,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
 
-OUT = Path(__file__).resolve().parents[2] / "paper" / "figures"
+OUT = Path(__file__).resolve().parents[2] / "paper" / "draft-v1-2026-09" / "figures"
 OUT.mkdir(parents=True, exist_ok=True)
 
 plt.rcParams.update({

@@ -2807,7 +2807,7 @@
     "regen-full:res-s42": {
       "account": "acc1",
       "kernel": "nguyennn263/mvlm-regen-res-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-05T04:38:29",
       "bridge": "residual",
       "splits": [
@@ -2830,7 +2830,7 @@
     "regen-full:mq-s123": {
       "account": "acc2",
       "kernel": "nguyennn2501/mvlm-regen-mq-s123",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-05T04:39:46",
       "bridge": "mini_qformer",
       "splits": [
@@ -2842,7 +2842,7 @@
     "regen-full:l1ep-res-s3407": {
       "account": "acc2",
       "kernel": "nguyennn2501/mvlm-regen-l1ep-res-s3407",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-05T04:41:04",
       "bridge": "residual",
       "splits": [
@@ -2854,7 +2854,7 @@
     "regen-full:l1ep-ta-s42": {
       "account": "acc3",
       "kernel": "nguyennn2603/mvlm-regen-l1ep-ta-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-05T04:42:41",
       "bridge": "tile_attention",
       "splits": [
@@ -2866,7 +2866,7 @@
     "regen-full:l1ep-mq-s42": {
       "account": "acc3",
       "kernel": "nguyennn2603/mvlm-regen-l1ep-mq-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-05T04:44:24",
       "bridge": "mini_qformer",
       "splits": [
@@ -2878,7 +2878,7 @@
     "regen-full:l1ep-mq-s3407": {
       "account": "acc4",
       "kernel": "nguyennn251/mvlm-regen-l1ep-mq-s3407",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-05T04:44:37",
       "bridge": "mini_qformer",
       "splits": [

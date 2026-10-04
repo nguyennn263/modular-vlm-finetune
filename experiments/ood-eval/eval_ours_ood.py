@@ -41,6 +41,9 @@ def _parser() -> argparse.ArgumentParser:
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--output-dir", required=True, dest="output_dir")
     p.add_argument("--limit", type=int, default=None)
+    p.add_argument("--gen-image", default="first_tile", dest="gen_image",
+                   choices=["first_tile", "full"],
+                   help="Image fed to generation at n_tiles=1 (see TrainConfig.gen_image).")
     return p
 
 
@@ -78,11 +81,12 @@ def main() -> None:
     print(f"[ckpt] loaded bridge weights from {a.checkpoint}")
 
     Path(a.output_dir).mkdir(parents=True, exist_ok=True)
-    tc = TrainConfig(model_name=train_cfg["model_name"], output_dir=a.output_dir, n_tiles=a.n_tiles)
+    tc = TrainConfig(model_name=train_cfg["model_name"], output_dir=a.output_dir, n_tiles=a.n_tiles,
+                     gen_image=a.gen_image)
     trainer = BridgeTrainer(model, chosen, chosen, tc)
 
     report = {"dataset": Path(a.data).parent.name, "n": len(chosen), "bridge": a.bridge,
-              "n_tiles": a.n_tiles, "checkpoint": a.checkpoint}
+              "n_tiles": a.n_tiles, "checkpoint": a.checkpoint, "gen_image": a.gen_image}
     try:
         report.update(trainer._compute_epoch_text_metrics(0))
     except Exception as exc:

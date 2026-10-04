@@ -38,6 +38,12 @@ def _parser() -> argparse.ArgumentParser:
                         "with (train.py's flag of the same name) -- otherwise the bridge is "
                         "rebuilt with the YAML default num_tokens and state_dict loading fails "
                         "with a shape mismatch.")
+    p.add_argument("--pooled-input", default="default", dest="pooled_input",
+                   choices=["default", "mean_all", "cls_mean"],
+                   help="How pooled bridges read InternViT (see setup.POOLED_INPUT_MODES).")
+    p.add_argument("--gen-image", default="first_tile", dest="gen_image",
+                   choices=["first_tile", "full"],
+                   help="Image fed to generation at n_tiles=1 (see TrainConfig.gen_image).")
     return p
 
 
@@ -92,16 +98,19 @@ def run(args: argparse.Namespace) -> dict:
         model.load_lora_state_dict(ckpt["lora_state"])
         print("[ckpt] loaded LoRA adapter")
     print(f"[ckpt] loaded bridge weights from {args.checkpoint}")
+    model.pooled_input = args.pooled_input
 
     # BridgeTrainer only builds the tokenizer + collate_fn when train_dataset is
     # non-empty, and its generation-metric helper reads self.val_dataset — so pass
     # `chosen` in both slots. We never call trainer.train() here.
     tc = TrainConfig(model_name=train_cfg["model_name"],
-                     output_dir=str(Path(args.checkpoint).parent), n_tiles=args.n_tiles)
+                     output_dir=str(Path(args.checkpoint).parent), n_tiles=args.n_tiles,
+                     gen_image=args.gen_image)
     trainer = BridgeTrainer(model, chosen, chosen, tc)
 
     report = {"split": args.split, "n": len(chosen), "bridge": args.bridge,
-              "n_tiles": args.n_tiles, "checkpoint": args.checkpoint}
+              "n_tiles": args.n_tiles, "checkpoint": args.checkpoint,
+              "pooled_input": args.pooled_input, "gen_image": args.gen_image}
     try:
         report.update(trainer.evaluate())
     except Exception as exc:

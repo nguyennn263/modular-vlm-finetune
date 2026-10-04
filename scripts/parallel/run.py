@@ -33,8 +33,16 @@ BRIDGES = ["residual", "multi_token", "tile_attention", "mini_qformer", "qformer
 # ------------------------------------------------------------------ kaggle CLI
 def _kaggle(acc: str, *args: str, check: bool = True, capture: bool = True) -> str:
     env = {**os.environ, "KAGGLE_CONFIG_DIR": str(ACCT_DIR / acc)}
-    r = subprocess.run(["kaggle", *args], env=env, text=True,
-                       capture_output=capture, check=False)
+    # a connection dropped mid-call (e.g. the laptop slept) otherwise hangs forever;
+    # uploads/downloads get longer than status/list calls
+    timeout = 1800 if tuple(args[:2]) in (("datasets", "create"), ("kernels", "output")) else 180
+    try:
+        r = subprocess.run(["kaggle", *args], env=env, text=True,
+                           capture_output=capture, check=False, timeout=timeout)
+    except subprocess.TimeoutExpired:
+        if check:
+            raise RuntimeError(f"kaggle {' '.join(args)} [{acc}] timed out after {timeout}s")
+        return f"timed out after {timeout}s"
     if check and r.returncode != 0:
         raise RuntimeError(f"kaggle {' '.join(args)} [{acc}] -> {r.returncode}\n{r.stdout}\n{r.stderr}")
     return (r.stdout or "") + (r.stderr or "")

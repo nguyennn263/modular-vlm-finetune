@@ -2886,6 +2886,38 @@
       ],
       "gen_image": "full",
       "dataset": "nguyennn251/mvlm-pv-l1ep-mq-s3407"
+    },
+    "qfx-smoke-plain-s42:ep1": {
+      "account": "acc20",
+      "kernel": "mephistodr/mvlm-qfx-smoke-plain-s42-ep1",
+      "status": "done",
+      "pushed_at": "2026-10-05T04:48:42",
+      "chain": "qfx-smoke-plain-s42",
+      "phase": 0
+    },
+    "qfx-smoke-lora-s42:ep1": {
+      "account": "acc20",
+      "kernel": "mephistodr/mvlm-qfx-smoke-lora-s42-ep1",
+      "status": "done",
+      "pushed_at": "2026-10-05T04:48:54",
+      "chain": "qfx-smoke-lora-s42",
+      "phase": 0
+    },
+    "qfx-smoke-plain-s42:ep2": {
+      "account": "acc20",
+      "kernel": "mephistodr/mvlm-qfx-smoke-plain-s42-ep2",
+      "status": "running",
+      "pushed_at": "2026-10-05T04:59:05",
+      "chain": "qfx-smoke-plain-s42",
+      "phase": 1
+    },
+    "qfx-smoke-lora-s42:eval": {
+      "account": "acc20",
+      "kernel": "mephistodr/mvlm-qfx-smoke-lora-s42-eval",
+      "status": "running",
+      "pushed_at": "2026-10-05T04:59:16",
+      "chain": "qfx-smoke-lora-s42",
+      "phase": 1
     }
   }
 }

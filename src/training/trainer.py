@@ -1290,10 +1290,7 @@ class BridgeTrainer:
     def _compute_epoch_text_metrics(self, epoch: int) -> Dict[str, float]:
         """Compute ref/ref1-aligned text metrics on full validation dataset."""
         import numpy as np
-        from metrics.vqa_metrics import (
-            BLEUScore, METEORScore, ROUGEScore, CIDErScore,
-            PrecisionRecallF1, ExactMatchAccuracy, WUPS
-        )
+        from metrics.vqa_metrics import score_answers
 
         if not hasattr(self, 'val_dataset') or len(self.val_dataset) == 0:
             return {}
@@ -1366,65 +1363,7 @@ class BridgeTrainer:
             if self.device.type == "cuda":
                 torch.cuda.empty_cache()
 
-        bleu_metric = BLEUScore(n_gram=4)
-        meteor_metric = METEORScore()
-        rouge_metric = ROUGEScore(rouge_type='rougeL')
-        cider_metric = CIDErScore(n_gram=4)
-        prf_metric = PrecisionRecallF1()
-        exact_match_metric = ExactMatchAccuracy(normalize=True)
-
-        bleu_metric.update(all_generations, all_ground_truths)
-        meteor_metric.update(all_generations, all_ground_truths)
-        rouge_metric.update(all_generations, all_ground_truths)
-        cider_metric.update(all_generations, all_ground_truths)
-        prf_metric.update(all_generations, all_ground_truths)
-        exact_match_metric.update(all_generations, all_ground_truths)
-
-        bleu_result = bleu_metric.compute()
-        meteor_result = meteor_metric.compute()
-        rouge_result = rouge_metric.compute()
-        cider_result = cider_metric.compute()
-        prf_result = prf_metric.compute()
-        exact_match_result = exact_match_metric.compute()
-
-        # Simple accuracy (case-insensitive string match)
-        simple_accuracy_scores = []
-        for pred, refs in zip(all_generations, all_ground_truths):
-            pred_lower = pred.lower().strip()
-            match = any(pred_lower == ref.lower().strip() for ref in refs)
-            simple_accuracy_scores.append(1.0 if match else 0.0)
-        simple_accuracy = float(np.mean(simple_accuracy_scores)) if simple_accuracy_scores else 0.0
-
-        # WUPS is available in vqa_metrics but not part of default ref/ref1 validation bundle.
-        # We still compute it for side-by-side comparison requested in this repo.
-        wups_scores = []
-        try:
-            wups_metric = WUPS(threshold=0.9)
-            for pred, refs in zip(all_generations, all_ground_truths):
-                best = 0.0
-                for ref in refs:
-                    sim = wups_metric._wup_similarity(pred.lower(), ref.lower())
-                    score = wups_metric._threshold_wups(sim)
-                    best = max(best, score)
-                wups_scores.append(best)
-            wups_avg = float(np.mean(wups_scores)) if wups_scores else 0.0
-        except Exception as e:
-            logger.warning(f"WUPS computation failed: {e}")
-            wups_avg = 0.0
-            wups_scores = []
-
-        avg_metrics = {
-            'accuracy': simple_accuracy,
-            'exact_match': float(exact_match_result.value),
-            'bleu': float(bleu_result.value),
-            'rouge_l': float(rouge_result.value),
-            'meteor': float(meteor_result.value),
-            'cider': float(cider_result.value),
-            'precision': float(prf_result.metadata.get('precision', 0.0)),
-            'recall': float(prf_result.metadata.get('recall', 0.0)),
-            'f1': float(prf_result.value),
-            'wups': wups_avg,
-        }
+        avg_metrics, details = score_answers(all_generations, all_ground_truths)
 
         results_dir = Path(self.config.output_dir) / "results"
         metrics_file = results_dir / f"text_metrics_epoch_{epoch + 1}.json"
@@ -1436,15 +1375,7 @@ class BridgeTrainer:
                 'epoch': epoch + 1,
                 'num_samples': len(all_generations),
                 'averages': avg_metrics,
-                'details': {
-                    'bleu': {'value': float(bleu_result.value), 'metadata': bleu_result.metadata},
-                    'meteor': {'value': float(meteor_result.value), 'per_sample': meteor_result.per_sample},
-                    'rouge_l': {'value': float(rouge_result.value), 'per_sample': rouge_result.per_sample},
-                    'cider': {'value': float(cider_result.value), 'per_sample': cider_result.per_sample},
-                    'exact_match': {'value': float(exact_match_result.value), 'per_sample': exact_match_result.per_sample},
-                    'precision_recall_f1': {'value': float(prf_result.value), 'metadata': prf_result.metadata},
-                    'wups@0.9': {'value': wups_avg, 'per_sample': wups_scores},
-                }
+                'details': details,
             }, f, ensure_ascii=False, indent=2)
 
         with open(samples_file, 'w', encoding='utf-8') as f:

@@ -1,0 +1,18 @@
+{
+  "dataset": "vivqax_s3407",
+  "n": 1000,
+  "bridge": "multi_token",
+  "n_tiles": 1,
+  "checkpoint": "/tmp/ck/multi_token/model.pt",
+  "gen_image": "full",
+  "accuracy": 0.027,
+  "exact_match": 0.027,
+  "bleu": 0.0020555238682060523,
+  "rouge_l": 0.12572460317460318,
+  "meteor": 0.0977394374135368,
+  "cider": 0.4598780066486985,
+  "precision": 0.13867301587301586,
+  "recall": 0.28525,
+  "f1": 0.16783499278499278,
+  "wups": 0.027
+}

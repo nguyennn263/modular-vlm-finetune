@@ -2120,6 +2120,496 @@
       "num_tokens": 6,
       "seed": 3407,
       "phase": "eval"
+    },
+    "input-diag:mt-s42-t1-full": {
+      "account": "acc1",
+      "kernel": "nguyennn263/mvlm-diag-mt-s42-t1-full",
+      "status": "done",
+      "pushed_at": "2026-10-04T12:52:44",
+      "collected": false,
+      "n_tiles": 1,
+      "pooled_input": "default",
+      "gen_image": "full",
+      "ckpt": "mt-s42/model.pt"
+    },
+    "input-diag:mt-s123-t1-full": {
+      "account": "acc2",
+      "kernel": "nguyennn2501/mvlm-diag-mt-s123-t1-full",
+      "status": "running",
+      "pushed_at": "2026-10-04T12:53:05",
+      "collected": false,
+      "n_tiles": 1,
+      "pooled_input": "default",
+      "gen_image": "full",
+      "ckpt": "mt-s123/model.pt"
+    },
+    "input-diag:mt-s2026-t1-full": {
+      "account": "acc3",
+      "kernel": "nguyennn2603/mvlm-diag-mt-s2026-t1-full",
+      "status": "done",
+      "pushed_at": "2026-10-04T12:53:09",
+      "collected": false,
+      "n_tiles": 1,
+      "pooled_input": "default",
+      "gen_image": "full",
+      "ckpt": "mt-s2026/model.pt"
+    },
+    "input-diag:mt-s3407-t1-full": {
+      "account": "acc4",
+      "kernel": "nguyennn251/mvlm-diag-mt-s3407-t1-full",
+      "status": "done",
+      "pushed_at": "2026-10-04T12:53:13",
+      "collected": false,
+      "n_tiles": 1,
+      "pooled_input": "default",
+      "gen_image": "full",
+      "ckpt": "mt-s3407/model.pt"
+    },
+    "input-diag:mt-s42-t1-full-mean": {
+      "account": "acc5",
+      "kernel": "nguyennguyen263/mvlm-diag-mt-s42-t1-full-mean",
+      "status": "done",
+      "pushed_at": "2026-10-04T12:53:19",
+      "collected": false,
+      "n_tiles": 1,
+      "pooled_input": "mean_all",
+      "gen_image": "full",
+      "ckpt": "mt-s42/model.pt"
+    },
+    "input-diag:mt-s42-t3-meanall": {
+      "account": "acc7",
+      "kernel": "tinquc220300nguyn/mvlm-diag-mt-s42-t3-meanall",
+      "status": "done",
+      "pushed_at": "2026-10-04T12:53:23",
+      "collected": false,
+      "n_tiles": 3,
+      "pooled_input": "default",
+      "gen_image": "first_tile",
+      "ckpt": "mt-s42/model.pt"
+    },
+    "input-diag:mt-s42-t3-clsmean": {
+      "account": "acc8",
+      "kernel": "lelynhan/mvlm-diag-mt-s42-t3-clsmean",
+      "status": "running",
+      "pushed_at": "2026-10-04T12:53:27",
+      "collected": false,
+      "n_tiles": 3,
+      "pooled_input": "cls_mean",
+      "gen_image": "first_tile",
+      "ckpt": "mt-s42/model.pt"
+    },
+    "input-diag:mt-s42-t6-meanall": {
+      "account": "acc10",
+      "kernel": "giapht/mvlm-diag-mt-s42-t6-meanall",
+      "status": "running",
+      "pushed_at": "2026-10-04T12:53:32",
+      "collected": false,
+      "n_tiles": 6,
+      "pooled_input": "default",
+      "gen_image": "first_tile",
+      "ckpt": "mt-s42/model.pt"
+    },
+    "input-diag:mt-s42-t6-clsmean": {
+      "account": "acc11",
+      "kernel": "chalicetrncthnh/mvlm-diag-mt-s42-t6-clsmean",
+      "status": "done",
+      "pushed_at": "2026-10-04T12:53:37",
+      "collected": false,
+      "n_tiles": 6,
+      "pooled_input": "cls_mean",
+      "gen_image": "first_tile",
+      "ckpt": "mt-s42/model.pt"
+    },
+    "input-diag:l3ep-s42-t1-full": {
+      "account": "acc12",
+      "kernel": "kffddk/mvlm-diag-l3ep-s42-t1-full",
+      "status": "done",
+      "pushed_at": "2026-10-04T12:53:41",
+      "collected": false,
+      "n_tiles": 1,
+      "pooled_input": "default",
+      "gen_image": "full",
+      "ckpt": "l3ep-s42.pt"
+    },
+    "input-diag:l3ep-s123-t1-full": {
+      "account": "acc13",
+      "kernel": "avanrager/mvlm-diag-l3ep-s123-t1-full",
+      "status": "running",
+      "pushed_at": "2026-10-04T12:53:45",
+      "collected": false,
+      "n_tiles": 1,
+      "pooled_input": "default",
+      "gen_image": "full",
+      "ckpt": "l3ep-s123.pt"
+    },
+    "input-diag:l3ep-s3407-t1-full": {
+      "account": "acc15",
+      "kernel": "duongcubu/mvlm-diag-l3ep-s3407-t1-full",
+      "status": "running",
+      "pushed_at": "2026-10-04T12:53:49",
+      "collected": false,
+      "n_tiles": 1,
+      "pooled_input": "default",
+      "gen_image": "full",
+      "ckpt": "l3ep-s3407.pt"
+    },
+    "input-diag:l3ep-s42-t1-crop": {
+      "account": "acc16",
+      "kernel": "nguynrichard/mvlm-diag-l3ep-s42-t1-crop",
+      "status": "running",
+      "pushed_at": "2026-10-04T12:53:53",
+      "collected": false,
+      "n_tiles": 1,
+      "pooled_input": "default",
+      "gen_image": "first_tile",
+      "ckpt": "l3ep-s42.pt"
+    },
+    "regen-full:l1ep-s42": {
+      "account": "acc1",
+      "kernel": "nguyennn263/mvlm-regen-l1ep-s42",
+      "status": "done",
+      "note": "eval-only, --gen-image full (session 81a4e167)"
+    },
+    "regen-full:l1ep-s123": {
+      "account": "acc3",
+      "kernel": "nguyennn2603/mvlm-regen-l1ep-s123",
+      "status": "running",
+      "note": "eval-only, --gen-image full (session 81a4e167)"
+    },
+    "regen-full:l1ep-s3407": {
+      "account": "acc4",
+      "kernel": "nguyennn251/mvlm-regen-l1ep-s3407",
+      "status": "running",
+      "note": "eval-only, --gen-image full (session 81a4e167)"
+    },
+    "regen-full:l3ep-s42": {
+      "account": "acc12",
+      "kernel": "kffddk/mvlm-regen-l3ep-s42",
+      "status": "running",
+      "note": "eval-only, --gen-image full (session 81a4e167)"
+    },
+    "regen-full:mt-s42": {
+      "account": "acc5",
+      "kernel": "nguyennguyen263/mvlm-regen-mt-s42",
+      "status": "done",
+      "note": "eval-only, --gen-image full (session 81a4e167)"
+    },
+    "ood-full:vitextvqa:s42": {
+      "account": "acc14",
+      "kernel": "nguyendinhdoanh/mvlm-oodfull-vitextvqa-s42",
+      "status": "done",
+      "pushed_at": "2026-10-04T15:36:00",
+      "dataset": "vitextvqa",
+      "seed": 42,
+      "gen_image": "full"
+    },
+    "ood-full:vitextvqa:s123": {
+      "account": "acc17",
+      "kernel": "nguyentrongdoanh/mvlm-oodfull-vitextvqa-s123",
+      "status": "done",
+      "pushed_at": "2026-10-04T15:36:13",
+      "dataset": "vitextvqa",
+      "seed": 123,
+      "gen_image": "full"
+    },
+    "ood-full:vitextvqa:s3407": {
+      "account": "acc18",
+      "kernel": "bellahaii/mvlm-oodfull-vitextvqa-s3407",
+      "status": "done",
+      "pushed_at": "2026-10-04T15:36:24",
+      "dataset": "vitextvqa",
+      "seed": 3407,
+      "gen_image": "full"
+    },
+    "ood-full:vivqax:s42": {
+      "account": "acc19",
+      "kernel": "katekathi/mvlm-oodfull-vivqax-s42",
+      "status": "done",
+      "pushed_at": "2026-10-04T15:36:35",
+      "dataset": "vivqax",
+      "seed": 42,
+      "gen_image": "full"
+    },
+    "ood-full:vivqax:s123": {
+      "account": "acc20",
+      "kernel": "mephistodr/mvlm-oodfull-vivqax-s123",
+      "status": "done",
+      "pushed_at": "2026-10-04T15:36:44",
+      "dataset": "vivqax",
+      "seed": 123,
+      "gen_image": "full"
+    },
+    "ood-full:vivqax:s3407": {
+      "account": "acc14",
+      "kernel": "nguyendinhdoanh/mvlm-oodfull-vivqax-s3407",
+      "status": "done",
+      "pushed_at": "2026-10-04T15:55:26",
+      "dataset": "vivqax",
+      "seed": 3407,
+      "gen_image": "full"
+    },
+    "ood-full:openvivqa:s42": {
+      "account": "acc17",
+      "kernel": "nguyentrongdoanh/mvlm-oodfull-openvivqa-s42",
+      "status": "done",
+      "pushed_at": "2026-10-04T15:55:41",
+      "dataset": "openvivqa",
+      "seed": 42,
+      "gen_image": "full"
+    },
+    "ood-full:openvivqa:s123": {
+      "account": "acc18",
+      "kernel": "bellahaii/mvlm-oodfull-openvivqa-s123",
+      "status": "done",
+      "pushed_at": "2026-10-04T15:55:53",
+      "dataset": "openvivqa",
+      "seed": 123,
+      "gen_image": "full"
+    },
+    "ood-full:openvivqa:s3407": {
+      "account": "acc19",
+      "kernel": "katekathi/mvlm-oodfull-openvivqa-s3407",
+      "status": "done",
+      "pushed_at": "2026-10-04T15:56:05",
+      "dataset": "openvivqa",
+      "seed": 3407,
+      "gen_image": "full"
+    },
+    "ood-full:vivqa:s42": {
+      "account": "acc20",
+      "kernel": "mephistodr/mvlm-oodfull-vivqa-s42",
+      "status": "done",
+      "pushed_at": "2026-10-04T15:56:15",
+      "dataset": "vivqa",
+      "seed": 42,
+      "gen_image": "full"
+    },
+    "ood-full:vivqa:s123": {
+      "account": "acc5",
+      "kernel": "nguyennguyen263/mvlm-oodfull-vivqa-s123",
+      "status": "done",
+      "pushed_at": "2026-10-04T16:12:45",
+      "dataset": "vivqa",
+      "seed": 123,
+      "gen_image": "full"
+    },
+    "ood-full:vivqa:s3407": {
+      "account": "acc17",
+      "kernel": "nguyentrongdoanh/mvlm-oodfull-vivqa-s3407",
+      "status": "done",
+      "pushed_at": "2026-10-04T16:13:15",
+      "dataset": "vivqa",
+      "seed": 3407,
+      "gen_image": "full"
+    },
+    "regen-full:mt-s123": {
+      "account": "acc18",
+      "kernel": "bellahaii/mvlm-regen-mt-s123",
+      "status": "running",
+      "pushed_at": "2026-10-04T16:13:27",
+      "bridge": "multi_token",
+      "splits": [
+        "test"
+      ],
+      "gen_image": "full"
+    },
+    "regen-full:mt-s2026": {
+      "account": "acc19",
+      "kernel": "katekathi/mvlm-regen-mt-s2026",
+      "status": "done",
+      "pushed_at": "2026-10-04T16:13:37",
+      "bridge": "multi_token",
+      "splits": [
+        "test"
+      ],
+      "gen_image": "full"
+    },
+    "regen-full:mt-s3407": {
+      "account": "acc20",
+      "kernel": "mephistodr/mvlm-regen-mt-s3407",
+      "status": "running",
+      "pushed_at": "2026-10-04T16:13:48",
+      "bridge": "multi_token",
+      "splits": [
+        "test"
+      ],
+      "gen_image": "full"
+    },
+    "regen-full:l3ep-s123": {
+      "account": "acc14",
+      "kernel": "nguyendinhdoanh/mvlm-regen-l3ep-s123",
+      "status": "done",
+      "pushed_at": "2026-10-04T16:19:21",
+      "bridge": "multi_token",
+      "splits": [
+        "test"
+      ],
+      "gen_image": "full"
+    },
+    "regen-full:l3ep-s3407": {
+      "account": "acc5",
+      "kernel": "nguyennguyen263/mvlm-regen-l3ep-s3407",
+      "status": "running",
+      "pushed_at": "2026-10-04T16:24:52",
+      "bridge": "multi_token",
+      "splits": [
+        "test"
+      ],
+      "gen_image": "full"
+    },
+    "regen-full:rq5-feat-s42": {
+      "account": "acc20",
+      "kernel": "mephistodr/mvlm-regen-rq5-feat-s42",
+      "status": "done",
+      "pushed_at": "2026-10-04T16:38:05",
+      "bridge": "multi_token",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full",
+      "dataset": "mephistodr/mvlm-pv-rq5-feat-s42"
+    },
+    "regen-full:rq5-feat-s123": {
+      "account": "acc17",
+      "kernel": "nguyentrongdoanh/mvlm-regen-rq5-feat-s123",
+      "status": "running",
+      "pushed_at": "2026-10-04T16:42:18",
+      "bridge": "multi_token",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full",
+      "dataset": "nguyentrongdoanh/mvlm-pv-rq5-feat-s123"
+    },
+    "regen-full:rq5-feat-s3407": {
+      "account": "acc1",
+      "kernel": "nguyennn263/mvlm-regen-rq5-feat-s3407",
+      "status": "done",
+      "pushed_at": "2026-10-04T17:04:45",
+      "bridge": "multi_token",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full",
+      "dataset": "nguyennn263/mvlm-pv-rq5-feat-s3407"
+    },
+    "regen-full:rq5-logit01-s42": {
+      "account": "acc19",
+      "kernel": "katekathi/mvlm-regen-rq5-logit01-s42",
+      "status": "done",
+      "pushed_at": "2026-10-04T17:28:21",
+      "bridge": "multi_token",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full",
+      "dataset": "katekathi/mvlm-pv-rq5-logit01-s42"
+    },
+    "regen-full:rq5-logit01-s123": {
+      "account": "acc14",
+      "kernel": "nguyendinhdoanh/mvlm-regen-rq5-logit01-s123",
+      "status": "running",
+      "pushed_at": "2026-10-04T17:40:25",
+      "bridge": "multi_token",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full",
+      "dataset": "nguyendinhdoanh/mvlm-pv-rq5-logit01-s123"
+    },
+    "regen-full:rq5-logit01-s3407": {
+      "account": "acc7",
+      "kernel": "tinquc220300nguyn/mvlm-regen-rq5-logit01-s3407",
+      "status": "done",
+      "pushed_at": "2026-10-04T17:52:17",
+      "bridge": "multi_token",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full",
+      "dataset": "tinquc220300nguyn/mvlm-pv-rq5-logit01-s3407"
+    },
+    "regen-full:rq5-logit1-s42": {
+      "account": "acc1",
+      "kernel": "nguyennn263/mvlm-regen-rq5-logit1-s42",
+      "status": "done",
+      "pushed_at": "2026-10-04T18:20:58",
+      "bridge": "multi_token",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full",
+      "dataset": "nguyennn263/mvlm-pv-rq5-logit1-s42"
+    },
+    "regen-full:rq5-logit1-s123": {
+      "account": "acc19",
+      "kernel": "katekathi/mvlm-regen-rq5-logit1-s123",
+      "status": "running",
+      "pushed_at": "2026-10-04T18:56:25",
+      "bridge": "multi_token",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full",
+      "dataset": "katekathi/mvlm-pv-rq5-logit1-s123"
+    },
+    "regen-full:rq5-logit1-s3407": {
+      "account": "acc7",
+      "kernel": "tinquc220300nguyn/mvlm-regen-rq5-logit1-s3407",
+      "status": "done",
+      "pushed_at": "2026-10-04T19:02:33",
+      "bridge": "multi_token",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full",
+      "dataset": "tinquc220300nguyn/mvlm-pv-rq5-logit1-s3407"
+    },
+    "regen-full:rq5-random-s42": {
+      "account": "acc1",
+      "kernel": "nguyennn263/mvlm-regen-rq5-random-s42",
+      "status": "done",
+      "pushed_at": "2026-10-04T19:36:46",
+      "bridge": "multi_token",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full",
+      "dataset": "nguyennn263/mvlm-pv-rq5-random-s42"
+    },
+    "regen-full:rq5-random-s123": {
+      "account": "acc7",
+      "kernel": "tinquc220300nguyn/mvlm-regen-rq5-random-s123",
+      "status": "running",
+      "pushed_at": "2026-10-04T20:18:25",
+      "bridge": "multi_token",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full",
+      "dataset": "tinquc220300nguyn/mvlm-pv-rq5-random-s123"
+    },
+    "regen-full:rq5-random-s3407": {
+      "account": "acc1",
+      "kernel": "nguyennn263/mvlm-regen-rq5-random-s3407",
+      "status": "running",
+      "pushed_at": "2026-10-04T20:52:41",
+      "bridge": "multi_token",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full",
+      "dataset": "nguyennn263/mvlm-pv-rq5-random-s3407"
+    },
+    "input-diag:mt-s123-t1-full-r2": {
+      "account": "acc11",
+      "kernel": "chalicetrncthnh/mvlm-diag-mt-s123-t1-full-r2",
+      "status": "running",
+      "pushed_at": "2026-10-04T21:01:42",
+      "n_tiles": 1,
+      "pooled_input": "default",
+      "gen_image": "full",
+      "ckpt": "mt-s123/model.pt"
     }
   }
 }

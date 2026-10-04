@@ -1,0 +1,18 @@
+{
+  "dataset": "openvivqa_s123",
+  "n": 1000,
+  "bridge": "multi_token",
+  "n_tiles": 1,
+  "checkpoint": "/tmp/ck/multi_token/model.pt",
+  "gen_image": "full",
+  "accuracy": 0.007,
+  "exact_match": 0.007,
+  "bleu": 0.014848329859147049,
+  "rouge_l": 0.20917069012106515,
+  "meteor": 0.1319348721450656,
+  "cider": 0.8238323976792156,
+  "precision": 0.3294325396825397,
+  "recall": 0.17788559208623148,
+  "f1": 0.2147895369190493,
+  "wups": 0.007
+}

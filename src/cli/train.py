@@ -118,6 +118,7 @@ def build_run_config(args: argparse.Namespace) -> dict[str, Any]:
         cfg["lora"] = {"r": args.lora_r, "alpha": args.lora_alpha,
                        "targets": [t for t in args.lora_targets.split(",") if t]}
         cfg["freeze_bridge"] = bool(args.freeze_bridge)
+    cfg["pooled_input"] = args.pooled_input
     if args.tile_choices:
         cfg["tile_choices"] = [int(x) for x in str(args.tile_choices).split(",") if x.strip()]
     if args.no_early_stopping:
@@ -180,6 +181,10 @@ def _parser() -> argparse.ArgumentParser:
     p.add_argument("--tile-choices", default=None, dest="tile_choices",
                    help="Comma list e.g. '1,3,6' — per-batch random tile count "
                         "(tile-count augmentation, for a bridge the oracle sweeps over n_tiles).")
+    p.add_argument("--pooled-input", default="default", dest="pooled_input",
+                   choices=["default", "mean_all", "cls_mean"],
+                   help="How pooled bridges read InternViT at T > 1 (see setup.POOLED_INPUT_MODES). "
+                        "With --tile-choices, cls_mean keeps one input type (CLS) across tile counts.")
     p.add_argument("--text-metrics-every", type=int, default=None, dest="text_metrics_every",
                    help="Generate val text metrics (CIDEr/BLEU/...) every N epochs (default 1). "
                         "The last epoch always runs regardless.")
@@ -285,6 +290,7 @@ def run(cfg: dict[str, Any]) -> None:
         align_teacher=bool(cfg.get("align_distill", False)),
         lora=cfg.get("lora"),
     )
+    model.pooled_input = cfg.get("pooled_input", "default")
 
     if cfg.get("init_bridge"):
         # Warm-start ONLY the bridge weights from a different prior checkpoint

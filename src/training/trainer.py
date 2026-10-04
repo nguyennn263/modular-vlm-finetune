@@ -643,8 +643,15 @@ class BridgeTrainer:
         # Apply bridge module (trainable)
         # Bridge handles both shape conversion and augmentation
         if bridge_type == 'qformer':
-            # QFormer requires both vision features and question embeddings
-            bridged_embeddings = self.model.bridge(vision_embeddings, text_embeddings)
+            # QFormer requires both vision features and question embeddings. input_ids hold the
+            # reference answer here (teacher forcing), and the bridge's tokens sit before the text,
+            # so the answer and padding must be hidden from its cross-attention -- otherwise every
+            # answer position can read the answer back through the bridge.
+            positions = torch.arange(input_ids.shape[1], device=self.device).unsqueeze(0)
+            hidden = attention_mask == 0
+            if 'answer_start_pos' in batch:
+                hidden = hidden | (positions >= batch['answer_start_pos'].to(self.device).unsqueeze(1))
+            bridged_embeddings = self.model.bridge(vision_embeddings, text_embeddings, hidden)
         else:
             # All other bridges just take vision embeddings
             bridged_embeddings = self.model.bridge(vision_embeddings)
@@ -1159,7 +1166,8 @@ class BridgeTrainer:
         text_embeddings = text_embeddings.to(dtype=model_dtype, device=self.device)
 
         if bridge_type == 'qformer':
-            bridge_output = self.model.bridge(vision_embeddings, text_embeddings)
+            # prompt only (no answer) at generation; still hide the padding
+            bridge_output = self.model.bridge(vision_embeddings, text_embeddings, attention_mask == 0)
         else:
             bridge_output = self.model.bridge(vision_embeddings)
         if bridge_output.dim() == 2:
@@ -1246,7 +1254,8 @@ class BridgeTrainer:
         text_embeddings = text_embeddings.to(dtype=model_dtype, device=self.device)
         
         if bridge_type == 'qformer':
-            bridge_output = self.model.bridge(vision_embeddings, text_embeddings)
+            # prompt only (no answer) at generation; still hide the padding
+            bridge_output = self.model.bridge(vision_embeddings, text_embeddings, attention_mask == 0)
         else:
             bridge_output = self.model.bridge(vision_embeddings)
         if bridge_output.dim() == 2:

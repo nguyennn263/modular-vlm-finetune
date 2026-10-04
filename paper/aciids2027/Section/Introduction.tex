@@ -31,8 +31,8 @@ To address these questions, we propose \textbf{ViBridge-VQA}, a parameter-effici
 adaptation of Vintern-1B for generative Vietnamese VQA. ViBridge-VQA keeps the
 vision encoder and the language decoder frozen and replaces the original
 projector with a lightweight \emph{multi-token bridge} that maps a single global
-view of the image into the decoder input space. A low-rank adapter
-(LoRA~\cite{hu2022lora}) then adapts the decoder. Only 1.01\% of the parameters are
+view of the image into the decoder input space, and a low-rank adapter
+(LoRA~\cite{hu2022lora}) on the decoder is trained jointly with the bridge. Only 1.01\% of the parameters are
 trained, and the visual encoder processes one image view instead of several
 tiles. We further analyse where the remaining gap comes from by varying one
 component at a time: the capacity of the bridge, the training signal of the

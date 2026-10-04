@@ -38,7 +38,13 @@ Read this first to resume. Results themselves: `plans/results-full-image.md`
 - **User decision 2026-10-05: quota allows (~439h left) -> retrain.** Q-Former leak fixed in
   4a8eb6d (mask answer+padding in question cross-attention; test). Full Q-Former retrain: 3 seeds x
   (plain 2ep + joint LoRA 1ep from scratch, as the other bridges), val eval with --gen-image full.
+  Smoke chain (40 samples) passed end to end 2026-10-05 05:19 (resume via kernel_sources, LoRA
+  load, leak mask). Full retrain launched 05:2x: `scripts/parallel/train_queue.py fill`, chains
+  qfx-{plain,lora}-s{42,123,3407} on acc20/acc19/acc18 (~3h per epoch on T4); results in
+  outputs/train_qfx/, collected by collect_loop.sh.
   Tile-aug retrain needs an epoch that may exceed Kaggle's 12h cap (trainer resumes per epoch only).
+- tab:main/stability + tab:levers complete 2026-10-05 04:49 -> plans/paper-tables-full-image.md
+  (sent to the paper session).
 - **Pending user decision:** RQ3 tile-augmentation row (trained with mixed CLS/mean input):
   drop it (recommended) vs retrain.
 

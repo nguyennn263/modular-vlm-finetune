@@ -47,6 +47,21 @@ BRIDGE_TYPE = Literal[
 PATCH_BASED_BRIDGES = {'tile_attention', 'mini_qformer', 'qformer',
                         'patch_pool_mean', 'patch_pool_max', 'conv_abstractor'}
 
+# How a pooled bridge (multi_token, residual, ...) reads InternViT's output:
+#   default  - CLS token at one tile, mean over every token of every tile at
+#              T > 1 (the behaviour every reported number was produced with)
+#   mean_all - mean over every token of every tile, also at one tile
+#   cls_mean - mean of each tile's CLS token (identical to CLS at one tile)
+POOLED_INPUT_MODES = ("default", "mean_all", "cls_mean")
+
+
+def pool_for_pooled_bridge(hidden: torch.Tensor, n_tiles: int, mode: str = "default") -> torch.Tensor:
+    """(B, T*P, D) InternViT last_hidden_state, CLS at index 0 of every tile -> (B, D)."""
+    if mode == "mean_all" or (mode == "default" and n_tiles > 1):
+        return hidden.mean(dim=1)
+    b, tp, d = hidden.shape
+    return hidden.view(b, n_tiles, tp // n_tiles, d)[:, :, 0].mean(dim=1)
+
 # Bridge types that need text embeddings (for semantic filtering)
 TEXT_CONDITIONING_BRIDGES = {'qformer'}
 
@@ -373,15 +388,13 @@ class VisionLanguageBridge(nn.Module):
         else:
             # Pooled-based bridges (linear, residual, gated, etc)
             # Extract pooled representation
-            if pooler is not None:
-                vision_pool = pooler  # (B, 1024)
-            elif multitile:
-                vision_pool = vision_embeddings.mean(dim=1)  # mean over T*P tokens (B, 1024)
-            elif vision_embeddings.dim() == 3:
-                vision_pool = vision_embeddings[:, 0, :]  # Use CLS token (B, 1024)
+            if vision_embeddings.dim() == 3:
+                n_tiles = pixel_values.shape[1] if multitile else 1
+                vision_pool = pool_for_pooled_bridge(
+                    vision_embeddings, n_tiles, getattr(self, "pooled_input", "default"))  # (B, 1024)
             else:
                 vision_pool = vision_embeddings  # Already pooled (B, 1024)
-            
+
             bridge_output = self.bridge(vision_pool)  # (B, 896)
             bridge_output = bridge_output.unsqueeze(1)  # (B, 1, 896)
             

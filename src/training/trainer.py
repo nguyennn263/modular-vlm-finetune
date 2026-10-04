@@ -161,6 +161,11 @@ class TrainConfig:
     n_tiles: int = 1
     tile_choices: Optional[List[int]] = None
 
+    # Image fed to generation at n_tiles=1: "first_tile" (the first 448px crop of
+    # the dynamic tiling -- what every reported generation metric used) or "full"
+    # (the whole image at the training collator's 336px, matching training).
+    gen_image: str = "first_tile"
+
     # Which of a sample's ~5 references to use as the training target each batch:
     # "first" (default, deterministic) | "random" (per-batch paraphrase augmentation,
     # aligns with the multi-reference eval) | "majority".
@@ -1079,13 +1084,19 @@ class BridgeTrainer:
         """Vision embeddings for 4D (B,C,H,W) or 5D (B,T,C,H,W) multi-tile input.
 
         5D: every tile through InternViT, patch tokens concatenated -> (B, T*P, D);
-        pooled bridges get the mean over T*P (they cannot exploit extra tiles - the
-        point of the P1 lever experiment).
+        pooled bridges get pool_for_pooled_bridge() of it (mode = model.pooled_input).
         """
+        from src.training.setup import pool_for_pooled_bridge
+        mode = getattr(self.model, "pooled_input", "default")
         if pixel_values.dim() == 5:
             from src.data.tiling import encode_tiles
             hs = encode_tiles(self.model.vision_model, pixel_values)  # (B, T*P, D)
-            return hs.mean(dim=1) if bridge_type in self._POOLED_BRIDGES else hs
+            if bridge_type in self._POOLED_BRIDGES:
+                return pool_for_pooled_bridge(hs, pixel_values.shape[1], mode)
+            return hs
+        if bridge_type in self._POOLED_BRIDGES and mode != "default":
+            hs = self.model.vision_model(pixel_values).last_hidden_state  # (B, P, D)
+            return pool_for_pooled_bridge(hs, 1, mode)
         return self._extract_vision_embeddings(
             self.model.vision_model(pixel_values), bridge_type
         )
@@ -1097,6 +1108,9 @@ class BridgeTrainer:
         if n > 1:
             from src.data.tiling import load_image_tiles
             pv = load_image_tiles(image_path, n_tiles=n).unsqueeze(0)  # (1, T, C, H, W)
+        elif getattr(self.config, 'gen_image', 'first_tile') == 'full':
+            from src.data.collator import load_image as load_full_image
+            pv = load_full_image(image_path, size=(336, 336)).unsqueeze(0)  # (1, C, H, W)
         else:
             pv = load_image(image_path, input_size=448, max_num=6)[0:1]  # (1, C, H, W)
         return pv.to(dtype=model_dtype, device=self.device)

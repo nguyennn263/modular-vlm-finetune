@@ -36,10 +36,18 @@ trong mô tả"); LoRA gain on them +0.3.
 
 LoRA 1ep − bridge: +2.78 [2.20, 3.35]; LoRA 3ep − bridge: +4.17 [3.55, 4.79]; P(Δ>0)=1.000.
 
-## 4. Tile diagnostic (input_diag, seed 42, val)
+## 4. Tile diagnostic (input_diag, Multi-Token seed 42, val, whole image)
 
-1 tile CLS 50.87 · 6 tiles CLS 49.97 · 1 or 3 tiles token-mean 18.3. The old "collapse with
-more tiles" came from switching CLS → token mean, not from the tile count.
+| Input to bridge | 1 tile | 3 tiles | 6 tiles |
+|---|--:|--:|--:|
+| CLS (mean of per-tile CLS) | 50.87 (CE 1.489) | 50.84 (CE 1.491) | 49.97 (CE 1.509) |
+| mean of every token (old T>1 path) | 18.32 (CE 3.468) | 18.31 (CE 3.469) | 18.96 (CE 3.419) |
+
+The old "collapse beyond one tile" (F1 21.05) was an artifact of switching CLS → token
+mean at T>1; with a consistent CLS input more tiles neither help nor hurt. Caveats: on 4:3
+val images a 3-tile request tiles 1×1 and repeats the image (no new content); 6 tiles =
+six 448px crops, no thumbnail. The old tile-augmentation training (mixed CLS/mean inputs)
+is invalid and is not used in the paper.
 
 ## 5. Verified bugs / corrections
 

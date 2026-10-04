@@ -2614,12 +2614,256 @@
     "input-diag:l3ep-s123-t1-full-r2": {
       "account": "acc10",
       "kernel": "giapht/mvlm-diag-l3ep-s123-t1-full-r2",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-04T22:00:30",
       "n_tiles": 1,
       "pooled_input": "default",
       "gen_image": "full",
       "ckpt": "l3ep-s123.pt"
+    },
+    "input-diag:l3ep-s3407-t1-full-r2": {
+      "account": "acc1",
+      "kernel": "nguyennn263/mvlm-diag-l3ep-s3407-t1-full-r2",
+      "status": "running",
+      "pushed_at": "2026-10-04T22:11:59",
+      "n_tiles": 1,
+      "pooled_input": "default",
+      "gen_image": "full",
+      "ckpt": "l3ep-s3407.pt"
+    },
+    "input-diag:l3ep-s42-t1-crop-r2": {
+      "account": "acc2",
+      "kernel": "nguyennn2501/mvlm-diag-l3ep-s42-t1-crop-r2",
+      "status": "running",
+      "pushed_at": "2026-10-04T22:12:13",
+      "n_tiles": 1,
+      "pooled_input": "default",
+      "gen_image": "first_tile",
+      "ckpt": "l3ep-s42.pt"
+    },
+    "regen-full:mq-s42": {
+      "account": "acc3",
+      "kernel": "nguyennn2603/mvlm-regen-mq-s42",
+      "status": "running",
+      "pushed_at": "2026-10-04T22:12:28",
+      "bridge": "mini_qformer",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "regen-full:res-s42": {
+      "account": "acc4",
+      "kernel": "nguyennn251/mvlm-regen-res-s42",
+      "status": "running",
+      "pushed_at": "2026-10-04T22:12:41",
+      "bridge": "residual",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "regen-full:ta-s42": {
+      "account": "acc5",
+      "kernel": "nguyennguyen263/mvlm-regen-ta-s42",
+      "status": "running",
+      "pushed_at": "2026-10-04T22:12:55",
+      "bridge": "tile_attention",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "regen-full:qf-s3407": {
+      "account": "acc7",
+      "kernel": "tinquc220300nguyn/mvlm-regen-qf-s3407",
+      "status": "running",
+      "pushed_at": "2026-10-04T22:13:09",
+      "bridge": "qformer",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "regen-full:res-s123": {
+      "account": "acc8",
+      "kernel": "lelynhan/mvlm-regen-res-s123",
+      "status": "running",
+      "pushed_at": "2026-10-04T22:13:35",
+      "bridge": "residual",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full",
+      "dataset": "lelynhan/mvlm-pv-res-s123"
+    },
+    "regen-full:res-s3407": {
+      "account": "acc10",
+      "kernel": "giapht/mvlm-regen-res-s3407",
+      "status": "running",
+      "pushed_at": "2026-10-04T22:14:21",
+      "bridge": "residual",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full",
+      "dataset": "giapht/mvlm-pv-res-s3407"
+    },
+    "regen-full:ta-s123": {
+      "account": "acc11",
+      "kernel": "chalicetrncthnh/mvlm-regen-ta-s123",
+      "status": "running",
+      "pushed_at": "2026-10-04T22:14:59",
+      "bridge": "tile_attention",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full",
+      "dataset": "chalicetrncthnh/mvlm-pv-ta-s123"
+    },
+    "regen-full:ta-s3407": {
+      "account": "acc12",
+      "kernel": "kffddk/mvlm-regen-ta-s3407",
+      "status": "running",
+      "pushed_at": "2026-10-04T22:15:47",
+      "bridge": "tile_attention",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full",
+      "dataset": "kffddk/mvlm-pv-ta-s3407"
+    },
+    "regen-full:mq-s123": {
+      "account": "acc13",
+      "kernel": "avanrager/mvlm-regen-mq-s123",
+      "status": "running",
+      "pushed_at": "2026-10-04T22:16:38",
+      "bridge": "mini_qformer",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full",
+      "dataset": "avanrager/mvlm-pv-mq-s123"
+    },
+    "regen-full:mq-s3407": {
+      "account": "acc15",
+      "kernel": "duongcubu/mvlm-regen-mq-s3407",
+      "status": "running",
+      "pushed_at": "2026-10-04T22:19:33",
+      "bridge": "mini_qformer",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full",
+      "dataset": "duongcubu/mvlm-pv-mq-s3407"
+    },
+    "regen-full:qf-s42": {
+      "account": "acc16",
+      "kernel": "nguynrichard/mvlm-regen-qf-s42",
+      "status": "running",
+      "pushed_at": "2026-10-04T22:20:37",
+      "bridge": "qformer",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full",
+      "dataset": "nguynrichard/mvlm-pv-qf-s42"
+    },
+    "regen-full:qf-s123": {
+      "account": "acc18",
+      "kernel": "bellahaii/mvlm-regen-qf-s123",
+      "status": "running",
+      "pushed_at": "2026-10-04T22:21:47",
+      "bridge": "qformer",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full",
+      "dataset": "bellahaii/mvlm-pv-qf-s123"
+    },
+    "regen-full:l1ep-res-s42": {
+      "account": "acc19",
+      "kernel": "katekathi/mvlm-regen-l1ep-res-s42",
+      "status": "running",
+      "pushed_at": "2026-10-04T22:23:05",
+      "bridge": "residual",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full",
+      "dataset": "katekathi/mvlm-pv-l1ep-res-s42"
+    },
+    "regen-full:l1ep-res-s123": {
+      "account": "acc20",
+      "kernel": "mephistodr/mvlm-regen-l1ep-res-s123",
+      "status": "running",
+      "pushed_at": "2026-10-04T22:24:56",
+      "bridge": "residual",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full",
+      "dataset": "mephistodr/mvlm-pv-l1ep-res-s123"
+    },
+    "regen-full:l1ep-res-s3407": {
+      "account": "acc4",
+      "kernel": "nguyennn251/mvlm-regen-l1ep-res-s3407",
+      "status": "running",
+      "pushed_at": "2026-10-04T23:03:09",
+      "bridge": "residual",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full",
+      "dataset": "nguyennn251/mvlm-pv-l1ep-res-s3407"
+    },
+    "regen-full:l1ep-ta-s42": {
+      "account": "acc11",
+      "kernel": "chalicetrncthnh/mvlm-regen-l1ep-ta-s42",
+      "status": "running",
+      "pushed_at": "2026-10-04T23:04:47",
+      "bridge": "tile_attention",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full",
+      "dataset": "chalicetrncthnh/mvlm-pv-l1ep-ta-s42"
+    },
+    "regen-full:l1ep-mq-s42": {
+      "account": "acc13",
+      "kernel": "avanrager/mvlm-regen-l1ep-mq-s42",
+      "status": "running",
+      "pushed_at": "2026-10-04T23:06:08",
+      "bridge": "mini_qformer",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full",
+      "dataset": "avanrager/mvlm-pv-l1ep-mq-s42"
+    },
+    "regen-full:l1ep-mq-s123": {
+      "account": "acc14",
+      "kernel": "nguyendinhdoanh/mvlm-regen-l1ep-mq-s123",
+      "status": "running",
+      "pushed_at": "2026-10-04T23:07:26",
+      "bridge": "mini_qformer",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full",
+      "dataset": "nguyendinhdoanh/mvlm-pv-l1ep-mq-s123"
+    },
+    "regen-full:l1ep-mq-s3407": {
+      "account": "acc4",
+      "kernel": "nguyennn251/mvlm-regen-l1ep-mq-s3407",
+      "status": "running",
+      "pushed_at": "2026-10-04T23:14:36",
+      "bridge": "mini_qformer",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full",
+      "dataset": "nguyennn251/mvlm-pv-l1ep-mq-s3407"
     }
   }
 }

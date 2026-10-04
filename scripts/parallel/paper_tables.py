@@ -34,6 +34,20 @@ def _agg(tags: list[str], split: str) -> dict | None:
     return out
 
 
+def _agg_qfx(kind: str) -> dict | None:
+    """Leak-fixed Full Q-Former retrain (train_queue.py): eval phase of each seed's chain."""
+    rows = []
+    for s in (42, 123, 3407):
+        d = ROOT / "outputs" / "train_qfx" / f"qfx-{kind}-s{s}_eval"
+        f = next(d.rglob("eval_val.json"), None) if d.exists() else None
+        if not f:
+            return None
+        rows.append(json.loads(f.read_text()))
+    out = {k: (st.mean(100 * r[k] for r in rows), st.pstdev(100 * r[k] for r in rows)) for k in M}
+    out["loss"] = (st.mean(r["loss"] for r in rows), st.pstdev(r["loss"] for r in rows))
+    return out
+
+
 def _fmt(a: dict | None, keys=M) -> str:
     if a is None:
         return " | ".join("…" for _ in keys)
@@ -80,6 +94,25 @@ def main() -> None:
     if base:
         L += ["", f"*Anchor: bridge only, val, 4 seeds: F1 {base['f1'][0]:.2f} ± {base['f1'][1]:.2f}. "
               "Full Q-Former row omitted: its training leaked the answer (fixed in 4a8eb6d; retrain pending).*"]
+    L += ["", "## tab:bridges (validation; plain = bridge only, 2 epochs; +LoRA = joint 1 epoch)", "",
+          "| Bridge | k | Params | CE | F1 | F1 + LoRA | ΔF1 | CIDEr | CIDEr + LoRA |", "|---|--:|--:|--:|--:|--:|--:|--:|--:|"]
+    for name, k, params, t in [("Residual", 1, "4.86M (0.52%)", "res"), ("Tile-Attention", 8, "4.14M (0.44%)", "ta"),
+                               ("Multi-Token", 8, "7.35M (0.78%)", "mt"), ("Light Q-Former", 8, "27.6M (2.87%)", "mq"),
+                               ("Full Q-Former (leak-fixed retrain)", 16, "69.4M (6.91%)", "qfx")]:
+        if t == "mt":
+            plain, lora = base, agg[("+ LoRA, 1 epoch (3 seeds)", "val")]
+        elif t == "qfx":
+            plain = _agg_qfx("plain"); lora = _agg_qfx("lora")
+        else:
+            plain = _agg([f"{t}-s{s}" for s in (42, 123, 3407)], "val")
+            lora = _agg([f"l1ep-{t}-s{s}" for s in ((42,) if t == "ta" else (42, 123, 3407))], "val")
+        f = lambda a, m: f"{a[m][0]:.2f} ± {a[m][1]:.2f}" if a else "…"
+        d = f"{lora['f1'][0] - plain['f1'][0]:+.2f}" if plain and lora else "…"
+        ce = f"{plain['loss'][0]:.3f}" if plain else "…"
+        L.append(f"| {name} | {k} | {params} | {ce} | {f(plain, 'f1')} | {f(lora, 'f1')} | {d} | "
+                 f"{f(plain, 'cider')} | {f(lora, 'cider')} |")
+    L += ["", "*3 seeds (42/123/3407) except Multi-Token plain (4 seeds) and Tile-Attention + LoRA (seed 42 "
+          "only). The original Full Q-Former checkpoints leaked the answer during training and are not used.*"]
     L += ["", "## RQ3 — tiles × pooled input (Multi-Token, seed 42, val)", "",
           "| Input to the bridge | 1 tile | 3 tiles | 6 tiles |", "|---|--:|--:|--:|"]
     for name, tags in [("CLS (mean of per-tile CLS at T > 1)", ("mt-s42-t1-full", "mt-s42-t3-clsmean", "mt-s42-t6-clsmean")),

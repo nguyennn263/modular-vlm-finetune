@@ -2201,7 +2201,7 @@
     "input-diag:mt-s42-t6-meanall": {
       "account": "acc10",
       "kernel": "giapht/mvlm-diag-mt-s42-t6-meanall",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-04T12:53:32",
       "collected": false,
       "n_tiles": 6,
@@ -2610,6 +2610,16 @@
       "pooled_input": "default",
       "gen_image": "full",
       "ckpt": "mt-s123/model.pt"
+    },
+    "input-diag:l3ep-s123-t1-full-r2": {
+      "account": "acc10",
+      "kernel": "giapht/mvlm-diag-l3ep-s123-t1-full-r2",
+      "status": "running",
+      "pushed_at": "2026-10-04T22:00:30",
+      "n_tiles": 1,
+      "pooled_input": "default",
+      "gen_image": "full",
+      "ckpt": "l3ep-s123.pt"
     }
   }
 }

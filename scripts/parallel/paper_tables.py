@@ -80,6 +80,17 @@ def main() -> None:
     if base:
         L += ["", f"*Anchor: bridge only, val, 4 seeds: F1 {base['f1'][0]:.2f} ± {base['f1'][1]:.2f}. "
               "Full Q-Former row omitted: its training leaked the answer (fixed in 4a8eb6d; retrain pending).*"]
+    L += ["", "## RQ3 — tiles × pooled input (Multi-Token, seed 42, val)", "",
+          "| Input to the bridge | 1 tile | 3 tiles | 6 tiles |", "|---|--:|--:|--:|"]
+    for name, tags in [("CLS (mean of per-tile CLS at T > 1)", ("mt-s42-t1-full", "mt-s42-t3-clsmean", "mt-s42-t6-clsmean")),
+                       ("mean of every token (the old T > 1 path)", ("mt-s42-t1-full-mean", "mt-s42-t3-meanall", "mt-s42-t6-meanall"))]:
+        cells = []
+        for t in tags:
+            d = _eval(t, "val")
+            cells.append(f"{100 * d['f1']:.2f} (CE {d['loss']:.3f})" if d else "…")
+        L.append(f"| {name} | " + " | ".join(cells) + " |")
+    L += ["", "*F1 (val CE). On the 4:3 val images a 3-tile request tiles 1x1 and pads by repetition, so "
+          "\"3 tiles\" is the whole image three times; 6 tiles = six 448px crops, no thumbnail.*"]
     OUT.write_text("\n".join(L) + "\n")
     print("\n".join(L))
 

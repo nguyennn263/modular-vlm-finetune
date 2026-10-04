@@ -75,11 +75,11 @@ class ScoreCalculator:
         :return: Max F1 score
         """
         scores = []
-        pred_processed = str(preprocess_sentence(normalize_text(pred)))
+        pred_processed = preprocess_sentence(normalize_text(pred))
         joined_pred_processed = " ".join(pred_processed)
 
         for i, label in enumerate(labels):
-            label_processed = str(preprocess_sentence(normalize_text(label)))
+            label_processed = preprocess_sentence(normalize_text(label))
             joined_label_processed = " ".join(label_processed)
             gts = {str(i): [joined_label_processed]}
             res = {str(i): [joined_pred_processed]}
@@ -101,10 +101,10 @@ class ScoreCalculator:
         :return: Max WUP score
         """
         scores = []
-        pred_processed = str(preprocess_sentence(normalize_text(pred))).split()
+        pred_processed = preprocess_sentence(normalize_text(pred))
         
         for label in labels:
-            label_processed = str(preprocess_sentence(normalize_text(label))).split()
+            label_processed = preprocess_sentence(normalize_text(label))
             score = self.wup_caculate.compute_score(label_processed, pred_processed)
             # Đảm bảo score là scalar
 

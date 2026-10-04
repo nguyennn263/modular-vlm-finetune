@@ -107,7 +107,7 @@ def cmd_collect() -> None:
         if "COMPLETE" not in st:
             print(f"[wait] {job}: {st.strip()[-30:]}"); continue
         tag = job.split(":", 1)[1]
-        _kaggle(j["account"], "kernels", "output", j["kernel"], "-p", str(out_root / tag), check=False)
+        _kaggle(j["account"], "kernels", "output", j["kernel"], "--file-pattern", r".*\.(json|jsonl)$", "-p", str(out_root / tag), check=False)
         evals = sorted((out_root / tag).rglob("eval_*.json"))
         if evals:
             done.append(job)

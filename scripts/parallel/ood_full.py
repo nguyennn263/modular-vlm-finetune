@@ -23,7 +23,7 @@ DATASETS = ["vitextvqa", "vivqax", "openvivqa", "vivqa"]
 SEEDS = [42, 123, 3407]
 ACCS = ["acc14", "acc17", "acc18", "acc19", "acc20",   # fresh accounts, idle
         "acc2", "acc7", "acc8", "acc10", "acc11", "acc13", "acc15", "acc16"]
-BUSY = ("RUNNING", "QUEUED", "NEW")
+FINISHED = ("COMPLETE", "ERROR", "CANCEL_ACKNOWLEDGED")
 
 
 def _cells(dataset: str, seed: int) -> list[dict]:
@@ -57,9 +57,12 @@ def _idle(acc: str) -> bool:
     refs = [l.split(",")[0] for l in
             _kaggle(acc, "kernels", "list", "--mine", "--sort-by", "dateRun", "--page-size", "4",
                     "--csv", check=False).splitlines()[1:] if l.count(",") and "/" in l.split(",")[0]]
+    if not refs:
+        return False  # listing failed (e.g. rate limit) -- don't guess
     for ref in refs:
         st = _kaggle(acc, "kernels", "status", ref, check=False)
-        if any(f"KernelWorkerStatus.{b}" in st for b in BUSY):
+        # anything but an explicit finished state (incl. a rate-limited reply) counts as busy
+        if not any(f"KernelWorkerStatus.{f}" in st for f in FINISHED):
             return False
     return True
 
@@ -113,7 +116,7 @@ def cmd_collect() -> None:
         if "COMPLETE" not in st:
             print(f"[wait] {job}: {st.strip()[-40:]}"); continue
         tag = job.split(":", 1)[1].replace(":", "_")
-        _kaggle(j["account"], "kernels", "output", j["kernel"], "-p", str(out_root / tag), check=False)
+        _kaggle(j["account"], "kernels", "output", j["kernel"], "--file-pattern", r".*\.(json|jsonl)$", "-p", str(out_root / tag), check=False)
         if next((out_root / tag).rglob("text_predictions_epoch_1.json"), None):
             done.append(job)
             print(f"[ok] {job}")

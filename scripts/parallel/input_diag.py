@@ -22,6 +22,11 @@ from run import ROOT, ACCT_DIR, _kaggle, _user, _code, _clone_cell, _nb, load_le
 BRANCH = "exp/eval-input-diagnostic"
 PLAIN_DS = "mvlm-test-ckpt"      # <label>/model.pt, multi_token 2-epoch plain bridge
 LORA_DS = "mvlm-lora-mt-ckpt"    # <label>.pt, multi_token + decoder LoRA r16
+# Kaggle moved new kernels to a Python 3.13 image after 2026-09-22; setup_kaggle.sh's
+# torch 2.2.2 / numpy<2 / transformers 4.38.2 pins have no 3.13 wheels. This is the
+# image the 2026-09-22 token-sweep kernels ran on.
+DOCKER_IMAGE = ("gcr.io/kaggle-private-byod/python@sha256:"
+                "37c64f7dd9c54116ecd1bcc88817c5469b88387388fade02bfa8bf3fc647d461")
 ACCS = ["acc1", "acc2", "acc3", "acc4", "acc5", "acc7", "acc8",
         "acc10", "acc11", "acc12", "acc13", "acc15", "acc16"]
 
@@ -69,11 +74,13 @@ def _cells(tag: str, ckpt: str, n_tiles: int, pooled: str, gen_image: str) -> li
     ]
 
 
-def cmd_launch() -> None:
+def cmd_launch(only: list[str] | None = None) -> None:
     led = load_ledger()
     for i, (tag, ckpt, n_tiles, pooled, gen_image) in enumerate(JOBS):
         job = f"input-diag:{tag}"
-        if led["jobs"].get(job, {}).get("status") in ("done", "running"):
+        if only and tag not in only:
+            continue
+        if led["jobs"].get(job, {}).get("status") == "done":
             print(f"[skip] {job} {led['jobs'][job]['status']}"); continue
         acc = ACCS[i % len(ACCS)]
         slug = f"mvlm-diag-{tag}"
@@ -84,7 +91,7 @@ def cmd_launch() -> None:
         (wd / "kernel-metadata.json").write_text(json.dumps({
             "id": kid, "title": slug[:50], "code_file": "worker.ipynb",
             "language": "python", "kernel_type": "notebook", "is_private": True,
-            "enable_gpu": True, "enable_internet": True,
+            "enable_gpu": True, "enable_internet": True, "docker_image": DOCKER_IMAGE,
             "dataset_sources": ["nguynrichard/auto-vqabest",
                                 f"{_user('acc1')}/{PLAIN_DS}", f"{_user('acc1')}/{LORA_DS}"],
         }, indent=2))
@@ -115,4 +122,7 @@ def cmd_collect() -> None:
 
 
 if __name__ == "__main__":
-    {"launch": cmd_launch, "collect": cmd_collect}[sys.argv[1]]()
+    if sys.argv[1] == "launch":
+        cmd_launch(sys.argv[2:] or None)
+    else:
+        cmd_collect()

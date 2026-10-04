@@ -1,3 +1,10 @@
+> **SUPERSEDED (2026-10-04).** The numbers below were produced (a) with our model
+> fed the first 448px crop of each image at generation, and (b) with F1 from
+> metrics/compute_score.f1_token, which scored characters (F1 can exceed both P and R
+> below). The final table -- ours re-run on the whole image, both models scored with
+> metrics.vqa_metrics.score_answers on shared questions -- is in
+> outputs/ood_full/table.json (built by experiments/ood-eval/score_full.py).
+
 # OOD eval results — Vintern-1B-v3_5 zero-shot vs our best checkpoint
 
 Methodology: see `build_ood_data.py` / `gen_vintern_base.py` / `eval_ours_ood.py` in

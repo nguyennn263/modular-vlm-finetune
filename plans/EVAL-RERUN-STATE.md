@@ -68,6 +68,13 @@ Read this first to resume. Results themselves: `plans/results-full-image.md`
 - Kaggle image must be pinned (`DOCKER_IMAGE` in `input_diag.py`); default image is Python 3.13
   and breaks `setup_kaggle.sh`.
 
+## Done 2026-10-05
+
+- All re-eval jobs collected (waiting 0). Tables complete: OOD, main/stability, levers, RQ3,
+  bridges (4 of 5). Bootstrap recomputed: LoRA-1ep vs plain, s42 val: +2.78 [2.20, 3.34].
+- Advisor report updated on exp/vintern-ft-baseline (commit 5ef9ca7): §1–§6.1 re-measured,
+  new §6.0 listing the five problems; Full Q-Former cells marked "đang chạy".
+
 ## Still to do after all jobs land
 
 1. Aggregate per table (mean ± std), send to the other session (owns `paper/aciids2027/`).

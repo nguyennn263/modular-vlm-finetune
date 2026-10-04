@@ -2818,7 +2818,7 @@
     "regen-full:ta-s123": {
       "account": "acc1",
       "kernel": "nguyennn263/mvlm-regen-ta-s123",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-05T04:38:49",
       "bridge": "tile_attention",
       "splits": [
@@ -2941,6 +2941,38 @@
       "status": "running",
       "pushed_at": "2026-10-05T05:20:45",
       "chain": "qfx-lora-s42",
+      "phase": 0
+    },
+    "qfx-plain-s123:ep1": {
+      "account": "acc19",
+      "kernel": "katekathi/mvlm-qfx-plain-s123-ep1",
+      "status": "running",
+      "pushed_at": "2026-10-05T05:21:04",
+      "chain": "qfx-plain-s123",
+      "phase": 0
+    },
+    "qfx-lora-s123:ep1": {
+      "account": "acc19",
+      "kernel": "katekathi/mvlm-qfx-lora-s123-ep1",
+      "status": "running",
+      "pushed_at": "2026-10-05T05:21:20",
+      "chain": "qfx-lora-s123",
+      "phase": 0
+    },
+    "qfx-plain-s3407:ep1": {
+      "account": "acc18",
+      "kernel": "bellahaii/mvlm-qfx-plain-s3407-ep1",
+      "status": "running",
+      "pushed_at": "2026-10-05T05:21:46",
+      "chain": "qfx-plain-s3407",
+      "phase": 0
+    },
+    "qfx-lora-s3407:ep1": {
+      "account": "acc18",
+      "kernel": "bellahaii/mvlm-qfx-lora-s3407-ep1",
+      "status": "running",
+      "pushed_at": "2026-10-05T05:22:08",
+      "chain": "qfx-lora-s3407",
       "phase": 0
     }
   }

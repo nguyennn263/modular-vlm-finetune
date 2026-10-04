@@ -21,7 +21,8 @@ from input_diag import BRANCH, DOCKER_IMAGE, LORA_DS
 CKPT = "l3ep-s42.pt"   # the checkpoint the original OOD run used
 DATASETS = ["vitextvqa", "vivqax", "openvivqa", "vivqa"]
 SEEDS = [42, 123, 3407]
-ACCS = ["acc2", "acc7", "acc8", "acc10", "acc11", "acc13", "acc15", "acc16"]
+ACCS = ["acc14", "acc17", "acc18", "acc19", "acc20",   # fresh accounts, idle
+        "acc2", "acc7", "acc8", "acc10", "acc11", "acc13", "acc15", "acc16"]
 BUSY = ("RUNNING", "QUEUED", "NEW")
 
 

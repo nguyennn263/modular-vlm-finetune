@@ -2508,7 +2508,7 @@
     "regen-full:rq5-logit01-s123": {
       "account": "acc14",
       "kernel": "nguyendinhdoanh/mvlm-regen-rq5-logit01-s123",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-04T17:40:25",
       "bridge": "multi_token",
       "splits": [
@@ -2544,7 +2544,7 @@
     "regen-full:rq5-logit1-s123": {
       "account": "acc19",
       "kernel": "katekathi/mvlm-regen-rq5-logit1-s123",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-04T18:56:25",
       "bridge": "multi_token",
       "splits": [
@@ -2580,7 +2580,7 @@
     "regen-full:rq5-random-s123": {
       "account": "acc7",
       "kernel": "tinquc220300nguyn/mvlm-regen-rq5-random-s123",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-04T20:18:25",
       "bridge": "multi_token",
       "splits": [
@@ -2592,7 +2592,7 @@
     "regen-full:rq5-random-s3407": {
       "account": "acc1",
       "kernel": "nguyennn263/mvlm-regen-rq5-random-s3407",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-04T20:52:41",
       "bridge": "multi_token",
       "splits": [
@@ -2677,7 +2677,7 @@
     "regen-full:qf-s3407": {
       "account": "acc7",
       "kernel": "tinquc220300nguyn/mvlm-regen-qf-s3407",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-04T22:13:09",
       "bridge": "qformer",
       "splits": [
@@ -2688,7 +2688,7 @@
     "regen-full:res-s123": {
       "account": "acc8",
       "kernel": "lelynhan/mvlm-regen-res-s123",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-04T22:13:35",
       "bridge": "residual",
       "splits": [
@@ -2724,7 +2724,7 @@
     "regen-full:ta-s3407": {
       "account": "acc12",
       "kernel": "kffddk/mvlm-regen-ta-s3407",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-04T22:15:47",
       "bridge": "tile_attention",
       "splits": [
@@ -2748,7 +2748,7 @@
     "regen-full:mq-s3407": {
       "account": "acc15",
       "kernel": "duongcubu/mvlm-regen-mq-s3407",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-04T22:19:33",
       "bridge": "mini_qformer",
       "splits": [
@@ -2772,7 +2772,7 @@
     "regen-full:qf-s123": {
       "account": "acc18",
       "kernel": "bellahaii/mvlm-regen-qf-s123",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-04T22:21:47",
       "bridge": "qformer",
       "splits": [

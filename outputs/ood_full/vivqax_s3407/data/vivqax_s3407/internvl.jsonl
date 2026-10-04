@@ -1,0 +1,1000 @@
+{"image": "COCO_val2014_000000101636.jpg", "conversations": [{"from": "human", "value": "<image>\nTrời đang mưa à?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000101656.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại xe nào người đàn ông đang dựa vào?"}], "all_answers": ["xe gắn máy"]}
+{"image": "COCO_val2014_000000102330.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang ăn gì?"}], "all_answers": ["pizza"]}
+{"image": "COCO_val2014_000000102741.jpg", "conversations": [{"from": "human", "value": "<image>\nXe có nên dừng lại ở tín hiệu đèn này không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000103631.jpg", "conversations": [{"from": "human", "value": "<image>\nĐiều gì nằm trên gương?"}], "all_answers": ["trần nhà"]}
+{"image": "COCO_val2014_000000010442.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững người đàn ông đang chơi trò gì?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000104801.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là phòng khách sạn không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000010526.jpg", "conversations": [{"from": "human", "value": "<image>\nCậu bé đang làm gì?"}], "all_answers": ["trượt ván"]}
+{"image": "COCO_val2014_000000105367.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại động vật nào đang đi ngang qua?"}], "all_answers": ["bò"]}
+{"image": "COCO_val2014_000000105996.jpg", "conversations": [{"from": "human", "value": "<image>\nMọi người đang làm gì?"}], "all_answers": ["lướt sóng"]}
+{"image": "COCO_val2014_000000106537.jpg", "conversations": [{"from": "human", "value": "<image>\nCó phải đây là phòng khách không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000107306.jpg", "conversations": [{"from": "human", "value": "<image>\nNước có gợn sóng không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000107360.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đó đã sẵn sàng để lướt sóng chưa?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000010785.jpg", "conversations": [{"from": "human", "value": "<image>\nCô gái có thích rau không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000107907.jpg", "conversations": [{"from": "human", "value": "<image>\nNhà vệ sinh có thiết kế không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000108953.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững con cừu có hoang dã không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000109046.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại tòa nhà nào?"}], "all_answers": ["tháp"]}
+{"image": "COCO_val2014_000000110601.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng gì?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000113397.jpg", "conversations": [{"from": "human", "value": "<image>\nAnh ấy có trông giận dữ không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000114744.jpg", "conversations": [{"from": "human", "value": "<image>\nCó mưa không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000114790.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng gì?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000114884.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười phụ nữ đang làm gì?"}], "all_answers": ["hút thuốc"]}
+{"image": "COCO_val2014_000000001153.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững quả chuối này đã chín chưa?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000115455.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười phụ nữ này có quan tâm đến ngoại hình của mình không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000115752.jpg", "conversations": [{"from": "human", "value": "<image>\nBánh pizza có ngon không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000117508.jpg", "conversations": [{"from": "human", "value": "<image>\nAnh ta đang làm gì?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000118109.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một sự kiện bình thường?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000118366.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại quan điểm này có bình thường ở các vùng cực không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000118432.jpg", "conversations": [{"from": "human", "value": "<image>\nCó an toàn không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000119120.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại động vật nào được hiển thị?"}], "all_answers": ["chó"]}
+{"image": "COCO_val2014_000000119995.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông này đang chơi môn thể thao nào?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000120826.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một chuyến tàu hiện đại?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000012120.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ đang chơi trò chơi gì?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000121215.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng nào?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000121570.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông có mái chèo không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000121716.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang làm gì?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000121904.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng gì?"}], "all_answers": ["nhà bếp"]}
+{"image": "COCO_val2014_000000122213.jpg", "conversations": [{"from": "human", "value": "<image>\nLoài sinh vật nào đang nhìn vào gương?"}], "all_answers": ["mèo"]}
+{"image": "COCO_val2014_000000012238.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang làm gì?"}], "all_answers": ["đi xe máy"]}
+{"image": "COCO_val2014_000000122476.jpg", "conversations": [{"from": "human", "value": "<image>\nAnh ấy đang chơi môn thể thao gì?"}], "all_answers": ["lướt sóng"]}
+{"image": "COCO_val2014_000000122672.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông này đang làm gì?"}], "all_answers": ["lướt sóng"]}
+{"image": "COCO_val2014_000000123136.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng gì?"}], "all_answers": ["nhà bếp"]}
+{"image": "COCO_val2014_000000012326.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng nào?"}], "all_answers": ["phòng bếp"]}
+{"image": "COCO_val2014_000000124327.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao nào đang được chơi?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000124636.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại động vật nào đang nằm trên mặt đất?"}], "all_answers": ["con bò"]}
+{"image": "COCO_val2014_000000124712.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao nào đang được chơi?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000125072.jpg", "conversations": [{"from": "human", "value": "<image>\nĐó là nước ngọt hay nước mặn?"}], "all_answers": ["nước ngọt"]}
+{"image": "COCO_val2014_000000126822.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là Hoa Kỳ không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000126995.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ đang chơi trò chơi gì?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000127068.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao nào đang được hiển thị?"}], "all_answers": ["lướt sóng"]}
+{"image": "COCO_val2014_000000128014.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một khách sạn không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000129576.jpg", "conversations": [{"from": "human", "value": "<image>\nChiếc ghế dài này có phải là một phần không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000012959.jpg", "conversations": [{"from": "human", "value": "<image>\nCon chim đang làm gì?"}], "all_answers": ["bay"]}
+{"image": "COCO_val2014_000000129595.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông này có ủng hộ người bán hàng hot dog không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000129803.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại động vật gì?"}], "all_answers": ["ngựa"]}
+{"image": "COCO_val2014_000000129886.jpg", "conversations": [{"from": "human", "value": "<image>\nBây giờ là mùa gì?"}], "all_answers": ["mùa đông"]}
+{"image": "COCO_val2014_000000130118.jpg", "conversations": [{"from": "human", "value": "<image>\nCác cô gái có đang tổ chức tiệc ngủ không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000130262.jpg", "conversations": [{"from": "human", "value": "<image>\nAnh chàng này đang làm gì?"}], "all_answers": ["lướt sóng"]}
+{"image": "COCO_val2014_000000131539.jpg", "conversations": [{"from": "human", "value": "<image>\nCó phải là mùa hè?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000131627.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại phương tiện nào có thể được nhìn thấy trong hình?"}], "all_answers": ["xe buýt"]}
+{"image": "COCO_val2014_000000132001.jpg", "conversations": [{"from": "human", "value": "<image>\nChuột có phải không dây không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000133251.jpg", "conversations": [{"from": "human", "value": "<image>\nChó đang làm gì?"}], "all_answers": ["ngủ"]}
+{"image": "COCO_val2014_000000133418.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là đàn ông hay đàn bà?"}], "all_answers": ["người đàn ông"]}
+{"image": "COCO_val2014_000000133693.jpg", "conversations": [{"from": "human", "value": "<image>\nTrời nhiều mây phải không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000134255.jpg", "conversations": [{"from": "human", "value": "<image>\nTrời có nhiều mây không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000134322.jpg", "conversations": [{"from": "human", "value": "<image>\nCái gì đang bay trên trời?"}], "all_answers": ["diều"]}
+{"image": "COCO_val2014_000000134722.jpg", "conversations": [{"from": "human", "value": "<image>\nXe lửa có được chăm sóc không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000134886.jpg", "conversations": [{"from": "human", "value": "<image>\nMáy bay đang hạ cánh hay cất cánh?"}], "all_answers": ["hạ cánh"]}
+{"image": "COCO_val2014_000000134888.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một sự kiện chuyên nghiệp?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000135319.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là khu dân cư không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000135561.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại phòng nào?"}], "all_answers": ["phòng bếp"]}
+{"image": "COCO_val2014_000000135613.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là khách sạn không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000135690.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đó có cánh không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000136584.jpg", "conversations": [{"from": "human", "value": "<image>\nCó mây không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000136624.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là thức ăn lành mạnh không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000136768.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao nào đang được chơi?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000137003.jpg", "conversations": [{"from": "human", "value": "<image>\nCô gái có vui vẻ với con diều của mình không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000137727.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một chuyến tàu chở khách không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000139455.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững con bò đang làm gì?"}], "all_answers": ["chăn thả"]}
+{"image": "COCO_val2014_000000013991.jpg", "conversations": [{"from": "human", "value": "<image>\nBếp ga hay điện?"}], "all_answers": ["gas"]}
+{"image": "COCO_val2014_000000140435.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một tấm nệm không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000140490.jpg", "conversations": [{"from": "human", "value": "<image>\nBãi biển có đông người không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000141002.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là hình ảnh gần đây không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000141219.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là sở thú không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000141475.jpg", "conversations": [{"from": "human", "value": "<image>\nBức tượng này có mô tả một con vật thần thoại không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000142249.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là môn thể thao gì?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000142665.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ đang chơi trò chơi gì?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000142769.jpg", "conversations": [{"from": "human", "value": "<image>\nCon chó đang ở trên tuyết hay cát?"}], "all_answers": ["cát"]}
+{"image": "COCO_val2014_000000143824.jpg", "conversations": [{"from": "human", "value": "<image>\nCon mèo có nhận ra ai không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000014450.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là đường ray xe lửa không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000145101.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng nào?"}], "all_answers": ["phòng khách"]}
+{"image": "COCO_val2014_000000145746.jpg", "conversations": [{"from": "human", "value": "<image>\nPhòng này có vẻ thoải mái không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000145824.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang chơi thể thao gì?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000147787.jpg", "conversations": [{"from": "human", "value": "<image>\nCó ai yêu chủ nhân của mình không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000148193.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười phụ nữ có vẻ thoải mái?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000149731.jpg", "conversations": [{"from": "human", "value": "<image>\nXe lửa có được chăm sóc không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000150301.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là con vật gì?"}], "all_answers": ["hươu cao cổ"]}
+{"image": "COCO_val2014_000000151005.jpg", "conversations": [{"from": "human", "value": "<image>\nBây giờ là mùa nào?"}], "all_answers": ["mùa thu"]}
+{"image": "COCO_val2014_000000151347.jpg", "conversations": [{"from": "human", "value": "<image>\nTrời nhiều mây phải không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000152530.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông này đang làm gì?"}], "all_answers": ["lướt sóng"]}
+{"image": "COCO_val2014_000000152946.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững người này đang tham gia môn thể thao nào?"}], "all_answers": ["lướt ván trên tuyết"]}
+{"image": "COCO_val2014_000000153279.jpg", "conversations": [{"from": "human", "value": "<image>\nMọi người đang làm gì?"}], "all_answers": ["diều bay"]}
+{"image": "COCO_val2014_000000153570.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông chơi môn thể thao nào?"}], "all_answers": ["lướt sóng"]}
+{"image": "COCO_val2014_000000153832.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một toa xe lửa thật không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000154785.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ đang chơi trò chơi gì?"}], "all_answers": ["bóng đá"]}
+{"image": "COCO_val2014_000000155319.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười này đang cầm cái gì?"}], "all_answers": ["diều"]}
+{"image": "COCO_val2014_000000015542.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một bữa ăn lành mạnh không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000155714.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững chiếc bánh pizza này có lớp phủ bên trên giống nhau không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000156246.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại động vật gì?"}], "all_answers": ["con voi"]}
+{"image": "COCO_val2014_000000156915.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại hoa nào ở giữa bức tranh?"}], "all_answers": ["hoa hồng"]}
+{"image": "COCO_val2014_000000157365.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang làm gì?"}], "all_answers": ["trượt ván"]}
+{"image": "COCO_val2014_000000158133.jpg", "conversations": [{"from": "human", "value": "<image>\nĐiều này có vẻ an toàn không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000158950.jpg", "conversations": [{"from": "human", "value": "<image>\nTàu có đang di chuyển không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000160330.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một chiếc máy tính bảng không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000160501.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười phụ nữ đang đội gì trên đầu?"}], "all_answers": ["mũ"]}
+{"image": "COCO_val2014_000000161772.jpg", "conversations": [{"from": "human", "value": "<image>\nBánh pizza này có lớp phủ bình thường không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000161807.jpg", "conversations": [{"from": "human", "value": "<image>\nTrên đĩa có loại trái cây gì?"}], "all_answers": ["chanh"]}
+{"image": "COCO_val2014_000000161861.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là môn thể thao gì?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000161925.jpg", "conversations": [{"from": "human", "value": "<image>\nỞ đây có loại thực phẩm nào?"}], "all_answers": ["pizza"]}
+{"image": "COCO_val2014_000000162332.jpg", "conversations": [{"from": "human", "value": "<image>\nHình ảnh này đại diện cho loại sự kiện nào?"}], "all_answers": ["đám cưới"]}
+{"image": "COCO_val2014_000000162677.jpg", "conversations": [{"from": "human", "value": "<image>\nPhòng nào đây?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000016285.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười phụ nữ có trông như là một skater có kinh nghiệm không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000162855.jpg", "conversations": [{"from": "human", "value": "<image>\nCỏ có cần phải cắt không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000164095.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một gia đình không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000164710.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại rau gì?"}], "all_answers": ["bông cải xanh"]}
+{"image": "COCO_val2014_000000165643.jpg", "conversations": [{"from": "human", "value": "<image>\nCon ngựa có ai đó trên lưng không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000165675.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại thực phẩm nào trên đĩa này?"}], "all_answers": ["thịt giăm bông"]}
+{"image": "COCO_val2014_000000166277.jpg", "conversations": [{"from": "human", "value": "<image>\nCon mèo có một màu đồng nhất không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000166524.jpg", "conversations": [{"from": "human", "value": "<image>\nTrời có mây không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000166731.jpg", "conversations": [{"from": "human", "value": "<image>\nỞ đây có mưa không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000167337.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ đang chơi trò chơi gì?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000167920.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang làm gì?"}], "all_answers": ["trượt ván"]}
+{"image": "COCO_val2014_000000168032.jpg", "conversations": [{"from": "human", "value": "<image>\nHình ảnh này có màu không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000168593.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại phòng nào?"}], "all_answers": ["phòng bếp"]}
+{"image": "COCO_val2014_000000168898.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại rau nào được hình ảnh mô tả?"}], "all_answers": ["cà chua"]}
+{"image": "COCO_val2014_000000169098.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là ga xe lửa không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000169800.jpg", "conversations": [{"from": "human", "value": "<image>\nCon vật nào được thể hiện?"}], "all_answers": ["chó"]}
+{"image": "COCO_val2014_000000016995.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại động vật gì?"}], "all_answers": ["hươu cao cổ"]}
+{"image": "COCO_val2014_000000170292.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao nào đang được chơi?"}], "all_answers": ["bóng đá"]}
+{"image": "COCO_val2014_000000171678.jpg", "conversations": [{"from": "human", "value": "<image>\nCó mưa không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000171819.jpg", "conversations": [{"from": "human", "value": "<image>\nNước có gợn sóng không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000172087.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông có mặc trang phục công sở không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000172088.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là trò chơi gì?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000172977.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại động vật gì?"}], "all_answers": ["ngựa vằn"]}
+{"image": "COCO_val2014_000000174072.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông có hình xăm không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000175310.jpg", "conversations": [{"from": "human", "value": "<image>\nCăn phòng nào của ngôi nhà này?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000175310.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng gì?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000017708.jpg", "conversations": [{"from": "human", "value": "<image>\nSinh vật trên bờ có thể tự mình băng qua mặt nước được không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000177101.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là ga xe lửa không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000177357.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang làm gì?"}], "all_answers": ["lướt sóng"]}
+{"image": "COCO_val2014_000000178072.jpg", "conversations": [{"from": "human", "value": "<image>\nTàu hỏa màu bạc đang băng qua cầu có phải không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000178587.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười này đang tham gia hoạt động gì?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000178911.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại xe gì?"}], "all_answers": ["tàu hỏa"]}
+{"image": "COCO_val2014_000000179181.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một chuyến tàu chở khách không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000180447.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây được coi là loại ảnh gì?"}], "all_answers": ["đen và trắng"]}
+{"image": "COCO_val2014_000000181169.jpg", "conversations": [{"from": "human", "value": "<image>\nĐối tượng này được sử dụng để làm gì?"}], "all_answers": ["ngồi"]}
+{"image": "COCO_val2014_000000181296.jpg", "conversations": [{"from": "human", "value": "<image>\nAi đang ở trên chiếc mô tô màu đỏ?"}], "all_answers": ["người đàn ông"]}
+{"image": "COCO_val2014_000000182021.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là môn thể thao gì?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000182441.jpg", "conversations": [{"from": "human", "value": "<image>\nNước có lặng không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000183620.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một sự kiện khuyến mãi?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000184266.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang chơi môn thể thao gì?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000184778.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một công viên?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000184938.jpg", "conversations": [{"from": "human", "value": "<image>\nCon búp bê này đại diện cho loại động vật nào?"}], "all_answers": ["gấu"]}
+{"image": "COCO_val2014_000000186073.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là sở thú không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000186821.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại phương tiện gì?"}], "all_answers": ["xe buýt"]}
+{"image": "COCO_val2014_000000187450.jpg", "conversations": [{"from": "human", "value": "<image>\nTàu có số 192 không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000188077.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một chuyến bay của hãng hàng không Mỹ không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000188386.jpg", "conversations": [{"from": "human", "value": "<image>\nHình ảnh này có cũ không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000189267.jpg", "conversations": [{"from": "human", "value": "<image>\nAnh ấy đang làm hoạt động gì?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000189714.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững người này đang làm gì?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000189997.jpg", "conversations": [{"from": "human", "value": "<image>\nPhòng này là phòng nào?"}], "all_answers": ["phòng ngủ"]}
+{"image": "COCO_val2014_000000190291.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ đang ăn gì?"}], "all_answers": ["pizza"]}
+{"image": "COCO_val2014_000000190292.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một bức tường không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000190463.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang làm gì?"}], "all_answers": ["đang trượt ván"]}
+{"image": "COCO_val2014_000000191069.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là điện thoại nắp gập không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000192591.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là xe tải bán thức ăn không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000192838.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười lướt sóng có mặc đồ lặn không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000193069.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một đoàn tàu chở khách không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000193245.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững người này đang làm gì?"}], "all_answers": ["đang thả diều"]}
+{"image": "COCO_val2014_000000194381.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại động vật nào ở trong cánh đồng?"}], "all_answers": ["con voi"]}
+{"image": "COCO_val2014_000000019455.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng gì?"}], "all_answers": ["phòng khách"]}
+{"image": "COCO_val2014_000000194594.jpg", "conversations": [{"from": "human", "value": "<image>\nBức ảnh này được chụp ở đâu?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000019484.jpg", "conversations": [{"from": "human", "value": "<image>\nBàn được làm bằng gì?"}], "all_answers": ["kim loại"]}
+{"image": "COCO_val2014_000000195542.jpg", "conversations": [{"from": "human", "value": "<image>\nBàn phím có không dây không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000196442.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là thời điểm nào trong năm?"}], "all_answers": ["mùa đông"]}
+{"image": "COCO_val2014_000000196516.jpg", "conversations": [{"from": "human", "value": "<image>\nAnh ấy có đang lật bảng không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000196759.jpg", "conversations": [{"from": "human", "value": "<image>\nMón ăn này có tốt cho sức khỏe không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000197022.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững chiếc pizza này có cùng loại nhân không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000200717.jpg", "conversations": [{"from": "human", "value": "<image>\nCó phải ban ngày không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000200725.jpg", "conversations": [{"from": "human", "value": "<image>\nSàn nhà có phải bằng gỗ không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000201072.jpg", "conversations": [{"from": "human", "value": "<image>\nAnh ấy đang chơi môn thể thao nào?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000201111.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng gì?"}], "all_answers": ["phòng bếp"]}
+{"image": "COCO_val2014_000000201723.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một bức tường?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000201970.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao nào đang được chơi?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000203214.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông này đang làm gì?"}], "all_answers": ["lướt sóng"]}
+{"image": "COCO_val2014_000000203372.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông có mang theo nhạc cụ nào không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000203641.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười này đang làm gì?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000020381.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là ga xe lửa không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000203931.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một trò chơi chuyên nghiệp?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000204188.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là bồn cầu mới không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000205247.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại xe gì?"}], "all_answers": ["xe buýt"]}
+{"image": "COCO_val2014_000000206112.jpg", "conversations": [{"from": "human", "value": "<image>\nBức tường có phẳng không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000206878.jpg", "conversations": [{"from": "human", "value": "<image>\nThức ăn này có vẻ ngọt không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000020748.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười này đang lái loại xe gì?"}], "all_answers": ["xe gắn máy"]}
+{"image": "COCO_val2014_000000207844.jpg", "conversations": [{"from": "human", "value": "<image>\nÔ dù bãi biển có giúp ngăn ngừa cháy nắng không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000208761.jpg", "conversations": [{"from": "human", "value": "<image>\nChiếc vali có cùng màu với giày của cô ấy không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000208825.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại bánh gì?"}], "all_answers": ["cà rốt"]}
+{"image": "COCO_val2014_000000208995.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông có một tay trên chuột không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000209431.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là bữa ăn chay không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000209728.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại chim nào?"}], "all_answers": ["vịt"]}
+{"image": "COCO_val2014_000000210457.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ đang chơi gì?"}], "all_answers": ["đĩa ném đĩa"]}
+{"image": "COCO_val2014_000000212261.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là nhà hàng không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000212559.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ đang ăn gì?"}], "all_answers": ["cỏ khô"]}
+{"image": "COCO_val2014_000000212766.jpg", "conversations": [{"from": "human", "value": "<image>\nHộp pizza có mở không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000213951.jpg", "conversations": [{"from": "human", "value": "<image>\nNgôi nhà màu nâu đang làm gì?"}], "all_answers": ["đi bộ"]}
+{"image": "COCO_val2014_000000214204.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng gì?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000214244.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười này đang cưỡi gì?"}], "all_answers": ["ván trượt tuyết"]}
+{"image": "COCO_val2014_000000214527.jpg", "conversations": [{"from": "human", "value": "<image>\nĐồng hồ có cũ không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000214575.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một đoàn tàu chở hàng không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000216006.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là Hoa Kỳ không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000217522.jpg", "conversations": [{"from": "human", "value": "<image>\nTrời đang mưa à?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000217594.jpg", "conversations": [{"from": "human", "value": "<image>\nTivi có bật không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000217622.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông có nghiêng về phía trước không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000021900.jpg", "conversations": [{"from": "human", "value": "<image>\nCon ngựa có nhảy không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000219458.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười phụ nữ này trông có hạnh phúc không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000219841.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao này là gì?"}], "all_answers": ["frisbee"]}
+{"image": "COCO_val2014_000000021994.jpg", "conversations": [{"from": "human", "value": "<image>\nCon voi đang làm gì?"}], "all_answers": ["uống nước"]}
+{"image": "COCO_val2014_000000221869.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng nào trong nhà?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000221910.jpg", "conversations": [{"from": "human", "value": "<image>\nCăn phòng này có sạch không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000222825.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng nào của ngôi nhà?"}], "all_answers": ["bếp"]}
+{"image": "COCO_val2014_000000223300.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đó đang làm gì?"}], "all_answers": ["trượt ván"]}
+{"image": "COCO_val2014_000000223874.jpg", "conversations": [{"from": "human", "value": "<image>\nCó mưa không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000224329.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một chiếc tàu chở khách không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000225405.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ đang chơi trò chơi gì?"}], "all_answers": ["bóng đá"]}
+{"image": "COCO_val2014_000000227044.jpg", "conversations": [{"from": "human", "value": "<image>\nCuộn giấy vệ sinh có cần thay thế không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000227440.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ đang ăn cái gì?"}], "all_answers": ["pizza"]}
+{"image": "COCO_val2014_000000229234.jpg", "conversations": [{"from": "human", "value": "<image>\nCó phải trời nhiều mây không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000229295.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có an toàn không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000229531.jpg", "conversations": [{"from": "human", "value": "<image>\nKhu vực này có thể hỗ trợ chăn nuôi gia súc không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000229968.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang luyện tập môn thể thao gì?"}], "all_answers": ["lướt sóng"]}
+{"image": "COCO_val2014_000000230780.jpg", "conversations": [{"from": "human", "value": "<image>\nĐèn có sáng không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000231093.jpg", "conversations": [{"from": "human", "value": "<image>\nBức ảnh này được chụp ở đâu?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000232054.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là môn thể thao gì?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000232863.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại thực phẩm gì?"}], "all_answers": ["bánh"]}
+{"image": "COCO_val2014_000000023294.jpg", "conversations": [{"from": "human", "value": "<image>\nCó mưa không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000233042.jpg", "conversations": [{"from": "human", "value": "<image>\nCó khán giả tại sự kiện này không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000233164.jpg", "conversations": [{"from": "human", "value": "<image>\nBạn nên đi hay dừng lại ở đây?"}], "all_answers": ["đi"]}
+{"image": "COCO_val2014_000000233527.jpg", "conversations": [{"from": "human", "value": "<image>\nXe buýt đi đâu?"}], "all_answers": ["norwood"]}
+{"image": "COCO_val2014_000000233556.jpg", "conversations": [{"from": "human", "value": "<image>\nRau xanh đó là gì?"}], "all_answers": ["dưa chuột"]}
+{"image": "COCO_val2014_000000233830.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một bữa ăn lành mạnh?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000234684.jpg", "conversations": [{"from": "human", "value": "<image>\nNgôn ngữ này là gì?"}], "all_answers": ["tiếng Pháp"]}
+{"image": "COCO_val2014_000000234785.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại động vật gì?"}], "all_answers": ["chó"]}
+{"image": "COCO_val2014_000000234914.jpg", "conversations": [{"from": "human", "value": "<image>\nTrời có mưa không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000235192.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đó đang làm gì?"}], "all_answers": ["lướt sóng"]}
+{"image": "COCO_val2014_000000235241.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười phụ nữ đang chơi trò chơi gì?"}], "all_answers": ["frisbee"]}
+{"image": "COCO_val2014_000000235751.jpg", "conversations": [{"from": "human", "value": "<image>\nPhòng nào trong nhà này?"}], "all_answers": ["phòng bếp"]}
+{"image": "COCO_val2014_000000237075.jpg", "conversations": [{"from": "human", "value": "<image>\nBức tượng người phụ nữ đang làm gì?"}], "all_answers": ["vẫy tay"]}
+{"image": "COCO_val2014_000000238090.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng nào?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000023879.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là xe đạp cảnh sát không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000239376.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng nào?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000240387.jpg", "conversations": [{"from": "human", "value": "<image>\nNữ có đeo kính râm trên đầu không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000240742.jpg", "conversations": [{"from": "human", "value": "<image>\nCà phê có kem không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000240811.jpg", "conversations": [{"from": "human", "value": "<image>\nĐiều này trông có an toàn không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000241326.jpg", "conversations": [{"from": "human", "value": "<image>\nCon chó có đeo vòng cổ không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000242007.jpg", "conversations": [{"from": "human", "value": "<image>\nCon mèo có ngủ không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000243626.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại rau nào trên đĩa?"}], "all_answers": ["đậu xanh"]}
+{"image": "COCO_val2014_000000243912.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại động vật gì?"}], "all_answers": ["chó"]}
+{"image": "COCO_val2014_000000244586.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là nhà hàng không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000244592.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại động vật nào trong hình?"}], "all_answers": ["ngựa vằn"]}
+{"image": "COCO_val2014_000000244633.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là điện thoại thông minh không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000024530.jpg", "conversations": [{"from": "human", "value": "<image>\nCon vật này có phải là động vật có vú không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000245414.jpg", "conversations": [{"from": "human", "value": "<image>\nCó gió không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000245460.jpg", "conversations": [{"from": "human", "value": "<image>\nĐứa trẻ này có đeo kính không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000245660.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông có đang tập trung không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000247057.jpg", "conversations": [{"from": "human", "value": "<image>\nNước tăng lực thương hiệu nào đang tài trợ cho sự kiện này?"}], "all_answers": ["red bull"]}
+{"image": "COCO_val2014_000000247206.jpg", "conversations": [{"from": "human", "value": "<image>\nChúng có liên quan không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000247333.jpg", "conversations": [{"from": "human", "value": "<image>\nMón ăn này có phải thuần chay không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000247484.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng nào?"}], "all_answers": ["phòng khách"]}
+{"image": "COCO_val2014_000000248112.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ đang chơi trò gì?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000248129.jpg", "conversations": [{"from": "human", "value": "<image>\nChiếc xe tải này có đậu đúng luật không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000250076.jpg", "conversations": [{"from": "human", "value": "<image>\nThời tiết như thế nào?"}], "all_answers": ["nắng"]}
+{"image": "COCO_val2014_000000025252.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là tháp đồng hồ không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000252659.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao nào đang được chơi?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000253413.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là thành phố nào?"}], "all_answers": ["luân Đôn"]}
+{"image": "COCO_val2014_000000253835.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là ga xe lửa không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000025529.jpg", "conversations": [{"from": "human", "value": "<image>\nNguồn khoai tây chiên có đủ không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000255633.jpg", "conversations": [{"from": "human", "value": "<image>\nMáy bay có bị lật ngược không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000257673.jpg", "conversations": [{"from": "human", "value": "<image>\nChiếc ghế này có cũ không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000257864.jpg", "conversations": [{"from": "human", "value": "<image>\nĐĩa có chứa nhiều thức ăn không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000258402.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một sở thú không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000025860.jpg", "conversations": [{"from": "human", "value": "<image>\nCó phải là ban ngày?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000258680.jpg", "conversations": [{"from": "human", "value": "<image>\nCó phải trời đang mưa không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000025955.jpg", "conversations": [{"from": "human", "value": "<image>\nĐó có phải là thức ăn không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000260150.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đó đang ăn gì?"}], "all_answers": ["bánh kếp"]}
+{"image": "COCO_val2014_000000260829.jpg", "conversations": [{"from": "human", "value": "<image>\nThời tiết như thế nào?"}], "all_answers": ["nhiều mây"]}
+{"image": "COCO_val2014_000000261096.jpg", "conversations": [{"from": "human", "value": "<image>\nCó tuyết không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000261721.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững loại cây nào ở phía sau?"}], "all_answers": ["cọ"]}
+{"image": "COCO_val2014_000000261870.jpg", "conversations": [{"from": "human", "value": "<image>\nThiết bị ở phía trước có chạy trên mặt nước không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000262476.jpg", "conversations": [{"from": "human", "value": "<image>\nMọi người đang tổ chức tiệc à?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000263393.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười ăn món này có thích cà rốt không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000265066.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là môn thể thao gì?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000265971.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ đang chơi môn thể thao gì?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000266206.jpg", "conversations": [{"from": "human", "value": "<image>\nCánh cửa có mang lại sự riêng tư không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000026671.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại sàn nào trong phòng này?"}], "all_answers": ["thảm"]}
+{"image": "COCO_val2014_000000267521.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là chuyến bay của hãng hàng không Mỹ không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000267521.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một chiếc máy bay hiện đại không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000268059.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười phụ nữ đang làm gì?"}], "all_answers": ["nấu ăn"]}
+{"image": "COCO_val2014_000000268239.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang làm gì?"}], "all_answers": ["nấu ăn"]}
+{"image": "COCO_val2014_000000268340.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững ngọn núi có độ cao lớn không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000268400.jpg", "conversations": [{"from": "human", "value": "<image>\nXe này có cần xăng không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000268641.jpg", "conversations": [{"from": "human", "value": "<image>\nVòi chữa cháy màu đỏ có cần sơn lại không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000268670.jpg", "conversations": [{"from": "human", "value": "<image>\nAnh ấy có điều khiển từ xa trong tay trái không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000269678.jpg", "conversations": [{"from": "human", "value": "<image>\nSàn được làm bằng gì?"}], "all_answers": ["thảm"]}
+{"image": "COCO_val2014_000000272153.jpg", "conversations": [{"from": "human", "value": "<image>\nCó phải trời nhiều mây không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000273493.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một trò chơi chuyên nghiệp?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000273909.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là môn thể thao gì?"}], "all_answers": ["bóng đá"]}
+{"image": "COCO_val2014_000000274411.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là trò chơi gì?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000275881.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một cảng biển không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000027609.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một bữa ăn chay không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000027648.jpg", "conversations": [{"from": "human", "value": "<image>\nHình ảnh này có màu không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000277020.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một quán bar không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000277174.jpg", "conversations": [{"from": "human", "value": "<image>\nThời tiết có ấm không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000277865.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại trò chơi giải trí nào ở hậu cảnh?"}], "all_answers": ["đu quay"]}
+{"image": "COCO_val2014_000000278006.jpg", "conversations": [{"from": "human", "value": "<image>\nCửa sổ có mở không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000278338.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng gì?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000278365.jpg", "conversations": [{"from": "human", "value": "<image>\nMón ăn nào được chụp trong ảnh?"}], "all_answers": ["pizza"]}
+{"image": "COCO_val2014_000000027842.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng nào?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000278535.jpg", "conversations": [{"from": "human", "value": "<image>\nCó phải đang có bão không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000278601.jpg", "conversations": [{"from": "human", "value": "<image>\nCó phải đa số cửa sổ của xe tải mở xuống không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000279437.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng gì?"}], "all_answers": ["phòng ngủ"]}
+{"image": "COCO_val2014_000000279558.jpg", "conversations": [{"from": "human", "value": "<image>\nMọi người đang làm gì?"}], "all_answers": ["thả diều"]}
+{"image": "COCO_val2014_000000280083.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ đang uống gì?"}], "all_answers": ["nước trái cây"]}
+{"image": "COCO_val2014_000000280678.jpg", "conversations": [{"from": "human", "value": "<image>\nTrong hình là loại dụng cụ gì?"}], "all_answers": ["fork"]}
+{"image": "COCO_val2014_000000280734.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là cái gì?"}], "all_answers": ["pizza"]}
+{"image": "COCO_val2014_000000280779.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại mưa nào đang rơi?"}], "all_answers": ["tuyết"]}
+{"image": "COCO_val2014_000000282225.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông có đeo găng tay không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000028293.jpg", "conversations": [{"from": "human", "value": "<image>\nXe tải có đang rẽ không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000283118.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ đang ăn gì?"}], "all_answers": ["pizza"]}
+{"image": "COCO_val2014_000000283190.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng nào?"}], "all_answers": ["nhà bếp"]}
+{"image": "COCO_val2014_000000283190.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng nào?"}], "all_answers": ["nhà bếp"]}
+{"image": "COCO_val2014_000000283438.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng nào?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000285961.jpg", "conversations": [{"from": "human", "value": "<image>\nBức tranh này có được chụp vào ban ngày không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000285967.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao nào đang được chơi?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000287714.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng gì?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000288150.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao nào được trình chiếu?"}], "all_answers": ["trượt ván"]}
+{"image": "COCO_val2014_000000288403.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ đang chơi trò chơi gì?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000288528.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là môn thể thao gì?"}], "all_answers": ["đó là môn trượt ván"]}
+{"image": "COCO_val2014_000000288579.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một con hươu cao cổ con không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000289180.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là điện thoại đời mới không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000289337.jpg", "conversations": [{"from": "human", "value": "<image>\nCó phải là ban đêm không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000290515.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng gì?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000291380.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang làm gì?"}], "all_answers": ["ngồi"]}
+{"image": "COCO_val2014_000000291404.jpg", "conversations": [{"from": "human", "value": "<image>\nMùa gì vậy?"}], "all_answers": ["mùa đông"]}
+{"image": "COCO_val2014_000000292005.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng gì?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000292227.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông này đang làm gì?"}], "all_answers": ["đang trượt ván"]}
+{"image": "COCO_val2014_000000292926.jpg", "conversations": [{"from": "human", "value": "<image>\nCửa sổ này có trông rõ ràng không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000293554.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười phụ nữ đang đội gì trên đầu?"}], "all_answers": ["khăn bandana"]}
+{"image": "COCO_val2014_000000294011.jpg", "conversations": [{"from": "human", "value": "<image>\nCô ấy có ăn mặc phù hợp cho một ngày làm việc ở văn phòng không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000294247.jpg", "conversations": [{"from": "human", "value": "<image>\nMáy bay này có thể nhìn thấy từ mặt đất không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000029431.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ đang chơi trò chơi gì?"}], "all_answers": ["frisbee"]}
+{"image": "COCO_val2014_000000294484.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại động vật nào trong bức ảnh?"}], "all_answers": ["hươu cao cổ"]}
+{"image": "COCO_val2014_000000294763.jpg", "conversations": [{"from": "human", "value": "<image>\nCái này có trong cửa hàng không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000295231.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững con vật này là loại gì?"}], "all_answers": ["cừu"]}
+{"image": "COCO_val2014_000000295308.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao này là gì?"}], "all_answers": ["trượt ván"]}
+{"image": "COCO_val2014_000000295553.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững quả chuối này có chín chưa?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000295956.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững người này đang chơi môn thể thao nào?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000296176.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang đứng trên cái gì?"}], "all_answers": ["cỏ"]}
+{"image": "COCO_val2014_000000029648.jpg", "conversations": [{"from": "human", "value": "<image>\nTường có bị nứt không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000296492.jpg", "conversations": [{"from": "human", "value": "<image>\nĐứa trẻ có nên ngồi trên quầy không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000296969.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một gia đình không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000296988.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại xe nào được hiển thị?"}], "all_answers": ["xe tải"]}
+{"image": "COCO_val2014_000000297314.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững cầu thủ này có cùng đội không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000297933.jpg", "conversations": [{"from": "human", "value": "<image>\nAnh ấy đang làm gì?"}], "all_answers": ["trượt ván"]}
+{"image": "COCO_val2014_000000298137.jpg", "conversations": [{"from": "human", "value": "<image>\nBầu trời có trong veo không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000298637.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đó đang làm gì?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000298809.jpg", "conversations": [{"from": "human", "value": "<image>\nNó có mùi thơm không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000298904.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một chiếc bình hiện đại không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000299074.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là tàu chở khách không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000300034.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng gì?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000300323.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười phụ nữ có đeo bông tai không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000030044.jpg", "conversations": [{"from": "human", "value": "<image>\nMáy bay này chỉ để trưng bày hay là có thể bay được?"}], "all_answers": ["trưng bày"]}
+{"image": "COCO_val2014_000000301061.jpg", "conversations": [{"from": "human", "value": "<image>\nTrong hình là loại động vật nào?"}], "all_answers": ["con voi"]}
+{"image": "COCO_val2014_000000301236.jpg", "conversations": [{"from": "human", "value": "<image>\nCon ngựa vằn phía trước có nhỏ hơn con kia không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000301950.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một bữa ăn lành mạnh?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000302038.jpg", "conversations": [{"from": "human", "value": "<image>\nPhòng này là phòng gì?"}], "all_answers": ["phòng ăn"]}
+{"image": "COCO_val2014_000000302200.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là vùng nông thôn không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000302531.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là sở thú không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000030290.jpg", "conversations": [{"from": "human", "value": "<image>\nGấu bông có âu yếm không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000303127.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại động vật này là gì?"}], "all_answers": ["bò"]}
+{"image": "COCO_val2014_000000304744.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ đang kỷ niệm sự kiện gì?"}], "all_answers": ["sinh nhật"]}
+{"image": "COCO_val2014_000000304929.jpg", "conversations": [{"from": "human", "value": "<image>\nCó mây không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000305464.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng nào?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000306940.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao nào đang được chơi?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000307138.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững lọ này có thể cho vào lò vi sóng một cách an toàn không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000307658.jpg", "conversations": [{"from": "human", "value": "<image>\nBạn có nên ôm con vật này không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000307683.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một bữa ăn lành mạnh không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000308764.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại chim nào người phụ nữ đang cầm?"}], "all_answers": ["con cú"]}
+{"image": "COCO_val2014_000000309341.jpg", "conversations": [{"from": "human", "value": "<image>\nTên đầu tiên của doanh nghiệp là gì?"}], "all_answers": ["billabong"]}
+{"image": "COCO_val2014_000000309467.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững người này đang làm gì?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000310407.jpg", "conversations": [{"from": "human", "value": "<image>\nMáy bay có hạ cánh không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000311015.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là môn thể thao gì?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000312033.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là trò chơi gì?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000313240.jpg", "conversations": [{"from": "human", "value": "<image>\nMáy in có giấy không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000314177.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười này đang ngồi trên cái gì?"}], "all_answers": ["bồn cầu"]}
+{"image": "COCO_val2014_000000314607.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là tháp đồng hồ không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000316968.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười lái xe là nam hay nữ?"}], "all_answers": ["nam"]}
+{"image": "COCO_val2014_000000318219.jpg", "conversations": [{"from": "human", "value": "<image>\nCô ấy đang đội cái gì trên đầu vậy?"}], "all_answers": ["tai nghe"]}
+{"image": "COCO_val2014_000000318284.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao nào đang được chơi?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000318330.jpg", "conversations": [{"from": "human", "value": "<image>\nĐồng hồ này có thiết kế hiện đại không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000319095.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đó đang làm gì?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000319342.jpg", "conversations": [{"from": "human", "value": "<image>\nBức ảnh này được chụp ở đâu?"}], "all_answers": ["bãi biển"]}
+{"image": "COCO_val2014_000000321390.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một khu vực đô thị không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000321886.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là Hoa Kỳ không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000032193.jpg", "conversations": [{"from": "human", "value": "<image>\nCon hươu cao cổ đang làm gì?"}], "all_answers": ["ăn"]}
+{"image": "COCO_val2014_000000323639.jpg", "conversations": [{"from": "human", "value": "<image>\nCô gái này có chơi tennis chuyên nghiệp không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000323895.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao này là gì?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000323919.jpg", "conversations": [{"from": "human", "value": "<image>\nCon gấu có bẩn không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000324390.jpg", "conversations": [{"from": "human", "value": "<image>\nBữa ăn này là gì?"}], "all_answers": ["bữa tối"]}
+{"image": "COCO_val2014_000000324598.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững đứa trẻ này đang làm gì?"}], "all_answers": ["đánh răng"]}
+{"image": "COCO_val2014_000000325831.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười phụ nữ đang làm gì?"}], "all_answers": ["ăn"]}
+{"image": "COCO_val2014_000000326664.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là môn thể thao gì?"}], "all_answers": ["trượt ván"]}
+{"image": "COCO_val2014_000000327089.jpg", "conversations": [{"from": "human", "value": "<image>\nXe buýt có thích bọn trẻ không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000327771.jpg", "conversations": [{"from": "human", "value": "<image>\nPhòng này có gọn gàng không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000329030.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng gì?"}], "all_answers": ["nhà bếp"]}
+{"image": "COCO_val2014_000000329789.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại pizza nào đang ở trong miệng của người đàn ông?"}], "all_answers": ["xúc xích pepperoni"]}
+{"image": "COCO_val2014_000000032990.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng gì?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000330515.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ đang chơi trò chơi gì?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000331049.jpg", "conversations": [{"from": "human", "value": "<image>\nCon ngựa có đang nhìn vào camera không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000331049.jpg", "conversations": [{"from": "human", "value": "<image>\nĐộng vật nào được hiển thị?"}], "all_answers": ["ngựa"]}
+{"image": "COCO_val2014_000000033116.jpg", "conversations": [{"from": "human", "value": "<image>\nĐiều này có vẻ là một sự kiện thể thao không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000331790.jpg", "conversations": [{"from": "human", "value": "<image>\nGiỏ trái cây có thể di chuyển không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000331883.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang làm gì?"}], "all_answers": ["ngủ"]}
+{"image": "COCO_val2014_000000333440.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là môn thể thao gì?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000333677.jpg", "conversations": [{"from": "human", "value": "<image>\nGiường đã được dọn chưa?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000333924.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang làm gì?"}], "all_answers": ["lướt sóng"]}
+{"image": "COCO_val2014_000000333998.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng nào?"}], "all_answers": ["phòng bếp"]}
+{"image": "COCO_val2014_000000333998.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại phòng gì?"}], "all_answers": ["phòng bếp"]}
+{"image": "COCO_val2014_000000334083.jpg", "conversations": [{"from": "human", "value": "<image>\nMọi người đang làm gì?"}], "all_answers": ["ngồi"]}
+{"image": "COCO_val2014_000000334686.jpg", "conversations": [{"from": "human", "value": "<image>\nLớp kem trên bánh donut có vẻ dính không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000335119.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại phương tiện gì?"}], "all_answers": ["xe buýt"]}
+{"image": "COCO_val2014_000000335587.jpg", "conversations": [{"from": "human", "value": "<image>\nAnh ấy đang làm gì?"}], "all_answers": ["nhảy múa"]}
+{"image": "COCO_val2014_000000335861.jpg", "conversations": [{"from": "human", "value": "<image>\nCái thuyền có bán không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000336356.jpg", "conversations": [{"from": "human", "value": "<image>\nBánh pizza có được cắt lát không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000337818.jpg", "conversations": [{"from": "human", "value": "<image>\nTrời đang mưa à?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000340934.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng gì?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000341196.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một bức ảnh chuyên nghiệp không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000341603.jpg", "conversations": [{"from": "human", "value": "<image>\nGhế này có kẻ hay là trơn?"}], "all_answers": ["có kẻ"]}
+{"image": "COCO_val2014_000000341645.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang làm gì?"}], "all_answers": ["trượt ván"]}
+{"image": "COCO_val2014_000000034167.jpg", "conversations": [{"from": "human", "value": "<image>\nCậu bé đang làm gì?"}], "all_answers": ["thả diều"]}
+{"image": "COCO_val2014_000000342929.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao nào được trình chiếu?"}], "all_answers": ["lướt sóng"]}
+{"image": "COCO_val2014_000000343149.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười phụ nữ có đang hút thuốc bằng tay trái không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000343561.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại động vật nào có trên lá cờ vàng ở phía sau?"}], "all_answers": ["sư tử"]}
+{"image": "COCO_val2014_000000344415.jpg", "conversations": [{"from": "human", "value": "<image>\nChuyến tàu này có đang chuyển động không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000345139.jpg", "conversations": [{"from": "human", "value": "<image>\nAnh ta có nên uống tất cả những đồ uống này một mình không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000345154.jpg", "conversations": [{"from": "human", "value": "<image>\nCỏ có cần cắt không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000346011.jpg", "conversations": [{"from": "human", "value": "<image>\nAnh ta có ở đúng khu vực để đi ván trượt không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000346517.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là tàu chở khách không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000346707.jpg", "conversations": [{"from": "human", "value": "<image>\nCó phải là ban đêm?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000347018.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao này là gì?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000347377.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một bến cảng?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000348186.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại cây nào ở trước con thú nhồi bông?"}], "all_answers": ["cây xương rồng"]}
+{"image": "COCO_val2014_000000348594.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây được chụp ở đâu?"}], "all_answers": ["bãi biển"]}
+{"image": "COCO_val2014_000000349485.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là khu vực nào của cửa hàng?"}], "all_answers": ["hoa quả"]}
+{"image": "COCO_val2014_000000349622.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang chơi môn thể thao gì?"}], "all_answers": ["trượt ván"]}
+{"image": "COCO_val2014_000000349860.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đó đang làm gì?"}], "all_answers": ["trượt ván"]}
+{"image": "COCO_val2014_000000350721.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang chơi trò chơi gì?"}], "all_answers": ["frisbee"]}
+{"image": "COCO_val2014_000000350961.jpg", "conversations": [{"from": "human", "value": "<image>\nNơi này là gì?"}], "all_answers": ["phòng khách"]}
+{"image": "COCO_val2014_000000351466.jpg", "conversations": [{"from": "human", "value": "<image>\nĐồng hồ có cũ không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000352587.jpg", "conversations": [{"from": "human", "value": "<image>\nCon vật này là gì?"}], "all_answers": ["ngựa"]}
+{"image": "COCO_val2014_000000352744.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng nào?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000353317.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng gì?"}], "all_answers": ["nhà bếp"]}
+{"image": "COCO_val2014_000000353562.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ đang ăn gì?"}], "all_answers": ["cỏ"]}
+{"image": "COCO_val2014_000000354229.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là ở Mỹ không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000354303.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại động vật gì?"}], "all_answers": ["ngựa vằn"]}
+{"image": "COCO_val2014_000000354559.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười phụ nữ có đang nhìn vào máy ảnh không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000355057.jpg", "conversations": [{"from": "human", "value": "<image>\nPhần nào của máy bay có thể nhìn thấy được?"}], "all_answers": ["cánh"]}
+{"image": "COCO_val2014_000000355221.jpg", "conversations": [{"from": "human", "value": "<image>\nTrong hình là loại xe gì?"}], "all_answers": ["xe máy"]}
+{"image": "COCO_val2014_000000035525.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông này có làm việc trong nhà hàng không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000035672.jpg", "conversations": [{"from": "human", "value": "<image>\nCon vật trong bức ảnh này có vẻ hạnh phúc không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000356787.jpg", "conversations": [{"from": "human", "value": "<image>\nCái này có nên cho vào lò vi sóng không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000356920.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang đi qua loại cửa hàng nào?"}], "all_answers": ["cửa hàng quần áo"]}
+{"image": "COCO_val2014_000000356920.jpg", "conversations": [{"from": "human", "value": "<image>\nCó phải trời đang mưa không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000357379.jpg", "conversations": [{"from": "human", "value": "<image>\nNước có yên tĩnh không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000035778.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một sở thú không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000358268.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ đang chơi trò chơi gì?"}], "all_answers": ["wii"]}
+{"image": "COCO_val2014_000000358427.jpg", "conversations": [{"from": "human", "value": "<image>\nDụng cụ này là gì?"}], "all_answers": ["nĩa"]}
+{"image": "COCO_val2014_000000000359.jpg", "conversations": [{"from": "human", "value": "<image>\nu ám hay nắng?"}], "all_answers": ["u ám"]}
+{"image": "COCO_val2014_000000359574.jpg", "conversations": [{"from": "human", "value": "<image>\nCon mèo có buồn ngủ không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000360849.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một phòng ăn trang trọng?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000360851.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười trượt ván đang mặc loại thiết bị bảo vệ nào?"}], "all_answers": ["0"]}
+{"image": "COCO_val2014_000000361027.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông này thuận tay phải phải không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000361265.jpg", "conversations": [{"from": "human", "value": "<image>\nTrời có mưa không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000361993.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông có nên sợ bị xe cộ đâm không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000362159.jpg", "conversations": [{"from": "human", "value": "<image>\nBiển báo này có nghĩa là đi hay dừng lại?"}], "all_answers": ["dừng"]}
+{"image": "COCO_val2014_000000036226.jpg", "conversations": [{"from": "human", "value": "<image>\nTrò chơi nào đang được chơi?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000362563.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông chơi môn thể thao nào?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000363319.jpg", "conversations": [{"from": "human", "value": "<image>\nBức ảnh này có được chụp tại một sở thú không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000365194.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang chơi trò chơi gì?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000367608.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững người đàn ông này đang làm gì?"}], "all_answers": ["trượt ván"]}
+{"image": "COCO_val2014_000000367622.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang làm gì?"}], "all_answers": ["lướt sóng"]}
+{"image": "COCO_val2014_000000368222.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại điện tử nào?"}], "all_answers": ["điện thoại"]}
+{"image": "COCO_val2014_000000368565.jpg", "conversations": [{"from": "human", "value": "<image>\nSự kiện nào đang được tổ chức?"}], "all_answers": ["sinh nhật"]}
+{"image": "COCO_val2014_000000003694.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là môn thể thao gì?"}], "all_answers": ["trượt ván"]}
+{"image": "COCO_val2014_000000369485.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng nào?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000370233.jpg", "conversations": [{"from": "human", "value": "<image>\nTường có được lát gạch không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000370602.jpg", "conversations": [{"from": "human", "value": "<image>\nXe buýt có lối vào cho người khuyết tật không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000371309.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao nào đang được chơi?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000371322.jpg", "conversations": [{"from": "human", "value": "<image>\nNước có yên tĩnh không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000372731.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đứng bên cạnh con vật gì?"}], "all_answers": ["ngựa"]}
+{"image": "COCO_val2014_000000373284.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là khu đô thị không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000037367.jpg", "conversations": [{"from": "human", "value": "<image>\nMáy tính xách tay có bật không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000373748.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là nhà hàng không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000374017.jpg", "conversations": [{"from": "human", "value": "<image>\nCô ấy có đang cầu nguyện không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000374342.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ đang chơi trò chơi gì?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000037457.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại động vật gì?"}], "all_answers": ["cừu"]}
+{"image": "COCO_val2014_000000375180.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng nào?"}], "all_answers": ["phòng bếp"]}
+{"image": "COCO_val2014_000000375286.jpg", "conversations": [{"from": "human", "value": "<image>\nMọi người đang làm gì?"}], "all_answers": ["đi bộ"]}
+{"image": "COCO_val2014_000000375317.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại bếp gì?"}], "all_answers": ["bếp gas"]}
+{"image": "COCO_val2014_000000375357.jpg", "conversations": [{"from": "human", "value": "<image>\nBầu trời có nhiều mây không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000375440.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một khu vực miền núi?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000375566.jpg", "conversations": [{"from": "human", "value": "<image>\nTrời có mưa không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000376112.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ đang tham gia môn thể thao gì?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000376247.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là trang trại của gia đình không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000377588.jpg", "conversations": [{"from": "human", "value": "<image>\nCoca-Cola có phải là nhà tài trợ cho sự kiện này không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000379734.jpg", "conversations": [{"from": "human", "value": "<image>\nThùng màu xanh bên cạnh cây được dùng để làm gì?"}], "all_answers": ["rác"]}
+{"image": "COCO_val2014_000000379837.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười phụ nữ có tóc dài không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000379882.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững vận động viên này đang chơi môn thể thao gì?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000380106.jpg", "conversations": [{"from": "human", "value": "<image>\nHình ảnh này có thể được chụp ở đâu?"}], "all_answers": ["vườn thú"]}
+{"image": "COCO_val2014_000000380244.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một phòng khách sạn không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000380244.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng gì?"}], "all_answers": ["phòng ngủ"]}
+{"image": "COCO_val2014_000000380951.jpg", "conversations": [{"from": "human", "value": "<image>\nĐiều này có tốt cho sức khỏe không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000381393.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng gì?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000382399.jpg", "conversations": [{"from": "human", "value": "<image>\nCó mây không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000382462.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao nào đang được chơi?"}], "all_answers": ["bóng đá"]}
+{"image": "COCO_val2014_000000382728.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một chuyến tàu hiện đại?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000383445.jpg", "conversations": [{"from": "human", "value": "<image>\nCái này có thuộc về đây không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000384482.jpg", "conversations": [{"from": "human", "value": "<image>\nLớp vỏ có bị cháy không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000384594.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là tàu chở hàng không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000038540.jpg", "conversations": [{"from": "human", "value": "<image>\nTrời có nhiều mây không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000385770.jpg", "conversations": [{"from": "human", "value": "<image>\nCó phải là ban ngày?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000386613.jpg", "conversations": [{"from": "human", "value": "<image>\nCăn phòng này có cần được sửa chữa không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000389128.jpg", "conversations": [{"from": "human", "value": "<image>\nCăn phòng này là gì?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000389129.jpg", "conversations": [{"from": "human", "value": "<image>\nChim đang làm gì?"}], "all_answers": ["đang bay"]}
+{"image": "COCO_val2014_000000391548.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông này có nên ăn kiêng không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000392915.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là khách sạn không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000393372.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười phụ nữ có nhìn vào máy ảnh không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000393647.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại phương tiện nào được hiển thị?"}], "all_answers": ["xe buýt"]}
+{"image": "COCO_val2014_000000393836.jpg", "conversations": [{"from": "human", "value": "<image>\nGiường có được dọn không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000039472.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một bức ảnh thật không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000396304.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại phòng này là gì?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000396526.jpg", "conversations": [{"from": "human", "value": "<image>\nCái đèn có hoạt động không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000396541.jpg", "conversations": [{"from": "human", "value": "<image>\nBây giờ là ban đêm à?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000396693.jpg", "conversations": [{"from": "human", "value": "<image>\nAnh ấy có giỏi lướt sóng không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000398174.jpg", "conversations": [{"from": "human", "value": "<image>\nCô ấy đang mặc loại quần nào?"}], "all_answers": ["quần jean"]}
+{"image": "COCO_val2014_000000398604.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một bữa ăn lành mạnh không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000398628.jpg", "conversations": [{"from": "human", "value": "<image>\nHình ảnh này có lẽ được chụp ở đâu?"}], "all_answers": ["vườn thú"]}
+{"image": "COCO_val2014_000000398748.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại chim nào?"}], "all_answers": ["mòng biển"]}
+{"image": "COCO_val2014_000000399741.jpg", "conversations": [{"from": "human", "value": "<image>\nMàu túi có phù hợp với thảm không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000401221.jpg", "conversations": [{"from": "human", "value": "<image>\nBầu trời có mây không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000402000.jpg", "conversations": [{"from": "human", "value": "<image>\nNước có yên tĩnh không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000402971.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ đang chơi trò chơi gì?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000402992.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là con vật gì?"}], "all_answers": ["bò"]}
+{"image": "COCO_val2014_000000403378.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười phụ nữ trong gương có vẻ buồn bã không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000403619.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại bia nào được quảng cáo trên ngăn đựng đồ uống?"}], "all_answers": ["heineken"]}
+{"image": "COCO_val2014_000000403758.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một trang trại gia đình không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000403864.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là cái gì?"}], "all_answers": ["xe lửa"]}
+{"image": "COCO_val2014_000000404526.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại bia nào ở phía trước?"}], "all_answers": ["budweiser"]}
+{"image": "COCO_val2014_000000405192.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là nhà hàng không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000405279.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một công viên cho chó không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000405534.jpg", "conversations": [{"from": "human", "value": "<image>\nCậu bé mặc quần xanh trông có vui không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000405740.jpg", "conversations": [{"from": "human", "value": "<image>\nMáy tính xách tay có bật không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000408049.jpg", "conversations": [{"from": "human", "value": "<image>\nCậu bé đội mũ đỏ đang làm gì?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000408696.jpg", "conversations": [{"from": "human", "value": "<image>\nCái toilet này có sắp rơi không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000040886.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông này đang làm gì?"}], "all_answers": ["đang ném bóng"]}
+{"image": "COCO_val2014_000000408950.jpg", "conversations": [{"from": "human", "value": "<image>\nXe buýt này đi đâu?"}], "all_answers": ["victoria"]}
+{"image": "COCO_val2014_000000409100.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông trông có hạnh phúc không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000409291.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ đang chơi gì vậy?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000409964.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao nào đang được chơi?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000410641.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại bánh gì?"}], "all_answers": ["sô cô la"]}
+{"image": "COCO_val2014_000000410650.jpg", "conversations": [{"from": "human", "value": "<image>\nFedEx có phải là nhà tài trợ cho sự kiện này không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000411241.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười trong ảnh lớn hơn hay trẻ hơn 50?"}], "all_answers": ["trẻ hơn"]}
+{"image": "COCO_val2014_000000411968.jpg", "conversations": [{"from": "human", "value": "<image>\nBức ảnh này được chụp ở đâu?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000412483.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng gì?"}], "all_answers": ["phòng khách"]}
+{"image": "COCO_val2014_000000412914.jpg", "conversations": [{"from": "human", "value": "<image>\nThuyền có tên không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000413008.jpg", "conversations": [{"from": "human", "value": "<image>\nĐiều đó có khỏe mạnh không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000413871.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại động vật gì?"}], "all_answers": ["gấu"]}
+{"image": "COCO_val2014_000000413959.jpg", "conversations": [{"from": "human", "value": "<image>\nHình ảnh được chụp là màu hay đơn sắc?"}], "all_answers": ["màu"]}
+{"image": "COCO_val2014_000000414201.jpg", "conversations": [{"from": "human", "value": "<image>\nTrong hình là món ăn gì?"}], "all_answers": ["bánh ngọt"]}
+{"image": "COCO_val2014_000000414324.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng nào?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000415218.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là bếp thương mại không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000416476.jpg", "conversations": [{"from": "human", "value": "<image>\nBức ảnh này được chụp ở đâu?"}], "all_answers": ["sở thú"]}
+{"image": "COCO_val2014_000000418144.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loài chim gì?"}], "all_answers": ["chim bồ câu"]}
+{"image": "COCO_val2014_000000418680.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đó đang làm gì?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000418944.jpg", "conversations": [{"from": "human", "value": "<image>\nCái này được chụp ở đâu?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000419074.jpg", "conversations": [{"from": "human", "value": "<image>\nTrời có mưa không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000419379.jpg", "conversations": [{"from": "human", "value": "<image>\nBạn có nên ăn cái này khi bạn đang ăn kiêng để giảm cân?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000419624.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là tàu chở hàng không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000041990.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững người trượt tuyết đang tạo dáng chụp ảnh phải không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000420110.jpg", "conversations": [{"from": "human", "value": "<image>\nThức ăn này đã sẵn sàng để ăn chưa?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000421431.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ đang tham gia môn thể thao nào?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000042147.jpg", "conversations": [{"from": "human", "value": "<image>\nMáy bay có đang hạ cánh không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000421566.jpg", "conversations": [{"from": "human", "value": "<image>\nAnh ấy đang đeo loại trang sức gì?"}], "all_answers": ["vòng cổ"]}
+{"image": "COCO_val2014_000000421822.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là sở thú không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000421865.jpg", "conversations": [{"from": "human", "value": "<image>\nCó phải là ban ngày không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000423204.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông có bút trong túi áo sơ mi không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000423837.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại động vật nào được vẽ trên cánh?"}], "all_answers": ["kangaroo"]}
+{"image": "COCO_val2014_000000425077.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một vườn thú?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000425412.jpg", "conversations": [{"from": "human", "value": "<image>\nBạn có nên giảm tốc độ khi nhìn thấy biển báo này không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000426070.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang ngồi trên cái gì?"}], "all_answers": ["ghế sofa"]}
+{"image": "COCO_val2014_000000426874.jpg", "conversations": [{"from": "human", "value": "<image>\nCon vật trong hình có trông vui vẻ không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000427135.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao nào đang được chơi?"}], "all_answers": ["bóng đá"]}
+{"image": "COCO_val2014_000000427762.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang ngồi trên cái gì?"}], "all_answers": ["ván lướt sóng"]}
+{"image": "COCO_val2014_000000428985.jpg", "conversations": [{"from": "human", "value": "<image>\nCôn trùng nào giống như chiếc áo khoác của trẻ?"}], "all_answers": ["bọ rùa"]}
+{"image": "COCO_val2014_000000429290.jpg", "conversations": [{"from": "human", "value": "<image>\nCậu bé đang làm gì?"}], "all_answers": ["ném đĩa bay"]}
+{"image": "COCO_val2014_000000429598.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại bếp nào có trong nhà bếp?"}], "all_answers": ["gas"]}
+{"image": "COCO_val2014_000000429761.jpg", "conversations": [{"from": "human", "value": "<image>\nTrò chơi nào đang được chơi?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000430054.jpg", "conversations": [{"from": "human", "value": "<image>\nCậu bé đang làm gì?"}], "all_answers": ["đang trượt ván"]}
+{"image": "COCO_val2014_000000431201.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại trái cây nào trên sàn?"}], "all_answers": ["dâu tây"]}
+{"image": "COCO_val2014_000000431523.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là tàu chở khách không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000432378.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một bức tranh hiện đại không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000432843.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là ở Mỹ không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000432886.jpg", "conversations": [{"from": "human", "value": "<image>\nPhòng này có cần dọn dẹp không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000433515.jpg", "conversations": [{"from": "human", "value": "<image>\nCái diều có đuôi không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000434673.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao này là gì?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000435324.jpg", "conversations": [{"from": "human", "value": "<image>\nĐó có phải là xe buýt thương mại không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000438093.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một bữa ăn lành mạnh không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000438185.jpg", "conversations": [{"from": "human", "value": "<image>\nBức ảnh này được chụp ở đâu?"}], "all_answers": ["sân bay"]}
+{"image": "COCO_val2014_000000438615.jpg", "conversations": [{"from": "human", "value": "<image>\nGiường có được làm không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000439007.jpg", "conversations": [{"from": "human", "value": "<image>\nCon gấu đang làm gì?"}], "all_answers": ["bơi"]}
+{"image": "COCO_val2014_000000439854.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây được chụp ở đâu?"}], "all_answers": ["bãi biển"]}
+{"image": "COCO_val2014_000000440043.jpg", "conversations": [{"from": "human", "value": "<image>\nXe tải này có được đỗ hợp pháp không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000440336.jpg", "conversations": [{"from": "human", "value": "<image>\nCó phải là ban ngày không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000440352.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại động vật nào ở cùng người đàn ông?"}], "all_answers": ["ngựa"]}
+{"image": "COCO_val2014_000000440528.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại thực phẩm nào được trưng bày trên bệ?"}], "all_answers": ["bánh ngọt"]}
+{"image": "COCO_val2014_000000440840.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười này đang làm gì?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000440840.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang làm gì?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000441054.jpg", "conversations": [{"from": "human", "value": "<image>\nCon gấu có chào không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000441539.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại sự kiện gì?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000044165.jpg", "conversations": [{"from": "human", "value": "<image>\nCon voi có cần tắm không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000441929.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đó đang làm gì?"}], "all_answers": ["đang trượt tuyết"]}
+{"image": "COCO_val2014_000000442456.jpg", "conversations": [{"from": "human", "value": "<image>\nXe tải này có hệ thống treo khí nén không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000442726.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một sự kiện được tổ chức không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000442809.jpg", "conversations": [{"from": "human", "value": "<image>\nNơi này là gì?"}], "all_answers": ["tiệm bánh"]}
+{"image": "COCO_val2014_000000443689.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười này có thể cho bạn biết giờ không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000445019.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là môn thể thao gì?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000044612.jpg", "conversations": [{"from": "human", "value": "<image>\nCon vật này có thể cưỡi được không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000446301.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ đang chơi gì?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000447038.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng gì?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000448759.jpg", "conversations": [{"from": "human", "value": "<image>\nThời tiết có trong xanh và nắng không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000044950.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại phòng nào?"}], "all_answers": ["phòng ngủ"]}
+{"image": "COCO_val2014_000000044950.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng gì?"}], "all_answers": ["phòng ngủ"]}
+{"image": "COCO_val2014_000000004497.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là ở Mỹ không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000450570.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững người đó đang làm gì?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000451449.jpg", "conversations": [{"from": "human", "value": "<image>\nCon chó có quá lớn so với giường dành cho chó không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000452767.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại đội thể thao nào?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000452917.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một con phố đông đúc không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000453302.jpg", "conversations": [{"from": "human", "value": "<image>\nTrên tủ lạnh có gì?"}], "all_answers": ["lò vi sóng"]}
+{"image": "COCO_val2014_000000453485.jpg", "conversations": [{"from": "human", "value": "<image>\nĐang là ban ngày hay ban đêm?"}], "all_answers": ["ban ngày"]}
+{"image": "COCO_val2014_000000453557.jpg", "conversations": [{"from": "human", "value": "<image>\nĐiều này có nhằm mục đích trông ghê rợn không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000045406.jpg", "conversations": [{"from": "human", "value": "<image>\nChuột có phải không dây không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000454957.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang làm gì?"}], "all_answers": ["đang chơi Tennis"]}
+{"image": "COCO_val2014_000000455448.jpg", "conversations": [{"from": "human", "value": "<image>\nMón tráng miệng này là gì?"}], "all_answers": ["bánh cupcake"]}
+{"image": "COCO_val2014_000000455597.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng nào?"}], "all_answers": ["phòng bếp"]}
+{"image": "COCO_val2014_000000455750.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại động vật nào trong ảnh này?"}], "all_answers": ["chó"]}
+{"image": "COCO_val2014_000000045586.jpg", "conversations": [{"from": "human", "value": "<image>\nMèo đang làm gì?"}], "all_answers": ["ngủ"]}
+{"image": "COCO_val2014_000000455974.jpg", "conversations": [{"from": "human", "value": "<image>\nNó sáng hay tối?"}], "all_answers": ["ánh sáng"]}
+{"image": "COCO_val2014_000000045626.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là trò chơi gì?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000456261.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười này đang làm gì?"}], "all_answers": ["ngủ"]}
+{"image": "COCO_val2014_000000045648.jpg", "conversations": [{"from": "human", "value": "<image>\nNước có yên tĩnh không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000457817.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao này là gì?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000457884.jpg", "conversations": [{"from": "human", "value": "<image>\nTrò chơi này là gì?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000457986.jpg", "conversations": [{"from": "human", "value": "<image>\nNgôi nhà này có thiết kế mở không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000460243.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một trò chơi chuyên nghiệp?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000461572.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại thức ăn gì?"}], "all_answers": ["pizza"]}
+{"image": "COCO_val2014_000000462241.jpg", "conversations": [{"from": "human", "value": "<image>\nTrong sự kiện này có tối không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000462424.jpg", "conversations": [{"from": "human", "value": "<image>\nBàn có lộn xộn không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000463454.jpg", "conversations": [{"from": "human", "value": "<image>\nCó mưa không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000463703.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại thực phẩm gì?"}], "all_answers": ["pizza"]}
+{"image": "COCO_val2014_000000463918.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ đang chơi trò chơi gì?"}], "all_answers": ["wii"]}
+{"image": "COCO_val2014_000000464098.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là thang cuốn không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000464178.jpg", "conversations": [{"from": "human", "value": "<image>\nĐộng vật nào được hiển thị?"}], "all_answers": ["hươu cao cổ"]}
+{"image": "COCO_val2014_000000464339.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng nào?"}], "all_answers": ["phòng khách"]}
+{"image": "COCO_val2014_000000046463.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là bánh mì kẹp cà chua không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000046538.jpg", "conversations": [{"from": "human", "value": "<image>\nPhòng này có vẻ sạch sẽ không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000466602.jpg", "conversations": [{"from": "human", "value": "<image>\nCó phải là mùa đông?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000466736.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại trái cây gì?"}], "all_answers": ["chuối"]}
+{"image": "COCO_val2014_000000466835.jpg", "conversations": [{"from": "human", "value": "<image>\nCó phải là đêm không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000466921.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại chữ viết nào trên tường?"}], "all_answers": ["chữ Trung Quốc"]}
+{"image": "COCO_val2014_000000467194.jpg", "conversations": [{"from": "human", "value": "<image>\nAnh ấy đang làm gì?"}], "all_answers": ["trượt ván"]}
+{"image": "COCO_val2014_000000046736.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang làm gì?"}], "all_answers": ["lướt sóng"]}
+{"image": "COCO_val2014_000000467791.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là trò chơi gì?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000468245.jpg", "conversations": [{"from": "human", "value": "<image>\nGiường có được dọn không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000046859.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao nào đang được chơi?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000046859.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một sự kiện chuyên nghiệp?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000468608.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười này có khả năng đang kỷ niệm sự kiện nào nhất?"}], "all_answers": ["sinh nhật"]}
+{"image": "COCO_val2014_000000046869.jpg", "conversations": [{"from": "human", "value": "<image>\nPhòng nào trong nhà này?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000468773.jpg", "conversations": [{"from": "human", "value": "<image>\nBàn có bừa bộn không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000468965.jpg", "conversations": [{"from": "human", "value": "<image>\nĐiều này có giống như nước Mỹ không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000469061.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững người này đang làm gì?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000469471.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng gì?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000469961.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đó đang làm gì?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000470145.jpg", "conversations": [{"from": "human", "value": "<image>\nCon vật đang nhìn gì?"}], "all_answers": ["máy ảnh"]}
+{"image": "COCO_val2014_000000470766.jpg", "conversations": [{"from": "human", "value": "<image>\nMọi người đang làm gì?"}], "all_answers": ["thả diều"]}
+{"image": "COCO_val2014_000000470909.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại phòng gì?"}], "all_answers": ["lớp học"]}
+{"image": "COCO_val2014_000000472509.jpg", "conversations": [{"from": "human", "value": "<image>\nAnh ấy chỉ có 1 ngón tay ở bàn tay trái thôi à?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000473299.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đó đang làm gì?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000474388.jpg", "conversations": [{"from": "human", "value": "<image>\nCừu có hoang dã không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000474609.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông này đang làm gì?"}], "all_answers": ["nấu ăn"]}
+{"image": "COCO_val2014_000000475389.jpg", "conversations": [{"from": "human", "value": "<image>\nCó phải trời nhiều mây không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000476398.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đó đang sử dụng tay nào?"}], "all_answers": ["bên trái"]}
+{"image": "COCO_val2014_000000476715.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại phòng nào?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000478093.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là bầu trời không có mây không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000479829.jpg", "conversations": [{"from": "human", "value": "<image>\nCô gái này đang làm gì?"}], "all_answers": ["đọc"]}
+{"image": "COCO_val2014_000000480470.jpg", "conversations": [{"from": "human", "value": "<image>\nMáy bay có hạ cánh không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000482539.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một bức ảnh chuyên nghiệp không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000482690.jpg", "conversations": [{"from": "human", "value": "<image>\nCon trai có nên đội mũ bảo hiểm không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000482927.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là nơi như thế nào?"}], "all_answers": ["ga xe lửa"]}
+{"image": "COCO_val2014_000000484674.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng nào?"}], "all_answers": ["phòng bếp"]}
+{"image": "COCO_val2014_000000484915.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là pizza không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000484978.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một nhà hàng?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000485307.jpg", "conversations": [{"from": "human", "value": "<image>\nCô ấy đang chơi trò chơi gì?"}], "all_answers": ["wii"]}
+{"image": "COCO_val2014_000000486079.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông có mái tóc dài không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000486087.jpg", "conversations": [{"from": "human", "value": "<image>\nCửa sổ có mở không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000486774.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười này đang làm gì?"}], "all_answers": ["lướt sóng"]}
+{"image": "COCO_val2014_000000487217.jpg", "conversations": [{"from": "human", "value": "<image>\nTrong ảnh là tòa nhà gì?"}], "all_answers": ["nhà thờ"]}
+{"image": "COCO_val2014_000000487385.jpg", "conversations": [{"from": "human", "value": "<image>\nHộp màu đỏ được sử dụng để làm gì?"}], "all_answers": ["kính"]}
+{"image": "COCO_val2014_000000488500.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là môn thể thao gì?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000488664.jpg", "conversations": [{"from": "human", "value": "<image>\nTàu có chạy nhanh không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000489023.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là môn thể thao gì?"}], "all_answers": ["bóng đá"]}
+{"image": "COCO_val2014_000000048910.jpg", "conversations": [{"from": "human", "value": "<image>\nPhòng này là phòng gì?"}], "all_answers": ["nhà bếp"]}
+{"image": "COCO_val2014_000000489588.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại động vật nào?"}], "all_answers": ["cừu"]}
+{"image": "COCO_val2014_000000489763.jpg", "conversations": [{"from": "human", "value": "<image>\nCó phải là mùa đông không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000049005.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một trò chơi chuyên nghiệp?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000490694.jpg", "conversations": [{"from": "human", "value": "<image>\nMáy tính đang bật hay tắt?"}], "all_answers": ["bật"]}
+{"image": "COCO_val2014_000000490869.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ có quan hệ họ hàng không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000490878.jpg", "conversations": [{"from": "human", "value": "<image>\nAnh ấy đang làm gì vậy?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000490890.jpg", "conversations": [{"from": "human", "value": "<image>\nTượng có tay giơ lên không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000491102.jpg", "conversations": [{"from": "human", "value": "<image>\nPhần nào của hươu cao cổ đang chạm vào hàng rào?"}], "all_answers": ["cổ"]}
+{"image": "COCO_val2014_000000049115.jpg", "conversations": [{"from": "human", "value": "<image>\nCon vật đang làm gì?"}], "all_answers": ["ăn"]}
+{"image": "COCO_val2014_000000491725.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một bến cảng?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000491921.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững người chơi này có cùng một đội không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000492785.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại thực phẩm gì?"}], "all_answers": ["sandwich"]}
+{"image": "COCO_val2014_000000493905.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao này là gì?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000494855.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là môn thể thao gì?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000494998.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững con gấu nhỏ đang làm gì?"}], "all_answers": ["đang chơi"]}
+{"image": "COCO_val2014_000000495438.jpg", "conversations": [{"from": "human", "value": "<image>\nAnh ấy cắt bánh cho sự kiện gì?"}], "all_answers": ["sinh nhật"]}
+{"image": "COCO_val2014_000000495587.jpg", "conversations": [{"from": "human", "value": "<image>\nCó phải là ban ngày không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000497299.jpg", "conversations": [{"from": "human", "value": "<image>\nTrời nhiều mây phải không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000497476.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ đang chơi trò chơi gì?"}], "all_answers": ["bài"]}
+{"image": "COCO_val2014_000000497488.jpg", "conversations": [{"from": "human", "value": "<image>\nGiường đã được dọn chưa?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000497838.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là môn thể thao gì?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000498120.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là ở Mỹ không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000498535.jpg", "conversations": [{"from": "human", "value": "<image>\nAnh ấy chơi cho đội nào?"}], "all_answers": ["mets"]}
+{"image": "COCO_val2014_000000498857.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một con hươu cao cổ con không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000499837.jpg", "conversations": [{"from": "human", "value": "<image>\nCon chó có muốn một miếng pizza không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000049984.jpg", "conversations": [{"from": "human", "value": "<image>\nTrên gương có gì?"}], "all_answers": ["đèn"]}
+{"image": "COCO_val2014_000000500019.jpg", "conversations": [{"from": "human", "value": "<image>\nHình ảnh này được chụp ở đâu?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000050025.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững cậu bé nhỏ đang làm gì?"}], "all_answers": ["đọc"]}
+{"image": "COCO_val2014_000000050099.jpg", "conversations": [{"from": "human", "value": "<image>\nChiếc laptop có bật không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000502414.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là bếp ăn thương mại không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000502959.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là ngày lễ gì?"}], "all_answers": ["giáng sinh"]}
+{"image": "COCO_val2014_000000050309.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao được mô tả là gì?"}], "all_answers": ["lướt sóng"]}
+{"image": "COCO_val2014_000000503292.jpg", "conversations": [{"from": "human", "value": "<image>\nMáy bay có bay không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000503392.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại động vật gì?"}], "all_answers": ["ngựa"]}
+{"image": "COCO_val2014_000000503412.jpg", "conversations": [{"from": "human", "value": "<image>\nCửa sổ có mở không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000504342.jpg", "conversations": [{"from": "human", "value": "<image>\nPhương tiện gì được hiển thị?"}], "all_answers": ["xe buýt"]}
+{"image": "COCO_val2014_000000504599.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng nào?"}], "all_answers": ["phòng khách"]}
+{"image": "COCO_val2014_000000505039.jpg", "conversations": [{"from": "human", "value": "<image>\nCó loại động vật nào trong bức tranh?"}], "all_answers": ["bò"]}
+{"image": "COCO_val2014_000000505638.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại phương tiện gì?"}], "all_answers": ["tàu hỏa"]}
+{"image": "COCO_val2014_000000506540.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại cây nào đang hiển thị?"}], "all_answers": ["cọ"]}
+{"image": "COCO_val2014_000000507135.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là cái gì?"}], "all_answers": ["vòi chữa cháy"]}
+{"image": "COCO_val2014_000000507557.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại động vật gì?"}], "all_answers": ["hươu cao cổ"]}
+{"image": "COCO_val2014_000000507663.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là trò chơi gì?"}], "all_answers": ["frisbee"]}
+{"image": "COCO_val2014_000000508119.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười này đang làm gì?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000508950.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ đang uống gì?"}], "all_answers": ["nước"]}
+{"image": "COCO_val2014_000000511669.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại động vật gì?"}], "all_answers": ["ngựa"]}
+{"image": "COCO_val2014_000000511852.jpg", "conversations": [{"from": "human", "value": "<image>\nCác người trượt tuyết có đang tạo dáng cho bức ảnh không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000513056.jpg", "conversations": [{"from": "human", "value": "<image>\nCon gấu có đi bằng bốn chân không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000513692.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một trong những Blues Brothers không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000051437.jpg", "conversations": [{"from": "human", "value": "<image>\nNước có lạnh không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000514550.jpg", "conversations": [{"from": "human", "value": "<image>\nCậu bé đang làm gì?"}], "all_answers": ["trượt ván"]}
+{"image": "COCO_val2014_000000514901.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại trái cây nào ở bên phải bức tranh?"}], "all_answers": ["nho"]}
+{"image": "COCO_val2014_000000515612.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là nhạc cụ gì?"}], "all_answers": ["bàn phím"]}
+{"image": "COCO_val2014_000000051576.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là sở thú không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000516628.jpg", "conversations": [{"from": "human", "value": "<image>\nCăn phòng này có gọn gàng không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000516875.jpg", "conversations": [{"from": "human", "value": "<image>\nĐứa trẻ có đói không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000516893.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao nào đang được chơi?"}], "all_answers": ["bóng đá"]}
+{"image": "COCO_val2014_000000051738.jpg", "conversations": [{"from": "human", "value": "<image>\nGiường đã được dọn chưa?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000517515.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một bữa ăn lành mạnh không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000517807.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông ngồi trên cái gì?"}], "all_answers": ["thùng"]}
+{"image": "COCO_val2014_000000518914.jpg", "conversations": [{"from": "human", "value": "<image>\nTrời có mưa không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000519316.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại phòng gì thế?"}], "all_answers": ["phòng ngủ"]}
+{"image": "COCO_val2014_000000519605.jpg", "conversations": [{"from": "human", "value": "<image>\nCó phải đa số cửa sổ của chiếc xe tải đang hạ xuống không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000519755.jpg", "conversations": [{"from": "human", "value": "<image>\nVận động viên có khả năng chơi môn thể thao nào nhất?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000051976.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang làm gì?"}], "all_answers": ["lướt sóng"]}
+{"image": "COCO_val2014_000000520154.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại thức ăn gì?"}], "all_answers": ["pizza"]}
+{"image": "COCO_val2014_000000520871.jpg", "conversations": [{"from": "human", "value": "<image>\nLớp vỏ có bị cháy không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000521181.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng gì?"}], "all_answers": ["phòng ngủ"]}
+{"image": "COCO_val2014_000000521282.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững bông hoa có thật không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000521542.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng gì?"}], "all_answers": ["phòng bếp"]}
+{"image": "COCO_val2014_000000524621.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại động vật gì?"}], "all_answers": ["hươu cao cổ"]}
+{"image": "COCO_val2014_000000524665.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại động vật gì?"}], "all_answers": ["chó"]}
+{"image": "COCO_val2014_000000525024.jpg", "conversations": [{"from": "human", "value": "<image>\nCó mưa không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000525361.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là tàu chở khách không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000526044.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại động vật gì?"}], "all_answers": ["con bò"]}
+{"image": "COCO_val2014_000000526257.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là môn thể thao gì?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000526459.jpg", "conversations": [{"from": "human", "value": "<image>\nXe buýt này có sơn lót không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000526940.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười phụ nữ có mái tóc dài không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000527215.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười mặc áo trắng đang làm gì?"}], "all_answers": ["diều bay"]}
+{"image": "COCO_val2014_000000527248.jpg", "conversations": [{"from": "human", "value": "<image>\nSự kiện này diễn ra trong nhà hay ngoài trời?"}], "all_answers": ["ngoài trời"]}
+{"image": "COCO_val2014_000000527535.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một bữa ăn lành mạnh không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000528030.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông này có ăn mặc trang trọng không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000528225.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại động vật gì?"}], "all_answers": ["con bò"]}
+{"image": "COCO_val2014_000000528225.jpg", "conversations": [{"from": "human", "value": "<image>\nCon vật đang nhìn gì?"}], "all_answers": ["cỏ"]}
+{"image": "COCO_val2014_000000528575.jpg", "conversations": [{"from": "human", "value": "<image>\nCậu bé đang làm gì?"}], "all_answers": ["ngủ"]}
+{"image": "COCO_val2014_000000529355.jpg", "conversations": [{"from": "human", "value": "<image>\nCó phải là ban ngày không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000529528.jpg", "conversations": [{"from": "human", "value": "<image>\nCái này được chụp ở đâu?"}], "all_answers": ["phòng bếp"]}
+{"image": "COCO_val2014_000000053015.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là nhà hàng không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000530220.jpg", "conversations": [{"from": "human", "value": "<image>\nCó ai đó đang mặc áo khoác màu vàng không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000530313.jpg", "conversations": [{"from": "human", "value": "<image>\nMột người phụ nữ có đang chơi với tóc của cô ấy không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000530558.jpg", "conversations": [{"from": "human", "value": "<image>\nCô ấy đang làm gì?"}], "all_answers": ["lướt sóng"]}
+{"image": "COCO_val2014_000000531512.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại động vật gì?"}], "all_answers": ["bò"]}
+{"image": "COCO_val2014_000000531875.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại rau gì?"}], "all_answers": ["cà rốt"]}
+{"image": "COCO_val2014_000000532381.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là giống chó gì?"}], "all_answers": ["chó bulldog"]}
+{"image": "COCO_val2014_000000532575.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại chó này là gì?"}], "all_answers": ["chó chăn cừu Đức"]}
+{"image": "COCO_val2014_000000532732.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười phụ nữ đang mặc gì?"}], "all_answers": ["mũ"]}
+{"image": "COCO_val2014_000000533464.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là sở thú không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000533480.jpg", "conversations": [{"from": "human", "value": "<image>\nCó phải đang mưa không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000533506.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại đồ uống gì trong chai?"}], "all_answers": ["bia"]}
+{"image": "COCO_val2014_000000534019.jpg", "conversations": [{"from": "human", "value": "<image>\nBữa ăn này có vẻ đã được nấu chín phải không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000535135.jpg", "conversations": [{"from": "human", "value": "<image>\nAnh ấy có ở gần đỉnh sóng không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000535506.jpg", "conversations": [{"from": "human", "value": "<image>\nCô ấy có vẻ vui vẻ không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000536370.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững người này đang làm gì?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000537053.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là môi trường sống tự nhiên của hươu cao cổ không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000537513.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại phòng gì thế?"}], "all_answers": ["phòng ngủ"]}
+{"image": "COCO_val2014_000000537672.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại phòng nào?"}], "all_answers": ["bếp"]}
+{"image": "COCO_val2014_000000053788.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười này có cơ bắp không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000538092.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng gì?"}], "all_answers": ["phòng bếp"]}
+{"image": "COCO_val2014_000000053838.jpg", "conversations": [{"from": "human", "value": "<image>\nMáy bay có bị chói không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000538463.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại ga nào?"}], "all_answers": ["ga tàu"]}
+{"image": "COCO_val2014_000000538888.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một bữa ăn lành mạnh?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000538913.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là khu dân cư?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000539143.jpg", "conversations": [{"from": "human", "value": "<image>\nTàu đang di chuyển?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000053949.jpg", "conversations": [{"from": "human", "value": "<image>\nChúng là loại vợt gì?"}], "all_answers": ["vợt tennis"]}
+{"image": "COCO_val2014_000000539636.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông bên phải đang làm gì?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000053965.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng nào?"}], "all_answers": ["phòng ngủ"]}
+{"image": "COCO_val2014_000000539784.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại gia súc nào đang gặm cỏ?"}], "all_answers": ["cừu"]}
+{"image": "COCO_val2014_000000539787.jpg", "conversations": [{"from": "human", "value": "<image>\nĐứa trẻ này có biết sự khác biệt giữa bánh maple và bánh rán sô cô la không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000540107.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững loại động vật được hiển thị?"}], "all_answers": ["voi"]}
+{"image": "COCO_val2014_000000540172.jpg", "conversations": [{"from": "human", "value": "<image>\nTrong cốc có đồ uống gì?"}], "all_answers": ["cà phê"]}
+{"image": "COCO_val2014_000000540196.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang ăn gì?"}], "all_answers": ["chuối"]}
+{"image": "COCO_val2014_000000054092.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một bữa ăn lành mạnh không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000540926.jpg", "conversations": [{"from": "human", "value": "<image>\nChuột có không dây không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000540962.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại phòng nào?"}], "all_answers": ["phòng khách"]}
+{"image": "COCO_val2014_000000054301.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là môn thể thao gì?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000543566.jpg", "conversations": [{"from": "human", "value": "<image>\nCon mèo đang làm gì?"}], "all_answers": ["ngủ"]}
+{"image": "COCO_val2014_000000543631.jpg", "conversations": [{"from": "human", "value": "<image>\nPhòng này là phòng nào?"}], "all_answers": ["phòng ngủ"]}
+{"image": "COCO_val2014_000000544597.jpg", "conversations": [{"from": "human", "value": "<image>\nCó ai sống ở đây không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000544607.jpg", "conversations": [{"from": "human", "value": "<image>\nTrò chơi này là gì?"}], "all_answers": ["frisbee"]}
+{"image": "COCO_val2014_000000544857.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đó đang làm gì?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000545002.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đó đang làm gì?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000545007.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một người sống không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000054671.jpg", "conversations": [{"from": "human", "value": "<image>\nCăn phòng này là gì?"}], "all_answers": ["phòng ngủ"]}
+{"image": "COCO_val2014_000000546717.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại thiết bị điện tử gì?"}], "all_answers": ["máy tính xách tay"]}
+{"image": "COCO_val2014_000000546804.jpg", "conversations": [{"from": "human", "value": "<image>\nTàu có bật đèn không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000547583.jpg", "conversations": [{"from": "human", "value": "<image>\nCửa tàu có đóng không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000547783.jpg", "conversations": [{"from": "human", "value": "<image>\nTrời có mây không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000548500.jpg", "conversations": [{"from": "human", "value": "<image>\nCon chó có thích điều này không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000548592.jpg", "conversations": [{"from": "human", "value": "<image>\nĐứa trẻ đang cầm cái gì?"}], "all_answers": ["chiếc diều"]}
+{"image": "COCO_val2014_000000549943.jpg", "conversations": [{"from": "human", "value": "<image>\nTrời nhiều mây phải không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000550055.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là máy bay quân sự không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000551648.jpg", "conversations": [{"from": "human", "value": "<image>\nĐứa trẻ đang cầm gì?"}], "all_answers": ["điện thoại"]}
+{"image": "COCO_val2014_000000551804.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười phụ nữ này đang chơi môn thể thao gì?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000552902.jpg", "conversations": [{"from": "human", "value": "<image>\nCon vật này là gì?"}], "all_answers": ["ngựa vằn"]}
+{"image": "COCO_val2014_000000553588.jpg", "conversations": [{"from": "human", "value": "<image>\nBầu trời có quang đãng không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000553795.jpg", "conversations": [{"from": "human", "value": "<image>\nCon chó có một màu không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000553942.jpg", "conversations": [{"from": "human", "value": "<image>\nTrông nó có giống mùa thu không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000554156.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao này là gì?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000554523.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng gì?"}], "all_answers": ["nhà bếp"]}
+{"image": "COCO_val2014_000000554523.jpg", "conversations": [{"from": "human", "value": "<image>\nPhòng này là gì?"}], "all_answers": ["nhà bếp"]}
+{"image": "COCO_val2014_000000554618.jpg", "conversations": [{"from": "human", "value": "<image>\nCó ai sống ở đây không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000554727.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang chơi môn thể thao gì?"}], "all_answers": ["trượt ván"]}
+{"image": "COCO_val2014_000000555048.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng gì?"}], "all_answers": ["phòng khách"]}
+{"image": "COCO_val2014_000000555571.jpg", "conversations": [{"from": "human", "value": "<image>\nGiường đã được dọn chưa?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000557323.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ đang chơi trò chơi gì?"}], "all_answers": ["bóng đá"]}
+{"image": "COCO_val2014_000000557679.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững người này đang làm gì?"}], "all_answers": ["ăn uống"]}
+{"image": "COCO_val2014_000000055772.jpg", "conversations": [{"from": "human", "value": "<image>\nMột loài ăn thịt có thích bữa ăn này không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000557785.jpg", "conversations": [{"from": "human", "value": "<image>\nCó phải cái này trông giống một cảnh biển không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000558661.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao nào đang được chơi?"}], "all_answers": ["frisbee"]}
+{"image": "COCO_val2014_000000559012.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là nhà của ai không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000560948.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại phòng nào?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000561062.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông có râu đầy đủ không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000561539.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông có tập trung không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000561745.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là môn thể thao gì?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000562628.jpg", "conversations": [{"from": "human", "value": "<image>\nChuột có dây không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000563964.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao nào đang được chơi?"}], "all_answers": ["đĩa ném đĩa"]}
+{"image": "COCO_val2014_000000056405.jpg", "conversations": [{"from": "human", "value": "<image>\nCô gái có nhiều quà hơn không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000565389.jpg", "conversations": [{"from": "human", "value": "<image>\nCó ai đeo kính không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000565693.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là ngày lễ gì?"}], "all_answers": ["giáng sinh"]}
+{"image": "COCO_val2014_000000565761.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là sự kiện trang phục bình thường không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000056580.jpg", "conversations": [{"from": "human", "value": "<image>\nXe có nói chuyện với biển báo dừng không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000567686.jpg", "conversations": [{"from": "human", "value": "<image>\nChuột có dây không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000567877.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại lễ kỷ niệm nào?"}], "all_answers": ["sinh nhật"]}
+{"image": "COCO_val2014_000000568205.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại thực phẩm gì?"}], "all_answers": ["bánh mì"]}
+{"image": "COCO_val2014_000000568213.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ đang chơi trò gì?"}], "all_answers": ["ném đĩa"]}
+{"image": "COCO_val2014_000000568893.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là cửa hàng bán đồ nội thất không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000569415.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại động vật nào đây?"}], "all_answers": ["con voi"]}
+{"image": "COCO_val2014_000000570866.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao nào đang được chơi?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000572069.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại động vật gì?"}], "all_answers": ["con bò"]}
+{"image": "COCO_val2014_000000573791.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại dụng cụ nào trong cốc?"}], "all_answers": ["nĩa"]}
+{"image": "COCO_val2014_000000574282.jpg", "conversations": [{"from": "human", "value": "<image>\nGiới tính của các cầu thủ là gì?"}], "all_answers": ["nữ"]}
+{"image": "COCO_val2014_000000574402.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại động vật gì?"}], "all_answers": ["hươu cao cổ"]}
+{"image": "COCO_val2014_000000574796.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại trái cây nào trên đĩa?"}], "all_answers": ["quả cam"]}
+{"image": "COCO_val2014_000000574804.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao nào được trình bày?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000574808.jpg", "conversations": [{"from": "human", "value": "<image>\nSự kiện gì đang diễn ra?"}], "all_answers": ["tốt nghiệp"]}
+{"image": "COCO_val2014_000000576461.jpg", "conversations": [{"from": "human", "value": "<image>\nBên lái của chiếc xe này có vẻ nằm bên trái hay bên phải?"}], "all_answers": ["trái"]}
+{"image": "COCO_val2014_000000576714.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là động vật gì?"}], "all_answers": ["cừu"]}
+{"image": "COCO_val2014_000000576822.jpg", "conversations": [{"from": "human", "value": "<image>\nBức ảnh này được chụp ở đâu?"}], "all_answers": ["vườn thú"]}
+{"image": "COCO_val2014_000000577073.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười này đang làm gì?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000577310.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải ở sân bay không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000577417.jpg", "conversations": [{"from": "human", "value": "<image>\nCó những loại cây nào?"}], "all_answers": ["cọ"]}
+{"image": "COCO_val2014_000000577912.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng gì?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000578324.jpg", "conversations": [{"from": "human", "value": "<image>\nHình này có màu không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000578591.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là ở sân bay không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000579060.jpg", "conversations": [{"from": "human", "value": "<image>\nAnh ấy đang chơi trò gì?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000579462.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười phụ nữ đang làm gì?"}], "all_answers": ["đóng gói"]}
+{"image": "COCO_val2014_000000580197.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một dịp trang trọng không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000058079.jpg", "conversations": [{"from": "human", "value": "<image>\nBàn chải đánh răng này có mới không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000580870.jpg", "conversations": [{"from": "human", "value": "<image>\nLò vi sóng có đồng hồ không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000005820.jpg", "conversations": [{"from": "human", "value": "<image>\nCỏ có khỏe không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000005860.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một chiếc smartphone không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000060596.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang ngồi trên cái gì?"}], "all_answers": ["giường"]}
+{"image": "COCO_val2014_000000006074.jpg", "conversations": [{"from": "human", "value": "<image>\nTrời đang mưa à?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000061897.jpg", "conversations": [{"from": "human", "value": "<image>\nCó phải đêm không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000062858.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang chơi môn thể thao gì?"}], "all_answers": ["trượt ván trên tuyết"]}
+{"image": "COCO_val2014_000000062865.jpg", "conversations": [{"from": "human", "value": "<image>\nCó phải một số tán lá có vẻ là nhiệt đới?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000062985.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững người đang làm gì?"}], "all_answers": ["thả diều"]}
+{"image": "COCO_val2014_000000063922.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững đứa trẻ đang làm gì?"}], "all_answers": ["trượt ván"]}
+{"image": "COCO_val2014_000000064059.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao nào đang được chơi?"}], "all_answers": ["đĩa ném đĩa"]}
+{"image": "COCO_val2014_000000064189.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang làm gì?"}], "all_answers": ["trượt ván"]}
+{"image": "COCO_val2014_000000064425.jpg", "conversations": [{"from": "human", "value": "<image>\nBạn có thể bật đèn đỏ không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000064523.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là màu đen và trắng không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000066800.jpg", "conversations": [{"from": "human", "value": "<image>\nCon voi có đang đi trong đàn không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000067315.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông có mặc trang phục công sở không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000067491.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một máy bay quân sự không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000068973.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững người này đang làm gì?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000069863.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững bông hoa có thật không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000069863.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững bông hồng này có cần tưới nước không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000070190.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là nhà hàng không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000070434.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại phòng gì?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000071301.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững người này đang làm gì?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000071549.jpg", "conversations": [{"from": "human", "value": "<image>\nMàu sắc của túi có phù hợp với thảm không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000007260.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một sự kiện không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000073450.jpg", "conversations": [{"from": "human", "value": "<image>\nTrời đang mưa à?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000073668.jpg", "conversations": [{"from": "human", "value": "<image>\nĐứa trẻ đang làm gì?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000074059.jpg", "conversations": [{"from": "human", "value": "<image>\nNó có hơn 20 tuổi không?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000075001.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một công viên không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000075372.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là vườn thú không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000075560.jpg", "conversations": [{"from": "human", "value": "<image>\nTrời có mây không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000000761.jpg", "conversations": [{"from": "human", "value": "<image>\nCó ai mặc áo xanh không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000076149.jpg", "conversations": [{"from": "human", "value": "<image>\nKiến trúc này cũ hay mới?"}], "all_answers": ["cũ"]}
+{"image": "COCO_val2014_000000076431.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười phụ nữ đang trong quá trình làm gì?"}], "all_answers": ["lướt sóng"]}
+{"image": "COCO_val2014_000000076632.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là môn thể thao gì?"}], "all_answers": ["bóng chày"]}
+{"image": "COCO_val2014_000000078404.jpg", "conversations": [{"from": "human", "value": "<image>\nBức tranh này có cũ không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000079836.jpg", "conversations": [{"from": "human", "value": "<image>\nCó nên dừng xe khi đèn đỏ?"}], "all_answers": ["đúng"]}
+{"image": "COCO_val2014_000000081299.jpg", "conversations": [{"from": "human", "value": "<image>\nMón ăn này có bao gồm thịt không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000082518.jpg", "conversations": [{"from": "human", "value": "<image>\nVận động viên đang chơi môn thể thao nào?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000082835.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao nào đang được chơi?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000083364.jpg", "conversations": [{"from": "human", "value": "<image>\nBạn có nghĩ rằng bức ảnh này được chụp ở Anh không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000083466.jpg", "conversations": [{"from": "human", "value": "<image>\nAnh chàng này đang làm gì vậy?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000083639.jpg", "conversations": [{"from": "human", "value": "<image>\nMáy tính xách tay có bật không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000084936.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là khách sạn không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000085285.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một vườn thú?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000086357.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại động vật gì?"}], "all_answers": ["chim"]}
+{"image": "COCO_val2014_000000086602.jpg", "conversations": [{"from": "human", "value": "<image>\nTàu lửa có đang di chuyển không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000087052.jpg", "conversations": [{"from": "human", "value": "<image>\nCó gì trên đỉnh tủ lạnh?"}], "all_answers": ["ly"]}
+{"image": "COCO_val2014_000000087503.jpg", "conversations": [{"from": "human", "value": "<image>\nTàu có đang di chuyển không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000088168.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông có nên đội mũ bảo hiểm không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000088433.jpg", "conversations": [{"from": "human", "value": "<image>\nNgười đàn ông đang làm gì?"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_val2014_000000088846.jpg", "conversations": [{"from": "human", "value": "<image>\nPhòng nào của ngôi nhà này?"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_val2014_000000090724.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là loại cửa hàng gì?"}], "all_answers": ["cửa hàng tạp hóa"]}
+{"image": "COCO_val2014_000000090732.jpg", "conversations": [{"from": "human", "value": "<image>\nCó phải là ban ngày không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000090839.jpg", "conversations": [{"from": "human", "value": "<image>\nHọ có TV hiện đại không?"}], "all_answers": ["có"]}
+{"image": "COCO_val2014_000000092526.jpg", "conversations": [{"from": "human", "value": "<image>\nCon hươu cao cổ có một mình không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000092700.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao nào đang được chơi?"}], "all_answers": ["bóng đá"]}
+{"image": "COCO_val2014_000000092804.jpg", "conversations": [{"from": "human", "value": "<image>\nNhững người này đang làm hoạt động gì?"}], "all_answers": ["chơi trượt tuyết"]}
+{"image": "COCO_val2014_000000093140.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây là phòng gì?"}], "all_answers": ["nhà bếp"]}
+{"image": "COCO_val2014_000000093353.jpg", "conversations": [{"from": "human", "value": "<image>\nLoại bánh mì kẹp này là gì?"}], "all_answers": ["xúc xích"]}
+{"image": "COCO_val2014_000000093511.jpg", "conversations": [{"from": "human", "value": "<image>\nMôn thể thao nào đang được chơi?"}], "all_answers": ["quần vợt"]}
+{"image": "COCO_val2014_000000094168.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một chuyến tàu chở khách?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000009548.jpg", "conversations": [{"from": "human", "value": "<image>\nCây gì mà con ngựa vằn lớn đang ăn?"}], "all_answers": ["cỏ"]}
+{"image": "COCO_val2014_000000095595.jpg", "conversations": [{"from": "human", "value": "<image>\nAnh ta đang làm gì?"}], "all_answers": ["nấu ăn"]}
+{"image": "COCO_val2014_000000009647.jpg", "conversations": [{"from": "human", "value": "<image>\nTrời đang mưa à?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000096633.jpg", "conversations": [{"from": "human", "value": "<image>\nCon gấu này có thật hay giả?"}], "all_answers": ["giả"]}
+{"image": "COCO_val2014_000000096923.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là một chiếc lược không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000097249.jpg", "conversations": [{"from": "human", "value": "<image>\nMùa gì vậy?"}], "all_answers": ["mùa hè"]}
+{"image": "COCO_val2014_000000009729.jpg", "conversations": [{"from": "human", "value": "<image>\nTrông anh chàng có vui không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000099081.jpg", "conversations": [{"from": "human", "value": "<image>\nLiệu quý cô có lên được tàu không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000099114.jpg", "conversations": [{"from": "human", "value": "<image>\nTrời có mưa không?"}], "all_answers": ["không"]}
+{"image": "COCO_val2014_000000099186.jpg", "conversations": [{"from": "human", "value": "<image>\nĐây có phải là vùng quê không?"}], "all_answers": ["đúng"]}

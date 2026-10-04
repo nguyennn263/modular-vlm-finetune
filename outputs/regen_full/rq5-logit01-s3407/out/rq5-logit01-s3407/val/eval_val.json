@@ -1,0 +1,22 @@
+{
+  "split": "val",
+  "n": 5463,
+  "bridge": "multi_token",
+  "n_tiles": 1,
+  "checkpoint": "/tmp/ck/multi_token/model.pt",
+  "pooled_input": "default",
+  "gen_image": "full",
+  "loss": 1.5315410194926695,
+  "num_samples": 5463,
+  "perplexity": 4.625298976898193,
+  "accuracy": 0.08676551345414607,
+  "exact_match": 0.09134175361522973,
+  "bleu": 0.1637956050361205,
+  "rouge_l": 0.4854107216762854,
+  "meteor": 0.40833255976198785,
+  "cider": 0.9691865492918162,
+  "precision": 0.5098039386711024,
+  "recall": 0.5208996624015844,
+  "f1": 0.502262390701958,
+  "wups": 0.08676551345414607
+}

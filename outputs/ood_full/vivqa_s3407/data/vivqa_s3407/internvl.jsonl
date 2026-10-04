@@ -1,0 +1,512 @@
+{"image": "COCO_train2014_000000541050.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của áo là gì"}], "all_answers": ["màu xanh dương"]}
+{"image": "COCO_train2014_000000334135.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của điện thoại là gì"}], "all_answers": ["màu nâu"]}
+{"image": "COCO_train2014_000000219254.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của xe máy là gì"}], "all_answers": ["màu xanh lá"]}
+{"image": "COCO_train2014_000000378790.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của chiếc đĩa là gì"}], "all_answers": ["màu trắng"]}
+{"image": "COCO_train2014_000000027711.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của xe buýt là gì"}], "all_answers": ["màu xanh dương"]}
+{"image": "COCO_train2014_000000279451.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu sắc của máy bay phản lực là gì"}], "all_answers": ["màu trắng"]}
+{"image": "COCO_train2014_000000213437.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của gấu là gì"}], "all_answers": ["màu nâu"]}
+{"image": "COCO_train2014_000000232410.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của chiếc bình là gì"}], "all_answers": ["màu xanh dương"]}
+{"image": "COCO_train2014_000000294849.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của xe buýt là gì"}], "all_answers": ["màu đỏ"]}
+{"image": "COCO_train2014_000000382558.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của bồn rửa mặt là gì"}], "all_answers": ["màu đen"]}
+{"image": "COCO_train2014_000000189361.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của xe buýt là gì"}], "all_answers": ["màu xanh lá"]}
+{"image": "COCO_train2014_000000510365.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của áo là gì"}], "all_answers": ["màu trắng"]}
+{"image": "COCO_train2014_000000114674.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của chiếc ô là gì"}], "all_answers": ["màu tía"]}
+{"image": "COCO_train2014_000000068206.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của bồn là gì"}], "all_answers": ["màu trắng"]}
+{"image": "COCO_train2014_000000193629.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của chiếc thuyền là gì"}], "all_answers": ["màu xanh dương"]}
+{"image": "COCO_train2014_000000033494.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của con ngựa là gì"}], "all_answers": ["màu nâu"]}
+{"image": "COCO_train2014_000000093764.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của đồng cỏ là gì"}], "all_answers": ["màu xanh lá"]}
+{"image": "COCO_train2014_000000405264.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của ghế là gì"}], "all_answers": ["màu đỏ"]}
+{"image": "COCO_train2014_000000184435.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của bồn cầu là gì"}], "all_answers": ["màu xanh dương"]}
+{"image": "COCO_train2014_000000249941.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của con mèo là gì"}], "all_answers": ["màu trắng"]}
+{"image": "COCO_train2014_000000398527.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của xe buýt là gì"}], "all_answers": ["màu đỏ"]}
+{"image": "COCO_train2014_000000424472.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của áo là gì"}], "all_answers": ["màu xanh dương"]}
+{"image": "COCO_train2014_000000311868.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của phòng tắm là gì"}], "all_answers": ["màu nâu"]}
+{"image": "COCO_train2014_000000109314.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của chiếc đĩa là gì"}], "all_answers": ["màu trắng"]}
+{"image": "COCO_train2014_000000138807.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của ánh sáng là gì"}], "all_answers": ["màu xanh lá"]}
+{"image": "COCO_train2014_000000531093.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của cây là gì"}], "all_answers": ["màu cam"]}
+{"image": "COCO_train2014_000000165707.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu sắc của giao thông là gì"}], "all_answers": ["màu xanh lá"]}
+{"image": "COCO_train2014_000000536317.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của lớp phủ là gì"}], "all_answers": ["màu xanh lá"]}
+{"image": "COCO_train2014_000000480745.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu con hổ là gì"}], "all_answers": ["màu xám"]}
+{"image": "COCO_train2014_000000480012.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của con bò là gì"}], "all_answers": ["màu nâu"]}
+{"image": "COCO_train2014_000000186275.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của con bò là gì"}], "all_answers": ["màu nâu"]}
+{"image": "COCO_train2014_000000031161.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của áo là gì"}], "all_answers": ["màu đỏ"]}
+{"image": "COCO_train2014_000000262012.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của chiếc ô là gì"}], "all_answers": ["màu vàng"]}
+{"image": "COCO_train2014_000000161013.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của con mèo là gì"}], "all_answers": ["màu trắng"]}
+{"image": "COCO_train2014_000000067644.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của chiếc giường là gì"}], "all_answers": ["màu tía"]}
+{"image": "COCO_train2014_000000442682.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của kính bảo hộ là gì"}], "all_answers": ["màu cam"]}
+{"image": "COCO_train2014_000000079971.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của lá là gì"}], "all_answers": ["màu xanh lá"]}
+{"image": "COCO_train2014_000000515415.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của bề mặt là gì"}], "all_answers": ["màu xám"]}
+{"image": "COCO_train2014_000000431707.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của bộ đồ là gì"}], "all_answers": ["màu xám"]}
+{"image": "COCO_train2014_000000447985.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của ghế là gì"}], "all_answers": ["màu trắng"]}
+{"image": "COCO_train2014_000000449758.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của cái tủ là gì"}], "all_answers": ["màu đen"]}
+{"image": "COCO_train2014_000000179479.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của radio là gì"}], "all_answers": ["màu vàng"]}
+{"image": "COCO_train2014_000000394175.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của trang trí là gì"}], "all_answers": ["màu xanh dương"]}
+{"image": "COCO_train2014_000000116650.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của xe buýt là gì"}], "all_answers": ["màu đỏ"]}
+{"image": "COCO_train2014_000000249435.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của bánh là gì"}], "all_answers": ["màu tía"]}
+{"image": "COCO_train2014_000000318990.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của chiếc bình là gì"}], "all_answers": ["màu vàng"]}
+{"image": "COCO_train2014_000000095390.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của cây cầu là gì"}], "all_answers": ["màu trắng"]}
+{"image": "COCO_train2014_000000032598.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của cà vạt là gì"}], "all_answers": ["màu đỏ"]}
+{"image": "COCO_train2014_000000408815.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của vòi nước là gì"}], "all_answers": ["màu đỏ"]}
+{"image": "COCO_train2014_000000006422.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của chiếc điều khiển là gì"}], "all_answers": ["màu xám"]}
+{"image": "COCO_train2014_000000172171.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu sắc của đường phố là gì"}], "all_answers": ["màu đỏ"]}
+{"image": "COCO_train2014_000000038546.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của thảm là gì"}], "all_answers": ["màu nâu"]}
+{"image": "COCO_train2014_000000559486.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của bầu trời là gì"}], "all_answers": ["màu xanh dương"]}
+{"image": "COCO_train2014_000000415222.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của quả táo là gì"}], "all_answers": ["màu cam"]}
+{"image": "COCO_train2014_000000404854.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của áo là gì"}], "all_answers": ["màu tía"]}
+{"image": "COCO_train2014_000000213437.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của gấu là gì"}], "all_answers": ["màu nâu"]}
+{"image": "COCO_train2014_000000069654.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của chiếc tàu là gì"}], "all_answers": ["màu vàng"]}
+{"image": "COCO_train2014_000000173184.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu sắc của hành khách là gì"}], "all_answers": ["màu xanh dương"]}
+{"image": "COCO_train2014_000000560997.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của xe buýt là gì"}], "all_answers": ["màu đen"]}
+{"image": "COCO_train2014_000000153882.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của tường là gì"}], "all_answers": ["màu nâu"]}
+{"image": "COCO_train2014_000000191729.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của xe tải là gì"}], "all_answers": ["màu xanh dương"]}
+{"image": "COCO_train2014_000000008053.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của vòi nước là gì"}], "all_answers": ["màu vàng"]}
+{"image": "COCO_train2014_000000152689.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của xe buýt là gì"}], "all_answers": ["màu xanh dương"]}
+{"image": "COCO_train2014_000000394975.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của áo khoác là gì"}], "all_answers": ["màu đen"]}
+{"image": "COCO_train2014_000000517226.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của các chuyến tàu là gì"}], "all_answers": ["màu đỏ"]}
+{"image": "COCO_train2014_000000163302.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của giỏ hàng là gì"}], "all_answers": ["màu vàng"]}
+{"image": "COCO_train2014_000000375001.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu sắc của boong tàu là gì"}], "all_answers": ["màu xanh lá"]}
+{"image": "COCO_train2014_000000152483.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu sắc của bức ảnh là gì"}], "all_answers": ["màu trắng"]}
+{"image": "COCO_train2014_000000113879.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của bảng là gì"}], "all_answers": ["màu nâu"]}
+{"image": "COCO_train2014_000000403853.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của con ngựa là gì"}], "all_answers": ["màu nâu"]}
+{"image": "COCO_train2014_000000058708.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của cà vạt là gì"}], "all_answers": ["màu đỏ"]}
+{"image": "COCO_train2014_000000535418.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của gấu là gì"}], "all_answers": ["màu nâu"]}
+{"image": "COCO_train2014_000000358650.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của dĩa nhựa là gì"}], "all_answers": ["màu xanh dương"]}
+{"image": "COCO_train2014_000000268197.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu sắc của bộ đồ là gì"}], "all_answers": ["màu đen"]}
+{"image": "COCO_train2014_000000109973.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của tường là gì"}], "all_answers": ["màu xanh lá"]}
+{"image": "COCO_train2014_000000493526.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của chiếc ô là gì"}], "all_answers": ["màu đen"]}
+{"image": "COCO_train2014_000000230224.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của con mèo là gì"}], "all_answers": ["màu vàng"]}
+{"image": "COCO_train2014_000000230616.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của con bò là gì"}], "all_answers": ["màu nâu"]}
+{"image": "COCO_train2014_000000007601.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của con bò là gì"}], "all_answers": ["màu đen"]}
+{"image": "COCO_train2014_000000579534.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của chiếc bình là gì"}], "all_answers": ["màu trắng"]}
+{"image": "COCO_train2014_000000389183.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của xe là gì"}], "all_answers": ["màu đỏ"]}
+{"image": "COCO_train2014_000000111889.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của xe máy là gì"}], "all_answers": ["màu xanh dương"]}
+{"image": "COCO_train2014_000000400926.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của dĩa nhựa là gì"}], "all_answers": ["màu tía"]}
+{"image": "COCO_train2014_000000514204.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của con cừu là gì"}], "all_answers": ["màu đen"]}
+{"image": "COCO_train2014_000000292993.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của con mèo là gì"}], "all_answers": ["màu xanh dương"]}
+{"image": "COCO_train2014_000000137970.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của con mèo là gì"}], "all_answers": ["màu nâu"]}
+{"image": "COCO_train2014_000000246575.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu sắc của những con chó là gì"}], "all_answers": ["màu nâu"]}
+{"image": "COCO_train2014_000000234319.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của tăm là gì"}], "all_answers": ["màu vàng"]}
+{"image": "COCO_train2014_000000463883.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của con mèo là gì"}], "all_answers": ["màu xám"]}
+{"image": "COCO_train2014_000000364206.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của xe buýt là gì"}], "all_answers": ["màu vàng"]}
+{"image": "COCO_train2014_000000358312.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của chiếc hộp là gì"}], "all_answers": ["màu đen"]}
+{"image": "COCO_train2014_000000108536.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của ánh sáng là gì"}], "all_answers": ["màu đỏ"]}
+{"image": "COCO_train2014_000000531253.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của áo khoác là gì"}], "all_answers": ["màu cam"]}
+{"image": "COCO_train2014_000000358915.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của tủ lạnh là gì"}], "all_answers": ["màu trắng"]}
+{"image": "COCO_train2014_000000315568.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của bìa là gì"}], "all_answers": ["màu cam"]}
+{"image": "COCO_train2014_000000225828.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của bánh rán là gì"}], "all_answers": ["màu trắng"]}
+{"image": "COCO_train2014_000000066691.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của bảng là gì"}], "all_answers": ["màu nâu"]}
+{"image": "COCO_train2014_000000292977.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của xe tải nhỏ là gì"}], "all_answers": ["màu xanh dương"]}
+{"image": "COCO_train2014_000000519146.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của xe buýt là gì"}], "all_answers": ["màu đỏ"]}
+{"image": "COCO_train2014_000000386684.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của áo là gì"}], "all_answers": ["màu cam"]}
+{"image": "COCO_train2014_000000380957.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của chiếc ghế dài là gì"}], "all_answers": ["màu nâu"]}
+{"image": "COCO_train2014_000000494568.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của sườn đồi là gì"}], "all_answers": ["màu xanh lá"]}
+{"image": "COCO_train2014_000000079613.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của bánh là gì"}], "all_answers": ["màu trắng"]}
+{"image": "COCO_train2014_000000291788.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của tín hiệu là gì"}], "all_answers": ["màu xanh lá"]}
+{"image": "COCO_train2014_000000141257.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của tòa nhà là gì"}], "all_answers": ["màu đen"]}
+{"image": "COCO_train2014_000000555493.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của con chó là gì"}], "all_answers": ["màu đen"]}
+{"image": "COCO_train2014_000000081397.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của lá là gì"}], "all_answers": ["màu xanh lá"]}
+{"image": "COCO_train2014_000000087653.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của tủ lạnh là gì"}], "all_answers": ["màu trắng"]}
+{"image": "COCO_train2014_000000555237.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của xe tải là gì"}], "all_answers": ["màu trắng"]}
+{"image": "COCO_train2014_000000023988.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của ván trượt là gì"}], "all_answers": ["màu tía"]}
+{"image": "COCO_train2014_000000580790.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của cam là gì"}], "all_answers": ["màu tía"]}
+{"image": "COCO_train2014_000000413868.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của chiếc mũ là gì"}], "all_answers": ["màu cam"]}
+{"image": "COCO_train2014_000000211098.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của tường là gì"}], "all_answers": ["màu xanh dương"]}
+{"image": "COCO_train2014_000000481981.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của đồng cỏ là gì"}], "all_answers": ["màu xanh lá"]}
+{"image": "COCO_train2014_000000245590.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của cái ghế là gì"}], "all_answers": ["màu đỏ"]}
+{"image": "COCO_train2014_000000172974.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của chiếc ghế dài là gì"}], "all_answers": ["màu xanh dương"]}
+{"image": "COCO_train2014_000000119579.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu sắc của bông hoa là gì"}], "all_answers": ["màu đỏ"]}
+{"image": "COCO_train2014_000000362561.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của bầu trời là gì"}], "all_answers": ["màu xanh dương"]}
+{"image": "COCO_train2014_000000268141.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của con mèo là gì"}], "all_answers": ["màu vàng"]}
+{"image": "COCO_train2014_000000480861.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của lửa là gì"}], "all_answers": ["màu vàng"]}
+{"image": "COCO_train2014_000000322659.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của xe buýt là gì"}], "all_answers": ["màu vàng"]}
+{"image": "COCO_train2014_000000045437.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu sắc của trang phục là gì"}], "all_answers": ["màu tía"]}
+{"image": "COCO_train2014_000000301943.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của con chó là gì"}], "all_answers": ["màu nâu"]}
+{"image": "COCO_train2014_000000416026.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của chuối là gì"}], "all_answers": ["màu xanh lá"]}
+{"image": "COCO_train2014_000000263311.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của bồn tắm là gì"}], "all_answers": ["màu trắng"]}
+{"image": "COCO_train2014_000000418479.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của con chim là gì"}], "all_answers": ["màu xám"]}
+{"image": "COCO_train2014_000000524088.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của chăn là gì"}], "all_answers": ["màu đỏ"]}
+{"image": "COCO_train2014_000000551832.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu sắc của con dê là gì"}], "all_answers": ["màu xám"]}
+{"image": "COCO_train2014_000000556801.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của đèn là gì"}], "all_answers": ["màu vàng"]}
+{"image": "COCO_train2014_000000210731.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của tòa nhà là gì"}], "all_answers": ["màu đỏ"]}
+{"image": "COCO_train2014_000000382418.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của dấu hiệu là gì"}], "all_answers": ["màu đỏ"]}
+{"image": "COCO_train2014_000000547348.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của chiếc ô là gì"}], "all_answers": ["màu xanh lá"]}
+{"image": "COCO_train2014_000000277055.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của bầu trời là gì"}], "all_answers": ["màu xanh dương"]}
+{"image": "COCO_train2014_000000041770.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của ghế là gì"}], "all_answers": ["màu xanh lá"]}
+{"image": "COCO_train2014_000000165126.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của chiếc tàu là gì"}], "all_answers": ["màu đen"]}
+{"image": "COCO_train2014_000000203671.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của con ngựa là gì"}], "all_answers": ["màu nâu"]}
+{"image": "COCO_train2014_000000136905.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của chiếc tàu là gì"}], "all_answers": ["màu đỏ"]}
+{"image": "COCO_train2014_000000170579.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của đồng cỏ là gì"}], "all_answers": ["màu xanh lá"]}
+{"image": "COCO_train2014_000000187371.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của con ngựa là gì"}], "all_answers": ["màu trắng"]}
+{"image": "COCO_train2014_000000064317.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của máy bay là gì"}], "all_answers": ["màu xám"]}
+{"image": "COCO_train2014_000000530040.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của mảnh là gì"}], "all_answers": ["màu đỏ"]}
+{"image": "COCO_train2014_000000421346.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu sắc của ớt là gì"}], "all_answers": ["màu xanh lá"]}
+{"image": "COCO_train2014_000000103539.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của đĩa là gì"}], "all_answers": ["màu xanh lá"]}
+{"image": "COCO_train2014_000000262756.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của gấu là gì"}], "all_answers": ["màu nâu"]}
+{"image": "COCO_train2014_000000480012.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của sườn đồi là gì"}], "all_answers": ["màu xanh lá"]}
+{"image": "COCO_train2014_000000455615.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của chiếc dĩa nhựa là gì"}], "all_answers": ["màu cam"]}
+{"image": "COCO_train2014_000000051270.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của chiếc ô là gì"}], "all_answers": ["màu vàng"]}
+{"image": "COCO_train2014_000000462880.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu sắc của bông hoa là gì"}], "all_answers": ["màu vàng"]}
+{"image": "COCO_train2014_000000485097.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của chiếc tàu là gì"}], "all_answers": ["màu vàng"]}
+{"image": "COCO_train2014_000000363942.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của điện thoại là gì"}], "all_answers": ["màu tía"]}
+{"image": "COCO_train2014_000000078320.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu sắc của bông hoa là gì"}], "all_answers": ["màu tía"]}
+{"image": "COCO_train2014_000000389788.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của con mèo là gì"}], "all_answers": ["màu đen"]}
+{"image": "COCO_train2014_000000041818.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của nước ép là gì"}], "all_answers": ["màu cam"]}
+{"image": "COCO_train2014_000000185232.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của con chó là gì"}], "all_answers": ["màu trắng"]}
+{"image": "COCO_train2014_000000483146.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của khói là gì"}], "all_answers": ["màu đỏ"]}
+{"image": "COCO_train2014_000000544001.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của nền sân là gì"}], "all_answers": ["màu xanh dương"]}
+{"image": "COCO_train2014_000000520736.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu sắc của bông hoa là gì"}], "all_answers": ["màu đỏ"]}
+{"image": "COCO_train2014_000000409451.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của xe máy là gì"}], "all_answers": ["màu cam"]}
+{"image": "COCO_train2014_000000373923.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của bộ đồ là gì"}], "all_answers": ["màu xanh dương"]}
+{"image": "COCO_train2014_000000046674.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của chiếc ô là gì"}], "all_answers": ["màu cam"]}
+{"image": "COCO_train2014_000000130473.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của gấu là gì"}], "all_answers": ["màu đen"]}
+{"image": "COCO_train2014_000000087705.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của xe buýt là gì"}], "all_answers": ["màu đỏ"]}
+{"image": "COCO_train2014_000000105110.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của dĩa nhựa là gì"}], "all_answers": ["màu tía"]}
+{"image": "COCO_train2014_000000482310.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của con chó là gì"}], "all_answers": ["màu đen"]}
+{"image": "COCO_train2014_000000028257.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của dĩa nhựa là gì"}], "all_answers": ["màu cam"]}
+{"image": "COCO_train2014_000000233272.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của hình ảnh là gì"}], "all_answers": ["màu trắng"]}
+{"image": "COCO_train2014_000000508531.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của con chó là gì"}], "all_answers": ["màu trắng"]}
+{"image": "COCO_train2014_000000016578.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của ánh sáng là gì"}], "all_answers": ["màu vàng"]}
+{"image": "COCO_train2014_000000488564.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của pizza là gì"}], "all_answers": ["màu xanh lá"]}
+{"image": "COCO_train2014_000000452783.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của gấu là gì"}], "all_answers": ["màu nâu"]}
+{"image": "COCO_train2014_000000185166.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của con ngựa là gì"}], "all_answers": ["màu trắng"]}
+{"image": "COCO_train2014_000000442811.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của mũ bảo hiểm là gì"}], "all_answers": ["màu xanh dương"]}
+{"image": "COCO_train2014_000000040572.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của nhà vệ sinh là gì"}], "all_answers": ["màu nâu"]}
+{"image": "COCO_train2014_000000098325.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu sắc của sơ đồ là gì"}], "all_answers": ["màu trắng"]}
+{"image": "COCO_train2014_000000244096.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của rừng là gì"}], "all_answers": ["màu xanh lá"]}
+{"image": "COCO_train2014_000000106383.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của lò vi sóng là gì"}], "all_answers": ["màu tía"]}
+{"image": "COCO_train2014_000000236936.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của kính là gì"}], "all_answers": ["màu xanh dương"]}
+{"image": "COCO_train2014_000000541109.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của con mèo là gì"}], "all_answers": ["màu xám"]}
+{"image": "COCO_train2014_000000345951.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu nước là gì"}], "all_answers": ["màu xanh dương"]}
+{"image": "COCO_train2014_000000106269.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của cổ áo là gì"}], "all_answers": ["màu tía"]}
+{"image": "COCO_train2014_000000305431.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của con bò là gì"}], "all_answers": ["màu nâu"]}
+{"image": "COCO_train2014_000000185232.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của con chó là gì"}], "all_answers": ["màu trắng"]}
+{"image": "COCO_train2014_000000201273.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu sắc của bông hoa là gì"}], "all_answers": ["màu vàng"]}
+{"image": "COCO_train2014_000000427007.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của dĩa nhựa là gì"}], "all_answers": ["màu vàng"]}
+{"image": "COCO_train2014_000000285022.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của xe máy là gì"}], "all_answers": ["màu xanh lá"]}
+{"image": "COCO_train2014_000000249315.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu sắc của chiếc váy là gì"}], "all_answers": ["màu đỏ"]}
+{"image": "COCO_train2014_000000192852.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của bức tượng là gì"}], "all_answers": ["màu xám"]}
+{"image": "COCO_train2014_000000026321.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của chiếc ô là gì"}], "all_answers": ["màu đen"]}
+{"image": "COCO_train2014_000000554333.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của bầu trời là gì"}], "all_answers": ["màu xanh dương"]}
+{"image": "COCO_train2014_000000146436.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của áo khoác là gì"}], "all_answers": ["màu đỏ"]}
+{"image": "COCO_train2014_000000055478.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của con chó là gì"}], "all_answers": ["màu xám"]}
+{"image": "COCO_train2014_000000176249.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của vòi nước là gì"}], "all_answers": ["màu vàng"]}
+{"image": "COCO_train2014_000000042865.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của con mèo là gì"}], "all_answers": ["màu đen"]}
+{"image": "COCO_train2014_000000427163.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của nhà vệ sinh là gì"}], "all_answers": ["màu xanh dương"]}
+{"image": "COCO_train2014_000000348785.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của gấu là gì"}], "all_answers": ["màu nâu"]}
+{"image": "COCO_train2014_000000508606.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của xe tải là gì"}], "all_answers": ["màu vàng"]}
+{"image": "COCO_train2014_000000422576.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu sắc của giao thông là gì"}], "all_answers": ["màu đỏ"]}
+{"image": "COCO_train2014_000000472953.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của vòi nước là gì"}], "all_answers": ["màu đỏ"]}
+{"image": "COCO_train2014_000000457889.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của áo là gì"}], "all_answers": ["màu xanh dương"]}
+{"image": "COCO_train2014_000000517699.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của sự kiểm soát là gì"}], "all_answers": ["màu đen"]}
+{"image": "COCO_train2014_000000373024.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của con mèo là gì"}], "all_answers": ["màu đen"]}
+{"image": "COCO_train2014_000000371226.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu sắc của các dấu hiệu là gì"}], "all_answers": ["màu xanh lá"]}
+{"image": "COCO_train2014_000000560629.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của máy bay là gì"}], "all_answers": ["màu xám"]}
+{"image": "COCO_train2014_000000317756.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của mũ bảo hiểm là gì"}], "all_answers": ["màu xanh dương"]}
+{"image": "COCO_train2014_000000145945.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của vỉa hè là gì"}], "all_answers": ["màu vàng"]}
+{"image": "COCO_train2014_000000479721.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của ánh sáng là gì"}], "all_answers": ["màu xanh lá"]}
+{"image": "COCO_train2014_000000310978.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu sắc của bông hoa là gì"}], "all_answers": ["màu vàng"]}
+{"image": "COCO_train2014_000000517656.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của hình ảnh là gì"}], "all_answers": ["màu trắng"]}
+{"image": "COCO_train2014_000000119495.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của đồng bằng là gì"}], "all_answers": ["màu nâu"]}
+{"image": "COCO_train2014_000000267719.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của chiếc đĩa là gì"}], "all_answers": ["màu trắng"]}
+{"image": "COCO_train2014_000000184654.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của chiếc tàu là gì"}], "all_answers": ["màu vàng"]}
+{"image": "COCO_train2014_000000382435.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu sắc của thảm thực vật là gì"}], "all_answers": ["màu xanh lá"]}
+{"image": "COCO_train2014_000000441972.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của xe ngựa là gì"}], "all_answers": ["màu trắng"]}
+{"image": "COCO_train2014_000000143339.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu sắc của cây là gì"}], "all_answers": ["màu xanh lá"]}
+{"image": "COCO_train2014_000000402219.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của vali là gì"}], "all_answers": ["màu đỏ"]}
+{"image": "COCO_train2014_000000101632.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của ghế là gì"}], "all_answers": ["màu xanh lá"]}
+{"image": "COCO_train2014_000000389702.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu sắc của đồ chơi là gì"}], "all_answers": ["màu vàng"]}
+{"image": "COCO_train2014_000000458625.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của cỏ là gì"}], "all_answers": ["màu xanh lá"]}
+{"image": "COCO_train2014_000000085272.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của sắt là gì"}], "all_answers": ["màu đen"]}
+{"image": "COCO_train2014_000000541324.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của bếp là gì"}], "all_answers": ["màu đen"]}
+{"image": "COCO_train2014_000000205000.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của cà vạt là gì"}], "all_answers": ["màu tía"]}
+{"image": "COCO_train2014_000000182316.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của gấu là gì"}], "all_answers": ["màu đen"]}
+{"image": "COCO_train2014_000000557648.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của chiếc tàu là gì"}], "all_answers": ["màu vàng"]}
+{"image": "COCO_train2014_000000568947.jpg", "conversations": [{"from": "human", "value": "<image>\nmàu của lửa là gì"}], "all_answers": ["màu đỏ"]}
+{"image": "COCO_train2014_000000475056.jpg", "conversations": [{"from": "human", "value": "<image>\nngười đàn ông trẻ đang rửa chân ở đâu"}], "all_answers": ["nhà vệ sinh"]}
+{"image": "COCO_train2014_000000564912.jpg", "conversations": [{"from": "human", "value": "<image>\ntủ lạnh bằng kim loại đặt ở đâu"}], "all_answers": ["phòng bếp"]}
+{"image": "COCO_train2014_000000142563.jpg", "conversations": [{"from": "human", "value": "<image>\nngười đàn ông cưỡi một con ngựa ở đâu"}], "all_answers": ["chuồng"]}
+{"image": "COCO_train2014_000000162300.jpg", "conversations": [{"from": "human", "value": "<image>\nngười đàn ông đang ngồi ở đâu"}], "all_answers": ["chậu"]}
+{"image": "COCO_train2014_000000333626.jpg", "conversations": [{"from": "human", "value": "<image>\nngười đàn ông đang làm việc ở đâu"}], "all_answers": ["phòng bếp"]}
+{"image": "COCO_train2014_000000203216.jpg", "conversations": [{"from": "human", "value": "<image>\nnhững chàng trai trẻ đang chơi game ở đâu"}], "all_answers": ["phòng"]}
+{"image": "COCO_train2014_000000190002.jpg", "conversations": [{"from": "human", "value": "<image>\nngười phụ nữ nhâm nhi một loại đồ uống ở đâu"}], "all_answers": ["phòng ngủ"]}
+{"image": "COCO_train2014_000000121977.jpg", "conversations": [{"from": "human", "value": "<image>\nhoa màu hồng và trắng với lá ở đâu"}], "all_answers": ["lọ cắm hoa"]}
+{"image": "COCO_train2014_000000579725.jpg", "conversations": [{"from": "human", "value": "<image>\nnước tăng màu vàng ở đâu"}], "all_answers": ["lọ cắm hoa"]}
+{"image": "COCO_train2014_000000067077.jpg", "conversations": [{"from": "human", "value": "<image>\nngười đàn ông đang chơi wii ở đâu"}], "all_answers": ["văn phòng"]}
+{"image": "COCO_train2014_000000431194.jpg", "conversations": [{"from": "human", "value": "<image>\nmột số hươu cao cổ nằm ở đâu"}], "all_answers": ["chuồng"]}
+{"image": "COCO_train2014_000000160264.jpg", "conversations": [{"from": "human", "value": "<image>\nmọi người đang thưởng thức đồ uống ở đâu dưới ánh nến"}], "all_answers": ["quán bar"]}
+{"image": "COCO_train2014_000000367743.jpg", "conversations": [{"from": "human", "value": "<image>\nchú cún ngồi ở đâu"}], "all_answers": ["cửa sổ"]}
+{"image": "COCO_train2014_000000352264.jpg", "conversations": [{"from": "human", "value": "<image>\nmáy bay lắm ở đâu"}], "all_answers": ["sân vườn"]}
+{"image": "COCO_train2014_000000040708.jpg", "conversations": [{"from": "human", "value": "<image>\ncậu bé đang tận hưởng một lát pizza ở đâu"}], "all_answers": ["quán ăn"]}
+{"image": "COCO_train2014_000000369593.jpg", "conversations": [{"from": "human", "value": "<image>\nđồng hồ treo ở đâu"}], "all_answers": ["tường"]}
+{"image": "COCO_train2014_000000441358.jpg", "conversations": [{"from": "human", "value": "<image>\nnơi không có bồn rửa hoặc bồn tắm"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_train2014_000000353899.jpg", "conversations": [{"from": "human", "value": "<image>\nngười trượt ván đã sẵn sàng để trượt ở đâu"}], "all_answers": ["hồ bơi"]}
+{"image": "COCO_train2014_000000572022.jpg", "conversations": [{"from": "human", "value": "<image>\nbếp trắng bẩn ở đâu"}], "all_answers": ["phòng bếp"]}
+{"image": "COCO_train2014_000000451375.jpg", "conversations": [{"from": "human", "value": "<image>\nngười đàn ông đang đánh răng ở đâu"}], "all_answers": ["phòng"]}
+{"image": "COCO_train2014_000000507370.jpg", "conversations": [{"from": "human", "value": "<image>\nngười đang chụp ảnh ở đâu"}], "all_answers": ["gương"]}
+{"image": "COCO_train2014_000000160810.jpg", "conversations": [{"from": "human", "value": "<image>\nngười phụ nữ đang chụp ảnh của cô ấy ở đâu"}], "all_answers": ["gương"]}
+{"image": "COCO_train2014_000000361700.jpg", "conversations": [{"from": "human", "value": "<image>\nngười đàn ông điều chỉnh một cái gì đó trên một thiết bị cơ khí ở đâu"}], "all_answers": ["áo vest"]}
+{"image": "COCO_train2014_000000492659.jpg", "conversations": [{"from": "human", "value": "<image>\ncon hươu cao cổ đang nghiêng về phía trước ở đâu"}], "all_answers": ["chuồng"]}
+{"image": "COCO_train2014_000000110169.jpg", "conversations": [{"from": "human", "value": "<image>\nbồn cầu trắng ở đâu"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_train2014_000000054918.jpg", "conversations": [{"from": "human", "value": "<image>\ncon mèo đen đang ngồi ở đâu"}], "all_answers": ["chậu"]}
+{"image": "COCO_train2014_000000190573.jpg", "conversations": [{"from": "human", "value": "<image>\nngười đang nghiêng về phía trước ở đâu"}], "all_answers": ["cái ghế"]}
+{"image": "COCO_train2014_000000160712.jpg", "conversations": [{"from": "human", "value": "<image>\nmột ông già nằm ở đâu"}], "all_answers": ["giường"]}
+{"image": "COCO_train2014_000000258265.jpg", "conversations": [{"from": "human", "value": "<image>\nhoa trên bàn nằm ở đâu"}], "all_answers": ["lọ cắm hoa"]}
+{"image": "COCO_train2014_000000154037.jpg", "conversations": [{"from": "human", "value": "<image>\nngười phụ nữ sử dụng máy xay sinh tố ở đâu"}], "all_answers": ["phòng bếp"]}
+{"image": "COCO_train2014_000000304887.jpg", "conversations": [{"from": "human", "value": "<image>\ncầu thang nằm ở đâu"}], "all_answers": ["nhà ở"]}
+{"image": "COCO_train2014_000000266418.jpg", "conversations": [{"from": "human", "value": "<image>\nngười đàn ông đứng ở đâu trong khi câu cá"}], "all_answers": ["con thuyền"]}
+{"image": "COCO_train2014_000000440347.jpg", "conversations": [{"from": "human", "value": "<image>\nvận động viên trượt ván đang làm trò ở đâu"}], "all_answers": ["đường ống"]}
+{"image": "COCO_train2014_000000133672.jpg", "conversations": [{"from": "human", "value": "<image>\npizza kích thước lớn ở đâu với một lát bị mất"}], "all_answers": ["hộp"]}
+{"image": "COCO_train2014_000000391842.jpg", "conversations": [{"from": "human", "value": "<image>\nnơi nào có một vài hươu cao cổ"}], "all_answers": ["chuồng"]}
+{"image": "COCO_train2014_000000463953.jpg", "conversations": [{"from": "human", "value": "<image>\nngười đàn ông và một người phụ nữ chơi trò chơi ở đâu"}], "all_answers": ["nhà"]}
+{"image": "COCO_train2014_000000438912.jpg", "conversations": [{"from": "human", "value": "<image>\nđâu là con mèo con ngủ trưa"}], "all_answers": ["món ăn"]}
+{"image": "COCO_train2014_000000454619.jpg", "conversations": [{"from": "human", "value": "<image>\nngười phụ nữ với một chiếc xe đẩy hành lý dính đầu ở đầu"}], "all_answers": ["cửa"]}
+{"image": "COCO_train2014_000000327328.jpg", "conversations": [{"from": "human", "value": "<image>\nmột con mèo cam đang ngồi ở đâu"}], "all_answers": ["cái túi"]}
+{"image": "COCO_train2014_000000341917.jpg", "conversations": [{"from": "human", "value": "<image>\nmột nhà vệ sinh ở đâu"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_train2014_000000011328.jpg", "conversations": [{"from": "human", "value": "<image>\nhai người phụ nữ sử dụng bộ điều khiển ở đâu"}], "all_answers": ["phòng"]}
+{"image": "COCO_train2014_000000246087.jpg", "conversations": [{"from": "human", "value": "<image>\nngười đàn ông đang ở đâu"}], "all_answers": ["ô cửa"]}
+{"image": "COCO_train2014_000000018395.jpg", "conversations": [{"from": "human", "value": "<image>\nbông hoa màu đỏ đang nằm ở đâu"}], "all_answers": ["lọ cắm hoa"]}
+{"image": "COCO_train2014_000000330164.jpg", "conversations": [{"from": "human", "value": "<image>\nngười đàn ông mang một chú chó con tắm ở đâu"}], "all_answers": ["chậu"]}
+{"image": "COCO_train2014_000000064836.jpg", "conversations": [{"from": "human", "value": "<image>\ncà rốt tươi đi ở đâu"}], "all_answers": ["phòng bếp"]}
+{"image": "COCO_train2014_000000568660.jpg", "conversations": [{"from": "human", "value": "<image>\nngười phụ nữ đang gọt chuối đâu"}], "all_answers": ["nhà ở"]}
+{"image": "COCO_train2014_000000023361.jpg", "conversations": [{"from": "human", "value": "<image>\nô tô dừng ở đâu"}], "all_answers": ["đường phố"]}
+{"image": "COCO_train2014_000000194744.jpg", "conversations": [{"from": "human", "value": "<image>\npizza bị ăn một phần nằm ở đâu"}], "all_answers": ["hộp"]}
+{"image": "COCO_train2014_000000498081.jpg", "conversations": [{"from": "human", "value": "<image>\nmột chiếc xe cũ đang nằm ở đâu"}], "all_answers": ["đường phố"]}
+{"image": "COCO_train2014_000000358265.jpg", "conversations": [{"from": "human", "value": "<image>\nmột con voi đứng đang đứng ở đâu"}], "all_answers": ["đường bộ"]}
+{"image": "COCO_train2014_000000452761.jpg", "conversations": [{"from": "human", "value": "<image>\nngười phụ nữ trẻ đang đeo cà vạt ở đâu"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_train2014_000000192927.jpg", "conversations": [{"from": "human", "value": "<image>\ngiường có kích cỡ vua ở đâu"}], "all_answers": ["phòng"]}
+{"image": "COCO_train2014_000000305227.jpg", "conversations": [{"from": "human", "value": "<image>\nthanh niên và một con chó trôi ở đâu"}], "all_answers": ["con thuyền"]}
+{"image": "COCO_train2014_000000217978.jpg", "conversations": [{"from": "human", "value": "<image>\nhai con chó của các giống khác nhau đang đứng ở đâu"}], "all_answers": ["sân vườn"]}
+{"image": "COCO_train2014_000000250261.jpg", "conversations": [{"from": "human", "value": "<image>\nđồng hồ tròn lớn có ít nhất ba mặt gắn trên đâu"}], "all_answers": ["tòa nhà"]}
+{"image": "COCO_train2014_000000323264.jpg", "conversations": [{"from": "human", "value": "<image>\nhai chàng trai và một cô gái đang ngồi ở đâu và các chàng trai đang chơi wii"}], "all_answers": ["phòng ngủ"]}
+{"image": "COCO_train2014_000000346158.jpg", "conversations": [{"from": "human", "value": "<image>\ncon chó trắng dễ thương đang ở đâu"}], "all_answers": ["cái rổ"]}
+{"image": "COCO_train2014_000000413754.jpg", "conversations": [{"from": "human", "value": "<image>\nngười chơi bóng chày đang ở đâu khi chơi một trận đấu"}], "all_answers": ["sân vận động"]}
+{"image": "COCO_train2014_000000566193.jpg", "conversations": [{"from": "human", "value": "<image>\nrèm tắm treo ở đâu"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_train2014_000000183197.jpg", "conversations": [{"from": "human", "value": "<image>\ncon chó con đang ngồi ở đâu"}], "all_answers": ["cái rổ"]}
+{"image": "COCO_train2014_000000437832.jpg", "conversations": [{"from": "human", "value": "<image>\nmọi người đang lên tàu ở đâu"}], "all_answers": ["trạm"]}
+{"image": "COCO_train2014_000000034164.jpg", "conversations": [{"from": "human", "value": "<image>\ncửa sổ ở phía trên bồn tắm dài nằm ở đâu"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_train2014_000000479234.jpg", "conversations": [{"from": "human", "value": "<image>\nđồng hồ tốt ở đâu"}], "all_answers": ["tòa nhà"]}
+{"image": "COCO_train2014_000000011080.jpg", "conversations": [{"from": "human", "value": "<image>\ncon chó đang chơi với một món đồ chơi chó ở đâu"}], "all_answers": ["áo vest"]}
+{"image": "COCO_train2014_000000364437.jpg", "conversations": [{"from": "human", "value": "<image>\nnước rửa miệng ở đâu"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_train2014_000000040901.jpg", "conversations": [{"from": "human", "value": "<image>\nngười đàn ông trẻ đang rửa tay ở đâu"}], "all_answers": ["chậu"]}
+{"image": "COCO_train2014_000000047652.jpg", "conversations": [{"from": "human", "value": "<image>\nngười đàn ông cắt một chiếc bánh pizza ở đâu"}], "all_answers": ["chảo"]}
+{"image": "COCO_train2014_000000581566.jpg", "conversations": [{"from": "human", "value": "<image>\nghế vệ sinh làm bằng gỗ ở đâu"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_train2014_000000361905.jpg", "conversations": [{"from": "human", "value": "<image>\nngười đang nằm ở đâu"}], "all_answers": ["giường"]}
+{"image": "COCO_train2014_000000235177.jpg", "conversations": [{"from": "human", "value": "<image>\nmột người đàn ông đang ở đâu"}], "all_answers": ["con thuyền"]}
+{"image": "COCO_train2014_000000369167.jpg", "conversations": [{"from": "human", "value": "<image>\nbé trai đẻ ở đâu"}], "all_answers": ["giường"]}
+{"image": "COCO_train2014_000000356868.jpg", "conversations": [{"from": "human", "value": "<image>\nngười phụ nữ chụp một bức ảnh của mình từ đâu"}], "all_answers": ["gương"]}
+{"image": "COCO_train2014_000000145212.jpg", "conversations": [{"from": "human", "value": "<image>\nhai gấu bắc cực trắng đang ở đâu"}], "all_answers": ["chuồng"]}
+{"image": "COCO_train2014_000000398494.jpg", "conversations": [{"from": "human", "value": "<image>\nxe đạp đậu ở đâu"}], "all_answers": ["phòng bếp"]}
+{"image": "COCO_train2014_000000415232.jpg", "conversations": [{"from": "human", "value": "<image>\nđầu bếp giữ một con dao ở đâu"}], "all_answers": ["phòng bếp"]}
+{"image": "COCO_train2014_000000359825.jpg", "conversations": [{"from": "human", "value": "<image>\nngười đàn ông lái xe ở đâu"}], "all_answers": ["xe"]}
+{"image": "COCO_train2014_000000252801.jpg", "conversations": [{"from": "human", "value": "<image>\nngười đàn ông đang đo một số nước đóng chai ở đâu"}], "all_answers": ["cái thìa"]}
+{"image": "COCO_train2014_000000309710.jpg", "conversations": [{"from": "human", "value": "<image>\nbồn vệ sinh được trưng bày ở đâu"}], "all_answers": ["cửa hàng"]}
+{"image": "COCO_train2014_000000305887.jpg", "conversations": [{"from": "human", "value": "<image>\nnhà vệ sinh trắng ở đâu"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_train2014_000000380086.jpg", "conversations": [{"from": "human", "value": "<image>\nhai con hươu cao cổ đứng cạnh nhau ở đâu"}], "all_answers": ["chuồng"]}
+{"image": "COCO_train2014_000000287998.jpg", "conversations": [{"from": "human", "value": "<image>\nnhững trái cam được đặt ở đâu"}], "all_answers": ["cái rổ"]}
+{"image": "COCO_train2014_000000333555.jpg", "conversations": [{"from": "human", "value": "<image>\nphòng khách và phòng ăn nằm ở đâu"}], "all_answers": ["nhà ở"]}
+{"image": "COCO_train2014_000000332562.jpg", "conversations": [{"from": "human", "value": "<image>\ncon gấu em bé đang lang thang ở đâu"}], "all_answers": ["sân"]}
+{"image": "COCO_train2014_000000048680.jpg", "conversations": [{"from": "human", "value": "<image>\nnhóm người có bia đang ngồi ở đâu"}], "all_answers": ["phòng"]}
+{"image": "COCO_train2014_000000354532.jpg", "conversations": [{"from": "human", "value": "<image>\ncậu bé đọc một cuốn sách ở đâu"}], "all_answers": ["giường"]}
+{"image": "COCO_train2014_000000456033.jpg", "conversations": [{"from": "human", "value": "<image>\nbông hoa hồng ở đâu"}], "all_answers": ["lọ cắm hoa"]}
+{"image": "COCO_train2014_000000480161.jpg", "conversations": [{"from": "human", "value": "<image>\nngười được phản chiếu ở đâu"}], "all_answers": ["gương"]}
+{"image": "COCO_train2014_000000273445.jpg", "conversations": [{"from": "human", "value": "<image>\nbộ thang leo ở đâu"}], "all_answers": ["phòng bếp"]}
+{"image": "COCO_train2014_000000371143.jpg", "conversations": [{"from": "human", "value": "<image>\ncậu bé đang tập đi bóng chày ở đâu"}], "all_answers": ["lồng"]}
+{"image": "COCO_train2014_000000196096.jpg", "conversations": [{"from": "human", "value": "<image>\nngười xuống một ngọn núi trắng dưới bầu trời xanh ở đâu"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_train2014_000000151499.jpg", "conversations": [{"from": "human", "value": "<image>\nxe buýt thành phố dừng lại ở đâu"}], "all_answers": ["vạch kẻ đường"]}
+{"image": "COCO_train2014_000000577052.jpg", "conversations": [{"from": "human", "value": "<image>\nngười đàn ông nhật bản đang chuẩn bị thức ăn ở đâu"}], "all_answers": ["quán ăn"]}
+{"image": "COCO_train2014_000000092346.jpg", "conversations": [{"from": "human", "value": "<image>\nthịt nướng thổ nhĩ kỳ ở đâu"}], "all_answers": ["lò vi sóng"]}
+{"image": "COCO_train2014_000000049866.jpg", "conversations": [{"from": "human", "value": "<image>\nnhững người đang ngồi và đứng ở đâu,"}], "all_answers": ["xe ô tô"]}
+{"image": "COCO_train2014_000000255804.jpg", "conversations": [{"from": "human", "value": "<image>\ntay cầm điện thoại di động và chụp ảnh ở đâu"}], "all_answers": ["gương"]}
+{"image": "COCO_train2014_000000294083.jpg", "conversations": [{"from": "human", "value": "<image>\nngười phụ nữ trẻ mỉm cười sử dụng máy tính ở đâu"}], "all_answers": ["phòng bếp"]}
+{"image": "COCO_train2014_000000481172.jpg", "conversations": [{"from": "human", "value": "<image>\nbồn cầu ngồi xổm đặt ở đâu"}], "all_answers": ["sàn nhà"]}
+{"image": "COCO_train2014_000000114469.jpg", "conversations": [{"from": "human", "value": "<image>\nhai con chó đang chơi ở đâu"}], "all_answers": ["chuồng"]}
+{"image": "COCO_train2014_000000338289.jpg", "conversations": [{"from": "human", "value": "<image>\npizza nhiều topping ở đâu"}], "all_answers": ["lò vi sóng"]}
+{"image": "COCO_train2014_000000421029.jpg", "conversations": [{"from": "human", "value": "<image>\ncon mèo màu cam sáng đang ngủ ở đâu"}], "all_answers": ["cái ghế"]}
+{"image": "COCO_train2014_000000348595.jpg", "conversations": [{"from": "human", "value": "<image>\nngười đàn ông ở đâu với một khuôn mặt đỏ và trắng"}], "all_answers": ["đường phố"]}
+{"image": "COCO_train2014_000000478652.jpg", "conversations": [{"from": "human", "value": "<image>\nngười phụ nữ đang giữ bánh sandwich ở đâu"}], "all_answers": ["xe ô tô"]}
+{"image": "COCO_train2014_000000359354.jpg", "conversations": [{"from": "human", "value": "<image>\nngười đàn ông nấu pizza ở đâu"}], "all_answers": ["lò vi sóng"]}
+{"image": "COCO_train2014_000000328888.jpg", "conversations": [{"from": "human", "value": "<image>\nnhóm gấu nhồi bông ở đâu"}], "all_answers": ["cái rổ"]}
+{"image": "COCO_train2014_000000051829.jpg", "conversations": [{"from": "human", "value": "<image>\nngười phụ nữ giúp một người lên chiếc xe buýt khổng lồ ở đâu"}], "all_answers": ["xe lăn"]}
+{"image": "COCO_train2014_000000532342.jpg", "conversations": [{"from": "human", "value": "<image>\nđâu là một vài chiếc xe máy đậu"}], "all_answers": ["cái lều"]}
+{"image": "COCO_train2014_000000056634.jpg", "conversations": [{"from": "human", "value": "<image>\ntàu điện ngầm xanh ở đâu"}], "all_answers": ["trạm"]}
+{"image": "COCO_train2014_000000262670.jpg", "conversations": [{"from": "human", "value": "<image>\ncặp vợ chồng nằm ở đâu"}], "all_answers": ["đường phố"]}
+{"image": "COCO_train2014_000000456563.jpg", "conversations": [{"from": "human", "value": "<image>\nthịt, bánh mì và rau xanh ở đâu"}], "all_answers": ["chảo"]}
+{"image": "COCO_train2014_000000443575.jpg", "conversations": [{"from": "human", "value": "<image>\nmàn hình máy tính ở đâu"}], "all_answers": ["văn phòng"]}
+{"image": "COCO_train2014_000000537687.jpg", "conversations": [{"from": "human", "value": "<image>\nhai đứa trẻ ngồi ở đâu"}], "all_answers": ["tàu hỏa"]}
+{"image": "COCO_train2014_000000015185.jpg", "conversations": [{"from": "human", "value": "<image>\nxúc xích ớt với khoai tây chiên được phục vụ ở đâu"}], "all_answers": ["cái rổ"]}
+{"image": "COCO_train2014_000000365707.jpg", "conversations": [{"from": "human", "value": "<image>\nnải chuối ở đâu"}], "all_answers": ["xe đẩy"]}
+{"image": "COCO_train2014_000000264255.jpg", "conversations": [{"from": "human", "value": "<image>\nngười phụ nữ đặt đầu cô ấy ở đâu"}], "all_answers": ["lò vi sóng"]}
+{"image": "COCO_train2014_000000054918.jpg", "conversations": [{"from": "human", "value": "<image>\ncon mèo đen đang ngồi ở đâu"}], "all_answers": ["chậu"]}
+{"image": "COCO_train2014_000000216160.jpg", "conversations": [{"from": "human", "value": "<image>\ncô gái đang chụp ảnh mình ở đâu"}], "all_answers": ["gương"]}
+{"image": "COCO_train2014_000000182758.jpg", "conversations": [{"from": "human", "value": "<image>\nmột con mèo đen trưởng thành ở đâu"}], "all_answers": ["giường"]}
+{"image": "COCO_train2014_000000446199.jpg", "conversations": [{"from": "human", "value": "<image>\nhai chuyến tàu có đầy đủ người ở đâu"}], "all_answers": ["trạm"]}
+{"image": "COCO_train2014_000000114703.jpg", "conversations": [{"from": "human", "value": "<image>\ncậu bé chơi trượt ván ở đâu"}], "all_answers": ["tòa nhà"]}
+{"image": "COCO_train2014_000000056550.jpg", "conversations": [{"from": "human", "value": "<image>\nngười đàn ông chuẩn bị một bữa ăn ở đâu"}], "all_answers": ["phòng bếp"]}
+{"image": "COCO_train2014_000000189993.jpg", "conversations": [{"from": "human", "value": "<image>\ncon gấu đang ở đâu"}], "all_answers": ["thư viện"]}
+{"image": "COCO_train2014_000000191310.jpg", "conversations": [{"from": "human", "value": "<image>\ncô gái trẻ đang mặc áo khoác màu tím và quần màu hồng ở đâu"}], "all_answers": ["đường phố"]}
+{"image": "COCO_train2014_000000015071.jpg", "conversations": [{"from": "human", "value": "<image>\ncặp vợ chồng nằm ở đâu"}], "all_answers": ["giường"]}
+{"image": "COCO_train2014_000000005830.jpg", "conversations": [{"from": "human", "value": "<image>\nđèn và bàn trống ở đâu"}], "all_answers": ["phòng ngủ"]}
+{"image": "COCO_train2014_000000495334.jpg", "conversations": [{"from": "human", "value": "<image>\ncặp vợ chồng đang ngồi ở đâu"}], "all_answers": ["con thuyền"]}
+{"image": "COCO_train2014_000000368717.jpg", "conversations": [{"from": "human", "value": "<image>\nđộng cơ hơi nước kiểu cũ đậu ở đâu"}], "all_answers": ["trạm"]}
+{"image": "COCO_train2014_000000044814.jpg", "conversations": [{"from": "human", "value": "<image>\ncon chó canh gác đang ngồi ở đâu và chạy đi"}], "all_answers": ["ca nô"]}
+{"image": "COCO_train2014_000000372996.jpg", "conversations": [{"from": "human", "value": "<image>\nhươu cao cổ ở đâu"}], "all_answers": ["chuồng"]}
+{"image": "COCO_train2014_000000479331.jpg", "conversations": [{"from": "human", "value": "<image>\ngấu lớn ngồi ở đâu"}], "all_answers": ["cái ghế"]}
+{"image": "COCO_train2014_000000363486.jpg", "conversations": [{"from": "human", "value": "<image>\nhai bánh sandwich đang nằm ở đâu"}], "all_answers": ["lò vi sóng"]}
+{"image": "COCO_train2014_000000451987.jpg", "conversations": [{"from": "human", "value": "<image>\nngười đàn ông chuẩn bị một cái gì đó để đi đâu"}], "all_answers": ["máy xay"]}
+{"image": "COCO_train2014_000000043979.jpg", "conversations": [{"from": "human", "value": "<image>\nnhà vệ sinh trắng đang đặt ở đâu"}], "all_answers": ["chuồng"]}
+{"image": "COCO_train2014_000000102754.jpg", "conversations": [{"from": "human", "value": "<image>\ntranh treo ở đâu"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_train2014_000000359290.jpg", "conversations": [{"from": "human", "value": "<image>\nđàn ngựa tập hợp ở đâu"}], "all_answers": ["chuồng"]}
+{"image": "COCO_train2014_000000442150.jpg", "conversations": [{"from": "human", "value": "<image>\nngười phụ nữ đang đánh răng ở đâu"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_train2014_000000002606.jpg", "conversations": [{"from": "human", "value": "<image>\ncon mèo đang ngồi ở đâu"}], "all_answers": ["cửa sổ"]}
+{"image": "COCO_train2014_000000294353.jpg", "conversations": [{"from": "human", "value": "<image>\nnơi nào những bông hoa màu tím tô điểm thêm cho một chiếc bàn có cái lắc và cái nĩa"}], "all_answers": ["lọ cắm hoa"]}
+{"image": "COCO_train2014_000000474970.jpg", "conversations": [{"from": "human", "value": "<image>\nhoa héo nằm ở đâu"}], "all_answers": ["cái lọ"]}
+{"image": "COCO_train2014_000000235906.jpg", "conversations": [{"from": "human", "value": "<image>\ngấu bắc cực ăn cà rốt ở đâu?"}], "all_answers": ["vườn bách thú"]}
+{"image": "COCO_train2014_000000332578.jpg", "conversations": [{"from": "human", "value": "<image>\nnhững người đang ngồi và đứng ở đâu"}], "all_answers": ["phòng"]}
+{"image": "COCO_train2014_000000504187.jpg", "conversations": [{"from": "human", "value": "<image>\nngựa vằn đang ăn ở đâu"}], "all_answers": ["chuồng"]}
+{"image": "COCO_train2014_000000151054.jpg", "conversations": [{"from": "human", "value": "<image>\nnhà vệ sinh màu xanh và một bồn rửa trắng nằm ở đâu"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_train2014_000000365284.jpg", "conversations": [{"from": "human", "value": "<image>\nhình ảnh trên đầu của mọi người tập hợp ở đâu"}], "all_answers": ["quán ăn"]}
+{"image": "COCO_train2014_000000080609.jpg", "conversations": [{"from": "human", "value": "<image>\nngười phụ nữ đang ngồi ở đâu"}], "all_answers": ["phòng"]}
+{"image": "COCO_train2014_000000392154.jpg", "conversations": [{"from": "human", "value": "<image>\nngười đang chụp ảnh flash ở đâu"}], "all_answers": ["gương"]}
+{"image": "COCO_train2014_000000129648.jpg", "conversations": [{"from": "human", "value": "<image>\nván trượt cậu bé đã ở đâu"}], "all_answers": ["hồ bơi"]}
+{"image": "COCO_train2014_000000578020.jpg", "conversations": [{"from": "human", "value": "<image>\ncon mèo đang ngủ trưa ở đâu"}], "all_answers": ["ngăn kéo"]}
+{"image": "COCO_train2014_000000497759.jpg", "conversations": [{"from": "human", "value": "<image>\nngười đàn ông đang nhìn trộm ở đâu"}], "all_answers": ["lò vi sóng"]}
+{"image": "COCO_train2014_000000523964.jpg", "conversations": [{"from": "human", "value": "<image>\nngười phụ nữ sử dụng máy tính xách tay ở đâu"}], "all_answers": ["phòng"]}
+{"image": "COCO_train2014_000000393292.jpg", "conversations": [{"from": "human", "value": "<image>\ncặp chim đứng ở đâu"}], "all_answers": ["chậu"]}
+{"image": "COCO_train2014_000000226611.jpg", "conversations": [{"from": "human", "value": "<image>\ngiường lớn ở đâu"}], "all_answers": ["phòng ngủ"]}
+{"image": "COCO_train2014_000000157693.jpg", "conversations": [{"from": "human", "value": "<image>\nngười chơi tennis nữ đang ở đâu"}], "all_answers": ["cái ghế"]}
+{"image": "COCO_train2014_000000120032.jpg", "conversations": [{"from": "human", "value": "<image>\ndấu hiệu dừng lại ở đâu"}], "all_answers": ["xe đẩy"]}
+{"image": "COCO_train2014_000000303367.jpg", "conversations": [{"from": "human", "value": "<image>\ncái cây đang ở đâu"}], "all_answers": ["thùng chứa"]}
+{"image": "COCO_train2014_000000326628.jpg", "conversations": [{"from": "human", "value": "<image>\nngười đàn ông mặc đồng phục bóng chày sọc cầm gậy ở đâu"}], "all_answers": ["chuồng"]}
+{"image": "COCO_train2014_000000440496.jpg", "conversations": [{"from": "human", "value": "<image>\nđầu bếp chuẩn bị thức ăn ở đâu"}], "all_answers": ["phòng bếp"]}
+{"image": "COCO_train2014_000000559565.jpg", "conversations": [{"from": "human", "value": "<image>\nbông hồng màu hồng ở đâu"}], "all_answers": ["lọ cắm hoa"]}
+{"image": "COCO_train2014_000000318475.jpg", "conversations": [{"from": "human", "value": "<image>\nmiếng bánh pizza bông cải xanh nằm ở đâu"}], "all_answers": ["hộp"]}
+{"image": "COCO_train2014_000000420276.jpg", "conversations": [{"from": "human", "value": "<image>\nxe đang di chuyển ở đâu"}], "all_answers": ["đường phố"]}
+{"image": "COCO_train2014_000000207463.jpg", "conversations": [{"from": "human", "value": "<image>\nbốn người bạn đang chơi wii ở đâu"}], "all_answers": ["phòng"]}
+{"image": "COCO_train2014_000000124764.jpg", "conversations": [{"from": "human", "value": "<image>\ntàu cao tốc dừng ở đâu"}], "all_answers": ["trạm"]}
+{"image": "COCO_train2014_000000286348.jpg", "conversations": [{"from": "human", "value": "<image>\ncon chó lớn ở đâu"}], "all_answers": ["xe tải"]}
+{"image": "COCO_train2014_000000324635.jpg", "conversations": [{"from": "human", "value": "<image>\nđang tre ở đâu hiển thị các mặt hàng thực phẩm khác nhau"}], "all_answers": ["quán ăn"]}
+{"image": "COCO_train2014_000000406004.jpg", "conversations": [{"from": "human", "value": "<image>\nngười đàn ông và phụ nữ ở đâu"}], "all_answers": ["phòng bếp"]}
+{"image": "COCO_train2014_000000505980.jpg", "conversations": [{"from": "human", "value": "<image>\ncậu bé đang nhìn ở đâu"}], "all_answers": ["gương"]}
+{"image": "COCO_train2014_000000312038.jpg", "conversations": [{"from": "human", "value": "<image>\nmột quả táo nằm ở đâu"}], "all_answers": ["bát"]}
+{"image": "COCO_train2014_000000214507.jpg", "conversations": [{"from": "human", "value": "<image>\nngựa vằn và tê giác ăn ở đâu"}], "all_answers": ["chuồng"]}
+{"image": "COCO_train2014_000000573166.jpg", "conversations": [{"from": "human", "value": "<image>\nhai chiếc xe tay ga đỗ ở đâu"}], "all_answers": ["cửa sổ"]}
+{"image": "COCO_train2014_000000129067.jpg", "conversations": [{"from": "human", "value": "<image>\nchuối đang ăn dở đang ở đâu"}], "all_answers": ["tách"]}
+{"image": "COCO_train2014_000000564611.jpg", "conversations": [{"from": "human", "value": "<image>\nnơi giường che trong sự lộn xộn giữa hai bàn với đèn trên chúng"}], "all_answers": ["phòng ngủ"]}
+{"image": "COCO_train2014_000000186034.jpg", "conversations": [{"from": "human", "value": "<image>\ncon chó đã sẵn sàng để nằm xuống đâu"}], "all_answers": ["giường"]}
+{"image": "COCO_train2014_000000376405.jpg", "conversations": [{"from": "human", "value": "<image>\nngười đang nằm ở đâu"}], "all_answers": ["phòng ngủ"]}
+{"image": "COCO_train2014_000000168454.jpg", "conversations": [{"from": "human", "value": "<image>\nchuối nằm ở đâu"}], "all_answers": ["bát"]}
+{"image": "COCO_train2014_000000042725.jpg", "conversations": [{"from": "human", "value": "<image>\nngười phụ nữ rửa bát ở đâu"}], "all_answers": ["chậu"]}
+{"image": "COCO_train2014_000000085400.jpg", "conversations": [{"from": "human", "value": "<image>\nnơi nào một số người đứng trên tuyết và trước những cái cây"}], "all_answers": ["trượt tuyết"]}
+{"image": "COCO_train2014_000000330573.jpg", "conversations": [{"from": "human", "value": "<image>\nngười phụ nữ đang đi xe đạp ở đâu"}], "all_answers": ["đường phố"]}
+{"image": "COCO_train2014_000000370224.jpg", "conversations": [{"from": "human", "value": "<image>\nnơi vòi cứu hỏa đỏ đang được đặt"}], "all_answers": ["giường"]}
+{"image": "COCO_train2014_000000463591.jpg", "conversations": [{"from": "human", "value": "<image>\nngười đàn ông và một người phụ nữ nhìn ở đâu"}], "all_answers": ["gương"]}
+{"image": "COCO_train2014_000000578519.jpg", "conversations": [{"from": "human", "value": "<image>\ncặp vợ chồng đứng ở đâu"}], "all_answers": ["chuồng"]}
+{"image": "COCO_train2014_000000502808.jpg", "conversations": [{"from": "human", "value": "<image>\nrèm tắm đầy màu sắc nhìn thấy ở đâu"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_train2014_000000404163.jpg", "conversations": [{"from": "human", "value": "<image>\ncon chó đang ngồi ở đâu trong khi mọi người đang ngồi ở bàn"}], "all_answers": ["ô cửa"]}
+{"image": "COCO_train2014_000000135392.jpg", "conversations": [{"from": "human", "value": "<image>\nngười đàn ông đang tìm ở đâu"}], "all_answers": ["gương"]}
+{"image": "COCO_train2014_000000552919.jpg", "conversations": [{"from": "human", "value": "<image>\nbồn tắm cũ rỉ sét ngồi ở đâu"}], "all_answers": ["phòng tắm"]}
+{"image": "COCO_train2014_000000532253.jpg", "conversations": [{"from": "human", "value": "<image>\nbánh ngô và trứng đội mũ ở đâu"}], "all_answers": ["cái lọ"]}
+{"image": "COCO_train2014_000000136323.jpg", "conversations": [{"from": "human", "value": "<image>\nnơi thuyền đánh cá neo đậu"}], "all_answers": ["bến du thuyền"]}
+{"image": "COCO_train2014_000000246923.jpg", "conversations": [{"from": "human", "value": "<image>\nxe ô-tô chạy ngang qua đâu"}], "all_answers": ["cửa sổ"]}
+{"image": "COCO_train2014_000000536830.jpg", "conversations": [{"from": "human", "value": "<image>\nhình ảnh của một nhà vệ sinh và một số khăn tắm"}], "all_answers": ["gương"]}
+{"image": "COCO_train2014_000000395039.jpg", "conversations": [{"from": "human", "value": "<image>\nngười trẻ đang giữ một chiếc dĩa nhựa ở đâu"}], "all_answers": ["đường phố"]}
+{"image": "COCO_train2014_000000225667.jpg", "conversations": [{"from": "human", "value": "<image>\nhai bàn chải đánh răng ở đâu"}], "all_answers": ["thùng chứa"]}
+{"image": "COCO_train2014_000000346309.jpg", "conversations": [{"from": "human", "value": "<image>\ngiường đôi với tấm kéo xuống ở đâu"}], "all_answers": ["phòng ngủ"]}
+{"image": "COCO_train2014_000000310562.jpg", "conversations": [{"from": "human", "value": "<image>\nba người đàn ông làm thức ăn ở đâu"}], "all_answers": ["phòng bếp"]}
+{"image": "COCO_train2014_000000084259.jpg", "conversations": [{"from": "human", "value": "<image>\nđĩa rau và carbohydrate được đặt ở đâu"}], "all_answers": ["cái mâm"]}
+{"image": "COCO_train2014_000000511160.jpg", "conversations": [{"from": "human", "value": "<image>\nngười đàn ông đứng ở đâu trong khi nói chuyện trên điện thoại di động"}], "all_answers": ["quán bar"]}
+{"image": "COCO_train2014_000000009983.jpg", "conversations": [{"from": "human", "value": "<image>\nmẹ và cô con gái trưởng thành đang ngồi và mỉm cười với máy ảnh ở đâu"}], "all_answers": ["quán ăn"]}
+{"image": "COCO_train2014_000000447834.jpg", "conversations": [{"from": "human", "value": "<image>\nngười phụ nữ đổ chất lỏng từ một bình máy xay sinh tố ở đâu"}], "all_answers": ["phòng bếp"]}
+{"image": "COCO_train2014_000000030387.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu người đàn ông mặc tạp dề đang tạo dáng bên thức ăn của họ"}], "all_answers": ["hai"]}
+{"image": "COCO_train2014_000000323030.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu người bạn đang chụp ảnh tự sướng trên sân tennis sau một trận đấu"}], "all_answers": ["hai"]}
+{"image": "COCO_train2014_000000360617.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu con ngựa vằn ở vùng đồng bằng bên cạnh một số cây"}], "all_answers": ["bốn"]}
+{"image": "COCO_train2014_000000002964.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu chai rượu các loại trên quầy bếp với một vài thiết bị"}], "all_answers": ["bốn"]}
+{"image": "COCO_train2014_000000344632.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu đứa trẻ trên bàn ăn và uống nước"}], "all_answers": ["ba"]}
+{"image": "COCO_train2014_000000233873.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu ván trượt tuyết đang dựa vào bức tường gỗ"}], "all_answers": ["sáu"]}
+{"image": "COCO_train2014_000000108566.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu người đằng sau chiếc ô chiếu sáng trên nền tối"}], "all_answers": ["hai"]}
+{"image": "COCO_train2014_000000280157.jpg", "conversations": [{"from": "human", "value": "<image>\ntòa nhà có bao nhiêu tầng với cây cô đơn trước tòa nhà"}], "all_answers": ["hai"]}
+{"image": "COCO_train2014_000000015518.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu con ngỗng đang nói chuyện trên mặt nước bởi bãi cỏ xanh cao"}], "all_answers": ["năm"]}
+{"image": "COCO_train2014_000000178763.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu bữa trưa salad tương tự được đựng trong hộp nhựa"}], "all_answers": ["bốn"]}
+{"image": "COCO_train2014_000000498297.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu con cừu trắng đang nhìn vào máy ảnh với bầu trời trong nền"}], "all_answers": ["ba"]}
+{"image": "COCO_train2014_000000008657.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu người trên xe đang nói chuyện điện thoại của họ"}], "all_answers": ["hai"]}
+{"image": "COCO_train2014_000000353711.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu người với bàn tay của họ trên một lò nung ngoài trời"}], "all_answers": ["sáu"]}
+{"image": "COCO_train2014_000000346712.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu đứa trẻ tranh giành quyền kiểm soát bóng trong một trận đấu bóng đá"}], "all_answers": ["hai"]}
+{"image": "COCO_train2014_000000436400.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu lọ thủy tinh có hình bóng bồ công anh được chụp ảnh"}], "all_answers": ["hai"]}
+{"image": "COCO_train2014_000000271401.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu chiếc máy bay có khói đang bay trên bầu trời"}], "all_answers": ["bốn"]}
+{"image": "COCO_train2014_000000178958.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu con ngựa vằn đứng cạnh nhau trong một cây bút nhân tạo"}], "all_answers": ["hai"]}
+{"image": "COCO_train2014_000000560909.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu con chó đang nhìn vào túi xách, người kia đang nói dối yên bình trên giường"}], "all_answers": ["một"]}
+{"image": "COCO_train2014_000000301207.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu vận động viên trượt ván đang thực hiện các trò chơi trong bát bê tông"}], "all_answers": ["ba"]}
+{"image": "COCO_train2014_000000340528.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu góc nhìn khác nhau của một tòa nhà với cột, gác chuông"}], "all_answers": ["bốn"]}
+{"image": "COCO_train2014_000000224699.jpg", "conversations": [{"from": "human", "value": "<image>\nmàn hình tivi có bao nhiêu góc nhìn"}], "all_answers": ["sáu"]}
+{"image": "COCO_train2014_000000559995.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu đường biển đang ngồi bên lề đường"}], "all_answers": ["một"]}
+{"image": "COCO_train2014_000000134100.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu cầu thủ bóng chày sox đỏ đứng mỉm cười trong đào"}], "all_answers": ["ba"]}
+{"image": "COCO_train2014_000000045146.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu người trượt tuyết đang tạo dáng cho bức ảnh"}], "all_answers": ["bốn"]}
+{"image": "COCO_train2014_000000252611.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu loại rau khác nhau trong thùng"}], "all_answers": ["ba"]}
+{"image": "COCO_train2014_000000151434.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu xe máy đậu bên đường trong vùng hoang dã"}], "all_answers": ["ba"]}
+{"image": "COCO_train2014_000000404183.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu phương tiện đang đậu trước nhà để xe"}], "all_answers": ["ba"]}
+{"image": "COCO_train2014_000000237716.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu máy bay ngồi ở sân bay trong một ngày sương mù"}], "all_answers": ["ba"]}
+{"image": "COCO_train2014_000000419001.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu con voi biểu diễn trò lừa bịp cho một đám đông"}], "all_answers": ["bốn"]}
+{"image": "COCO_train2014_000000074069.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu con hươu cao cổ đứng bên trong một cái bao vây"}], "all_answers": ["bốn"]}
+{"image": "COCO_train2014_000000200311.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu chiếc bánh rán phủ đường trên đĩa"}], "all_answers": ["ba"]}
+{"image": "COCO_train2014_000000528432.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu cây gậy bóng chày gỗ xếp trên bàn"}], "all_answers": ["năm"]}
+{"image": "COCO_train2014_000000535804.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu con bò trên đồng cỏ với bầu trời xanh và những đám mây trong nền"}], "all_answers": ["hai"]}
+{"image": "COCO_train2014_000000005094.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu người đang cầm ô đi bộ xuống đường"}], "all_answers": ["hai"]}
+{"image": "COCO_train2014_000000493732.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu chiếc bánh với kiểu dáng trên bàn đang ngồi trên giấy bạc trên bàn"}], "all_answers": ["năm"]}
+{"image": "COCO_train2014_000000526029.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu túi hành lý trên mặt đất cạnh nhau"}], "all_answers": ["ba"]}
+{"image": "COCO_train2014_000000077650.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu phụ nữ đang nói chuyện trong mưa bên ngoài"}], "all_answers": ["hai"]}
+{"image": "COCO_train2014_000000367418.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu người đang chơi bóng chuyền trên núi"}], "all_answers": ["bốn"]}
+{"image": "COCO_train2014_000000489524.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu chiếc thuyền màu xanh đang ngồi cạnh một cái lán nhỏ"}], "all_answers": ["ba"]}
+{"image": "COCO_train2014_000000571503.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu kế hoạch hai chiến tranh thế giới cổ điển ngồi trên đường băng"}], "all_answers": ["ba"]}
+{"image": "COCO_train2014_000000284014.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu người đang nhìn vào một vườn xương rồng trong mưa"}], "all_answers": ["bốn"]}
+{"image": "COCO_train2014_000000545411.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu bữa ăn được chuẩn bị trong hộp bento để chuẩn bị bữa trưa cho một tuần"}], "all_answers": ["bốn"]}
+{"image": "COCO_train2014_000000526029.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu túi hành lý lớn trên sàn nhà"}], "all_answers": ["ba"]}
+{"image": "COCO_train2014_000000524916.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu đồ vật màu trắng được đặt trên nền đất bẩn"}], "all_answers": ["ba"]}
+{"image": "COCO_train2014_000000121792.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu người đội mũ bảo hiểm đang trượt patin trên đường mòn"}], "all_answers": ["ba"]}
+{"image": "COCO_train2014_000000356060.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu người đang băng qua đường có một số công việc đang được thực hiện"}], "all_answers": ["hai"]}
+{"image": "COCO_train2014_000000364582.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu người đi bộ trên bãi biển gần sóng vỗ về đại dương"}], "all_answers": ["hai"]}
+{"image": "COCO_train2014_000000271574.jpg", "conversations": [{"from": "human", "value": "<image>\nđây là bao nhiêu con gà xung quanh một cái ghế dài với một chai nước trên đó"}], "all_answers": ["bốn"]}
+{"image": "COCO_train2014_000000062427.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu con hươu cao cổ đang đi dạo trên cánh đồng"}], "all_answers": ["ba"]}
+{"image": "COCO_train2014_000000100253.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu con voi đang đứng cạnh nhau với người ngồi trên chúng và một con voi cắm cỏ trong thân"}], "all_answers": ["bốn"]}
+{"image": "COCO_train2014_000000107846.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu người đàn ông đang chơi trò chơi với bộ điều khiển nintendo wii"}], "all_answers": ["ba"]}
+{"image": "COCO_train2014_000000369512.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu con voi đang tắm trên sông"}], "all_answers": ["ba"]}
+{"image": "COCO_train2014_000000510418.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu máy bay chiến đấu bay sát nhau trong sự hình thành"}], "all_answers": ["bốn"]}
+{"image": "COCO_train2014_000000077874.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu con ngựa đã bị buộc vào cột"}], "all_answers": ["bốn"]}
+{"image": "COCO_train2014_000000428518.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu chàng trai đang chơi một trò chơi trong sân"}], "all_answers": ["hai"]}
+{"image": "COCO_train2014_000000231280.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu tảng đá có một bảng chỉ đường khác trên đó"}], "all_answers": ["một"]}
+{"image": "COCO_train2014_000000561545.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu bánh được tải với nhiều thực phẩm và gia vị khác nhau"}], "all_answers": ["chín"]}
+{"image": "COCO_train2014_000000413874.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu người đàn ông chơi quần vợt trước đám đông"}], "all_answers": ["hai"]}
+{"image": "COCO_train2014_000000420606.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu con mòng biển đang đậu trên đường ống rỉ sét"}], "all_answers": ["bốn"]}
+{"image": "COCO_train2014_000000466054.jpg", "conversations": [{"from": "human", "value": "<image>\ntổng hợp này cho thấy có bao nhiêu quan điểm về việc xếp dỡ hành lý trong sân bay"}], "all_answers": ["sáu"]}
+{"image": "COCO_train2014_000000410981.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu cậu bé chơi bóng chày trên sân có hàng rào xung quanh"}], "all_answers": ["ba"]}
+{"image": "COCO_train2014_000000530903.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu người đang mỉm cười đang ngồi quanh bàn ăn"}], "all_answers": ["ba"]}
+{"image": "COCO_train2014_000000124622.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu máy bay canada đang đậu trên đường băng"}], "all_answers": ["ba"]}
+{"image": "COCO_train2014_000000306798.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu bánh rán có hương vị khác nhau ngồi trên bàn cạnh một tách cà phê"}], "all_answers": ["ba"]}
+{"image": "COCO_train2014_000000231502.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu quả chuối đang đặt trên mặt đất gần chân hai người"}], "all_answers": ["ba"]}
+{"image": "COCO_train2014_000000145912.jpg", "conversations": [{"from": "human", "value": "<image>\nđàn chó đen trắng có bao nhiêu con cừu"}], "all_answers": ["ba"]}
+{"image": "COCO_train2014_000000101094.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu người đàn ông đang cưỡi trên đầu một con voi"}], "all_answers": ["hai"]}
+{"image": "COCO_train2014_000000015919.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu cậu bé đang trượt ván trên đường phố"}], "all_answers": ["năm"]}
+{"image": "COCO_train2014_000000131784.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu máy bay thủ công đang bay trên bầu trời"}], "all_answers": ["ba"]}
+{"image": "COCO_train2014_000000061375.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu phụ nữ đang đứng cạnh bàn với đủ loại món tráng miệng được bày trên đó"}], "all_answers": ["sáu"]}
+{"image": "COCO_train2014_000000227329.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu cao bồi đứng đội mũ cao bồi gần ngựa của họ"}], "all_answers": ["hai"]}
+{"image": "COCO_train2014_000000250706.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu con dê đang leo lên ngọn núi nâu"}], "all_answers": ["ba"]}
+{"image": "COCO_train2014_000000518025.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu người chơi quần vợt trông giống nhau trong bức ảnh cũ này"}], "all_answers": ["năm"]}
+{"image": "COCO_train2014_000000467082.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu bông hoa cẩm chướng hồng đặt trong bình giấy"}], "all_answers": ["bốn"]}
+{"image": "COCO_train2014_000000506371.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu mặt phẳng đang bay thẳng với khói trắng"}], "all_answers": ["bốn"]}
+{"image": "COCO_train2014_000000421944.jpg", "conversations": [{"from": "human", "value": "<image>\ntrước gương có bao nhiêu bàn chải đánh răng"}], "all_answers": ["hai"]}
+{"image": "COCO_train2014_000000221335.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu đứa trẻ đang ở trên bề mặt cao trên ván trượt của chúng"}], "all_answers": ["hai"]}
+{"image": "COCO_train2014_000000445214.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu phụ nữ đang đi bộ trên vỉa hè mang theo ví"}], "all_answers": ["hai"]}
+{"image": "COCO_train2014_000000490647.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu người trượt tuyết đứng và một người ngồi trên tuyết"}], "all_answers": ["hai"]}
+{"image": "COCO_train2014_000000506750.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu người đàn ông đang nói trước một giá đỡ sản phẩm"}], "all_answers": ["hai"]}
+{"image": "COCO_train2014_000000548273.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu máy bay đang bay trong một ngày nhiều mây"}], "all_answers": ["bốn"]}
+{"image": "COCO_train2014_000000032105.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu kiện hành lý nằm trên sàn nhà"}], "all_answers": ["bốn"]}
+{"image": "COCO_train2014_000000004244.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu người đang làm việc cùng nhau trong nhà bếp chuẩn bị một số loại bữa ăn"}], "all_answers": ["năm"]}
+{"image": "COCO_train2014_000000466621.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu xe lửa cũ ở đầu đường ray"}], "all_answers": ["ba"]}
+{"image": "COCO_train2014_000000110776.jpg", "conversations": [{"from": "human", "value": "<image>\ngiữa cánh cửa sắt có bao nhiêu con gấu bông màu nâu nhạt"}], "all_answers": ["một"]}
+{"image": "COCO_train2014_000000390093.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu đứa trẻ nhỏ trên thuyền với chuối"}], "all_answers": ["hai"]}
+{"image": "COCO_train2014_000000329756.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu người trong quân đội mệt mỏi khi cắt một chiếc bánh"}], "all_answers": ["năm"]}
+{"image": "COCO_train2014_000000295015.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu người đàn ông đang chuẩn bị bảng của họ cho một môn thể thao"}], "all_answers": ["hai"]}
+{"image": "COCO_train2014_000000048664.jpg", "conversations": [{"from": "human", "value": "<image>\nbiển báo dừng có bao nhiêu biển báo trên đường phố"}], "all_answers": ["hai"]}
+{"image": "COCO_train2014_000000107197.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu chiếc thuyền trống cập bến bờ"}], "all_answers": ["bảy"]}
+{"image": "COCO_train2014_000000268804.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu người đàn ông trên xe ngựa được kéo bởi một con ngựa"}], "all_answers": ["hai"]}
+{"image": "COCO_train2014_000000212690.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu nhà vệ sinh trắng đang ngồi cạnh nhau trước một tòa nhà gạch"}], "all_answers": ["ba"]}
+{"image": "COCO_train2014_000000417219.jpg", "conversations": [{"from": "human", "value": "<image>\ncó bao nhiêu người trượt tuyết tạo dáng trên sườn núi tuyết"}], "all_answers": ["bốn"]}

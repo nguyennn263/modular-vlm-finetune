@@ -1,0 +1,18 @@
+{
+  "dataset": "openvivqa_s42",
+  "n": 1000,
+  "bridge": "multi_token",
+  "n_tiles": 1,
+  "checkpoint": "/tmp/ck/multi_token/model.pt",
+  "gen_image": "full",
+  "accuracy": 0.01,
+  "exact_match": 0.01,
+  "bleu": 0.01843381012446924,
+  "rouge_l": 0.21626596324219252,
+  "meteor": 0.1346189787570928,
+  "cider": 0.8641793704707513,
+  "precision": 0.34119022366522367,
+  "recall": 0.18290116373136195,
+  "f1": 0.2217688639309345,
+  "wups": 0.01
+}

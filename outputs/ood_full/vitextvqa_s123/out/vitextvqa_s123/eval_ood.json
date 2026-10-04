@@ -1,0 +1,18 @@
+{
+  "dataset": "vitextvqa_s123",
+  "n": 1000,
+  "bridge": "multi_token",
+  "n_tiles": 1,
+  "checkpoint": "/tmp/ck/multi_token/model.pt",
+  "gen_image": "full",
+  "accuracy": 0.001,
+  "exact_match": 0.001,
+  "bleu": 0.0016304772169381382,
+  "rouge_l": 0.03905259746118479,
+  "meteor": 0.02737781716429089,
+  "cider": 0.16367718594566638,
+  "precision": 0.04846987734487734,
+  "recall": 0.042253282665047374,
+  "f1": 0.04078746662178551,
+  "wups": 0.001
+}

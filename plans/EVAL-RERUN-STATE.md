@@ -26,6 +26,11 @@ Read this first to resume. Results themselves: `plans/results-full-image.md`
 - One metric implementation project-wide (vqa_metrics); OOD F1 uses it too.
 - Local-only checkpoints go up as PRIVATE Kaggle datasets on the running account (no public upload).
 - Up to 2 kernels per Kaggle account (Kaggle caps GPU sessions at 2; verified 2026-10-04).
+- **Found 2026-10-05: Full Q-Former leaks the answer during training** (collator puts the answer in
+  input_ids; trainer feeds those embeddings to the qformer bridge; unmasked cross-attention; bridge
+  tokens precede the text). Its checkpoints are compromised; re-eval can't fix them. Rows flagged
+  "LEAK" in the summary. **Pending user decision:** drop Full Q-Former (recommended; use Light
+  Q-Former as capacity evidence) vs fix + retrain.
 - **Pending user decision:** RQ3 tile-augmentation row (trained with mixed CLS/mean input):
   drop it (recommended) vs retrain.
 

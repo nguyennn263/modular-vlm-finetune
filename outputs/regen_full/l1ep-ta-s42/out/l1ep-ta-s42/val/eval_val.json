@@ -1,0 +1,22 @@
+{
+  "split": "val",
+  "n": 5463,
+  "bridge": "tile_attention",
+  "n_tiles": 1,
+  "checkpoint": "/tmp/ck/tile_attention/model.pt",
+  "pooled_input": "default",
+  "gen_image": "full",
+  "loss": 1.399650990172108,
+  "num_samples": 5463,
+  "perplexity": 4.0537848472595215,
+  "accuracy": 0.10342302764049058,
+  "exact_match": 0.10891451583379096,
+  "bleu": 0.1912785021262138,
+  "rouge_l": 0.5124644501703173,
+  "meteor": 0.434408430619099,
+  "cider": 1.047167761075277,
+  "precision": 0.5371891887679916,
+  "recall": 0.5442961689804083,
+  "f1": 0.5282008655669573,
+  "wups": 0.10342302764049058
+}

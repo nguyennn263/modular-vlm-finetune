@@ -126,7 +126,7 @@ def cmd_collect() -> None:
     out_root = ROOT / "outputs" / "ood_full"
     done = []
     for job, j in led["jobs"].items():
-        if not job.startswith("ood-full:") or j.get("status") == "done":
+        if not job.startswith("ood-full:") or j.get("status") != "running":
             continue
         st = _kaggle(j["account"], "kernels", "status", j["kernel"], check=False)
         if "COMPLETE" not in st:

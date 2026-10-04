@@ -25,9 +25,9 @@ adapter (Fig.~\ref{fig:arch}).
 \draw[arr] (q) -- (llm);
 \draw[arr] (llm) -- (ans);
 \end{tikzpicture}}
-\caption{Overall architecture of ViBridge-VQA. Grey modules are frozen. The bridge
-is trained in stage~1; the bridge and a rank-16 LoRA on the decoder attention are
-trained in stage~2, i.e.\ 1.01\% of all parameters.}
+\caption{Overall architecture of ViBridge-VQA. Grey modules are frozen. Only the
+bridge and, in the full model, a rank-16 LoRA on the decoder attention are trained
+(1.01\% of all parameters).}
 \label{fig:arch}
 \end{figure}
 
@@ -41,8 +41,8 @@ two-layer MLP projector. ViBridge-VQA instead encodes a \emph{single global view
 of the image and replaces the projector with a trainable bridge $g_\phi$. The
 bridge maps the image representation to $k$ embeddings in the decoder input space,
 which are placed before the embedded question; the decoder then generates the
-answer autoregressively. \todo{state the input resolution of the view after the
-input\_diag re-evaluation (training: whole image at 336px).}
+answer autoregressively. The whole image is resized to $336\times336$ pixels, in
+training and at test time.
 
 \subsection{Multi-Token Bridge}
 
@@ -64,25 +64,28 @@ bridge in which 8 learned queries attend over the patch tokens, and a
 \emph{Light} and a \emph{Full Q-Former} following BLIP-2~\cite{li2023blip2}, with
 8 and 16 queries and 2 and 4 cross-attention layers.
 
-\subsection{Two-Stage Training}
+\subsection{Training}
 
-\paragraph{Stage 1: bridge training.}
-With both backbones frozen, only the bridge parameters $\phi$ are optimised with
-the answer cross-entropy
+\paragraph{Objective.}
+Both backbones stay frozen, and all trainable parameters are optimised with the
+answer cross-entropy
 \begin{equation}
-  \mathcal{L}(\phi) = -\sum_{t=1}^{T} \log p\big(y_t \mid y_{<t},\, g_\phi(v),\, q\big).
+  \mathcal{L} = -\sum_{t=1}^{T} \log p\big(y_t \mid y_{<t},\, g_\phi(v),\, q\big).
   \label{eq:ce}
 \end{equation}
 
-\paragraph{Stage 2: decoder adaptation.}
-Starting from the stage-1 bridge, we add a LoRA module to the query, key, value
-and output projections of every decoder layer. Each frozen weight
+\paragraph{Bridge only.}
+In the simplest configuration, only the bridge parameters $\phi$ are trained.
+
+\paragraph{Bridge with decoder LoRA (ViBridge-VQA).}
+In the full model, a LoRA module is added to the query, key, value and output
+projections of every decoder layer. Each frozen weight
 $W_0\in\mathbb{R}^{d_\text{out}\times d_\text{in}}$ becomes
 \begin{equation}
   W = W_0 + \tfrac{\alpha}{r}\,BA,\qquad B\in\mathbb{R}^{d_\text{out}\times r},\ A\in\mathbb{R}^{r\times d_\text{in}},
   \label{eq:lora}
 \end{equation}
-with rank $r=16$ and $\alpha=32$ (2.16M parameters, 0.23\%). The bridge and the
-LoRA matrices are trained jointly with the same objective (Eq.~\ref{eq:ce}), so
-9.51M parameters (1.01\%) are trainable in total. The vision encoder and all
-original decoder weights remain frozen in both stages.
+with rank $r=16$ and $\alpha=32$ (2.16M parameters, 0.23\%). The bridge, initialised
+randomly, and the LoRA matrices are trained \emph{jointly} in a single run with the
+objective of Eq.~\ref{eq:ce}, so 9.51M parameters (1.01\%) are trainable. The
+vision encoder and all original decoder weights remain frozen.

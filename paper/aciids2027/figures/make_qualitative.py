@@ -16,16 +16,23 @@ OUT = Path(__file__).parent
 plt.rcParams.update({"font.family": "DejaVu Serif", "font.size": 5.4, "pdf.fonttype": 42})
 OK, BAD = "#2b7a3d", "#a33b3b"
 
-EX = [  # image, Q (vi), Q (en), GT, bridge-only, +LoRA, correctness of (bridge, lora)
-    ("000000362189.jpg", "Giỏ chuối được đặt ở đâu?", "Where is the banana basket placed?",
-     "Trên bàn (on the table)", "Trên bàn", "Trên bàn", (True, True)),
-    ("000000260639.jpg", "Tại sao có người thả diều màu hồng trên bãi biển?",
-     "Why is someone flying a pink kite on the beach?",
-     "Để vui chơi giải trí (for fun)", "Để tạo dáng (to pose)", "Để vui chơi giải trí", (False, True)),
-    ("000000115087.jpg", "Phòng tắm có mấy bồn rửa?", "How many sinks does the bathroom have?",
-     "Hai bồn rửa (two sinks)", "Một bồn rửa (one sink)", "Hai bồn rửa", (False, True)),
-    ("000000401518.jpg", "Hai con gấu con có màu gì?", "What colour are the two bear cubs?",
-     "Màu nâu (brown)", "Màu xanh (blue/green)", "Màu nâu", (False, True)),
+EX = [  # image, Q (vi), Q (en), GT, bridge-only, +LoRA, plausibility of (bridge, lora)
+    ("000000022929.jpg", "Em bé đang làm gì với con gấu bông?",
+     "What is the baby doing with the teddy bear?",
+     "Ôm gấu (hugging the bear)", "Đang chơi với nó (playing with it)",
+     "Đang ôm con gấu bông (hugging the teddy bear)", (True, True)),
+    ("000000124949.jpg", "Mục đích của việc hai người này ngồi dưới ô là gì?",
+     "Why are these two people sitting under umbrellas?",
+     "Để che nắng (to shade from the sun)", "Để nghỉ ngơi (to rest)",
+     "Để tránh nắng (to avoid the sun)", (True, True)),
+    ("000000565098.jpg", "Những chiếc máy bay chiến đấu này đang chuẩn bị cho hành động gì?",
+     "What are these fighter jets preparing for?",
+     "Có thể chuẩn bị cất cánh (possibly preparing to take off)",
+     "Đang chuẩn bị bay (preparing to fly)", "Đang chuẩn bị bay (preparing to fly)", (True, True)),
+    ("000000207058.jpg", "Tại sao năm người này lại cười khi tạo dáng cùng nhau?",
+     "Why are these five people smiling while posing together?",
+     "Họ đang vui vẻ (they are having fun)", "Vì họ rất vui vẻ (because they are very happy)",
+     "Vì họ rất vui vẻ (because they are very happy)", (True, True)),
 ]
 
 _, img_dir = resolve_dirs()
@@ -39,7 +46,7 @@ def wrap(prefix, text, width=34):
     return textwrap.fill(f"{prefix} {text.replace(chr(10), ' ')}", width)
 
 
-fig, axes = plt.subplots(2, 4, figsize=(6.6, 3.2), gridspec_kw={"height_ratios": [1, 1.1]})
+fig, axes = plt.subplots(2, 4, figsize=(6.6, 3.5), gridspec_kw={"height_ratios": [1, 1.35]})
 for j, (name, qv, qe, gt, pb, pl, (okb, okl)) in enumerate(EX):
     ax = axes[0, j]
     im = crop_border(Image.open(img_dir / name).convert("RGB"))
@@ -54,10 +61,10 @@ for j, (name, qv, qe, gt, pb, pl, (okb, okl)) in enumerate(EX):
     t = axes[1, j]
     t.axis("off")
     t.text(0, 1.0, wrap("Q (VI):", qv), va="top", fontweight="bold")
-    t.text(0, 0.72, wrap("Q (EN):", qe), va="top", style="italic", color="#444444")
-    t.text(0, 0.46, wrap("GT:", gt), va="top")
-    t.text(0, 0.30, wrap("Bridge:", pb), va="top", color=OK if okb else BAD)
-    t.text(0, 0.14, wrap("+LoRA:", pl), va="top", color=OK if okl else BAD)
+    t.text(0, 0.76, wrap("Q (EN):", qe), va="top", style="italic", color="#444444")
+    t.text(0, 0.50, wrap("GT:", gt), va="top")
+    t.text(0, 0.32, wrap("Bridge:", pb), va="top", color=OK if okb else BAD)
+    t.text(0, 0.12, wrap("+LoRA:", pl), va="top", color=OK if okl else BAD)
 fig.tight_layout(h_pad=0.2, w_pad=0.6)
 fig.savefig(OUT / "fig_qualitative.pdf", bbox_inches="tight")
 fig.savefig(OUT / "fig_qualitative.png", dpi=200, bbox_inches="tight")

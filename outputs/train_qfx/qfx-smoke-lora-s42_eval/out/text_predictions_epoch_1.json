@@ -1,0 +1,485 @@
+{
+  "epoch": 1,
+  "samples": [
+    {
+      "index": 0,
+      "question": "Tại sao người đàn ông lại bị kéo xuống nước giữa hai con bò?",
+      "prediction": "The image is not related to the question.",
+      "ground_truths": [
+        "Do bò kéo anh ta trong cuộc đua",
+        "Vì anh ta đang tham gia một cuộc đua",
+        "Bò làm anh ta mất thăng bằng",
+        "Do dòng nước bùn kéo đi",
+        "Có thể do vướng vào dây cương"
+      ]
+    },
+    {
+      "index": 1,
+      "question": "Tại sao khu vực này được coi là rất mất vệ sinh?",
+      "prediction": "Khu vực này được coi là rất mất vệ sinh vì nó có nhiều cây cỏ, cây cỏ xanh, cây cỏ xanh, cây cỏ xanh, cây cỏ xanh, cây cỏ xanh,",
+      "ground_truths": [
+        "Vì đồ ăn đang được chuẩn bị ở đó",
+        "Do có nhiều vật chứa",
+        "Vì bếp bẩn thỉu",
+        "Do sự bừa bộn",
+        "Khu vực không được dọn dẹp"
+      ]
+    },
+    {
+      "index": 2,
+      "question": "Người đàn ông cầm bó chuối có thể là chủ cửa hàng hay khách hàng?",
+      "prediction": "Không, vì không có đủ thông tin về vị trí địa lý hoặc địa danh để xác định.",
+      "ground_truths": [
+        "Có thể là chủ cửa hàng",
+        "Có vẻ là người bán hàng",
+        "Rất có thể là chủ cửa hàng",
+        "Anh ấy là người bán",
+        "Có khả năng là người bán hàng"
+      ]
+    },
+    {
+      "index": 3,
+      "question": "Mối quan hệ giữa người phụ nữ và quầy hàng của cô ấy là gì?",
+      "prediction": "Mối quan hệ giữa người phụ nữ và quầy hàng là tình yêu.",
+      "ground_truths": [
+        "Cô ấy đang bán trái cây",
+        "Cô ấy là chủ quầy hàng",
+        "Cô ấy đang ngồi tại quầy",
+        "Cô ấy đang làm việc ở đó",
+        "Cô ấy đang bày bán"
+      ]
+    },
+    {
+      "index": 4,
+      "question": "Tại sao nhiều người lại cùng nhau thả diều?",
+      "prediction": "Có nhiều lý do vì vậy, nhưng một số lý do phổ biến nhất là vì nó giúp chúng ta có thể di chuyển nhanh chóng và dễ dàng di chuyển trong môi trường tự nhiên, giúp chúng ta dễ dàng di chuyển trong các",
+      "ground_truths": [
+        "Để giải trí",
+        "Vì thời tiết đẹp",
+        "Để vui chơi cùng nhau",
+        "Tạo không khí lễ hội",
+        "Để tận hưởng không gian thoáng đãng"
+      ]
+    },
+    {
+      "index": 5,
+      "question": "Tại sao một số người tham gia bị bịt mắt?",
+      "prediction": "Có thể do các yếu tố như: bị va đập, bị tác động bởi lực tác động, bị tác động bởi lực tác động, bị tác động bởi lực tác động, bị tác động bởi lực tác động, bị tác động bởi",
+      "ground_truths": [
+        "Để tăng độ khó",
+        "Đó là quy tắc cuộc thi",
+        "Để tạo bất ngờ",
+        "Là một phần của trò chơi",
+        "Để công bằng hơn"
+      ]
+    },
+    {
+      "index": 6,
+      "question": "Tại sao mọi người lại tụ tập trong công viên?",
+      "prediction": "Có nhiều lý do tại sao mọi người tụ tập trong công viên.",
+      "ground_truths": [
+        "Để chơi ném đĩa.",
+        "Để vui chơi.",
+        "Để thư giãn.",
+        "Có thể có sự kiện.",
+        "Để tham gia hoạt động."
+      ]
+    },
+    {
+      "index": 7,
+      "question": "Mối quan hệ giữa người đàn ông và hai con bò trắng là gì?",
+      "prediction": "Mối quan hệ giữa người đàn ông và hai con bò trắng là tình yêu.",
+      "ground_truths": [
+        "Người đàn ông được dẫn dắt bởi bò.",
+        "Bò kéo người đàn ông.",
+        "Mối quan hệ điều khiển.",
+        "Người và bò đang tương tác.",
+        "Người đàn ông bị bò chi phối."
+      ]
+    },
+    {
+      "index": 8,
+      "question": "Mối quan hệ giữa người trượt ván và người xem là gì?",
+      "prediction": "Mối quan hệ giữa người trượt ván và người xem là tình cảm.",
+      "ground_truths": [
+        "Người biểu diễn và khán giả",
+        "Vận động viên và người hâm mộ",
+        "Người trượt ván và người quan sát",
+        "Màn trình diễn và người theo dõi",
+        "Đối tượng được chiêm ngưỡng"
+      ]
+    },
+    {
+      "index": 9,
+      "question": "Mối quan hệ giữa những người đứng gần bát thức ăn khô và các mặt hàng được trưng bày là gì?",
+      "prediction": "Mối quan hệ giữa những người đứng gần bát thức ăn khô và các mặt hàng được trưng bày là tình bạn.",
+      "ground_truths": [
+        "Họ đang xem sản phẩm",
+        "Họ là khách hàng tiềm năng",
+        "Họ đang cân nhắc mua hàng",
+        "Họ đang xem xét thức ăn",
+        "Có thể họ là người mua"
+      ]
+    },
+    {
+      "index": 10,
+      "question": "Người chơi tennis có thể đang nghĩ gì khi thi đấu?",
+      "prediction": "Tôi rất vui khi chơi tennis.",
+      "ground_truths": [
+        "Làm sao để thắng trận",
+        "Tập trung vào cú đánh tiếp theo",
+        "Cố gắng hết sức mình",
+        "Vượt qua đối thủ",
+        "Giành điểm số quan trọng"
+      ]
+    },
+    {
+      "index": 11,
+      "question": "Tại sao người đàn ông lại đánh bóng tennis trên đường phố?",
+      "prediction": "Không có thông tin trong ảnh.",
+      "ground_truths": [
+        "Có thể không có sân tennis.",
+        "Có thể để giải trí.",
+        "Có lẽ vì thích không gian rộng.",
+        "Có thể không có nơi nào khác để chơi.",
+        "Có lẽ vì đường phố vắng."
+      ]
+    },
+    {
+      "index": 12,
+      "question": "Tại sao cô gái mỉm cười trước ống kính khi lấy thức ăn?",
+      "prediction": "Không có đủ thông tin trong ảnh để trả lời câu hỏi.",
+      "ground_truths": [
+        "Vì cô ấy hạnh phúc",
+        "Để thể hiện sự vui vẻ",
+        "Cô ấy đang tận hưởng bữa tiệc",
+        "Có lẽ cô ấy đang vui vẻ",
+        "Cô ấy cảm thấy thoải mái"
+      ]
+    },
+    {
+      "index": 13,
+      "question": "Tại sao người đàn ông lại nhảy ván trượt qua lan can?",
+      "prediction": "Không có đủ thông tin trong ảnh để trả lời câu hỏi này.",
+      "ground_truths": [
+        "Để thực hiện một kỹ thuật trượt ván khó.",
+        "Để thể hiện kỹ năng trượt ván của mình.",
+        "Có thể anh ta đang luyện tập một cú nhảy.",
+        "Để vượt qua chướng ngại vật lan can.",
+        "Anh ta muốn biểu diễn một pha nguy hiểm."
+      ]
+    },
+    {
+      "index": 14,
+      "question": "Tại sao khán đài lại chật kín người xem trận đấu này?",
+      "prediction": "Tôi không thể biết được lý do tại sao khán đài chật kín người xem trận đấu này.",
+      "ground_truths": [
+        "Vì đây là trận đấu quan trọng",
+        "Vì họ thích quần vợt",
+        "Để cổ vũ cho các vận động viên",
+        "Vì muốn xem trận đấu đôi",
+        "Vì tò mò về trận đấu"
+      ]
+    },
+    {
+      "index": 15,
+      "question": "Tại sao khán giả lại đang xem người trượt ván biểu diễn?",
+      "prediction": "Khán giả xem biểu diễn vì họ rất thích thú với những bài hát của họ.",
+      "ground_truths": [
+        "Vì có chương trình ngoài trời",
+        "Để xem kỳ công trên không",
+        "Vì có màn biểu diễn",
+        "Để ủng hộ người trượt ván",
+        "Để thưởng thức sự kiện"
+      ]
+    },
+    {
+      "index": 16,
+      "question": "Mối quan hệ giữa cậu bé và người đàn ông giữ ván lướt sóng là gì?",
+      "prediction": "Mối quan hệ giữa cậu bé và người đàn ông giữ ván lướt sóng là tình yêu.",
+      "ground_truths": [
+        "Người đàn ông đang hướng dẫn cậu bé",
+        "Người đàn ông đang hỗ trợ cậu bé",
+        "Người đàn ông đang dạy cậu bé",
+        "Người đàn ông đang giúp đỡ cậu bé",
+        "Người đàn ông đang giữ cho cậu bé"
+      ]
+    },
+    {
+      "index": 17,
+      "question": "Người đàn ông lướt sóng cân bằng trên ván và những người khác có mối quan hệ gì?",
+      "prediction": "Người đàn ông lướt sóng cân bằng trên ván và những người khác là người bạn.",
+      "ground_truths": [
+        "Có thể họ là bạn bè",
+        "Có thể họ cùng sở thích",
+        "Có thể họ đang thi đấu",
+        "Có thể họ là người hướng dẫn và học viên",
+        "Có thể họ chỉ là những người lạ"
+      ]
+    },
+    {
+      "index": 18,
+      "question": "Người đàn ông đang cố gắng làm gì với con chó của mình?",
+      "prediction": "Không có thông tin về người trong ảnh.",
+      "ground_truths": [
+        "Đưa chó đến đàn dê",
+        "Dẫn chó đến chỗ dê",
+        "Hướng chó về phía dê",
+        "Mang chó lại gần dê",
+        "Chỉ cho chó đàn dê"
+      ]
+    },
+    {
+      "index": 19,
+      "question": "Mục đích của việc quay video những người trượt ván đang thực hiện thủ thuật là gì?",
+      "prediction": "Mục đích của việc quay video những người trượt ván đang thực hiện thủ thuật là để ghi lại những khoảnh khắc đó.",
+      "ground_truths": [
+        "Để ghi lại thủ thuật",
+        "Để xem lại sau này",
+        "Để tạo kỷ niệm",
+        "Có thể để chia sẻ",
+        "Để học hỏi động tác"
+      ]
+    },
+    {
+      "index": 20,
+      "question": "Tại sao cầu thủ bóng chày lại vung gậy rất nhanh?",
+      "prediction": "Cầu thủ bóng chày vung gậy rất nhanh vì anh ấy đang chơi bóng chày.",
+      "ground_truths": [
+        "Để đánh bật quả bóng",
+        "Muốn đánh bóng mạnh",
+        "Để đưa bóng đi xa",
+        "Nhằm đánh trúng bóng",
+        "Để ghi điểm"
+      ]
+    },
+    {
+      "index": 21,
+      "question": "Mối quan hệ giữa người đàn ông và ván trượt là gì khi anh ta đang nhảy?",
+      "prediction": "Mối quan hệ giữa người đàn ông và ván trượt là tình yêu.",
+      "ground_truths": [
+        "Người đàn ông đang điều khiển ván trượt.",
+        "Anh ta đang sử dụng ván trượt để biểu diễn.",
+        "Ván trượt là phương tiện di chuyển của anh ấy.",
+        "Người đàn ông đang giữ thăng bằng trên ván trượt.",
+        "Anh ta đang thực hiện động tác với ván trượt."
+      ]
+    },
+    {
+      "index": 22,
+      "question": "Nhóm phụ nữ lớn tuổi đang làm gì ở bàn ngoài trời?",
+      "prediction": "Nhóm phụ nữ lớn tuổi đang ngồi trên ghế.",
+      "ground_truths": [
+        "Họ đang ăn mừng",
+        "Họ đang tụ tập ăn mừng",
+        "Họ đang ngồi ăn mừng",
+        "Họ đang kỷ niệm",
+        "Họ đang tụ tập bên ngoài"
+      ]
+    },
+    {
+      "index": 23,
+      "question": "Người lính đứng trong đống đổ nát có thể đang cảm thấy gì?",
+      "prediction": "Người lính đứng trong đống đổ nát có thể đang bị thương.",
+      "ground_truths": [
+        "Có lẽ anh ta đang thất vọng",
+        "Có lẽ anh ta đang buồn",
+        "Có lẽ anh ta đang sốc",
+        "Có lẽ anh ta đang mệt mỏi",
+        "Có lẽ anh ta đang tuyệt vọng"
+      ]
+    },
+    {
+      "index": 24,
+      "question": "Tại sao mấy con chó trông không vui vẻ khi lướt sóng?",
+      "prediction": "The image is not clear enough to provide a detailed description of the reason why the dogs are not looking at the camera.",
+      "ground_truths": [
+        "Chúng không thích lướt sóng",
+        "Chúng sợ nước",
+        "Có thể do sóng lớn",
+        "Chúng không thoải mái",
+        "Do cảm thấy bất an"
+      ]
+    },
+    {
+      "index": 25,
+      "question": "Có bao nhiêu nhóm người được nhắc đến trong chú thích hình ảnh?",
+      "prediction": "1",
+      "ground_truths": [
+        "Bốn nhóm",
+        "Bốn",
+        "Bốn nhóm người",
+        "Có 4 nhóm",
+        "Bốn đội"
+      ]
+    },
+    {
+      "index": 26,
+      "question": "Tại sao các em nhỏ lại lên xe buýt?",
+      "prediction": "Các em nhỏ lên xe buýt vì muốn đi học.",
+      "ground_truths": [
+        "Để đi học",
+        "Xe buýt là phương tiện di chuyển",
+        "Để đến trường",
+        "Vì là xe buýt trường học",
+        "Để được chở đi"
+      ]
+    },
+    {
+      "index": 27,
+      "question": "Tại sao người đàn ông và phụ nữ lại mỉm cười?",
+      "prediction": "Tôi không thể biết được lý do tại sao người đàn ông và phụ nữ lại mỉm cười.",
+      "ground_truths": [
+        "Vì họ đang nâng cốc chúc mừng",
+        "Có thể họ đang vui vẻ",
+        "Vì họ đang thưởng thức rượu",
+        "Có lẽ họ đang trò chuyện vui vẻ",
+        "Vì họ đang có khoảnh khắc đẹp"
+      ]
+    },
+    {
+      "index": 28,
+      "question": "Mối quan hệ giữa người lính và đống đổ nát là gì?",
+      "prediction": "Mối quan hệ giữa người lính và đống đổ nát là tình yêu.",
+      "ground_truths": [
+        "Anh ta có thể đang tìm kiếm ai đó",
+        "Anh ta có thể đang canh gác",
+        "Anh ta có thể đang điều tra",
+        "Anh ta có thể là một phần của sự tàn phá",
+        "Anh ta liên quan đến vụ việc"
+      ]
+    },
+    {
+      "index": 29,
+      "question": "Tại sao người đàn ông lại mặc đồ lặn khi lướt sóng trên sông?",
+      "prediction": "Không có thông tin trong ảnh.",
+      "ground_truths": [
+        "Để giữ ấm",
+        "Để bảo vệ cơ thể",
+        "Tránh bị trầy xước",
+        "Do nước lạnh",
+        "Để dễ dàng di chuyển"
+      ]
+    },
+    {
+      "index": 30,
+      "question": "Tại sao một trong những người trượt ván lại nhảy lên không trung?",
+      "prediction": "Vòng trượt ván là một trò chơi thể thao thể hiện kỹ thuật trượt ván, đòi hỏi sự khéo léo và sự phối hợp nhịp nhàng giữa hai người. Nó đòi hỏi sự phối hợp nhịp nh",
+      "ground_truths": [
+        "Để thực hiện một thủ thuật",
+        "Để khoe kỹ năng của anh ấy",
+        "Để thực hiện động tác trượt ván",
+        "Anh ấy đang biểu diễn",
+        "Thực hiện một pha nguy hiểm"
+      ]
+    },
+    {
+      "index": 31,
+      "question": "Tại sao những người trượt tuyết lại trượt gần hàng rào?",
+      "prediction": "Những người trượt tuyết gần hàng rào vì họ muốn tránh bị trượt.",
+      "ground_truths": [
+        "Để an toàn.",
+        "Có lẽ là để tránh chướng ngại vật.",
+        "Để xác định ranh giới đường trượt.",
+        "Có thể là để tránh lạc đường.",
+        "Hàng rào có thể giúp định hướng."
+      ]
+    },
+    {
+      "index": 32,
+      "question": "Tại sao vận động viên trượt ván lướt qua những ngọn đồi và thung lũng?",
+      "prediction": "Vận động viên trượt ván lướt qua những ngọn đồi và thung lũng để tạo ra những khoảnh khắc tuyệt vời và tạo ra những kỷ niệm đáng nhớ.",
+      "ground_truths": [
+        "Để hoàn thành khóa học",
+        "Để duy trì tốc độ",
+        "Để thực hiện các động tác trượt ván",
+        "Vì địa hình của khóa học",
+        "Để di chuyển hiệu quả"
+      ]
+    },
+    {
+      "index": 33,
+      "question": "Những người này đang tụ tập ở chợ vì lý do gì?",
+      "prediction": "Có một nhóm người đang tụ tập ở chợ.",
+      "ground_truths": [
+        "Để mua chuối",
+        "Vì có nhiều chuối xanh",
+        "Để buôn bán",
+        "Có lẽ là chợ phiên",
+        "Chuối đang giảm giá"
+      ]
+    },
+    {
+      "index": 34,
+      "question": "Tại sao những người đàn ông này lại đứng dựa vào hàng rào?",
+      "prediction": "Không có đủ thông tin trong ảnh để trả lời câu hỏi.",
+      "ground_truths": [
+        "Để chụp ảnh",
+        "Để nghỉ ngơi",
+        "Có thể đang trò chuyện",
+        "Vì không có chỗ ngồi",
+        "Để không bị ngã"
+      ]
+    },
+    {
+      "index": 35,
+      "question": "Tại sao một nhóm người lại thả diều trên cánh đồng cỏ?",
+      "prediction": "The reason for the group of people flying a kite is not specified in the image.",
+      "ground_truths": [
+        "Để giải trí",
+        "Để vui chơi",
+        "Để thư giãn",
+        "Để tận hưởng không khí",
+        "Để chơi diều"
+      ]
+    },
+    {
+      "index": 36,
+      "question": "Những người đang xem người đàn ông lướt sóng có thể đang cảm thấy gì?",
+      "prediction": "Có thể họ đang rất vui vẻ và hạnh phúc.",
+      "ground_truths": [
+        "Có lẽ họ đang thích thú",
+        "Có thể họ đang ghen tị",
+        "Họ có thể đang học hỏi",
+        "Có thể họ đang chờ lượt",
+        "Có thể họ đang thư giãn"
+      ]
+    },
+    {
+      "index": 37,
+      "question": "Tại sao hai người đàn ông lại nhảy lên để bắt đĩa?",
+      "prediction": "Họ đang chơi trò chơi.",
+      "ground_truths": [
+        "Để đón đĩa ném",
+        "Vì đĩa bay cao",
+        "Để bắt đĩa tốt hơn",
+        "Muốn đón gọn đĩa",
+        "Để chơi trò ném đĩa"
+      ]
+    },
+    {
+      "index": 38,
+      "question": "Tại sao người đàn ông lại đứng trong vũng xi măng?",
+      "prediction": "Tôi không thể biết được lý do tại sao người đàn ông trong ảnh đứng trong vũng xi măng.",
+      "ground_truths": [
+        "Để đặt ống xi măng",
+        "Để thi công đường ống",
+        "Để làm việc xây dựng",
+        "Để đổ bê tông",
+        "Để lắp đặt"
+      ]
+    },
+    {
+      "index": 39,
+      "question": "Mối quan hệ giữa người trượt tuyết và ván trượt là gì?",
+      "prediction": "Mối quan hệ giữa người trượt tuyết và ván trượt là tình yêu.",
+      "ground_truths": [
+        "Ván trượt là phương tiện di chuyển",
+        "Họ phối hợp để thực hiện các pha nguy hiểm",
+        "Người trượt phụ thuộc vào ván trượt",
+        "Ván trượt giúp người trượt giữ thăng bằng",
+        "Họ cùng nhau tạo nên màn trình diễn"
+      ]
+    }
+  ]
+}

@@ -2906,7 +2906,7 @@
     "qfx-smoke-plain-s42:ep2": {
       "account": "acc20",
       "kernel": "mephistodr/mvlm-qfx-smoke-plain-s42-ep2",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-05T04:59:05",
       "chain": "qfx-smoke-plain-s42",
       "phase": 1
@@ -2914,10 +2914,18 @@
     "qfx-smoke-lora-s42:eval": {
       "account": "acc20",
       "kernel": "mephistodr/mvlm-qfx-smoke-lora-s42-eval",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-05T04:59:16",
       "chain": "qfx-smoke-lora-s42",
       "phase": 1
+    },
+    "qfx-smoke-plain-s42:eval": {
+      "account": "acc20",
+      "kernel": "mephistodr/mvlm-qfx-smoke-plain-s42-eval",
+      "status": "running",
+      "pushed_at": "2026-10-05T05:09:29",
+      "chain": "qfx-smoke-plain-s42",
+      "phase": 2
     }
   }
 }

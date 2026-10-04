@@ -43,7 +43,10 @@ def _kaggle(acc: str, *args: str, check: bool = True, capture: bool = True) -> s
         if check:
             raise RuntimeError(f"kaggle {' '.join(args)} [{acc}] timed out after {timeout}s")
         return f"timed out after {timeout}s"
-    if check and r.returncode != 0:
+    # `kernels push` exits 0 even when Kaggle rejects it ("Kernel push error: Maximum batch
+    # GPU session count of 2 reached.") -- the kernel then simply does not exist
+    failed = r.returncode != 0 or (tuple(args[:2]) == ("kernels", "push") and "push error" in (r.stdout or "").lower())
+    if check and failed:
         raise RuntimeError(f"kaggle {' '.join(args)} [{acc}] -> {r.returncode}\n{r.stdout}\n{r.stderr}")
     return (r.stdout or "") + (r.stderr or "")
 

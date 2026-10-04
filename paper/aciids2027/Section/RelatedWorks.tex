@@ -1,0 +1,44 @@
+\section{Related Work}
+\label{sec:related}
+
+Early VQA systems treated the task as classification over a fixed answer set,
+combining visual features with recurrent or attention-based language models.
+Transformer-based multimodal models then became the dominant paradigm, and
+generative VLMs now produce free-form answers with an autoregressive language
+model~\cite{li2023blip2,alayrac2022flamingo,liu2023visualinstructiontuning}.
+
+\paragraph{Vietnamese VQA.}
+Vietnamese VQA resources include ViVQA~\cite{tran2021vivqa}, the open-ended
+OpenViVQA~\cite{nguyen2023openvivqa}, and specialised datasets for synthetic
+reasoning (ViCLEVR~\cite{tran2023viclevr}), book covers
+(ViOCRVQA~\cite{pham2024viocrvqa}) and scene text
+(ViTextVQA~\cite{nguyen2025vitextvqa}). AutoViVQA~\cite{autovivqa2026} provides
+37{,}077 LLM-generated and ensemble-filtered questions on 19{,}411 COCO
+images~\cite{lin2015coco}, each with five short answers and a reasoning label,
+and emphasises relational, causal and multi-step reasoning. On the modelling
+side, BARTPhoBEiT~\cite{tran2023bartphobeitpretrainedsequencetosequenceimage} and
+AViVQA-TranConI~\cite{nguyen2024tranconi} combine visual and Vietnamese language
+representations, Vintern-1B~\cite{doan2024vintern1b} brings an
+instruction-tuned VLM to Vietnamese, and ViMoE-VQA~\cite{vimoevqa} introduces sparse
+expert routing for generative VQA on AutoViVQA. These approaches either train a
+new model or fine-tune an existing VLM on multi-tile inputs. We instead keep the
+backbones of Vintern-1B frozen, replace its projector and use a single image view.
+
+\paragraph{Frozen backbones and vision--language connectors.}
+Many VLMs keep a pre-trained image encoder and language model frozen and train
+only a connector between them: Frozen~\cite{tsimpoukelli2021frozen} learns a visual
+prefix, BLIP-2~\cite{li2023blip2} a Q-Former, and
+LLaVA~\cite{liu2023visualinstructiontuning} an MLP projector.
+Honeybee~\cite{cha2024honeybee} argues for locality-preserving abstractors, and
+work on inference-optimal VLMs~\cite{li2024inferenceoptimal} finds that very few
+visual tokens can suffice. We compare five connectors of increasing capacity,
+from a single token to a 16-query Q-Former, under the same frozen Vietnamese
+backbone.
+
+\paragraph{Parameter-efficient adaptation.}
+Adapters~\cite{houlsby2019adapters}, prefix tuning~\cite{li2021prefix} and
+LoRA~\cite{hu2022lora} adapt a frozen network by training a small number of
+additional weights. Most work reports the gain of such methods on a fixed model.
+We additionally use a decoder LoRA as a diagnostic: comparing the gain of a small
+amount of decoder capacity with the gain of a larger or better-aligned bridge
+indicates which component limits a frozen VLM.

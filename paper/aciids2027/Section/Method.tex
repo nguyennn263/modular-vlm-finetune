@@ -1,0 +1,88 @@
+\section{Proposed Method}
+\label{sec:method}
+
+We formulate VQA as conditional answer generation: given an image $I$ and a
+Vietnamese question $q$, the model generates a short free-form answer
+$y=(y_1,\dots,y_T)$. ViBridge-VQA reuses the pre-trained components of
+Vintern-1B~\cite{doan2024vintern1b} and trains only a bridge and a low-rank
+adapter (Fig.~\ref{fig:arch}).
+
+\begin{figure}[t]
+\centering
+\resizebox{\linewidth}{!}{\begin{tikzpicture}[font=\scriptsize, node distance=6mm,
+  box/.style={draw, rounded corners=2pt, minimum height=9mm, align=center, fill=gray!8},
+  train/.style={box, fill=green!10, draw=green!40!black, thick},
+  arr/.style={-{Latex[length=1.6mm]}}]
+\node[box] (img) {image $I$\\(1 global view)};
+\node[box, right=of img] (vit) {\textbf{InternViT-300M}\\frozen};
+\node[train, right=of vit] (br) {\textbf{Multi-Token Bridge} $g_\phi$\\$k=8$ tokens, 0.78\%};
+\node[box, right=of br, minimum width=30mm] (llm) {\textbf{Qwen2.5-0.5B}\\frozen $+$ LoRA, $r{=}16$ (0.23\%)};
+\node[right=of llm] (ans) {answer $y$};
+\node[box, below=4mm of llm] (q) {question $q$};
+\draw[arr] (img) -- (vit);
+\draw[arr] (vit) -- node[above]{$v\in\mathbb{R}^{1024}$} (br);
+\draw[arr] (br) -- node[above]{$k{\times}896$} (llm);
+\draw[arr] (q) -- (llm);
+\draw[arr] (llm) -- (ans);
+\end{tikzpicture}}
+\caption{Overall architecture of ViBridge-VQA. Grey modules are frozen. The bridge
+is trained in stage~1; the bridge and a rank-16 LoRA on the decoder attention are
+trained in stage~2, i.e.\ 1.01\% of all parameters.}
+\label{fig:arch}
+\end{figure}
+
+\subsection{Overall Architecture}
+
+The vision encoder is InternViT-300M (24 layers, width 1024) and the language
+decoder is Qwen2.5-0.5B-Instruct (24 layers, width 896); together they contain
+about 0.94B parameters, and both stay frozen. Vintern-1B splits an image into
+several $448\times448$ tiles and connects the encoder to the decoder through a
+two-layer MLP projector. ViBridge-VQA instead encodes a \emph{single global view}
+of the image and replaces the projector with a trainable bridge $g_\phi$. The
+bridge maps the image representation to $k$ embeddings in the decoder input space,
+which are placed before the embedded question; the decoder then generates the
+answer autoregressively. \todo{state the input resolution of the view after the
+input\_diag re-evaluation (training: whole image at 336px).}
+
+\subsection{Multi-Token Bridge}
+
+Let $v\in\mathbb{R}^{1024}$ denote the global image representation produced by
+InternViT. The multi-token bridge applies two linear heads to $v$. The first
+produces an \emph{anchor} token that plays the role of the original single-vector
+projection; the second produces $k-1$ complementary tokens:
+\begin{equation}
+  g_\phi(v) = \big[\,W_a v + b_a;\ \mathrm{reshape}_{(k-1)\times 896}(W_e v + b_e)\,\big]
+  \in \mathbb{R}^{k\times 896}.
+  \label{eq:bridge}
+\end{equation}
+With $k=8$, the bridge has 7.35M parameters (0.78\% of the model). It contains no
+learned pooling over image patches: it reads one global vector, which keeps it
+small and fast. To study the role of bridge capacity, we compare it with four
+alternatives (Table~\ref{tab:bridges}): a \emph{Residual} bridge that produces one
+token through a linear projection with a residual MLP, a \emph{Tile-Attention}
+bridge in which 8 learned queries attend over the patch tokens, and a
+\emph{Light} and a \emph{Full Q-Former} following BLIP-2~\cite{li2023blip2}, with
+8 and 16 queries and 2 and 4 cross-attention layers.
+
+\subsection{Two-Stage Training}
+
+\paragraph{Stage 1: bridge training.}
+With both backbones frozen, only the bridge parameters $\phi$ are optimised with
+the answer cross-entropy
+\begin{equation}
+  \mathcal{L}(\phi) = -\sum_{t=1}^{T} \log p\big(y_t \mid y_{<t},\, g_\phi(v),\, q\big).
+  \label{eq:ce}
+\end{equation}
+
+\paragraph{Stage 2: decoder adaptation.}
+Starting from the stage-1 bridge, we add a LoRA module to the query, key, value
+and output projections of every decoder layer. Each frozen weight
+$W_0\in\mathbb{R}^{d_\text{out}\times d_\text{in}}$ becomes
+\begin{equation}
+  W = W_0 + \tfrac{\alpha}{r}\,BA,\qquad B\in\mathbb{R}^{d_\text{out}\times r},\ A\in\mathbb{R}^{r\times d_\text{in}},
+  \label{eq:lora}
+\end{equation}
+with rank $r=16$ and $\alpha=32$ (2.16M parameters, 0.23\%). The bridge and the
+LoRA matrices are trained jointly with the same objective (Eq.~\ref{eq:ce}), so
+9.51M parameters (1.01\%) are trainable in total. The vision encoder and all
+original decoder weights remain frozen in both stages.

@@ -1,0 +1,60 @@
+\section{Introduction}
+\label{sec:intro}
+
+Visual Question Answering (VQA) is a multimodal task in which a model must
+interpret an image, understand a natural-language question and produce an
+answer. Recent progress has been driven by large vision--language models (VLMs)
+such as BLIP-2~\cite{li2023blip2}, Flamingo~\cite{alayrac2022flamingo} and
+LLaVA~\cite{liu2023visualinstructiontuning}, which pair a pre-trained vision encoder
+with a pre-trained language model. For Vietnamese, Vintern-1B~\cite{doan2024vintern1b}
+follows this design: it connects an InternViT-300M encoder~\cite{chen2024internvl}
+to a Qwen2.5-0.5B decoder~\cite{qwen2025qwen25} and is among the strongest open
+Vietnamese VLMs. Benchmarks such as ViVQA~\cite{tran2021vivqa},
+OpenViVQA~\cite{nguyen2023openvivqa} and, more recently, the reasoning-oriented
+AutoViVQA~\cite{autovivqa2026} allow such models to be evaluated in a low-resource
+setting.
+
+Obtaining a strong model on a new Vietnamese benchmark, however, remains costly.
+One option is to fine-tune an existing VLM: the fine-tuned Vintern-1B baseline of
+AutoViVQA follows the official recipe of Vintern, which freezes the vision encoder
+and the projector, adds LoRA to the language model and encodes every image as up
+to six high-resolution tiles, so that visual encoding dominates the cost. Another
+option is to design a new architecture, as ViMoE-VQA~\cite{vimoevqa} does with a
+sparse mixture-of-experts fusion module and a transformer decoder trained on top
+of frozen encoders. Neither option indicates which component of an existing VLM
+actually limits its accuracy. This motivates two questions: \emph{can a strong
+Vietnamese VLM be adapted with both of its backbones frozen and only a small
+fraction of its parameters trained, and, if a gap remains, where is the
+bottleneck?}
+
+To address these questions, we propose \textbf{ViBridge-VQA}, a parameter-efficient
+adaptation of Vintern-1B for generative Vietnamese VQA. ViBridge-VQA keeps the
+vision encoder and the language decoder frozen and replaces the original
+projector with a lightweight \emph{multi-token bridge} that maps a single global
+view of the image into the decoder input space. A low-rank adapter
+(LoRA~\cite{hu2022lora}) then adapts the decoder. Only 1.01\% of the parameters are
+trained, and the visual encoder processes one image view instead of several
+tiles. We further analyse where the remaining gap comes from by varying one
+component at a time: the capacity of the bridge, the training signal of the
+bridge, and the capacity of the decoder.
+
+\paragraph{Contributions.}
+This work makes the following contributions:
+\begin{itemize}
+  \item We propose \textbf{ViBridge-VQA}, a frozen-backbone adaptation of Vintern-1B
+  that trains a 7.35M-parameter multi-token bridge and a rank-16 decoder LoRA
+  (1.01\% of all parameters). On AutoViVQA it matches the fine-tuned Vintern-1B on
+  F1, clearly exceeds it on all generation metrics, and is stable across seeds and
+  between the validation and test splits.
+  \item We present a \textbf{systematic bottleneck analysis}. Larger bridges,
+  multi-reference training and alignment to the original projector do not improve
+  F1, whereas decoder adaptation improves every bridge design and reduces their
+  F1 spread from 4.4 to 0.9 points. The remaining bottleneck therefore lies in the
+  frozen decoder rather than in the visual pathway.
+  \item We provide a \textbf{reliable evaluation}: an image-grouped split without
+  leakage, multiple seeds with bootstrap confidence intervals, the cost of each
+  tile setting, an analysis by reasoning type, and an out-of-distribution study on
+  \ifoodtext four Vietnamese VQA datasets that exposes a clear limitation on
+  scene-text questions\else two further general-domain Vietnamese VQA
+  datasets\fi.
+\end{itemize}

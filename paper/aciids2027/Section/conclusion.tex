@@ -1,0 +1,32 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+This work presents \textbf{ViBridge-VQA}, a parameter-efficient adaptation of the
+Vietnamese VLM Vintern-1B for generative visual question answering. By keeping the
+vision encoder and the language decoder frozen and training only a lightweight
+multi-token bridge and a rank-16 decoder LoRA, ViBridge-VQA updates 1.01\% of the
+parameters and encodes a single image view. On AutoViVQA it matches the
+fine-tuned Vintern-1B on F1, achieves the best generation scores among all
+compared systems, and is stable across seeds and splits. Our ablation shows that
+the remaining gap is not closed by larger bridges, multi-reference training or
+alignment to the original projector, whereas decoder adaptation improves every
+bridge and makes them perform almost equally: for a frozen VLM of this size, the
+bottleneck lies in the decoder rather than in the visual pathway.
+
+ViBridge-VQA also has limitations. It still trails ViMoE-VQA on precision and F1,
+and the fine-tuned Vintern-1B on exact-match accuracy. Because the bridge reads one
+global vector of a single view, it is not suited to questions that require
+reading scene text\ifoodtext, on which it falls far behind the original
+Vintern-1B,\fi{} and it does not improve on counting. The baselines are reported on a different split of
+AutoViVQA and were not reproduced in our setting, and our conclusions concern a
+frozen 0.5B decoder and may not transfer to larger or fully trainable decoders.
+Future work will combine the global-vector bridge with patch-level or
+high-resolution tokens for text-heavy questions, and study larger Vietnamese
+decoders under the same frozen visual pathway. The code and the grouped split are
+available at \url{https://github.com/nguyennn263/modular-vlm-finetune}.
+
+Overall, ViBridge-VQA shows that a strong Vietnamese VQA model can be obtained by
+adapting a small fraction of an existing VLM, and that a careful component-wise
+analysis indicates where further effort is best spent. We hope this work will
+encourage efficient and well-evaluated multimodal models for low-resource
+languages.

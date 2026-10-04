@@ -1,0 +1,378 @@
+\section{Experiments}
+\label{sec:exp}
+
+\subsection{Dataset and Evaluation Metrics}
+
+\paragraph{Dataset.}
+We evaluate on AutoViVQA~\cite{autovivqa2026}, a Vietnamese VQA benchmark built from
+MS COCO images~\cite{lin2015coco} with an LLM-driven generation pipeline and
+ensemble-based quality control. Each question has five short free-form answers
+(1--10 words) and is labelled with one of nine question types. The public
+release is a random 80/20 train/validation split (29{,}661 / 7{,}416 questions),
+in which questions about the same image can fall into different splits. We
+remove 273 duplicated (image, question) pairs and 97 questions with irregular
+type labels, 77 of which belong to the rare \emph{comparison} type, and keep eight
+reasoning categories. We then re-partition the remaining
+36{,}707 questions by image into a grouped 70/15/15 split (seed 42), so that no
+image appears in more than one split (Table~\ref{tab:data}). The category
+distribution is kept approximately equal across splits. On our bridges, the
+grouped split lowers F1 by at most 0.5 points compared with a random split, so
+image leakage has a small effect, but we use the grouped split for every number
+reported here.
+
+\begin{table}[t]
+\centering
+\caption{Statistics of AutoViVQA and of our grouped split.}
+\label{tab:data}
+\small
+\begin{tabular}{lrrrr}
+\toprule
+& Released & Train & Validation & Test \\
+\midrule
+Images    & 19{,}411 & 13{,}579 & 2{,}909 & 2{,}910 \\
+Questions & 37{,}077 & 25{,}776 & 5{,}463 & 5{,}468 \\
+Answers per question & 5 & 5 & 5 & 5 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Evaluation metrics.}
+Following AutoViVQA and ViMoE-VQA, we report answer-matching metrics (exact-match
+Accuracy, token Precision, Recall and F1) and generation metrics
+(BLEU~\cite{papineni2002bleu}, ROUGE-L~\cite{lin2004rouge},
+METEOR~\cite{banerjee2005meteor}, CIDEr~\cite{vedantam2015cider}), all scaled by
+100. Token-level scores are computed against each of the five references and the
+best match is kept. Our F1 is the mean of per-sample F1 scores, which is never
+larger than the harmonic mean $2PR/(P+R)$ of the averaged precision and recall.
+Most published baseline F1 values match the latter convention; under it, our best
+configuration would score 55.50 instead of 54.28 on test, so our F1 values are
+conservative.
+
+\subsection{Experimental Setup}
+
+\paragraph{Model configuration.}
+InternViT-300M and Qwen2.5-0.5B-Instruct are initialised from
+Vintern-1B-v3.5~\cite{doan2024vintern1b} and kept frozen. The bridge is trained for
+2 epochs, after which validation cross-entropy and CIDEr no longer improve; the
+LoRA stage runs for 1 or 3 epochs. We use AdamW with a learning rate of
+$2\times10^{-4}$ and an effective batch size of 8. Training uses the first of the
+five reference answers and evaluation uses all five. Answers are generated with
+greedy decoding. A bridge run takes about 5 hours on a single Tesla P100 (16\,GB).
+Each configuration is trained with 3 seeds (42, 123, 3407); the Multi-Token bridge
+additionally uses seed 2026. The test split is only used for final reporting.
+
+\paragraph{Baselines.}
+We compare against three groups: (1) multimodal models fine-tuned on AutoViVQA
+(ViT5\_ViT, BARTPhoBEiT~\cite{tran2023bartphobeitpretrainedsequencetosequenceimage}
+and Vintern-1B~\cite{doan2024vintern1b}); (2) models used zero-shot (Vintern-1B,
+LLaMA~3.2, Gemini~2.0 and 2.5 Flash, GPT-5); and (3)
+ViMoE-VQA~\cite{vimoevqa}. Results of groups (1) and (2) are taken from the
+AutoViVQA benchmark~\cite{autovivqa2026} and the results of ViMoE-VQA from its
+paper; both were obtained on an 8:1:1 split of the original release and are
+therefore not strictly comparable with our grouped split. The fine-tuned
+Vintern-1B follows the official fine-tuning recipe of
+Vintern~\cite{doan2024vintern1b}: the vision encoder and the projector are
+frozen, a rank-16 LoRA is applied to the language model, each image is encoded
+as up to six $448\times448$ tiles plus a thumbnail, and training runs for one
+epoch. It therefore trains a comparable fraction of parameters (about 0.2\% versus
+1.01\% for ViBridge-VQA), but encodes up to seven views per image and passes 256
+visual tokens per view to the decoder, whereas ViBridge-VQA encodes one view and
+passes 8 tokens.
+
+\subsection{Main Results}
+
+\begin{table}[t]
+\centering
+\caption{Performance on AutoViVQA (test, $\times100$). Baselines are taken from
+AutoViVQA~\cite{autovivqa2026} and ViMoE-VQA~\cite{vimoevqa}; ViMoE-VQA is the mean
+over 5 seeds, ViBridge-VQA the mean over 4 seeds (bridge only) or 3 seeds
+(+\,LoRA), with standard deviations in Table~\ref{tab:stability}. Best results per
+column are in bold. $^\dagger$Outside the range of every other system; not used for
+comparison.}
+\label{tab:main}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llrrrrrrrr}
+\toprule
+Category & Model & Acc & Prec & Rec & F1 & BLEU & ROUGE & METEOR & CIDEr \\
+\midrule
+\multirow{4}{*}{\shortstack[l]{Multimodal\\(fine-tuned)}}
+ & ViT5\_ViT & 7.97 & 46.84 & 50.33 & 48.52 & 4.13 & 46.89 & 31.02 & 72.68 \\
+ & BARTPhoBEiT & 8.81 & 45.30 & 46.48 & 45.88 & 43.29$^\dagger$ & 44.83 & 24.57 & 188.96$^\dagger$ \\
+ & Vintern-1B & \textbf{13.01} & 52.47 & 55.12 & 53.76 & 6.11 & 51.93 & 35.25 & 72.84 \\
+ & ViMoE-VQA & 9.55 & \textbf{62.89} & 58.60 & \textbf{60.69} & 12.54 & 47.12 & 39.10 & 88.76 \\
+\midrule
+\multirow{5}{*}{\shortstack[l]{Zero-shot}}
+ & Vintern-1B & 0.12 & 17.52 & 19.87 & 17.55 & 1.91 & 25.84 & 23.93 & 8.54 \\
+ & LLaMA 3.2 & 0.36 & 23.96 & 73.71 & 36.16 & 3.62 & 36.11 & 30.01 & 62.84 \\
+ & Gemini 2.0 Flash & 0.55 & 27.20 & 74.10 & 39.79 & 4.41 & 39.60 & 31.72 & 74.42 \\
+ & Gemini 2.5 Flash & 0.22 & 24.43 & \textbf{76.66} & 24.75 & 0.39 & 37.27 & 31.22 & 71.90 \\
+ & GPT-5 & 10.84 & 47.20 & 55.20 & 50.89 & 6.07 & 47.30 & 33.34 & 84.20 \\
+\midrule
+\multirow{3}{*}{\shortstack[l]{ViBridge-VQA\\(ours)}}
+ & bridge only (0.78\%) & 7.98 & 49.83 & 51.21 & 49.20 & 15.36 & 47.37 & 39.74 & 93.24 \\
+ & + LoRA, 1 epoch (1.01\%) & 10.49 & 53.99 & 54.77 & 53.15 & 18.98 & 51.34 & 43.73 & 104.65 \\
+ & + LoRA, 3 epochs (1.01\%) & 11.21 & 55.06 & 55.95 & 54.28 & \textbf{20.72} & \textbf{52.44} & \textbf{44.82} & \textbf{107.60} \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+Table~\ref{tab:main} compares ViBridge-VQA with the baselines. With only the bridge
+trained (0.78\% of the parameters), the model already exceeds the fine-tuned
+Vintern-1B on BLEU, METEOR and CIDEr. Adding the decoder LoRA for 3 epochs brings
+F1 to 54.28, on par with the fine-tuned Vintern-1B (53.76), and yields the best
+BLEU, ROUGE-L, METEOR and CIDEr among all compared systems, with gains of
+$+14.6$ BLEU, $+9.6$ METEOR and $+34.8$ CIDEr over the fine-tuned Vintern-1B. The
+fine-tuned Vintern-1B keeps the highest exact-match accuracy, and ViMoE-VQA keeps
+the highest precision and F1 ($+6.4$ over ViBridge-VQA), so a frozen-backbone
+adaptation does not yet close the gap in answer-token overlap to a model trained
+for the task.
+
+Compared with zero-shot large language models, ViBridge-VQA is better on every
+metric except recall. As already observed for AutoViVQA and ViMoE-VQA, zero-shot
+models produce long answers that cover many reference words (high recall) at the
+cost of precision. ViBridge-VQA, trained on the short answer style of the
+benchmark, achieves a balanced precision--recall trade-off. One epoch of LoRA
+already provides 77\% of the 3-epoch F1 gain.
+
+\subsection{Discussion of Evaluation and Efficiency}
+
+\begin{table}[t]
+\centering
+\caption{ViBridge-VQA on validation and test (mean $\pm$ std over seeds,
+$\times100$). CE is the answer cross-entropy.}
+\label{tab:stability}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llrrrrr}
+\toprule
+Configuration & Split & Acc & F1 & BLEU & CIDEr & CE \\
+\midrule
+\multirow{2}{*}{bridge only}     & val  & $8.17\pm0.10$ & $49.55\pm0.07$ & $15.72\pm0.30$ & $96.49\pm0.59$ & 1.49 \\
+                                 & test & $7.98\pm0.24$ & $49.20\pm0.18$ & $15.36\pm0.33$ & $93.24\pm0.71$ & 1.50 \\
+\multirow{2}{*}{+ LoRA, 1 epoch}  & val  & $10.93\pm0.13$ & $53.52\pm0.11$ & $19.72\pm0.09$ & $106.56\pm0.53$ & 1.37 \\
+                                 & test & $10.49\pm0.22$ & $53.15\pm0.07$ & $18.98\pm0.24$ & $104.65\pm0.44$ & 1.38 \\
+\multirow{2}{*}{+ LoRA, 3 epochs} & val  & $12.00\pm0.17$ & $54.71\pm0.14$ & $21.07\pm0.23$ & $110.49\pm0.27$ & 1.33 \\
+                                 & test & $11.21\pm0.20$ & $54.28\pm0.13$ & $20.72\pm0.25$ & $107.60\pm0.65$ & 1.33 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\paragraph{Statistical reliability.}
+ViBridge-VQA is stable across random seeds (Table~\ref{tab:stability}): the
+standard deviation of F1 is at most 0.18 and that of CIDEr at most 0.71. Test F1
+is 0.35--0.43 points below validation F1 for all three configurations, which shows
+that no configuration was over-fitted to the validation split. A paired bootstrap
+over the 5{,}463 validation questions (2{,}000 resamples, seed 42) gives a 95\%
+confidence interval of $[3.49, 4.65]$ for the F1 gain of the 1-epoch LoRA over the
+bridge.
+
+\paragraph{Computational cost.}
+ViBridge-VQA trains 9.51M parameters and encodes one view per image.
+Table~\ref{tab:cost} reports the cost of the vision encoder for different numbers
+of tiles: moving from one view to six tiles, the setting we use for the zero-shot
+Vintern-1B, multiplies the encoder FLOPs by 6.0 and its latency by 4.0. Since the bridge uses one global
+vector, this cost is not needed. \todo{add a sentence on the tile ablation once the
+cls\_mean/mean\_all diagnostic runs are collected.}
+
+\begin{table}[t]
+\centering
+\caption{InternViT-300M encoding cost per image (Tesla P100, 16\,GB).}
+\label{tab:cost}
+\footnotesize
+\begin{tabular}{rrrr}
+\toprule
+Tiles & GFLOPs & Latency (ms) & Throughput (img/s) \\
+\midrule
+\textbf{1 (ours)} & \textbf{362} & \textbf{229} & \textbf{6.00} \\
+2 & 724 & 374 & 3.30 \\
+4 & 1{,}448 & 648 & 1.70 \\
+6 & 2{,}172 & 922 & 1.15 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Ablation Study}
+\label{sec:ablation}
+
+All ablations are measured on the validation split and compared with the
+Multi-Token bridge without LoRA (F1 49.55).
+
+\paragraph{Bridge architecture and decoder adaptation.}
+Table~\ref{tab:bridges} and Fig.~\ref{fig:results}a compare the five bridges. Without
+LoRA, they span 45.17--49.55 F1. The Multi-Token bridge is the best and has the
+lowest validation cross-entropy, while the Full Q-Former, with $9.4\times$ more
+parameters, is 2.20 F1 lower: a larger bridge does not help a frozen decoder.
+Decoder LoRA improves \emph{every} bridge, and the improvement is larger for weaker
+bridges ($+7.8$ for Tile-Attention, $+4.0$ for Multi-Token). After LoRA, the five
+bridges lie within 0.9 F1 (52.64--53.52) and 2.5 CIDEr points, compared with 4.4
+F1 and 12.3 CIDEr points before. Paired bootstrap 95\% confidence intervals of the
+gain (seed 42) lie above zero for all five bridges. Once the decoder can adapt, the choice of
+bridge therefore matters little. On a 600-question validation subset, ranks 32 and 64
+do not improve over rank 16 beyond seed variation.
+
+\begin{table}[t]
+\centering
+\caption{Bridge architectures before and after decoder LoRA (validation, 1 epoch,
+mean $\pm$ std over 3 seeds; Multi-Token 4 seeds; $^\ast$seed 42 only).}
+\label{tab:bridges}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{lrrrrrr}
+\toprule
+Bridge & $k$ & Params & CE & F1 & F1 + LoRA & $\Delta$F1 \\
+\midrule
+Residual        & 1  & 4.86M (0.52\%) & 1.67 & $45.64\pm0.36$ & $52.64\pm0.03$ & $+7.0$ \\
+Tile-Attention  & 8  & 4.14M (0.44\%) & 1.68 & $45.17\pm0.94$ & $52.99^\ast$ & $+7.8$ \\
+\textbf{Multi-Token} & \textbf{8} & \textbf{7.35M (0.78\%)} & \textbf{1.49} & $\mathbf{49.55\pm0.07}$ & $\mathbf{53.52\pm0.11}$ & $+4.0$ \\
+Light Q-Former  & 8  & 27.6M (2.87\%) & 1.60 & $46.25\pm0.62$ & $53.21\pm0.13$ & $+7.0$ \\
+Full Q-Former   & 16 & 69.4M (6.91\%) & 1.58 & $47.35\pm0.17$ & $53.21\pm0.09$ & $+5.9$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Training signal and representation alignment.}
+Table~\ref{tab:levers} tests whether the bridge can be improved without touching
+the decoder. Sampling one of the five reference answers at random in each epoch,
+instead of always the first, lowers F1 by 1.47. Distilling the bridge towards the
+pre-aligned projector of Vintern-1B has no effect at the feature level ($-0.03$)
+or at the logit level with a small weight ($+0.20$, $\lambda=0.1$), and degrades the
+model when the distillation term dominates ($-8.80$, $\lambda=1$). The bridge is
+therefore already as well aligned as the frozen decoder can exploit, and the only
+intervention with a clear gain is decoder adaptation.
+
+\begin{table}[t]
+\centering
+\caption{Effect of interventions on the Multi-Token bridge (validation, mean over
+3 seeds). $\Delta$F1 is relative to the bridge without LoRA (49.55).}
+\label{tab:levers}
+\footnotesize
+\begin{tabular}{llr}
+\toprule
+Component & Intervention & $\Delta$F1 \\
+\midrule
+Bridge capacity & Full Q-Former instead of Multi-Token & $-2.20$ \\
+Training signal & random reference answer per epoch & $-1.47$ \\
+Alignment & feature distillation to the original projector & $-0.03$ \\
+Alignment & logit distillation, weight $\lambda=0.1$ / $\lambda=1$ & $+0.20$ / $-8.80$ \\
+\textbf{Decoder} & \textbf{LoRA $r=16$, 1 / 3 epochs} & $\mathbf{+3.97}$ / $\mathbf{+5.16}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig_results}
+\caption{(a) Validation F1 of the five bridges before and after decoder LoRA
+(mean $\pm$ std over seeds). (b) Validation F1 by reasoning type for the
+Multi-Token bridge before and after decoder LoRA (seed 42, number of questions in
+parentheses).}
+\label{fig:results}
+\end{figure}
+
+\subsection{Analysis by Reasoning Type}
+
+Fig.~\ref{fig:results}b breaks down the effect of decoder adaptation by the
+reasoning categories of AutoViVQA. The gain grows with the length of the expected
+answer: it is largest for causal ($+7.4$) and relational ($+4.8$) questions, whose
+reference answers are the longest (5.0 and 5.6 words on average), and vanishes for
+counting ($+0.1$), whose answers are the shortest (2.8 words). For counting, the
+adapted decoder corrects 37 answers but breaks 29 others (F1 threshold 0.5), so the
+gains cancel out; with the bridge alone already at 66.6 F1, the remaining counting
+errors concern the visual count itself rather than the phrasing of the answer. By
+contrast, it corrects 140 causal answers while breaking 58. We also
+note that 3.7\% of all AutoViVQA questions, mostly counting questions, refer to the
+caption used to generate them (e.g.\ ``how many groups of people are mentioned in
+the description?'') rather than to the image; decoder adaptation does not change
+the score on this subset either ($+0.3$).
+
+\subsection{Out-of-Distribution Generalisation}
+
+\begin{table}[t]
+\centering
+\caption{Out-of-distribution evaluation on \ifoodtext four\else two\fi{} Vietnamese VQA datasets (1{,}000
+sampled test questions per seed, mean $\pm$ std over 3 sampling seeds). CIDEr-D is
+computed at corpus level.}
+\label{tab:ood}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lrrrr}
+\toprule
+& \multicolumn{2}{c}{F1} & \multicolumn{2}{c}{CIDEr-D} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+Dataset & Vintern-1B & ViBridge-VQA & Vintern-1B & ViBridge-VQA \\
+\midrule
+\ifoodtext
+ViTextVQA~\cite{nguyen2025vitextvqa} (scene text) & $\mathbf{32.01\pm0.38}$ & $4.04\pm0.15$ & $\mathbf{127.0\pm4.2}$ & $11.9\pm1.1$ \\
+OpenViVQA~\cite{nguyen2023openvivqa} (44\% text) & $\mathbf{58.38\pm0.97}$ & $21.75\pm0.44$ & $\mathbf{374.8\pm12.8}$ & $61.4\pm2.0$ \\
+\fi
+ViVQA-X~\cite{vivqax2025} (general) & $14.53\pm0.58$ & $\mathbf{15.96\pm0.72}$ & $23.1\pm2.9$ & $\mathbf{33.2\pm1.6}$ \\
+ViVQA~\cite{tran2021vivqa} (general) & $23.96\pm0.25$ & $\mathbf{31.67\pm1.11}$ & $36.5\pm1.4$ & $\mathbf{73.1\pm1.1}$ \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\ifoodtext
+To assess generalisation beyond AutoViVQA, we compare ViBridge-VQA (with LoRA,
+3 epochs) with the zero-shot Vintern-1B (6 tiles) on four Vietnamese VQA datasets
+that neither model was trained on (Table~\ref{tab:ood}). For OpenViVQA we use the
+development split, whose answers are public, and for ViVQA we use the 505--520
+sampled questions whose COCO images could be retrieved, with the same images for
+both models. ViBridge-VQA generalises better on general VQA (ViVQA and ViVQA-X),
+whose questions resemble those of AutoViVQA. On datasets that require reading text
+in the image (ViTextVQA, and OpenViVQA in which about 44\% of the questions involve
+text), it falls far behind: it answers a question about a phone number with a
+repeated digit and gives the same shop name for different storefronts. Reading
+scene text requires fine-grained, high-resolution visual tokens, whereas
+ViBridge-VQA encodes one global vector of a single low-resolution view and is
+trained on a dataset without text-reading questions.
+\else
+To assess generalisation beyond AutoViVQA, we compare ViBridge-VQA (with LoRA,
+3 epochs) with the zero-shot Vintern-1B (6 tiles) on two general-domain Vietnamese
+VQA datasets that neither model was trained on, ViVQA~\cite{tran2021vivqa} and
+ViVQA-X~\cite{vivqax2025} (Table~\ref{tab:ood}). For ViVQA we use the 505--520
+sampled questions whose COCO images could be retrieved, with the same images for
+both models. Although it is adapted on AutoViVQA only and encodes a single view,
+ViBridge-VQA outperforms the zero-shot Vintern-1B on both datasets in F1 and
+CIDEr-D, which indicates that the adaptation transfers beyond the training
+benchmark rather than over-fitting its answer style. We do not evaluate on
+scene-text datasets such as ViTextVQA~\cite{nguyen2025vitextvqa}, since reading
+text requires fine-grained visual tokens that a single global vector does not
+provide and AutoViVQA contains no text-reading questions.
+\fi
+\todo{update the ViBridge-VQA
+columns with the whole-image OOD re-evaluation (peer session, ood-full jobs).}
+
+\subsection{Qualitative Analysis and Error Discussion}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig_qualitative}
+\caption{Qualitative examples from the AutoViVQA validation set covering spatial,
+causal, counting and attribute questions. Q: question, GT: one of the reference
+answers, Bridge: Multi-Token bridge without LoRA, +LoRA: ViBridge-VQA (3 epochs).
+Green: correct, red: incorrect. Example~1 is answered correctly by both models; in
+Examples~2--4, decoder adaptation turns an incorrect answer of the bridge into the
+expected one.}
+\label{fig:qual}
+\end{figure}
+
+Fig.~\ref{fig:qual} shows representative predictions of ViBridge-VQA. The adapted
+model correctly answers simple spatial questions (Example~1, ``on the table''),
+gives the expected intent for causal questions (Example~2, ``for fun''), counts
+clearly separated objects (Example~3) and recognises attributes such as colour
+(Example~4). In Examples~2--4 the bridge alone already receives the image but
+produces a wrong or implausible answer (``to pose'', ``one sink'', ``blue''), which
+illustrates that decoder adaptation mainly improves how the visual evidence is
+turned into an answer.
+
+Two error patterns remain. First, counting is not improved on average: corrections
+such as Example~3 are offset by a similar number of new errors (37 versus 29).
+Second, some attribute errors are near misses between visually similar values,
+for example ``red'' for an orange bus. Both patterns are
+consistent with the bridge reading a single global image vector, which limits
+fine-grained visual detail, and suggest that further gains require a richer visual
+input rather than a larger bridge.

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Single scheduler for every remaining --gen-image full re-score the paper needs,
-across all accounts, one kernel per idle account (replaces running ood_full.py and
+across all accounts, up to 2 kernels per account (Kaggle's GPU session cap) (replaces running ood_full.py and
 regen_queue.py fill side by side, which raced for the same accounts).
 
 Order: OOD -> test rows of the main table -> one-seed bridge rows (checkpoints already
@@ -134,16 +134,18 @@ def cmd_fill() -> None:
     print(f"{len(queue)} jobs queued on {len(ACCS)} accounts", flush=True)
     while queue:
         for acc in ACCS:
-            if not queue or not _idle(acc):
-                continue
-            kind, *spec = queue.pop(0)
-            try:
-                {"rerun": _launch_rerun, "ood": ood_full._launch, "regen": regen_queue._launch,
-                 "private": _launch_private}[kind](acc, *spec)
-            except Exception as exc:  # keep the loop alive; retry this job on another account
-                print(f"[error] {kind} {spec[0]} on {acc}: {exc}", flush=True)
-                queue.insert(0, (kind, *spec))
-            time.sleep(5)
+            for _ in range(ood_full._free_slots(acc) if queue else 0):
+                kind, *spec = queue.pop(0)
+                try:
+                    {"rerun": _launch_rerun, "ood": ood_full._launch, "regen": regen_queue._launch,
+                     "private": _launch_private}[kind](acc, *spec)
+                except Exception as exc:  # keep the loop alive; retry this job on another account
+                    print(f"[error] {kind} {spec[0]} on {acc}: {exc}", flush=True)
+                    queue.insert(0, (kind, *spec))
+                    break
+                time.sleep(5)
+                if not queue:
+                    break
         if queue:
             print(time.strftime("%H:%M:%S"), f"{len(queue)} queued", flush=True)
             time.sleep(300)

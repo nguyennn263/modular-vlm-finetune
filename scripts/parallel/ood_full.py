@@ -53,6 +53,22 @@ def _cells(dataset: str, seed: int) -> list[dict]:
     ]
 
 
+def _free_slots(acc: str, limit: int = 2) -> int:
+    """Kaggle runs at most 2 GPU sessions per account ("Maximum batch GPU session count
+    of 2"); slots left = limit - kernels not yet in an explicit finished state."""
+    refs = [l.split(",")[0] for l in
+            _kaggle(acc, "kernels", "list", "--mine", "--sort-by", "dateRun", "--page-size", "6",
+                    "--csv", check=False).splitlines()[1:] if l.count(",") and "/" in l.split(",")[0]]
+    if not refs:
+        return 0  # listing failed (e.g. rate limit) -- don't guess
+    busy = 0
+    for ref in refs:
+        st = _kaggle(acc, "kernels", "status", ref, check=False)
+        if not any(f"KernelWorkerStatus.{f}" in st for f in FINISHED):
+            busy += 1
+    return max(0, limit - busy)
+
+
 def _idle(acc: str) -> bool:
     refs = [l.split(",")[0] for l in
             _kaggle(acc, "kernels", "list", "--mine", "--sort-by", "dateRun", "--page-size", "4",

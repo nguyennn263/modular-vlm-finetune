@@ -10,6 +10,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import math
+from typing import Optional
 
 
 class LinearBridgeBaseline(nn.Module):
@@ -637,7 +638,8 @@ class QFormer(nn.Module):
     
     def forward(self, 
                 vision_features: torch.Tensor,
-                question_embeddings: torch.Tensor) -> torch.Tensor:
+                question_embeddings: torch.Tensor,
+                question_padding_mask: Optional[torch.Tensor] = None) -> torch.Tensor:
         """
         Args:
             vision_features: (batch_size, num_patches, vision_dim)
@@ -660,7 +662,7 @@ class QFormer(nn.Module):
         
         # Pass through QFormer layers
         for layer in self.layers:
-            queries = layer(queries, vision_proj, question_embeddings)
+            queries = layer(queries, vision_proj, question_embeddings, question_padding_mask)
         
         # Combine baseline + improvement queries
         output = torch.cat([baseline_token, queries], dim=1)  # (B, 1+num_queries, 896)
@@ -756,7 +758,8 @@ class QFormerLayer(nn.Module):
     def forward(self,
                 queries: torch.Tensor,
                 vision_features: torch.Tensor,
-                question_embeddings: torch.Tensor) -> torch.Tensor:
+                question_embeddings: torch.Tensor,
+                question_padding_mask: Optional[torch.Tensor] = None) -> torch.Tensor:
         """
         Step 1: Cross-attention with vision
         Step 2: Cross-attention with question  
@@ -769,7 +772,8 @@ class QFormerLayer(nn.Module):
         queries_vision = self.vision_cross_norm(queries + vision_attn)
         
         # Step 2: Question cross-attention
-        question_attn, _ = self.question_cross_attn(queries, question_embeddings, question_embeddings)
+        question_attn, _ = self.question_cross_attn(queries, question_embeddings, question_embeddings,
+                                                   key_padding_mask=question_padding_mask)
         queries_question = self.question_cross_norm(queries + question_attn)
         
         # Step 3: Gating - adaptive blend of vision-conditioned vs question-conditioned

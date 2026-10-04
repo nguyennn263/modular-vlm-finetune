@@ -2624,7 +2624,7 @@
     "input-diag:l3ep-s3407-t1-full-r2": {
       "account": "acc1",
       "kernel": "nguyennn263/mvlm-diag-l3ep-s3407-t1-full-r2",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-04T22:11:59",
       "n_tiles": 1,
       "pooled_input": "default",
@@ -2644,7 +2644,7 @@
     "regen-full:mq-s42": {
       "account": "acc3",
       "kernel": "nguyennn2603/mvlm-regen-mq-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-04T22:12:28",
       "bridge": "mini_qformer",
       "splits": [
@@ -2700,7 +2700,7 @@
     "regen-full:res-s3407": {
       "account": "acc10",
       "kernel": "giapht/mvlm-regen-res-s3407",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-04T22:14:21",
       "bridge": "residual",
       "splits": [
@@ -2864,6 +2864,42 @@
       ],
       "gen_image": "full",
       "dataset": "nguyennn251/mvlm-pv-l1ep-mq-s3407"
+    },
+    "regen-full:l1ep-qf-s42": {
+      "account": "acc10",
+      "kernel": "giapht/mvlm-regen-l1ep-qf-s42",
+      "status": "running",
+      "pushed_at": "2026-10-04T23:16:41",
+      "bridge": "qformer",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full",
+      "dataset": "giapht/mvlm-pv-l1ep-qf-s42"
+    },
+    "regen-full:l1ep-qf-s123": {
+      "account": "acc11",
+      "kernel": "chalicetrncthnh/mvlm-regen-l1ep-qf-s123",
+      "status": "running",
+      "pushed_at": "2026-10-04T23:18:23",
+      "bridge": "qformer",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full",
+      "dataset": "chalicetrncthnh/mvlm-pv-l1ep-qf-s123"
+    },
+    "regen-full:l1ep-qf-s3407": {
+      "account": "acc13",
+      "kernel": "avanrager/mvlm-regen-l1ep-qf-s3407",
+      "status": "running",
+      "pushed_at": "2026-10-04T23:19:59",
+      "bridge": "qformer",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full",
+      "dataset": "avanrager/mvlm-pv-l1ep-qf-s3407"
     }
   }
 }

@@ -31,6 +31,14 @@ Read this first to resume. Results themselves: `plans/results-full-image.md`
   tokens precede the text). Its checkpoints are compromised; re-eval can't fix them. Rows flagged
   "LEAK" in the summary. **Pending user decision:** drop Full Q-Former (recommended; use Light
   Q-Former as capacity evidence) vs fix + retrain.
+- **Found 2026-10-05: "+LoRA" is single-stage joint training, not a stage 2.** Bridge inside the
+  LoRA checkpoints has cosine ~0.003 to the plain bridge; LoRA-3ep global_step 9666 = 3 x 3222 from
+  0 (plain = 6444 = 2 x 3222). Report/paper wording "stage 2 initialised from the stage-1 bridge" is
+  wrong; numbers are fine. "+LoRA 1ep" = 1 epoch total.
+- **User decision 2026-10-05: quota allows (~439h left) -> retrain.** Q-Former leak fixed in
+  4a8eb6d (mask answer+padding in question cross-attention; test). Full Q-Former retrain: 3 seeds x
+  (plain 2ep + joint LoRA 1ep from scratch, as the other bridges), val eval with --gen-image full.
+  Tile-aug retrain needs an epoch that may exceed Kaggle's 12h cap (trainer resumes per epoch only).
 - **Pending user decision:** RQ3 tile-augmentation row (trained with mixed CLS/mean input):
   drop it (recommended) vs retrain.
 

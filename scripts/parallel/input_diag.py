@@ -104,6 +104,7 @@ def cmd_launch(only: list[str] | None = None) -> None:
 def cmd_collect() -> None:
     led = load_ledger()
     out_root = ROOT / "outputs" / "input_diag"
+    done = []
     for job, j in led["jobs"].items():
         if not job.startswith("input-diag:") or j.get("status") == "done":
             continue
@@ -115,9 +116,14 @@ def cmd_collect() -> None:
         f = next((out_root / tag).rglob("eval_val.json"), None)
         if f:
             d = json.loads(f.read_text())
-            j["status"] = "done"
+            done.append(job)
             print(f"[ok] {tag}: F1 {d.get('f1', 0) * 100:.2f}  CIDEr {d.get('cider', 0) * 100:.2f}  "
                   f"loss {d.get('loss', 0):.3f}  n={d.get('n')}")
+    # another launcher shares this ledger -- re-read so its entries written while
+    # we were downloading are not overwritten
+    led = load_ledger()
+    for job in done:
+        led["jobs"][job]["status"] = "done"
     save_ledger(led)
 
 

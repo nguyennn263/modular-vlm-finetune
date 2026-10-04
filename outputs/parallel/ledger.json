@@ -2868,7 +2868,7 @@
     "regen-full:l1ep-qf-s42": {
       "account": "acc10",
       "kernel": "giapht/mvlm-regen-l1ep-qf-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-04T23:16:41",
       "bridge": "qformer",
       "splits": [

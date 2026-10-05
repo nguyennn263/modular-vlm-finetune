@@ -1,0 +1,22 @@
+{
+  "split": "val",
+  "n": 5463,
+  "bridge": "qformer",
+  "n_tiles": 1,
+  "checkpoint": "/tmp/ck/qformer/model.pt",
+  "pooled_input": "default",
+  "gen_image": "full",
+  "loss": 1.609886313034535,
+  "num_samples": 5463,
+  "perplexity": 5.002242565155029,
+  "accuracy": 0.06516565989383123,
+  "exact_match": 0.06736225517115138,
+  "bleu": 0.1330238540007287,
+  "rouge_l": 0.44530768459939174,
+  "meteor": 0.36945763562779826,
+  "cider": 0.8599237964548385,
+  "precision": 0.4651101460635653,
+  "recall": 0.4853773080296968,
+  "f1": 0.4619183698479598,
+  "wups": 0.06516565989383123
+}

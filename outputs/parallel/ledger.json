@@ -3002,7 +3002,7 @@
     "qfx-plain-s3407:ep2": {
       "account": "acc18",
       "kernel": "bellahaii/mvlm-qfx-plain-s3407-ep2",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-05T12:46:03",
       "chain": "qfx-plain-s3407",
       "phase": 1

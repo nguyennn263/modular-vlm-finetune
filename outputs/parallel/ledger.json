@@ -3026,7 +3026,7 @@
     "qfx-plain-s42:eval": {
       "account": "acc20",
       "kernel": "mephistodr/mvlm-qfx-plain-s42-eval",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-05T21:17:33",
       "chain": "qfx-plain-s42",
       "phase": 2

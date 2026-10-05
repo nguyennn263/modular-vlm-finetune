@@ -87,13 +87,18 @@ def main() -> None:
             L.append(f"| {name} | {a['f1'][0]:.2f} ± {a['f1'][1]:.2f} | {a['f1'][0] - base['f1'][0]:+.2f} |")
         else:
             L.append(f"| {name} | … | … |")
+    for name, a in [("Light Q-Former instead of Multi-Token (3.8x params)",
+                     _agg([f"mq-s{s}" for s in (42, 123, 3407)], "val")),
+                    ("Full Q-Former instead of Multi-Token (9.4x params, leak-fixed retrain)", _agg_qfx("plain"))]:
+        L.append(f"| {name} | {a['f1'][0]:.2f} ± {a['f1'][1]:.2f} | {a['f1'][0] - base['f1'][0]:+.2f} |"
+                 if a and base else f"| {name} | … | … |")
     for name in ("+ LoRA, 1 epoch (3 seeds)", "+ LoRA, 3 epochs (3 seeds)"):
         a = agg[(name, "val")]
         if a and base:
             L.append(f"| decoder LoRA r16, {name.split(', ')[1].split(' (')[0]} | {a['f1'][0]:.2f} ± {a['f1'][1]:.2f} | {a['f1'][0] - base['f1'][0]:+.2f} |")
     if base:
         L += ["", f"*Anchor: bridge only, val, 4 seeds: F1 {base['f1'][0]:.2f} ± {base['f1'][1]:.2f}. "
-              "Full Q-Former row omitted: its training leaked the answer (fixed in 4a8eb6d; retrain pending).*"]
+              "Full Q-Former = leak-fixed retrain (4a8eb6d); the original checkpoints are not used.*"]
     L += ["", "## tab:bridges (validation; plain = bridge only, 2 epochs; +LoRA = joint 1 epoch)", "",
           "| Bridge | k | Params | CE | F1 | F1 + LoRA | ΔF1 | CIDEr | CIDEr + LoRA |", "|---|--:|--:|--:|--:|--:|--:|--:|--:|"]
     for name, k, params, t in [("Residual", 1, "4.86M (0.52%)", "res"), ("Tile-Attention", 8, "4.14M (0.44%)", "ta"),

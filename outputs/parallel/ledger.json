@@ -2962,7 +2962,7 @@
     "qfx-plain-s3407:ep1": {
       "account": "acc18",
       "kernel": "bellahaii/mvlm-qfx-plain-s3407-ep1",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-05T05:21:46",
       "chain": "qfx-plain-s3407",
       "phase": 0
@@ -2997,6 +2997,14 @@
       "status": "running",
       "pushed_at": "2026-10-05T12:20:22",
       "chain": "qfx-lora-s3407",
+      "phase": 1
+    },
+    "qfx-plain-s3407:ep2": {
+      "account": "acc18",
+      "kernel": "bellahaii/mvlm-qfx-plain-s3407-ep2",
+      "status": "running",
+      "pushed_at": "2026-10-05T12:46:03",
+      "chain": "qfx-plain-s3407",
       "phase": 1
     }
   }

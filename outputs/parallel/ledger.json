@@ -3010,7 +3010,7 @@
     "qfx-lora-s123:eval": {
       "account": "acc19",
       "kernel": "katekathi/mvlm-qfx-lora-s123-eval",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-05T13:06:35",
       "chain": "qfx-lora-s123",
       "phase": 1

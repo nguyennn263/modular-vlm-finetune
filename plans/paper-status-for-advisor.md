@@ -1,8 +1,8 @@
 # Báo cáo tiến độ nghiên cứu — Paper 3
 
 *Cập nhật 05/10/2026. Mọi con số ở §3–§6.1 đã được **đo lại** sau khi sửa quy trình
-đánh giá (xem §6.0) và đối chiếu với file kết quả gốc. Riêng dòng Full Q-Former đang
-được huấn luyện lại (xem §6.0) — các ô đó ghi "đang chạy".*
+đánh giá (xem §6.0) và đối chiếu với file kết quả gốc; Full Q-Former đã được huấn luyện
+lại sau khi sửa lỗi rò đáp án.*
 
 ---
 
@@ -129,7 +129,7 @@ bình 3 seed trên val, trừ RQ3 (seed 42) và RQ4 (seed 42, đo theo quy trìn
 | RQ · axis | Intervention | ΔF1 | Nhận xét |
 |---|---|--:|---|
 | RQ1–2 · Bridge capacity | Light Q-Former (27.6M, 3.8×) | −3.68 | Bridge lớn hơn không tốt hơn |
-| RQ1–2 · Bridge capacity | Full Q-Former (69M, ~10×) | *đang chạy* | Đang huấn luyện lại sau khi sửa lỗi rò đáp án (§6.0) |
+| RQ1–2 · Bridge capacity | Full Q-Former (69M, ~10×) | −3.90 | Bridge lớn hơn không tốt hơn (bản huấn luyện lại, §6.0) |
 | RQ3 · Number of visual tiles | 1 → 6 tile (đầu vào CLS nhất quán) | −0.90 | Thêm tile không giúp, cũng không làm sụp (bảng dưới) |
 | RQ4 · Adaptive routing | Learned policy (theo loại câu hỏi) | ≈0 | Không hơn cấu hình cố định (chưa đo lại) |
 | RQ5 · Training signal | Multi-reference answer sampling | −2.07 | Không cải thiện |
@@ -150,13 +150,14 @@ bình 3 seed trên val, trừ RQ3 (seed 42) và RQ4 (seed 42, đo theo quy trìn
 | Tile-Attention (8 token) | 4.14M (0.44%) | 45.14 ± 0.92 | 84.14 ± 1.40 | 1.683 | 52.82 ᵃ | +7.68 | 104.72 |
 | **Multi-Token (8 token)** | **7.35M (0.78%)** | **50.74 ± 0.17** | **99.07 ± 0.47** | **1.491** | **53.47 ± 0.17** | **+2.73** | **106.68** |
 | Light Q-Former (8 query) | 27.6M (2.87%) | 47.06 ± 0.66 | 88.07 ± 1.89 | 1.599 | 53.21 ± 0.14 | +6.14 | 106.26 |
-| Full Q-Former (16 query) | 69.4M (6.91%) | *đang chạy* | | | *đang chạy* | | |
+| Full Q-Former (16 query) ᵇ | 69.4M (6.91%) | 46.84 ± 0.47 | 87.74 ± 1.24 | 1.605 | 53.29 ± 0.29 | +6.45 | 106.50 |
 
-ᵃ Tile-Attention + LoRA mới có seed 42 (các cấu hình còn lại đủ 3 seed).
+ᵃ Tile-Attention + LoRA mới có seed 42 (các cấu hình còn lại đủ 3 seed). ᵇ Bản huấn
+luyện lại sau khi sửa lỗi rò đáp án (§6.0); checkpoint cũ không dùng.
 
-*→ Bridge lớn hơn (Light Q-Former, 3.8×) không tốt hơn; Multi-Token có val CE thấp nhất
-(RQ1–2). Các bridge plain trải F1 45.1–50.7 (rộng 5.6 điểm); sau LoRA dồn về 52.7–53.5
-(rộng 0.8 điểm) bất kể chất lượng ban đầu; mức nâng lớn hơn khi bridge yếu hơn (RQ6).*
+*→ Bridge lớn hơn (Light Q-Former 3.8×, Full Q-Former ~10×) không tốt hơn; Multi-Token
+có val CE thấp nhất (RQ1–2). Các bridge plain trải F1 45.1–50.7 (rộng 5.6 điểm); sau LoRA
+dồn về 52.7–53.5 (rộng 0.8 điểm) bất kể chất lượng ban đầu; mức nâng lớn hơn khi bridge yếu hơn (RQ6).*
 
 *Số tile × cách đưa đặc trưng vào bridge (Multi-Token, seed 42, F1 / val CE):*
 
@@ -251,8 +252,8 @@ quy trình đã sửa:
    chấm bằng một hàm duy nhất; bảng OOD ở §6.1 đã tính lại.
 4. **Full Q-Former nhìn thấy đáp án khi huấn luyện:** input huấn luyện chứa cả đáp án và
    Q-Former cross-attend lên toàn bộ input mà không che. Đã sửa (che phần đáp án và
-   padding, có test kiểm chứng) và **đang huấn luyện lại** 3 seed; các bridge khác không
-   bị ảnh hưởng.
+   padding, có test kiểm chứng) và **đã huấn luyện lại** 3 seed (plain 46.84, + LoRA
+   53.29 — cùng xu hướng các bridge khác); các bridge khác không bị ảnh hưởng.
 5. **Mô tả quy trình LoRA sai:** bản trước viết LoRA là "giai đoạn 2 khởi tạo từ bridge
    đã train". Kiểm trên checkpoint cho thấy đó là một lần huấn luyện chung từ đầu (bridge
    ngẫu nhiên + LoRA). Số liệu không đổi, chỉ sửa mô tả (§2).

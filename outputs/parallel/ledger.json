@@ -3018,7 +3018,7 @@
     "qfx-lora-s42:eval": {
       "account": "acc20",
       "kernel": "mephistodr/mvlm-qfx-lora-s42-eval",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-05T13:11:47",
       "chain": "qfx-lora-s42",
       "phase": 1

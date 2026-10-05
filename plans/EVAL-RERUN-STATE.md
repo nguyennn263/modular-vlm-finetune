@@ -75,11 +75,15 @@ Read this first to resume. Results themselves: `plans/results-full-image.md`
 - Advisor report updated on exp/vintern-ft-baseline (commit 5ef9ca7): §1–§6.1 re-measured,
   new §6.0 listing the five problems; Full Q-Former cells marked "đang chạy".
 
-## Still to do after all jobs land
+- Full Q-Former leak-fixed retrain DONE 2026-10-05 22:5x: plain 46.84 ± 0.47 (ΔF1 −3.90 vs
+  Multi-Token), +LoRA 53.29 ± 0.29. tab:bridges / tab:levers final (commit 0ee44e7); report
+  updated (9858428); numbers sent to the paper session. All Kaggle work finished; collect loop
+  stopped.
 
-1. Aggregate per table (mean ± std), send to the other session (owns `paper/aciids2027/`).
-2. Update the advisor report `plans/paper-status-for-advisor.md` (main checkout, uncommitted edits):
-   new numbers, add §6.0 explaining the crop bug, rewrite RQ3, RQ6 Δ.
+## Still to do
+
+1. ~~Aggregate per table, send to the paper session~~ (done).
+2. ~~Update the advisor report~~ (done; HTML mirror still stale).
 3. Merge `exp/eval-input-diagnostic` into the paper branch; there, delete `compute_score.py` and
    point `experiments/vintern-ft/score_local.py` to `score_answers` (or drop Vintern-FT scripts).
 4. Mark stale docs (P6-draft, results-*.md, old paper draft) as superseded.

@@ -3022,6 +3022,30 @@
       "pushed_at": "2026-10-05T13:11:47",
       "chain": "qfx-lora-s42",
       "phase": 1
+    },
+    "qfx-plain-s42:eval": {
+      "account": "acc20",
+      "kernel": "mephistodr/mvlm-qfx-plain-s42-eval",
+      "status": "running",
+      "pushed_at": "2026-10-05T21:17:33",
+      "chain": "qfx-plain-s42",
+      "phase": 2
+    },
+    "qfx-plain-s123:eval": {
+      "account": "acc19",
+      "kernel": "katekathi/mvlm-qfx-plain-s123-eval",
+      "status": "done",
+      "pushed_at": "2026-10-05T21:17:42",
+      "chain": "qfx-plain-s123",
+      "phase": 2
+    },
+    "qfx-plain-s3407:eval": {
+      "account": "acc18",
+      "kernel": "bellahaii/mvlm-qfx-plain-s3407-eval",
+      "status": "done",
+      "pushed_at": "2026-10-05T21:17:53",
+      "chain": "qfx-plain-s3407",
+      "phase": 2
     }
   }
 }

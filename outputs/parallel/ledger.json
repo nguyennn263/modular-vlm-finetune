@@ -2946,7 +2946,7 @@
     "qfx-plain-s123:ep1": {
       "account": "acc19",
       "kernel": "katekathi/mvlm-qfx-plain-s123-ep1",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-05T05:21:04",
       "chain": "qfx-plain-s123",
       "phase": 0

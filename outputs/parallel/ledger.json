@@ -2970,7 +2970,7 @@
     "qfx-lora-s3407:ep1": {
       "account": "acc18",
       "kernel": "bellahaii/mvlm-qfx-lora-s3407-ep1",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-05T05:22:08",
       "chain": "qfx-lora-s3407",
       "phase": 0
@@ -2989,6 +2989,14 @@
       "status": "running",
       "pushed_at": "2026-10-05T12:09:54",
       "chain": "qfx-plain-s42",
+      "phase": 1
+    },
+    "qfx-lora-s3407:eval": {
+      "account": "acc18",
+      "kernel": "bellahaii/mvlm-qfx-lora-s3407-eval",
+      "status": "running",
+      "pushed_at": "2026-10-05T12:20:22",
+      "chain": "qfx-lora-s3407",
       "phase": 1
     }
   }

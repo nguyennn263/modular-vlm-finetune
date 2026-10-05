@@ -2930,7 +2930,7 @@
     "qfx-plain-s42:ep1": {
       "account": "acc20",
       "kernel": "mephistodr/mvlm-qfx-plain-s42-ep1",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-05T05:20:37",
       "chain": "qfx-plain-s42",
       "phase": 0
@@ -2974,6 +2974,22 @@
       "pushed_at": "2026-10-05T05:22:08",
       "chain": "qfx-lora-s3407",
       "phase": 0
+    },
+    "qfx-plain-s123:ep2": {
+      "account": "acc19",
+      "kernel": "katekathi/mvlm-qfx-plain-s123-ep2",
+      "status": "running",
+      "pushed_at": "2026-10-05T11:54:26",
+      "chain": "qfx-plain-s123",
+      "phase": 1
+    },
+    "qfx-plain-s42:ep2": {
+      "account": "acc20",
+      "kernel": "mephistodr/mvlm-qfx-plain-s42-ep2",
+      "status": "running",
+      "pushed_at": "2026-10-05T12:09:54",
+      "chain": "qfx-plain-s42",
+      "phase": 1
     }
   }
 }

@@ -2954,7 +2954,7 @@
     "qfx-lora-s123:ep1": {
       "account": "acc19",
       "kernel": "katekathi/mvlm-qfx-lora-s123-ep1",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-05T05:21:20",
       "chain": "qfx-lora-s123",
       "phase": 0

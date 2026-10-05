@@ -1,0 +1,19 @@
+{
+  "experiment": "qformer",
+  "best_val_loss": 1.6062464899933007,
+  "best_model_path": "/kaggle/working/ck/qformer/best_model.pt",
+  "global_step": 6444,
+  "training_duration": "6:40:57.409651",
+  "training_duration_hours": 6.682613791944445,
+  "epochs_trained": 2,
+  "batch_size": 8,
+  "learning_rate": 0.0002,
+  "early_stopping_enabled": false,
+  "results_files": {
+    "epoch_results": "/kaggle/working/ck/qformer/results/epoch_results.csv",
+    "training_logs": "/kaggle/working/ck/qformer/results/training_20261005_050530.log",
+    "summary": "/kaggle/working/ck/qformer/results/summary.json",
+    "text_metrics_all_epochs": "/kaggle/working/ck/qformer/results/text_metrics_all_epochs.jsonl",
+    "metrics_summary": "/kaggle/working/ck/qformer/results/final_metrics_summary.json"
+  }
+}

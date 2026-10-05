@@ -2994,7 +2994,7 @@
     "qfx-lora-s3407:eval": {
       "account": "acc18",
       "kernel": "bellahaii/mvlm-qfx-lora-s3407-eval",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-05T12:20:22",
       "chain": "qfx-lora-s3407",
       "phase": 1

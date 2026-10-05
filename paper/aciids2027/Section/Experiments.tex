@@ -206,15 +206,15 @@ bridge-only Multi-Token model (F1 50.74).
 \paragraph{Bridge architecture and decoder adaptation.}
 Table~\ref{tab:bridges} and Fig.~\ref{fig:results}a compare the bridges. Without
 LoRA, they span 45.14--50.74 F1. The Multi-Token bridge is the best and has the
-lowest validation cross-entropy, while the Light Q-Former, with $3.8\times$ more
-parameters, is 3.7 F1 lower: a larger bridge does not help a frozen decoder.
+lowest validation cross-entropy, while the Light and Full Q-Formers, with $3.8\times$
+and $9.4\times$ more parameters, are 3.7 and 3.9 F1 lower: a larger bridge does not
+help a frozen decoder.
 Training with decoder LoRA improves \emph{every} bridge, even though the joint
 1-epoch run sees the data half as often as the 2-epoch bridge-only run, and the
 improvement is largest for the weakest bridges ($+7.7$ for Tile-Attention, $+6.7$
 for Residual, $+2.7$ for Multi-Token). After LoRA, the bridges lie within 0.8 F1
 (52.69--53.47) and 2.4 CIDEr points, compared with 5.6 F1 and 14.9 CIDEr points
 before. Once the decoder can adapt, the choice of bridge therefore matters little.
-\todo{add the Full Q-Former row (answer leak fixed, retraining in progress).}
 
 \begin{table}[t]
 \centering
@@ -233,6 +233,7 @@ Residual        & 1 & 4.86M (0.52\%) & 1.67 & $46.02\pm0.36$ & $52.69\pm0.14$ & 
 Tile-Attention  & 8 & 4.14M (0.44\%) & 1.68 & $45.14\pm0.92$ & $52.82^\ast$ & $+7.7$ & $84.1\pm1.4$ & $104.7^\ast$ \\
 \textbf{Multi-Token} & \textbf{8} & \textbf{7.35M (0.78\%)} & \textbf{1.49} & $\mathbf{50.74\pm0.17}$ & $\mathbf{53.47\pm0.17}$ & $+2.7$ & $\mathbf{99.1\pm0.5}$ & $\mathbf{106.7\pm0.7}$ \\
 Light Q-Former  & 8 & 27.6M (2.87\%) & 1.60 & $47.06\pm0.66$ & $53.21\pm0.14$ & $+6.1$ & $88.1\pm1.9$ & $106.3\pm0.7$ \\
+Full Q-Former   & 16 & 69.4M (6.91\%) & 1.61 & $46.84\pm0.47$ & $53.29\pm0.29$ & $+6.5$ & $87.7\pm1.2$ & $106.5\pm1.0$ \\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -257,6 +258,7 @@ intervention with a clear gain is decoder adaptation.
 \toprule
 Component & Intervention & $\Delta$F1 \\
 \midrule
+Bridge capacity & Full Q-Former instead of Multi-Token & $-3.90$ \\
 Training signal & random reference answer per epoch & $-2.07$ \\
 Alignment & feature distillation to the original projector & $-0.39$ \\
 Alignment & logit distillation, weight $\lambda=0.1$ / $\lambda=1$ & $-0.28$ / $-9.05$ \\

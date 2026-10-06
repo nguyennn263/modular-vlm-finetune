@@ -3060,6 +3060,30 @@
       "status": "done",
       "pushed_at": "2026-10-06T22:44:10",
       "dataset": "vitextvqa"
+    },
+    "plugin20-acc20-failed": {
+      "account": "acc20",
+      "kernel": "mephistodr/mvlm-plugin20-l3ep-s42",
+      "status": "failed-acc20-start",
+      "pushed_at": "2026-10-06T23:35:07"
+    },
+    "plugin20-acc10-failed": {
+      "account": "acc10",
+      "kernel": "giapht/mvlm-plugin20-l3ep-s42",
+      "status": "failed-start",
+      "pushed_at": "2026-10-06T23:37:01"
+    },
+    "plugin20-acc1-dtype": {
+      "account": "acc1",
+      "kernel": "nguyennn263/mvlm-plugin20-l3ep-s42",
+      "status": "failed-dtype-bug",
+      "pushed_at": "2026-10-06T23:38:59"
+    },
+    "plugin20:l3ep-s42": {
+      "account": "acc1",
+      "kernel": "nguyennn263/mvlm-plugin20-l3ep-s42",
+      "status": "running",
+      "pushed_at": "2026-10-07T00:23:39"
     }
   }
 }

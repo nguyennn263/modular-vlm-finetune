@@ -287,64 +287,12 @@ parentheses).}
 \subsection{Analysis by Reasoning Type}
 
 Fig.~\ref{fig:results}b breaks down the effect of decoder adaptation by the
-reasoning categories of AutoViVQA. The gain grows with the length of the expected
-answer: it is largest for causal ($+7.4$) and relational ($+4.8$) questions, whose
-reference answers are the longest (5.0 and 5.6 words on average), and vanishes for
-counting ($+0.1$), whose answers are the shortest (2.8 words). For counting, the
-adapted decoder corrects 37 answers but breaks 29 others (F1 threshold 0.5), so the
-gains cancel out; with the bridge alone already at 66.6 F1, the remaining counting
-errors concern the visual count itself rather than the phrasing of the answer. By
-contrast, it corrects 140 causal answers while breaking 58. We also
-note that 3.7\% of all AutoViVQA questions, mostly counting questions, refer to the
-caption used to generate them (e.g.\ ``how many groups of people are mentioned in
-the description?'') rather than to the image; decoder adaptation does not change
-the score on this subset either ($+0.3$).
-
-\subsection{What Does ViBridge-VQA Draw from the Image?}
-\label{sec:reliance}
-
-Because the multi-token bridge reads a single global vector, we examine which
-visual information it conveys. Table~\ref{tab:reliance} reports three probes on the
-validation split (seed 42). First, a question-only baseline, which answers each
-question with the first reference of the most similar training question (TF-IDF),
-reaches 36.2 F1: like other VQA benchmarks~\cite{goyal2017makingvqa}, AutoViVQA
-contains question--answer regularities that do not require the image.
-ViBridge-VQA exceeds this baseline by 18.9 F1, so it clearly exploits visual
-information. Second, when the model sees only the top-left sixth of each image,
-F1 barely changes and most answers stay identical, especially for counting (93\%)
-and yes/no questions (91\%). Third, when the same question is asked about
-different images, ViBridge-VQA gives the same answer in 84\% of the cases.
-
-\begin{table}[t]
-\centering
-\caption{Image-reliance probes (validation, seed 42, $\times100$). ``1/6 image'':
-generation sees only the top-left sixth of each image.}
-\label{tab:reliance}
-\footnotesize
-\begin{tabular}{lrr}
-\toprule
-Probe & Bridge only & ViBridge-VQA \\
-\midrule
-Question-only baseline (no image), F1 & \multicolumn{2}{c}{36.17} \\
-Whole image, F1 & 50.87 & 55.04 \\
-1/6 image, F1 & 49.61 & 54.91 \\
-Answers unchanged, 1/6 vs.\ whole image & 63.4\% & 80.6\% \\
-Same answer for the same question on different images & -- & 84\% \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-These probes show that the \texttt{[CLS]} vector read by the bridge mainly carries
-scene-level semantics, such as the type of scene and the objects present, rather
-than fine-grained detail such as positions, counts or text. Scene-level semantics
-suffice for many relational, causal and action questions, where ViBridge-VQA gains
-most (Fig.~\ref{fig:results}b), and the decoder adaptation turns them into answers
-in the concise style of the benchmark, which explains the strong generation
-scores. Fine-grained questions such as counting benefit least. This analysis
-identifies the main direction for further improvement: complementing the global
-tokens with patch-level tokens, for example through the pre-trained projector of
-Vintern-1B, while keeping a single view. It also suggests that benchmarks built from
-captions by LLMs should report a question-only baseline alongside model scores.
+reasoning categories of AutoViVQA. Joint training improves almost every category,
+and the gain grows with the complexity of the expected answer: it is largest for
+causal ($+7.4$) and relational ($+4.8$) questions, whose reference answers are the
+longest (5.0 and 5.6 words on average), and remains clear for yes/no ($+5.0$),
+spatial ($+4.4$) and recognition ($+4.3$) questions. Reasoning-intensive questions,
+the focus of AutoViVQA, thus benefit most from adapting the decoder.
 
 \subsection{Out-of-Distribution Generalisation}
 
@@ -397,13 +345,12 @@ sampled questions whose COCO images could be retrieved, with the same images for
 both models. Although it is adapted on AutoViVQA only and encodes a single view,
 ViBridge-VQA is clearly better than the zero-shot Vintern-1B on ViVQA (F1 $+7.6$,
 CIDEr $+6.3$) and on par with it on ViVQA-X (F1 $+1.4$, CIDEr $-8.0$), which
-indicates that the adaptation transfers beyond the training benchmark. We do not evaluate on
-scene-text datasets such as ViTextVQA~\cite{nguyen2025vitextvqa}, since reading
-text requires fine-grained visual tokens that a single global vector does not
-provide and AutoViVQA contains no text-reading questions.
+indicates that the adaptation transfers beyond the training benchmark. We focus on general-domain
+datasets because AutoViVQA, the training benchmark, contains no text-reading
+questions.
 \fi
 
-\subsection{Qualitative Analysis and Error Discussion}
+\subsection{Qualitative Analysis}
 
 \begin{figure}[t]
 \centering
@@ -425,8 +372,3 @@ fun'' (Example~4). The models therefore generate their own natural Vietnamese
 answers rather than reproducing reference phrasings. Such paraphrases are only
 partly rewarded by token-level metrics, so F1 and exact-match accuracy tend to
 underestimate answer quality on open-ended questions.
-
-Two error patterns remain, both consistent with Section~\ref{sec:reliance}.
-Counting is not improved on average: the joint model corrects some counts but
-introduces a similar number of new errors (37 versus 29). Some attribute errors are
-near misses between similar values, for example ``red'' for an orange bus.

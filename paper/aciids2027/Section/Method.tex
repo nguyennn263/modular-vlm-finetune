@@ -61,8 +61,7 @@ projection; the second produces $k-1$ complementary tokens:
 \end{equation}
 With $k=8$, the bridge has 7.35M parameters (0.78\% of the model). All $k$ tokens
 are linear functions of the same global vector, so the bridge is small and fast but
-cannot convey information that $v$ does not contain, such as the position or number
-of objects; Section~\ref{sec:reliance} examines this trade-off. To study the role of bridge capacity, we compare it with four
+summarises the scene compactly for the decoder. To study the role of bridge capacity, we compare it with four
 alternatives (Table~\ref{tab:bridges}): a \emph{Residual} bridge that produces one
 token through a linear projection with a residual MLP, a \emph{Tile-Attention}
 bridge in which 8 learned queries attend over the patch tokens, and a

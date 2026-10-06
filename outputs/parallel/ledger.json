@@ -3046,6 +3046,20 @@
       "pushed_at": "2026-10-05T21:17:53",
       "chain": "qfx-plain-s3407",
       "phase": 2
+    },
+    "tsel-smoke:vitextvqa": {
+      "account": "acc1",
+      "kernel": "nguyennn263/mvlm-tsel-smoke-vitextvqa",
+      "status": "running",
+      "pushed_at": "2026-10-06T22:35:50",
+      "dataset": "vitextvqa"
+    },
+    "tsel15:vitextvqa": {
+      "account": "acc1",
+      "kernel": "nguyennn263/mvlm-tsel15-vitextvqa",
+      "status": "done",
+      "pushed_at": "2026-10-06T22:44:10",
+      "dataset": "vitextvqa"
     }
   }
 }

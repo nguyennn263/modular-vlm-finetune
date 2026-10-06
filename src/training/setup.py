@@ -25,6 +25,7 @@ from src.modeling.bridge_modules import (
     QFormer,
     PatchPoolBridge,
     ConvAbstractorBridge,
+    Mlp1Bridge,
 )
 from src.utils.logging import data_loader_logger as logger
 
@@ -40,12 +41,16 @@ BRIDGE_TYPE = Literal[
     'patch_pool_mean',      # Advisor follow-up: mean-pool patches -> tokens
     'patch_pool_max',       # Advisor follow-up: max-pool patches -> tokens
     'conv_abstractor',      # Advisor follow-up: HoneyBee C-Abstractor (conv)
+    'mlp1',                 # Vintern's own projector (pixel-shuffle + mlp1), frozen
+    'mlp1_res',             # mlp1 + trainable residual
+    'hybrid',               # mlp1 + residual (local) + Multi-Token on CLS (global)
 ]
 
 
 # Bridge types that need full vision patches (not pooled)
 PATCH_BASED_BRIDGES = {'tile_attention', 'mini_qformer', 'qformer',
-                        'patch_pool_mean', 'patch_pool_max', 'conv_abstractor'}
+                        'patch_pool_mean', 'patch_pool_max', 'conv_abstractor',
+                        'mlp1', 'mlp1_res', 'hybrid'}
 
 # How a pooled bridge (multi_token, residual, ...) reads InternViT's output:
 #   default  - CLS token at one tile, mean over every token of every tile at
@@ -114,6 +119,11 @@ class VisionLanguageBridge(nn.Module):
             self._teacher_mlp1 = base_model.mlp1
             for p in self._teacher_mlp1.parameters():
                 p.requires_grad = False
+
+        # Vintern's pre-aligned projector, for the mlp1-based bridges. Unregistered here so
+        # every other bridge's parameter set (and optimizer) stays exactly as before; the
+        # mlp1-based bridges register it themselves, frozen.
+        object.__setattr__(self, "_vintern_mlp1", base_model.mlp1)
 
         # Create trainable bridge module
         self.bridge = self._create_bridge()
@@ -199,6 +209,15 @@ class VisionLanguageBridge(nn.Module):
                 num_tokens=config.get('num_tokens', 8)
             )
         
+        elif self.bridge_type in ('mlp1', 'mlp1_res', 'hybrid'):
+            return Mlp1Bridge(
+                mlp1=self._vintern_mlp1,
+                vision_dim=vision_dim,
+                hidden_dim=hidden_dim,
+                residual_dim=config.get('residual_dim', 0),
+                num_global_tokens=config.get('num_global_tokens', 0),
+            )
+
         elif self.bridge_type == 'tile_attention':
             # tile_attention is the new name, attention is old alias
             return AttentionBridge(

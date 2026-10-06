@@ -42,6 +42,9 @@ BRIDGES = [
     "patch_pool_mean",
     "patch_pool_max",
     "conv_abstractor",
+    "mlp1",
+    "mlp1_res",
+    "hybrid",
 ]
 
 

@@ -792,3 +792,62 @@ class QFormerLayer(nn.Module):
         queries = self.ffn_norm(queries + ffn_out)
         
         return queries
+
+
+def pixel_shuffle_v2(x: torch.Tensor, scale_factor: float = 0.5) -> torch.Tensor:
+    """InternVL's pixel_shuffle (ps_version 'v2', Vintern-1B-v3_5's config): (N, W, H, C) ->
+    (N, W*s, H*s, C/s^2), i.e. every 2x2 block of neighbouring patches becomes one token."""
+    n, w, h, c = x.size()
+    x = x.view(n, w, int(h * scale_factor), int(c / scale_factor))
+    x = x.permute(0, 2, 1, 3).contiguous()
+    x = x.view(n, int(h * scale_factor), int(w * scale_factor), int(c / (scale_factor * scale_factor)))
+    return x.permute(0, 2, 1, 3).contiguous()
+
+
+class Mlp1Bridge(nn.Module):
+    """
+    Patch path through Vintern's own projector, optionally with a trainable residual and
+    global tokens from the CLS token.
+
+    - local : 1+P InternViT tokens -> drop CLS -> sqrt(P) x sqrt(P) grid -> pixel_shuffle_v2
+              -> mlp1 (Vintern's pre-aligned projector, FROZEN) -> P/4 tokens
+              (+ residual_dim > 0: + delta(x), a small trainable MLP whose last layer starts at
+              zero, so training starts exactly from mlp1 -- "improve the projection, don't
+              replace it")
+    - global: num_global_tokens > 0 -> MultiTokenMLP on the CLS token, prepended
+
+    At 336px (24x24 patches) the local path gives 144 tokens. Variants:
+      mlp1     : residual_dim=0,   num_global_tokens=0  (Vintern's projector as is)
+      mlp1_res : residual_dim=256, num_global_tokens=0
+      hybrid   : residual_dim=256, num_global_tokens=8
+    """
+
+    def __init__(self, mlp1: nn.Module, vision_dim: int = 1024, hidden_dim: int = 896,
+                 residual_dim: int = 0, num_global_tokens: int = 0, **kwargs):
+        super().__init__()
+        self.mlp1 = mlp1
+        for p in self.mlp1.parameters():
+            p.requires_grad = False
+        self.delta = None
+        if residual_dim > 0:
+            self.delta = nn.Sequential(nn.Linear(4 * vision_dim, residual_dim), nn.GELU(),
+                                       nn.Linear(residual_dim, hidden_dim))
+            nn.init.zeros_(self.delta[-1].weight)
+            nn.init.zeros_(self.delta[-1].bias)
+        self.global_tokens = (MultiTokenMLP(in_features=vision_dim, out_features=hidden_dim,
+                                            num_tokens=num_global_tokens)
+                              if num_global_tokens > 0 else None)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        """x: (B, 1+P, vision_dim), CLS first -> (B, [num_global_tokens +] P/4, hidden_dim)."""
+        cls, patches = x[:, 0], x[:, 1:]
+        b, p, d = patches.shape
+        side = int(math.isqrt(p))
+        assert side * side == p, f"expected a square patch grid, got {p} patches"
+        grid = pixel_shuffle_v2(patches.reshape(b, side, side, d)).reshape(b, -1, 4 * d)
+        local = self.mlp1(grid)
+        if self.delta is not None:
+            local = local + self.delta(grid)
+        if self.global_tokens is None:
+            return local
+        return torch.cat([self.global_tokens(cls), local], dim=1)

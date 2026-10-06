@@ -1,0 +1,5 @@
+# mlp1 + trainable residual (zero-initialised): does a stronger per-region projection help?
+bridge_type: mlp1_res
+bridge_config:
+  residual_dim: 256
+  num_global_tokens: 0

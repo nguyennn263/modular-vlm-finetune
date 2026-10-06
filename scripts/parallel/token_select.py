@@ -67,7 +67,7 @@ def _launch(acc: str, dataset: str) -> None:
 
 def _plugin_cells(n: int) -> list[dict]:
     """experiments/token-select/hybrid_plugin.py: l3ep-s42 + Vintern's mlp1 tokens, no training."""
-    data = "/kaggle/working/data/vitextvqa"
+    data = "/tmp/data/vitextvqa"            # outside /kaggle/working: keeps the output small
     out = "/kaggle/working/out/plugin"
     return [
         _clone_cell(BRANCH),

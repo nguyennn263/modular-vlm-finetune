@@ -46,8 +46,12 @@ training and at test time.
 
 \subsection{Multi-Token Bridge}
 
-Let $v\in\mathbb{R}^{1024}$ denote the global image representation produced by
-InternViT. The multi-token bridge applies two linear heads to $v$. The first
+For a $336\times336$ view, InternViT splits the image into $24\times24$ patches of
+$14\times14$ pixels and returns one 1024-dimensional vector per patch together with
+a global \texttt{[CLS]} vector. Vintern-1B discards the \texttt{[CLS]} vector and
+passes the patch vectors, merged $2\times2$, through its projector, so the decoder
+receives one token per image region. The multi-token bridge takes the opposite,
+much cheaper route. Let $v\in\mathbb{R}^{1024}$ denote the \texttt{[CLS]} vector. The multi-token bridge applies two linear heads to $v$. The first
 produces an \emph{anchor} token that plays the role of the original single-vector
 projection; the second produces $k-1$ complementary tokens:
 \begin{equation}
@@ -55,9 +59,10 @@ projection; the second produces $k-1$ complementary tokens:
   \in \mathbb{R}^{k\times 896}.
   \label{eq:bridge}
 \end{equation}
-With $k=8$, the bridge has 7.35M parameters (0.78\% of the model). It contains no
-learned pooling over image patches: it reads one global vector, which keeps it
-small and fast. To study the role of bridge capacity, we compare it with four
+With $k=8$, the bridge has 7.35M parameters (0.78\% of the model). All $k$ tokens
+are linear functions of the same global vector, so the bridge is small and fast but
+cannot convey information that $v$ does not contain, such as the position or number
+of objects; Section~\ref{sec:reliance} examines this trade-off. To study the role of bridge capacity, we compare it with four
 alternatives (Table~\ref{tab:bridges}): a \emph{Residual} bridge that produces one
 token through a linear projection with a residual MLP, a \emph{Tile-Attention}
 bridge in which 8 learned queries attend over the patch tokens, and a

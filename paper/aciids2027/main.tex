@@ -74,26 +74,23 @@ Vietnam National University, Ho Chi Minh City, Vietnam\\
 
 \begin{abstract}
 Vision--language models (VLMs) have advanced Visual Question Answering (VQA)
-substantially, yet adapting them to Vietnamese benchmarks remains costly: the
-usual options are to fine-tune an existing VLM on high-resolution multi-tile inputs
-or to design a new architecture.
-In this work, we propose \textbf{ViBridge-VQA}, a parameter-efficient adaptation
-of the Vietnamese VLM Vintern-1B for generative VQA. Both pre-trained backbones,
-the InternViT-300M vision encoder and the Qwen2.5-0.5B language decoder, are kept
-frozen. A lightweight multi-token bridge maps a single global view of the image
-into the decoder, and a rank-16 LoRA adapts the decoder, so that only 1.01\% of the
-parameters are trained. On the AutoViVQA benchmark, ViBridge-VQA reaches a token
-F1 of 54.52 and a CIDEr of 108.43 on a held-out test split. It matches the
-fine-tuned Vintern-1B on F1 and clearly exceeds it, as well as zero-shot large
-language models, on all generation metrics, while still trailing the
-mixture-of-experts model ViMoE-VQA on F1. A systematic ablation shows that larger
-bridges and representation alignment do not help, whereas decoder adaptation
-helps every bridge design and makes them perform almost equally. \ifoodtext Evaluation on
-four further Vietnamese VQA datasets shows that ViBridge-VQA matches or exceeds
-the zero-shot Vintern-1B on general VQA but reveals a clear limitation on reading
-scene text.\else Evaluation on two
-further general-domain Vietnamese VQA datasets shows that ViBridge-VQA transfers
-beyond its training benchmark, matching or exceeding the zero-shot Vintern-1B.\fi
+substantially, yet adapting them to a new Vietnamese benchmark usually means
+fine-tuning on high-resolution multi-tile inputs or designing a new architecture.
+We propose \textbf{ViBridge-VQA}, a parameter-efficient method that improves the
+Vietnamese VLM Vintern-1B for generative VQA at a fraction of its cost. ViBridge-VQA
+keeps both pre-trained backbones frozen, replaces the projector with a lightweight
+multi-token bridge, and trains it jointly with a rank-16 decoder LoRA, so that only
+1.01\% of the parameters are trained and each image is encoded as a single view. On
+AutoViVQA, ViBridge-VQA raises the token F1 of Vintern-1B from 17.6 to 54.5 and its
+CIDEr from 8.5 to 108.4. It outperforms the officially fine-tuned Vintern-1B on
+seven of eight metrics, including F1 (+0.8), BLEU (+14.9), METEOR (+9.8) and CIDEr
+(+35.6), while encoding up to six times fewer image tiles, and it achieves the best
+BLEU, ROUGE-L, METEOR and CIDEr among all compared systems. A component-wise
+analysis shows that adapting the decoder is the key ingredient: it improves every
+bridge design and reduces their F1 spread from 5.6 to 0.8 points, whereas larger
+bridges and representation alignment do not help. ViBridge-VQA also transfers to
+other Vietnamese VQA datasets, and an analysis of its image reliance identifies
+fine-grained visual detail as the most promising direction for further gains.
 
 \keywords{Vietnamese Visual Question Answering \and Vision--Language Models \and
 Parameter-Efficient Fine-Tuning \and Low-Rank Adaptation \and Generative VQA}

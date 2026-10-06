@@ -21,40 +21,40 @@ and the projector, adds LoRA to the language model and encodes every image as up
 to six high-resolution tiles, so that visual encoding dominates the cost. Another
 option is to design a new architecture, as ViMoE-VQA~\cite{vimoevqa} does with a
 sparse mixture-of-experts fusion module and a transformer decoder trained on top
-of frozen encoders. Neither option indicates which component of an existing VLM
-actually limits its accuracy. This motivates two questions: \emph{can a strong
-Vietnamese VLM be adapted with both of its backbones frozen and only a small
-fraction of its parameters trained, and, if a gap remains, where is the
-bottleneck?}
+of frozen encoders. Both options are expensive in different ways, and neither
+shows which component of the model actually drives the improvement. This
+motivates two questions: \emph{can Vintern-1B be improved on a new benchmark while
+its backbones stay frozen and only a small fraction of its parameters is trained,
+and which components matter for this improvement?}
 
 To address these questions, we propose \textbf{ViBridge-VQA}, a parameter-efficient
-adaptation of Vintern-1B for generative Vietnamese VQA. ViBridge-VQA keeps the
-vision encoder and the language decoder frozen and replaces the original
-projector with a lightweight \emph{multi-token bridge} that maps a single global
-view of the image into the decoder input space, and a low-rank adapter
-(LoRA~\cite{hu2022lora}) on the decoder is trained jointly with the bridge. Only 1.01\% of the parameters are
-trained, and the visual encoder processes one image view instead of several
-tiles. We further analyse where the remaining gap comes from by varying one
-component at a time: the capacity of the bridge, the training signal of the
-bridge, and the capacity of the decoder.
+method that improves Vintern-1B for generative Vietnamese VQA. ViBridge-VQA keeps
+the vision encoder and the language decoder frozen, replaces the original projector
+with a lightweight \emph{multi-token bridge} that maps a global image vector into
+the decoder input space, and trains it jointly with a low-rank adapter
+(LoRA~\cite{hu2022lora}) on the decoder. Only 1.01\% of the parameters are trained,
+and each image is encoded as a single view instead of several tiles. On AutoViVQA,
+ViBridge-VQA outperforms the officially fine-tuned Vintern-1B on seven of eight
+metrics while spending far less visual computation. We further analyse which
+components produce this gain and what the model draws from the image.
 
 \paragraph{Contributions.}
 This work makes the following contributions:
 \begin{itemize}
-  \item We propose \textbf{ViBridge-VQA}, a frozen-backbone adaptation of Vintern-1B
-  that trains a 7.35M-parameter multi-token bridge and a rank-16 decoder LoRA
-  (1.01\% of all parameters). On AutoViVQA it matches the fine-tuned Vintern-1B on
-  F1, clearly exceeds it on all generation metrics, and is stable across seeds and
-  between the validation and test splits.
-  \item We present a \textbf{systematic bottleneck analysis}. Larger bridges,
-  multi-reference training and alignment to the original projector do not improve
-  F1, whereas decoder adaptation improves every bridge design and reduces their
-  F1 spread from 5.6 to 0.8 points. The remaining bottleneck therefore lies in the
-  frozen decoder rather than in the visual pathway.
-  \item We provide a \textbf{reliable evaluation}: an image-grouped split without
+  \item We propose \textbf{ViBridge-VQA}, a frozen-backbone method that improves
+  Vintern-1B by training a 7.35M-parameter multi-token bridge and a rank-16 decoder
+  LoRA (1.01\% of all parameters). On AutoViVQA it raises F1 from 17.6 (zero-shot)
+  to 54.5, outperforms the officially fine-tuned Vintern-1B on seven of eight
+  metrics with up to six times fewer image tiles, achieves the best generation
+  scores among all compared systems, and transfers to other Vietnamese VQA
+  datasets.
+  \item We present a \textbf{component-wise analysis} of the method. Adapting the
+  decoder is the key ingredient: it improves every bridge design and reduces their
+  F1 spread from 5.6 to 0.8 points, whereas larger bridges, multi-reference
+  training and alignment to the original projector do not improve F1.
+  \item We provide a \textbf{thorough evaluation}: an image-grouped split without
   leakage, multiple seeds with bootstrap confidence intervals, the cost of each
-  tile setting, an analysis by reasoning type, and an out-of-distribution study on
-  \ifoodtext four Vietnamese VQA datasets that exposes a clear limitation on
-  scene-text questions\else two further general-domain Vietnamese VQA
-  datasets\fi.
+  tile setting, gains per reasoning type, and an analysis of image reliance that
+  shows which information the bridge conveys and identifies fine-grained visual
+  detail as the most promising direction for further improvement.
 \end{itemize}

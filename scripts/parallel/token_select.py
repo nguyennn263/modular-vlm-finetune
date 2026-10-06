@@ -3,7 +3,7 @@
 tokens) on the OOD sets, one Kaggle session per dataset, seed-42 1000-question subset
 (the same questions as the OOD table).
 
-    python scripts/parallel/token_select.py fill [--smoke]   # --smoke: --limit 5, vitextvqa only
+    python scripts/parallel/token_select.py fill [--smoke] [--limit=N] [--datasets=a,b]   # --smoke: 5 questions, vitextvqa only
     python scripts/parallel/token_select.py collect
 """
 from __future__ import annotations
@@ -16,14 +16,20 @@ from input_diag import BRANCH, DOCKER_IMAGE
 from ood_full import _free_slots
 
 SMOKE = "--smoke" in sys.argv
-SET = "tsel-smoke" if SMOKE else "tsel"
-DATASETS = ["vitextvqa"] if SMOKE else ["vitextvqa", "openvivqa"]
-KS = "6,14,32"
+# --limit=N: first N questions of the seed-42 subset (already a random sample of the set)
+LIMIT = next((int(a.split("=", 1)[1]) for a in sys.argv if a.startswith("--limit=")), 5 if SMOKE else 0)
+SET = "tsel-smoke" if SMOKE else (f"tsel{LIMIT}" if LIMIT else "tsel")
+DATASETS = next((a.split("=", 1)[1].split(",") for a in sys.argv if a.startswith("--datasets=")),
+                ["vitextvqa"] if SMOKE else ["vitextvqa", "openvivqa"])
+KS = "7,14,32"
 
 
 def _cells(dataset: str) -> list[dict]:
     data = f"/kaggle/working/data/{dataset}"
-    limit = " --limit 5" if SMOKE else ""
+    limit = f" --limit {LIMIT}" if LIMIT else ""
+    keep = (f"import json, shutil, os; os.makedirs('/kaggle/working/out/{dataset}/images', exist_ok=True); "
+            f"[shutil.copy('{data}/images/' + json.loads(l)['image'], '/kaggle/working/out/{dataset}/images/') "
+            f"for l in list(open('{data}/internvl.jsonl'))[:{LIMIT}]]") if LIMIT else "pass"
     return [
         _clone_cell(BRANCH),
         _code("!bash setup_kaggle.sh 2>&1 | tail -5"),
@@ -32,6 +38,7 @@ def _cells(dataset: str) -> list[dict]:
               f"--seed 42 --out {data} 2>&1 | tail -5"),
         _code(f"!python experiments/token-select/vintern_topk.py --data {data}/internvl.jsonl "
               f"--images-dir {data}/images --out /kaggle/working/out/{dataset} --ks {KS}{limit}"),
+        _code(keep),
         _code(f"!rm -rf {data}/images {data}/_raw && ls -la /kaggle/working/out/{dataset}"),
     ]
 
@@ -80,7 +87,7 @@ def cmd_collect() -> None:
             print(f"[wait] {job}: {st.strip()[-40:]}")
             continue
         dst = ROOT / "outputs" / "token_select" / job.split(":", 1)[1]
-        _kaggle(j["account"], "kernels", "output", j["kernel"], "--file-pattern", r".*\.(json|log)$",
+        _kaggle(j["account"], "kernels", "output", j["kernel"], "--file-pattern", r".*\.(json|log|jpg|jpeg|png)$",
                 "-p", str(dst), check=False)
         summ = next(dst.rglob("summary.json"), None)
         if summ:

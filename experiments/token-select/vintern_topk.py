@@ -126,6 +126,7 @@ def main():
     rows = rows[: a.limit] if a.limit else rows
     configs = ["full144"] + [f"{s}_k{k}" for s in scorers for k in ks]
     preds = {c: [] for c in configs}
+    kept = {c: [] for c in configs if c != "full144"}   # kept token ids on the 12x12 grid, row-major
     gts, t0 = [], time.time()
     for i, r in enumerate(rows):
         q = r["conversations"][0]["value"].replace("<image>\n", "")
@@ -141,8 +142,9 @@ def main():
         preds["full144"].append(sel.generate(tokens, q, gcfg))
         for s in scorers:
             for k in ks:
-                idx = scores[s].float().cpu().topk(min(k, n)).indices.sort().values.to(tokens.device)
-                preds[f"{s}_k{k}"].append(sel.generate(tokens[:, idx], q, gcfg))
+                idx = scores[s].float().cpu().topk(min(k, n)).indices.sort().values
+                kept[f"{s}_k{k}"].append(idx.tolist())
+                preds[f"{s}_k{k}"].append(sel.generate(tokens[:, idx.to(tokens.device)], q, gcfg))
         if (i + 1) % 50 == 0:
             print(f"  {i + 1}/{len(rows)}  {(time.time() - t0) / (i + 1):.2f}s/sample", flush=True)
 
@@ -153,8 +155,9 @@ def main():
         print(f"{c:12s} F1 {summary[c]['f1']:6.2f}  CIDEr {summary[c]['cider']:7.2f}", flush=True)
     json.dump({"n": len(rows), "size": SIZE, "attn_layer": ATTN_LAYER, "summary": summary},
               open(os.path.join(a.out, "summary.json"), "w"), indent=1)
-    json.dump({"questions": [r["conversations"][0]["value"] for r in rows], "ground_truths": gts,
-               "predictions": preds}, open(os.path.join(a.out, "predictions.json"), "w"),
+    json.dump({"images": [r["image"] for r in rows],
+               "questions": [r["conversations"][0]["value"] for r in rows], "ground_truths": gts,
+               "predictions": preds, "kept": kept}, open(os.path.join(a.out, "predictions.json"), "w"),
               ensure_ascii=False, indent=0)
 
 

@@ -46,6 +46,19 @@ def load_image(image_path: str, size: tuple = (336, 336)) -> torch.Tensor:
         return torch.zeros((3, size[1], size[0]), dtype=torch.float32)
 
 
+IMG_CONTEXT_TOKEN = "<IMG_CONTEXT>"
+
+
+def image_placeholder(n_slot_tokens: int = 0) -> str:
+    """The image marker in the prompt. 0: the literal "<image>" every bridge has always used
+    (its tokens are only text; the bridge output is prefixed). n > 0: Vintern's own image
+    slot <img> + n x <IMG_CONTEXT> + </img>, whose context embeddings get replaced by the
+    bridge's local tokens (global_local bridge)."""
+    if n_slot_tokens <= 0:
+        return "<image>"
+    return "<img>" + IMG_CONTEXT_TOKEN * n_slot_tokens + "</img>"
+
+
 def custom_collate_fn(
     batch: List[OneSample],
     tokenizer: Optional[Any] = None,
@@ -54,6 +67,7 @@ def custom_collate_fn(
     n_tiles: int = 1,
     tile_choices: Optional[List[int]] = None,
     answer_sampling: str = "first",
+    image_slot_tokens: int = 0,
 ) -> Dict[str, Any]:
     """
     Custom collate function for batches of OneSample objects.
@@ -126,6 +140,7 @@ def custom_collate_fn(
         attention_mask_list = []
         answer_start_positions = []
         
+        image = image_placeholder(image_slot_tokens)
         for q, a in zip(questions, answers_list):
             # Extract clean question (remove <image>\n if present)
             question_clean = q
@@ -135,14 +150,14 @@ def custom_collate_fn(
             # Full text including answer
             full_text = (
                 f"<|im_start|>system\n{system_message}<|im_end|>\n"
-                f"<|im_start|>user\n<image>\n{question_clean}<|im_end|>\n"
+                f"<|im_start|>user\n{image}\n{question_clean}<|im_end|>\n"
                 f"<|im_start|>assistant\n{a}<|im_end|>"
             )
             
             # Text up to assistant answer header (for masking)
             question_part = (
                 f"<|im_start|>system\n{system_message}<|im_end|>\n"
-                f"<|im_start|>user\n<image>\n{question_clean}<|im_end|>\n"
+                f"<|im_start|>user\n{image}\n{question_clean}<|im_end|>\n"
                 f"<|im_start|>assistant\n"
             )
             
@@ -201,6 +216,7 @@ def create_collate_fn(
     n_tiles: int = 1,
     tile_choices: Optional[List[int]] = None,
     answer_sampling: str = "first",
+    image_slot_tokens: int = 0,
 ):
     """
     Factory function to create a collate_fn with specific configuration.
@@ -228,6 +244,7 @@ def create_collate_fn(
             n_tiles=n_tiles,
             tile_choices=tile_choices,
             answer_sampling=answer_sampling,
+            image_slot_tokens=image_slot_tokens,
         )
 
     return _collate

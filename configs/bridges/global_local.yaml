@@ -1,0 +1,8 @@
+# Multi-Token on the CLS token (global, prefixed, trainable) + Vintern's own mlp1 tokens
+# (frozen) average-pooled to local_grid x local_grid, written into Vintern's image slot
+# <img><IMG_CONTEXT>...</img> in the prompt. At 336px mlp1 gives a 12 x 12 grid:
+# local_grid 12 / 6 / 3 / 1 = 144 / 36 / 9 / 1 local tokens.
+bridge_type: global_local
+bridge_config:
+  num_tokens: 14
+  local_grid: 12

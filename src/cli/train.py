@@ -45,6 +45,7 @@ BRIDGES = [
     "mlp1",
     "mlp1_res",
     "hybrid",
+    "global_local",
 ]
 
 
@@ -84,6 +85,9 @@ def build_run_config(args: argparse.Namespace) -> dict[str, Any]:
     if getattr(args, "bridge_num_tokens", None) is not None:
         cfg.setdefault("bridge_config", {})
         cfg["bridge_config"]["num_tokens"] = args.bridge_num_tokens
+    if getattr(args, "local_grid", None) is not None:      # global_local: local tokens = grid^2
+        cfg.setdefault("bridge_config", {})
+        cfg["bridge_config"]["local_grid"] = args.local_grid
 
     smoke_preset = cfg.pop("smoke", {}) or {}
     cfg.setdefault("limit", None)
@@ -181,6 +185,9 @@ def _parser() -> argparse.ArgumentParser:
                    help="Override bridge_config['num_tokens'] after the YAML merge -- for the "
                         "multi_token num_tokens sweep (4/6/8/10/12) and the conv_abstractor M=4 "
                         "vs M=9 comparison. Must be a perfect square for conv_abstractor.")
+    p.add_argument("--local-grid", type=int, default=None, dest="local_grid",
+                   help="global_local: pool Vintern's mlp1 tokens to an N x N grid for the "
+                        "prompt's image slot (12 = all 144 at 336px, 0 = none).")
     p.add_argument("--tile-choices", default=None, dest="tile_choices",
                    help="Comma list e.g. '1,3,6' — per-batch random tile count "
                         "(tile-count augmentation, for a bridge the oracle sweeps over n_tiles).")

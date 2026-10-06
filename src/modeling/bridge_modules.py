@@ -851,3 +851,64 @@ class Mlp1Bridge(nn.Module):
         if self.global_tokens is None:
             return local
         return torch.cat([self.global_tokens(cls), local], dim=1)
+
+
+def fill_image_slots(text_embeddings: torch.Tensor, input_ids: torch.Tensor, context_id: int,
+                     local: torch.Tensor) -> torch.Tensor:
+    """Write local[b] into the <IMG_CONTEXT> positions of row b, in order. Rows may sit at
+    different offsets (left-padded generation batches); each must hold exactly k slots."""
+    slots = input_ids == context_id                                        # (B, L)
+    k = local.shape[1]
+    counts = slots.sum(dim=1)
+    if not bool((counts == k).all()):
+        raise ValueError(f"every row needs {k} <IMG_CONTEXT> tokens, got {counts.tolist()}")
+    out = text_embeddings.clone()
+    out[slots] = local.reshape(-1, local.shape[-1]).to(out.dtype)
+    return out
+
+
+class GlobalLocalBridge(nn.Module):
+    """
+    Global tokens from the CLS token (Multi-Token, trainable) plus local tokens from
+    Vintern's own projector (frozen), the local ones meant for Vintern's image slot
+    (<img><IMG_CONTEXT>...</img>) in the prompt rather than the prefix.
+
+    - global: MultiTokenMLP(CLS) -> (B, num_tokens, hidden_dim); the only trainable part
+    - local : patches -> pixel_shuffle_v2 -> mlp1 -> (B, S*S, hidden_dim) on an S x S grid
+              (S = 12 at 336px), then 2D average pooling to local_grid x local_grid,
+              row-major. local_grid = S keeps every token, 0 drops the local path.
+
+    forward returns (global, local); local is None when local_grid == 0.
+    """
+
+    def __init__(self, mlp1: nn.Module, vision_dim: int = 1024, hidden_dim: int = 896,
+                 num_tokens: int = 14, local_grid: int = 12, **kwargs):
+        super().__init__()
+        self.global_tokens = MultiTokenMLP(in_features=vision_dim, out_features=hidden_dim,
+                                           num_tokens=num_tokens)
+        self.mlp1 = mlp1
+        for p in self.mlp1.parameters():
+            p.requires_grad = False
+        self.local_grid = int(local_grid)
+        self.num_local_tokens = self.local_grid ** 2
+
+    @torch.no_grad()
+    def local_tokens(self, patches: torch.Tensor) -> torch.Tensor:
+        """(B, P, vision_dim) patch tokens, CLS removed -> (B, local_grid**2, hidden_dim)."""
+        b, p, d = patches.shape
+        side = int(math.isqrt(p))
+        assert side * side == p, f"expected a square patch grid, got {p} patches"
+        grid = pixel_shuffle_v2(patches.reshape(b, side, side, d))       # (B, S, S, 4d), S = side/2
+        s = grid.shape[1]
+        tokens = self.mlp1(grid.reshape(b, s * s, -1))                     # (B, S*S, hidden), row-major
+        if self.local_grid == s:
+            return tokens
+        tokens = tokens.reshape(b, s, s, -1).permute(0, 3, 1, 2)           # (B, hidden, S, S)
+        pooled = F.adaptive_avg_pool2d(tokens.float(), self.local_grid).to(tokens.dtype)
+        return pooled.flatten(2).transpose(1, 2)                           # (B, g*g, hidden), row-major
+
+    def forward(self, x: torch.Tensor):
+        """x: (B, 1+P, vision_dim), CLS first -> (global (B, num_tokens, hidden), local or None)."""
+        glob = self.global_tokens(x[:, 0])
+        local = self.local_tokens(x[:, 1:]) if self.local_grid > 0 else None
+        return glob, local

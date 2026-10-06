@@ -29,7 +29,7 @@ from torchvision.transforms.functional import InterpolationMode
 
 from src.utils.logging import data_loader_logger as logger
 from src.schema.data_schema import OneSample
-from src.data.collator import create_collate_fn
+from src.data.collator import create_collate_fn, image_placeholder, IMG_CONTEXT_TOKEN
 
 
 # ============================================================================
@@ -282,16 +282,20 @@ class BridgeTrainer:
                 
                 # Store tokenizer for inference
                 self.tokenizer = tokenizer
+                # global_local: the prompt's image slot holds this many <IMG_CONTEXT> tokens
+                self.n_image_slot_tokens = int(getattr(self.model, "n_image_slot_tokens", 0))
+                self.img_context_id = tokenizer.convert_tokens_to_ids(IMG_CONTEXT_TOKEN)
                 
                 # Use max_length=256 for memory efficiency (reduces memory usage by ~50%)
-                # This is still plenty for Q&A pairs
+                # This is still plenty for Q&A pairs; the image slot's tokens come on top.
                 collate_fn = create_collate_fn(
                     tokenizer=tokenizer,
                     image_size=(336, 336),
                     n_tiles=getattr(config, "n_tiles", 1),
                     tile_choices=getattr(config, "tile_choices", None),
                     answer_sampling=getattr(config, "answer_sampling", "first"),
-                    max_length=256  # Reduced from default 512
+                    max_length=256 + self.n_image_slot_tokens,  # Reduced from default 512
+                    image_slot_tokens=self.n_image_slot_tokens,
                 )
         
         self.train_loader = DataLoader(
@@ -652,6 +656,9 @@ class BridgeTrainer:
             if 'answer_start_pos' in batch:
                 hidden = hidden | (positions >= batch['answer_start_pos'].to(self.device).unsqueeze(1))
             bridged_embeddings = self.model.bridge(vision_embeddings, text_embeddings, hidden)
+        elif bridge_type == 'global_local':
+            bridged_embeddings, text_embeddings = self._global_local(vision_embeddings, input_ids,
+                                                                     text_embeddings)
         else:
             # All other bridges just take vision embeddings
             bridged_embeddings = self.model.bridge(vision_embeddings)
@@ -1130,6 +1137,16 @@ class BridgeTrainer:
         answers = [str(a).strip() for a in answers if a is not None and str(a).strip()]
         return answers if answers else ['']
 
+    def _global_local(self, vision_embeddings: torch.Tensor, input_ids: torch.Tensor,
+                      text_embeddings: torch.Tensor):
+        """global_local bridge: (global tokens to prefix, text embeddings with the local
+        tokens written into the prompt's <IMG_CONTEXT> slot)."""
+        from src.modeling.bridge_modules import fill_image_slots
+        glob, local = self.model.bridge(vision_embeddings)
+        if local is not None:
+            text_embeddings = fill_image_slots(text_embeddings, input_ids, self.img_context_id, local)
+        return glob, text_embeddings
+
     def _build_prompt_text(self, question: str) -> str:
         """Build prompt text in the same format as training/inference."""
         system_message = (
@@ -1138,7 +1155,8 @@ class BridgeTrainer:
         )
         return (
             f"<|im_start|>system\n{system_message}<|im_end|>\n"
-            f"<|im_start|>user\n<image>\n{question}<|im_end|>\n"
+            f"<|im_start|>user\n{image_placeholder(getattr(self, 'n_image_slot_tokens', 0))}\n"
+            f"{question}<|im_end|>\n"
             f"<|im_start|>assistant\n"
         )
 
@@ -1168,6 +1186,9 @@ class BridgeTrainer:
         if bridge_type == 'qformer':
             # prompt only (no answer) at generation; still hide the padding
             bridge_output = self.model.bridge(vision_embeddings, text_embeddings, attention_mask == 0)
+        elif bridge_type == 'global_local':
+            bridge_output, text_embeddings = self._global_local(vision_embeddings, input_ids,
+                                                                text_embeddings)
         else:
             bridge_output = self.model.bridge(vision_embeddings)
         if bridge_output.dim() == 2:
@@ -1256,6 +1277,9 @@ class BridgeTrainer:
         if bridge_type == 'qformer':
             # prompt only (no answer) at generation; still hide the padding
             bridge_output = self.model.bridge(vision_embeddings, text_embeddings, attention_mask == 0)
+        elif bridge_type == 'global_local':
+            bridge_output, text_embeddings = self._global_local(vision_embeddings, input_ids,
+                                                                text_embeddings)
         else:
             bridge_output = self.model.bridge(vision_embeddings)
         if bridge_output.dim() == 2:

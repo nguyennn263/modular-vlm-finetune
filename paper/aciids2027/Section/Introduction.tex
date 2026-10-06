@@ -36,7 +36,7 @@ the decoder input space, and trains it jointly with a low-rank adapter
 and each image is encoded as a single view instead of several tiles. On AutoViVQA,
 ViBridge-VQA outperforms the officially fine-tuned Vintern-1B on seven of eight
 metrics while spending far less visual computation. We further analyse which
-components produce this gain and what the model draws from the image.
+components produce this gain.
 
 \paragraph{Contributions.}
 This work makes the following contributions:
@@ -54,7 +54,6 @@ This work makes the following contributions:
   training and alignment to the original projector do not improve F1.
   \item We provide a \textbf{thorough evaluation}: an image-grouped split without
   leakage, multiple seeds with bootstrap confidence intervals, the cost of each
-  tile setting, gains per reasoning type, and an analysis of image reliance that
-  shows which information the bridge conveys and identifies fine-grained visual
-  detail as the most promising direction for further improvement.
+  tile setting, gains per reasoning type showing the largest improvements on
+  reasoning-intensive questions, and an out-of-distribution study.
 \end{itemize}

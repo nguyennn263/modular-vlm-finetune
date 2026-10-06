@@ -13,13 +13,10 @@ datasets. Our component-wise analysis shows that adapting the decoder is the key
 ingredient: it improves every bridge design and makes them perform almost equally,
 whereas larger bridges and representation alignment do not help.
 
-ViBridge-VQA also has limitations. It still trails ViMoE-VQA in precision and F1,
-and the fine-tuned Vintern-1B in exact-match accuracy. Its global-vector bridge
-conveys scene-level rather than fine-grained visual information, so counting and
-text-reading questions benefit least, and the baselines were reported on a
-different split of AutoViVQA rather than reproduced in our setting. Future work will
-add patch-level tokens through the pre-trained projector of Vintern-1B while keeping
-a single view, and study larger Vietnamese decoders. The code and the grouped split
+ViMoE-VQA, a model trained specifically for AutoViVQA, still achieves a higher F1,
+and the baselines were reported on a different split of AutoViVQA. Future work will
+add patch-level visual tokens through the pre-trained projector of Vintern-1B while
+keeping a single view, and study larger Vietnamese decoders. The code and the grouped split
 are available at \url{https://github.com/nguyennn263/modular-vlm-finetune}.
 
 Overall, ViBridge-VQA shows that an existing Vietnamese VLM can be improved

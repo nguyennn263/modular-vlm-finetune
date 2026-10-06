@@ -130,3 +130,6 @@ def test_collator_slot_and_answer_mask(k, tmp_path):
         n = int(out["attention_mask"][row].sum())
         decoded = tok.decode(out["input_ids"][row, start:n], skip_special_tokens=True)
         assert decoded.strip() == ans     # loss positions = the answer, nothing truncated
+    width = out["input_ids"].shape[1]
+    real = int(out["attention_mask"].sum(1).max())
+    assert width == (real if k > 0 else 256 + k)   # slot: trimmed to the longest row; else fixed

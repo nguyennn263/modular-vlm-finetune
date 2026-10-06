@@ -119,23 +119,30 @@ Category & Model & Acc & Prec & Rec & F1 & BLEU & ROUGE & METEOR & CIDEr \\
 \end{tabular}}
 \end{table}
 
-Table~\ref{tab:main} compares ViBridge-VQA with the baselines. With only the bridge
-trained (0.78\% of the parameters), the model already exceeds the fine-tuned
-Vintern-1B on BLEU, METEOR and CIDEr. Training the bridge jointly with the decoder
-LoRA for 3 epochs brings
-F1 to 54.52, on par with the fine-tuned Vintern-1B (53.76), and yields the best
-BLEU, ROUGE-L, METEOR and CIDEr among all compared systems, with gains of
-$+14.9$ BLEU, $+9.8$ METEOR and $+35.6$ CIDEr over the fine-tuned Vintern-1B. The
-fine-tuned Vintern-1B keeps the highest exact-match accuracy, and ViMoE-VQA keeps
-the highest precision and F1 ($+6.2$ over ViBridge-VQA), so a frozen-backbone
-adaptation does not yet close the gap in answer-token overlap to a model trained
-for the task.
+Table~\ref{tab:main} compares ViBridge-VQA with the baselines.
 
-Compared with zero-shot large language models, ViBridge-VQA is better on every
-metric except recall. As already observed for AutoViVQA and ViMoE-VQA, zero-shot
-models produce long answers that cover many reference words (high recall) at the
-cost of precision. ViBridge-VQA, trained on the short answer style of the
-benchmark, achieves a balanced precision--recall trade-off. One epoch of LoRA
+\paragraph{Improvement over Vintern-1B.}
+ViBridge-VQA substantially improves the model it is built on. Starting from the
+same frozen Vintern-1B, it raises F1 from 17.55 (zero-shot) to 54.52 and CIDEr from
+8.54 to 108.43. More importantly, it also outperforms the officially fine-tuned
+Vintern-1B on seven of the eight metrics: precision ($+2.9$), recall ($+1.0$), F1
+($+0.8$), BLEU ($+14.9$), ROUGE-L ($+0.8$), METEOR ($+9.8$) and CIDEr ($+35.6$); only
+exact-match accuracy is lower ($-1.6$). The fine-tuned Vintern-1B encodes each image
+as up to six $448\times448$ tiles plus a thumbnail and passes 256 visual tokens per
+tile to the decoder, whereas ViBridge-VQA encodes a single view and passes eight
+tokens, i.e.\ at most one sixth of the encoder cost (Table~\ref{tab:cost}). Even the
+bridge alone (0.78\% of the parameters) already exceeds the fine-tuned Vintern-1B
+on BLEU, METEOR and CIDEr.
+
+\paragraph{Comparison with other systems.}
+ViBridge-VQA achieves the best BLEU, ROUGE-L, METEOR and CIDEr among all compared
+systems, including ViMoE-VQA, which it also exceeds in exact-match accuracy
+(11.40 versus 9.55). ViMoE-VQA, a task-specific model whose fusion module and
+decoder are trained on AutoViVQA, keeps the highest precision and F1. Compared with zero-shot large
+language models, ViBridge-VQA is better on every metric except recall: as observed
+for AutoViVQA and ViMoE-VQA, zero-shot models produce long answers that cover many
+reference words at the cost of precision, whereas ViBridge-VQA produces concise
+answers with a balanced precision--recall trade-off. One epoch of joint training
 already provides about two thirds of the 3-epoch F1 gain.
 
 \subsection{Discussion of Evaluation and Efficiency}
@@ -293,6 +300,52 @@ caption used to generate them (e.g.\ ``how many groups of people are mentioned i
 the description?'') rather than to the image; decoder adaptation does not change
 the score on this subset either ($+0.3$).
 
+\subsection{What Does ViBridge-VQA Draw from the Image?}
+\label{sec:reliance}
+
+Because the multi-token bridge reads a single global vector, we examine which
+visual information it conveys. Table~\ref{tab:reliance} reports three probes on the
+validation split (seed 42). First, a question-only baseline, which answers each
+question with the first reference of the most similar training question (TF-IDF),
+reaches 36.2 F1: like other VQA benchmarks~\cite{goyal2017makingvqa}, AutoViVQA
+contains question--answer regularities that do not require the image.
+ViBridge-VQA exceeds this baseline by 18.9 F1, so it clearly exploits visual
+information. Second, when the model sees only the top-left sixth of each image,
+F1 barely changes and most answers stay identical, especially for counting (93\%)
+and yes/no questions (91\%). Third, when the same question is asked about
+different images, ViBridge-VQA gives the same answer in 84\% of the cases.
+
+\begin{table}[t]
+\centering
+\caption{Image-reliance probes (validation, seed 42, $\times100$). ``1/6 image'':
+generation sees only the top-left sixth of each image.}
+\label{tab:reliance}
+\footnotesize
+\begin{tabular}{lrr}
+\toprule
+Probe & Bridge only & ViBridge-VQA \\
+\midrule
+Question-only baseline (no image), F1 & \multicolumn{2}{c}{36.17} \\
+Whole image, F1 & 50.87 & 55.04 \\
+1/6 image, F1 & 49.61 & 54.91 \\
+Answers unchanged, 1/6 vs.\ whole image & 63.4\% & 80.6\% \\
+Same answer for the same question on different images & -- & 84\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+These probes show that the \texttt{[CLS]} vector read by the bridge mainly carries
+scene-level semantics, such as the type of scene and the objects present, rather
+than fine-grained detail such as positions, counts or text. Scene-level semantics
+suffice for many relational, causal and action questions, where ViBridge-VQA gains
+most (Fig.~\ref{fig:results}b), and the decoder adaptation turns them into answers
+in the concise style of the benchmark, which explains the strong generation
+scores. Fine-grained questions such as counting benefit least. This analysis
+identifies the main direction for further improvement: complementing the global
+tokens with patch-level tokens, for example through the pre-trained projector of
+Vintern-1B, while keeping a single view. It also suggests that benchmarks built from
+captions by LLMs should report a question-only baseline alongside model scores.
+
 \subsection{Out-of-Distribution Generalisation}
 
 \begin{table}[t]
@@ -373,11 +426,7 @@ answers rather than reproducing reference phrasings. Such paraphrases are only
 partly rewarded by token-level metrics, so F1 and exact-match accuracy tend to
 underestimate answer quality on open-ended questions.
 
-Two error patterns remain. First, counting is not improved on average: the adapted
-decoder corrects some counts but introduces a similar number of new errors (37
-versus 29).
-Second, some attribute errors are near misses between visually similar values,
-for example ``red'' for an orange bus. Both patterns are
-consistent with the bridge reading a single global image vector, which limits
-fine-grained visual detail, and suggest that further gains require a richer visual
-input rather than a larger bridge.
+Two error patterns remain, both consistent with Section~\ref{sec:reliance}.
+Counting is not improved on average: the joint model corrects some counts but
+introduces a similar number of new errors (37 versus 29). Some attribute errors are
+near misses between similar values, for example ``red'' for an orange bus.

@@ -38,6 +38,8 @@ def _parser() -> argparse.ArgumentParser:
                         "with (train.py's flag of the same name) -- otherwise the bridge is "
                         "rebuilt with the YAML default num_tokens and state_dict loading fails "
                         "with a shape mismatch.")
+    p.add_argument("--local-grid", type=int, default=None, dest="local_grid",
+                   help="global_local: must match the --local-grid the checkpoint was trained with.")
     p.add_argument("--pooled-input", default="default", dest="pooled_input",
                    choices=["default", "mean_all", "cls_mean"],
                    help="How pooled bridges read InternViT (see setup.POOLED_INPUT_MODES).")
@@ -60,6 +62,9 @@ def run(args: argparse.Namespace) -> dict:
     if args.bridge_num_tokens is not None:
         bridge_cfg.setdefault("bridge_config", {})
         bridge_cfg["bridge_config"]["num_tokens"] = args.bridge_num_tokens
+    if args.local_grid is not None:
+        bridge_cfg.setdefault("bridge_config", {})
+        bridge_cfg["bridge_config"]["local_grid"] = args.local_grid
     split_cfg = train_cfg.get("split", {})
 
     if args.split_dir:

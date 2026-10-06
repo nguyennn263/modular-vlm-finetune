@@ -8,6 +8,10 @@ kernel_sources. Same procedure as every other bridge in the paper:
 
     python scripts/parallel/train_queue.py fill [--smoke]   # --smoke: --limit 40 everywhere
     python scripts/parallel/train_queue.py collect
+
+--gl: the global_local study instead (plain bridge, no LoRA, AutoViVQA only): Multi-Token on
+CLS with g in {8, 14} global tokens + Vintern's mlp1 tokens pooled to k in {1, 9, 36, 144} in
+the image slot; epoch 1 -> epoch 2 (--resume) -> val + test eval (--gen-image full).
 """
 from __future__ import annotations
 import json, sys, time
@@ -19,7 +23,13 @@ from input_diag import BRANCH, DOCKER_IMAGE
 from ood_full import _free_slots
 
 SMOKE = "--smoke" in sys.argv
-PREFIX = "qfx-smoke" if SMOKE else "qfx"
+GL = "--gl" in sys.argv
+SET = "gl" if GL else "qfx"
+PREFIX = f"{SET}-smoke" if SMOKE else SET
+GL_GLOBAL = [8, 14]
+GL_GRIDS = [1, 3, 6, 12]                    # k = grid^2 = 1 / 9 / 36 / 144 local tokens
+# accounts with room for two ~8h chains each (accounts under ~2h left failed to start a session)
+GL_ACCS = ["acc13", "acc17", "acc15", "acc16"]
 SEEDS = [42] if SMOKE else [42, 123, 3407]
 TRAIN = ("--split-dir data/splits --batch-size 8 --grad-accum 1 --eval-steps 800 --save-steps 800 "
          "--no-early-stopping --text-metrics-every 99")
@@ -29,6 +39,19 @@ CK = "/kaggle/working/ck"
 
 def _chains() -> dict[str, list[dict]]:
     chains = {}
+    if GL:
+        for g in GL_GLOBAL:
+            for grid in GL_GRIDS:
+                flags = f"--bridge-num-tokens {g} --local-grid {grid}"
+                base = (f"python -m src.cli.train --bridge global_local {flags} --seed 42 {TRAIN}"
+                        f" --text-metrics-max-samples 200{LIMIT} --output-dir {CK}")
+                chains[f"{PREFIX}-g{g}-k{grid * grid}-s42"] = [
+                    {"name": "ep1", "bridge": "global_local", "cmd": f"{base} --epochs 1"},
+                    {"name": "ep2", "bridge": "global_local", "cmd": f"{base} --epochs 2 --resume PREV"},
+                    {"name": "eval", "bridge": "global_local", "eval": True, "splits": ["val", "test"],
+                     "eval_flags": f" {flags}"},
+                ]
+        return chains
     for s in SEEDS:
         chains[f"{PREFIX}-plain-s{s}"] = [
             {"name": "ep1", "cmd": f"python -m src.cli.train --bridge qformer --seed {s} --epochs 1 {TRAIN}{LIMIT} --output-dir {CK}"},
@@ -43,27 +66,30 @@ def _chains() -> dict[str, list[dict]]:
 
 
 def _cells(phase: dict, has_prev: bool) -> list[dict]:
+    b = phase.get("bridge", "qformer")
     cells = [_clone_cell(BRANCH), _code("!bash setup_kaggle.sh 2>&1 | tail -5"),
              _code("!python -c \"import torch; print('GPU:', torch.cuda.get_device_name(0))\""),
              _code("!python scripts/phase0_build_data.py 2>&1 | tail -4")]
     if has_prev:  # previous phase's checkpoint, mounted read-only through kernel_sources
         cells.append(_code("import glob, os, shutil",
-                           "prev = sorted(glob.glob('/kaggle/input/**/qformer/last_model.pt', recursive=True))",
+                           f"prev = sorted(glob.glob('/kaggle/input/**/{b}/last_model.pt', recursive=True))",
                            "assert prev, 'previous phase checkpoint not found: ' + repr(os.listdir('/kaggle/input'))",
                            "os.makedirs('/tmp/prev', exist_ok=True); shutil.copy(prev[0], '/tmp/prev/last_model.pt')",
                            "print('prev ckpt', prev[0])"))
     if phase.get("eval"):
         limit = " --limit 40" if SMOKE else ""
-        cells += [_code("!mkdir -p /tmp/ck/qformer && cp /tmp/prev/last_model.pt /tmp/ck/qformer/model.pt && "
-                        "python -m src.cli.evaluate --bridge qformer --split-dir data/splits --split val "
-                        f"--n-tiles 1 --gen-image full --checkpoint /tmp/ck/qformer/model.pt{limit} "
-                        "--output /tmp/ck/qformer/eval_val.json"),
-                  _code("!mkdir -p /kaggle/working/out && cp /tmp/ck/qformer/eval_val.json "
-                        "/tmp/ck/qformer/results/text_predictions_epoch_1.json /kaggle/working/out/ && "
-                        "head -c 700 /kaggle/working/out/eval_val.json")]
+        cells.append(_code(f"!mkdir -p /tmp/ck/{b} && cp /tmp/prev/last_model.pt /tmp/ck/{b}/model.pt"))
+        for split in phase.get("splits", ["val"]):
+            out = "/kaggle/working/out" + ("" if "splits" not in phase else f"/{split}")
+            cells += [_code(f"!python -m src.cli.evaluate --bridge {b} --split-dir data/splits --split {split} "
+                            f"--n-tiles 1 --gen-image full --checkpoint /tmp/ck/{b}/model.pt{limit}"
+                            f"{phase.get('eval_flags', '')} --output /tmp/ck/{b}/eval_{split}.json"),
+                      _code(f"!mkdir -p {out} && cp /tmp/ck/{b}/eval_{split}.json "
+                            f"/tmp/ck/{b}/results/text_predictions_epoch_1.json {out}/ && "
+                            f"head -c 700 {out}/eval_{split}.json")]
     else:
         cells += [_code("!" + phase["cmd"].replace("PREV", "/tmp/prev/last_model.pt")),
-                  _code(f"!ls -la {CK}/qformer/ && grep -h 'Train Loss\\|Val Loss' {CK}/qformer/results/training_*.log | tail -4")]
+                  _code(f"!ls -la {CK}/{b}/ && grep -h 'Train Loss\\|Val Loss' {CK}/{b}/results/training_*.log | tail -4")]
     return cells
 
 
@@ -97,8 +123,9 @@ def _status(acc: str, kid: str) -> str:
 
 def cmd_fill() -> None:
     chains = _chains()
-    accounts = sorted((p.name for p in ACCT_DIR.glob("acc*") if (p / "kaggle.json").exists()
-                       and p.name[3:].isdigit()), key=lambda s: int(s[3:]), reverse=True)
+    accounts = GL_ACCS if GL else sorted(
+        (p.name for p in ACCT_DIR.glob("acc*") if (p / "kaggle.json").exists() and p.name[3:].isdigit()),
+        key=lambda s: int(s[3:]), reverse=True)
     while True:
         jobs = load_ledger()["jobs"]
         pending = False
@@ -138,7 +165,7 @@ def cmd_fill() -> None:
 
 
 def cmd_collect() -> None:
-    out_root = ROOT / "outputs" / "train_qfx"
+    out_root = ROOT / "outputs" / f"train_{SET}"
     led = load_ledger()
     done = []
     for key, j in led["jobs"].items():
@@ -150,11 +177,12 @@ def cmd_collect() -> None:
         _kaggle(j["account"], "kernels", "output", j["kernel"], "--file-pattern", r".*\.(json|log)$",
                 "-p", str(dst), check=False)
         done.append(key)
-        ev = next(dst.rglob("eval_val.json"), None)
-        if ev:
+        evs = sorted(dst.rglob("eval_*.json"))
+        for ev in evs:
             d = json.loads(ev.read_text())
-            print(f"[ok] {key}: F1 {d.get('f1', 0) * 100:.2f}  CIDEr {d.get('cider', 0) * 100:.2f}  loss {d.get('loss', 0):.3f}")
-        else:
+            print(f"[ok] {key} {ev.stem}: F1 {d.get('f1', 0) * 100:.2f}  CIDEr {d.get('cider', 0) * 100:.2f}  "
+                  f"loss {d.get('loss', 0):.3f}")
+        if not evs:
             print(f"[ok] {key}")
     led = load_ledger()
     for key in done:

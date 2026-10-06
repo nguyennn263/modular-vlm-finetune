@@ -26,6 +26,7 @@ from src.modeling.bridge_modules import (
     PatchPoolBridge,
     ConvAbstractorBridge,
     Mlp1Bridge,
+    GlobalLocalBridge,
 )
 from src.utils.logging import data_loader_logger as logger
 
@@ -44,13 +45,14 @@ BRIDGE_TYPE = Literal[
     'mlp1',                 # Vintern's own projector (pixel-shuffle + mlp1), frozen
     'mlp1_res',             # mlp1 + trainable residual
     'hybrid',               # mlp1 + residual (local) + Multi-Token on CLS (global)
+    'global_local',         # Multi-Token on CLS (prefix) + pooled mlp1 tokens in Vintern's image slot
 ]
 
 
 # Bridge types that need full vision patches (not pooled)
 PATCH_BASED_BRIDGES = {'tile_attention', 'mini_qformer', 'qformer',
                         'patch_pool_mean', 'patch_pool_max', 'conv_abstractor',
-                        'mlp1', 'mlp1_res', 'hybrid'}
+                        'mlp1', 'mlp1_res', 'hybrid', 'global_local'}
 
 # How a pooled bridge (multi_token, residual, ...) reads InternViT's output:
 #   default  - CLS token at one tile, mean over every token of every tile at
@@ -137,6 +139,10 @@ class VisionLanguageBridge(nn.Module):
         self.uses_patches = bridge_type in PATCH_BASED_BRIDGES
         self.uses_text = bridge_type in TEXT_CONDITIONING_BRIDGES
         
+        # global_local: number of <IMG_CONTEXT> tokens the prompt's image slot must hold
+        self.n_image_slot_tokens = (self.bridge.num_local_tokens
+                                    if bridge_type == 'global_local' else 0)
+
         # For ResidualBridge: learnable alpha to scale residual
         if self.bridge_type == 'residual':
             self.alpha = nn.Parameter(torch.tensor(alpha_scaling, dtype=torch.float32))
@@ -216,6 +222,15 @@ class VisionLanguageBridge(nn.Module):
                 hidden_dim=hidden_dim,
                 residual_dim=config.get('residual_dim', 0),
                 num_global_tokens=config.get('num_global_tokens', 0),
+            )
+
+        elif self.bridge_type == 'global_local':
+            return GlobalLocalBridge(
+                mlp1=self._vintern_mlp1,
+                vision_dim=vision_dim,
+                hidden_dim=hidden_dim,
+                num_tokens=config.get('num_tokens', 14),
+                local_grid=config.get('local_grid', 12),
             )
 
         elif self.bridge_type == 'tile_attention':

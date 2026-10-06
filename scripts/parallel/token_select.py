@@ -5,6 +5,7 @@ tokens) on the OOD sets, one Kaggle session per dataset, seed-42 1000-question s
 
     python scripts/parallel/token_select.py fill [--smoke] [--limit=N] [--datasets=a,b]   # --smoke: 5 questions, vitextvqa only
     python scripts/parallel/token_select.py collect
+    python scripts/parallel/token_select.py plugin --limit=20 --acc=acc20   # hybrid_plugin.py, eval only
 """
 from __future__ import annotations
 import json, sys, time
@@ -12,7 +13,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 from run import ROOT, ACCT_DIR, _kaggle, _user, _code, _clone_cell, _nb, load_ledger, save_ledger  # noqa
-from input_diag import BRANCH, DOCKER_IMAGE
+from input_diag import BRANCH, DOCKER_IMAGE, LORA_DS
 from ood_full import _free_slots
 
 SMOKE = "--smoke" in sys.argv
@@ -64,6 +65,52 @@ def _launch(acc: str, dataset: str) -> None:
     print(f"[launch] {job} -> {acc} ({kid})", flush=True)
 
 
+def _plugin_cells(n: int) -> list[dict]:
+    """experiments/token-select/hybrid_plugin.py: l3ep-s42 + Vintern's mlp1 tokens, no training."""
+    data = "/kaggle/working/data/vitextvqa"
+    out = "/kaggle/working/out/plugin"
+    return [
+        _clone_cell(BRANCH),
+        _code("!bash setup_kaggle.sh 2>&1 | tail -5"),
+        _code("!pip -q install requests"),
+        _code("!python scripts/phase0_build_data.py 2>&1 | tail -4"),
+        _code(f"!python experiments/ood-eval/build_ood_data.py --dataset vitextvqa --n 1000 --seed 42 --out {data} 2>&1 | tail -5"),
+        _code("import glob, os, shutil",
+              "src = glob.glob('/kaggle/input/**/l3ep-s42.pt', recursive=True)",
+              "assert src, 'ckpt not found: ' + repr(os.listdir('/kaggle/input'))",
+              "shutil.copy(src[0], '/tmp/l3ep-s42.pt'); print('ckpt', src[0])"),
+        _code(f"!python experiments/token-select/hybrid_plugin.py --checkpoint /tmp/l3ep-s42.pt "
+              f"--ood-data {data}/ours.jsonl --ood-images {data}/images --n-ood {n} --n-val {n} --out {out}"),
+        _code("import json",
+              f"os.makedirs('{out}/images', exist_ok=True)",
+              f"for r in json.load(open('{out}/vitextvqa.json')): shutil.copy('{data}/images/' + r['image'], '{out}/images/')",
+              f"print(os.listdir('{out}'))"),
+    ]
+
+
+def cmd_plugin() -> None:
+    """--plugin --limit=N --acc=accX : one eval-only session."""
+    acc = next(a.split("=", 1)[1] for a in sys.argv if a.startswith("--acc="))
+    n = LIMIT or 20
+    job, slug = f"plugin{n}:l3ep-s42", f"mvlm-plugin{n}-l3ep-s42"
+    kid = f"{_user(acc)}/{slug}"
+    wd = ROOT / "outputs" / "parallel" / "workers" / slug
+    wd.mkdir(parents=True, exist_ok=True)
+    (wd / "worker.ipynb").write_text(json.dumps(_nb(_plugin_cells(n))))
+    (wd / "kernel-metadata.json").write_text(json.dumps({
+        "id": kid, "title": slug[:50], "code_file": "worker.ipynb",
+        "language": "python", "kernel_type": "notebook", "is_private": True,
+        "enable_gpu": True, "enable_internet": True, "docker_image": DOCKER_IMAGE,
+        "dataset_sources": ["nguynrichard/auto-vqabest", f"{_user('acc1')}/{LORA_DS}"], "kernel_sources": [],
+    }, indent=2))
+    _kaggle(acc, "kernels", "push", "-p", str(wd))
+    led = load_ledger()
+    led["jobs"][job] = {"account": acc, "kernel": kid, "status": "running",
+                        "pushed_at": time.strftime("%Y-%m-%dT%H:%M:%S")}
+    save_ledger(led)
+    print(f"[launch] {job} -> {acc} ({kid})", flush=True)
+
+
 def cmd_fill() -> None:
     accounts = sorted((p.name for p in ACCT_DIR.glob("acc*") if (p / "kaggle.json").exists()
                        and p.name[3:].isdigit()), key=lambda s: int(s[3:]))
@@ -101,4 +148,4 @@ def cmd_collect() -> None:
 
 
 if __name__ == "__main__":
-    {"fill": cmd_fill, "collect": cmd_collect}[sys.argv[1]]()
+    {"fill": cmd_fill, "collect": cmd_collect, "plugin": cmd_plugin}[sys.argv[1]]()

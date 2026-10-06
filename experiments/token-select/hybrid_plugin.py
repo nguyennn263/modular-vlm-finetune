@@ -63,7 +63,8 @@ class Plugin:
         from src.data.collator import load_image
         pv = load_image(image_path, size=(336, 336)).unsqueeze(0).to(self.dev, self.dtype)
         hid = self.m.vision_model(pv).last_hidden_state                       # (1, 577, 1024)
-        glob = self.m.bridge(hid[:, 0])                                        # (1, 8, 896)
+        bdt = next(self.m.bridge.parameters()).dtype                           # bridge is kept in fp32
+        glob = self.m.bridge(hid[:, 0].to(bdt)).to(self.dtype)                 # (1, 8, 896)
         patches = hid[:, 1:]
         side = int(patches.shape[1] ** 0.5)
         grid = self.base.pixel_shuffle(patches.reshape(1, side, side, -1), scale_factor=self.base.downsample_ratio)

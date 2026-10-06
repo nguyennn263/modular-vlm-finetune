@@ -274,6 +274,65 @@ Alignment & logit distillation, weight $\lambda=0.1$ / $\lambda=1$ & $-0.28$ / $
 \end{tabular}
 \end{table}
 
+\paragraph{Bridge design: number of tokens and pooling.}
+Two further design choices of the bridge are examined in
+Tables~\ref{tab:ntokens} and~\ref{tab:pooling}. Varying the number of output tokens
+$k$ of the Multi-Token bridge shows that F1 increases from $k=4$ to $k=14$ and then
+plateaus; $k=8$, used throughout the paper, lies within 1.1 F1 of the best value
+while passing fewer tokens to the decoder, and fewer tokens ($k=4,6$) are clearly
+worse. Replacing the global vector by bridges that pool the patch tokens confirms
+the design: fixed mean or max pooling loses 10.8 and 13.9 F1, learned attention
+loses 5.1 F1, and a Honeybee-style convolutional abstractor~\cite{cha2024honeybee}
+(convolution, adaptive average pooling, convolution) comes within 0.7 F1 but needs
+$2.7\times$ the parameters. The Multi-Token bridge thus offers the best trade-off
+between accuracy and size.
+
+\begin{table}[t]
+\centering
+\caption{Number of output tokens $k$ of the Multi-Token bridge (bridge only,
+validation, mean $\pm$ std over 3 seeds; $k=8$: 4 seeds). This ablation and
+Table~\ref{tab:pooling} use an earlier evaluation setting in which generation reads
+a $448\times448$ crop; all rows within each table share the same setting.}
+\label{tab:ntokens}
+\footnotesize
+\begin{tabular}{rrrrrr}
+\toprule
+$k$ & F1 & CIDEr & BLEU & METEOR & CE \\
+\midrule
+4  & $48.54\pm0.42$ & $93.51\pm0.60$ & $14.65\pm0.25$ & $39.37\pm0.15$ & 1.54 \\
+6  & $49.03\pm0.39$ & $94.24\pm0.96$ & $14.98\pm0.22$ & $39.52\pm0.32$ & 1.52 \\
+\textbf{8} & $\mathbf{49.55\pm0.08}$ & $96.49\pm0.69$ & $15.72\pm0.34$ & $40.22\pm0.21$ & 1.49 \\
+10 & $49.99\pm0.16$ & $96.99\pm0.33$ & $15.94\pm0.27$ & $40.52\pm0.11$ & 1.48 \\
+12 & $50.23\pm0.22$ & $97.69\pm0.98$ & $16.09\pm0.35$ & $40.68\pm0.29$ & 1.47 \\
+14 & $50.67\pm0.09$ & $99.83\pm0.65$ & $16.81\pm0.27$ & $41.34\pm0.28$ & 1.47 \\
+16 & $50.44\pm0.54$ & $98.75\pm1.03$ & $16.25\pm0.71$ & $41.11\pm0.27$ & 1.47 \\
+18 & $50.51\pm0.79$ & $99.08\pm1.98$ & $16.34\pm0.46$ & $41.18\pm0.67$ & 1.47 \\
+20 & $50.62\pm0.52$ & $99.37\pm1.01$ & $16.40\pm0.66$ & $41.31\pm0.33$ & 1.46 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Pooling operators for the bridge (bridge only, validation, seed 42; same
+evaluation setting as Table~\ref{tab:ntokens}). The Conv-Abstractor uses $k=9$
+because it needs a square grid.}
+\label{tab:pooling}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{llrrrr}
+\toprule
+Bridge & Pooling operator & Params & F1 & CIDEr & CE \\
+\midrule
+\textbf{Multi-Token} & none (global vector) & 7.35M & \textbf{49.61} & \textbf{96.72} & \textbf{1.49} \\
+Patch-Pool & fixed mean over patches & 0.92M & 38.80 & 68.76 & 1.73 \\
+Patch-Pool & fixed max over patches & 0.92M & 35.71 & 60.84 & 1.67 \\
+Tile-Attention & learned attention & 4.14M & 44.50 & 83.79 & 1.70 \\
+Conv-Abstractor & conv $\to$ avg-pool $\to$ conv & 19.87M & 48.87 & 95.62 & 1.54 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{fig_results}

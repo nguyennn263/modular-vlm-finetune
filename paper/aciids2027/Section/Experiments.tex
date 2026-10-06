@@ -129,22 +129,22 @@ precision--recall trade-off.
 
 \begin{table}[t]
 \centering
-\caption{ViBridge-VQA on validation and test (mean $\pm$ std over seeds,
-$\times100$). CE is the answer cross-entropy.}
+\caption{ViBridge-VQA on the validation and test splits (mean $\pm$ std over seeds: bridge only 4 seeds, + LoRA 3 seeds; $\times100$). CE is the answer cross-entropy on the split. Best value per split in bold.}
 \label{tab:stability}
-\footnotesize
-\setlength{\tabcolsep}{3pt}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
 \resizebox{\textwidth}{!}{%
-\begin{tabular}{llrrrrr}
+\begin{tabular}{llrrrrrrrrr}
 \toprule
-Configuration & Split & Acc & F1 & BLEU & CIDEr & CE \\
+Split & Config. & Acc & Prec & Rec & F1 & BLEU & ROUGE-L & METEOR & CIDEr & CE \\
 \midrule
-\multirow{2}{*}{bridge only}     & val  & $9.21\pm0.05$ & $50.74\pm0.17$ & $16.88\pm0.23$ & $99.07\pm0.47$ & 1.49 \\
-                                 & test & $8.86\pm0.37$ & $50.47\pm0.22$ & $16.24\pm0.43$ & $96.19\pm1.10$ & 1.50 \\
-\multirow{2}{*}{+ LoRA, 1 epoch}  & val  & $10.94\pm0.12$ & $53.47\pm0.17$ & $19.72\pm0.09$ & $106.68\pm0.69$ & 1.37 \\
-                                 & test & $10.47\pm0.22$ & $53.10\pm0.05$ & $19.00\pm0.16$ & $104.44\pm0.45$ & 1.38 \\
-\multirow{2}{*}{+ LoRA, 3 epochs} & val  & $12.04\pm0.15$ & $54.78\pm0.22$ & $21.25\pm0.03$ & $110.67\pm0.48$ & 1.33 \\
-                                 & test & $11.40\pm0.24$ & $54.52\pm0.14$ & $20.97\pm0.29$ & $108.43\pm0.67$ & 1.33 \\
+\multirow{3}{*}{val} & bridge only & \pms{9.21}{.05} & \pms{51.54}{.15} & \pms{52.48}{.21} & \pms{50.74}{.17} & \pms{16.88}{.23} & \pms{49.03}{.12} & \pms{41.38}{.21} & \pms{99.07}{.47} & 1.491 \\
+ & + LoRA, 1 ep. & \pms{10.94}{.12} & \pms{54.37}{.11} & \pms{55.05}{.22} & \pms{53.47}{.17} & \pms{19.72}{.09} & \pms{51.79}{.15} & \pms{44.11}{.23} & \pms{106.68}{.69} & 1.374 \\
+ & + LoRA, 3 ep. & \pms{\textbf{12.04}}{.15} & \pms{\textbf{55.58}}{.25} & \pms{\textbf{56.38}}{.23} & \pms{\textbf{54.78}}{.22} & \pms{\textbf{21.25}}{.03} & \pms{\textbf{53.05}}{.15} & \pms{\textbf{45.46}}{.22} & \pms{\textbf{110.67}}{.48} & \textbf{1.327} \\
+\midrule
+\multirow{3}{*}{test} & bridge only & \pms{8.86}{.37} & \pms{51.19}{.19} & \pms{52.37}{.21} & \pms{50.47}{.22} & \pms{16.24}{.43} & \pms{48.70}{.19} & \pms{41.10}{.29} & \pms{96.19}{1.10} & 1.500 \\
+ & + LoRA, 1 ep. & \pms{10.47}{.22} & \pms{53.95}{.04} & \pms{54.72}{.07} & \pms{53.10}{.05} & \pms{19.00}{.16} & \pms{51.29}{.08} & \pms{43.63}{.16} & \pms{104.44}{.45} & 1.382 \\
+ & + LoRA, 3 ep. & \pms{\textbf{11.40}}{.24} & \pms{\textbf{55.37}}{.18} & \pms{\textbf{56.16}}{.09} & \pms{\textbf{54.52}}{.14} & \pms{\textbf{20.97}}{.29} & \pms{\textbf{52.68}}{.21} & \pms{\textbf{45.08}}{.14} & \pms{\textbf{108.43}}{.67} & \textbf{1.329} \\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -210,22 +210,28 @@ matters little, and decoder adaptation is the key ingredient of ViBridge-VQA.
 
 \begin{table}[t]
 \centering
-\caption{Bridge architectures before and after decoder LoRA (validation; bridge
-only: 2 epochs, + LoRA: joint 1 epoch; mean $\pm$ std over 3 seeds, Multi-Token
-bridge only 4 seeds; $^\ast$seed 42 only).}
+\caption{Bridge architectures before and after decoder LoRA (validation, $\times100$; mean $\pm$ std over 3 seeds, Multi-Token bridge only 4 seeds; $^\ast$seed 42 only). Params: bridge parameters (LoRA adds 2.16M). $\Delta$F1: gain of + LoRA over bridge only. Best value per group in bold.}
 \label{tab:bridges}
-\footnotesize
-\setlength{\tabcolsep}{3pt}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
 \resizebox{\textwidth}{!}{%
-\begin{tabular}{lrrrrrrrr}
+\begin{tabular}{lrrrrrrrrrrrr}
 \toprule
-Bridge & $k$ & Params & CE & F1 & F1 + LoRA & $\Delta$F1 & CIDEr & CIDEr + LoRA \\
+Bridge & $k$ & Params & Acc & Prec & Rec & F1 & BLEU & ROUGE-L & METEOR & CIDEr & CE & $\Delta$F1 \\
 \midrule
-Residual        & 1 & 4.86M (0.52\%) & 1.67 & $46.02\pm0.36$ & $52.69\pm0.14$ & $+6.7$ & $86.5\pm0.8$ & $104.3\pm0.9$ \\
-Tile-Attention  & 8 & 4.14M (0.44\%) & 1.68 & $45.14\pm0.92$ & $52.82^\ast$ & $+7.7$ & $84.1\pm1.4$ & $104.7^\ast$ \\
-\textbf{Multi-Token} & \textbf{8} & \textbf{7.35M (0.78\%)} & \textbf{1.49} & $\mathbf{50.74\pm0.17}$ & $\mathbf{53.47\pm0.17}$ & $+2.7$ & $\mathbf{99.1\pm0.5}$ & $\mathbf{106.7\pm0.7}$ \\
-Light Q-Former  & 8 & 27.6M (2.87\%) & 1.60 & $47.06\pm0.66$ & $53.21\pm0.14$ & $+6.1$ & $88.1\pm1.9$ & $106.3\pm0.7$ \\
-Full Q-Former   & 16 & 69.4M (6.91\%) & 1.61 & $46.84\pm0.47$ & $53.29\pm0.29$ & $+6.5$ & $87.7\pm1.2$ & $106.5\pm1.0$ \\
+\multicolumn{13}{l}{\emph{Bridge only (2 epochs)}} \\
+Residual & 1 & 4.86M & \pms{5.63}{.59} & \pms{46.31}{.34} & \pms{48.79}{.33} & \pms{46.02}{.36} & \pms{12.98}{.15} & \pms{44.23}{.38} & \pms{36.86}{.31} & \pms{86.48}{.77} & 1.665 & -- \\
+Tile-Attn. & 8 & 4.14M & \pms{4.99}{1.10} & \pms{45.49}{1.10} & \pms{48.05}{.60} & \pms{45.14}{.92} & \pms{12.34}{.32} & \pms{43.28}{.95} & \pms{36.11}{.73} & \pms{84.14}{1.40} & 1.683 & -- \\
+Multi-Token & 8 & 7.35M & \pms{\textbf{9.21}}{.05} & \pms{\textbf{51.54}}{.15} & \pms{\textbf{52.48}}{.21} & \pms{\textbf{50.74}}{.17} & \pms{\textbf{16.88}}{.23} & \pms{\textbf{49.03}}{.12} & \pms{\textbf{41.38}}{.21} & \pms{\textbf{99.07}}{.47} & \textbf{1.491} & -- \\
+Light Q-F. & 8 & 27.6M & \pms{6.94}{.32} & \pms{47.74}{.80} & \pms{49.18}{.51} & \pms{47.06}{.66} & \pms{13.99}{.33} & \pms{45.37}{.63} & \pms{37.57}{.60} & \pms{88.07}{1.89} & 1.599 & -- \\
+Full Q-F. & 16 & 69.4M & \pms{6.97}{.33} & \pms{47.42}{.70} & \pms{49.02}{.35} & \pms{46.84}{.47} & \pms{13.76}{.36} & \pms{45.10}{.41} & \pms{37.43}{.34} & \pms{87.74}{1.24} & 1.605 & -- \\
+\midrule
+\multicolumn{13}{l}{\emph{+ LoRA (joint, 1 epoch)}} \\
+Residual & 1 & 4.86M & \pms{10.36}{.10} & \pms{53.51}{.06} & \pms{54.36}{.34} & \pms{52.69}{.14} & \pms{18.94}{.36} & \pms{51.04}{.13} & \pms{43.33}{.33} & \pms{104.25}{.93} & 1.396 & $+6.67$ \\
+Tile-Attn.$^\ast$ & 8 & 4.14M & 10.34 & 53.72 & 54.43 & 52.82 & 19.13 & 51.25 & 43.44 & 104.72 & 1.400 & $+7.68$ \\
+Multi-Token & 8 & 7.35M & \pms{\textbf{10.94}}{.12} & \pms{\textbf{54.37}}{.11} & \pms{\textbf{55.05}}{.22} & \pms{\textbf{53.47}}{.17} & \pms{19.72}{.09} & \pms{\textbf{51.79}}{.15} & \pms{\textbf{44.11}}{.23} & \pms{\textbf{106.68}}{.69} & 1.374 & $+2.73$ \\
+Light Q-F. & 8 & 27.6M & \pms{10.76}{.12} & \pms{54.06}{.16} & \pms{54.78}{.17} & \pms{53.21}{.14} & \pms{\textbf{19.92}}{.31} & \pms{51.54}{.13} & \pms{43.77}{.19} & \pms{106.26}{.73} & 1.378 & $+6.14$ \\
+Full Q-F. & 16 & 69.4M & \pms{10.81}{.15} & \pms{54.10}{.41} & \pms{54.91}{.23} & \pms{53.29}{.29} & \pms{19.57}{.25} & \pms{51.62}{.30} & \pms{43.96}{.21} & \pms{106.50}{1.04} & \textbf{1.372} & $+6.45$ \\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -252,21 +258,29 @@ gain ($+2.73$ and $+4.04$ F1).
 
 \begin{table}[t]
 \centering
-\caption{Effect of interventions on the Multi-Token bridge (validation, mean over
-3 seeds). $\Delta$F1 is relative to the bridge-only model (50.74, 4 seeds).}
+\caption{Interventions on the Multi-Token bridge (validation, $\times100$, mean $\pm$ std over 3 seeds; reference: 4 seeds). $\Delta$F1 is relative to the bridge-only reference.}
 \label{tab:levers}
-\footnotesize
-\begin{tabular}{llr}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lrrrrrrrrrr}
 \toprule
-Component & Intervention & $\Delta$F1 \\
+Intervention & Acc & Prec & Rec & F1 & BLEU & ROUGE-L & METEOR & CIDEr & CE & $\Delta$F1 \\
 \midrule
-Bridge capacity & Full Q-Former instead of Multi-Token & $-3.90$ \\
-Training signal & random reference answer per epoch & $-2.07$ \\
-Alignment & feature distillation to the original projector & $-0.39$ \\
-Alignment & logit distillation, weight $\lambda=0.1$ / $\lambda=1$ & $-0.28$ / $-9.05$ \\
-\textbf{Decoder} & \textbf{LoRA $r=16$, 1 / 3 epochs} & $\mathbf{+2.73}$ / $\mathbf{+4.04}$ \\
+Reference: bridge only & \pms{9.21}{.05} & \pms{51.54}{.15} & \pms{52.48}{.21} & \pms{50.74}{.17} & \pms{16.88}{.23} & \pms{49.03}{.12} & \pms{41.38}{.21} & \pms{99.07}{.47} & 1.491 & -- \\
+\midrule
+Random reference answer & \pms{7.89}{.05} & \pms{49.58}{.20} & \pms{50.43}{.06} & \pms{48.67}{.10} & \pms{14.95}{.37} & \pms{46.95}{.15} & \pms{39.04}{.03} & \pms{91.69}{.39} & 1.552 & $-2.07$ \\
+Feature distillation & \pms{8.78}{.17} & \pms{51.06}{.23} & \pms{52.27}{.26} & \pms{50.35}{.21} & \pms{16.45}{.10} & \pms{48.72}{.22} & \pms{41.04}{.28} & \pms{97.37}{.83} & 1.499 & $-0.39$ \\
+Logit distillation, $\lambda{=}0.1$ & \pms{8.75}{.26} & \pms{51.36}{.27} & \pms{52.16}{.23} & \pms{50.46}{.21} & \pms{16.54}{.23} & \pms{48.76}{.19} & \pms{40.98}{.22} & \pms{97.43}{.80} & 1.533 & $-0.28$ \\
+Logit distillation, $\lambda{=}1$ & \pms{5.95}{.33} & \pms{40.95}{1.44} & \pms{45.79}{1.31} & \pms{41.69}{1.38} & \pms{9.36}{.82} & \pms{39.99}{1.41} & \pms{34.34}{1.21} & \pms{79.56}{2.97} & 2.054 & $-9.05$ \\
+\midrule
+Light Q-Former ($3.8\times$) & \pms{6.94}{.32} & \pms{47.74}{.80} & \pms{49.18}{.51} & \pms{47.06}{.66} & \pms{13.99}{.33} & \pms{45.37}{.63} & \pms{37.57}{.60} & \pms{88.07}{1.89} & 1.599 & $-3.68$ \\
+Full Q-Former ($9.4\times$) & \pms{6.97}{.33} & \pms{47.42}{.70} & \pms{49.02}{.35} & \pms{46.84}{.47} & \pms{13.76}{.36} & \pms{45.10}{.41} & \pms{37.43}{.34} & \pms{87.74}{1.24} & 1.605 & $-3.90$ \\
+\midrule
+\textbf{Decoder LoRA, 1 epoch} & \pms{10.94}{.12} & \pms{54.37}{.11} & \pms{55.05}{.22} & \pms{53.47}{.17} & \pms{19.72}{.09} & \pms{51.79}{.15} & \pms{44.11}{.23} & \pms{106.68}{.69} & 1.374 & $\mathbf{+2.73}$ \\
+\textbf{Decoder LoRA, 3 epochs} & \pms{\textbf{12.04}}{.15} & \pms{\textbf{55.58}}{.25} & \pms{\textbf{56.38}}{.23} & \pms{\textbf{54.78}}{.22} & \pms{\textbf{21.25}}{.03} & \pms{\textbf{53.05}}{.15} & \pms{\textbf{45.46}}{.22} & \pms{\textbf{110.67}}{.48} & \textbf{1.327} & $\mathbf{+4.04}$ \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 \paragraph{Bridge design.}
@@ -282,46 +296,34 @@ Multi-Token bridge thus offers the best trade-off between accuracy and size.
 
 \begin{table}[t]
 \centering
-\caption{Bridge design (bridge only, validation). Left: number of output tokens $k$
-of the Multi-Token bridge (mean $\pm$ std over 3 seeds; $k=8$: 4 seeds). Right:
-pooling operators (seed 42; the Conv-Abstractor uses $k=9$ because it needs a
-square grid). Both studies use an earlier evaluation setting in which generation
-reads a $448\times448$ crop; all rows share this setting.}
+\caption{Bridge design (bridge only, validation, $\times100$). (a) Mean $\pm$ std over 3 seeds ($k=8$: 4 seeds). (b) Multi-Token reads the global \texttt{[CLS]} vector; the other bridges pool the patch tokens with a fixed mean or max, learned attention, or convolution and pooling; the Conv-Abstractor uses $k=9$ because it needs a square grid. Both studies use an earlier evaluation setting in which generation reads a $448\times448$ crop; all rows share this setting. Best value per panel in bold.}
 \label{tab:design}
-\footnotesize
-\setlength{\tabcolsep}{3pt}
-\begin{minipage}[t]{0.40\linewidth}\centering
-\resizebox{\linewidth}{!}{%
-\begin{tabular}{rrrr}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lrrrrrrrrrr}
 \toprule
-$k$ & F1 & CIDEr & CE \\
+Bridge & Params & Acc & Prec & Rec & F1 & BLEU & ROUGE-L & METEOR & CIDEr & CE \\
 \midrule
-4  & $48.54\pm0.42$ & $93.51\pm0.60$ & 1.54 \\
-6  & $49.03\pm0.39$ & $94.24\pm0.96$ & 1.52 \\
-\textbf{8} & $\mathbf{49.55\pm0.08}$ & $\mathbf{96.49\pm0.69}$ & \textbf{1.49} \\
-10 & $49.99\pm0.16$ & $96.99\pm0.33$ & 1.48 \\
-12 & $50.23\pm0.22$ & $97.69\pm0.98$ & 1.47 \\
-14 & $50.67\pm0.09$ & $99.83\pm0.65$ & 1.47 \\
-16 & $50.44\pm0.54$ & $98.75\pm1.03$ & 1.47 \\
-18 & $50.51\pm0.79$ & $99.08\pm1.98$ & 1.47 \\
-20 & $50.62\pm0.52$ & $99.37\pm1.01$ & 1.46 \\
+\multicolumn{11}{l}{\emph{(a) Number of output tokens $k$ (Multi-Token bridge)}} \\
+$k=4$ & 3.67M & \pms{7.39}{.35} & \pms{48.80}{.53} & \pms{51.02}{.13} & \pms{48.54}{.35} & \pms{14.65}{.20} & \pms{46.74}{.43} & \pms{39.37}{.13} & \pms{93.51}{.49} & 1.544 \\
+$k=6$ & 5.51M & \pms{8.00}{.18} & \pms{49.74}{.41} & \pms{51.00}{.23} & \pms{49.03}{.32} & \pms{14.98}{.18} & \pms{47.28}{.31} & \pms{39.52}{.26} & \pms{94.24}{.79} & 1.524 \\
+\textbf{$k=8$ (ours)} & 7.35M & \pms{8.17}{.10} & \pms{50.22}{.09} & \pms{51.50}{.12} & \pms{49.55}{.07} & \pms{15.72}{.29} & \pms{47.84}{.06} & \pms{40.22}{.18} & \pms{96.49}{.59} & 1.490 \\
+$k=10$ & 9.18M & \pms{8.32}{.02} & \pms{50.74}{.24} & \pms{51.81}{.08} & \pms{49.99}{.13} & \pms{15.94}{.22} & \pms{48.24}{.16} & \pms{40.52}{.09} & \pms{96.99}{.27} & 1.480 \\
+$k=12$ & 11.02M & \pms{8.77}{.23} & \pms{51.07}{.23} & \pms{51.91}{.16} & \pms{50.23}{.18} & \pms{16.09}{.29} & \pms{48.58}{.14} & \pms{40.68}{.24} & \pms{97.69}{.80} & 1.472 \\
+$k=14$ & 12.86M & \pms{\textbf{9.10}}{.19} & \pms{\textbf{51.38}}{.28} & \pms{52.53}{.26} & \pms{\textbf{50.67}}{.08} & \pms{\textbf{16.81}}{.22} & \pms{\textbf{48.91}}{.11} & \pms{\textbf{41.34}}{.23} & \pms{\textbf{99.83}}{.53} & 1.469 \\
+$k=16$ & 14.69M & \pms{8.63}{.39} & \pms{51.02}{.68} & \pms{52.41}{.20} & \pms{50.44}{.44} & \pms{16.25}{.58} & \pms{48.69}{.42} & \pms{41.11}{.22} & \pms{98.75}{.84} & 1.471 \\
+$k=18$ & 16.53M & \pms{8.94}{.33} & \pms{51.16}{.75} & \pms{52.41}{.54} & \pms{50.51}{.64} & \pms{16.34}{.38} & \pms{48.80}{.64} & \pms{41.18}{.55} & \pms{99.08}{1.62} & 1.473 \\
+$k=20$ & 18.37M & \pms{8.68}{.50} & \pms{51.29}{.76} & \pms{\textbf{52.55}}{.20} & \pms{50.62}{.43} & \pms{16.40}{.54} & \pms{\textbf{48.91}}{.48} & \pms{41.31}{.27} & \pms{99.37}{.82} & \textbf{1.462} \\
+\midrule
+\multicolumn{11}{l}{\emph{(b) Pooling operator over the image (seed 42)}} \\
+\textbf{Multi-Token (ours)} & 7.35M & \textbf{8.20} & \textbf{50.36} & 51.43 & \textbf{49.61} & 15.28 & \textbf{47.86} & \textbf{40.05} & \textbf{96.72} & \textbf{1.489} \\
+Patch-Pool, mean & 0.92M & 3.84 & 40.53 & 40.34 & 38.80 & 9.74 & 36.89 & 29.45 & 68.76 & 1.725 \\
+Patch-Pool, max & 0.92M & 1.06 & 30.06 & \textbf{51.87} & 35.71 & 4.58 & 30.42 & 32.53 & 60.84 & 1.670 \\
+Tile-Attention & 4.14M & 3.97 & 44.59 & 47.86 & 44.50 & 12.26 & 42.57 & 35.77 & 83.79 & 1.698 \\
+Conv-Abstractor & 19.87M & 7.78 & 49.16 & 51.15 & 48.87 & \textbf{15.49} & 47.16 & 39.85 & 95.62 & 1.538 \\
 \bottomrule
 \end{tabular}}
-\end{minipage}\hfill
-\begin{minipage}[t]{0.57\linewidth}\centering
-\resizebox{\linewidth}{!}{%
-\begin{tabular}{llrrrr}
-\toprule
-Bridge & Pooling & Params & F1 & CIDEr & CE \\
-\midrule
-\textbf{Multi-Token} & none (global) & 7.35M & \textbf{49.61} & \textbf{96.72} & \textbf{1.49} \\
-Patch-Pool & mean & 0.92M & 38.80 & 68.76 & 1.73 \\
-Patch-Pool & max & 0.92M & 35.71 & 60.84 & 1.67 \\
-Tile-Attention & attention & 4.14M & 44.50 & 83.79 & 1.70 \\
-Conv-Abstractor & conv+pool & 19.87M & 48.87 & 95.62 & 1.54 \\
-\bottomrule
-\end{tabular}}
-\end{minipage}
 \end{table}
 
 \subsection{Gains by Reasoning Type}
@@ -347,23 +349,24 @@ copy them.}
 
 \subsection{Generalisation to Other Datasets}
 
-\begin{table}[!h]
+\begin{table}[t]
 \centering
-\caption{Generalisation to two general-domain Vietnamese VQA datasets not seen in
-training (about 1{,}000 sampled test questions per seed, 505--519 for ViVQA; mean
-$\pm$ std over 3 sampling seeds). Vintern-1B is used zero-shot with 6 tiles.}
+\caption{Generalisation to two general-domain Vietnamese VQA datasets not seen in training ($\times100$; Vintern-1B uses 6 tiles; about 1{,}000 sampled test questions per seed, 505--519 for ViVQA; mean $\pm$ std over 3 sampling seeds).}
 \label{tab:ood}
-\footnotesize
-\begin{tabular}{lrrrr}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llrrrrrrrr}
 \toprule
-& \multicolumn{2}{c}{F1} & \multicolumn{2}{c}{CIDEr} \\
-\cmidrule(lr){2-3}\cmidrule(lr){4-5}
-Dataset & Vintern-1B & ViBridge-VQA & Vintern-1B & ViBridge-VQA \\
+Dataset & Model & Acc & Prec & Rec & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
 \midrule
-ViVQA~\cite{tran2021vivqa} & $23.90\pm0.30$ & $\mathbf{31.48\pm1.40}$ & $78.6\pm2.5$ & $\mathbf{84.9\pm3.5}$ \\
-ViVQA-X~\cite{vivqax2025} & $14.52\pm0.58$ & $\mathbf{15.89\pm0.80}$ & $\mathbf{50.1\pm3.5}$ & $42.1\pm3.6$ \\
+\multirow{2}{*}{ViVQA~\cite{tran2021vivqa}} & Vintern-1B, zero-shot & \pms{0.00}{.00} & \pms{16.01}{.18} & \pms{\textbf{60.80}}{1.17} & \pms{23.90}{.24} & \pms{\textbf{0.27}}{.02} & \pms{15.78}{.25} & \pms{17.84}{.19} & \pms{78.63}{2.07} \\
+ & ViBridge-VQA (ours) & \pms{\textbf{7.38}}{.53} & \pms{\textbf{31.67}}{.97} & \pms{34.01}{1.58} & \pms{\textbf{31.48}}{1.15} & \pms{0.25}{.09} & \pms{\textbf{31.48}}{1.16} & \pms{\textbf{21.92}}{.82} & \pms{\textbf{84.94}}{2.87} \\
+\midrule
+\multirow{2}{*}{ViVQA-X~\cite{vivqax2025}} & Vintern-1B, zero-shot & \pms{0.20}{.08} & \pms{9.13}{.35} & \pms{\textbf{61.15}}{.80} & \pms{14.52}{.47} & \pms{0.06}{.01} & \pms{8.98}{.32} & \pms{\textbf{11.96}}{.41} & \pms{\textbf{50.13}}{2.83} \\
+ & ViBridge-VQA (ours) & \pms{\textbf{2.57}}{.09} & \pms{\textbf{13.19}}{.49} & \pms{26.80}{1.24} & \pms{\textbf{15.89}}{.65} & \pms{\textbf{0.18}}{.02} & \pms{\textbf{11.94}}{.49} & \pms{9.08}{.57} & \pms{42.12}{2.92} \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 To assess generalisation beyond AutoViVQA, we compare ViBridge-VQA (3 epochs) with
@@ -372,9 +375,11 @@ that neither model was trained on, ViVQA~\cite{tran2021vivqa} and
 ViVQA-X~\cite{vivqax2025} (Table~\ref{tab:ood}). For ViVQA we use the 505--519 sampled
 questions whose COCO images could be retrieved, with the same images for both
 models. Although it is adapted on AutoViVQA only and encodes a single view,
-ViBridge-VQA is clearly better on ViVQA (F1 $+7.6$, CIDEr $+6.3$) and on par on
-ViVQA-X (F1 $+1.4$, CIDEr $-8.0$), showing that the adaptation transfers beyond its
-training benchmark.
+ViBridge-VQA is clearly better on ViVQA, where it improves six of the eight metrics
+(F1 $+7.6$, ROUGE-L $+15.7$, CIDEr $+6.3$), and remains competitive on ViVQA-X (F1
+$+1.4$, ROUGE-L $+3.0$, CIDEr $-8.0$), showing that the adaptation transfers beyond
+its training benchmark. As on AutoViVQA, the zero-shot model reaches a high recall
+with long answers but a low precision, whereas ViBridge-VQA answers concisely.
 
 \subsection{Qualitative Analysis}
 

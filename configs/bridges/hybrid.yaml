@@ -1,0 +1,5 @@
+# mlp1 + residual (144 local tokens at 336px) + Multi-Token on CLS (8 global tokens).
+bridge_type: hybrid
+bridge_config:
+  residual_dim: 256
+  num_global_tokens: 8

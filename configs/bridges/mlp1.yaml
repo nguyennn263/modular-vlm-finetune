@@ -1,0 +1,5 @@
+# Vintern's own projector (pixel-shuffle + mlp1), frozen: the same-condition baseline.
+bridge_type: mlp1
+bridge_config:
+  residual_dim: 0
+  num_global_tokens: 0

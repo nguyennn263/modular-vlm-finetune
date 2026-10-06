@@ -30,6 +30,8 @@ GL_GLOBAL = [8, 14]
 GL_GRIDS = [1, 3, 6, 12]                    # k = grid^2 = 1 / 9 / 36 / 144 local tokens
 # accounts with room for two ~8h chains each (accounts under ~2h left failed to start a session)
 GL_ACCS = ["acc13", "acc17", "acc15", "acc16"]
+# relaunches get a new chain name, so every attempt has its own kernels (no version overwrite)
+GL_RETRY = {(8, 12): "r2", (14, 12): "r2"}   # k=144 ep1 OOM'd at the fixed 400-token padding
 SEEDS = [42] if SMOKE else [42, 123, 3407]
 TRAIN = ("--split-dir data/splits --batch-size 8 --grad-accum 1 --eval-steps 800 --save-steps 800 "
          "--no-early-stopping --text-metrics-every 99")
@@ -45,7 +47,7 @@ def _chains() -> dict[str, list[dict]]:
                 flags = f"--bridge-num-tokens {g} --local-grid {grid}"
                 base = (f"python -m src.cli.train --bridge global_local {flags} --seed 42 {TRAIN}"
                         f" --text-metrics-max-samples 200{LIMIT} --output-dir {CK}")
-                chains[f"{PREFIX}-g{g}-k{grid * grid}-s42"] = [
+                chains[f"{PREFIX}-g{g}-k{grid * grid}{GL_RETRY.get((g, grid), '')}-s42"] = [
                     {"name": "ep1", "bridge": "global_local", "cmd": f"{base} --epochs 1"},
                     {"name": "ep2", "bridge": "global_local", "cmd": f"{base} --epochs 2 --resume PREV"},
                     {"name": "eval", "bridge": "global_local", "eval": True, "splits": ["val", "test"],
@@ -65,6 +67,13 @@ def _chains() -> dict[str, list[dict]]:
     return chains
 
 
+def _checked(cmd: str) -> dict:
+    """A `!cmd` cell that fails the kernel when cmd exits non-zero -- a bare `!` line does not,
+    so a crashed run would otherwise show up as COMPLETE."""
+    return _code(f"!{cmd} || echo failed > /tmp/cell_failed", "import os",
+                 "assert not os.path.exists('/tmp/cell_failed'), 'command failed, see the output above'")
+
+
 def _cells(phase: dict, has_prev: bool) -> list[dict]:
     b = phase.get("bridge", "qformer")
     cells = [_clone_cell(BRANCH), _code("!bash setup_kaggle.sh 2>&1 | tail -5"),
@@ -81,14 +90,14 @@ def _cells(phase: dict, has_prev: bool) -> list[dict]:
         cells.append(_code(f"!mkdir -p /tmp/ck/{b} && cp /tmp/prev/last_model.pt /tmp/ck/{b}/model.pt"))
         for split in phase.get("splits", ["val"]):
             out = "/kaggle/working/out" + ("" if "splits" not in phase else f"/{split}")
-            cells += [_code(f"!python -m src.cli.evaluate --bridge {b} --split-dir data/splits --split {split} "
-                            f"--n-tiles 1 --gen-image full --checkpoint /tmp/ck/{b}/model.pt{limit}"
-                            f"{phase.get('eval_flags', '')} --output /tmp/ck/{b}/eval_{split}.json"),
+            cells += [_checked(f"python -m src.cli.evaluate --bridge {b} --split-dir data/splits --split {split} "
+                               f"--n-tiles 1 --gen-image full --checkpoint /tmp/ck/{b}/model.pt{limit}"
+                               f"{phase.get('eval_flags', '')} --output /tmp/ck/{b}/eval_{split}.json"),
                       _code(f"!mkdir -p {out} && cp /tmp/ck/{b}/eval_{split}.json "
                             f"/tmp/ck/{b}/results/text_predictions_epoch_1.json {out}/ && "
                             f"head -c 700 {out}/eval_{split}.json")]
     else:
-        cells += [_code("!" + phase["cmd"].replace("PREV", "/tmp/prev/last_model.pt")),
+        cells += [_checked(phase["cmd"].replace("PREV", "/tmp/prev/last_model.pt")),
                   _code(f"!ls -la {CK}/{b}/ && grep -h 'Train Loss\\|Val Loss' {CK}/{b}/results/training_*.log | tail -4")]
     return cells
 

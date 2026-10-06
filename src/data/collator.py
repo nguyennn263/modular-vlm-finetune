@@ -201,6 +201,14 @@ def custom_collate_fn(
         result['input_ids'] = torch.stack(input_ids_batch)
         result['attention_mask'] = torch.stack(attention_mask_batch)
         result['answer_start_pos'] = torch.tensor(answer_start_positions, dtype=torch.long)
+        if image_slot_tokens > 0:
+            # Right padding: drop the all-padding tail columns (every row is padded to
+            # max_length above). Masked anyway, so the loss is unchanged; the image slot
+            # makes max_length long enough that the dead tail costs memory (OOM at k=144).
+            # Bridges without a slot keep the fixed length they have always used.
+            keep = int(result['attention_mask'].sum(dim=1).max())
+            result['input_ids'] = result['input_ids'][:, :keep]
+            result['attention_mask'] = result['attention_mask'][:, :keep]
     else:
         # Return raw text if no tokenizer
         result['questions'] = questions

@@ -3,93 +3,99 @@
 
 We formulate VQA as conditional answer generation: given an image $I$ and a
 Vietnamese question $q$, the model generates a short free-form answer
-$y=(y_1,\dots,y_T)$. ViBridge-VQA reuses the pre-trained components of
-Vintern-1B~\cite{doan2024vintern1b} and trains only a bridge and a low-rank
-adapter (Fig.~\ref{fig:arch}).
+$y=(y_1,\dots,y_T)$. ViBridge-VQA starts from Vintern-1B~\cite{doan2024vintern1b},
+keeps all of its pre-trained weights frozen, and trains only two small components:
+a bridge between the vision encoder and the language decoder, and a low-rank
+adapter inside the decoder. Fig.~\ref{fig:arch} contrasts this design with the
+official fine-tuning recipe of Vintern-1B.
 
 \begin{figure}[t]
 \centering
-\resizebox{\linewidth}{!}{\begin{tikzpicture}[font=\scriptsize, node distance=6mm,
-  box/.style={draw, rounded corners=2pt, minimum height=9mm, align=center, fill=gray!8},
-  train/.style={box, fill=green!10, draw=green!40!black, thick},
-  arr/.style={-{Latex[length=1.6mm]}}]
-\node[box] (img) {image $I$\\(1 global view)};
-\node[box, right=of img] (vit) {\textbf{InternViT-300M}\\frozen};
-\node[train, right=of vit] (br) {\textbf{Multi-Token Bridge} $g_\phi$\\$k=8$ tokens, 0.78\%};
-\node[box, right=of br, minimum width=30mm] (llm) {\textbf{Qwen2.5-0.5B}\\frozen $+$ LoRA, $r{=}16$ (0.23\%)};
-\node[right=of llm] (ans) {answer $y$};
-\node[box, below=4mm of llm] (q) {question $q$};
-\draw[arr] (img) -- (vit);
-\draw[arr] (vit) -- node[above]{$v\in\mathbb{R}^{1024}$} (br);
-\draw[arr] (br) -- node[above]{$k{\times}896$} (llm);
-\draw[arr] (q) -- (llm);
-\draw[arr] (llm) -- (ans);
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[font=\small, node distance=3.5mm,
+  frozen/.style={draw=gray!70, rounded corners=2pt, fill=gray!10, minimum height=9mm, align=center},
+  train/.style={draw=green!45!black, rounded corners=2pt, fill=green!12, thick, minimum height=9mm, align=center},
+  data/.style={align=center, text=black!75},
+  arr/.style={-{Latex[length=1.6mm]}, thick, black!70},
+  lbl/.style={font=\footnotesize\bfseries, anchor=west}]
+% ---- row 1: official fine-tuning of Vintern-1B
+\node[lbl] (t1) at (0,1.2) {(a) Vintern-1B, official fine-tuning};
+\node[data] (img1) at (0.7,0) {image\\$\le$6 tiles + thumbnail\\($448^2$ each)};
+\node[frozen, right=of img1] (vit1) {InternViT-300M};
+\node[frozen, right=of vit1] (mlp1) {MLP projector\\(patch tokens, $2{\times}2$ merge)};
+\node[data, right=of mlp1] (tok1) {256 tokens / tile\\($\le$1{,}792)};
+\node[frozen, right=of tok1, text width=27mm] (llm1) {Qwen2.5-0.5B\\+ \textcolor{green!45!black}{\textbf{LoRA} $r{=}16$}};
+\node[data, right=of llm1] (ans1) {answer};
+\draw[arr] (img1) -- (vit1); \draw[arr] (vit1) -- (mlp1); \draw[arr] (mlp1) -- (tok1);
+\draw[arr] (tok1) -- (llm1); \draw[arr] (llm1) -- (ans1);
+% ---- row 2: ViBridge-VQA
+\node[lbl] (t2) at (0,-1.6) {(b) ViBridge-VQA (ours)};
+\node[data] (img2) at (0.7,-2.7) {image\\1 view\\($336^2$)};
+\node[frozen] (vit2) at (vit1 |- img2) {InternViT-300M};
+\node[train] (br) at (mlp1 |- img2) {\textbf{Multi-Token Bridge}\\(\texttt{[CLS]} vector, 0.78\%)};
+\node[data] (tok2) at (tok1 |- img2) {8 tokens};
+\node[frozen, text width=27mm] (llm2) at (llm1 |- img2) {Qwen2.5-0.5B\\+ \textcolor{green!45!black}{\textbf{LoRA} $r{=}16$ (0.23\%)}};
+\node[data, right=of llm2] (ans2) {answer};
+\draw[arr] (img2) -- (vit2); \draw[arr] (vit2) -- (br); \draw[arr] (br) -- (tok2);
+\draw[arr] (tok2) -- (llm2); \draw[arr] (llm2) -- (ans2);
+% legend
+\node[frozen, minimum height=4mm, minimum width=5mm] (lf) at (13.2,-4.0) {};
+\node[anchor=west] at (lf.east) {frozen};
+\node[train, minimum height=4mm, minimum width=5mm] (lt) at (15.0,-4.0) {};
+\node[anchor=west] at (lt.east) {trained};
 \end{tikzpicture}}
-\caption{Overall architecture of ViBridge-VQA. Grey modules are frozen. Only the
-bridge and, in the full model, a rank-16 LoRA on the decoder attention are trained
-(1.01\% of all parameters).}
+\caption{(a) The official fine-tuning of Vintern-1B encodes up to seven views per
+image and passes up to 1{,}792 visual tokens to the decoder. (b) ViBridge-VQA
+encodes a single view, maps the global \texttt{[CLS]} vector to eight tokens with a
+trainable bridge, and adapts the decoder with LoRA; only 1.01\% of the parameters
+are trained.}
 \label{fig:arch}
 \end{figure}
 
-\subsection{Overall Architecture}
+\subsection{Multi-Token Bridge}
+\label{sec:bridge}
 
 The vision encoder is InternViT-300M (24 layers, width 1024) and the language
 decoder is Qwen2.5-0.5B-Instruct (24 layers, width 896); together they contain
-about 0.94B parameters, and both stay frozen. Vintern-1B splits an image into
-several $448\times448$ tiles and connects the encoder to the decoder through a
-two-layer MLP projector. ViBridge-VQA instead encodes a \emph{single global view}
-of the image and replaces the projector with a trainable bridge $g_\phi$. The
-bridge maps the image representation to $k$ embeddings in the decoder input space,
-which are placed before the embedded question; the decoder then generates the
-answer autoregressively. The whole image is resized to $336\times336$ pixels, in
-training and at test time.
-
-\subsection{Multi-Token Bridge}
-
-For a $336\times336$ view, InternViT splits the image into $24\times24$ patches of
-$14\times14$ pixels and returns one 1024-dimensional vector per patch together with
-a global \texttt{[CLS]} vector. Vintern-1B discards the \texttt{[CLS]} vector and
-passes the patch vectors, merged $2\times2$, through its projector, so the decoder
-receives one token per image region. The multi-token bridge takes the opposite,
-much cheaper route. Let $v\in\mathbb{R}^{1024}$ denote the \texttt{[CLS]} vector. The multi-token bridge applies two linear heads to $v$. The first
-produces an \emph{anchor} token that plays the role of the original single-vector
-projection; the second produces $k-1$ complementary tokens:
+about 0.94B parameters. Each image is resized to a single $336\times336$ view, which
+InternViT splits into $24\times24$ patches of $14\times14$ pixels. The encoder
+returns one 1024-dimensional vector per patch and a global \texttt{[CLS]} vector.
+Vintern-1B discards the \texttt{[CLS]} vector and passes the patch vectors through
+its projector, so the decoder receives one token per image region. ViBridge-VQA
+takes a much cheaper route: its \emph{multi-token bridge} $g_\phi$ reads only the
+\texttt{[CLS]} vector $v\in\mathbb{R}^{1024}$, which summarises the whole image, and
+expands it into $k$ tokens in the decoder input space with two linear heads:
 \begin{equation}
   g_\phi(v) = \big[\,W_a v + b_a;\ \mathrm{reshape}_{(k-1)\times 896}(W_e v + b_e)\,\big]
   \in \mathbb{R}^{k\times 896}.
   \label{eq:bridge}
 \end{equation}
-With $k=8$, the bridge has 7.35M parameters (0.78\% of the model). All $k$ tokens
-are linear functions of the same global vector, so the bridge is small and fast but
-summarises the scene compactly for the decoder. To study the role of bridge capacity, we compare it with four
-alternatives (Table~\ref{tab:bridges}): a \emph{Residual} bridge that produces one
-token through a linear projection with a residual MLP, a \emph{Tile-Attention}
-bridge in which 8 learned queries attend over the patch tokens, and a
-\emph{Light} and a \emph{Full Q-Former} following BLIP-2~\cite{li2023blip2}, with
-8 and 16 queries and 2 and 4 cross-attention layers.
+The first head produces an \emph{anchor} token, and the second produces $k-1$
+complementary tokens that present the same global information to the frozen
+decoder from different learned directions. With $k=8$, the bridge has 7.35M
+parameters (0.78\% of the model). The $k$ tokens are placed before the embedded
+question, and the decoder generates the answer autoregressively. We compare this
+design with four larger or patch-based bridges in Section~\ref{sec:ablation}.
 
-\subsection{Training}
+\subsection{Decoder Adaptation and Training}
+\label{sec:training}
 
-\paragraph{Objective.}
-Both backbones stay frozen, and all trainable parameters are optimised with the
-answer cross-entropy
-\begin{equation}
-  \mathcal{L} = -\sum_{t=1}^{T} \log p\big(y_t \mid y_{<t},\, g_\phi(v),\, q\big).
-  \label{eq:ce}
-\end{equation}
-
-\paragraph{Bridge only.}
-In the simplest configuration, only the bridge parameters $\phi$ are trained.
-
-\paragraph{Bridge with decoder LoRA (ViBridge-VQA).}
-In the full model, a LoRA module is added to the query, key, value and output
-projections of every decoder layer. Each frozen weight
-$W_0\in\mathbb{R}^{d_\text{out}\times d_\text{in}}$ becomes
+To let the frozen decoder make full use of the bridge tokens, we add a LoRA
+module~\cite{hu2022lora} to the query, key, value and output projections of every
+decoder layer. Each frozen weight $W_0\in\mathbb{R}^{d_\text{out}\times d_\text{in}}$
+becomes
 \begin{equation}
   W = W_0 + \tfrac{\alpha}{r}\,BA,\qquad B\in\mathbb{R}^{d_\text{out}\times r},\ A\in\mathbb{R}^{r\times d_\text{in}},
   \label{eq:lora}
 \end{equation}
 with rank $r=16$ and $\alpha=32$ (2.16M parameters, 0.23\%). The bridge, initialised
 randomly, and the LoRA matrices are trained \emph{jointly} in a single run with the
-objective of Eq.~\ref{eq:ce}, so 9.51M parameters (1.01\%) are trainable. The
-vision encoder and all original decoder weights remain frozen.
+answer cross-entropy
+\begin{equation}
+  \mathcal{L} = -\sum_{t=1}^{T} \log p\big(y_t \mid y_{<t},\, g_\phi(v),\, q\big),
+  \label{eq:ce}
+\end{equation}
+so that 9.51M parameters (1.01\%) are trainable; the vision encoder and all
+original decoder weights remain frozen. We refer to this full model as
+\textbf{ViBridge-VQA}, and to the variant that trains the bridge alone with the
+same objective as the \emph{bridge-only} model.

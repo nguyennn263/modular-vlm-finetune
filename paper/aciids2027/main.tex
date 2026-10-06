@@ -33,6 +33,8 @@
 \newif\ifshowtodo \showtodotrue
 \newcommand{\todo}[1]{\ifshowtodo\textcolor{red}{[TODO: #1]}\fi}
 \newcommand{\dF}{$\Delta$F1}
+% mean with a small std: \pms{50.74}{0.17}
+\newcommand{\pms}[2]{#1\,{\tiny$\pm$#2}}
 % corresponding-author envelope, as in the ACIIDS 2026 paper
 \newcommand{\mygraphic}[1]{\includegraphics[height=#1]{drawing.pdf}}
 \newcommand{\myenv}{(\raisebox{0pt}{\mygraphic{.6em}})}

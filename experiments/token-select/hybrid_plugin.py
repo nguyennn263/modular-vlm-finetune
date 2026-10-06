@@ -53,6 +53,7 @@ class Plugin:
     def __init__(self, base, model, tok, device):
         self.base, self.m, self.tok, self.dev = base, model, tok, device
         self.dtype = next(model.vision_model.parameters()).dtype
+        model.bridge.to(dtype=self.dtype)        # as BridgeTrainer does (trainer.py:242-245)
         self.ctx_id = tok.convert_tokens_to_ids("<IMG_CONTEXT>")
         table = (model.language_model.get_base_model() if getattr(model, "lora_enabled", False)
                  else model.language_model).model.embed_tokens.weight
@@ -63,8 +64,7 @@ class Plugin:
         from src.data.collator import load_image
         pv = load_image(image_path, size=(336, 336)).unsqueeze(0).to(self.dev, self.dtype)
         hid = self.m.vision_model(pv).last_hidden_state                       # (1, 577, 1024)
-        bdt = next(self.m.bridge.parameters()).dtype                           # bridge is kept in fp32
-        glob = self.m.bridge(hid[:, 0].to(bdt)).to(self.dtype)                 # (1, 8, 896)
+        glob = self.m.bridge(hid[:, 0])                                        # (1, 8, 896)
         patches = hid[:, 1:]
         side = int(patches.shape[1] ** 0.5)
         grid = self.base.pixel_shuffle(patches.reshape(1, side, side, -1), scale_factor=self.base.downsample_ratio)

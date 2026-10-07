@@ -3084,6 +3084,206 @@
       "kernel": "nguyennn263/mvlm-plugin20-l3ep-s42",
       "status": "running",
       "pushed_at": "2026-10-07T00:23:39"
+    },
+    "gl-g8-k1-s42:ep1": {
+      "account": "acc13",
+      "kernel": "avanrager/mvlm-gl-g8-k1-s42-ep1",
+      "status": "done",
+      "pushed_at": "2026-10-07T01:57:12",
+      "chain": "gl-g8-k1-s42",
+      "phase": 0
+    },
+    "gl-g8-k9-s42:ep1": {
+      "account": "acc13",
+      "kernel": "avanrager/mvlm-gl-g8-k9-s42-ep1",
+      "status": "done",
+      "pushed_at": "2026-10-07T01:57:17",
+      "chain": "gl-g8-k9-s42",
+      "phase": 0
+    },
+    "gl-g8-k36-s42:ep1": {
+      "account": "acc17",
+      "kernel": "nguyentrongdoanh/mvlm-gl-g8-k36-s42-ep1",
+      "status": "done",
+      "pushed_at": "2026-10-07T01:57:28",
+      "chain": "gl-g8-k36-s42",
+      "phase": 0
+    },
+    "gl-g8-k144-s42:ep1": {
+      "account": "acc17",
+      "kernel": "nguyentrongdoanh/mvlm-gl-g8-k144-s42-ep1",
+      "status": "failed-oom",
+      "pushed_at": "2026-10-07T01:57:39",
+      "chain": "gl-g8-k144-s42",
+      "phase": 0
+    },
+    "gl-g14-k1-s42:ep1": {
+      "account": "acc15",
+      "kernel": "duongcubu/mvlm-gl-g14-k1-s42-ep1",
+      "status": "done",
+      "pushed_at": "2026-10-07T01:57:58",
+      "chain": "gl-g14-k1-s42",
+      "phase": 0
+    },
+    "gl-g14-k9-s42:ep1": {
+      "account": "acc15",
+      "kernel": "duongcubu/mvlm-gl-g14-k9-s42-ep1",
+      "status": "done",
+      "pushed_at": "2026-10-07T01:58:22",
+      "chain": "gl-g14-k9-s42",
+      "phase": 0
+    },
+    "gl-g14-k36-s42:ep1": {
+      "account": "acc16",
+      "kernel": "nguynrichard/mvlm-gl-g14-k36-s42-ep1",
+      "status": "done",
+      "pushed_at": "2026-10-07T01:58:46",
+      "chain": "gl-g14-k36-s42",
+      "phase": 0
+    },
+    "gl-g14-k144-s42:ep1": {
+      "account": "acc16",
+      "kernel": "nguynrichard/mvlm-gl-g14-k144-s42-ep1",
+      "status": "failed-oom",
+      "pushed_at": "2026-10-07T01:59:09",
+      "chain": "gl-g14-k144-s42",
+      "phase": 0
+    },
+    "gl-g8-k144r2-s42:ep1": {
+      "account": "acc17",
+      "kernel": "nguyentrongdoanh/mvlm-gl-g8-k144r2-s42-ep1",
+      "status": "done",
+      "pushed_at": "2026-10-07T02:11:18",
+      "chain": "gl-g8-k144r2-s42",
+      "phase": 0
+    },
+    "gl-g14-k144r2-s42:ep1": {
+      "account": "acc16",
+      "kernel": "nguynrichard/mvlm-gl-g14-k144r2-s42-ep1",
+      "status": "done",
+      "pushed_at": "2026-10-07T02:11:45",
+      "chain": "gl-g14-k144r2-s42",
+      "phase": 0
+    },
+    "gl-g8-k144r2-s42:ep2": {
+      "account": "acc17",
+      "kernel": "nguyentrongdoanh/mvlm-gl-g8-k144r2-s42-ep2",
+      "status": "done",
+      "pushed_at": "2026-10-07T07:34:51",
+      "chain": "gl-g8-k144r2-s42",
+      "phase": 1
+    },
+    "gl-g14-k9-s42:ep2": {
+      "account": "acc15",
+      "kernel": "duongcubu/mvlm-gl-g14-k9-s42-ep2",
+      "status": "done",
+      "pushed_at": "2026-10-07T07:45:22",
+      "chain": "gl-g14-k9-s42",
+      "phase": 1
+    },
+    "gl-g8-k1-s42:ep2": {
+      "account": "acc13",
+      "kernel": "avanrager/mvlm-gl-g8-k1-s42-ep2",
+      "status": "done",
+      "pushed_at": "2026-10-07T07:50:29",
+      "chain": "gl-g8-k1-s42",
+      "phase": 1
+    },
+    "gl-g14-k1-s42:ep2": {
+      "account": "acc15",
+      "kernel": "duongcubu/mvlm-gl-g14-k1-s42-ep2",
+      "status": "done",
+      "pushed_at": "2026-10-07T07:50:42",
+      "chain": "gl-g14-k1-s42",
+      "phase": 1
+    },
+    "gl-g8-k9-s42:ep2": {
+      "account": "acc13",
+      "kernel": "avanrager/mvlm-gl-g8-k9-s42-ep2",
+      "status": "done",
+      "pushed_at": "2026-10-07T08:06:19",
+      "chain": "gl-g8-k9-s42",
+      "phase": 1
+    },
+    "gl-g8-k36-s42:ep2": {
+      "account": "acc17",
+      "kernel": "nguyentrongdoanh/mvlm-gl-g8-k36-s42-ep2",
+      "status": "done",
+      "pushed_at": "2026-10-07T08:22:11",
+      "chain": "gl-g8-k36-s42",
+      "phase": 1
+    },
+    "gl-g14-k36-s42:ep2": {
+      "account": "acc16",
+      "kernel": "nguynrichard/mvlm-gl-g14-k36-s42-ep2",
+      "status": "done",
+      "pushed_at": "2026-10-07T08:27:44",
+      "chain": "gl-g14-k36-s42",
+      "phase": 1
+    },
+    "gl-g14-k144r2-s42:ep2": {
+      "account": "acc16",
+      "kernel": "nguynrichard/mvlm-gl-g14-k144r2-s42-ep2",
+      "status": "running",
+      "pushed_at": "2026-10-07T09:30:38",
+      "chain": "gl-g14-k144r2-s42",
+      "phase": 1
+    },
+    "gl-g14-k9-s42:eval": {
+      "account": "acc15",
+      "kernel": "duongcubu/mvlm-gl-g14-k9-s42-eval",
+      "status": "done",
+      "pushed_at": "2026-10-07T11:47:13",
+      "chain": "gl-g14-k9-s42",
+      "phase": 2
+    },
+    "gl-g8-k1-s42:eval": {
+      "account": "acc13",
+      "kernel": "avanrager/mvlm-gl-g8-k1-s42-eval",
+      "status": "done",
+      "pushed_at": "2026-10-07T11:52:23",
+      "chain": "gl-g8-k1-s42",
+      "phase": 2
+    },
+    "gl-g14-k1-s42:eval": {
+      "account": "acc15",
+      "kernel": "duongcubu/mvlm-gl-g14-k1-s42-eval",
+      "status": "running",
+      "pushed_at": "2026-10-07T12:13:46",
+      "chain": "gl-g14-k1-s42",
+      "phase": 2
+    },
+    "gl-g8-k9-s42:eval": {
+      "account": "acc13",
+      "kernel": "avanrager/mvlm-gl-g8-k9-s42-eval",
+      "status": "running",
+      "pushed_at": "2026-10-07T12:24:20",
+      "chain": "gl-g8-k9-s42",
+      "phase": 2
+    },
+    "gl-g8-k36-s42:eval": {
+      "account": "acc17",
+      "kernel": "nguyentrongdoanh/mvlm-gl-g8-k36-s42-eval",
+      "status": "running",
+      "pushed_at": "2026-10-07T12:50:56",
+      "chain": "gl-g8-k36-s42",
+      "phase": 2
+    },
+    "gl-g14-k36-s42:eval": {
+      "account": "acc16",
+      "kernel": "nguynrichard/mvlm-gl-g14-k36-s42-eval",
+      "status": "running",
+      "pushed_at": "2026-10-07T13:01:58",
+      "chain": "gl-g14-k36-s42",
+      "phase": 2
+    },
+    "gl-g8-k144r2-s42:eval": {
+      "account": "acc17",
+      "kernel": "nguyentrongdoanh/mvlm-gl-g8-k144r2-s42-eval",
+      "status": "running",
+      "pushed_at": "2026-10-07T13:28:36",
+      "chain": "gl-g8-k144r2-s42",
+      "phase": 2
     }
   }
 }

@@ -3224,7 +3224,7 @@
     "gl-g14-k144r2-s42:ep2": {
       "account": "acc16",
       "kernel": "nguynrichard/mvlm-gl-g14-k144r2-s42-ep2",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-07T09:30:38",
       "chain": "gl-g14-k144r2-s42",
       "phase": 1
@@ -3248,7 +3248,7 @@
     "gl-g14-k1-s42:eval": {
       "account": "acc15",
       "kernel": "duongcubu/mvlm-gl-g14-k1-s42-eval",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-07T12:13:46",
       "chain": "gl-g14-k1-s42",
       "phase": 2
@@ -3256,7 +3256,7 @@
     "gl-g8-k9-s42:eval": {
       "account": "acc13",
       "kernel": "avanrager/mvlm-gl-g8-k9-s42-eval",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-07T12:24:20",
       "chain": "gl-g8-k9-s42",
       "phase": 2
@@ -3264,7 +3264,7 @@
     "gl-g8-k36-s42:eval": {
       "account": "acc17",
       "kernel": "nguyentrongdoanh/mvlm-gl-g8-k36-s42-eval",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-07T12:50:56",
       "chain": "gl-g8-k36-s42",
       "phase": 2
@@ -3272,7 +3272,7 @@
     "gl-g14-k36-s42:eval": {
       "account": "acc16",
       "kernel": "nguynrichard/mvlm-gl-g14-k36-s42-eval",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-07T13:01:58",
       "chain": "gl-g14-k36-s42",
       "phase": 2
@@ -3280,9 +3280,17 @@
     "gl-g8-k144r2-s42:eval": {
       "account": "acc17",
       "kernel": "nguyentrongdoanh/mvlm-gl-g8-k144r2-s42-eval",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-07T13:28:36",
       "chain": "gl-g8-k144r2-s42",
+      "phase": 2
+    },
+    "gl-g14-k144r2-s42:eval": {
+      "account": "acc16",
+      "kernel": "nguynrichard/mvlm-gl-g14-k144r2-s42-eval",
+      "status": "running",
+      "pushed_at": "2026-10-07T14:41:51",
+      "chain": "gl-g14-k144r2-s42",
       "phase": 2
     }
   }

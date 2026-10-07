@@ -3288,7 +3288,7 @@
     "gl-g14-k144r2-s42:eval": {
       "account": "acc16",
       "kernel": "nguynrichard/mvlm-gl-g14-k144r2-s42-eval",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-07T14:41:51",
       "chain": "gl-g14-k144r2-s42",
       "phase": 2

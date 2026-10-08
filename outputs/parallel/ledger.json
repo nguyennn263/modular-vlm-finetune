@@ -3584,7 +3584,7 @@
     "gl-g8-k36-s123:eval": {
       "account": "acc12",
       "kernel": "kffddk/mvlm-gl-g8-k36-s123-eval",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-09T01:05:04",
       "chain": "gl-g8-k36-s123",
       "phase": 2
@@ -3664,7 +3664,7 @@
     "gl-g14-k36-s3407:eval": {
       "account": "acc8",
       "kernel": "lelynhan/mvlm-gl-g14-k36-s3407-eval",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-09T01:07:00",
       "chain": "gl-g14-k36-s3407",
       "phase": 2

@@ -3632,7 +3632,7 @@
     "gl-g8-k9-s3407:eval": {
       "account": "acc4",
       "kernel": "nguyennn251/mvlm-gl-g8-k9-s3407-eval",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-09T01:06:14",
       "chain": "gl-g8-k9-s3407",
       "phase": 2
@@ -3648,7 +3648,7 @@
     "gl-g8-k144-s3407:eval": {
       "account": "acc11",
       "kernel": "chalicetrncthnh/mvlm-gl-g8-k144-s3407-eval",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-09T01:06:33",
       "chain": "gl-g8-k144-s3407",
       "phase": 2
@@ -3672,7 +3672,7 @@
     "gl-g14-k144-s3407:eval": {
       "account": "acc1",
       "kernel": "nguyennn263/mvlm-gl-g14-k144-s3407-eval",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-09T01:07:09",
       "chain": "gl-g14-k144-s3407",
       "phase": 2

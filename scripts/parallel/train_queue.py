@@ -31,7 +31,21 @@ GL_GRIDS = [1, 3, 6, 12]                    # k = grid^2 = 1 / 9 / 36 / 144 loca
 # accounts with room for two ~8h chains each (accounts under ~2h left failed to start a session)
 GL_ACCS = ["acc13", "acc17", "acc15", "acc16"]
 # relaunches get a new chain name, so every attempt has its own kernels (no version overwrite)
-GL_RETRY = {(8, 12): "r2", (14, 12): "r2"}   # k=144 ep1 OOM'd at the fixed 400-token padding
+GL_RETRY = {(8, 12, 42): "r2", (14, 12, 42): "r2"}   # k=144 ep1 OOM'd at the fixed 400-token padding
+# --seeds=123,3407 for the extra seeds (default: the original seed-42 round)
+GL_SEEDS = next(([int(x) for x in a.split("=", 1)[1].split(",")] for a in sys.argv
+                 if a.startswith("--seeds=")), [42])
+# extra-seed chains pinned to accounts by quota (2026-10-08: a k=144 chain used ~13.9h, k=36
+# ~13.0h, k<=9 ~12h): the four k=144 chains alone on an account, the rest in pairs
+GL_ASSIGN = {
+    "g8-k144-s123": "acc3", "g8-k144-s3407": "acc11", "g14-k144-s123": "acc7", "g14-k144-s3407": "acc1",
+    "g8-k36-s123": "acc12", "g14-k36-s123": "acc12",
+    "g8-k36-s3407": "acc14", "g8-k1-s123": "acc14",
+    "g14-k36-s3407": "acc8", "g8-k1-s3407": "acc8",
+    "g8-k9-s123": "acc4", "g8-k9-s3407": "acc4",
+    "g14-k1-s123": "acc2", "g14-k1-s3407": "acc2",
+    "g14-k9-s123": "acc5", "g14-k9-s3407": "acc10",
+}
 SEEDS = [42] if SMOKE else [42, 123, 3407]
 TRAIN = ("--split-dir data/splits --batch-size 8 --grad-accum 1 --eval-steps 800 --save-steps 800 "
          "--no-early-stopping --text-metrics-every 99")
@@ -42,12 +56,13 @@ CK = "/kaggle/working/ck"
 def _chains() -> dict[str, list[dict]]:
     chains = {}
     if GL:
-        for g in GL_GLOBAL:
+        for seed in GL_SEEDS:
+          for g in GL_GLOBAL:
             for grid in GL_GRIDS:
                 flags = f"--bridge-num-tokens {g} --local-grid {grid}"
-                base = (f"python -m src.cli.train --bridge global_local {flags} --seed 42 {TRAIN}"
+                base = (f"python -m src.cli.train --bridge global_local {flags} --seed {seed} {TRAIN}"
                         f" --text-metrics-max-samples 200{LIMIT} --output-dir {CK}")
-                chains[f"{PREFIX}-g{g}-k{grid * grid}{GL_RETRY.get((g, grid), '')}-s42"] = [
+                chains[f"{PREFIX}-g{g}-k{grid * grid}{GL_RETRY.get((g, grid, seed), '')}-s{seed}"] = [
                     {"name": "ep1", "bridge": "global_local", "cmd": f"{base} --epochs 1"},
                     {"name": "ep2", "bridge": "global_local", "cmd": f"{base} --epochs 2 --resume PREV"},
                     {"name": "eval", "bridge": "global_local", "eval": True, "splits": ["val", "test"],
@@ -158,7 +173,12 @@ def cmd_fill() -> None:
             pending = True
             if f"{chain}:{phases[nxt]['name']}" in jobs:
                 continue                      # that phase is running (or failed, reported above)
-            if acc is None:                   # chain start: any account with a free slot
+            pinned = GL_ASSIGN.get(chain.removeprefix(PREFIX + "-")) if GL else None
+            if acc is None and pinned:        # chain start on its assigned account
+                acc = pinned if _free_slots(pinned) > 0 else None
+                if acc is None:
+                    continue
+            elif acc is None:                 # chain start: any account with a free slot
                 acc = next((a for a in accounts if _free_slots(a) > 0), None)
             elif _free_slots(acc) == 0:
                 continue                      # chain must stay on its account

@@ -3576,7 +3576,7 @@
     "gl-g8-k9-s123:eval": {
       "account": "acc4",
       "kernel": "nguyennn251/mvlm-gl-g8-k9-s123-eval",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-09T01:04:52",
       "chain": "gl-g8-k9-s123",
       "phase": 2
@@ -3600,7 +3600,7 @@
     "gl-g14-k1-s123:eval": {
       "account": "acc2",
       "kernel": "nguyennn2501/mvlm-gl-g14-k1-s123-eval",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-09T01:05:25",
       "chain": "gl-g14-k1-s123",
       "phase": 2
@@ -3608,7 +3608,7 @@
     "gl-g14-k9-s123:eval": {
       "account": "acc5",
       "kernel": "nguyennguyen263/mvlm-gl-g14-k9-s123-eval",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-09T01:05:36",
       "chain": "gl-g14-k9-s123",
       "phase": 2

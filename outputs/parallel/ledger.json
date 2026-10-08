@@ -3656,7 +3656,7 @@
     "gl-g14-k9-s3407:eval": {
       "account": "acc10",
       "kernel": "giapht/mvlm-gl-g14-k9-s3407-eval",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-09T01:06:50",
       "chain": "gl-g14-k9-s3407",
       "phase": 2

@@ -1,0 +1,2405 @@
+{
+  "epoch": 2,
+  "samples": [
+    {
+      "index": 0,
+      "question": "Tại sao một số người tham gia bị bịt mắt?",
+      "prediction": "Vì họ bị cướp mắt",
+      "ground_truths": [
+        "Để tăng độ khó",
+        "Đó là quy tắc cuộc thi",
+        "Để tạo bất ngờ",
+        "Là một phần của trò chơi",
+        "Để công bằng hơn"
+      ]
+    },
+    {
+      "index": 1,
+      "question": "Tại sao cầu thủ bóng chày lại vung gậy rất nhanh?",
+      "prediction": "Để đánh bóng",
+      "ground_truths": [
+        "Để đánh bật quả bóng",
+        "Muốn đánh bóng mạnh",
+        "Để đưa bóng đi xa",
+        "Nhằm đánh trúng bóng",
+        "Để ghi điểm"
+      ]
+    },
+    {
+      "index": 2,
+      "question": "Tại sao các em nhỏ lại lên xe buýt?",
+      "prediction": "Để đi học",
+      "ground_truths": [
+        "Để đi học",
+        "Xe buýt là phương tiện di chuyển",
+        "Để đến trường",
+        "Vì là xe buýt trường học",
+        "Để được chở đi"
+      ]
+    },
+    {
+      "index": 3,
+      "question": "Mối quan hệ giữa cậu bé và tay vịn là gì?",
+      "prediction": "Cậu bé đang ngồi trên tay vịn",
+      "ground_truths": [
+        "Cậu bé đang mài tay vịn.",
+        "Cậu bé muốn làm trơn tay vịn.",
+        "Cậu bé đang chuẩn bị trượt.",
+        "Cậu bé tương tác với tay vịn.",
+        "Cậu bé đang thử thách bản thân."
+      ]
+    },
+    {
+      "index": 4,
+      "question": "Tại sao những người khác lại đang xem?",
+      "prediction": "Để tìm hiểu về cây",
+      "ground_truths": [
+        "Vì họ đang chơi",
+        "Để xem màn trình diễn",
+        "Vì họ là khán giả",
+        "Để dõi theo trò chơi",
+        "Họ đang chứng kiến"
+      ]
+    },
+    {
+      "index": 5,
+      "question": "Mối quan hệ giữa người đàn ông và con chó trên thuyền là gì?",
+      "prediction": "Người đàn ông đang quan sát con chó",
+      "ground_truths": [
+        "Chủ và vật nuôi",
+        "Họ là bạn đồng hành",
+        "Người đàn ông là chủ của chó",
+        "Con chó đi cùng người đàn ông",
+        "Người đàn ông và chó đi thuyền cùng nhau"
+      ]
+    },
+    {
+      "index": 6,
+      "question": "Có phải con mèo nằm trên bậc thang cũ không?",
+      "prediction": "Có",
+      "ground_truths": [
+        "Có",
+        "Đúng vậy",
+        "Phải",
+        "Có thể là cũ",
+        "Vâng"
+      ]
+    },
+    {
+      "index": 7,
+      "question": "Tại sao con mèo mướp xám lại ngồi trên ghế?",
+      "prediction": "Để ngắm cảnh",
+      "ground_truths": [
+        "Để quan sát xung quanh",
+        "Vì nó thích ghế đó",
+        "Để nghỉ ngơi",
+        "Vì ghế cao hơn",
+        "Nó đang thư giãn"
+      ]
+    },
+    {
+      "index": 8,
+      "question": "Con mèo đen đang ngồi ở đâu trong nhà bếp?",
+      "prediction": "Trên bàn bếp",
+      "ground_truths": [
+        "Trên đỉnh tủ lạnh",
+        "Trên tủ lạnh",
+        "Trên một cái hộp phía trên tủ lạnh",
+        "Trên hộp trên tủ lạnh",
+        "Trên đỉnh tủ lạnh trong bếp"
+      ]
+    },
+    {
+      "index": 9,
+      "question": "Con mèo màu cam đang làm gì trong vali?",
+      "prediction": "Đang nhìn vào một chiếc xe",
+      "ground_truths": [
+        "Đang ngồi",
+        "Đang nằm",
+        "Nghỉ ngơi",
+        "Chờ đợi",
+        "Ở trong vali"
+      ]
+    },
+    {
+      "index": 10,
+      "question": "Con mèo đang trốn sau những vật dụng gì?",
+      "prediction": "Một chiếc hộp",
+      "ground_truths": [
+        "Thùng chứa và máy tính",
+        "Màn hình laptop và ngăn kéo",
+        "Màn hình máy tính",
+        "Hộp đựng đồ",
+        "Đống hộp và laptop"
+      ]
+    },
+    {
+      "index": 11,
+      "question": "Mối quan hệ giữa các đường ray trong thành phố là gì?",
+      "prediction": "Đường ray được nối với nhau",
+      "ground_truths": [
+        "Chúng chạy song song với nhau",
+        "Chúng nằm cạnh nhau",
+        "Chúng đều là đường ray xe lửa",
+        "Chúng tạo thành nhiều đường",
+        "Chúng ở trong thành phố"
+      ]
+    },
+    {
+      "index": 12,
+      "question": "Tàu đang đi đến đâu?",
+      "prediction": "Đến một khu vực",
+      "ground_truths": [
+        "Ga xe lửa",
+        "Một ga sân ga",
+        "Một trạm dừng nhỏ",
+        "Sân ga",
+        "Nhà ga"
+      ]
+    },
+    {
+      "index": 13,
+      "question": "Mối quan hệ giữa hàng rào và nhóm hươu cao cổ là gì?",
+      "prediction": "Hươu cao cổ đang đứng trước hàng rào",
+      "ground_truths": [
+        "Hàng rào tập trung nhóm hươu",
+        "Hươu cao cổ được tập trung bởi hàng rào",
+        "Hàng rào giữ nhóm hươu lại",
+        "Hươu cao cổ đang ở gần hàng rào",
+        "Hàng rào bao quanh nhóm hươu"
+      ]
+    },
+    {
+      "index": 14,
+      "question": "Mối quan hệ giữa con hươu cao cổ nhỏ và hàng rào là gì?",
+      "prediction": "Con hươu cao cổ nhỏ đang ở gần hàng rào",
+      "ground_truths": [
+        "Con hươu cao cổ nhỏ đang ở bên trong hàng rào",
+        "Hươu con ở trong hàng rào",
+        "Hàng rào bao quanh hươu con",
+        "Hươu con bị giữ trong hàng rào",
+        "Hươu nhỏ nằm phía trong hàng rào"
+      ]
+    },
+    {
+      "index": 15,
+      "question": "Con hươu cao cổ đang làm gì trên cánh đồng?",
+      "prediction": "Đang nhìn về phía trước",
+      "ground_truths": [
+        "Đang gặm cỏ",
+        "Đứng gặm cỏ",
+        "Tìm kiếm thức ăn",
+        "Đang ăn cây",
+        "Gặm cỏ một mình"
+      ]
+    },
+    {
+      "index": 16,
+      "question": "Có bao nhiêu chiếc máy bay đang bay theo đội hình?",
+      "prediction": "Bốn chiếc",
+      "ground_truths": [
+        "Bảy chiếc",
+        "7 chiếc",
+        "Bảy",
+        "7",
+        "Một đội hình bảy máy bay"
+      ]
+    },
+    {
+      "index": 17,
+      "question": "Mối quan hệ giữa chiếc máy bay Delta và đường băng là gì?",
+      "prediction": "Để bay",
+      "ground_truths": [
+        "Nó đang nằm trên đường băng",
+        "Nó ở trên đường băng",
+        "Nó đậu trên đường băng",
+        "Nó đang được đặt trên đường băng",
+        "Nó tiếp xúc với đường băng"
+      ]
+    },
+    {
+      "index": 18,
+      "question": "Có bao nhiêu máy bay chiến đấu màu đỏ bay theo đội hình?",
+      "prediction": "Hai máy bay",
+      "ground_truths": [
+        "Chín chiếc",
+        "9 chiếc",
+        "Chín máy bay",
+        "Chính xác 9 chiếc",
+        "Một đội hình 9 chiếc"
+      ]
+    },
+    {
+      "index": 19,
+      "question": "Mối quan hệ giữa chiếc máy bay và bầu trời là gì?",
+      "prediction": "Máy bay bay trên bầu trời",
+      "ground_truths": [
+        "Máy bay bay trên trời",
+        "Máy bay ở trong bầu trời",
+        "Máy bay di chuyển trên bầu trời",
+        "Máy bay là một phần của bầu trời",
+        "Bầu trời là không gian cho máy bay"
+      ]
+    },
+    {
+      "index": 20,
+      "question": "Hành khách đang đi về phía loại máy bay nào?",
+      "prediction": "Máy bay của hãng hàng không",
+      "ground_truths": [
+        "Máy bay cánh quạt nhỏ",
+        "Máy bay chở khách",
+        "Một chiếc máy bay nhỏ",
+        "Máy bay",
+        "Máy bay có cánh quạt"
+      ]
+    },
+    {
+      "index": 21,
+      "question": "Mối quan hệ giữa máy bay và tòa nhà là gì?",
+      "prediction": "Máy bay đậu trước tòa nhà",
+      "ground_truths": [
+        "Máy bay bay thấp gần tòa nhà",
+        "Máy bay ở gần tòa nhà",
+        "Máy bay bay qua tòa nhà",
+        "Máy bay thấp hơn tòa nhà",
+        "Máy bay bay gần một tòa nhà"
+      ]
+    },
+    {
+      "index": 22,
+      "question": "Con chó đang làm gì với đàn cừu?",
+      "prediction": "Đang nhìn đàn cừu",
+      "ground_truths": [
+        "Đang chăn dắt đàn cừu",
+        "Đang bao vây đàn cừu",
+        "Điều khiển cừu trên cỏ",
+        "Lùa cừu về một chỗ",
+        "Chăm sóc đàn cừu"
+      ]
+    },
+    {
+      "index": 23,
+      "question": "Con chó và em bé trong xe đẩy có mối quan hệ gì?",
+      "prediction": "Chúng đang đi cùng nhau",
+      "ground_truths": [
+        "Em bé muốn vuốt ve chó",
+        "Chó nhìn vào em bé",
+        "Em bé với tay tới chó",
+        "Mối quan hệ tương tác",
+        "Sự tò mò của em bé"
+      ]
+    },
+    {
+      "index": 24,
+      "question": "Mối quan hệ giữa con chó và chiếc thuyền là gì?",
+      "prediction": "Con chó đang ở trên thuyền",
+      "ground_truths": [
+        "Con chó đang ở trên thuyền",
+        "Thuyền đang chở con chó",
+        "Con chó là hành khách trên thuyền",
+        "Con chó đang ngồi trên thuyền",
+        "Thuyền có con chó ở trên"
+      ]
+    },
+    {
+      "index": 25,
+      "question": "Mối quan hệ giữa hai con chó và chủ của chúng là gì?",
+      "prediction": "Chó đang ở cạnh chủ",
+      "ground_truths": [
+        "Chúng đang chơi cùng nhau",
+        "Chủ và chó đang vui đùa",
+        "Họ đang chơi trong tuyết",
+        "Đang tương tác khi chơi",
+        "Chủ và chó đang chơi"
+      ]
+    },
+    {
+      "index": 26,
+      "question": "Tại sao con chó lại nằm trên ghế sofa?",
+      "prediction": "Để nghỉ ngơi",
+      "ground_truths": [
+        "Để nghỉ ngơi",
+        "Có lẽ vì thoải mái",
+        "Có lẽ do thích",
+        "Chắc là buồn ngủ",
+        "Vì nó muốn nằm đó"
+      ]
+    },
+    {
+      "index": 27,
+      "question": "Tại sao mọi người đang chờ để lên xe buýt?",
+      "prediction": "Để đi đến điểm đến",
+      "ground_truths": [
+        "Họ muốn đi đến một địa điểm nào đó",
+        "Vì xe buýt là phương tiện công cộng",
+        "Họ đang đợi xe buýt khởi hành",
+        "Để di chuyển",
+        "Có thể họ đang đi làm hoặc đi học"
+      ]
+    },
+    {
+      "index": 28,
+      "question": "Màu sắc của xe buýt và xe tải là gì?",
+      "prediction": "Màu xanh lá cây",
+      "ground_truths": [
+        "Xe buýt trắng, xe tải xanh",
+        "Trắng và xanh",
+        "Trắng và xanh lam",
+        "Xe buýt màu trắng, xe tải màu xanh",
+        "Một trắng, một xanh"
+      ]
+    },
+    {
+      "index": 29,
+      "question": "Mối quan hệ giữa các xe buýt Red Regio được mô tả như thế nào?",
+      "prediction": "Các xe buýt được xếp cạnh nhau",
+      "ground_truths": [
+        "Đỗ sát nhau",
+        "Đỗ liên tiếp",
+        "Đậu cạnh nhau",
+        "Thành một hàng",
+        "Đứng sát"
+      ]
+    },
+    {
+      "index": 30,
+      "question": "Mối quan hệ giữa xe buýt và xe hơi là gì?",
+      "prediction": "Xe buýt đậu trước xe hơi",
+      "ground_truths": [
+        "Xe hơi đi ngang xe buýt",
+        "Chúng ở cạnh nhau",
+        "Một chiếc xe bên cạnh xe buýt",
+        "Xe hơi đi bên cạnh xe buýt",
+        "Chúng ở gần nhau"
+      ]
+    },
+    {
+      "index": 31,
+      "question": "Tại sao có rất nhiều voi ở dưới sông khi trời nắng?",
+      "prediction": "Voi đang ăn thức ăn",
+      "ground_truths": [
+        "Để làm mát cơ thể",
+        "Giải nhiệt dưới sông",
+        "Tìm kiếm nước",
+        "Thích nước mát",
+        "Vì trời nắng nóng"
+      ]
+    },
+    {
+      "index": 32,
+      "question": "Mối quan hệ giữa những người cưỡi voi và khu rừng là gì?",
+      "prediction": "Họ đang đi qua khu rừng",
+      "ground_truths": [
+        "Họ đang di chuyển xuyên rừng",
+        "Họ có thể đang khai thác rừng",
+        "Họ có thể đang tìm kiếm thức ăn",
+        "Họ đang xâm nhập vào môi trường sống của voi",
+        "Họ là một phần của hệ sinh thái rừng"
+      ]
+    },
+    {
+      "index": 33,
+      "question": "Những người cưỡi voi đang ở đâu?",
+      "prediction": "Trên một con đường",
+      "ground_truths": [
+        "Khu bảo tồn động vật hoang dã.",
+        "Trong khu bảo tồn.",
+        "Ở một khu bảo tồn.",
+        "Tại khu bảo tồn động vật.",
+        "Một khu bảo tồn hoang dã."
+      ]
+    },
+    {
+      "index": 34,
+      "question": "Hai con voi đang tương tác với nhau như thế nào?",
+      "prediction": "Đang tương tác với nhau",
+      "ground_truths": [
+        "Chạm vào thân",
+        "Đứng đối diện",
+        "Gần gũi",
+        "Dường như chào hỏi",
+        "Có vẻ thân thiện"
+      ]
+    },
+    {
+      "index": 35,
+      "question": "Mối quan hệ giữa những người và con voi là gì?",
+      "prediction": "Người và con voi",
+      "ground_truths": [
+        "Họ đang xem con voi",
+        "Họ đang tụ tập quanh voi",
+        "Họ đang ở sở thú",
+        "Họ đứng gần hàng rào",
+        "Họ là khách tham quan"
+      ]
+    },
+    {
+      "index": 36,
+      "question": "Con voi đang làm gì trong nước?",
+      "prediction": "Đang bơi",
+      "ground_truths": [
+        "Đang đi bộ",
+        "Đang lội nước",
+        "Đang di chuyển",
+        "Đang đứng",
+        "Đang chở người"
+      ]
+    },
+    {
+      "index": 37,
+      "question": "Người đàn ông có phải là người châu Á không?",
+      "prediction": "Có, người đàn ông là người châu Á",
+      "ground_truths": [
+        "Có",
+        "Phải",
+        "Đúng vậy",
+        "Có, người châu Á",
+        "Đúng"
+      ]
+    },
+    {
+      "index": 38,
+      "question": "Con voi đang làm gì trong sông?",
+      "prediction": "Đang bơi",
+      "ground_truths": [
+        "Đang bơi",
+        "Bị ngập một phần",
+        "Đang ở trong nước",
+        "Đang di chuyển trong sông",
+        "Bơi và bị ngập"
+      ]
+    },
+    {
+      "index": 39,
+      "question": "Mối quan hệ giữa những con voi trong chuồng và những con voi bên cạnh hàng rào là gì?",
+      "prediction": "Voi ở bên cạnh hàng rào",
+      "ground_truths": [
+        "Cả hai nhóm đều là voi",
+        "Chúng ở gần nhau",
+        "Cùng trong một môi trường",
+        "Đều là một phần của đàn",
+        "Có thể liên quan đến nhau"
+      ]
+    },
+    {
+      "index": 40,
+      "question": "Con voi con đang đi ở vị trí nào so với con voi trưởng thành?",
+      "prediction": "Đi gần con voi trưởng thành",
+      "ground_truths": [
+        "Đi phía sau con voi trưởng thành",
+        "Đằng sau một con voi lớn",
+        "Nằm sau con voi lớn",
+        "Theo sau con voi trưởng thành",
+        "Phía sau con voi mẹ"
+      ]
+    },
+    {
+      "index": 41,
+      "question": "Tại sao một trong hai chiếc pizza lại bị thiếu một miếng?",
+      "prediction": "Vì nó bị hỏng",
+      "ground_truths": [
+        "Có lẽ ai đó đã ăn nó.",
+        "Có thể do người làm pizza.",
+        "Không rõ lý do cụ thể.",
+        "Có lẽ là để thử.",
+        "Có lẽ do vận chuyển."
+      ]
+    },
+    {
+      "index": 42,
+      "question": "Mối quan hệ giữa chiếc bánh pizza và chiếc đĩa bạc là gì?",
+      "prediction": "Chúng được đặt cạnh nhau",
+      "ground_truths": [
+        "Bánh pizza được đặt trên đĩa",
+        "Đĩa bạc chứa bánh pizza",
+        "Bánh pizza nằm trên đĩa",
+        "Chiếc đĩa dùng để đựng bánh",
+        "Chúng liên quan đến việc phục vụ"
+      ]
+    },
+    {
+      "index": 43,
+      "question": "Bánh pizza cá nhân có những nguyên liệu nào?",
+      "prediction": "Cá, trứng, mì, nước sốt",
+      "ground_truths": [
+        "Phô mai và dứa",
+        "Nước sốt, phô mai và dứa",
+        "Phô mai, dứa, nước sốt",
+        "Dứa, phô mai, nước sốt",
+        "Pho mát, dứa, nước sốt"
+      ]
+    },
+    {
+      "index": 44,
+      "question": "Có những loại rau củ nào được phủ lên trên chiếc pizza thái lát?",
+      "prediction": "Rau cải và rau mùi",
+      "ground_truths": [
+        "Bông cải xanh và nấm",
+        "Nấm và bông cải xanh",
+        "Bông cải xanh",
+        "Nấm",
+        "Cả bông cải xanh và nấm"
+      ]
+    },
+    {
+      "index": 45,
+      "question": "Bức tường bao quanh môi trường sống của những con ngựa vằn được làm bằng vật liệu gì?",
+      "prediction": "Bê tông",
+      "ground_truths": [
+        "Bê tông",
+        "Bê tông",
+        "Bê tông",
+        "Bê tông",
+        "Bê tông"
+      ]
+    },
+    {
+      "index": 46,
+      "question": "Mối quan hệ giữa hàng rào và ngựa vằn trong khu vực có rào chắn là gì?",
+      "prediction": "Ngựa vằn đang đứng cạnh hàng rào",
+      "ground_truths": [
+        "Hàng rào ngăn ngựa vằn",
+        "Hàng rào bao quanh ngựa vằn",
+        "Ngựa vằn ở trong hàng rào",
+        "Hàng rào bảo vệ ngựa vằn",
+        "Hàng rào là ranh giới"
+      ]
+    },
+    {
+      "index": 47,
+      "question": "Mối quan hệ giữa người đàn ông và người phụ nữ trong bức ảnh là gì?",
+      "prediction": "Người đàn ông đang cưỡi người phụ nữ",
+      "ground_truths": [
+        "Có thể là bạn bè.",
+        "Có thể là người quen.",
+        "Cả hai cùng cưỡi ngựa.",
+        "Không rõ mối quan hệ.",
+        "Họ đang cùng nhau đi dạo."
+      ]
+    },
+    {
+      "index": 48,
+      "question": "Có bao nhiêu người đàn ông đang dẫn ngựa đua trên đường đua?",
+      "prediction": "Hai người đàn ông",
+      "ground_truths": [
+        "Ba người đàn ông",
+        "Có ba người",
+        "Ba người",
+        "3 người",
+        "Chỉ có ba"
+      ]
+    },
+    {
+      "index": 49,
+      "question": "Con ngựa có màu gì?",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "Màu nâu",
+        "Nâu đậm",
+        "Nâu",
+        "Có màu nâu",
+        "Nâu sẫm"
+      ]
+    },
+    {
+      "index": 50,
+      "question": "Mối quan hệ giữa con bò và hàng rào là gì?",
+      "prediction": "Con bò đang đứng cạnh hàng rào",
+      "ground_truths": [
+        "Con bò đứng cạnh hàng rào",
+        "Con bò nằm cạnh hàng rào",
+        "Hàng rào bao quanh con bò",
+        "Con bò nhìn vào hàng rào",
+        "Hàng rào giới hạn khu vực của bò"
+      ]
+    },
+    {
+      "index": 51,
+      "question": "Con bò có vẻ ngoài như thế nào?",
+      "prediction": "Một con bò nhỏ",
+      "ground_truths": [
+        "Rất mập",
+        "Đầy đặn",
+        "Béo",
+        "Mập mạp",
+        "To lớn"
+      ]
+    },
+    {
+      "index": 52,
+      "question": "Có bao nhiêu con bò đang nằm trên giường cỏ khô trong chuồng trại?",
+      "prediction": "Hai con bò",
+      "ground_truths": [
+        "Bốn con",
+        "Bốn",
+        "4 con",
+        "Chỉ bốn",
+        "Bốn cá thể"
+      ]
+    },
+    {
+      "index": 53,
+      "question": "Tại sao các con diều lấy cảm hứng từ châu Á?",
+      "prediction": "Vì châu Á là nguồn cảm hứng",
+      "ground_truths": [
+        "Vì chúng đầy màu sắc.",
+        "Do có tượng phụ nữ mặc kimono.",
+        "Vì có cổng Torii Nhật Bản.",
+        "Chúng có yếu tố văn hóa Nhật Bản.",
+        "Chúng có thiết kế đặc trưng châu Á."
+      ]
+    },
+    {
+      "index": 54,
+      "question": "Hai người mặc vest đang nói chuyện với những người khác ở đâu?",
+      "prediction": "Trong một phòng họp",
+      "ground_truths": [
+        "Trong nhà",
+        "Trong một căn phòng",
+        "Trong sảnh",
+        "Trong hành lang",
+        "Gần những người khác"
+      ]
+    },
+    {
+      "index": 55,
+      "question": "Người đàn ông to lớn đang ngồi ở đâu?",
+      "prediction": "Trên một chiếc xe",
+      "ground_truths": [
+        "Trên chiếc xe máy",
+        "Trên vỉa hè đường",
+        "Gần không gian mở",
+        "Trên lưng xe máy",
+        "Trên đường"
+      ]
+    },
+    {
+      "index": 56,
+      "question": "Có bao nhiêu người đang đứng bên ngoài nhà hàng?",
+      "prediction": "Hai người",
+      "ground_truths": [
+        "Một nhóm lớn",
+        "Nhiều người",
+        "Rất đông",
+        "Khá nhiều",
+        "Đông đúc"
+      ]
+    },
+    {
+      "index": 57,
+      "question": "Có bao nhiêu biển hiệu bia trên các toà nhà?",
+      "prediction": "Hai biển hiệu",
+      "ground_truths": [
+        "Một số biển hiệu bia",
+        "Nhiều biển hiệu bia",
+        "Có các biển hiệu bia",
+        "Nhiều tấm bảng hiệu",
+        "Một vài biển hiệu"
+      ]
+    },
+    {
+      "index": 58,
+      "question": "Bát rau và khoai tây được đặt ở đâu?",
+      "prediction": "Trên bàn",
+      "ground_truths": [
+        "Trên mặt bàn",
+        "Ở trên bàn",
+        "Trên chiếc bàn màu xám",
+        "Đặt trên bàn",
+        "Ngồi trên bàn"
+      ]
+    },
+    {
+      "index": 59,
+      "question": "Màu sắc của đĩa thức ăn là gì?",
+      "prediction": "Màu đỏ",
+      "ground_truths": [
+        "Màu đỏ",
+        "Đỏ tươi",
+        "Đỏ sẫm",
+        "Có màu đỏ",
+        "Đĩa màu đỏ"
+      ]
+    },
+    {
+      "index": 60,
+      "question": "Mối quan hệ giữa thịt và rau trên đĩa là gì?",
+      "prediction": "Thịt và rau ở trên đĩa",
+      "ground_truths": [
+        "Thịt và rau đi kèm nhau.",
+        "Rau cung cấp vitamin cho thịt.",
+        "Rau là phần ăn kèm.",
+        "Thịt và rau cùng một bữa ăn.",
+        "Rau cân bằng dinh dưỡng cho thịt."
+      ]
+    },
+    {
+      "index": 61,
+      "question": "Mối quan hệ giữa bồn cầu và máy sấy tóc là gì?",
+      "prediction": "Bồn cầu chứa máy sấy tóc",
+      "ground_truths": [
+        "Cùng nằm trong phòng tắm",
+        "Đặt cạnh nhau",
+        "Đều có màu trắng",
+        "Không có mối quan hệ trực tiếp",
+        "Cả hai đều là đồ dùng cá nhân"
+      ]
+    },
+    {
+      "index": 62,
+      "question": "Cánh cửa phòng vệ sinh mở cho thấy điều gì bên trong?",
+      "prediction": "Một người đang ngồi",
+      "ground_truths": [
+        "Một nhà vệ sinh màu trắng",
+        "Một nhà vệ sinh",
+        "Nhà vệ sinh",
+        "Bồn cầu trắng",
+        "Phòng vệ sinh"
+      ]
+    },
+    {
+      "index": 63,
+      "question": "Bồn cầu trong phòng tắm này có đặc điểm gì nổi bật?",
+      "prediction": "Bồn cầu có màu trắng",
+      "ground_truths": [
+        "Có bể chứa nước lơ lửng",
+        "Là bồn cầu kiểu cũ",
+        "Đi kèm với bể chứa cao",
+        "Thiết kế kiểu cũ",
+        "Bể chứa nước được treo"
+      ]
+    },
+    {
+      "index": 64,
+      "question": "Nắp đậy bồn cầu có màu gì?",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "Màu vàng.",
+        "Màu vàng nhạt.",
+        "Vàng.",
+        "Vàng.",
+        "Vàng sáng."
+      ]
+    },
+    {
+      "index": 65,
+      "question": "Phòng tắm có màu sắc tổng thể như thế nào?",
+      "prediction": "Màu nâu",
+      "ground_truths": [
+        "Màu sắc tươi sáng",
+        "Khá sạch sẽ",
+        "Trắng và xanh",
+        "Màu sắc nhạt",
+        "Màu sắc đơn giản"
+      ]
+    },
+    {
+      "index": 66,
+      "question": "Mối quan hệ giữa đàn cừu và chiếc xe là gì?",
+      "prediction": "Đàn cừu đang đậu trước xe",
+      "ground_truths": [
+        "Cừu đang chặn đường xe",
+        "Xe bị cừu làm gián đoạn",
+        "Cừu gây cản trở xe",
+        "Xe đang chờ cừu qua",
+        "Cừu và xe đang đối mặt"
+      ]
+    },
+    {
+      "index": 67,
+      "question": "Tại sao một số con cừu lại có sơn trên mình?",
+      "prediction": "Để bảo vệ khỏi cỏ",
+      "ground_truths": [
+        "Có lẽ ai đó đã đánh dấu chúng.",
+        "Để phân biệt các con cừu.",
+        "Có thể là do mục đích y tế.",
+        "Để nhận biết chúng dễ hơn.",
+        "Có thể là do trò đùa."
+      ]
+    },
+    {
+      "index": 68,
+      "question": "Mối quan hệ giữa hai con cừu là gì?",
+      "prediction": "Chúng là cùng một con",
+      "ground_truths": [
+        "Một con trưởng thành và một con non",
+        "Cừu lớn và cừu nhỏ",
+        "Mẹ con",
+        "Một cặp cừu",
+        "Cừu trưởng thành và cừu con"
+      ]
+    },
+    {
+      "index": 69,
+      "question": "Bầy cừu đang di chuyển trên loại đường nào?",
+      "prediction": "Đường cỏ",
+      "ground_truths": [
+        "Đường đất",
+        "Con đường đất",
+        "Đường mòn",
+        "Một con đường đất",
+        "Đất"
+      ]
+    },
+    {
+      "index": 70,
+      "question": "Mối quan hệ giữa việc cạo lông và việc đánh dấu con dê bằng chữ cái là gì?",
+      "prediction": "Cạo lông là một phần của đánh dấu",
+      "ground_truths": [
+        "Đều là hoạt động trong trang trại",
+        "Hai hoạt động khác nhau",
+        "Có thể là các bước khác nhau",
+        "Đều được thực hiện bởi người",
+        "Là các công việc trên động vật"
+      ]
+    },
+    {
+      "index": 71,
+      "question": "Đàn cừu đang đi đâu?",
+      "prediction": "Đang đi trên đường",
+      "ground_truths": [
+        "Đi xuống một con phố",
+        "Đi ngang qua trạm xăng",
+        "Đi qua một cái cây",
+        "Trên đường phố",
+        "Trong thành phố"
+      ]
+    },
+    {
+      "index": 72,
+      "question": "Mối quan hệ giữa những người trong ảnh là gì?",
+      "prediction": "Họ là một nhóm người",
+      "ground_truths": [
+        "Họ là bạn bè",
+        "Họ là một nhóm bạn",
+        "Là những người bạn",
+        "Một nhóm bạn bè",
+        "Họ là bạn"
+      ]
+    },
+    {
+      "index": 73,
+      "question": "Mối quan hệ giữa những người đàn ông trẻ và người trượt ván là gì?",
+      "prediction": "Họ đang trượt ván",
+      "ground_truths": [
+        "Những người đàn ông đang xem người trượt ván biểu diễn.",
+        "Họ là khán giả của màn trình diễn.",
+        "Mối quan hệ là người xem và người biểu diễn.",
+        "Họ đang theo dõi thủ thuật trượt ván.",
+        "Những người đàn ông đang quan sát động tác của vận động viên."
+      ]
+    },
+    {
+      "index": 74,
+      "question": "Mối quan hệ giữa người phụ nữ và con chim là gì?",
+      "prediction": "Người phụ nữ đang quan sát con chim",
+      "ground_truths": [
+        "Người tương tác chim",
+        "Con người điều khiển chim",
+        "Chủ và chim thú cưng",
+        "Người và chim đang chơi",
+        "Tương tác thân thiện"
+      ]
+    },
+    {
+      "index": 75,
+      "question": "Mối quan hệ giữa việc lướt ván trong bể bơi nhân tạo và lướt trên sông là gì?",
+      "prediction": "Lướt trên sông là một phần của lướt ván",
+      "ground_truths": [
+        "Cùng là lướt ván",
+        "Đều là lướt sóng",
+        "Cùng hoạt động",
+        "Đều dùng ván lướt",
+        "Giống nhau về hành động"
+      ]
+    },
+    {
+      "index": 76,
+      "question": "Mối quan hệ giữa người và ngựa trên đường đua là gì?",
+      "prediction": "Người là người lái ngựa",
+      "ground_truths": [
+        "Người đang dắt ngựa",
+        "Người là tay đua của ngựa",
+        "Họ là chủ và vật nuôi",
+        "Người đang dẫn ngựa đi dạo",
+        "Là jockeys và ngựa đua"
+      ]
+    },
+    {
+      "index": 77,
+      "question": "Những xe máy này thường đỗ ở đây để làm gì?",
+      "prediction": "Đang chờ người đi bộ",
+      "ground_truths": [
+        "Để tiện đi lại",
+        "Để gần các cửa hàng",
+        "Để không tốn phí gửi xe",
+        "Để nhanh chóng mua đồ",
+        "Vì không có chỗ đậu xe khác"
+      ]
+    },
+    {
+      "index": 78,
+      "question": "Mối quan hệ giữa người đàn ông cầm gậy và người đàn ông đeo găng tay là gì?",
+      "prediction": "Người đàn ông cầm gậy đang đeo găng tay",
+      "ground_truths": [
+        "Một người chuẩn bị đánh, một người bắt bóng",
+        "Đối thủ trong trận đấu",
+        "Người đánh bóng và người bắt bóng",
+        "Cầu thủ và đồng đội",
+        "Hai cầu thủ trên sân"
+      ]
+    },
+    {
+      "index": 79,
+      "question": "Những người trên xe ngựa có mối quan hệ gì với con ngựa kéo xe?",
+      "prediction": "Họ là người lái xe",
+      "ground_truths": [
+        "Họ là người điều khiển",
+        "Họ là người đi xe",
+        "Họ là hành khách",
+        "Họ phụ thuộc vào ngựa",
+        "Họ đang tận hưởng chuyến đi"
+      ]
+    },
+    {
+      "index": 80,
+      "question": "Mối quan hệ giữa đoàn tàu và đường ray là gì?",
+      "prediction": "Đoàn tàu chạy trên đường ray",
+      "ground_truths": [
+        "Đoàn tàu chạy trên đường ray",
+        "Đường ray dẫn đường cho tàu",
+        "Đoàn tàu và đường ray gắn liền",
+        "Tàu di chuyển nhờ đường ray",
+        "Đường ray là nền tảng của tàu"
+      ]
+    },
+    {
+      "index": 81,
+      "question": "Cái máng ăn cho chim có treo trên cành cây không?",
+      "prediction": "Có, nó treo trên cành cây",
+      "ground_truths": [
+        "Có, nó treo trên cành",
+        "Đúng, treo trên cây",
+        "Có, trên nhánh cây",
+        "Vâng, trên cành",
+        "Có, nó được treo"
+      ]
+    },
+    {
+      "index": 82,
+      "question": "Mối quan hệ giữa người và con vật trong ảnh là gì?",
+      "prediction": "Người đang quan sát con vật",
+      "ground_truths": [
+        "Người đang dắt/kéo con vật",
+        "Người kiểm soát con vật",
+        "Người và con vật đang di chuyển cùng",
+        "Mối quan hệ dẫn dắt",
+        "Người đang hướng dẫn con vật"
+      ]
+    },
+    {
+      "index": 83,
+      "question": "Mối quan hệ giữa hai cậu bé và quả bóng là gì?",
+      "prediction": "Cậu bé đang chơi với quả bóng",
+      "ground_truths": [
+        "Đang chơi bóng cùng nhau",
+        "Người chơi và vật thể chơi",
+        "Đang tương tác qua trò chơi",
+        "Bạn bè cùng sở thích",
+        "Đang ở trong một trận đấu"
+      ]
+    },
+    {
+      "index": 84,
+      "question": "Tại sao mọi người lại trượt tuyết ở khu vực này?",
+      "prediction": "Để vui chơi",
+      "ground_truths": [
+        "Vì có tuyết",
+        "Để giải trí",
+        "Để rèn luyện sức khỏe",
+        "Vì địa hình phù hợp",
+        "Để tận hưởng cảnh đẹp"
+      ]
+    },
+    {
+      "index": 85,
+      "question": "Diều đang bay ở đâu so với đám đông người?",
+      "prediction": "Trên bầu trời",
+      "ground_truths": [
+        "Bay trên đám đông",
+        "Trên cao",
+        "Phía trên mọi người",
+        "Trên bầu trời",
+        "Vẫy ngang bầu trời"
+      ]
+    },
+    {
+      "index": 86,
+      "question": "Những người này đang làm gì trong công viên?",
+      "prediction": "Đang bay trên bầu trời",
+      "ground_truths": [
+        "Thả diều",
+        "Chơi diều",
+        "Thả diều trên cánh đồng",
+        "Thả diều trong công viên",
+        "Chơi diều trên cánh đồng"
+      ]
+    },
+    {
+      "index": 87,
+      "question": "Theo bạn, tại sao một chiếc thuyền lại ở dưới nước?",
+      "prediction": "Vì nó đang ở đó",
+      "ground_truths": [
+        "Có lẽ nó bị chìm.",
+        "Có thể nó đang lặn.",
+        "Nó có thể là tàu ngầm.",
+        "Bị hư hỏng nên chìm.",
+        "Đang gặp sự cố."
+      ]
+    },
+    {
+      "index": 88,
+      "question": "Chuối xanh này có thể được dùng để chế biến món ăn gì?",
+      "prediction": "Để làm salad",
+      "ground_truths": [
+        "Chuối xanh luộc",
+        "Gỏi chuối",
+        "Chuối om ốc",
+        "Làm nộm",
+        "Canh chuối"
+      ]
+    },
+    {
+      "index": 89,
+      "question": "Biển báo dừng đa ngôn ngữ nằm trước cái gì?",
+      "prediction": "Một tòa nhà",
+      "ground_truths": [
+        "Một bãi đậu xe moóc",
+        "Bãi đậu xe moóc",
+        "Khu vực đậu xe moóc",
+        "Nơi đậu xe moóc",
+        "Trước bãi đậu xe moóc"
+      ]
+    },
+    {
+      "index": 90,
+      "question": "Các cầu thủ đang chơi môn thể thao gì?",
+      "prediction": "Cầu lông",
+      "ground_truths": [
+        "Bóng chày",
+        "Môn bóng chày",
+        "Chày bóng",
+        "Đánh bóng chày",
+        "Môn thể thao bóng chày"
+      ]
+    },
+    {
+      "index": 91,
+      "question": "Mối quan hệ giữa đĩa và bánh là gì?",
+      "prediction": "Bánh được đặt trên đĩa",
+      "ground_truths": [
+        "Bánh đặt trên đĩa",
+        "Đĩa chứa miếng bánh",
+        "Đĩa dùng để đựng bánh",
+        "Bánh nằm trên đĩa",
+        "Đĩa đỡ miếng bánh"
+      ]
+    },
+    {
+      "index": 92,
+      "question": "Tại sao con chim mỏ dài lại ở gần đại dương?",
+      "prediction": "Để tìm thức ăn",
+      "ground_truths": [
+        "Để tìm kiếm thức ăn.",
+        "Vì đó là môi trường sống của nó.",
+        "Để bắt cá.",
+        "Vì gần nguồn nước.",
+        "Để sinh tồn."
+      ]
+    },
+    {
+      "index": 93,
+      "question": "Tại sao thuyền phà chở khách tạo ra vệt sóng khi di chuyển?",
+      "prediction": "Vì thuyền chở nhiều khách",
+      "ground_truths": [
+        "Vì thuyền chạy nhanh",
+        "Do tốc độ di chuyển lớn",
+        "Thuyền có đủ tốc độ",
+        "Tạo ra vệt sóng do tốc độ",
+        "Sóng được tạo bởi sự di chuyển"
+      ]
+    },
+    {
+      "index": 94,
+      "question": "Mối quan hệ giữa xuồng và núi là gì?",
+      "prediction": "Xuồng nằm trên núi",
+      "ground_truths": [
+        "Núi ở phía sau xuồng",
+        "Xuồng ở dưới chân núi",
+        "Xuồng gần các ngọn núi",
+        "Núi tạo thành dãy phía sau",
+        "Xuồng chèo trước dãy núi"
+      ]
+    },
+    {
+      "index": 95,
+      "question": "Mối quan hệ giữa người chơi bóng chày và căn cứ là gì?",
+      "prediction": "Người chơi bóng chày đứng trước căn cứ",
+      "ground_truths": [
+        "Người chơi chạy đến căn cứ",
+        "Căn cứ là mục tiêu",
+        "Để ghi điểm",
+        "Căn cứ để an toàn",
+        "Người chơi cố gắng chiếm căn cứ"
+      ]
+    },
+    {
+      "index": 96,
+      "question": "Bộ đồ nội thất hiên có những vật dụng nào?",
+      "prediction": "Một chiếc ghế và một chiếc bàn",
+      "ground_truths": [
+        "Có bàn, ghế và ô.",
+        "Bàn, ghế và một chiếc ô.",
+        "Bàn, ghế xanh, và ô xanh.",
+        "Gồm bàn, ghế và ô che nắng.",
+        "Bàn và các ghế xanh cùng ô."
+      ]
+    },
+    {
+      "index": 97,
+      "question": "Mối quan hệ giữa người và ván lướt sóng là gì?",
+      "prediction": "Người chơi ván lướt sóng",
+      "ground_truths": [
+        "Người cưỡi ván",
+        "Người đứng trên ván",
+        "Người dùng ván",
+        "Ván là phương tiện",
+        "Ván hỗ trợ người"
+      ]
+    },
+    {
+      "index": 98,
+      "question": "Có bao nhiêu con vật đang kéo xe chở túi?",
+      "prediction": "Hai con vật",
+      "ground_truths": [
+        "Bốn con",
+        "Bốn",
+        "4",
+        "Có bốn con",
+        "Một con ngựa, hai con lừa và một con la"
+      ]
+    },
+    {
+      "index": 99,
+      "question": "Có bao nhiêu người đang thả diều?",
+      "prediction": "Hai người",
+      "ground_truths": [
+        "Hai người",
+        "Một vài người",
+        "Một nhóm người",
+        "Không rõ số lượng",
+        "Một số cá nhân"
+      ]
+    },
+    {
+      "index": 100,
+      "question": "Đầu máy xe lửa này có mối liên hệ gì với tòa nhà bên cạnh?",
+      "prediction": "Chúng là cùng một tòa nhà",
+      "ground_truths": [
+        "Cùng thuộc khu bảo tàng",
+        "Tạo nên khung cảnh lịch sử",
+        "Được xây dựng gần nhau",
+        "Không gian trưng bày chung",
+        "Tòa nhà bảo vệ đầu máy"
+      ]
+    },
+    {
+      "index": 101,
+      "question": "Biển báo dừng được treo ở đâu?",
+      "prediction": "Trên cây cối",
+      "ground_truths": [
+        "Trên một cánh cổng bị khoá",
+        "Ở rìa cánh đồng",
+        "Trên cánh cổng kim loại",
+        "Bên cạnh một cây cột",
+        "Trên một cánh cổng đóng"
+      ]
+    },
+    {
+      "index": 102,
+      "question": "Bánh rán được dùng làm gì trong món bánh mì kẹp này?",
+      "prediction": "Để ăn",
+      "ground_truths": [
+        "Để thay thế bánh mì",
+        "Làm bánh kẹp",
+        "Dùng làm bánh burger",
+        "Thay thế bánh cuộn",
+        "Làm vỏ bánh"
+      ]
+    },
+    {
+      "index": 103,
+      "question": "Mối quan hệ giữa phao nổi và thuyền buồm trong cảnh biển là gì?",
+      "prediction": "Phao nổi trên thuyền buồm",
+      "ground_truths": [
+        "Chúng cùng xuất hiện trên biển",
+        "Thuyền buồm ở xa phao",
+        "Chúng là các vật thể trên mặt nước",
+        "Cả hai đều nổi trên đại dương",
+        "Một vật thể báo hiệu, một phương tiện di chuyển"
+      ]
+    },
+    {
+      "index": 104,
+      "question": "Tại sao ảnh chụp ngôi nhà lại bị mờ?",
+      "prediction": "Vì ảnh bị mờ",
+      "ground_truths": [
+        "Do thiếu tiêu cự",
+        "Không rõ lý do",
+        "Chưa được làm rõ",
+        "Có thể do kỹ thuật",
+        "Chưa tập trung"
+      ]
+    },
+    {
+      "index": 105,
+      "question": "Có mối quan hệ gì giữa bến tàu và đại dương?",
+      "prediction": "Bến tàu nằm trên đại dương",
+      "ground_truths": [
+        "Bến tàu nhô ra biển",
+        "Bến tàu tiếp giáp với biển",
+        "Bến tàu được xây trên biển",
+        "Bến tàu là lối ra biển",
+        "Bến tàu cho phép tiếp cận biển"
+      ]
+    },
+    {
+      "index": 106,
+      "question": "Có bao nhiêu người trong nhóm thanh niên này?",
+      "prediction": "Hai người",
+      "ground_truths": [
+        "Sáu người",
+        "Sáu cá nhân",
+        "Có sáu người",
+        "Tổng cộng sáu",
+        "Sáu thành viên"
+      ]
+    },
+    {
+      "index": 107,
+      "question": "Có bao nhiêu người trong hình ảnh?",
+      "prediction": "Hai người",
+      "ground_truths": [
+        "Một người",
+        "Chỉ một người",
+        "Có một người",
+        "Một người đàn ông",
+        "Một cá nhân"
+      ]
+    },
+    {
+      "index": 108,
+      "question": "Có bao nhiêu chiếc xe đạp đang được đề cập trong mô tả?",
+      "prediction": "Hai chiếc",
+      "ground_truths": [
+        "Rất nhiều chiếc",
+        "Nhiều chiếc",
+        "Không rõ số lượng cụ thể",
+        "Một nhóm xe đạp",
+        "Một đám xe đạp"
+      ]
+    },
+    {
+      "index": 109,
+      "question": "Có bao nhiêu băng ghế gỗ được đặt cạnh dòng nước?",
+      "prediction": "Hai băng ghế",
+      "ground_truths": [
+        "Nhiều băng ghế",
+        "Một số băng ghế",
+        "Nhiều chiếc",
+        "Không rõ số lượng cụ thể",
+        "Một vài chiếc"
+      ]
+    },
+    {
+      "index": 110,
+      "question": "Màu sắc chủ đạo của cây dương xỉ xung quanh con gấu là gì?",
+      "prediction": "Màu nâu",
+      "ground_truths": [
+        "Màu xanh",
+        "Xanh tươi",
+        "Xanh đậm",
+        "Xanh lá",
+        "Màu xanh lá cây"
+      ]
+    },
+    {
+      "index": 111,
+      "question": "Mối quan hệ giữa kích thước của chiếc thuyền hai tầng và các thuyền khác được mô tả là gì?",
+      "prediction": "Thuyền hai tầng lớn hơn các thuyền khác",
+      "ground_truths": [
+        "Lớn hơn",
+        "Lớn",
+        "Nổi bật hơn",
+        "Khá lớn",
+        "To hơn các thuyền khác"
+      ]
+    },
+    {
+      "index": 112,
+      "question": "Mối quan hệ giữa vòi nước cứu hoả màu đỏ và bức tường bong tróc là gì?",
+      "prediction": "Vòi nước cứu hoả nằm trên tường",
+      "ground_truths": [
+        "Nó được đặt cạnh bức tường",
+        "Nó nằm ngay bên bức tường",
+        "Nó ở sát bức tường",
+        "Nó đứng gần bức tường",
+        "Nó gắn liền với bức tường"
+      ]
+    },
+    {
+      "index": 113,
+      "question": "Có bao nhiêu chiếc thuyền đang neo đậu tại một bến tàu?",
+      "prediction": "Hai chiếc",
+      "ground_truths": [
+        "Bốn",
+        "Có bốn",
+        "Bốn chiếc",
+        "Chỉ có bốn",
+        "Khoảng bốn"
+      ]
+    },
+    {
+      "index": 114,
+      "question": "Màu sắc của chiếc thuyền nhỏ là gì?",
+      "prediction": "Màu xanh lá cây",
+      "ground_truths": [
+        "Đỏ, xanh dương, vàng",
+        "Nhiều màu sắc",
+        "Đa sắc",
+        "Kết hợp đỏ, xanh, vàng",
+        "Vàng, xanh, đỏ"
+      ]
+    },
+    {
+      "index": 115,
+      "question": "Mối quan hệ giữa biển báo đường phố màu xanh trắng và hàng rào là gì?",
+      "prediction": "Biển báo chỉ dẫn đường",
+      "ground_truths": [
+        "Biển báo nằm trên hàng rào",
+        "Biển báo gắn vào hàng rào",
+        "Biển báo được đặt trên hàng rào",
+        "Biển báo được đỡ bởi hàng rào",
+        "Biển báo ở trên hàng rào"
+      ]
+    },
+    {
+      "index": 116,
+      "question": "Mối quan hệ giữa động cơ diesel và tòa nhà là gì?",
+      "prediction": "Động cơ diesel nằm trong tòa nhà",
+      "ground_truths": [
+        "Động cơ ngồi cạnh toà nhà",
+        "Chúng gần nhau",
+        "Động cơ ở bên cạnh tòa nhà",
+        "Hai vật thể gần kề",
+        "Động cơ được đặt bên toà nhà"
+      ]
+    },
+    {
+      "index": 117,
+      "question": "Vòi nước chữa cháy có màu gì và nó được đặt giữa hai cột nào?",
+      "prediction": "Màu xanh lá cây và xanh dương",
+      "ground_truths": [
+        "Màu đen và trắng, giữa hai cột",
+        "Đen và trắng, giữa hai cột bạc",
+        "Màu đen trắng, giữa hai cột",
+        "Đen trắng, giữa hai cột bạc",
+        "Màu đen trắng, hai cột"
+      ]
+    },
+    {
+      "index": 118,
+      "question": "Màu sắc của cánh hoa dưới ánh mặt trời là gì?",
+      "prediction": "Màu vàng",
+      "ground_truths": [
+        "Màu vàng tươi",
+        "Màu vàng",
+        "Vàng tươi",
+        "Màu vàng sáng",
+        "Vàng"
+      ]
+    },
+    {
+      "index": 119,
+      "question": "Có bao nhiêu quả bí ngô được mô tả trong chú thích?",
+      "prediction": "Hai quả",
+      "ground_truths": [
+        "Bốn",
+        "4",
+        "Bốn quả",
+        "Hai quả ở ngoài toà nhà, hai cái đầu bí ngô",
+        "Bốn tổng cộng"
+      ]
+    },
+    {
+      "index": 120,
+      "question": "Vòi cứu hoả được đặt ở đâu?",
+      "prediction": "Trên cây",
+      "ground_truths": [
+        "Bên cạnh biển báo",
+        "Gần lề đường",
+        "Bên lề đường",
+        "Cạnh biển báo giao thông",
+        "Cạnh biển báo"
+      ]
+    },
+    {
+      "index": 121,
+      "question": "Các con chim đang bay vào thời điểm nào trong ngày?",
+      "prediction": "Trong buổi sáng",
+      "ground_truths": [
+        "Vào ban ngày",
+        "Ban ngày",
+        "Vào buổi ngày",
+        "Ngày",
+        "Trong ngày"
+      ]
+    },
+    {
+      "index": 122,
+      "question": "Đoàn tàu đồ chơi có màu sắc gì?",
+      "prediction": "Màu xanh lá cây",
+      "ground_truths": [
+        "Màu đen và đỏ",
+        "Đen và đỏ",
+        "Có màu đen và đỏ",
+        "Đỏ và đen",
+        "Chủ yếu là đen và đỏ"
+      ]
+    },
+    {
+      "index": 123,
+      "question": "Mối quan hệ giữa biển báo dừng và biển báo giao cắt đường sắt là gì?",
+      "prediction": "Biển báo dừng ở cạnh biển báo giao cắt",
+      "ground_truths": [
+        "Biển báo dừng nằm phía trước",
+        "Chúng nằm gần nhau",
+        "Cùng trên đường ray",
+        "Gần bể chứa lớn",
+        "Nằm trên cùng tuyến"
+      ]
+    },
+    {
+      "index": 124,
+      "question": "Người lái xe có đang làm gì với điện thoại không?",
+      "prediction": "Không, người lái xe đang nhìn vào điện thoại",
+      "ground_truths": [
+        "Đang nhắn tin",
+        "Đang sử dụng điện thoại",
+        "Đang text",
+        "Đang cầm điện thoại",
+        "Đang nhắn tin văn bản"
+      ]
+    },
+    {
+      "index": 125,
+      "question": "Con chim đang làm gì với thức ăn trong miệng?",
+      "prediction": "Chúng đang ăn thức ăn",
+      "ground_truths": [
+        "Đang cầm thức ăn",
+        "Đang mang thức ăn",
+        "Đang giữ thức ăn",
+        "Đang có thức ăn",
+        "Đang ngậm thức ăn"
+      ]
+    },
+    {
+      "index": 126,
+      "question": "Con gấu trúc đang ăn gì?",
+      "prediction": "Một quả cam",
+      "ground_truths": [
+        "Tre",
+        "Thức ăn chính",
+        "Một số cây",
+        "Thực vật",
+        "Cây tre"
+      ]
+    },
+    {
+      "index": 127,
+      "question": "Cửa sổ trong phòng ngủ có đặc điểm gì nổi bật?",
+      "prediction": "Có nhiều cửa sổ",
+      "ground_truths": [
+        "Cửa sổ lớn",
+        "Có phản chiếu bụi cây",
+        "Nhìn ra ngoài đầy nắng",
+        "Chiếc giường trống trơn nhìn ra",
+        "Một cửa sổ lớn"
+      ]
+    },
+    {
+      "index": 128,
+      "question": "Chậu đất sét được đặt ở đâu trên bãi biển?",
+      "prediction": "Trên bãi biển",
+      "ground_truths": [
+        "Trên một cây cột gỗ",
+        "Cạnh một cái cột",
+        "Trên một cực",
+        "Gần đại dương",
+        "Trên cát"
+      ]
+    },
+    {
+      "index": 129,
+      "question": "Biển báo dừng này có màu gì?",
+      "prediction": "Màu đỏ",
+      "ground_truths": [
+        "Màu đỏ",
+        "Màu đỏ neon",
+        "Đỏ nổi bật",
+        "Đỏ rực",
+        "Màu đỏ tươi"
+      ]
+    },
+    {
+      "index": 130,
+      "question": "Theo bạn, tại sao sinh viên lại để nhiều lon soda trên bàn như vậy?",
+      "prediction": "Để uống",
+      "ground_truths": [
+        "Để tỉnh táo học đêm.",
+        "Vì cần caffeine.",
+        "Giải khát khi học bài.",
+        "Uống khi căng thẳng.",
+        "Để có năng lượng học bài."
+      ]
+    },
+    {
+      "index": 131,
+      "question": "Tại sao đứa trẻ lại cười bên cạnh chiếc laptop đồ chơi của mình vào Giáng sinh?",
+      "prediction": "Vì nó là một chiếc laptop",
+      "ground_truths": [
+        "Vì được tặng đồ chơi",
+        "Vì có laptop mới",
+        "Vì đó là quà Giáng sinh",
+        "Vì đang vui vẻ",
+        "Vì thích món quà"
+      ]
+    },
+    {
+      "index": 132,
+      "question": "Mối quan hệ giữa ghế sofa màu xám và bàn đen là gì?",
+      "prediction": "Bàn đen đặt trên ghế sofa",
+      "ground_truths": [
+        "Bàn ở phía trước sofa.",
+        "Chúng cùng ở trong phòng khách.",
+        "Bàn có thể dùng để đặt đồ khi ngồi sofa.",
+        "Sofa và bàn có màu tương phản.",
+        "Chúng tạo thành một khu vực tiếp khách."
+      ]
+    },
+    {
+      "index": 133,
+      "question": "Bình hoa này thường được dùng trong dịp nào?",
+      "prediction": "Để chào mừng",
+      "ground_truths": [
+        "Để trang trí nhà cửa",
+        "Dịp lễ hội",
+        "Dịp đặc biệt",
+        "Để tặng quà",
+        "Làm đẹp bàn ăn"
+      ]
+    },
+    {
+      "index": 134,
+      "question": "Tại sao đèn báo trên tàu điện ngầm lại có màu đỏ?",
+      "prediction": "Để cảnh báo tàu đang chạy",
+      "ground_truths": [
+        "Có thể báo hiệu nguy hiểm",
+        "Báo hiệu tàu ngừng hoạt động",
+        "Có thể tàu đang bảo trì",
+        "Có thể là tín hiệu dừng",
+        "Để cảnh báo hành khách"
+      ]
+    },
+    {
+      "index": 135,
+      "question": "Có bao nhiêu máy tính xách tay trên bàn làm việc?",
+      "prediction": "Hai máy tính xách tay",
+      "ground_truths": [
+        "Hai máy tính xách tay",
+        "2 máy tính xách tay",
+        "Hai chiếc",
+        "Hai",
+        "Có hai cái"
+      ]
+    },
+    {
+      "index": 136,
+      "question": "Mối quan hệ giữa tòa tháp và đường ray xe lửa là gì?",
+      "prediction": "Tòa tháp nằm cạnh đường ray",
+      "ground_truths": [
+        "Nằm cạnh nhau",
+        "Gần nhau",
+        "Ở bên cạnh",
+        "Kề bên",
+        "Cạnh đường ray"
+      ]
+    },
+    {
+      "index": 137,
+      "question": "Mối quan hệ giữa lò nướng và lò vi sóng là gì?",
+      "prediction": "Lò nướng dùng để nướng",
+      "ground_truths": [
+        "Lò nướng ở dưới lò vi sóng",
+        "Lò vi sóng đặt trên lò nướng",
+        "Chúng đặt gần nhau",
+        "Một cái ở trên, một cái ở dưới",
+        "Lò nướng nằm bên dưới lò vi sóng"
+      ]
+    },
+    {
+      "index": 138,
+      "question": "Mối quan hệ giữa hai tay và máy tính xách tay là gì?",
+      "prediction": "Tay cầm máy tính",
+      "ground_truths": [
+        "Hai tay đang vận hành laptop",
+        "Hai tay đang sử dụng máy tính",
+        "Hai tay đang đánh máy",
+        "Hai tay tương tác với máy tính",
+        "Hai tay đang điều khiển laptop"
+      ]
+    },
+    {
+      "index": 139,
+      "question": "Con gấu bông có vẻ đang làm gì trên kệ sách?",
+      "prediction": "Đang nhìn sách",
+      "ground_truths": [
+        "Đang ngồi cạnh sách",
+        "Đang chăm sóc sách",
+        "Đang bảo vệ sách",
+        "Chỉ là trang trí",
+        "Ngồi nhìn sách"
+      ]
+    },
+    {
+      "index": 140,
+      "question": "Đèn huỳnh quang xung quanh đầu giường có tác dụng gì?",
+      "prediction": "Để chiếu sáng phòng ngủ",
+      "ground_truths": [
+        "Để tạo ánh sáng dịu nhẹ",
+        "Để trang trí phòng",
+        "Để đọc sách buổi tối",
+        "Để làm nổi bật đầu giường",
+        "Để tạo không gian ấm cúng"
+      ]
+    },
+    {
+      "index": 141,
+      "question": "Tại sao nhà bếp này có cửa kính trượt lớn?",
+      "prediction": "Để làm đẹp không gian",
+      "ground_truths": [
+        "Để lấy ánh sáng tự nhiên",
+        "Để thông gió",
+        "Để ngắm cảnh sân sau",
+        "Để dễ dàng ra vào",
+        "Để tạo cảm giác rộng rãi"
+      ]
+    },
+    {
+      "index": 142,
+      "question": "Cái ô được đặt ở đâu so với bàn?",
+      "prediction": "Bên cạnh bàn",
+      "ground_truths": [
+        "Trên đầu trang của bàn",
+        "Ở phía trên bàn",
+        "Phía trên mặt bàn",
+        "Bên trên bàn làm việc",
+        "Trên bàn"
+      ]
+    },
+    {
+      "index": 143,
+      "question": "Mối quan hệ giữa hạt bí ngô và quả bí ngô là gì?",
+      "prediction": "Hạt nằm trong quả",
+      "ground_truths": [
+        "Hạt dính vào quả",
+        "Hạt vẫn còn trong quả",
+        "Hạt là một phần của quả",
+        "Hạt thuộc về quả bí ngô",
+        "Hạt gắn liền với quả"
+      ]
+    },
+    {
+      "index": 144,
+      "question": "Mối quan hệ giữa hai chiếc bàn và chiếc giường là gì?",
+      "prediction": "Bàn và giường đặt cạnh nhau",
+      "ground_truths": [
+        "Chiếc giường nằm giữa hai bàn.",
+        "Hai chiếc bàn ở hai bên giường.",
+        "Chúng nằm đối xứng quanh giường.",
+        "Bàn đặt cạnh giường ngủ.",
+        "Giường được kẹp giữa hai bàn."
+      ]
+    },
+    {
+      "index": 145,
+      "question": "Mối quan hệ giữa ghế dài và TV trong phòng khách là gì?",
+      "prediction": "Ghế dài đặt cạnh TV",
+      "ground_truths": [
+        "Ghế dài đối diện TV",
+        "Để xem TV thoải mái",
+        "Ghế dài gần TV",
+        "TV trên ghế dài",
+        "Ghế dài hướng TV"
+      ]
+    },
+    {
+      "index": 146,
+      "question": "Tại sao bát đĩa được đặt trên giá trong tủ?",
+      "prediction": "Để giữ bát đĩa thẳng.",
+      "ground_truths": [
+        "Để chúng khô",
+        "Để tiết kiệm không gian",
+        "Để giữ chúng sạch sẽ",
+        "Để dễ lấy khi cần",
+        "Để ngăn nắp và gọn gàng"
+      ]
+    },
+    {
+      "index": 147,
+      "question": "Mối quan hệ giữa mì ống và rau trong bát là gì?",
+      "prediction": "Rau được rắc lên mì ống",
+      "ground_truths": [
+        "Được trộn lẫn",
+        "Hòa quyện vào nhau",
+        "Kết hợp thành món ăn",
+        "Đồng thời có mặt",
+        "Trộn lẫn trong bát"
+      ]
+    },
+    {
+      "index": 148,
+      "question": "Bình hoa được đặt ở đâu trên bàn?",
+      "prediction": "Trên bàn",
+      "ground_truths": [
+        "Cạnh đĩa bánh rán",
+        "Kế bên đĩa bánh",
+        "Ngay cạnh đĩa",
+        "Bên cạnh đĩa bánh rán tráng men",
+        "Ở phía bên của đĩa"
+      ]
+    },
+    {
+      "index": 149,
+      "question": "Phòng khách được trang trí theo phong cách của thập niên nào?",
+      "prediction": "Phó",
+      "ground_truths": [
+        "Thập niên 80",
+        "Thập niên 1980",
+        "Phong cách 80",
+        "Những năm 80",
+        "Thập niên tám mươi"
+      ]
+    },
+    {
+      "index": 150,
+      "question": "Mối quan hệ giữa ghế sofa và tường màu vàng là gì?",
+      "prediction": "Ghế sofa nằm trên tường",
+      "ground_truths": [
+        "Ghế sofa đối diện tường vàng",
+        "Ghế sofa đặt trong phòng có tường vàng",
+        "Tường vàng làm nổi bật ghế sofa",
+        "Ghế sofa và tường vàng tạo sự tương phản",
+        "Ghế sofa hòa hợp với tường vàng"
+      ]
+    },
+    {
+      "index": 151,
+      "question": "Mối quan hệ giữa tivi và bức tường trong phòng ngủ là gì?",
+      "prediction": "Tivi đặt trên tường",
+      "ground_truths": [
+        "Tivi được gắn trên tường",
+        "Tivi được treo trên tường",
+        "Tivi gắn cố định vào tường",
+        "Tivi được lắp vào tường",
+        "Tivi kết nối với tường"
+      ]
+    },
+    {
+      "index": 152,
+      "question": "Mối quan hệ giữa ghế sofa và ghế trong phòng khách này là gì?",
+      "prediction": "Ghế sofa nằm cạnh ghế",
+      "ground_truths": [
+        "Cả hai đều dùng để ngồi",
+        "Là đồ đạc trong phòng",
+        "Chúng ở gần nhau",
+        "Tạo thành khu vực tiếp khách",
+        "Bổ sung cho nhau"
+      ]
+    },
+    {
+      "index": 153,
+      "question": "Mối quan hệ giữa lan can và bồn tắm là gì?",
+      "prediction": "Lan can nằm cạnh bồn tắm",
+      "ground_truths": [
+        "Lan can ở bên cạnh",
+        "Lan can nằm kế",
+        "Lan can cạnh bồn",
+        "Lan can hỗ trợ",
+        "Nằm gần bồn tắm"
+      ]
+    },
+    {
+      "index": 154,
+      "question": "Mối quan hệ giữa đàn piano và các đồ nội thất khác trong phòng khách là gì?",
+      "prediction": "Đàn piano nằm cạnh các đồ nội thất",
+      "ground_truths": [
+        "Đàn piano hòa nhập vào không gian.",
+        "Đàn piano là điểm nhấn của phòng.",
+        "Đàn piano bổ sung cho đồ đạc.",
+        "Đàn piano tạo sự sang trọng.",
+        "Đàn piano kết hợp với ghế và ghế dài."
+      ]
+    },
+    {
+      "index": 155,
+      "question": "Có bao nhiêu chiếc ghế gỗ bao quanh cái bàn?",
+      "prediction": "Hai chiếc ghế",
+      "ground_truths": [
+        "Hai chiếc ghế",
+        "Hai chiếc",
+        "Hai ghế",
+        "2 chiếc",
+        "2 ghế gỗ"
+      ]
+    },
+    {
+      "index": 156,
+      "question": "Phòng tắm cũ kỹ có những vật dụng nào bị rỉ sét?",
+      "prediction": "Một số vật dụng",
+      "ground_truths": [
+        "Bồn tắm",
+        "Toilet",
+        "Bồn tắm và toilet",
+        "Cả bồn tắm và toilet",
+        "Hai vật dụng chính"
+      ]
+    },
+    {
+      "index": 157,
+      "question": "Căn phòng này có những đồ nội thất chính nào?",
+      "prediction": "Kệ sách và tủ",
+      "ground_truths": [
+        "Ghế dài, bàn và kệ sách",
+        "Một chiếc ghế dài và tủ sách",
+        "Bàn, ghế và sách",
+        "Ghế dài màu nâu, bàn màu nâu",
+        "Ghế sofa và kệ sách"
+      ]
+    },
+    {
+      "index": 158,
+      "question": "Mối quan hệ giữa chiếc đồng hồ và chữ \"NORGE\" là gì?",
+      "prediction": "Chữ \"NORGE\" là tên của chiếc đồng hồ",
+      "ground_truths": [
+        "Chữ ở trên đồng hồ",
+        "Đồng hồ gắn dưới chữ",
+        "Chữ nằm phía trên",
+        "Đồng hồ có chữ bên trên",
+        "Chữ NORGE ở trên"
+      ]
+    },
+    {
+      "index": 159,
+      "question": "Có bao nhiêu miếng bánh mì nướng được phủ phô mai và rau tươi?",
+      "prediction": "Hai miếng",
+      "ground_truths": [
+        "33 miếng",
+        "Ba mươi ba miếng",
+        "Có 33 miếng",
+        "33 lát",
+        "Đến 33 miếng"
+      ]
+    },
+    {
+      "index": 160,
+      "question": "Con vịt cao su có mối quan hệ gì với tivi?",
+      "prediction": "Chúng là đồ dùng của tivi",
+      "ground_truths": [
+        "Đang ngồi trước tivi",
+        "Đang xem tivi",
+        "Nằm đối diện tivi",
+        "Đặt cạnh tivi",
+        "Để trang trí cạnh tivi"
+      ]
+    },
+    {
+      "index": 161,
+      "question": "Màu sắc của bức ảnh là gì?",
+      "prediction": "Màu xanh lá cây",
+      "ground_truths": [
+        "Nâu đỏ",
+        "Màu nâu đỏ",
+        "Có tông nâu đỏ",
+        "Sắc nâu đỏ",
+        "Một màu nâu đỏ"
+      ]
+    },
+    {
+      "index": 162,
+      "question": "Phong cách trang trí của phòng khách và khu vực ăn uống thể hiện mối quan hệ như thế nào?",
+      "prediction": "Cả hai đều được trang trí tỉ mỉ",
+      "ground_truths": [
+        "Có sự tương đồng về màu sắc",
+        "Tạo không gian mở liên thông",
+        "Phong cách hiện đại tối giản",
+        "Sử dụng màu trắng và xám chủ đạo",
+        "Gối nhiều màu tạo điểm nhấn chung"
+      ]
+    },
+    {
+      "index": 163,
+      "question": "Thiết bị điện tử nào đang được đặt trên ti vi kiểu cũ?",
+      "prediction": "Thiết bị điện tử",
+      "ground_truths": [
+        "Một điện thoại thông minh",
+        "Một thiết bị hiện đại",
+        "Một chiếc điện thoại",
+        "Một thiết bị điện tử mới",
+        "Một chiếc điện thoại thông minh"
+      ]
+    },
+    {
+      "index": 164,
+      "question": "Mối quan hệ giữa khu vực bếp, phòng ăn và phòng khách trong căn hộ này là gì?",
+      "prediction": "Bếp ở phía trước, phòng ăn ở giữa, và phòng khách ở phía sau",
+      "ground_truths": [
+        "Chúng là một không gian mở",
+        "Chúng được sắp xếp liền kề",
+        "Chúng tạo thành một không gian nhỏ",
+        "Chúng chung một mặt bằng",
+        "Chúng liên kết với nhau"
+      ]
+    },
+    {
+      "index": 165,
+      "question": "Phòng tắm có những đồ vật màu trắng nào?",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "Bàn trang điểm và nhà vệ sinh",
+        "Bồn rửa và nhà vệ sinh",
+        "Bồn rửa, nhà vệ sinh, bàn trang điểm",
+        "Một cái bồn cầu, bồn rửa",
+        "Bồn rửa, bàn trang điểm"
+      ]
+    },
+    {
+      "index": 166,
+      "question": "Phòng tắm có những màu sắc chủ đạo nào?",
+      "prediction": "Màu trắng và xanh lá cây",
+      "ground_truths": [
+        "Màu xanh và trắng",
+        "Chủ yếu xanh và trắng",
+        "Xanh lam và trắng",
+        "Màu xanh, trắng",
+        "Trắng và xanh"
+      ]
+    },
+    {
+      "index": 167,
+      "question": "Mối quan hệ giữa ghế sofa và ghế đẩu trong phòng khách là gì?",
+      "prediction": "Ghế sofa và ghế đẩu được đặt cạnh nhau",
+      "ground_truths": [
+        "Ghế đẩu gần ghế sofa",
+        "Ghế đẩu bổ sung ghế sofa",
+        "Ghế đẩu nằm cạnh ghế sofa",
+        "Ghế đẩu là một phần của nội thất",
+        "Ghế đẩu và ghế sofa gần nhau"
+      ]
+    },
+    {
+      "index": 168,
+      "question": "Mối quan hệ giữa bánh sandwich và đĩa là gì?",
+      "prediction": "Bánh sandwich được đặt trên đĩa",
+      "ground_truths": [
+        "Bánh sandwich đang nằm trên đĩa",
+        "Bánh sandwich đặt trên đĩa",
+        "Đĩa đựng bánh sandwich",
+        "Bánh sandwich được đặt trên đĩa",
+        "Bánh sandwich đang ngồi trên đĩa"
+      ]
+    },
+    {
+      "index": 169,
+      "question": "Mối quan hệ giữa chú gấu bông và màn hình máy tính là gì?",
+      "prediction": "Chú gấu bông đang nhìn màn hình",
+      "ground_truths": [
+        "Một chú gấu ngồi cạnh, một chú gấu đặt trên màn hình",
+        "Một chú cạnh, một chú trên màn hình",
+        "Một chú ngồi cạnh, một chú ở trên",
+        "Một chú gấu bên cạnh, một chú gấu trên màn hình",
+        "Hai chú gấu tương tác với màn hình"
+      ]
+    },
+    {
+      "index": 170,
+      "question": "Màu sắc nổi bật của những chiếc giường trong phòng khách sạn là gì?",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "Màu vàng",
+        "Màu vàng nổi bật",
+        "Vàng",
+        "Chủ yếu là màu vàng",
+        "Sắc vàng"
+      ]
+    },
+    {
+      "index": 171,
+      "question": "Mối quan hệ giữa chiếc bánh yêu nước và hai chiếc bánh còn lại là gì?",
+      "prediction": "Chúng là cùng một chiếc bánh",
+      "ground_truths": [
+        "Nó ngồi trước hai cái kia",
+        "Nó được đặt phía trước",
+        "Nó ở phía trước chúng",
+        "Nó nằm phía trước hai chiếc",
+        "Chiếc bánh yêu nước ở phía trước"
+      ]
+    },
+    {
+      "index": 172,
+      "question": "Màu sắc chủ đạo của tủ bếp là gì?",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "Màu trắng",
+        "Trắng",
+        "Trắng tinh",
+        "Trắng sáng",
+        "Màu trắng sạch"
+      ]
+    },
+    {
+      "index": 173,
+      "question": "Bếp lò trong nhà bếp có màu gì?",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "Màu trắng.",
+        "Trắng tinh.",
+        "Màu trắng sáng.",
+        "Có màu trắng.",
+        "Trắng."
+      ]
+    },
+    {
+      "index": 174,
+      "question": "Món bánh mì kẹp có kèm theo gì?",
+      "prediction": "Một loại nước sốt",
+      "ground_truths": [
+        "Khoai tây chiên",
+        "Một đĩa khoai tây chiên",
+        "Khoai tây chiên vàng",
+        "Khoai tây chiên giòn",
+        "Nước thịt"
+      ]
+    },
+    {
+      "index": 175,
+      "question": "Có bao nhiêu ông già Noel xuất hiện trong các bức tranh hoặc trang trí được đề cập?",
+      "prediction": "Hai ông già Noel",
+      "ground_truths": [
+        "Bốn ông già Noel",
+        "Có bốn ông",
+        "Tổng cộng bốn",
+        "Bốn hình ảnh ông già Noel",
+        "Bốn lần"
+      ]
+    },
+    {
+      "index": 176,
+      "question": "Có những loại trái cây nào được đề cập trong đống đó?",
+      "prediction": "Cà phê, cà phê sữa và cà phê",
+      "ground_truths": [
+        "Chuối, táo, khoai tây và khoai mỡ",
+        "Chuối, táo, khoai tây, khoai mỡ",
+        "Một đống chuối, táo, khoai tây",
+        "Chuối, táo và các loại củ",
+        "Táo, chuối, khoai tây, khoai mỡ"
+      ]
+    },
+    {
+      "index": 177,
+      "question": "Bình hoa được đặt ở đâu trên bàn?",
+      "prediction": "Trên bàn",
+      "ground_truths": [
+        "Trên bàn",
+        "Gần cửa sổ",
+        "Ở trên bàn",
+        "Được đặt trên bàn",
+        "Trên một cái bàn"
+      ]
+    },
+    {
+      "index": 178,
+      "question": "Thiết bị nào mang lại cảm giác mở cho căn bếp?",
+      "prediction": "Thiết bị mở",
+      "ground_truths": [
+        "Các thiết bị bằng thép không gỉ",
+        "Thiết bị thép không gỉ",
+        "Thiết bị bằng thép",
+        "Đồ dùng thép không gỉ",
+        "Thiết bị nâng cấp"
+      ]
+    },
+    {
+      "index": 179,
+      "question": "Có loại thực phẩm nào khác ngoài pizza và khoai tây chiên trên đĩa đầu tiên không?",
+      "prediction": "Không, chỉ có pizza và khoai tây chiên.",
+      "ground_truths": [
+        "Có, có xà lách trộn.",
+        "Đĩa đó có cả xà lách trộn.",
+        "Xà lách trộn cũng có.",
+        "Ngoài ra còn có xà lách.",
+        "Vâng, có xà lách trộn kèm theo."
+      ]
+    },
+    {
+      "index": 180,
+      "question": "Những đồ vật nào được đặt trên bàn?",
+      "prediction": "Một cái chén và một cái đĩa",
+      "ground_truths": [
+        "Đĩa thức ăn, giỏ bánh mì, ly nước",
+        "Một đĩa, một giỏ bánh mì, hai cốc nước",
+        "Đĩa, bánh mì, ly rỗng, cốc nước",
+        "Thức ăn, giỏ bánh mì, cốc nước",
+        "Đĩa, bánh mì, cốc, ly"
+      ]
+    },
+    {
+      "index": 181,
+      "question": "Có bao nhiêu vật thể chính được đặt trên bàn gỗ?",
+      "prediction": "Hai vật thể chính",
+      "ground_truths": [
+        "Hai vật thể",
+        "Hai món đồ",
+        "Có hai thứ",
+        "Hai đối tượng",
+        "Hai thứ chính"
+      ]
+    },
+    {
+      "index": 182,
+      "question": "Chiếc bánh được đặt trên vật dụng gì?",
+      "prediction": "Trên một chiếc ghế",
+      "ground_truths": [
+        "Một chiếc đĩa",
+        "Đĩa bánh",
+        "Đĩa trắng",
+        "Đĩa",
+        "Một chiếc đĩa trắng"
+      ]
+    },
+    {
+      "index": 183,
+      "question": "Mối quan hệ giữa lò nướng, tủ lạnh và bồn rửa trong nhà bếp là gì?",
+      "prediction": "Lò nướng ở trên tủ lạnh và bồn rửa ở dưới",
+      "ground_truths": [
+        "Chúng là các thiết bị chính",
+        "Chúng đều ở trong bếp",
+        "Là đồ dùng thiết yếu",
+        "Là các vật dụng cơ bản",
+        "Cùng thuộc khu vực bếp"
+      ]
+    },
+    {
+      "index": 184,
+      "question": "Có bao nhiêu bánh rán được đề cập trong hộp?",
+      "prediction": "Hai bánh rán",
+      "ground_truths": [
+        "Bốn cái",
+        "Bốn chiếc",
+        "Bốn bánh",
+        "Có bốn",
+        "Bốn"
+      ]
+    },
+    {
+      "index": 185,
+      "question": "Có bao nhiêu đứa trẻ đang ngồi trên ghế ăn thức ăn?",
+      "prediction": "Hai đứa trẻ",
+      "ground_truths": [
+        "Ba đứa trẻ",
+        "Ba em bé",
+        "Ba",
+        "3 đứa trẻ",
+        "3"
+      ]
+    },
+    {
+      "index": 186,
+      "question": "Món tráng miệng nào nằm cạnh miếng bánh pho mát trên đĩa?",
+      "prediction": "Một miếng bánh pho mát",
+      "ground_truths": [
+        "Các món tráng miệng khác",
+        "Những món tráng miệng khác",
+        "Một số món tráng miệng",
+        "Các món tráng miệng",
+        "Món tráng miệng"
+      ]
+    },
+    {
+      "index": 187,
+      "question": "Thiết bị điện tử mà bàn tay đang giơ lên là gì?",
+      "prediction": "Một chiếc điện thoại",
+      "ground_truths": [
+        "Tay cầm điều khiển Wii",
+        "Bộ điều khiển máy chơi game",
+        "Wii controller",
+        "Tay cầm chơi game",
+        "Một bộ điều khiển"
+      ]
+    },
+    {
+      "index": 188,
+      "question": "Có bao nhiêu chiếc ghế sofa được mô tả trong phòng khách?",
+      "prediction": "Hai chiếc",
+      "ground_truths": [
+        "Một vài chiếc ghế sofa",
+        "Một vài",
+        "Vài chiếc",
+        "Một số",
+        "Vài cái"
+      ]
+    },
+    {
+      "index": 189,
+      "question": "Mối quan hệ giữa chuột và điều khiển từ xa là gì?",
+      "prediction": "Chuột điều khiển từ xa",
+      "ground_truths": [
+        "Nằm cạnh nhau",
+        "Để gần bàn phím",
+        "Đều là phụ kiện máy tính",
+        "Đặt gần nhau trên bàn",
+        "Chúng ở cùng vị trí"
+      ]
+    },
+    {
+      "index": 190,
+      "question": "Biển hiệu KFC được thắp sáng cho thấy điều gì về thời gian trong ngày?",
+      "prediction": "Chúng đang hoạt động",
+      "ground_truths": [
+        "Đó là ban đêm",
+        "Trời đã tối",
+        "Hoạt động về đêm",
+        "Buổi tối muộn",
+        "Trời đã tối rồi"
+      ]
+    },
+    {
+      "index": 191,
+      "question": "Có bao nhiêu người đàn ông được đề cập trong câu đầu tiên của mô tả?",
+      "prediction": "Hai người đàn ông",
+      "ground_truths": [
+        "Ba người",
+        "Ba",
+        "3",
+        "Số 3",
+        "Ba người đàn ông"
+      ]
+    },
+    {
+      "index": 192,
+      "question": "Có vẻ như chiếc xe tải đang đậu ở đâu?",
+      "prediction": "Trong một khu vực đô thị",
+      "ground_truths": [
+        "Đậu trên phố thị trấn.",
+        "Bên lề đường.",
+        "Đậu trước bãi đậu xe.",
+        "Đậu cạnh đồng hồ đỗ xe.",
+        "Trên con phố."
+      ]
+    },
+    {
+      "index": 193,
+      "question": "Mối quan hệ giữa thuyền và đường thủy là gì?",
+      "prediction": "Thuyền đi trên đường thủy",
+      "ground_truths": [
+        "Thuyền neo đậu trên đường thủy",
+        "Thuyền đi lại trên đường thủy",
+        "Thuyền ở trên đường thủy",
+        "Thuyền nằm trên đường thủy",
+        "Đường thủy có thuyền"
+      ]
+    },
+    {
+      "index": 194,
+      "question": "Xe tải đang chở loại vật liệu gì?",
+      "prediction": "Vật liệu xây dựng",
+      "ground_truths": [
+        "Đất",
+        "Bụi bẩn",
+        "Đất và bụi",
+        "Đất cát",
+        "Vật liệu xây dựng"
+      ]
+    },
+    {
+      "index": 195,
+      "question": "Vòi nước cứu hỏa nằm ở vị trí nào so với xe hơi?",
+      "prediction": "Bên cạnh xe",
+      "ground_truths": [
+        "Gần xe hơi.",
+        "Trên vỉa hè.",
+        "Bên lề đường.",
+        "Cạnh xe đậu.",
+        "Ở trước xe."
+      ]
+    },
+    {
+      "index": 196,
+      "question": "Có bao nhiêu tàu du lịch trong cảng?",
+      "prediction": "Một số tàu",
+      "ground_truths": [
+        "Một vài tàu",
+        "Một số tàu",
+        "Nhiều chiếc",
+        "Vài chiếc",
+        "Một vài chiếc"
+      ]
+    },
+    {
+      "index": 197,
+      "question": "Mối quan hệ giữa các thuyền buồm và thành phố là gì?",
+      "prediction": "Thuyền buồm đậu gần thành phố",
+      "ground_truths": [
+        "Neo gần thành phố",
+        "Gần gũi",
+        "Đậu gần đó",
+        "Ở cạnh thành phố",
+        "Neo đậu cạnh"
+      ]
+    },
+    {
+      "index": 198,
+      "question": "Chiếc xe buýt hai tầng có màu gì?",
+      "prediction": "Màu xanh lá cây",
+      "ground_truths": [
+        "Màu đỏ",
+        "Đỏ",
+        "Màu đỏ tươi",
+        "Có màu đỏ",
+        "Đỏ rực"
+      ]
+    },
+    {
+      "index": 199,
+      "question": "Cầu thang xoắn ốc nằm ở đâu trên tháp đồng hồ?",
+      "prediction": "Trên đỉnh tháp",
+      "ground_truths": [
+        "Bên trong tháp",
+        "Trong tháp đồng hồ",
+        "Phần lớn tháp",
+        "Trên tháp lớn",
+        "Bên trong tháp lớn"
+      ]
+    }
+  ]
+}

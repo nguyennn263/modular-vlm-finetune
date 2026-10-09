@@ -1,5 +1,12 @@
 # Full-image re-evaluation — working state (2026-10-04)
 
+> **2026-10-09 — superseded as the main thread by the global-local study.** Resume point for
+> new work: `plans/global-local-results.md` (24 runs, 3 seeds, selection g=14 k=36). The paper
+> was rewritten on `exp/vintern-ft-baseline` @03de0c7 (`paper/aciids2027/CHANGELOG.md`). Open:
+> OOD eval of g14-k36; global-local + decoder LoRA. Launchers: `scripts/parallel/train_queue.py
+> --gl [--seeds=...]`; watcher used: scratchpad `gl_watch.py` (not in repo).
+
+
 Read this first to resume. Results themselves: `plans/results-full-image.md`
 (auto-regenerated + committed by `scripts/parallel/collect_loop.sh`).
 

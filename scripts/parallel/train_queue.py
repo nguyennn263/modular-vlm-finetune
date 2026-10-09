@@ -45,7 +45,12 @@ GL_ASSIGN = {
     "g8-k9-s123": "acc4", "g8-k9-s3407": "acc4",
     "g14-k1-s123": "acc2", "g14-k1-s3407": "acc2",
     "g14-k9-s123": "acc5", "g14-k9-s3407": "acc10",
+    # --gl-lora (2026-10-09): one chain per account, ~5h epoch + ~1h eval each
+    "g14-k36-lora1-s42": "acc3", "g14-k36-lora1-s123": "acc10", "g14-k36-lora1-s3407": "acc7",
 }
+# --gl-lora: the selected budget (g=14, k=36) trained jointly with a rank-16 decoder LoRA for
+# one epoch -- the global-only LoRA recipe (Multi-Token + LoRA, 1 epoch) on the new bridge
+GL_LORA = "--gl-lora" in sys.argv
 SEEDS = [42] if SMOKE else [42, 123, 3407]
 TRAIN = ("--split-dir data/splits --batch-size 8 --grad-accum 1 --eval-steps 800 --save-steps 800 "
          "--no-early-stopping --text-metrics-every 99")
@@ -55,6 +60,17 @@ CK = "/kaggle/working/ck"
 
 def _chains() -> dict[str, list[dict]]:
     chains = {}
+    if GL and GL_LORA:
+        flags = "--bridge-num-tokens 14 --local-grid 6"
+        for seed in GL_SEEDS:
+            base = (f"python -m src.cli.train --bridge global_local {flags} --seed {seed} --lora --lora-r 16 "
+                    f"{TRAIN} --text-metrics-max-samples 200{LIMIT} --output-dir {CK}")
+            chains[f"{PREFIX}-g14-k36-lora1-s{seed}"] = [
+                {"name": "ep1", "bridge": "global_local", "cmd": f"{base} --epochs 1"},
+                {"name": "eval", "bridge": "global_local", "eval": True, "splits": ["val", "test"],
+                 "eval_flags": f" {flags}"},
+            ]
+        return chains
     if GL:
         for seed in GL_SEEDS:
           for g in GL_GLOBAL:

@@ -1,0 +1,19 @@
+{
+  "experiment": "mini_qformer",
+  "best_val_loss": 1.6056440558999034,
+  "best_model_path": "/kaggle/working/ck/seed3407/mini_qformer/best_model.pt",
+  "global_step": 6444,
+  "training_duration": "5:00:28.648894",
+  "training_duration_hours": 5.007958026111112,
+  "epochs_trained": 2,
+  "batch_size": 8,
+  "learning_rate": 0.0002,
+  "early_stopping_enabled": false,
+  "results_files": {
+    "epoch_results": "/kaggle/working/ck/seed3407/mini_qformer/results/epoch_results.csv",
+    "training_logs": "/kaggle/working/ck/seed3407/mini_qformer/results/training_20260906_063259.log",
+    "summary": "/kaggle/working/ck/seed3407/mini_qformer/results/summary.json",
+    "text_metrics_all_epochs": "/kaggle/working/ck/seed3407/mini_qformer/results/text_metrics_all_epochs.jsonl",
+    "metrics_summary": "/kaggle/working/ck/seed3407/mini_qformer/results/final_metrics_summary.json"
+  }
+}

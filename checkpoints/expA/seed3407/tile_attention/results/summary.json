@@ -1,0 +1,19 @@
+{
+  "experiment": "tile_attention",
+  "best_val_loss": 1.7062349892814548,
+  "best_model_path": "/kaggle/working/ck/seed3407/tile_attention/best_model.pt",
+  "global_step": 6444,
+  "training_duration": "5:01:24.084699",
+  "training_duration_hours": 5.023356860833333,
+  "epochs_trained": 2,
+  "batch_size": 8,
+  "learning_rate": 0.0002,
+  "early_stopping_enabled": false,
+  "results_files": {
+    "epoch_results": "/kaggle/working/ck/seed3407/tile_attention/results/epoch_results.csv",
+    "training_logs": "/kaggle/working/ck/seed3407/tile_attention/results/training_20260906_063232.log",
+    "summary": "/kaggle/working/ck/seed3407/tile_attention/results/summary.json",
+    "text_metrics_all_epochs": "/kaggle/working/ck/seed3407/tile_attention/results/text_metrics_all_epochs.jsonl",
+    "metrics_summary": "/kaggle/working/ck/seed3407/tile_attention/results/final_metrics_summary.json"
+  }
+}

@@ -16,6 +16,6 @@
     "per_epoch_metrics": "/kaggle/working/ck/seed42/tile_attention/results/text_metrics_epoch_*.json",
     "per_sample_predictions": "/kaggle/working/ck/seed42/tile_attention/results/text_predictions_epoch_*.json",
     "cumulative_metrics": "/kaggle/working/ck/seed42/tile_attention/results/text_metrics_all_epochs.jsonl",
-    "training_log": "/kaggle/working/ck/seed42/tile_attention/results/training_20260902_005844.log"
+    "training_log": "/kaggle/working/ck/seed42/tile_attention/results/training_20260906_131804.log"
   }
 }

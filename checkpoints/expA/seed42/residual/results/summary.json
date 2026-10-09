@@ -1,17 +1,17 @@
 {
   "experiment": "residual",
-  "best_val_loss": 2.3542973839870136,
+  "best_val_loss": 1.6503702866385308,
   "best_model_path": "/kaggle/working/ck/seed42/residual/best_model.pt",
-  "global_step": 12888,
-  "training_duration": "9:56:15.145729",
-  "training_duration_hours": 9.937540480277779,
-  "epochs_trained": 4,
+  "global_step": 6444,
+  "training_duration": "4:55:14.118259",
+  "training_duration_hours": 4.920588405277777,
+  "epochs_trained": 2,
   "batch_size": 8,
   "learning_rate": 0.0002,
   "early_stopping_enabled": false,
   "results_files": {
     "epoch_results": "/kaggle/working/ck/seed42/residual/results/epoch_results.csv",
-    "training_logs": "/kaggle/working/ck/seed42/residual/results/training_20260902_005844.log",
+    "training_logs": "/kaggle/working/ck/seed42/residual/results/training_20260906_131718.log",
     "summary": "/kaggle/working/ck/seed42/residual/results/summary.json",
     "text_metrics_all_epochs": "/kaggle/working/ck/seed42/residual/results/text_metrics_all_epochs.jsonl",
     "metrics_summary": "/kaggle/working/ck/seed42/residual/results/final_metrics_summary.json"

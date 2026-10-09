@@ -1,0 +1,29 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+We asked whether Vintern-1B can be improved on AutoViVQA by training only a small
+fraction of its parameters, and where the bottleneck lies. A frozen InternViT-300M
+and frozen Qwen2-0.5B, connected by a $0.78\%$ mean-pooled bridge at one tile and
+adapted with a $0.23\%$ rank-16 attention LoRA on the decoder, matches or beats
+the fully fine-tuned Vintern-1B on every generation metric and beats ViMoE-VQA on
+corpus CIDEr-D / BLEU-4 / ROUGE-L --- at ${\sim}1\%$ trainable parameters, one
+16\,GB GPU, no backbone fine-tuning, and with held-out test numbers matching
+validation.
+
+Across a six-question ablation ladder, four vision- and training-side levers ---
+a $10\times$-larger bridge, more tiles, a per-question routing policy,
+multi-reference training, projector-level alignment --- produce no F1 improvement
+(alignment is an exact null across two KD variants). The only lever that helps is a small LoRA on the
+frozen decoder; it helps on every bridge, works only through the attention
+projections (feed-forward LoRA destabilises training), and collapses the five
+bridges into a $0.9$-point F1 band. For this VLM class, the ceiling on
+token-level phrasing is the frozen decoder's attention capacity, not the visual
+pipeline --- and on the same benchmark, question type carries no signal about the
+optimal visual-compute action, a direct counterpoint to ``reasoning-aware''
+routing accounts.
+
+We release the code, the leak-free grouped split, the per-question oracle tables,
+and all checkpoints. The natural next step is to vary the one component we kept
+frozen and small --- the decoder --- and test whether a larger frozen Vietnamese
+decoder closes the remaining token-F1 gap without any of the levers that failed
+here.

@@ -1199,9 +1199,8 @@
     "test-eval:qformer:s3407": {
       "account": "acc10",
       "kernel": "giapht/mvlm-test-eval-qf-s3407",
-      "status": "running",
-      "pushed_at": "2026-09-07T12:46:53",
-      "collected": false,
+      "status": "done",
+      "collected": true,
       "bridge": "qformer",
       "seed": 3407,
       "split": "test"
@@ -1411,6 +1410,66 @@
       "align": "logit",
       "lora": null,
       "lora_targets": null
+    },
+    "lora-val-eval:l3ep-s42": {
+      "account": "acc1",
+      "kernel": "nguyennn263/mvlm-lora-val-l3ep-s42",
+      "status": "running",
+      "collected": false,
+      "pushed_at": "2026-09-07T22:30:00",
+      "label": "l3ep-s42",
+      "seed": 42,
+      "epochs": 3
+    },
+    "lora-val-eval:l3ep-s123": {
+      "account": "acc5",
+      "kernel": "nguyennguyen263/mvlm-lora-val-l3ep-s123",
+      "status": "running",
+      "collected": false,
+      "pushed_at": "2026-09-07T22:30:00",
+      "label": "l3ep-s123",
+      "seed": 123,
+      "epochs": 3
+    },
+    "lora-val-eval:l3ep-s3407": {
+      "account": "acc6",
+      "kernel": "knull0d/mvlm-lora-val-l3ep-s3407",
+      "status": "running",
+      "collected": false,
+      "pushed_at": "2026-09-07T22:30:00",
+      "label": "l3ep-s3407",
+      "seed": 3407,
+      "epochs": 3
+    },
+    "lora-val-eval:l1ep-s42": {
+      "account": "acc10",
+      "kernel": "giapht/mvlm-lora-val-l1ep-s42",
+      "status": "running",
+      "collected": false,
+      "pushed_at": "2026-09-07T22:30:00",
+      "label": "l1ep-s42",
+      "seed": 42,
+      "epochs": 1
+    },
+    "lora-val-eval:l1ep-s123": {
+      "account": "acc2",
+      "kernel": "nguyennn2501/mvlm-lora-val-l1ep-s123",
+      "status": "running",
+      "collected": false,
+      "pushed_at": "2026-09-07T22:30:00",
+      "label": "l1ep-s123",
+      "seed": 123,
+      "epochs": 1
+    },
+    "lora-val-eval:l1ep-s3407": {
+      "account": "acc16",
+      "kernel": "nguynrichard/mvlm-lora-val-l1ep-s3407",
+      "status": "running",
+      "collected": false,
+      "pushed_at": "2026-09-07T22:30:00",
+      "label": "l1ep-s3407",
+      "seed": 3407,
+      "epochs": 1
     },
     "toksweep:tok4": {
       "account": "acc16",

@@ -1,17 +1,17 @@
 {
   "experiment": "mini_qformer",
-  "best_val_loss": 1.5853052330401074,
+  "best_val_loss": 1.582423836560061,
   "best_model_path": "/kaggle/working/ck/seed42/mini_qformer/best_model.pt",
-  "global_step": 12888,
-  "training_duration": "10:03:08.643416",
-  "training_duration_hours": 10.052400948888888,
-  "epochs_trained": 4,
+  "global_step": 6444,
+  "training_duration": "5:00:18.412221",
+  "training_duration_hours": 5.005114505833333,
+  "epochs_trained": 2,
   "batch_size": 8,
   "learning_rate": 0.0002,
   "early_stopping_enabled": false,
   "results_files": {
     "epoch_results": "/kaggle/working/ck/seed42/mini_qformer/results/epoch_results.csv",
-    "training_logs": "/kaggle/working/ck/seed42/mini_qformer/results/training_20260902_010014.log",
+    "training_logs": "/kaggle/working/ck/seed42/mini_qformer/results/training_20260906_134937.log",
     "summary": "/kaggle/working/ck/seed42/mini_qformer/results/summary.json",
     "text_metrics_all_epochs": "/kaggle/working/ck/seed42/mini_qformer/results/text_metrics_all_epochs.jsonl",
     "metrics_summary": "/kaggle/working/ck/seed42/mini_qformer/results/final_metrics_summary.json"

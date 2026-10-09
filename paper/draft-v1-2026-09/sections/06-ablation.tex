@@ -1,0 +1,172 @@
+\section{Ablation: Hunting the Bottleneck}
+\label{sec:ablation}
+
+The recipe leaves a token-F1 gap to ViMoE-VQA. We work through
+\textbf{six candidate axes} for closing it --- each a place to spend a small
+extra budget --- and ask which one moves the needle. Anchor throughout:
+\multitoken{}-plain, 4-seed 2-epoch, F1 $49.55$ / CIDEr-D $92.30$.
+Table~\ref{tab:abl-summary} is the summary; the subsections give the detail.
+
+\begin{table}[t]
+  \centering\footnotesize
+  \caption{Six axes, one positive. \dF{} vs.\ the anchor
+  (\multitoken{}-plain, F1 $49.55$). Rows are 3-seed except RQ3/RQ4 (seed 42).}
+  \label{tab:abl-summary}
+  \resizebox{\columnwidth}{!}{%
+\begin{tabular}{llcl}
+    \toprule
+    RQ $\cdot$ axis & intervention & \dF{} & outcome \\
+    \midrule
+    RQ1--2 $\cdot$ bridge capacity & Full Q-Former (69\,M, $10\times$) & $-2.19$ & negative \\
+    RQ3 $\cdot$ visual tiles & train 1 tile $\to$ eval 3 & $-28.5$ & negative (collapse) \\
+    RQ4 $\cdot$ adaptive routing & learned policy (reasoning $+$ visual) & ${\approx}0$ & negative \\
+    RQ5 $\cdot$ training signal & multi-reference sampling & $-1.47$ & negative \\
+    RQ5 $\cdot$ representation alignment & projector feature-KD & $-0.03$ & negative (null) \\
+    RQ5 $\cdot$ representation alignment & projector logit-KD ($\alpha{=}0.1$) & $+0.20$ & negative (null) \\
+    RQ5 $\cdot$ representation alignment & projector logit-KD ($\alpha{=}1$) & $-8.80$ & negative (KL swamps CE) \\
+    \textbf{RQ6 $\cdot$ decoder capacity} & \textbf{LoRA r=16 attention, 1 epoch} & \textbf{$+3.97$} & \textbf{positive} \\
+    \textbf{RQ6 $\cdot$ decoder capacity} & \textbf{LoRA r=16 attention, 3 epochs} & \textbf{$+5.16$} & \textbf{positive} \\
+    RQ6 $\cdot$ decoder capacity & LoRA r=16 MLP-only & $-29.31$ & diverges \\
+    RQ6 $\cdot$ decoder capacity & LoRA r=16 attention $+$ MLP & $-12.04$ & diverges \\
+    \bottomrule
+  \end{tabular}}
+\end{table}
+
+\subsection{Bridge architecture and capacity (RQ1--RQ2)}
+\label{sec:abl-bridge}
+
+Table~\ref{tab:abl-bridges} lists the five bridges. \textbf{RQ1 --- is a simple
+bridge enough?} Yes: \multitoken{} ($0.78\%$) is the best bridge and already
+beats Vintern-1B fine-tuned on generation metrics. \textbf{RQ2 --- does a bigger
+bridge help?} No: the Full Q-Former has $10\times$ the parameters and scores
+\emph{lower} (F1 $47.4$ vs.\ $49.6$), and \multitoken{} has the lowest validation
+cross-entropy of the five ($1.49$ vs.\ $1.57$--$1.67$). Bridge capacity is not the
+binding constraint.
+(\bridge{residual}'s earlier F1 $36.45$ was an unstable seed-42 run --- val CE
+$2.35$ vs.\ $1.5$--$1.7$ elsewhere; the 3-seed number here, $45.64$, is in line
+with the other sub-bridges.)
+
+\begin{table}[t]
+  \centering\footnotesize
+  \caption{Five bridges on the frozen backbone (val), plain and $+$ decoder
+  LoRA (r=16 attention, 1 epoch). Plain: 2-epoch 3-seed mean (\multitoken{}
+  4-seed); LoRA: 3-seed (\bridge{tile\_attention} seed 42). \dF{}~[CI] is the
+  paired-bootstrap $95\%$ CI on the per-sample LoRA lift over the $5{,}463$ val
+  samples ($P(\Delta{>}0)=1.000$, every row).}
+  \label{tab:abl-bridges}
+  \resizebox{\columnwidth}{!}{%
+\begin{tabular}{lrrrrr}
+    \toprule
+    Bridge & params (\%) & F1$_{\text{plain}}$ & F1$_{\text{+LoRA}}$ & \dF{}~[CI] & CIDEr-D$_{\text{plain} \to \text{+LoRA}}$ \\
+    \midrule
+    Residual        & 4.86\,M (0.52) & 45.64 & 52.64 & $+7.0$~[6.1, 7.4] & $81.1 \to 100.8$ \\
+    Tile-Attention  & 4.14\,M (0.44) & 45.17 & 52.99 & $+7.8$~[7.8, 9.2] & $79.0 \to 102.0$ \\
+    \textbf{Multi-Token} & \textbf{7.35\,M (0.78)} & \textbf{49.55} & \textbf{53.52} & \textbf{$+4.0$~[3.5, 4.7]} & \textbf{$92.3 \to 103.2$} \\
+    Light Q-Former  & 27.6\,M (2.87) & 46.25 & 53.21 & $+7.0$~[6.1, 7.4] & $81.7 \to 103.0$ \\
+    Full Q-Former   & 69.4\,M (6.91) & 47.35 & 53.21 & $+5.9$~[4.9, 6.2] & $85.4 \to 102.4$ \\
+    \bottomrule
+  \end{tabular}}
+\end{table}
+
+\subsection{Visual tiles (RQ3)}
+\label{sec:abl-tiles}
+
+\textbf{RQ3 --- does spending the tile lever help?} No --- it breaks the bridge.
+Feeding the 1-tile-trained \multitoken{} $3$ tiles at inference drops token-F1
+from $50.7$ to $21.1$ and doubles validation loss ($1.48 \to 3.35$);
+Fig.~\ref{fig:tile-collapse}. Mean-pooling 8 output tokens over $3$--$6\times$ as
+many patches washes out the signal. Retraining the bridge \emph{with} tile-count
+augmentation does not fix it: \multitoken{} still collapses beyond one tile
+(CIDEr $0.90 \to 0.47$ at 3 tiles). \textbf{One tile is the operating point this
+architecture is built for, not a compromise.}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.62\linewidth]{fig_tile_collapse}
+  \caption{\multitoken{} trained at one tile, evaluated at $\{1,3,6\}$ tiles:
+  token-F1 (left axis) and validation loss (right axis).}
+  \label{fig:tile-collapse}
+\end{figure}
+
+\subsection{Adaptive routing (RQ4) and training signal / alignment (RQ5)}
+\label{sec:abl-routing}
+\label{sec:abl-rq5}
+
+\textbf{RQ4 --- can a policy spend the tile lever adaptively per question?} No.
+An exhaustive oracle over the $(\text{bridge} \times \ntiles)$ action space
+(Sec.~\ref{sec:method-adaptive}) beats the best fixed action
+\bridge{multi\_token$|$t1} by $+0.36$ CIDEr on held-out test, spread \emph{evenly}
+across all eight reasoning categories. But that headroom is not learnable: a
+policy trained \emph{and} tested on the same split reproduces the oracle, yet
+$a^\ast$ does not transfer (per-sample CIDEr on 4-word answers is a poor
+estimator among near-tied actions). All three held-out policy arms
+($P(r{\mid}Q)$, visual state $f(I,Q)$, or both) converge onto
+\bridge{fixed: multi\_token$|$t1}, picking it for $\ge 97.9\%$ of test questions;
+adding the reasoning-type posterior changes nothing.
+
+\textbf{RQ5 --- does a better training target or vision--language alignment
+help?} No (Table~\ref{tab:abl-summary}). Multi-reference answer sampling slightly
+hurts (\dF{}~$-1.47$); distilling the bridge toward Vintern's \emph{own}
+pre-aligned \texttt{mlp1} projector is an \textbf{absolute null}
+(feature-KD \dF{}~$-0.03$) --- the bridge is already at the alignment the frozen
+decoder can use. Logit-level KD confirms it: a null at $\alpha=0.1$
+(\dF{}~$+0.20$, val CE $1.53$ vs.\ plain $1.49$) and destructive only at
+$\alpha=1.0$ (\dF{}~$-8.80$, val CE $2.05$), where the KL term simply overwhelms
+the CE loss --- not evidence that better-tuned alignment would help. Two KD
+variants at two strengths: representation alignment does nothing for this frozen
+decoder.
+
+\subsection{Decoder capacity: LoRA (RQ6)}
+\label{sec:abl-rq6}
+
+\textbf{RQ6 --- does opening the decoder itself help?} \textbf{Yes --- this is the
+one axis that moves F1}, and it is the only intervention that touches the
+decoder.
+
+\paragraph{Bridge-equalizing.}
+Table~\ref{tab:abl-bridges} gives the LoRA lift for each bridge. The five plain
+bridges span F1 $45.2$--$49.6$ / CIDEr-D $79$--$92$ --- real quality differences
+across three token-mixing designs. After a $0.23\%$ LoRA on the decoder,
+\textbf{all five converge to F1 $52.6$--$53.5$ / CIDEr-D $100.8$--$103.3$}
+(Fig.~\ref{fig:bridge-equalizing}); the lift is larger for weaker bridges
+($+4.0 \to +7.8$), and every plain$\to$LoRA CI clears zero. Once the decoder has
+capacity to use whatever representation it is given, \emph{which bridge supplies
+it stops mattering}.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.68\linewidth]{fig_bridge_equalizing}
+  \caption{Corpus CIDEr-D per bridge, bridge-only (grey) vs.\ + decoder-attention
+  LoRA (colour). The $79$--$92$ spread collapses into a $101$--$103$ band.}
+  \label{fig:bridge-equalizing}
+\end{figure}
+
+\paragraph{Where in the decoder.}
+The usable headroom is \textbf{specifically in attention}. A same-rank LoRA on the
+feed-forward blocks ($\text{gate}/\text{up}/\text{down}$) diverges training
+(F1 $20.2 \pm 1.5$, val loss ${\sim}3.7$); on all seven modules it still diverges
+(F1 $37.5 \pm 1.7$, val loss ${\sim}2.1$). \emph{Caveat:} this may be a
+hyperparameter artefact ($\alpha=32$ is likely too strong for the wider MLP
+dimension); we scope the claim to the recipe's configuration.
+
+\paragraph{Rank and duration.}
+A 3-seed rank sweep finds $r{=}16$, $32$ and $64$ statistically
+indistinguishable (we keep $r{=}16$); training the LoRA for 3 epochs rather than 1
+adds $+1.2$ F1 / $+4$ CIDEr-D and closes the gap to ViMoE to $6.0$, most of it by
+epoch 2. The 1-epoch numbers are the headline, the 3-epoch the strongest form.
+
+\subsection{Reading}
+\label{sec:abl-summary}
+
+Four independent axes on the vision / training side of the pipeline --- none of
+which touch the decoder --- produce no lift; alignment KD is an
+\emph{absolute} null across two variants and two strengths. The one axis that
+touches the decoder produces a clear lift
+on every bridge, and localizes further to the decoder's \textbf{attention}. This
+\emph{pattern across six interventions} --- not any single ablation --- is what
+localizes the bottleneck: for this VLM class (frozen ViT, frozen 0.5B decoder, a
+few pooled vision tokens), the frozen decoder's attention is the ceiling, not the
+vision pipeline. Opening it by $0.23\%$ recovers a third or more of the F1 gap to
+a fully-unfrozen prior-work baseline. Sec.~\ref{sec:discussion} develops this
+reading; the paper's primary contribution remains the ${\sim}1\%$ recipe of
+Sec.~\ref{sec:results}.

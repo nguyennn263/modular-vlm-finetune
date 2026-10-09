@@ -4,10 +4,10 @@
 We formulate VQA as conditional answer generation: given an image $I$ and a
 Vietnamese question $q$, the model generates a short free-form answer
 $y=(y_1,\dots,y_T)$. ViBridge-VQA starts from Vintern-1B~\cite{doan2024vintern1b},
-keeps all of its pre-trained weights frozen, and trains only two small components:
-a bridge between the vision encoder and the language decoder, and a low-rank
-adapter inside the decoder. Fig.~\ref{fig:arch} contrasts this design with the
-official fine-tuning recipe of Vintern-1B.
+keeps all of its pre-trained weights frozen, and gives its decoder two kinds of visual
+tokens: global tokens from a small trainable bridge and local tokens from the frozen
+projector of Vintern-1B. Fig.~\ref{fig:arch} contrasts this design with the official
+fine-tuning recipe of Vintern-1B.
 
 \begin{figure}[t]
 \centering
@@ -22,80 +22,106 @@ official fine-tuning recipe of Vintern-1B.
 \node[lbl] (t1) at (0,1.2) {(a) Vintern-1B, official fine-tuning};
 \node[data] (img1) at (0.7,0) {image\\$\le$6 tiles + thumbnail\\($448^2$ each)};
 \node[frozen, right=of img1] (vit1) {InternViT-300M};
-\node[frozen, right=of vit1] (mlp1) {MLP projector\\(patch tokens, $2{\times}2$ merge)};
+\node[frozen, right=of vit1] (mlp1) {projector\\(patches, $2{\times}2$ merge)};
 \node[data, right=of mlp1] (tok1) {256 tokens / tile\\($\le$1{,}792)};
 \node[frozen, right=of tok1, text width=27mm] (llm1) {Qwen2.5-0.5B\\+ \textcolor{green!45!black}{\textbf{LoRA} $r{=}16$}};
 \node[data, right=of llm1] (ans1) {answer};
 \draw[arr] (img1) -- (vit1); \draw[arr] (vit1) -- (mlp1); \draw[arr] (mlp1) -- (tok1);
 \draw[arr] (tok1) -- (llm1); \draw[arr] (llm1) -- (ans1);
 % ---- row 2: ViBridge-VQA
-\node[lbl] (t2) at (0,-1.6) {(b) ViBridge-VQA (ours)};
-\node[data] (img2) at (0.7,-2.7) {image\\1 view\\($336^2$)};
+\node[lbl] (t2) at (0,-1.5) {(b) ViBridge-VQA (ours)};
+\node[data] (img2) at (0.7,-3.1) {image\\1 view\\($336^2$)};
 \node[frozen] (vit2) at (vit1 |- img2) {InternViT-300M};
-\node[train] (br) at (mlp1 |- img2) {\textbf{Multi-Token Bridge}\\(\texttt{[CLS]} vector, 0.78\%)};
-\node[data] (tok2) at (tok1 |- img2) {8 tokens};
-\node[frozen, text width=27mm] (llm2) at (llm1 |- img2) {Qwen2.5-0.5B\\+ \textcolor{green!45!black}{\textbf{LoRA} $r{=}16$ (0.23\%)}};
+\node[train] (br) at ($(mlp1 |- img2)+(0,0.75)$) {\textbf{global bridge}\\(\texttt{[CLS]} $\to g$ tokens)};
+\node[frozen] (pj) at ($(mlp1 |- img2)+(0,-0.75)$) {projector of Vintern-1B\\+ avg.\ pool to $k$};
+\node[data] (tg) at (tok1 |- br) {$g$ global tokens\\(prefix)};
+\node[data] (tl) at (tok1 |- pj) {$k$ local tokens\\(image slot)};
+\node[frozen, text width=27mm] (llm2) at (llm1 |- img2) {Qwen2.5-0.5B\\(frozen, no LoRA)};
 \node[data, right=of llm2] (ans2) {answer};
-\draw[arr] (img2) -- (vit2); \draw[arr] (vit2) -- (br); \draw[arr] (br) -- (tok2);
-\draw[arr] (tok2) -- (llm2); \draw[arr] (llm2) -- (ans2);
+\draw[arr] (img2) -- (vit2);
+\draw[arr] (vit2.east) -- ++(0.15,0) |- (br.west);
+\draw[arr] (vit2.east) -- ++(0.15,0) |- (pj.west);
+\draw[arr] (br) -- (tg); \draw[arr] (pj) -- (tl);
+\draw[arr] (tg.east) -- ++(0.15,0) |- (llm2.west);
+\draw[arr] (tl.east) -- ++(0.15,0) |- (llm2.west);
+\draw[arr] (llm2) -- (ans2);
 % legend
-\node[frozen, minimum height=4mm, minimum width=5mm] (lf) at (13.2,-4.0) {};
+\node[frozen, minimum height=4mm, minimum width=5mm] (lf) at (13.2,-4.6) {};
 \node[anchor=west] at (lf.east) {frozen};
-\node[train, minimum height=4mm, minimum width=5mm] (lt) at (15.0,-4.0) {};
+\node[train, minimum height=4mm, minimum width=5mm] (lt) at (15.0,-4.6) {};
 \node[anchor=west] at (lt.east) {trained};
 \end{tikzpicture}}
 \caption{(a) The official fine-tuning of Vintern-1B encodes up to seven views per
-image and passes up to 1{,}792 visual tokens to the decoder. (b) ViBridge-VQA
-encodes a single view, maps the global \texttt{[CLS]} vector to eight tokens with a
-trainable bridge, and adapts the decoder with LoRA; only 1.01\% of the parameters
-are trained.}
+image, passes up to 1{,}792 visual tokens to the decoder and adapts it with LoRA.
+(b) ViBridge-VQA encodes a single view and passes $g$ global tokens, produced from the
+\texttt{[CLS]} vector by a trainable bridge, and $k$ local tokens, produced by the
+frozen projector of Vintern-1B and average-pooled. Only the global bridge is trained
+(1.35\% of the parameters for $g=14$); we use $g=14$ and $k=36$.}
 \label{fig:arch}
 \end{figure}
 
-\subsection{Multi-Token Bridge}
-\label{sec:bridge}
+\subsection{Visual Encoding}
+\label{sec:encoding}
 
 The vision encoder is InternViT-300M (24 layers, width 1024) and the language
-decoder is Qwen2.5-0.5B-Instruct (24 layers, width 896); together they contain
-about 0.94B parameters. Each image is resized to a single $336\times336$ view, which
-InternViT splits into $24\times24$ patches of $14\times14$ pixels. The encoder
-returns one 1024-dimensional vector per patch and a global \texttt{[CLS]} vector.
-Vintern-1B discards the \texttt{[CLS]} vector and passes the patch vectors through
-its projector, so the decoder receives one token per image region. ViBridge-VQA
-takes a much cheaper route: its \emph{multi-token bridge} $g_\phi$ reads only the
-\texttt{[CLS]} vector $v\in\mathbb{R}^{1024}$, which summarises the whole image, and
-expands it into $k$ tokens in the decoder input space with two linear heads:
+decoder is Qwen2.5-0.5B-Instruct (24 layers, width 896). Each image is resized to a
+single $336\times336$ view, which InternViT splits into $24\times24$ patches of
+$14\times14$ pixels. The encoder returns one 1024-dimensional vector per patch and a
+global \texttt{[CLS]} vector $v\in\mathbb{R}^{1024}$. Vintern-1B discards $v$; it
+merges every $2\times2$ block of neighbouring patch vectors into one 4096-dimensional
+vector (pixel shuffle) and maps each merged vector into the decoder input space with
+a two-layer MLP projector $P$ that was pre-trained to align the two backbones. At our
+resolution this yields a $12\times12$ grid of 144 region tokens.
+
+\subsection{Global and Local Tokens}
+\label{sec:bridge}
+
+\paragraph{Global tokens.}
+A small trainable bridge $g_\phi$ expands the \texttt{[CLS]} vector into $g$ tokens
+with two linear heads:
 \begin{equation}
-  g_\phi(v) = \big[\,W_a v + b_a;\ \mathrm{reshape}_{(k-1)\times 896}(W_e v + b_e)\,\big]
-  \in \mathbb{R}^{k\times 896}.
+  g_\phi(v) = \big[\,W_a v + b_a;\ \mathrm{reshape}_{(g-1)\times 896}(W_e v + b_e)\,\big]
+  \in \mathbb{R}^{g\times 896}.
   \label{eq:bridge}
 \end{equation}
-The first head produces an \emph{anchor} token, and the second produces $k-1$
-complementary tokens that present the same global information to the frozen
-decoder from different learned directions. With $k=8$, the bridge has 7.35M
-parameters (0.78\% of the model). The $k$ tokens are placed before the embedded
-question, and the decoder generates the answer autoregressively. We compare this
-design with four larger or patch-based bridges in Section~\ref{sec:ablation}.
+The first head produces an \emph{anchor} token and the second $g-1$ complementary
+tokens that present the global image content to the frozen decoder from different
+learned directions. For $g=14$ the bridge has 12.86M parameters.
 
-\subsection{Decoder Adaptation and Training}
+\paragraph{Local tokens.}
+The local tokens are the 144 region tokens of the frozen projector $P$, average-pooled
+over the $12\times12$ grid to an $s\times s$ grid, so that $k=s^2$ with
+$s\in\{1,3,6,12\}$; $k=144$ keeps every region token and $k=36$ averages each
+$2\times2$ block. Pooling the output of $P$, rather than learning a new projection of
+the patches, keeps the local tokens in the representation the decoder was pre-trained
+to read. The $k$ tokens replace the embeddings of $k$ image-context placeholders in
+Vintern-1B's own image slot, \texttt{<img>}\,$\cdots$\,\texttt{</img>}, inside the
+prompt, while the $g$ global tokens are placed before the prompt.
+
+\subsection{Training}
 \label{sec:training}
 
-To let the frozen decoder make full use of the bridge tokens, we add a LoRA
-module~\cite{hu2022lora} to the query, key, value and output projections of every
-decoder layer. Each frozen weight $W_0\in\mathbb{R}^{d_\text{out}\times d_\text{in}}$
-becomes
+Only $\phi$ is trained; the vision encoder, the projector and the decoder remain
+frozen, and no adapter is added to the decoder. We minimise the answer
+cross-entropy
 \begin{equation}
-  W = W_0 + \tfrac{\alpha}{r}\,BA,\qquad B\in\mathbb{R}^{d_\text{out}\times r},\ A\in\mathbb{R}^{r\times d_\text{in}},
-  \label{eq:lora}
-\end{equation}
-with rank $r=16$ and $\alpha=32$ (2.16M parameters, 0.23\%). The bridge, initialised
-randomly, and the LoRA matrices are trained \emph{jointly} in a single run with the
-answer cross-entropy
-\begin{equation}
-  \mathcal{L} = -\sum_{t=1}^{T} \log p\big(y_t \mid y_{<t},\, g_\phi(v),\, q\big),
+  \mathcal{L} = -\sum_{t=1}^{T} \log p\big(y_t \mid y_{<t},\, g_\phi(v),\, \mathrm{pool}_s(P(x)),\, q\big),
   \label{eq:ce}
 \end{equation}
-so that 9.51M parameters (1.01\%) are trainable; the vision encoder and all
-original decoder weights remain frozen. We refer to this full model as
-\textbf{ViBridge-VQA}, and to the variant that trains the bridge alone with the
-same objective as the \emph{bridge-only} model.
+where $x$ are the merged patch vectors. With $g=14$, 12.86M parameters (1.35\%) are
+trainable. For comparison we also report the \emph{global-only} model ($k=0$, the
+Multi-Token bridge with $g=8$) and its variant trained jointly with a rank-16 decoder
+LoRA~\cite{hu2022lora} on the query, key, value and output projections (2.16M
+additional parameters).
+
+\subsection{Choosing the Token Budget}
+\label{sec:budget}
+
+The decoder cost grows with the number of visual tokens $g+k$, so we treat $(g,k)$ as
+a budget. Accuracy rises with every token step in our experiments, so every
+configuration lies on the accuracy--cost Pareto front and the front alone does not
+select one. We therefore pick its \emph{knee}~\cite{satopaa2011kneedle}: after
+normalising cost $c$ and accuracy $a$ to $[0,1]$ over the front, the knee maximises
+$\hat a - \hat c$, the height above the chord between the cheapest and the most
+accurate configuration. We compute it on the validation split only and check it with
+TOPSIS~\cite{hwang1981topsis} under several weightings of accuracy and cost.

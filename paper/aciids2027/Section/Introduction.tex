@@ -8,55 +8,55 @@ such as BLIP-2~\cite{li2023blip2}, Flamingo~\cite{alayrac2022flamingo} and
 LLaVA~\cite{liu2023visualinstructiontuning}, which pair a pre-trained vision encoder
 with a pre-trained language model. For Vietnamese, Vintern-1B~\cite{doan2024vintern1b}
 follows this design: it connects an InternViT-300M encoder~\cite{chen2024internvl}
-to a Qwen2.5-0.5B decoder~\cite{qwen2025qwen25} and is among the strongest open
-Vietnamese VLMs. Benchmarks such as ViVQA~\cite{tran2021vivqa},
+to a Qwen2.5-0.5B decoder~\cite{qwen2025qwen25} through a small projector and is among
+the strongest open Vietnamese VLMs. Benchmarks such as ViVQA~\cite{tran2021vivqa},
 OpenViVQA~\cite{nguyen2023openvivqa} and, more recently, the reasoning-oriented
 AutoViVQA~\cite{autovivqa2026} allow such models to be evaluated in a low-resource
 setting.
 
 Obtaining a strong model on a new Vietnamese benchmark, however, remains costly.
 One option is to fine-tune an existing VLM: the fine-tuned Vintern-1B baseline of
-AutoViVQA follows the official recipe of Vintern, which freezes the vision encoder
-and the projector, adds LoRA to the language model and encodes every image as up
-to six high-resolution tiles, so that visual encoding dominates the cost. Another
-option is to design a new architecture, as ViMoE-VQA~\cite{vimoevqa} does with a
-sparse mixture-of-experts fusion module and a transformer decoder trained on top
-of frozen encoders. Both options are expensive in different ways, and neither
-shows which component of the model actually drives the improvement. This
-motivates two questions: \emph{can Vintern-1B be improved on a new benchmark while
-its backbones stay frozen and only a small fraction of its parameters is trained,
-and which components matter for this improvement?}
+AutoViVQA adds LoRA to the language model and encodes every image as up to six
+high-resolution tiles plus a thumbnail, so that the decoder reads up to 1{,}792
+visual tokens per image. Another option is to design a new architecture, as
+ViMoE-VQA~\cite{vimoevqa} does with a sparse mixture-of-experts fusion module and a
+decoder trained on top of frozen encoders. A cheaper alternative is to keep the VLM
+frozen and train only a small connector, but the choice of connector is delicate. A
+connector that reads a single global image vector is light but cannot convey small
+objects, text or positions, whereas connectors that learn to compress the patch
+tokens, such as Q-Formers or learned pooling, must learn a new alignment to the
+decoder from limited data. This raises the question: \emph{which visual tokens should
+a frozen Vietnamese VLM receive, and how many?}
 
-To address these questions, we propose \textbf{ViBridge-VQA}, a parameter-efficient
-method that improves Vintern-1B for generative Vietnamese VQA. ViBridge-VQA keeps
-the vision encoder and the language decoder frozen, replaces the original projector
-with a lightweight \emph{multi-token bridge} that maps a global image vector into
-the decoder input space, and trains it jointly with a low-rank adapter
-(LoRA~\cite{hu2022lora}) on the decoder. Only 1.01\% of the parameters are trained,
-and each image is encoded as a single view instead of several tiles. On AutoViVQA,
-ViBridge-VQA outperforms the officially fine-tuned Vintern-1B on seven of eight
-metrics while spending far less visual computation. We further analyse which
-components produce this gain.
+We propose \textbf{ViBridge-VQA}, which answers this question with two complementary
+kinds of tokens. Vintern-1B passes its decoder one token per image region through a
+projector that was pre-trained to align the two backbones, but it discards the global
+\texttt{[CLS]} vector of the encoder. ViBridge-VQA reuses that frozen projector to
+produce \emph{local} tokens, average-pooled to a chosen budget and placed in
+Vintern-1B's own image slot, and adds \emph{global} tokens produced from the
+\texttt{[CLS]} vector by a small trainable bridge. The vision encoder, the projector
+and the decoder remain frozen; only the global bridge is trained (1.35\% of the
+parameters), and each image is encoded once at $336\times336$ pixels. Because more
+tokens cost more computation, we treat the number of global and local tokens as a
+budget and select it as the knee of the accuracy--cost Pareto front.
 
 \paragraph{Contributions.}
 This work makes the following contributions:
 \begin{itemize}
-  \item We propose \textbf{ViBridge-VQA}, a frozen-backbone method that improves
-  Vintern-1B by training a 7.35M-parameter multi-token bridge and a rank-16 decoder
-  LoRA (1.01\% of all parameters). On AutoViVQA it raises F1 from 17.6 (zero-shot)
-  to 54.5, outperforms the officially fine-tuned Vintern-1B on seven of eight
-  metrics with up to six times fewer image tiles, achieves the best generation
-  scores among all compared systems, and transfers to other Vietnamese VQA
-  datasets.
-  \item We present a \textbf{component-wise analysis} of the method. Adapting the
-  decoder is the key ingredient: it improves every bridge design and reduces their
-  F1 spread from 5.6 to 0.8 points, whereas larger bridges, multi-reference
-  training and alignment to the original projector do not improve F1. A design
-  study of the bridge (five architectures, pooling operators, number of tokens)
-  shows that a small bridge over the global image vector gives the best trade-off
-  between accuracy and size.
-  \item We provide a \textbf{thorough evaluation}: an image-grouped split without
-  leakage, multiple seeds with bootstrap confidence intervals, the cost of each
-  tile setting, gains per reasoning type showing the largest improvements on
-  reasoning-intensive questions, and an out-of-distribution study.
+  \item We propose \textbf{ViBridge-VQA}, a global--local bridge that improves
+  Vintern-1B without updating any of its weights. With 14 global and 36 local tokens
+  it raises F1 on AutoViVQA from 17.6 (zero-shot) to 54.6 and outperforms the
+  officially fine-tuned Vintern-1B on seven of eight metrics while passing 50 instead
+  of up to 1{,}792 visual tokens; with all 144 local tokens it outperforms it on all
+  eight metrics (F1 $+2.3$, CIDEr $+43.9$).
+  \item We study the \textbf{visual token budget} over eight configurations and three
+  seeds and select it with an explicit criterion: the knee of the Pareto front falls
+  on the same configuration for all eight metrics, on validation and test, whether
+  cost is counted in tokens or in measured inference time, and a multi-criteria
+  decision analysis (TOPSIS) confirms the choice.
+  \item We provide a \textbf{component-wise analysis}: local tokens matter far more
+  than global ones and help most on perception-heavy questions; bridges that learn to
+  compress the patches do not beat a bridge over the global vector; and decoder LoRA,
+  which lifts every global-only bridge, is not needed once local tokens are present,
+  as the frozen-decoder model surpasses our best decoder-LoRA model.
 \end{itemize}

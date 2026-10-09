@@ -61,3 +61,13 @@ is invalid and is not used in the paper.
 - Training time (2 ep bridge): Multi-Token 4.93 h, Light Q-Former 5.01 h; LoRA 1 ep 2.63 / 2.67 h.
 
 Scripts: `by_cat.py` (per-category), `qf_leak_test.py` (leak probe; needs `einops`, `timm`).
+
+## 3. Global–local bridge: the fix for §1 (2026-10-09)
+
+§1 showed the CLS-only bridge mostly passes scene gist. Adding Vintern's own `mlp1` patch
+tokens (frozen, pooled to k, in the image slot) next to the CLS bridge fixes it without any
+decoder LoRA. Val F1 (3 seeds): g14-k36 54.96, g14-k144 56.61 vs global only 50.74 and
+global + LoRA 3 ep 54.78. Per category (val), g14-k36 vs global only: recognition +10.2,
+action +5.4, spatial +5.1; decoder LoRA stays better on causal / relational / yes-no.
+Numbers: `gl_results.json` (`gl_results.py`); study: `plans/global-local-results.md` on
+`exp/eval-input-diagnostic`; paper changes: `../CHANGELOG.md`.

@@ -6,6 +6,45 @@ lại sau khi sửa lỗi rò đáp án.*
 
 ---
 
+## 0. Cập nhật 09/10/2026 — hướng mới: bridge global–local (paper đã viết lại theo hướng này)
+
+> Mục này **thay thế kết luận** ở §1 ("điểm nghẽn là decoder"), §5 và §7. Các bảng §3–§6
+> vẫn đúng cho mô hình *global-only* (Multi-Token trên CLS) và vẫn được dùng làm mốc so sánh.
+
+**Ý tưởng.** Vintern-1B bỏ token `[CLS]` và đưa vào decoder 1 token cho mỗi vùng ảnh qua
+projector `mlp1` (đã pretrain để khớp ViT với Qwen). Mô hình mới dùng **cả hai**:
+- **g token global**: Multi-Token trên `[CLS]` (bridge duy nhất được train);
+- **k token local**: đầu ra của `mlp1` **đóng băng** (lưới 12×12 ở 336px), gộp trung bình
+  về k ∈ {1, 9, 36, 144}, đặt vào ô ảnh `<img>…</img>` của Vintern.
+
+ViT, `mlp1`, Qwen đều đóng băng, **không LoRA**; train 12.86M tham số (1.35%), 1 ảnh 336px.
+
+**Kết quả (3 seed, ×100).** Sweep đủ 2 × 4 cấu hình × 3 seed:
+
+| Cấu hình | Token | F1 val | F1 test | CIDEr test |
+|---|--:|--:|--:|--:|
+| Global only (Multi-Token 8) | 8 | 50.74 | 50.47 | 96.19 |
+| Global only + LoRA 3 ep | 8 | 54.78 | 54.52 | 108.43 |
+| **g = 14, k = 36 (chọn)** | 50 | **54.96 ± 0.28** | **54.56 ± 0.19** | **110.58** |
+| g = 14, k = 144 (tốt nhất) | 158 | 56.61 ± 0.04 | 56.04 ± 0.19 | 116.74 |
+| Vintern-1B fine-tuned (benchmark) | ≤ 1,792 | — | 53.76 | 72.84 |
+
+- Bản k = 36 hơn Vintern-1B fine-tuned ở 7/8 chỉ số; bản k = 144 hơn ở **cả 8/8**.
+- Token local quan trọng hơn hẳn token global: k từ 1 lên 144 thêm +4.9 F1, còn g từ 8 lên 14
+  chỉ thêm +0.2–0.6.
+- **Cách chọn (g, k):** lấy **điểm gãy (knee)** của biên Pareto giữa độ chính xác và chi phí.
+  Kết quả là g14-k36 ở cả 8 chỉ số, cả val lẫn test, đo chi phí bằng token hay bằng thời gian suy luận
+  (32/32). TOPSIS với trọng số cân bằng cũng chọn g14-k36. Chi tiết:
+  `plans/global-local-results.md` (nhánh `exp/eval-input-diagnostic`).
+- **Theo loại câu hỏi:** token local giúp mạnh ở recognition (+10.2), action, spatial; còn LoRA
+  vẫn mạnh hơn ở causal và relational. Hai cách này bổ sung cho nhau.
+
+**Còn thiếu:** đánh giá OOD cho mô hình mới (bảng OOD ở §6.1 là của mô hình cũ), và thử
+kết hợp global–local với LoRA. Thay đổi trong paper: `paper/aciids2027/CHANGELOG.md`.
+Bản HTML của báo cáo này chưa được cập nhật.
+
+---
+
 ## 1. Câu hỏi nghiên cứu
 
 > Thay vì xây một mô hình mới (như ViMoE-VQA), có thể cải thiện Vintern-1B trên

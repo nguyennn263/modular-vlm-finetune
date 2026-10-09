@@ -1,26 +1,33 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-This work presents \textbf{ViBridge-VQA}, a parameter-efficient method that improves
-the Vietnamese VLM Vintern-1B for generative visual question answering. By keeping
-the vision encoder and the language decoder frozen and training only a lightweight
-multi-token bridge jointly with a rank-16 decoder LoRA, ViBridge-VQA updates 1.01\%
-of the parameters and encodes each image once. On AutoViVQA it raises the F1 of
-Vintern-1B from 17.6 to 54.5, outperforms the officially fine-tuned Vintern-1B on
-seven of eight metrics with up to six times fewer image tiles, achieves the best
-generation scores among all compared systems, and transfers to other Vietnamese VQA
-datasets. Our component-wise analysis shows that adapting the decoder is the key
-ingredient: it improves every bridge design and makes them perform almost equally,
-whereas larger bridges and representation alignment do not help.
+This work presents \textbf{ViBridge-VQA}, which improves the Vietnamese VLM
+Vintern-1B for generative visual question answering without updating any of its
+weights. ViBridge-VQA passes the frozen decoder two kinds of visual tokens from a
+single image view: global tokens, produced from the \texttt{[CLS]} vector by a small
+trainable bridge, and local tokens, produced by the frozen pre-trained projector of
+Vintern-1B and pooled to a chosen budget. Selecting that budget as the knee of the
+accuracy--cost Pareto front gives 14 global and 36 local tokens for every metric and
+both evaluation splits. With 1.35\% of the parameters trained and 50 visual tokens, it
+raises the F1 of Vintern-1B on AutoViVQA from 17.6 to 54.6 and outperforms the
+officially fine-tuned Vintern-1B on seven of eight metrics; with all 144 local tokens
+it outperforms it on all eight. Our analysis shows that local tokens matter far more
+than global ones, that the pre-trained projector should provide them rather than a
+newly learned compression of the patches, and that a frozen decoder with such tokens
+surpasses a decoder adapted with LoRA over global tokens only.
 
-ViMoE-VQA, a model trained specifically for AutoViVQA, still achieves a higher F1,
-and the baselines were reported on a different split of AutoViVQA. Future work will
-add patch-level visual tokens through the pre-trained projector of Vintern-1B while
-keeping a single view, and study larger Vietnamese decoders. The code and the grouped split
-are available at \url{https://github.com/nguyennn263/modular-vlm-finetune}.
+ViMoE-VQA, a model trained specifically for AutoViVQA, still achieves a higher F1, and
+the baselines were reported on a different split of AutoViVQA. Accuracy had not
+saturated at the 144 region tokens available at our resolution, the decoder-LoRA
+model remains better on causal and relational questions, and the global--local model
+has not yet been evaluated on other Vietnamese VQA datasets, in particular scene-text
+ones, where local tokens should matter most. Future work will therefore combine the
+local tokens with decoder adaptation, raise the image resolution, and evaluate
+ViBridge-VQA out of distribution. The code and the grouped split are available at
+\url{https://github.com/nguyennn263/modular-vlm-finetune}.
 
 Overall, ViBridge-VQA shows that an existing Vietnamese VLM can be improved
-substantially by adapting a small fraction of its parameters, and that a careful
-component-wise analysis indicates where further effort is best spent. We hope this
-work will encourage efficient and well-evaluated multimodal models for low-resource
-languages.
+substantially by choosing which visual tokens its frozen decoder receives, and that
+the size of this budget can be chosen with an explicit accuracy--cost criterion. We
+hope this work will encourage efficient and well-evaluated multimodal models for
+low-resource languages.

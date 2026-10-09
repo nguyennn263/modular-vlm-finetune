@@ -1,5 +1,6 @@
 """Qualitative examples (Fig. 3). Predictions are seed-42 validation outputs with the
-whole image at generation (input_diag: mt-s42-t1-full, l3ep-s42-t1-full).
+whole image at generation (exp/eval-input-diagnostic: outputs/input_diag/mt-s42-t1-full,
+l3ep-s42-t1-full; outputs/train_gl/gl-g14-k36-s42_eval/out/val).
 Run from the repo root: .venv/bin/python paper/aciids2027/figures/make_qualitative.py"""
 import sys
 from pathlib import Path
@@ -16,23 +17,24 @@ OUT = Path(__file__).parent
 plt.rcParams.update({"font.family": "DejaVu Serif", "font.size": 5.4, "pdf.fonttype": 42})
 OK, BAD = "#2b7a3d", "#a33b3b"
 
-EX = [  # image, Q (vi), Q (en), GT, bridge-only, +LoRA, plausibility of (bridge, lora)
-    ("000000022929.jpg", "Em bé đang làm gì với con gấu bông?",
-     "What is the baby doing with the teddy bear?",
-     "Ôm gấu (hugging the bear)", "Đang chơi với nó (playing with it)",
-     "Đang ôm con gấu bông (hugging the teddy bear)", (True, True)),
-    ("000000124949.jpg", "Mục đích của việc hai người này ngồi dưới ô là gì?",
-     "Why are these two people sitting under umbrellas?",
-     "Để che nắng (to shade from the sun)", "Để nghỉ ngơi (to rest)",
-     "Để tránh nắng (to avoid the sun)", (True, True)),
-    ("000000565098.jpg", "Những chiếc máy bay chiến đấu này đang chuẩn bị cho hành động gì?",
-     "What are these fighter jets preparing for?",
-     "Có thể chuẩn bị cất cánh (possibly preparing to take off)",
-     "Đang chuẩn bị bay (preparing to fly)", "Đang chuẩn bị bay (preparing to fly)", (True, True)),
-    ("000000207058.jpg", "Tại sao năm người này lại cười khi tạo dáng cùng nhau?",
-     "Why are these five people smiling while posing together?",
-     "Họ đang vui vẻ (they are having fun)", "Vì họ rất vui vẻ (because they are very happy)",
-     "Vì họ rất vui vẻ (because they are very happy)", (True, True)),
+EX = [  # image, Q (vi), Q (en), GT, Multi-Token 8, + LoRA (3 ep), ours (g=14, k=36), plausible?
+    # seed-42 validation predictions with the whole image; (1)-(3) are categories where the
+    # local tokens help most (recognition, spatial, action), (4) a causal question where only
+    # the decoder-LoRA model is right.
+    ("000000487804.jpg", "Chiếc máy tính xách tay này của hãng nào?",
+     "Which brand is this laptop?", "Dell", "Apple", "Apple", "Dell", (False, False, True)),
+    ("000000231466.jpg", "Chiếc thuyền đang đi qua thành phố nào?",
+     "Which city is the boat passing through?", "Thành phố Venice (Venice)",
+     "Hà Nội (Hanoi)", "Thành phố New Orleans (New Orleans)", "Thành phố Venice (Venice)",
+     (False, False, True)),
+    ("000000477067.jpg", "Con voi đang làm hành động gì với chiếc vòi của nó?",
+     "What is the elephant doing with its trunk?", "Phun nước (spraying water)",
+     "Đang bơi (swimming)", "Đang dùng vòi (using its trunk)", "Đang phun nước (spraying water)",
+     (False, False, True)),
+    ("000000396159.jpg", "Xe buýt dừng lại để làm gì?", "Why has the bus stopped?",
+     "Để đón hành khách (to pick up passengers)", "Đi đến đón khách (going to pick up passengers)",
+     "Để đón khách (to pick up passengers)", "Đi dọc đường (going along the road)",
+     (True, True, False)),
 ]
 
 _, img_dir = resolve_dirs()
@@ -46,8 +48,8 @@ def wrap(prefix, text, width=34):
     return textwrap.fill(f"{prefix} {text.replace(chr(10), ' ')}", width)
 
 
-fig, axes = plt.subplots(2, 4, figsize=(6.6, 3.5), gridspec_kw={"height_ratios": [1, 1.35]})
-for j, (name, qv, qe, gt, pb, pl, (okb, okl)) in enumerate(EX):
+fig, axes = plt.subplots(2, 4, figsize=(6.6, 3.8), gridspec_kw={"height_ratios": [1, 1.6]})
+for j, (name, qv, qe, gt, pb, pl, po, (okb, okl, oko)) in enumerate(EX):
     ax = axes[0, j]
     im = crop_border(Image.open(img_dir / name).convert("RGB"))
     w, h = im.size
@@ -61,10 +63,11 @@ for j, (name, qv, qe, gt, pb, pl, (okb, okl)) in enumerate(EX):
     t = axes[1, j]
     t.axis("off")
     t.text(0, 1.0, wrap("Q (VI):", qv), va="top", fontweight="bold")
-    t.text(0, 0.76, wrap("Q (EN):", qe), va="top", style="italic", color="#444444")
-    t.text(0, 0.50, wrap("GT:", gt), va="top")
-    t.text(0, 0.32, wrap("Bridge:", pb), va="top", color=OK if okb else BAD)
-    t.text(0, 0.12, wrap("+LoRA:", pl), va="top", color=OK if okl else BAD)
+    t.text(0, 0.80, wrap("Q (EN):", qe), va="top", style="italic", color="#444444")
+    t.text(0, 0.60, wrap("GT:", gt), va="top")
+    t.text(0, 0.43, wrap("Global:", pb), va="top", color=OK if okb else BAD)
+    t.text(0, 0.25, wrap("+LoRA:", pl), va="top", color=OK if okl else BAD)
+    t.text(0, 0.07, wrap("Ours:", po), va="top", color=OK if oko else BAD, fontweight="bold")
 fig.tight_layout(h_pad=0.2, w_pad=0.6)
 fig.savefig(OUT / "fig_qualitative.pdf", bbox_inches="tight")
 fig.savefig(OUT / "fig_qualitative.png", dpi=200, bbox_inches="tight")

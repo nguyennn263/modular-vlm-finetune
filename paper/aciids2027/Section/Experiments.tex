@@ -41,19 +41,20 @@ METEOR~\cite{banerjee2005meteor}, CIDEr~\cite{vedantam2015cider}), all scaled by
 100. Token-level scores are computed against each of the five references and the
 best match is kept. Our F1 averages per-sample F1 scores and is therefore never
 larger than the harmonic mean $2PR/(P+R)$ of averaged precision and recall, the
-convention that matches most published baseline values; under that convention our
-best configuration would score 55.76 instead of 54.52, so our F1 is conservative.
+convention that matches most published baseline values; under that convention
+ViBridge-VQA would score 55.95 instead of 54.56, so our F1 is conservative.
 
 \paragraph{Implementation details.}
-InternViT-300M and Qwen2.5-0.5B-Instruct are initialised from
-Vintern-1B-v3.5~\cite{doan2024vintern1b} and kept frozen. Bridge-only models are
-trained for 2 epochs, after which validation cross-entropy and CIDEr no longer
-improve; ViBridge-VQA is trained for 1 or 3 epochs. We use AdamW with a learning
-rate of $2\times10^{-4}$ and an effective batch size of 8, train on the first of the
-five reference answers, and decode greedily. Every configuration is trained with
-3 seeds (42, 123, 3407), and the bridge-only Multi-Token model additionally with
-seed 2026. All runs fit on a single Tesla P100 (16\,GB). The test split
-is used only for final reporting.
+The vision encoder, the projector and the decoder are initialised from
+Vintern-1B-v3.5~\cite{doan2024vintern1b} and kept frozen. Models without a decoder
+LoRA, including ViBridge-VQA, are trained for 2 epochs, after which validation
+cross-entropy and CIDEr no longer improve; the decoder-LoRA variants are trained for
+1 or 3 epochs. We use AdamW with a learning rate of $2\times10^{-4}$ and an effective
+batch size of 8, train on the first of the five reference answers, and decode
+greedily. Every configuration is trained with 3 seeds (42, 123, 3407), and the
+global-only Multi-Token model additionally with seed 2026. All runs fit on a single
+16\,GB GPU (Tesla P100 or T4). The token budget is chosen on the validation split; the
+test split is used only for reporting.
 
 \paragraph{Baselines.}
 We compare against (1) multimodal models fine-tuned on AutoViVQA (ViT5\_ViT,
@@ -73,10 +74,10 @@ thumbnail, for one epoch.
 \centering
 \caption{Performance on AutoViVQA (test, $\times100$). Baselines are taken from
 AutoViVQA~\cite{autovivqa2026} and ViMoE-VQA~\cite{vimoevqa}; ViMoE-VQA is the mean
-over 5 seeds, ViBridge-VQA the mean over 4 seeds (bridge only) or 3 seeds
-(+\,LoRA), with standard deviations in Table~\ref{tab:stability}. Best results per
-column are in bold. $^\dagger$Outside the range of every other system; not used for
-comparison.}
+over 5 seeds, our models the mean over 3 seeds (global only: 4), with standard
+deviations in Table~\ref{tab:stability}. $g$/$k$: global/local tokens; percentages
+are trained parameters. Best results per column are in bold. $^\dagger$Outside the
+range of every other system; not used for comparison.}
 \label{tab:main}
 \footnotesize
 \setlength{\tabcolsep}{3pt}
@@ -88,7 +89,7 @@ Category & Model & Acc & Prec & Rec & F1 & BLEU & ROUGE & METEOR & CIDEr \\
 \multirow{4}{*}{\shortstack[l]{Multimodal\\(fine-tuned)}}
  & ViT5\_ViT & 7.97 & 46.84 & 50.33 & 48.52 & 4.13 & 46.89 & 31.02 & 72.68 \\
  & BARTPhoBEiT & 8.81 & 45.30 & 46.48 & 45.88 & 43.29$^\dagger$ & 44.83 & 24.57 & 188.96$^\dagger$ \\
- & Vintern-1B & \textbf{13.01} & 52.47 & 55.12 & 53.76 & 6.11 & 51.93 & 35.25 & 72.84 \\
+ & Vintern-1B & 13.01 & 52.47 & 55.12 & 53.76 & 6.11 & 51.93 & 35.25 & 72.84 \\
  & ViMoE-VQA & 9.55 & \textbf{62.89} & 58.60 & \textbf{60.69} & 12.54 & 47.12 & 39.10 & 88.76 \\
 \midrule
 \multirow{5}{*}{\shortstack[l]{Zero-shot}}
@@ -98,38 +99,46 @@ Category & Model & Acc & Prec & Rec & F1 & BLEU & ROUGE & METEOR & CIDEr \\
  & Gemini 2.5 Flash & 0.22 & 24.43 & \textbf{76.66} & 24.75 & 0.39 & 37.27 & 31.22 & 71.90 \\
  & GPT-5 & 10.84 & 47.20 & 55.20 & 50.89 & 6.07 & 47.30 & 33.34 & 84.20 \\
 \midrule
-\multirow{3}{*}{\shortstack[l]{ViBridge-VQA\\(ours)}}
- & bridge only (0.78\%) & 8.86 & 51.19 & 52.37 & 50.47 & 16.24 & 48.70 & 41.10 & 96.19 \\
- & + LoRA, 1 epoch (1.01\%) & 10.47 & 53.95 & 54.72 & 53.10 & 19.00 & 51.29 & 43.63 & 104.44 \\
- & + LoRA, 3 epochs (1.01\%) & 11.40 & 55.37 & 56.16 & 54.52 & \textbf{20.97} & \textbf{52.68} & \textbf{45.08} & \textbf{108.43} \\
+\multirow{2}{*}{\shortstack[l]{Global only}}
+ & Multi-Token, $g{=}8$ (0.78\%) & 8.86 & 51.19 & 52.37 & 50.47 & 16.24 & 48.70 & 41.10 & 96.19 \\
+ & + decoder LoRA, 3 ep.\ (1.01\%) & 11.40 & 55.37 & 56.16 & 54.52 & \textbf{20.97} & 52.68 & 45.08 & 108.43 \\
+\midrule
+\multirow{2}{*}{\shortstack[l]{ViBridge-VQA\\(ours, 1.35\%)}}
+ & $g{=}14$, $k{=}36$ (50 tokens) & 11.75 & 55.36 & 56.56 & 54.56 & 18.52 & 52.64 & 45.53 & 110.58 \\
+ & $g{=}14$, $k{=}144$ (158 tokens) & \textbf{13.19} & 56.64 & 58.17 & 56.04 & 19.79 & \textbf{54.11} & \textbf{47.38} & \textbf{116.74} \\
 \bottomrule
 \end{tabular}}
 \end{table}
 
 \paragraph{Improvement over Vintern-1B.}
 Table~\ref{tab:main} shows that ViBridge-VQA substantially improves the model it is
-built on. Starting from the same frozen Vintern-1B, it raises F1 from 17.55
-(zero-shot) to 54.52 and CIDEr from 8.54 to 108.43. It also outperforms the
-officially fine-tuned Vintern-1B on seven of the eight metrics: precision ($+2.9$),
-recall ($+1.0$), F1 ($+0.8$), BLEU ($+14.9$), ROUGE-L ($+0.8$), METEOR ($+9.8$) and
-CIDEr ($+35.6$); only exact-match accuracy is lower ($-1.6$). It does so while
-encoding a single view and passing eight visual tokens to the decoder, instead of
-up to seven views and 1{,}792 tokens. Even the bridge-only model (0.78\% of the
-parameters) already exceeds the fine-tuned Vintern-1B on BLEU, METEOR and CIDEr.
+built on without updating any of its weights. With the selected budget of 14 global
+and 36 local tokens it raises F1 from 17.55 (zero-shot) to 54.56 and CIDEr from 8.54 to
+110.58. It outperforms the officially fine-tuned Vintern-1B on seven of the eight
+metrics, precision ($+2.9$), recall ($+1.4$), F1 ($+0.8$), BLEU ($+12.4$), ROUGE-L
+($+0.7$), METEOR ($+10.3$) and CIDEr ($+37.7$), and is lower only in exact-match
+accuracy ($-1.3$), while passing 50 visual tokens to the decoder instead of up to
+1{,}792 and encoding one view instead of up to seven. With all 144 local tokens it
+outperforms the fine-tuned Vintern-1B on all eight metrics, including accuracy
+($+0.2$), F1 ($+2.3$), METEOR ($+12.1$) and CIDEr ($+43.9$), still with 11 times fewer
+visual tokens.
 
 \paragraph{Comparison with other systems.}
-ViBridge-VQA achieves the best BLEU, ROUGE-L, METEOR and CIDEr among all compared
-systems and exceeds ViMoE-VQA in exact-match accuracy (11.40 versus 9.55).
+ViBridge-VQA achieves the best accuracy, ROUGE-L, METEOR and CIDEr among all compared
+systems; the best BLEU belongs to the global-only model with a decoder LoRA.
 ViMoE-VQA, a task-specific model whose fusion module and decoder are trained on
-AutoViVQA, keeps the highest precision and F1. Compared with zero-shot large
-language models, ViBridge-VQA is better on every metric except recall: zero-shot
-models produce long answers that cover many reference words at the cost of
-precision, whereas ViBridge-VQA produces concise answers with a balanced
-precision--recall trade-off.
+AutoViVQA, keeps the highest precision and F1. Compared with zero-shot large language
+models, ViBridge-VQA is better on every metric except recall: zero-shot models produce
+long answers that cover many reference words at the cost of precision, whereas
+ViBridge-VQA produces concise answers with a balanced precision--recall trade-off.
+Even with a frozen decoder, ViBridge-VQA matches the global-only model trained with a
+3-epoch decoder LoRA (54.56 versus 54.52 F1) and surpasses it with $k=144$.
 
 \begin{table}[t]
 \centering
-\caption{ViBridge-VQA on the validation and test splits (mean $\pm$ std over seeds: bridge only 4 seeds, + LoRA 3 seeds; $\times100$). CE is the answer cross-entropy on the split. Best value per split in bold.}
+\caption{Our models on the validation and test splits (mean $\pm$ std over seeds:
+global only 4 seeds, the others 3; $\times100$). CE is the answer cross-entropy on the
+split. Best value per split in bold.}
 \label{tab:stability}
 \scriptsize
 \setlength{\tabcolsep}{2.5pt}
@@ -138,26 +147,95 @@ precision--recall trade-off.
 \toprule
 Split & Config. & Acc & Prec & Rec & F1 & BLEU & ROUGE-L & METEOR & CIDEr & CE \\
 \midrule
-\multirow{3}{*}{val} & bridge only & \pms{9.21}{.05} & \pms{51.54}{.15} & \pms{52.48}{.21} & \pms{50.74}{.17} & \pms{16.88}{.23} & \pms{49.03}{.12} & \pms{41.38}{.21} & \pms{99.07}{.47} & 1.491 \\
- & + LoRA, 1 ep. & \pms{10.94}{.12} & \pms{54.37}{.11} & \pms{55.05}{.22} & \pms{53.47}{.17} & \pms{19.72}{.09} & \pms{51.79}{.15} & \pms{44.11}{.23} & \pms{106.68}{.69} & 1.374 \\
- & + LoRA, 3 ep. & \pms{\textbf{12.04}}{.15} & \pms{\textbf{55.58}}{.25} & \pms{\textbf{56.38}}{.23} & \pms{\textbf{54.78}}{.22} & \pms{\textbf{21.25}}{.03} & \pms{\textbf{53.05}}{.15} & \pms{\textbf{45.46}}{.22} & \pms{\textbf{110.67}}{.48} & \textbf{1.327} \\
+\multirow{4}{*}{val} & global only & \pms{9.21}{.05} & \pms{51.54}{.15} & \pms{52.48}{.21} & \pms{50.74}{.17} & \pms{16.88}{.23} & \pms{49.03}{.12} & \pms{41.38}{.21} & \pms{99.07}{.47} & 1.491 \\
+ & + LoRA, 3 ep. & \pms{12.04}{.15} & \pms{55.58}{.25} & \pms{56.38}{.23} & \pms{54.78}{.22} & \pms{\textbf{21.25}}{.03} & \pms{53.05}{.15} & \pms{45.46}{.22} & \pms{110.67}{.48} & \textbf{1.327} \\
+ & ours, $k{=}36$ & \pms{12.38}{.22} & \pms{55.86}{.21} & \pms{56.72}{.33} & \pms{54.96}{.28} & \pms{18.73}{.23} & \pms{53.10}{.27} & \pms{46.01}{.42} & \pms{113.29}{1.01} & 1.396 \\
+ & ours, $k{=}144$ & \pms{\textbf{14.19}}{.36} & \pms{\textbf{57.36}}{.07} & \pms{\textbf{58.58}}{.03} & \pms{\textbf{56.61}}{.04} & \pms{20.18}{.13} & \pms{\textbf{54.70}}{.05} & \pms{\textbf{48.00}}{.05} & \pms{\textbf{120.71}}{.12} & 1.365 \\
 \midrule
-\multirow{3}{*}{test} & bridge only & \pms{8.86}{.37} & \pms{51.19}{.19} & \pms{52.37}{.21} & \pms{50.47}{.22} & \pms{16.24}{.43} & \pms{48.70}{.19} & \pms{41.10}{.29} & \pms{96.19}{1.10} & 1.500 \\
- & + LoRA, 1 ep. & \pms{10.47}{.22} & \pms{53.95}{.04} & \pms{54.72}{.07} & \pms{53.10}{.05} & \pms{19.00}{.16} & \pms{51.29}{.08} & \pms{43.63}{.16} & \pms{104.44}{.45} & 1.382 \\
- & + LoRA, 3 ep. & \pms{\textbf{11.40}}{.24} & \pms{\textbf{55.37}}{.18} & \pms{\textbf{56.16}}{.09} & \pms{\textbf{54.52}}{.14} & \pms{\textbf{20.97}}{.29} & \pms{\textbf{52.68}}{.21} & \pms{\textbf{45.08}}{.14} & \pms{\textbf{108.43}}{.67} & \textbf{1.329} \\
+\multirow{4}{*}{test} & global only & \pms{8.86}{.37} & \pms{51.19}{.19} & \pms{52.37}{.21} & \pms{50.47}{.22} & \pms{16.24}{.43} & \pms{48.70}{.19} & \pms{41.10}{.29} & \pms{96.19}{1.10} & 1.500 \\
+ & + LoRA, 3 ep. & \pms{11.40}{.24} & \pms{55.37}{.18} & \pms{56.16}{.09} & \pms{54.52}{.14} & \pms{\textbf{20.97}}{.29} & \pms{52.68}{.21} & \pms{45.08}{.14} & \pms{108.43}{.67} & \textbf{1.329} \\
+ & ours, $k{=}36$ & \pms{11.75}{.21} & \pms{55.36}{.21} & \pms{56.56}{.21} & \pms{54.56}{.19} & \pms{18.52}{.18} & \pms{52.64}{.19} & \pms{45.53}{.33} & \pms{110.58}{.95} & 1.412 \\
+ & ours, $k{=}144$ & \pms{\textbf{13.19}}{.23} & \pms{\textbf{56.64}}{.13} & \pms{\textbf{58.17}}{.26} & \pms{\textbf{56.04}}{.19} & \pms{19.79}{.15} & \pms{\textbf{54.11}}{.16} & \pms{\textbf{47.38}}{.26} & \pms{\textbf{116.74}}{.76} & 1.377 \\
 \bottomrule
 \end{tabular}}
 \end{table}
 
 \paragraph{Stability.}
 All configurations are stable across random seeds (Table~\ref{tab:stability}): the
-standard deviation is at most 0.22 for F1 and 1.10 for CIDEr, and test F1 lies only
-0.26--0.37 points below validation F1, so no configuration is over-fitted to the
-validation split. One epoch of joint training already provides about two thirds
-of the 3-epoch gain. A paired bootstrap over the 5{,}463 validation questions
-(2{,}000 resamples, seed 42) gives 95\% confidence intervals of $[2.20, 3.35]$ and
-$[3.55, 4.79]$ F1 for the gain of the 1-epoch and 3-epoch models over the
-bridge-only model.
+standard deviation of ViBridge-VQA is at most 0.28 for F1 and 1.01 for CIDEr, and
+test F1 lies 0.4--0.6 points below validation F1, so the budget chosen on the
+validation split does not over-fit it.
+
+\subsection{Choosing the Token Budget}
+\label{sec:budget-results}
+
+\begin{table}[t]
+\centering
+\caption{Token budget of ViBridge-VQA ($\times100$, mean $\pm$ std over 3 seeds; global
+only: 4 seeds). Tokens: visual tokens passed to the decoder ($g+k$). Time: wall-clock
+minutes of one evaluation session on the 10{,}931 validation and test questions,
+including model loading (mean over the 3 seeds; Kaggle P100/T4). The selected budget
+is in bold.}
+\label{tab:budget}
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{rrrrrrrr}
+\toprule
+$g$ & $k$ & Tokens & Time & F1 (val) & CIDEr (val) & F1 (test) & CIDEr (test) \\
+\midrule
+8 & 0 & 8 & -- & \pms{50.74}{.17} & \pms{99.07}{.47} & \pms{50.47}{.22} & \pms{96.19}{1.10} \\
+\midrule
+8 & 1 & 9 & 57.0 & \pms{51.03}{.12} & \pms{99.27}{.58} & \pms{50.71}{.16} & \pms{96.90}{.87} \\
+8 & 9 & 17 & 59.2 & \pms{52.82}{.11} & \pms{106.11}{.55} & \pms{52.11}{.25} & \pms{101.30}{.87} \\
+8 & 36 & 44 & 60.6 & \pms{54.32}{.41} & \pms{111.88}{1.43} & \pms{53.82}{.22} & \pms{107.67}{.53} \\
+8 & 144 & 152 & 71.2 & \pms{56.15}{.08} & \pms{119.05}{.25} & \pms{55.20}{.07} & \pms{114.13}{.46} \\
+\midrule
+14 & 1 & 15 & 58.8 & \pms{51.67}{.25} & \pms{101.66}{1.11} & \pms{51.67}{.12} & \pms{99.53}{.93} \\
+14 & 9 & 23 & 57.7 & \pms{52.98}{.08} & \pms{106.02}{.80} & \pms{52.76}{.28} & \pms{103.63}{1.24} \\
+\textbf{14} & \textbf{36} & \textbf{50} & \textbf{60.0} & \pms{\textbf{54.96}}{.28} & \pms{\textbf{113.29}}{1.01} & \pms{\textbf{54.56}}{.19} & \pms{\textbf{110.58}}{.95} \\
+14 & 144 & 158 & 70.2 & \pms{56.61}{.04} & \pms{120.71}{.12} & \pms{56.04}{.19} & \pms{116.74}{.76} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig_results}
+\caption{(a) Validation F1 against the number of visual tokens (mean $\pm$ std over 3
+seeds); the circled point is the knee, $g=14$, $k=36$. Horizontal lines: the global-only
+Multi-Token model (4 seeds) and the same model with a 3-epoch decoder LoRA (3 seeds).
+(b) Validation F1 by reasoning type (number of questions in parentheses): global only
+and + LoRA for seed 42, ViBridge-VQA ($g=14$, $k=36$) averaged over 3 seeds; numbers
+are the gain of ViBridge-VQA over the global-only model.}
+\label{fig:results}
+\end{figure}
+
+Table~\ref{tab:budget} and Fig.~\ref{fig:results}a vary the number of global tokens
+$g\in\{8,14\}$ and local tokens $k\in\{1,9,36,144\}$. \emph{Local tokens matter far
+more than global ones}: at $g=14$, going from 1 to 144 local tokens adds 4.9 F1 and 19.1
+CIDEr points on validation, whereas going from 8 to 14 global tokens adds 0.2--0.6 F1
+at a fixed $k$. Accuracy does not saturate within the 144 region tokens available at
+our resolution: each step of $k$ in Table~\ref{tab:budget} adds 1.3--2.0 F1. The gain per added
+token, however, falls quickly, from 0.07 F1 per token between 23 and 50 tokens to 0.015
+between 50 and 158, so the budget is a genuine trade-off.
+
+Since every configuration lies on the Pareto front, we select the knee
+(Section~\ref{sec:budget}). On the validation split it is $g=14$, $k=36$, and the same
+configuration is the knee for each of the eight metrics on both validation and test,
+both when cost is counted in visual tokens and when it is measured as inference
+time; with a logarithmic token axis it is the knee in 11 of 16 cases. As a
+multi-criteria check, TOPSIS with the gains over the global-only model in F1, CIDEr
+and METEOR as benefits and the added tokens, inference time, trained parameters and
+seed standard deviation as costs ranks this configuration first when accuracy and
+cost are weighted equally; weighting cost more favours $k=9$ and weighting accuracy
+more favours $k=144$, but $g=14$, $k=36$ is the only configuration among the top four
+for every accuracy weight from 0.3 to 0.7. It is also the cheapest configuration that
+reaches the global-only model with a 3-epoch decoder LoRA (54.96 versus 54.78
+validation F1), and it obtains 72\% of the largest F1 gain (4.2 of 5.9 points) with
+32\% of the tokens and 15\% less inference time than $k=144$. We use 14 global tokens
+because they are better than 8 at every $k$ (by 0.5--0.6 F1 at $k=1$, 36 and 144, and
+by 0.2 at $k=9$), in line with the earlier observation that the global-only bridge
+plateaus at 14 tokens (Table~\ref{tab:design}a).
 
 \subsection{Efficiency}
 
@@ -178,39 +256,42 @@ Tiles & GFLOPs & Latency (ms) & Throughput (img/s) \\
 \end{tabular}
 \end{table}
 
-ViBridge-VQA trains 9.51M parameters and encodes one view per image.
-Table~\ref{tab:cost} shows the cost of the vision encoder for different numbers of
-tiles: six tiles, as used by the fine-tuned Vintern-1B (plus a thumbnail), multiply
-the encoder FLOPs by 6.0 and its latency by 4.0 compared with a single view. For the
-Multi-Token bridge this extra cost brings no benefit: reading the \texttt{[CLS]}
-vectors of six tiles gives 49.97 F1, compared with 50.87 for one view (seed 42).
-Training is equally light: one epoch of ViBridge-VQA takes about 2.6 hours on a
-single 16\,GB GPU.
+ViBridge-VQA trains 12.86M parameters, encodes one view per image and passes 50 visual
+tokens to the decoder. Table~\ref{tab:cost} shows the cost of the vision encoder for
+different numbers of tiles: six tiles, as used by the fine-tuned Vintern-1B (plus a
+thumbnail), multiply the encoder FLOPs by 6.0 and its latency by 4.0 compared with a
+single view, and they give the decoder up to 1{,}792 visual tokens, 36 times more than
+ViBridge-VQA. Within our own budgets, keeping all 144 local tokens instead of 36 makes
+an evaluation session about 17\% slower (Table~\ref{tab:budget}).
 
 \subsection{Ablation Study}
 \label{sec:ablation}
 
 All ablations are reported on the validation split.
 
-\paragraph{Decoder adaptation across bridges.}
-Table~\ref{tab:bridges} and Fig.~\ref{fig:results}a compare five bridges: a
-\emph{Residual} bridge producing one token, the \emph{Multi-Token} bridge, a
-\emph{Tile-Attention} bridge in which 8 learned queries attend over the patch
-tokens, and a \emph{Light} and a \emph{Full Q-Former}~\cite{li2023blip2} with 8 and 16
-queries. Without LoRA, the bridges span 45.14--50.74 F1, and the Multi-Token bridge
-is the best and has the lowest validation cross-entropy; the Light and Full
-Q-Formers, with $3.8\times$ and $9.4\times$ more parameters, are 3.7 and 3.9 F1
-lower, so a larger bridge does not help a frozen decoder. Adding the decoder LoRA
-improves \emph{every} bridge, although the 1-epoch joint run sees the data half as
-often as the 2-epoch bridge-only run, and the gain is largest for the weakest
-bridges ($+7.7$ for Tile-Attention, $+2.7$ for Multi-Token). After adaptation, the
-bridges lie within 0.8 F1 (52.69--53.47) and 2.4 CIDEr points, compared with 5.6 F1
-and 14.9 CIDEr points before: once the decoder can adapt, the choice of bridge
-matters little, and decoder adaptation is the key ingredient of ViBridge-VQA.
+\paragraph{Global-only bridges and decoder adaptation.}
+Table~\ref{tab:bridges} compares five bridges that do not use the projector of
+Vintern-1B: a \emph{Residual} bridge producing one token, the \emph{Multi-Token}
+bridge over the \texttt{[CLS]} vector, a \emph{Tile-Attention} bridge in which 8 learned
+queries attend over the patch tokens, and a \emph{Light} and a \emph{Full}
+Q-Former~\cite{li2023blip2} with 8 and 16 queries. Without decoder adaptation they
+span 45.14--50.74 F1, and the Multi-Token bridge is the best: the bridges that learn
+to compress the patches, with up to $9.4\times$ more parameters, are 3.7--5.6 F1
+lower, so learning a new alignment of the patch tokens from 25k questions does not
+pay off. A decoder LoRA improves every bridge and brings them within 0.8 F1
+(52.69--53.47). ViBridge-VQA takes a different route: it keeps the decoder frozen but
+gives it local tokens that are already aligned with it, and reaches 54.96 F1 with
+$k=36$ and 56.61 with $k=144$, above every bridge with a decoder LoRA. Decoder
+adaptation therefore compensates for poor visual tokens rather than being required.
+Two further interventions on the global-only bridge confirm that the projector's
+information must be passed as tokens rather than distilled: training the bridge
+towards the projector of Vintern-1B, at the feature level or on the decoder's output
+distribution, lowers F1 by 0.39 and 0.28 (and by 9.05 when the distillation term
+dominates), and sampling a random reference answer per epoch lowers it by 2.07.
 
 \begin{table}[t]
 \centering
-\caption{Bridge architectures before and after decoder LoRA (validation, $\times100$; mean $\pm$ std over 3 seeds, Multi-Token bridge only 4 seeds; $^\ast$seed 42 only). Params: bridge parameters (LoRA adds 2.16M). $\Delta$F1: gain of + LoRA over bridge only. Best value per group in bold.}
+\caption{Global-only bridges before and after decoder LoRA (validation, $\times100$; mean $\pm$ std over 3 seeds, Multi-Token bridge only 4 seeds; $^\ast$seed 42 only). Params: bridge parameters (LoRA adds 2.16M). $\Delta$F1: gain of + LoRA over bridge only. Best value per group in bold.}
 \label{tab:bridges}
 \scriptsize
 \setlength{\tabcolsep}{2.5pt}
@@ -236,67 +317,21 @@ Full Q-F. & 16 & 69.4M & \pms{10.81}{.15} & \pms{54.10}{.41} & \pms{54.91}{.23} 
 \end{tabular}}
 \end{table}
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{fig_results}
-\caption{(a) Validation F1 of the bridges before and after decoder LoRA
-(mean $\pm$ std over seeds). (b) Validation F1 by reasoning type for the
-Multi-Token bridge before and after decoder LoRA (seed 42, number of questions in
-parentheses).}
-\label{fig:results}
-\end{figure}
-
-\paragraph{Training signal and alignment.}
-Table~\ref{tab:levers} tests whether the bridge-only model can be improved without
-adapting the decoder. Sampling one of the five reference answers at random in each
-epoch, instead of always the first, lowers F1 by 2.07. Distilling the bridge
-towards the pre-aligned projector of Vintern-1B does not help either, at the
-feature level ($-0.39$) or at the logit level with a small weight ($-0.28$,
-$\lambda=0.1$), and degrades the model when the distillation term dominates
-($-9.05$, $\lambda=1$). Decoder adaptation is the only intervention with a clear
-gain ($+2.73$ and $+4.04$ F1).
-
-\begin{table}[t]
-\centering
-\caption{Interventions on the Multi-Token bridge (validation, $\times100$, mean $\pm$ std over 3 seeds; reference: 4 seeds). $\Delta$F1 is relative to the bridge-only reference.}
-\label{tab:levers}
-\scriptsize
-\setlength{\tabcolsep}{2.5pt}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{lrrrrrrrrrr}
-\toprule
-Intervention & Acc & Prec & Rec & F1 & BLEU & ROUGE-L & METEOR & CIDEr & CE & $\Delta$F1 \\
-\midrule
-Reference: bridge only & \pms{9.21}{.05} & \pms{51.54}{.15} & \pms{52.48}{.21} & \pms{50.74}{.17} & \pms{16.88}{.23} & \pms{49.03}{.12} & \pms{41.38}{.21} & \pms{99.07}{.47} & 1.491 & -- \\
-\midrule
-Random reference answer & \pms{7.89}{.05} & \pms{49.58}{.20} & \pms{50.43}{.06} & \pms{48.67}{.10} & \pms{14.95}{.37} & \pms{46.95}{.15} & \pms{39.04}{.03} & \pms{91.69}{.39} & 1.552 & $-2.07$ \\
-Feature distillation & \pms{8.78}{.17} & \pms{51.06}{.23} & \pms{52.27}{.26} & \pms{50.35}{.21} & \pms{16.45}{.10} & \pms{48.72}{.22} & \pms{41.04}{.28} & \pms{97.37}{.83} & 1.499 & $-0.39$ \\
-Logit distillation, $\lambda{=}0.1$ & \pms{8.75}{.26} & \pms{51.36}{.27} & \pms{52.16}{.23} & \pms{50.46}{.21} & \pms{16.54}{.23} & \pms{48.76}{.19} & \pms{40.98}{.22} & \pms{97.43}{.80} & 1.533 & $-0.28$ \\
-Logit distillation, $\lambda{=}1$ & \pms{5.95}{.33} & \pms{40.95}{1.44} & \pms{45.79}{1.31} & \pms{41.69}{1.38} & \pms{9.36}{.82} & \pms{39.99}{1.41} & \pms{34.34}{1.21} & \pms{79.56}{2.97} & 2.054 & $-9.05$ \\
-\midrule
-Light Q-Former ($3.8\times$) & \pms{6.94}{.32} & \pms{47.74}{.80} & \pms{49.18}{.51} & \pms{47.06}{.66} & \pms{13.99}{.33} & \pms{45.37}{.63} & \pms{37.57}{.60} & \pms{88.07}{1.89} & 1.599 & $-3.68$ \\
-Full Q-Former ($9.4\times$) & \pms{6.97}{.33} & \pms{47.42}{.70} & \pms{49.02}{.35} & \pms{46.84}{.47} & \pms{13.76}{.36} & \pms{45.10}{.41} & \pms{37.43}{.34} & \pms{87.74}{1.24} & 1.605 & $-3.90$ \\
-\midrule
-\textbf{Decoder LoRA, 1 epoch} & \pms{10.94}{.12} & \pms{54.37}{.11} & \pms{55.05}{.22} & \pms{53.47}{.17} & \pms{19.72}{.09} & \pms{51.79}{.15} & \pms{44.11}{.23} & \pms{106.68}{.69} & 1.374 & $\mathbf{+2.73}$ \\
-\textbf{Decoder LoRA, 3 epochs} & \pms{\textbf{12.04}}{.15} & \pms{\textbf{55.58}}{.25} & \pms{\textbf{56.38}}{.23} & \pms{\textbf{54.78}}{.22} & \pms{\textbf{21.25}}{.03} & \pms{\textbf{53.05}}{.15} & \pms{\textbf{45.46}}{.22} & \pms{\textbf{110.67}}{.48} & \textbf{1.327} & $\mathbf{+4.04}$ \\
-\bottomrule
-\end{tabular}}
-\end{table}
-
 \paragraph{Bridge design.}
-Table~\ref{tab:design} examines two further design choices. Increasing the number
-of output tokens $k$ raises F1 up to $k=14$, after which it plateaus; $k=8$, used
-throughout the paper, lies within 1.1 F1 of the best value with fewer decoder
-tokens, while $k=4$ and $k=6$ are clearly worse. Replacing the global vector with
-bridges that pool the patch tokens confirms the design: fixed mean and max pooling
-lose 10.8 and 13.9 F1, learned attention loses 5.1 F1, and a Honeybee-style
-convolutional abstractor~\cite{cha2024honeybee} (convolution, adaptive average
-pooling, convolution) comes within 0.7 F1 but needs $2.7\times$ the parameters. The
-Multi-Token bridge thus offers the best trade-off between accuracy and size.
+Table~\ref{tab:design} examines two design choices of the global-only bridge.
+Increasing its number of output tokens raises F1 up to 14 tokens, after which it
+plateaus, which motivates $g=14$. Replacing the global vector with bridges that pool
+the raw patch tokens through a newly learned projection loses accuracy: fixed mean and
+max pooling lose 10.8 and 13.9 F1, learned attention loses 5.1 F1, and a
+Honeybee-style convolutional abstractor~\cite{cha2024honeybee} comes within 0.7 F1 with
+$2.7\times$ the parameters. Pooling the output of the pre-trained projector instead,
+as ViBridge-VQA does, turns the same kind of operator into a gain: with the same 8
+global tokens, adding the region tokens averaged over $2\times2$ blocks ($k=36$) raises
+F1 by 3.6 points (Table~\ref{tab:budget}).
 
 \begin{table}[t]
 \centering
-\caption{Bridge design (bridge only, validation, $\times100$). (a) Mean $\pm$ std over 3 seeds ($k=8$: 4 seeds). (b) Multi-Token reads the global \texttt{[CLS]} vector; the other bridges pool the patch tokens with a fixed mean or max, learned attention, or convolution and pooling; the Conv-Abstractor uses $k=9$ because it needs a square grid. Both studies use an earlier evaluation setting in which generation reads a $448\times448$ crop; all rows share this setting. Best value per panel in bold.}
+\caption{Design of the global-only bridge (bridge only, validation, $\times100$). (a) Mean $\pm$ std over 3 seeds ($k=8$: 4 seeds). (b) Multi-Token reads the global \texttt{[CLS]} vector; the other bridges pool the patch tokens with a fixed mean or max, learned attention, or convolution and pooling; the Conv-Abstractor uses $k=9$ because it needs a square grid. Both studies use an earlier evaluation setting in which generation reads a $448\times448$ crop; all rows share this setting. Best value per panel in bold.}
 \label{tab:design}
 \scriptsize
 \setlength{\tabcolsep}{2.5pt}
@@ -308,16 +343,16 @@ Bridge & Params & Acc & Prec & Rec & F1 & BLEU & ROUGE-L & METEOR & CIDEr & CE \
 \multicolumn{11}{l}{\emph{(a) Number of output tokens $k$ (Multi-Token bridge)}} \\
 $k=4$ & 3.67M & \pms{7.39}{.35} & \pms{48.80}{.53} & \pms{51.02}{.13} & \pms{48.54}{.35} & \pms{14.65}{.20} & \pms{46.74}{.43} & \pms{39.37}{.13} & \pms{93.51}{.49} & 1.544 \\
 $k=6$ & 5.51M & \pms{8.00}{.18} & \pms{49.74}{.41} & \pms{51.00}{.23} & \pms{49.03}{.32} & \pms{14.98}{.18} & \pms{47.28}{.31} & \pms{39.52}{.26} & \pms{94.24}{.79} & 1.524 \\
-\textbf{$k=8$ (ours)} & 7.35M & \pms{8.17}{.10} & \pms{50.22}{.09} & \pms{51.50}{.12} & \pms{49.55}{.07} & \pms{15.72}{.29} & \pms{47.84}{.06} & \pms{40.22}{.18} & \pms{96.49}{.59} & 1.490 \\
+$k=8$ & 7.35M & \pms{8.17}{.10} & \pms{50.22}{.09} & \pms{51.50}{.12} & \pms{49.55}{.07} & \pms{15.72}{.29} & \pms{47.84}{.06} & \pms{40.22}{.18} & \pms{96.49}{.59} & 1.490 \\
 $k=10$ & 9.18M & \pms{8.32}{.02} & \pms{50.74}{.24} & \pms{51.81}{.08} & \pms{49.99}{.13} & \pms{15.94}{.22} & \pms{48.24}{.16} & \pms{40.52}{.09} & \pms{96.99}{.27} & 1.480 \\
 $k=12$ & 11.02M & \pms{8.77}{.23} & \pms{51.07}{.23} & \pms{51.91}{.16} & \pms{50.23}{.18} & \pms{16.09}{.29} & \pms{48.58}{.14} & \pms{40.68}{.24} & \pms{97.69}{.80} & 1.472 \\
-$k=14$ & 12.86M & \pms{\textbf{9.10}}{.19} & \pms{\textbf{51.38}}{.28} & \pms{52.53}{.26} & \pms{\textbf{50.67}}{.08} & \pms{\textbf{16.81}}{.22} & \pms{\textbf{48.91}}{.11} & \pms{\textbf{41.34}}{.23} & \pms{\textbf{99.83}}{.53} & 1.469 \\
+\textbf{$k=14$ (our $g$)} & 12.86M & \pms{\textbf{9.10}}{.19} & \pms{\textbf{51.38}}{.28} & \pms{52.53}{.26} & \pms{\textbf{50.67}}{.08} & \pms{\textbf{16.81}}{.22} & \pms{\textbf{48.91}}{.11} & \pms{\textbf{41.34}}{.23} & \pms{\textbf{99.83}}{.53} & 1.469 \\
 $k=16$ & 14.69M & \pms{8.63}{.39} & \pms{51.02}{.68} & \pms{52.41}{.20} & \pms{50.44}{.44} & \pms{16.25}{.58} & \pms{48.69}{.42} & \pms{41.11}{.22} & \pms{98.75}{.84} & 1.471 \\
 $k=18$ & 16.53M & \pms{8.94}{.33} & \pms{51.16}{.75} & \pms{52.41}{.54} & \pms{50.51}{.64} & \pms{16.34}{.38} & \pms{48.80}{.64} & \pms{41.18}{.55} & \pms{99.08}{1.62} & 1.473 \\
 $k=20$ & 18.37M & \pms{8.68}{.50} & \pms{51.29}{.76} & \pms{\textbf{52.55}}{.20} & \pms{50.62}{.43} & \pms{16.40}{.54} & \pms{\textbf{48.91}}{.48} & \pms{41.31}{.27} & \pms{99.37}{.82} & \textbf{1.462} \\
 \midrule
 \multicolumn{11}{l}{\emph{(b) Pooling operator over the image (seed 42)}} \\
-\textbf{Multi-Token (ours)} & 7.35M & \textbf{8.20} & \textbf{50.36} & 51.43 & \textbf{49.61} & 15.28 & \textbf{47.86} & \textbf{40.05} & \textbf{96.72} & \textbf{1.489} \\
+\textbf{Multi-Token} & 7.35M & \textbf{8.20} & \textbf{50.36} & 51.43 & \textbf{49.61} & 15.28 & \textbf{47.86} & \textbf{40.05} & \textbf{96.72} & \textbf{1.489} \\
 Patch-Pool, mean & 0.92M & 3.84 & 40.53 & 40.34 & 38.80 & 9.74 & 36.89 & 29.45 & 68.76 & 1.725 \\
 Patch-Pool, max & 0.92M & 1.06 & 30.06 & \textbf{51.87} & 35.71 & 4.58 & 30.42 & 32.53 & 60.84 & 1.670 \\
 Tile-Attention & 4.14M & 3.97 & 44.59 & 47.86 & 44.50 & 12.26 & 42.57 & 35.77 & 83.79 & 1.698 \\
@@ -328,67 +363,35 @@ Conv-Abstractor & 19.87M & 7.78 & 49.16 & 51.15 & 48.87 & \textbf{15.49} & 47.16
 
 \subsection{Gains by Reasoning Type}
 
-Fig.~\ref{fig:results}b breaks down the effect of decoder adaptation by the
-reasoning categories of AutoViVQA. Joint training improves every category, and the
-gain grows with the complexity of the expected answer: it is largest for causal
-($+7.4$) and relational ($+4.8$) questions, whose reference answers are the longest
-(5.0 and 5.6 words on average), and remains clear for yes/no ($+5.0$), spatial
-($+4.4$) and recognition ($+4.3$) questions. Reasoning-intensive questions, the
-focus of AutoViVQA, therefore benefit most from ViBridge-VQA.
+Fig.~\ref{fig:results}b breaks the results down by the reasoning categories of
+AutoViVQA. The local tokens help most where the answer depends on what is visible in
+the image: recognition ($+10.2$ F1 over the global-only model), action ($+5.4$) and
+spatial ($+5.1$) questions, and ViBridge-VQA is better than the decoder-LoRA model on
+all three as well as on counting and context. The decoder-LoRA model is better on
+causal and relational questions, whose reference answers are the longest (5.0 and 5.6
+words on average), and on the 66 yes/no questions; it also has the best BLEU and
+cross-entropy (Table~\ref{tab:stability}). Local tokens thus improve what the model
+perceives, while decoder adaptation improves how it phrases reasoning answers, which
+suggests that the two are complementary.
 
 \begin{figure}[!tb]
 \centering
 \includegraphics[width=\linewidth]{fig_qualitative}
-\caption{Qualitative examples from the AutoViVQA validation set covering action and
-causal questions. Q: question, GT: one of the five reference answers,
-Bridge: Multi-Token bridge without LoRA, +LoRA: ViBridge-VQA (3 epochs). Both
-models give plausible answers (green) that paraphrase the references rather than
-copy them.}
+\caption{Qualitative examples from the AutoViVQA validation set (seed 42). Q:
+question, GT: one of the five reference answers, Global: Multi-Token model without
+local tokens, +LoRA: the same model with a 3-epoch decoder LoRA, Ours: ViBridge-VQA
+($g=14$, $k=36$). Plausible answers are green, wrong ones red.}
 \label{fig:qual}
 \end{figure}
 
-\subsection{Generalisation to Other Datasets}
-
-\begin{table}[t]
-\centering
-\caption{Generalisation to two general-domain Vietnamese VQA datasets not seen in training ($\times100$; Vintern-1B uses 6 tiles; about 1{,}000 sampled test questions per seed, 505--519 for ViVQA; mean $\pm$ std over 3 sampling seeds).}
-\label{tab:ood}
-\scriptsize
-\setlength{\tabcolsep}{2.5pt}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{llrrrrrrrr}
-\toprule
-Dataset & Model & Acc & Prec & Rec & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
-\midrule
-\multirow{2}{*}{ViVQA~\cite{tran2021vivqa}} & Vintern-1B, zero-shot & \pms{0.00}{.00} & \pms{16.01}{.18} & \pms{\textbf{60.80}}{1.17} & \pms{23.90}{.24} & \pms{\textbf{0.27}}{.02} & \pms{15.78}{.25} & \pms{17.84}{.19} & \pms{78.63}{2.07} \\
- & ViBridge-VQA (ours) & \pms{\textbf{7.38}}{.53} & \pms{\textbf{31.67}}{.97} & \pms{34.01}{1.58} & \pms{\textbf{31.48}}{1.15} & \pms{0.25}{.09} & \pms{\textbf{31.48}}{1.16} & \pms{\textbf{21.92}}{.82} & \pms{\textbf{84.94}}{2.87} \\
-\midrule
-\multirow{2}{*}{ViVQA-X~\cite{vivqax2025}} & Vintern-1B, zero-shot & \pms{0.20}{.08} & \pms{9.13}{.35} & \pms{\textbf{61.15}}{.80} & \pms{14.52}{.47} & \pms{0.06}{.01} & \pms{8.98}{.32} & \pms{\textbf{11.96}}{.41} & \pms{\textbf{50.13}}{2.83} \\
- & ViBridge-VQA (ours) & \pms{\textbf{2.57}}{.09} & \pms{\textbf{13.19}}{.49} & \pms{26.80}{1.24} & \pms{\textbf{15.89}}{.65} & \pms{\textbf{0.18}}{.02} & \pms{\textbf{11.94}}{.49} & \pms{9.08}{.57} & \pms{42.12}{2.92} \\
-\bottomrule
-\end{tabular}}
-\end{table}
-
-To assess generalisation beyond AutoViVQA, we compare ViBridge-VQA (3 epochs) with
-the zero-shot Vintern-1B (6 tiles) on two general-domain Vietnamese VQA datasets
-that neither model was trained on, ViVQA~\cite{tran2021vivqa} and
-ViVQA-X~\cite{vivqax2025} (Table~\ref{tab:ood}). For ViVQA we use the 505--519 sampled
-questions whose COCO images could be retrieved, with the same images for both
-models. Although it is adapted on AutoViVQA only and encodes a single view,
-ViBridge-VQA is clearly better on ViVQA, where it improves six of the eight metrics
-(F1 $+7.6$, ROUGE-L $+15.7$, CIDEr $+6.3$), and remains competitive on ViVQA-X (F1
-$+1.4$, ROUGE-L $+3.0$, CIDEr $-8.0$), showing that the adaptation transfers beyond
-its training benchmark. As on AutoViVQA, the zero-shot model reaches a high recall
-with long answers but a low precision, whereas ViBridge-VQA answers concisely.
-
 \subsection{Qualitative Analysis}
 
-Fig.~\ref{fig:qual} shows representative predictions. In all four examples the
-answers are grounded in the image but worded differently from the references:
-``hugging the teddy bear'' instead of ``hugging the bear'' (Example~1), ``to avoid
-the sun'' instead of ``to shade from the sun'' (Example~2), ``preparing to fly''
-instead of ``preparing to take off'' (Example~3), and ``because they are very
-happy'' instead of ``they are having fun'' (Example~4). The models generate their
-own natural Vietnamese answers rather than reproducing reference phrasings; since
-such paraphrases are only partly rewarded by token-level metrics, F1 and
-exact-match accuracy tend to underestimate answer quality on open-ended questions.
+Fig.~\ref{fig:qual} shows representative predictions. In the first three examples
+only ViBridge-VQA answers correctly, and each answer depends on a local detail: the
+brand printed on the laptop (Example~1), the buildings and boats that identify Venice
+(Example~2), and the water sprayed by the elephant (Example~3). The global-only
+models, with or without a decoder LoRA, give plausible but wrong answers such as
+``Apple'', ``Hanoi'' or ``swimming''. Example~4 shows a failure: asked why a bus has
+stopped, ViBridge-VQA describes the scene (``going along the road''), whereas both
+global-only models infer the purpose (``to pick up passengers''), consistent with the
+advantage of decoder adaptation on causal questions.

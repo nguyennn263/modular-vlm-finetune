@@ -1,0 +1,18 @@
+{
+  "dataset": "vivqa_s42",
+  "n": 520,
+  "bridge": "global_local",
+  "n_tiles": 1,
+  "checkpoint": "/tmp/ck/k36lora.pt",
+  "gen_image": "full",
+  "accuracy": 0.175,
+  "exact_match": 0.175,
+  "bleu": 0.0059967551390155945,
+  "rouge_l": 0.43633241758241764,
+  "meteor": 0.3574353601616219,
+  "cider": 1.7733689639937211,
+  "precision": 0.4213782051282051,
+  "recall": 0.49679487179487175,
+  "f1": 0.4366163003663004,
+  "wups": 0.175
+}

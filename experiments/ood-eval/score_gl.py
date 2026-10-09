@@ -56,9 +56,9 @@ def main() -> None:
                   "  ".join(f"{m} {row[m]['f1']:6.2f}" for m in MODELS))
         if per_seed:
             table[ds] = {"seeds": per_seed, "mean_std": {
-                # sample std, as score_full.py and the original OOD table
+                # population std (ddof=0), as every table of the paper (incl. its earlier OOD table)
                 f"{m}.{metric}": (st.mean(r[m][metric] for r in per_seed),
-                                  st.stdev([r[m][metric] for r in per_seed]) if len(per_seed) > 1 else 0.0)
+                                  st.pstdev([r[m][metric] for r in per_seed]))
                 for m in MODELS for metric in per_seed[0][MODELS[0]]}}
     a.out.write_text(json.dumps(table, indent=2, ensure_ascii=False))
     print(f"[saved] {a.out}")

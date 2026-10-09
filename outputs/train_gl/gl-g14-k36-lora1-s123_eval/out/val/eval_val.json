@@ -1,0 +1,22 @@
+{
+  "split": "val",
+  "n": 5463,
+  "bridge": "global_local",
+  "n_tiles": 1,
+  "checkpoint": "/tmp/ck/global_local/model.pt",
+  "pooled_input": "default",
+  "gen_image": "full",
+  "loss": 1.2681388090559627,
+  "num_samples": 5463,
+  "perplexity": 3.5542311668395996,
+  "accuracy": 0.15028372688998717,
+  "exact_match": 0.15815485996705106,
+  "bleu": 0.22352237778774667,
+  "rouge_l": 0.5658880012267479,
+  "meteor": 0.49614424579134725,
+  "cider": 1.246285173947428,
+  "precision": 0.594144725350107,
+  "recall": 0.6000650512869075,
+  "f1": 0.5839545295407671,
+  "wups": 0.15046677649643053
+}

@@ -3718,7 +3718,7 @@
     "ood-gl:vivqax": {
       "account": "acc5",
       "kernel": "nguyennguyen263/mvlm-oodgl-vivqax",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-09T13:27:51",
       "dataset": "vivqax"
     },

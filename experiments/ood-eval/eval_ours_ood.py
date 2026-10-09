@@ -37,6 +37,10 @@ def _parser() -> argparse.ArgumentParser:
     p.add_argument("--images-dir", required=True)
     p.add_argument("--checkpoint", required=True)
     p.add_argument("--bridge", default="multi_token")
+    p.add_argument("--bridge-num-tokens", type=int, default=None, dest="bridge_num_tokens",
+                   help="Same as src.cli.evaluate: must match the trained checkpoint.")
+    p.add_argument("--local-grid", type=int, default=None, dest="local_grid",
+                   help="global_local: must match the --local-grid the checkpoint was trained with.")
     p.add_argument("--n-tiles", type=int, default=1, dest="n_tiles")
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--output-dir", required=True, dest="output_dir")
@@ -66,6 +70,9 @@ def main() -> None:
 
     train_cfg = _load_yaml(REPO_ROOT / "configs" / "train.yaml")
     bridge_cfg = _load_yaml(REPO_ROOT / "configs" / "bridges" / f"{a.bridge}.yaml")
+    for key, value in (("num_tokens", a.bridge_num_tokens), ("local_grid", a.local_grid)):
+        if value is not None:
+            bridge_cfg.setdefault("bridge_config", {})[key] = value
 
     base_model = AutoModel.from_pretrained(
         train_cfg["model_name"], torch_dtype=torch.bfloat16,

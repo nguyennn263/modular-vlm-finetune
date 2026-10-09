@@ -48,7 +48,9 @@ This work makes the following contributions:
   it raises F1 on AutoViVQA from 17.6 (zero-shot) to 54.6 and outperforms the
   officially fine-tuned Vintern-1B on seven of eight metrics while passing 50 instead
   of up to 1{,}792 visual tokens; with all 144 local tokens it outperforms it on all
-  eight metrics (F1 $+2.3$, CIDEr $+43.9$).
+  eight metrics (F1 $+2.3$, CIDEr $+43.9$), and with a one-epoch decoder LoRA added it
+  reaches 58.2 F1 and 122.9 CIDEr, the best accuracy and generation scores among all
+  compared systems.
   \item We study the \textbf{visual token budget} over eight configurations and three
   seeds and select it with an explicit criterion: the knee of the Pareto front falls
   on the same configuration for all eight metrics, on validation and test, whether
@@ -56,7 +58,9 @@ This work makes the following contributions:
   decision analysis (TOPSIS) confirms the choice.
   \item We provide a \textbf{component-wise analysis}: local tokens matter far more
   than global ones and help most on perception-heavy questions; bridges that learn to
-  compress the patches do not beat a bridge over the global vector; and decoder LoRA,
-  which lifts every global-only bridge, is not needed once local tokens are present,
-  as the frozen-decoder model surpasses our best decoder-LoRA model.
+  compress the patches do not beat a bridge over the global vector; the frozen-decoder
+  model already surpasses every global-only bridge with a decoder LoRA, yet the two are
+  complementary, as local tokens help perception and decoder LoRA reasoning questions.
+  Out of distribution, 144 local tokens let a single view exceed six-tile Vintern-1B on
+  the scene-text ViTextVQA, although Vintern-1B stays better on OpenViVQA.
 \end{itemize}

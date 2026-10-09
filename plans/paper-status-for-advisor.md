@@ -39,9 +39,24 @@ ViT, `mlp1`, Qwen đều đóng băng, **không LoRA**; train 12.86M tham số (
 - **Theo loại câu hỏi:** token local giúp mạnh ở recognition (+10.2), action, spatial; còn LoRA
   vẫn mạnh hơn ở causal và relational. Hai cách này bổ sung cho nhau.
 
-**Còn thiếu:** đánh giá OOD cho mô hình mới (bảng OOD ở §6.1 là của mô hình cũ), và thử
-kết hợp global–local với LoRA. Thay đổi trong paper: `paper/aciids2027/CHANGELOG.md`.
-Bản HTML của báo cáo này chưa được cập nhật.
+**Cập nhật tối 09/10 — đã chạy nốt 2 việc còn thiếu:**
+- **Global–local + LoRA** (g14-k36 + LoRA r16, train chung 1 epoch, 3 seed, 15.02M = 1.57% tham số):
+  F1 val **58.21 ± 0.16** / test **58.17 ± 0.19**, CIDEr test **122.88**. Đây là mô hình tốt nhất:
+  hơn bản global–local không LoRA +3.6 F1 test, hơn Vintern-1B fine-tuned ở 8/8 chỉ số
+  (F1 +4.4, CIDEr +50.0); ViMoE-VQA vẫn hơn ở P và F1 (+2.5). LoRA và token local bổ sung cho nhau:
+  cao nhất ở 7/8 loại câu hỏi.
+- **OOD (F1, 3 tập con seed):**
+
+  | Tập | Vintern 6 tile | Global + LoRA (cũ) | Ours k=36 | Ours k=144 |
+  |---|--:|--:|--:|--:|
+  | ViTextVQA | 32.01 | 3.96 | 15.14 | **33.26** |
+  | OpenViVQA | **58.40** | 21.56 | 28.24 | 35.89 |
+  | ViVQA-X | 14.52 | 15.89 | 24.91 | **27.89** |
+  | ViVQA | 23.90 | 31.48 | 42.68 | **44.95** |
+
+  → k=144 (1 ảnh 336px) vượt Vintern 6 tile ở ViTextVQA; OpenViVQA thì Vintern vẫn hơn rõ.
+
+Thay đổi trong paper: `paper/aciids2027/CHANGELOG.md`. Bản HTML của báo cáo này chưa được cập nhật.
 
 ---
 

@@ -1,0 +1,18 @@
+{
+  "dataset": "vivqa_s3407",
+  "n": 512,
+  "bridge": "global_local",
+  "n_tiles": 1,
+  "checkpoint": "/tmp/ck/k144.pt",
+  "gen_image": "full",
+  "accuracy": 0.2109375,
+  "exact_match": 0.2109375,
+  "bleu": 0.007634684512026229,
+  "rouge_l": 0.4440879216269841,
+  "meteor": 0.3696990631156217,
+  "cider": 1.9008913286100428,
+  "precision": 0.4314453125,
+  "recall": 0.49186197916666663,
+  "f1": 0.4441421750992064,
+  "wups": 0.2109375
+}

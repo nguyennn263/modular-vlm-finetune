@@ -1,0 +1,4045 @@
+{
+  "epoch": 1,
+  "samples": [
+    {
+      "index": 0,
+      "question": "màu của áo là gì",
+      "prediction": "Màu cam",
+      "ground_truths": [
+        "màu cam"
+      ]
+    },
+    {
+      "index": 1,
+      "question": "màu của căn phòng là gì",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "màu trắng"
+      ]
+    },
+    {
+      "index": 2,
+      "question": "màu của tòa nhà là gì",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "màu xám"
+      ]
+    },
+    {
+      "index": 3,
+      "question": "màu của xe máy là gì",
+      "prediction": "Màu xanh lá cây",
+      "ground_truths": [
+        "màu xanh lá"
+      ]
+    },
+    {
+      "index": 4,
+      "question": "màu của vòi nước là gì",
+      "prediction": "Màu đỏ",
+      "ground_truths": [
+        "màu đỏ"
+      ]
+    },
+    {
+      "index": 5,
+      "question": "màu của xe buýt là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu xanh dương"
+      ]
+    },
+    {
+      "index": 6,
+      "question": "màu của con ngựa là gì",
+      "prediction": "Màu đen",
+      "ground_truths": [
+        "màu nâu"
+      ]
+    },
+    {
+      "index": 7,
+      "question": "màu của gấu là gì",
+      "prediction": "Màu nâu",
+      "ground_truths": [
+        "màu nâu"
+      ]
+    },
+    {
+      "index": 8,
+      "question": "màu của xe máy là gì",
+      "prediction": "Màu xanh lá cây",
+      "ground_truths": [
+        "màu xanh lá"
+      ]
+    },
+    {
+      "index": 9,
+      "question": "màu của áo là gì",
+      "prediction": "Màu tím",
+      "ground_truths": [
+        "màu đỏ"
+      ]
+    },
+    {
+      "index": 10,
+      "question": "màu của con mèo là gì",
+      "prediction": "Màu đen",
+      "ground_truths": [
+        "màu đen"
+      ]
+    },
+    {
+      "index": 11,
+      "question": "màu của áo là gì",
+      "prediction": "Màu xám",
+      "ground_truths": [
+        "màu trắng"
+      ]
+    },
+    {
+      "index": 12,
+      "question": "màu của chiếc ô là gì",
+      "prediction": "Màu tím",
+      "ground_truths": [
+        "màu tía"
+      ]
+    },
+    {
+      "index": 13,
+      "question": "màu của chiếc đĩa là gì",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "màu trắng"
+      ]
+    },
+    {
+      "index": 14,
+      "question": "màu sắc của người trồng là gì",
+      "prediction": "Màu cam",
+      "ground_truths": [
+        "màu cam"
+      ]
+    },
+    {
+      "index": 15,
+      "question": "màu của đồng cỏ là gì",
+      "prediction": "Màu vàng",
+      "ground_truths": [
+        "màu xanh lá"
+      ]
+    },
+    {
+      "index": 16,
+      "question": "màu của con chim là gì",
+      "prediction": "Màu tím",
+      "ground_truths": [
+        "màu tía"
+      ]
+    },
+    {
+      "index": 17,
+      "question": "màu của lon là gì",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "màu xanh dương"
+      ]
+    },
+    {
+      "index": 18,
+      "question": "màu của vali là gì",
+      "prediction": "Màu đen",
+      "ground_truths": [
+        "màu đen"
+      ]
+    },
+    {
+      "index": 19,
+      "question": "màu của dĩa nhựa là gì",
+      "prediction": "Màu tím",
+      "ground_truths": [
+        "màu tía"
+      ]
+    },
+    {
+      "index": 20,
+      "question": "màu của bồn cầu là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu xanh dương"
+      ]
+    },
+    {
+      "index": 21,
+      "question": "màu của con mèo là gì",
+      "prediction": "Màu cam",
+      "ground_truths": [
+        "màu cam"
+      ]
+    },
+    {
+      "index": 22,
+      "question": "màu của áo là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu xanh dương"
+      ]
+    },
+    {
+      "index": 23,
+      "question": "màu của phòng tắm là gì",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "màu nâu"
+      ]
+    },
+    {
+      "index": 24,
+      "question": "màu của dấu hiệu là gì",
+      "prediction": "Màu vàng",
+      "ground_truths": [
+        "màu vàng"
+      ]
+    },
+    {
+      "index": 25,
+      "question": "màu của xe buýt là gì",
+      "prediction": "Màu đỏ",
+      "ground_truths": [
+        "màu đỏ"
+      ]
+    },
+    {
+      "index": 26,
+      "question": "màu của lửa là gì",
+      "prediction": "Màu tím",
+      "ground_truths": [
+        "màu tía"
+      ]
+    },
+    {
+      "index": 27,
+      "question": "màu của bảng là gì",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "màu nâu"
+      ]
+    },
+    {
+      "index": 28,
+      "question": "màu sắc của giao thông là gì",
+      "prediction": "Màu xanh lá cây",
+      "ground_truths": [
+        "màu xanh lá"
+      ]
+    },
+    {
+      "index": 29,
+      "question": "màu của con bò là gì",
+      "prediction": "Màu nâu",
+      "ground_truths": [
+        "màu nâu"
+      ]
+    },
+    {
+      "index": 30,
+      "question": "màu của gấu bông là gì",
+      "prediction": "Màu nâu",
+      "ground_truths": [
+        "màu nâu"
+      ]
+    },
+    {
+      "index": 31,
+      "question": "màu của chiếc ô là gì",
+      "prediction": "Màu vàng",
+      "ground_truths": [
+        "màu vàng"
+      ]
+    },
+    {
+      "index": 32,
+      "question": "màu của máy bay phản lực là gì",
+      "prediction": "Màu xám",
+      "ground_truths": [
+        "màu xám"
+      ]
+    },
+    {
+      "index": 33,
+      "question": "màu của chiếc giường là gì",
+      "prediction": "Màu đỏ",
+      "ground_truths": [
+        "màu tía"
+      ]
+    },
+    {
+      "index": 34,
+      "question": "màu của các mặt hàng là gì",
+      "prediction": "Màu xanh lá cây",
+      "ground_truths": [
+        "màu xanh lá"
+      ]
+    },
+    {
+      "index": 35,
+      "question": "màu của chiếc ô là gì",
+      "prediction": "Màu tím",
+      "ground_truths": [
+        "màu tía"
+      ]
+    },
+    {
+      "index": 36,
+      "question": "màu của lá là gì",
+      "prediction": "Màu xanh lá",
+      "ground_truths": [
+        "màu xanh lá"
+      ]
+    },
+    {
+      "index": 37,
+      "question": "màu của ghế là gì",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "màu trắng"
+      ]
+    },
+    {
+      "index": 38,
+      "question": "màu của cà vạt là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu xanh dương"
+      ]
+    },
+    {
+      "index": 39,
+      "question": "màu của radio là gì",
+      "prediction": "Màu đen",
+      "ground_truths": [
+        "màu vàng"
+      ]
+    },
+    {
+      "index": 40,
+      "question": "màu của con chó là gì",
+      "prediction": "Màu vàng",
+      "ground_truths": [
+        "màu nâu"
+      ]
+    },
+    {
+      "index": 41,
+      "question": "màu của trang trí là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu xanh dương"
+      ]
+    },
+    {
+      "index": 42,
+      "question": "màu của bánh là gì",
+      "prediction": "Màu đỏ",
+      "ground_truths": [
+        "màu tía"
+      ]
+    },
+    {
+      "index": 43,
+      "question": "màu của lửa là gì",
+      "prediction": "Màu vàng",
+      "ground_truths": [
+        "màu vàng"
+      ]
+    },
+    {
+      "index": 44,
+      "question": "màu của cây cầu là gì",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "màu trắng"
+      ]
+    },
+    {
+      "index": 45,
+      "question": "màu của áo khoác là gì",
+      "prediction": "Màu tím",
+      "ground_truths": [
+        "màu đen"
+      ]
+    },
+    {
+      "index": 46,
+      "question": "màu của chiếc đĩa là gì",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "màu trắng"
+      ]
+    },
+    {
+      "index": 47,
+      "question": "màu sắc của lễ hội là gì",
+      "prediction": "Màu đỏ và xanh lá cây",
+      "ground_truths": [
+        "màu cam"
+      ]
+    },
+    {
+      "index": 48,
+      "question": "màu của con chó là gì",
+      "prediction": "Màu đen",
+      "ground_truths": [
+        "màu nâu"
+      ]
+    },
+    {
+      "index": 49,
+      "question": "màu của chiếc điều khiển là gì",
+      "prediction": "Màu xanh lá cây",
+      "ground_truths": [
+        "màu xám"
+      ]
+    },
+    {
+      "index": 50,
+      "question": "màu của gạch là gì",
+      "prediction": "Màu tím",
+      "ground_truths": [
+        "màu tía"
+      ]
+    },
+    {
+      "index": 51,
+      "question": "màu sắc của đường phố là gì",
+      "prediction": "Màu đỏ",
+      "ground_truths": [
+        "màu đỏ"
+      ]
+    },
+    {
+      "index": 52,
+      "question": "màu của quả táo là gì",
+      "prediction": "Màu cam",
+      "ground_truths": [
+        "màu cam"
+      ]
+    },
+    {
+      "index": 53,
+      "question": "màu của lát là gì",
+      "prediction": "Màu cam",
+      "ground_truths": [
+        "màu cam"
+      ]
+    },
+    {
+      "index": 54,
+      "question": "màu của tòa nhà là gì",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "màu trắng"
+      ]
+    },
+    {
+      "index": 55,
+      "question": "màu của chiếc ô là gì",
+      "prediction": "Màu vàng",
+      "ground_truths": [
+        "màu vàng"
+      ]
+    },
+    {
+      "index": 56,
+      "question": "màu của con bò là gì",
+      "prediction": "Màu nâu",
+      "ground_truths": [
+        "màu nâu"
+      ]
+    },
+    {
+      "index": 57,
+      "question": "màu của bánh là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu xanh dương"
+      ]
+    },
+    {
+      "index": 58,
+      "question": "màu của chiếc tàu là gì",
+      "prediction": "Màu xanh lá cây và vàng",
+      "ground_truths": [
+        "màu vàng"
+      ]
+    },
+    {
+      "index": 59,
+      "question": "màu sắc của hành khách là gì",
+      "prediction": "Màu vàng",
+      "ground_truths": [
+        "màu xanh dương"
+      ]
+    },
+    {
+      "index": 60,
+      "question": "màu của bông hoa là gì",
+      "prediction": "Màu vàng",
+      "ground_truths": [
+        "màu vàng"
+      ]
+    },
+    {
+      "index": 61,
+      "question": "màu của chăn là gì",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "màu xanh dương"
+      ]
+    },
+    {
+      "index": 62,
+      "question": "màu của con cừu là gì",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "màu trắng"
+      ]
+    },
+    {
+      "index": 63,
+      "question": "màu của tường là gì",
+      "prediction": "Màu đỏ",
+      "ground_truths": [
+        "màu nâu"
+      ]
+    },
+    {
+      "index": 64,
+      "question": "màu của đậu là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu xanh lá"
+      ]
+    },
+    {
+      "index": 65,
+      "question": "màu sắc của bông hoa là gì",
+      "prediction": "Màu tím",
+      "ground_truths": [
+        "màu tía"
+      ]
+    },
+    {
+      "index": 66,
+      "question": "màu của xe là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu xanh dương"
+      ]
+    },
+    {
+      "index": 67,
+      "question": "màu của con ngựa là gì",
+      "prediction": "Màu nâu",
+      "ground_truths": [
+        "màu nâu"
+      ]
+    },
+    {
+      "index": 68,
+      "question": "màu sắc của những mảnh vụn là gì",
+      "prediction": "Màu đen",
+      "ground_truths": [
+        "màu xám"
+      ]
+    },
+    {
+      "index": 69,
+      "question": "màu của chiếc ô là gì",
+      "prediction": "Màu đỏ",
+      "ground_truths": [
+        "màu đỏ"
+      ]
+    },
+    {
+      "index": 70,
+      "question": "màu của phòng tắm là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu xanh dương"
+      ]
+    },
+    {
+      "index": 71,
+      "question": "màu của con chim là gì",
+      "prediction": "Màu nâu",
+      "ground_truths": [
+        "màu cam"
+      ]
+    },
+    {
+      "index": 72,
+      "question": "màu của gấu là gì",
+      "prediction": "Màu nâu",
+      "ground_truths": [
+        "màu nâu"
+      ]
+    },
+    {
+      "index": 73,
+      "question": "màu của gấu bông là gì",
+      "prediction": "Màu đỏ",
+      "ground_truths": [
+        "màu trắng"
+      ]
+    },
+    {
+      "index": 74,
+      "question": "màu của gấu là gì",
+      "prediction": "Màu đen",
+      "ground_truths": [
+        "màu nâu"
+      ]
+    },
+    {
+      "index": 75,
+      "question": "màu của máy tính là gì",
+      "prediction": "Máy tính màu cam",
+      "ground_truths": [
+        "màu đỏ"
+      ]
+    },
+    {
+      "index": 76,
+      "question": "màu của đài phun nước là gì",
+      "prediction": "Màu vàng",
+      "ground_truths": [
+        "màu vàng"
+      ]
+    },
+    {
+      "index": 77,
+      "question": "màu của con bò là gì",
+      "prediction": "Màu nâu",
+      "ground_truths": [
+        "màu nâu"
+      ]
+    },
+    {
+      "index": 78,
+      "question": "màu của áo là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu xanh dương"
+      ]
+    },
+    {
+      "index": 79,
+      "question": "màu của con bò là gì",
+      "prediction": "Màu đen",
+      "ground_truths": [
+        "màu đen"
+      ]
+    },
+    {
+      "index": 80,
+      "question": "màu của các chuyến tàu là gì",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "màu trắng"
+      ]
+    },
+    {
+      "index": 81,
+      "question": "màu tóc là gì",
+      "prediction": "Màu đỏ",
+      "ground_truths": [
+        "màu đỏ"
+      ]
+    },
+    {
+      "index": 82,
+      "question": "màu của xe máy là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu xanh dương"
+      ]
+    },
+    {
+      "index": 83,
+      "question": "màu của chiếc đĩa là gì",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "màu trắng"
+      ]
+    },
+    {
+      "index": 84,
+      "question": "màu của bảng là gì",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "màu đen"
+      ]
+    },
+    {
+      "index": 85,
+      "question": "màu của con mèo là gì",
+      "prediction": "Màu trắng và đen",
+      "ground_truths": [
+        "màu xanh dương"
+      ]
+    },
+    {
+      "index": 86,
+      "question": "màu của áo là gì",
+      "prediction": "Màu đen",
+      "ground_truths": [
+        "màu trắng"
+      ]
+    },
+    {
+      "index": 87,
+      "question": "màu sắc của những con chó là gì",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "màu nâu"
+      ]
+    },
+    {
+      "index": 88,
+      "question": "màu của tăm là gì",
+      "prediction": "Màu vàng",
+      "ground_truths": [
+        "màu vàng"
+      ]
+    },
+    {
+      "index": 89,
+      "question": "màu của trạm là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu xanh dương"
+      ]
+    },
+    {
+      "index": 90,
+      "question": "màu của con mèo là gì",
+      "prediction": "Màu xám",
+      "ground_truths": [
+        "màu xám"
+      ]
+    },
+    {
+      "index": 91,
+      "question": "màu của con mèo là gì",
+      "prediction": "Màu xám",
+      "ground_truths": [
+        "màu xám"
+      ]
+    },
+    {
+      "index": 92,
+      "question": "màu của chiếc giường là gì",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "màu đen"
+      ]
+    },
+    {
+      "index": 93,
+      "question": "màu của xe buýt là gì",
+      "prediction": "Màu vàng",
+      "ground_truths": [
+        "màu vàng"
+      ]
+    },
+    {
+      "index": 94,
+      "question": "màu của áo khoác là gì",
+      "prediction": "Màu xanh lá cây",
+      "ground_truths": [
+        "màu cam"
+      ]
+    },
+    {
+      "index": 95,
+      "question": "màu của tòa nhà là gì",
+      "prediction": "Màu xám",
+      "ground_truths": [
+        "màu nâu"
+      ]
+    },
+    {
+      "index": 96,
+      "question": "màu sắc của bông hoa là gì",
+      "prediction": "Màu tím",
+      "ground_truths": [
+        "màu tía"
+      ]
+    },
+    {
+      "index": 97,
+      "question": "màu của bánh rán là gì",
+      "prediction": "Màu đen",
+      "ground_truths": [
+        "màu trắng"
+      ]
+    },
+    {
+      "index": 98,
+      "question": "màu của con mèo là gì",
+      "prediction": "Màu cam",
+      "ground_truths": [
+        "màu cam"
+      ]
+    },
+    {
+      "index": 99,
+      "question": "màu sắc của cây cột là gì",
+      "prediction": "Màu xanh lá cây",
+      "ground_truths": [
+        "màu xanh lá"
+      ]
+    },
+    {
+      "index": 100,
+      "question": "màu của xe buýt là gì",
+      "prediction": "Màu đỏ",
+      "ground_truths": [
+        "màu đỏ"
+      ]
+    },
+    {
+      "index": 101,
+      "question": "màu của con bò là gì",
+      "prediction": "Màu đen và nâu",
+      "ground_truths": [
+        "màu trắng"
+      ]
+    },
+    {
+      "index": 102,
+      "question": "màu của dấu chấm là gì",
+      "prediction": "Màu cam",
+      "ground_truths": [
+        "màu vàng"
+      ]
+    },
+    {
+      "index": 103,
+      "question": "màu sắc của chiếc váy là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu đen"
+      ]
+    },
+    {
+      "index": 104,
+      "question": "màu của con chó là gì",
+      "prediction": "Màu nâu",
+      "ground_truths": [
+        "màu trắng"
+      ]
+    },
+    {
+      "index": 105,
+      "question": "màu sắc của ớt là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu xanh lá"
+      ]
+    },
+    {
+      "index": 106,
+      "question": "màu sắc của các khối là gì",
+      "prediction": "Màu cam",
+      "ground_truths": [
+        "màu đỏ"
+      ]
+    },
+    {
+      "index": 107,
+      "question": "màu của con mèo là gì",
+      "prediction": "Màu đen",
+      "ground_truths": [
+        "màu xám"
+      ]
+    },
+    {
+      "index": 108,
+      "question": "màu của áo là gì",
+      "prediction": "Màu đen",
+      "ground_truths": [
+        "màu đen"
+      ]
+    },
+    {
+      "index": 109,
+      "question": "màu của chiếc đĩa là gì",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "màu trắng"
+      ]
+    },
+    {
+      "index": 110,
+      "question": "màu của xe tải là gì",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "màu trắng"
+      ]
+    },
+    {
+      "index": 111,
+      "question": "màu của gấu là gì",
+      "prediction": "Màu nâu",
+      "ground_truths": [
+        "màu nâu"
+      ]
+    },
+    {
+      "index": 112,
+      "question": "màu của đồng cỏ là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu xanh lá"
+      ]
+    },
+    {
+      "index": 113,
+      "question": "màu của cái ghế là gì",
+      "prediction": "Màu đỏ",
+      "ground_truths": [
+        "màu đỏ"
+      ]
+    },
+    {
+      "index": 114,
+      "question": "màu của cái tủ là gì",
+      "prediction": "Màu đen",
+      "ground_truths": [
+        "màu đen"
+      ]
+    },
+    {
+      "index": 115,
+      "question": "màu của băng ghế là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu trắng"
+      ]
+    },
+    {
+      "index": 116,
+      "question": "màu của chiếc ghế dài là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu xanh dương"
+      ]
+    },
+    {
+      "index": 117,
+      "question": "màu sắc của tấm là gì",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "màu trắng"
+      ]
+    },
+    {
+      "index": 118,
+      "question": "màu của lửa là gì",
+      "prediction": "Màu vàng",
+      "ground_truths": [
+        "màu vàng"
+      ]
+    },
+    {
+      "index": 119,
+      "question": "màu của lửa là gì",
+      "prediction": "Màu vàng",
+      "ground_truths": [
+        "màu vàng"
+      ]
+    },
+    {
+      "index": 120,
+      "question": "màu của vòi nước là gì",
+      "prediction": "Màu vàng",
+      "ground_truths": [
+        "màu vàng"
+      ]
+    },
+    {
+      "index": 121,
+      "question": "màu của cỏ là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu xanh lá"
+      ]
+    },
+    {
+      "index": 122,
+      "question": "màu của con quạ là gì",
+      "prediction": "Màu đen",
+      "ground_truths": [
+        "màu đen"
+      ]
+    },
+    {
+      "index": 123,
+      "question": "màu mắt là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu tía"
+      ]
+    },
+    {
+      "index": 124,
+      "question": "màu của bồn tắm là gì",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "màu trắng"
+      ]
+    },
+    {
+      "index": 125,
+      "question": "màu của chiếc đĩa là gì",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "màu trắng"
+      ]
+    },
+    {
+      "index": 126,
+      "question": "màu của áo là gì",
+      "prediction": "Màu xanh lá cây",
+      "ground_truths": [
+        "màu xanh lá"
+      ]
+    },
+    {
+      "index": 127,
+      "question": "màu của con mèo là gì",
+      "prediction": "Màu xám",
+      "ground_truths": [
+        "màu xám"
+      ]
+    },
+    {
+      "index": 128,
+      "question": "màu sắc của con dê là gì",
+      "prediction": "Màu xám",
+      "ground_truths": [
+        "màu xám"
+      ]
+    },
+    {
+      "index": 129,
+      "question": "màu của áo là gì",
+      "prediction": "Màu xanh lá cây",
+      "ground_truths": [
+        "màu xanh lá"
+      ]
+    },
+    {
+      "index": 130,
+      "question": "màu của đèn là gì",
+      "prediction": "Màu vàng",
+      "ground_truths": [
+        "màu vàng"
+      ]
+    },
+    {
+      "index": 131,
+      "question": "màu của hoa tulip là gì",
+      "prediction": "Màu đỏ",
+      "ground_truths": [
+        "màu đỏ"
+      ]
+    },
+    {
+      "index": 132,
+      "question": "màu sắc của chơi là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu trắng"
+      ]
+    },
+    {
+      "index": 133,
+      "question": "màu của nho là gì",
+      "prediction": "Màu nâu",
+      "ground_truths": [
+        "màu đỏ"
+      ]
+    },
+    {
+      "index": 134,
+      "question": "màu của áo là gì",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "màu trắng"
+      ]
+    },
+    {
+      "index": 135,
+      "question": "màu của tòa nhà là gì",
+      "prediction": "Màu đỏ",
+      "ground_truths": [
+        "màu đỏ"
+      ]
+    },
+    {
+      "index": 136,
+      "question": "màu của bầu trời là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu xanh dương"
+      ]
+    },
+    {
+      "index": 137,
+      "question": "màu của chiếc tàu là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu đen"
+      ]
+    },
+    {
+      "index": 138,
+      "question": "màu sắc của áo phông là gì",
+      "prediction": "Màu xanh lá cây",
+      "ground_truths": [
+        "màu xanh lá"
+      ]
+    },
+    {
+      "index": 139,
+      "question": "màu của đồng cỏ là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu xanh lá"
+      ]
+    },
+    {
+      "index": 140,
+      "question": "màu của con ngựa là gì",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "màu trắng"
+      ]
+    },
+    {
+      "index": 141,
+      "question": "màu của con mèo là gì",
+      "prediction": "Màu xám",
+      "ground_truths": [
+        "màu xám"
+      ]
+    },
+    {
+      "index": 142,
+      "question": "màu của ghế là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu xanh dương"
+      ]
+    },
+    {
+      "index": 143,
+      "question": "màu của gấu là gì",
+      "prediction": "Màu nâu",
+      "ground_truths": [
+        "màu nâu"
+      ]
+    },
+    {
+      "index": 144,
+      "question": "màu của sườn đồi là gì",
+      "prediction": "Màu xanh lá cây",
+      "ground_truths": [
+        "màu xanh lá"
+      ]
+    },
+    {
+      "index": 145,
+      "question": "màu của lửa là gì",
+      "prediction": "Màu vàng",
+      "ground_truths": [
+        "màu vàng"
+      ]
+    },
+    {
+      "index": 146,
+      "question": "màu của áo là gì",
+      "prediction": "Màu tím",
+      "ground_truths": [
+        "màu tía"
+      ]
+    },
+    {
+      "index": 147,
+      "question": "màu của gấu là gì",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "màu trắng"
+      ]
+    },
+    {
+      "index": 148,
+      "question": "màu của bên ngoài là gì",
+      "prediction": "Màu xanh lá cây",
+      "ground_truths": [
+        "màu xanh lá"
+      ]
+    },
+    {
+      "index": 149,
+      "question": "màu của chiếc ô là gì",
+      "prediction": "Màu vàng",
+      "ground_truths": [
+        "màu vàng"
+      ]
+    },
+    {
+      "index": 150,
+      "question": "màu của điện thoại là gì",
+      "prediction": "Màu tím",
+      "ground_truths": [
+        "màu tía"
+      ]
+    },
+    {
+      "index": 151,
+      "question": "màu của rượu là gì",
+      "prediction": "Màu đỏ",
+      "ground_truths": [
+        "màu đỏ"
+      ]
+    },
+    {
+      "index": 152,
+      "question": "màu của con mèo là gì",
+      "prediction": "Màu đen",
+      "ground_truths": [
+        "màu đen"
+      ]
+    },
+    {
+      "index": 153,
+      "question": "màu của chiếc thuyền là gì",
+      "prediction": "Màu đỏ và trắng",
+      "ground_truths": [
+        "màu đỏ"
+      ]
+    },
+    {
+      "index": 154,
+      "question": "màu của nón là gì",
+      "prediction": "Màu cam",
+      "ground_truths": [
+        "màu cam"
+      ]
+    },
+    {
+      "index": 155,
+      "question": "màu của khói là gì",
+      "prediction": "Màu đỏ",
+      "ground_truths": [
+        "màu đỏ"
+      ]
+    },
+    {
+      "index": 156,
+      "question": "màu của con bò là gì",
+      "prediction": "Màu nâu",
+      "ground_truths": [
+        "màu nâu"
+      ]
+    },
+    {
+      "index": 157,
+      "question": "màu của lá là gì",
+      "prediction": "Màu xanh lá cây",
+      "ground_truths": [
+        "màu xanh lá"
+      ]
+    },
+    {
+      "index": 158,
+      "question": "màu của xe máy là gì",
+      "prediction": "Màu đỏ",
+      "ground_truths": [
+        "màu cam"
+      ]
+    },
+    {
+      "index": 159,
+      "question": "màu của xe buýt là gì",
+      "prediction": "Màu đỏ",
+      "ground_truths": [
+        "màu đỏ"
+      ]
+    },
+    {
+      "index": 160,
+      "question": "màu của con mèo là gì",
+      "prediction": "Màu cam",
+      "ground_truths": [
+        "màu cam"
+      ]
+    },
+    {
+      "index": 161,
+      "question": "màu của tóc giả là gì",
+      "prediction": "Màu đỏ",
+      "ground_truths": [
+        "màu cam"
+      ]
+    },
+    {
+      "index": 162,
+      "question": "màu của dấu hiệu là gì",
+      "prediction": "Màu đỏ",
+      "ground_truths": [
+        "màu đỏ"
+      ]
+    },
+    {
+      "index": 163,
+      "question": "màu của phòng tắm là gì",
+      "prediction": "Màu nâu",
+      "ground_truths": [
+        "màu nâu"
+      ]
+    },
+    {
+      "index": 164,
+      "question": "màu của ánh sáng là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu vàng"
+      ]
+    },
+    {
+      "index": 165,
+      "question": "màu của gấu là gì",
+      "prediction": "Màu nâu",
+      "ground_truths": [
+        "màu nâu"
+      ]
+    },
+    {
+      "index": 166,
+      "question": "màu của lớp lót là gì",
+      "prediction": "Màu xanh lá cây",
+      "ground_truths": [
+        "màu xanh lá"
+      ]
+    },
+    {
+      "index": 167,
+      "question": "màu sắc của các dấu hiệu là gì",
+      "prediction": "Màu vàng",
+      "ground_truths": [
+        "màu vàng"
+      ]
+    },
+    {
+      "index": 168,
+      "question": "màu sắc của các dấu hiệu là gì",
+      "prediction": "Màu xanh lá cây",
+      "ground_truths": [
+        "màu xanh lá"
+      ]
+    },
+    {
+      "index": 169,
+      "question": "màu của bông hoa là gì",
+      "prediction": "Màu tím",
+      "ground_truths": [
+        "màu tía"
+      ]
+    },
+    {
+      "index": 170,
+      "question": "màu của kính là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu xanh dương"
+      ]
+    },
+    {
+      "index": 171,
+      "question": "màu của vịt là gì",
+      "prediction": "Màu đen",
+      "ground_truths": [
+        "màu đen"
+      ]
+    },
+    {
+      "index": 172,
+      "question": "màu nước là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu xanh dương"
+      ]
+    },
+    {
+      "index": 173,
+      "question": "màu của con mèo là gì",
+      "prediction": "Màu xám",
+      "ground_truths": [
+        "màu xám"
+      ]
+    },
+    {
+      "index": 174,
+      "question": "màu của con bò là gì",
+      "prediction": "Màu nâu",
+      "ground_truths": [
+        "màu nâu"
+      ]
+    },
+    {
+      "index": 175,
+      "question": "màu của đầu là gì",
+      "prediction": "Màu đen",
+      "ground_truths": [
+        "màu đen"
+      ]
+    },
+    {
+      "index": 176,
+      "question": "màu của xe máy là gì",
+      "prediction": "Màu xanh lá cây",
+      "ground_truths": [
+        "màu xanh lá"
+      ]
+    },
+    {
+      "index": 177,
+      "question": "màu của con mèo là gì",
+      "prediction": "Màu đen và trắng",
+      "ground_truths": [
+        "màu xám"
+      ]
+    },
+    {
+      "index": 178,
+      "question": "màu sắc của chiếc váy là gì",
+      "prediction": "Màu đỏ",
+      "ground_truths": [
+        "màu đỏ"
+      ]
+    },
+    {
+      "index": 179,
+      "question": "màu của tòa nhà là gì",
+      "prediction": "Màu nâu",
+      "ground_truths": [
+        "màu nâu"
+      ]
+    },
+    {
+      "index": 180,
+      "question": "màu của chiếc bình là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu xanh dương"
+      ]
+    },
+    {
+      "index": 181,
+      "question": "màu của dĩa nhựa là gì",
+      "prediction": "Màu đỏ và vàng",
+      "ground_truths": [
+        "màu đỏ"
+      ]
+    },
+    {
+      "index": 182,
+      "question": "màu sắc mèo là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu xám"
+      ]
+    },
+    {
+      "index": 183,
+      "question": "màu của bầu trời là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu xanh dương"
+      ]
+    },
+    {
+      "index": 184,
+      "question": "màu của áo khoác là gì",
+      "prediction": "Màu đỏ",
+      "ground_truths": [
+        "màu đỏ"
+      ]
+    },
+    {
+      "index": 185,
+      "question": "màu của xe buýt là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu xanh dương"
+      ]
+    },
+    {
+      "index": 186,
+      "question": "màu của chiếc đĩa là gì",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "màu trắng"
+      ]
+    },
+    {
+      "index": 187,
+      "question": "màu sắc của người đó là gì",
+      "prediction": "Màu đen",
+      "ground_truths": [
+        "màu tía"
+      ]
+    },
+    {
+      "index": 188,
+      "question": "màu của dĩa nhựa là gì",
+      "prediction": "Màu cam",
+      "ground_truths": [
+        "màu cam"
+      ]
+    },
+    {
+      "index": 189,
+      "question": "màu của chiếc hộp là gì",
+      "prediction": "Màu đỏ",
+      "ground_truths": [
+        "màu nâu"
+      ]
+    },
+    {
+      "index": 190,
+      "question": "màu của gấu là gì",
+      "prediction": "Màu nâu",
+      "ground_truths": [
+        "màu nâu"
+      ]
+    },
+    {
+      "index": 191,
+      "question": "màu sắc của giao thông là gì",
+      "prediction": "Màu đỏ",
+      "ground_truths": [
+        "màu đỏ"
+      ]
+    },
+    {
+      "index": 192,
+      "question": "màu của chiếc đĩa là gì",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "màu trắng"
+      ]
+    },
+    {
+      "index": 193,
+      "question": "màu sắc của bóng đá là gì",
+      "prediction": "Màu đỏ",
+      "ground_truths": [
+        "màu xanh dương"
+      ]
+    },
+    {
+      "index": 194,
+      "question": "màu của chiếc bình là gì",
+      "prediction": "Màu đỏ",
+      "ground_truths": [
+        "màu đỏ"
+      ]
+    },
+    {
+      "index": 195,
+      "question": "màu của vòi nước là gì",
+      "prediction": "Màu đỏ",
+      "ground_truths": [
+        "màu đỏ"
+      ]
+    },
+    {
+      "index": 196,
+      "question": "màu của áo khoác là gì",
+      "prediction": "Màu xanh",
+      "ground_truths": [
+        "màu đen"
+      ]
+    },
+    {
+      "index": 197,
+      "question": "màu của con mèo là gì",
+      "prediction": "Màu đen",
+      "ground_truths": [
+        "màu đen"
+      ]
+    },
+    {
+      "index": 198,
+      "question": "màu của bầu trời là gì",
+      "prediction": "Màu xanh đậm",
+      "ground_truths": [
+        "màu tía"
+      ]
+    },
+    {
+      "index": 199,
+      "question": "màu sắc của những con chó là gì",
+      "prediction": "Màu nâu",
+      "ground_truths": [
+        "màu nâu"
+      ]
+    },
+    {
+      "index": 200,
+      "question": "màu của tòa án là gì",
+      "prediction": "Màu tím",
+      "ground_truths": [
+        "màu tía"
+      ]
+    },
+    {
+      "index": 201,
+      "question": "màu của vỉa hè là gì",
+      "prediction": "Màu vàng",
+      "ground_truths": [
+        "màu vàng"
+      ]
+    },
+    {
+      "index": 202,
+      "question": "màu của chiếc ghế dài là gì",
+      "prediction": "Màu be",
+      "ground_truths": [
+        "màu vàng"
+      ]
+    },
+    {
+      "index": 203,
+      "question": "màu của hình ảnh là gì",
+      "prediction": "Màu đen trắng",
+      "ground_truths": [
+        "màu trắng"
+      ]
+    },
+    {
+      "index": 204,
+      "question": "màu của chiếc đĩa là gì",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "màu trắng"
+      ]
+    },
+    {
+      "index": 205,
+      "question": "màu của vòi nước là gì",
+      "prediction": "Màu cam",
+      "ground_truths": [
+        "màu cam"
+      ]
+    },
+    {
+      "index": 206,
+      "question": "màu của chiếc tàu là gì",
+      "prediction": "Màu vàng",
+      "ground_truths": [
+        "màu vàng"
+      ]
+    },
+    {
+      "index": 207,
+      "question": "màu của vali là gì",
+      "prediction": "Màu đỏ",
+      "ground_truths": [
+        "màu đỏ"
+      ]
+    },
+    {
+      "index": 208,
+      "question": "màu của ghế là gì",
+      "prediction": "Màu trắng",
+      "ground_truths": [
+        "màu xanh lá"
+      ]
+    },
+    {
+      "index": 209,
+      "question": "màu sắc của người phụ nữ là gì",
+      "prediction": "Màu đen",
+      "ground_truths": [
+        "màu đen"
+      ]
+    },
+    {
+      "index": 210,
+      "question": "màu của tường là gì",
+      "prediction": "Màu xám",
+      "ground_truths": [
+        "màu xám"
+      ]
+    },
+    {
+      "index": 211,
+      "question": "màu của xe buýt là gì",
+      "prediction": "Màu xanh lá cây và trắng",
+      "ground_truths": [
+        "màu xanh lá"
+      ]
+    },
+    {
+      "index": 212,
+      "question": "màu của gấu là gì",
+      "prediction": "Màu đen",
+      "ground_truths": [
+        "màu đen"
+      ]
+    },
+    {
+      "index": 213,
+      "question": "màu của đồ uống là gì",
+      "prediction": "Màu xanh lá cây",
+      "ground_truths": [
+        "màu xanh lá"
+      ]
+    },
+    {
+      "index": 214,
+      "question": "màu của lửa là gì",
+      "prediction": "Màu đỏ",
+      "ground_truths": [
+        "màu đỏ"
+      ]
+    },
+    {
+      "index": 215,
+      "question": "hai cô gái đang chơi một trò chơi điện tử ở đâu",
+      "prediction": "Trong phòng khách",
+      "ground_truths": [
+        "phòng"
+      ]
+    },
+    {
+      "index": 216,
+      "question": "rau xanh, thịt và mì ở đâu",
+      "prediction": "Trên bát",
+      "ground_truths": [
+        "bát"
+      ]
+    },
+    {
+      "index": 217,
+      "question": "con mèo đen ở đâu",
+      "prediction": "Trong tủ",
+      "ground_truths": [
+        "chậu"
+      ]
+    },
+    {
+      "index": 218,
+      "question": "người phụ nữ đang nấu một con gà tây lớn ở đâu",
+      "prediction": "Trên bếp",
+      "ground_truths": [
+        "chảo"
+      ]
+    },
+    {
+      "index": 219,
+      "question": "tủ lạnh bằng kim loại đặt ở đâu",
+      "prediction": "Trên tường",
+      "ground_truths": [
+        "phòng bếp"
+      ]
+    },
+    {
+      "index": 220,
+      "question": "nhà vệ sinh không được xả nước ở đâu",
+      "prediction": "Trên tường",
+      "ground_truths": [
+        "nhà vệ sinh"
+      ]
+    },
+    {
+      "index": 221,
+      "question": "người đàn ông cưỡi một con ngựa ở đâu",
+      "prediction": "Trên sân đấu",
+      "ground_truths": [
+        "chuồng"
+      ]
+    },
+    {
+      "index": 222,
+      "question": "người phụ nữ đang lái xe ở đâu",
+      "prediction": "Trên đường",
+      "ground_truths": [
+        "xe ô tô"
+      ]
+    },
+    {
+      "index": 223,
+      "question": "người đang vung gậy ở đâu",
+      "prediction": "Trên sân bóng",
+      "ground_truths": [
+        "lồng"
+      ]
+    },
+    {
+      "index": 224,
+      "question": "người đàn ông trẻ đang chụp ảnh mình ở đâu",
+      "prediction": "Trong một phòng tắm",
+      "ground_truths": [
+        "phòng tắm"
+      ]
+    },
+    {
+      "index": 225,
+      "question": "hai con voi ăn ở đâu",
+      "prediction": "Trên sân vườn",
+      "ground_truths": [
+        "vườn bách thú"
+      ]
+    },
+    {
+      "index": 226,
+      "question": "nhà vệ sinh tô sơn hai màu khác nhau nằm ở đâu",
+      "prediction": "Trong một căn phòng",
+      "ground_truths": [
+        "phòng tắm"
+      ]
+    },
+    {
+      "index": 227,
+      "question": "đoàn tàu trống ở đâu",
+      "prediction": "Trong một nhà ga",
+      "ground_truths": [
+        "trạm"
+      ]
+    },
+    {
+      "index": 228,
+      "question": "con chó trắng đang ngồi ở đâu",
+      "prediction": "Trên ghế",
+      "ground_truths": [
+        "cái ghế"
+      ]
+    },
+    {
+      "index": 229,
+      "question": "bồn tắm đặt ở đâu",
+      "prediction": "Trên tường",
+      "ground_truths": [
+        "phòng tắm"
+      ]
+    },
+    {
+      "index": 230,
+      "question": "7 con gấu bông nhồi ở đâu",
+      "prediction": "Trong xe đẩy",
+      "ground_truths": [
+        "toa xe"
+      ]
+    },
+    {
+      "index": 231,
+      "question": "chú cún ngồi ở đâu",
+      "prediction": "Trên ghế",
+      "ground_truths": [
+        "cửa sổ"
+      ]
+    },
+    {
+      "index": 232,
+      "question": "đồng hồ treo ở đâu",
+      "prediction": "Trên tòa nhà",
+      "ground_truths": [
+        "tường"
+      ]
+    },
+    {
+      "index": 233,
+      "question": "người trượt ván đã sẵn sàng để trượt ở đâu",
+      "prediction": "Trong bể trượt",
+      "ground_truths": [
+        "hồ bơi"
+      ]
+    },
+    {
+      "index": 234,
+      "question": "người đàn ông đang dọn dẹp đâu",
+      "prediction": "Một cái lò nướng",
+      "ground_truths": [
+        "quán ăn"
+      ]
+    },
+    {
+      "index": 235,
+      "question": "người phụ nữ mặc vest đỏ ở đâu",
+      "prediction": "Trong phòng",
+      "ground_truths": [
+        "gương"
+      ]
+    },
+    {
+      "index": 236,
+      "question": "người đàn ông đang nằm ở đâu",
+      "prediction": "Trên giường",
+      "ground_truths": [
+        "giường"
+      ]
+    },
+    {
+      "index": 237,
+      "question": "người đang chụp ảnh ở đâu",
+      "prediction": "Trong một phòng tắm",
+      "ground_truths": [
+        "gương"
+      ]
+    },
+    {
+      "index": 238,
+      "question": "những chiếc bánh rán nằm ở đâu",
+      "prediction": "Trên một chiếc hộp",
+      "ground_truths": [
+        "hộp"
+      ]
+    },
+    {
+      "index": 239,
+      "question": "những bông hoa trắng ở đâu",
+      "prediction": "Trên bàn",
+      "ground_truths": [
+        "lọ cắm hoa"
+      ]
+    },
+    {
+      "index": 240,
+      "question": "hai nhà vệ sinh đang ở đâu",
+      "prediction": "Trong một nhà vệ sinh",
+      "ground_truths": [
+        "phòng"
+      ]
+    },
+    {
+      "index": 241,
+      "question": "mọi người đang xem một màn hình ở đâu",
+      "prediction": "Trên bàn",
+      "ground_truths": [
+        "phòng"
+      ]
+    },
+    {
+      "index": 242,
+      "question": "con mèo đen trắng nằm ở đâu",
+      "prediction": "Trong một chiếc vali",
+      "ground_truths": [
+        "vali"
+      ]
+    },
+    {
+      "index": 243,
+      "question": "người đang nghiêng về phía trước ở đâu",
+      "prediction": "Trên bãi biển",
+      "ground_truths": [
+        "cái ghế"
+      ]
+    },
+    {
+      "index": 244,
+      "question": "đàn cừu và trẻ sơ sinh đang ở đâu",
+      "prediction": "Trên cánh đồng",
+      "ground_truths": [
+        "chuồng"
+      ]
+    },
+    {
+      "index": 245,
+      "question": "một số chuối và một món đồ chơi ở đâu",
+      "prediction": "Trong lưới kim loại",
+      "ground_truths": [
+        "cái rổ"
+      ]
+    },
+    {
+      "index": 246,
+      "question": "cặp bò ăn cỏ khô ở đâu",
+      "prediction": "Trong nhà cật",
+      "ground_truths": [
+        "chuồng"
+      ]
+    },
+    {
+      "index": 247,
+      "question": "một số người đứng xung quanh đâu",
+      "prediction": "Trên quầy chế biến",
+      "ground_truths": [
+        "quán ăn"
+      ]
+    },
+    {
+      "index": 248,
+      "question": "nhóm bạn đang đứng ở đâu đang cười",
+      "prediction": "Trong nhà bếp",
+      "ground_truths": [
+        "phòng bếp"
+      ]
+    },
+    {
+      "index": 249,
+      "question": "người phụ nữ sử dụng máy xay sinh tố ở đâu",
+      "prediction": "Trên bàn làm việc",
+      "ground_truths": [
+        "phòng bếp"
+      ]
+    },
+    {
+      "index": 250,
+      "question": "người phụ nữ đang kiểm tra điện thoại di động ở đâu",
+      "prediction": "Trong phòng tắm",
+      "ground_truths": [
+        "nhà vệ sinh"
+      ]
+    },
+    {
+      "index": 251,
+      "question": "người đàn ông ngồi ở đâu trong khi sử dụng máy tính xách tay",
+      "prediction": "Trong xe",
+      "ground_truths": [
+        "xe ô tô"
+      ]
+    },
+    {
+      "index": 252,
+      "question": "những người đàn ông và một người đang đội mũ trắng đang ngồi ở đâu",
+      "prediction": "Trên một chiếc thuyền",
+      "ground_truths": [
+        "con thuyền"
+      ]
+    },
+    {
+      "index": 253,
+      "question": "căn phòng được trang trí độc đáo ở đâu",
+      "prediction": "Trong nhà kho",
+      "ground_truths": [
+        "nhà ở"
+      ]
+    },
+    {
+      "index": 254,
+      "question": "người đàn ông trẻ đang đeo kính và một chiếc mũ dr seuss đang ngồi và cầm ván trượt tuyết ở đâu",
+      "prediction": "Trên ghế",
+      "ground_truths": [
+        "cái ghế"
+      ]
+    },
+    {
+      "index": 255,
+      "question": "nhà vệ sinh kiểu cũ ở đâu",
+      "prediction": "Trong một căn nhà",
+      "ground_truths": [
+        "phòng tắm"
+      ]
+    },
+    {
+      "index": 256,
+      "question": "pizza kích thước lớn ở đâu với một lát bị mất",
+      "prediction": "Trên bàn ăn",
+      "ground_truths": [
+        "hộp"
+      ]
+    },
+    {
+      "index": 257,
+      "question": "nơi nào có một vài hươu cao cổ",
+      "prediction": "Trên một cái tháp",
+      "ground_truths": [
+        "chuồng"
+      ]
+    },
+    {
+      "index": 258,
+      "question": "một số ván lướt sóng đang ở đâu",
+      "prediction": "Trên một chiếc xe",
+      "ground_truths": [
+        "cửa hàng"
+      ]
+    },
+    {
+      "index": 259,
+      "question": "người phụ nữ với một con mèo trên vai phản chiếu ở đâu",
+      "prediction": "Trước gương",
+      "ground_truths": [
+        "gương"
+      ]
+    },
+    {
+      "index": 260,
+      "question": "người trượt ván đang đi trên ván trượt của mình ở đâu",
+      "prediction": "Trên đường phố",
+      "ground_truths": [
+        "đường phố"
+      ]
+    },
+    {
+      "index": 261,
+      "question": "ba con hươu cao cổ của họ trông ở đâu",
+      "prediction": "Trong vườn",
+      "ground_truths": [
+        "rào chắn"
+      ]
+    },
+    {
+      "index": 262,
+      "question": "người đàn ông và một người phụ nữ chơi trò chơi ở đâu",
+      "prediction": "Trên giường",
+      "ground_truths": [
+        "nhà"
+      ]
+    },
+    {
+      "index": 263,
+      "question": "đâu là con mèo con ngủ trưa",
+      "prediction": "Đang ngủ",
+      "ground_truths": [
+        "món ăn"
+      ]
+    },
+    {
+      "index": 264,
+      "question": "cô gái giữ một chiếc bánh rán tráng men ở đâu",
+      "prediction": "Trên bàn",
+      "ground_truths": [
+        "cái ghế"
+      ]
+    },
+    {
+      "index": 265,
+      "question": "hoa violet ở đâu trên bàn",
+      "prediction": "Trên bàn",
+      "ground_truths": [
+        "lọ cắm hoa"
+      ]
+    },
+    {
+      "index": 266,
+      "question": "những bông hoa rất đẹp cắm ở đâu",
+      "prediction": "Trong một bình hoa",
+      "ground_truths": [
+        "lọ cắm hoa"
+      ]
+    },
+    {
+      "index": 267,
+      "question": "một con mèo cam đang ngồi ở đâu",
+      "prediction": "Trong túi",
+      "ground_truths": [
+        "cái túi"
+      ]
+    },
+    {
+      "index": 268,
+      "question": "bồn tiểu bẩn ở đâu",
+      "prediction": "Trong một nhà vệ sinh",
+      "ground_truths": [
+        "phòng tắm"
+      ]
+    },
+    {
+      "index": 269,
+      "question": "một nhà vệ sinh ở đâu",
+      "prediction": "Trong một căn phòng",
+      "ground_truths": [
+        "phòng tắm"
+      ]
+    },
+    {
+      "index": 270,
+      "question": "cô gái trẻ đang ở đâu",
+      "prediction": "Trong nhà bếp",
+      "ground_truths": [
+        "hộp"
+      ]
+    },
+    {
+      "index": 271,
+      "question": "ba phụ nữ rửa bát ở đâu",
+      "prediction": "Trong nhà bếp",
+      "ground_truths": [
+        "phòng bếp"
+      ]
+    },
+    {
+      "index": 272,
+      "question": "hai người phụ nữ sử dụng bộ điều khiển ở đâu",
+      "prediction": "Trên ghế sofa",
+      "ground_truths": [
+        "phòng"
+      ]
+    },
+    {
+      "index": 273,
+      "question": "con mèo sọc nâu với màu trắng ở đâu",
+      "prediction": "Trên mặt nước",
+      "ground_truths": [
+        "thùng chứa"
+      ]
+    },
+    {
+      "index": 274,
+      "question": "mèo đen ngồi ở đâu,",
+      "prediction": "Trên ghế",
+      "ground_truths": [
+        "cái ghế"
+      ]
+    },
+    {
+      "index": 275,
+      "question": "giường và tủ đầu giường nằm ở đâu",
+      "prediction": "Trên tường",
+      "ground_truths": [
+        "phòng ngủ"
+      ]
+    },
+    {
+      "index": 276,
+      "question": "một số loại rau nằm ở đâu",
+      "prediction": "Trên đĩa",
+      "ground_truths": [
+        "bát"
+      ]
+    },
+    {
+      "index": 277,
+      "question": "con mèo đen trắng đang ẩn nấp ở đâu",
+      "prediction": "Trong túi",
+      "ground_truths": [
+        "cái túi"
+      ]
+    },
+    {
+      "index": 278,
+      "question": "con chó đang nhìn ở đâu",
+      "prediction": "Trên gương",
+      "ground_truths": [
+        "gương"
+      ]
+    },
+    {
+      "index": 279,
+      "question": "con chó đang nhìn ở đâu",
+      "prediction": "Trên sàn nhà",
+      "ground_truths": [
+        "gương"
+      ]
+    },
+    {
+      "index": 280,
+      "question": "nhà vệ sinh trắng không được sử dụng ở đâu",
+      "prediction": "Trong nhà vệ sinh",
+      "ground_truths": [
+        "phòng tắm"
+      ]
+    },
+    {
+      "index": 281,
+      "question": "một con voi đứng đang đứng ở đâu",
+      "prediction": "Trên đường",
+      "ground_truths": [
+        "đường bộ"
+      ]
+    },
+    {
+      "index": 282,
+      "question": "phòng khách trống ở đâu",
+      "prediction": "Trong nhà",
+      "ground_truths": [
+        "nhà ở"
+      ]
+    },
+    {
+      "index": 283,
+      "question": "những con gấu bông được xếp ở đâu",
+      "prediction": "Trên bàn",
+      "ground_truths": [
+        "phòng"
+      ]
+    },
+    {
+      "index": 284,
+      "question": "người phụ nữ trẻ đang đeo cà vạt ở đâu",
+      "prediction": "Trên tường",
+      "ground_truths": [
+        "phòng tắm"
+      ]
+    },
+    {
+      "index": 285,
+      "question": "thanh niên và một con chó trôi ở đâu",
+      "prediction": "Trên sông",
+      "ground_truths": [
+        "con thuyền"
+      ]
+    },
+    {
+      "index": 286,
+      "question": "những con voi xếp hàng ở đâu",
+      "prediction": "Trên sân cỏ",
+      "ground_truths": [
+        "ảnh chụp"
+      ]
+    },
+    {
+      "index": 287,
+      "question": "trẻ nhỏ đang đánh răng ở đâu",
+      "prediction": "Trên gương",
+      "ground_truths": [
+        "phòng tắm"
+      ]
+    },
+    {
+      "index": 288,
+      "question": "một khe hở mà thức ăn có thể được đưa vào phòng khách nằm ở đâu",
+      "prediction": "Trên kệ bếp",
+      "ground_truths": [
+        "tường"
+      ]
+    },
+    {
+      "index": 289,
+      "question": "đồng hồ tốt ở đâu",
+      "prediction": "Trên tường",
+      "ground_truths": [
+        "tòa nhà"
+      ]
+    },
+    {
+      "index": 290,
+      "question": "hai con mèo được nhìn thấy ở đâu",
+      "prediction": "Trong tủ",
+      "ground_truths": [
+        "lò vi sóng"
+      ]
+    },
+    {
+      "index": 291,
+      "question": "con chó đang chơi với một món đồ chơi chó ở đâu",
+      "prediction": "Trên sân cỏ",
+      "ground_truths": [
+        "áo vest"
+      ]
+    },
+    {
+      "index": 292,
+      "question": "xe máy màu xanh và bạc đang đậu ở đâu",
+      "prediction": "Trên bãi đậu xe",
+      "ground_truths": [
+        "ga-ra"
+      ]
+    },
+    {
+      "index": 293,
+      "question": "người đàn ông cắt một chiếc bánh pizza ở đâu",
+      "prediction": "Trên bếp",
+      "ground_truths": [
+        "chảo"
+      ]
+    },
+    {
+      "index": 294,
+      "question": "hai con mèo đen trắng đang ở đâu",
+      "prediction": "Trên nóc nhà",
+      "ground_truths": [
+        "cửa sổ"
+      ]
+    },
+    {
+      "index": 295,
+      "question": "người đàn ông với một chiếc ô đứng ở đâu",
+      "prediction": "Trên đường phố",
+      "ground_truths": [
+        "đường phố"
+      ]
+    },
+    {
+      "index": 296,
+      "question": "người đàn ông mặc một bộ đồ đang nhìn ở đâu",
+      "prediction": "Trong một cửa sổ",
+      "ground_truths": [
+        "gương"
+      ]
+    },
+    {
+      "index": 297,
+      "question": "con mèo mướp sọc lông xù nằm trải dài ở đâu",
+      "prediction": "Trên một chiếc ga trải dài",
+      "ground_truths": [
+        "giường"
+      ]
+    },
+    {
+      "index": 298,
+      "question": "đầu bếp giữ một con dao ở đâu",
+      "prediction": "Trên bàn bếp",
+      "ground_truths": [
+        "phòng bếp"
+      ]
+    },
+    {
+      "index": 299,
+      "question": "lực lượng quân sự vũ trang đang ở đâu",
+      "prediction": "Trên đường",
+      "ground_truths": [
+        "xe tải"
+      ]
+    },
+    {
+      "index": 300,
+      "question": "người phụ nữ chụp một bức ảnh của mình ở đâu",
+      "prediction": "Trong phòng",
+      "ground_truths": [
+        "gương"
+      ]
+    },
+    {
+      "index": 301,
+      "question": "bồn vệ sinh được trưng bày ở đâu",
+      "prediction": "Trên kệ",
+      "ground_truths": [
+        "cửa hàng"
+      ]
+    },
+    {
+      "index": 302,
+      "question": "nhà vệ sinh trắng ở đâu",
+      "prediction": "Trong một căn phòng",
+      "ground_truths": [
+        "phòng tắm"
+      ]
+    },
+    {
+      "index": 303,
+      "question": "hai con hươu cao cổ đứng cạnh nhau ở đâu",
+      "prediction": "Trên cánh đồng cỏ",
+      "ground_truths": [
+        "chuồng"
+      ]
+    },
+    {
+      "index": 304,
+      "question": "nhóm người đang ở đâu",
+      "prediction": "Trong phòng ngủ",
+      "ground_truths": [
+        "phòng"
+      ]
+    },
+    {
+      "index": 305,
+      "question": "hai nhà vệ sinh đặt ở đâu",
+      "prediction": "Trong một căn phòng",
+      "ground_truths": [
+        "phòng"
+      ]
+    },
+    {
+      "index": 306,
+      "question": "con bò rúc vào một con bê con ở đâu",
+      "prediction": "Trên thảm cỏ",
+      "ground_truths": [
+        "chuồng trại"
+      ]
+    },
+    {
+      "index": 307,
+      "question": "con gấu em bé đang lang thang ở đâu",
+      "prediction": "Trong một khu vườn",
+      "ground_truths": [
+        "sân"
+      ]
+    },
+    {
+      "index": 308,
+      "question": "bốn người đang chơi một bảng điều khiển nintendo wii ở đâu",
+      "prediction": "Trên bàn làm việc",
+      "ground_truths": [
+        "phòng"
+      ]
+    },
+    {
+      "index": 309,
+      "question": "người phụ nữ đặt chảo ở đâu",
+      "prediction": "Trên bếp",
+      "ground_truths": [
+        "lò vi sóng"
+      ]
+    },
+    {
+      "index": 310,
+      "question": "người đàn ông đang ngồi ở đâu",
+      "prediction": "Trên ghế",
+      "ground_truths": [
+        "cái ghế"
+      ]
+    },
+    {
+      "index": 311,
+      "question": "cậu bé đọc một cuốn sách ở đâu",
+      "prediction": "Trên giường",
+      "ground_truths": [
+        "giường"
+      ]
+    },
+    {
+      "index": 312,
+      "question": "gạo, trái cây và rau quả ở đâu",
+      "prediction": "Trong hộp",
+      "ground_truths": [
+        "cái mâm"
+      ]
+    },
+    {
+      "index": 313,
+      "question": "bông hoa hồng ở đâu",
+      "prediction": "Trên bàn gỗ",
+      "ground_truths": [
+        "lọ cắm hoa"
+      ]
+    },
+    {
+      "index": 314,
+      "question": "bộ thang leo ở đâu",
+      "prediction": "Trên tường",
+      "ground_truths": [
+        "phòng bếp"
+      ]
+    },
+    {
+      "index": 315,
+      "question": "cậu bé đang tập đi bóng chày ở đâu",
+      "prediction": "Trong sân bóng chày",
+      "ground_truths": [
+        "lồng"
+      ]
+    },
+    {
+      "index": 316,
+      "question": "xe đạp và xe máy đã xếp hàng ở đâu",
+      "prediction": "Trong một căn phòng",
+      "ground_truths": [
+        "tòa nhà"
+      ]
+    },
+    {
+      "index": 317,
+      "question": "xe buýt thành phố dừng lại ở đâu",
+      "prediction": "Trên đường phố",
+      "ground_truths": [
+        "vạch kẻ đường"
+      ]
+    },
+    {
+      "index": 318,
+      "question": "những trái chuối nằm ở đâu",
+      "prediction": "Trên một chiếc xe",
+      "ground_truths": [
+        "cái rổ"
+      ]
+    },
+    {
+      "index": 319,
+      "question": "bánh mì được chứa ở đâu",
+      "prediction": "Trên bàn",
+      "ground_truths": [
+        "hộp"
+      ]
+    },
+    {
+      "index": 320,
+      "question": "trẻ mới biết đi ở đâu",
+      "prediction": "Để tìm thấy bạn",
+      "ground_truths": [
+        "giường"
+      ]
+    },
+    {
+      "index": 321,
+      "question": "người đàn ông mặc một chiếc áo len trắng đang ngồi ở đâu",
+      "prediction": "Trên bàn làm việc",
+      "ground_truths": [
+        "cái ghế"
+      ]
+    },
+    {
+      "index": 322,
+      "question": "con mèo đen màu ngồi ở đâu",
+      "prediction": "Trên mặt đất",
+      "ground_truths": [
+        "sân vườn"
+      ]
+    },
+    {
+      "index": 323,
+      "question": "bồn cầu ngồi xổm đặt ở đâu",
+      "prediction": "Trong một phòng",
+      "ground_truths": [
+        "sàn nhà"
+      ]
+    },
+    {
+      "index": 324,
+      "question": "pizza nhiều topping ở đâu",
+      "prediction": "Trên lò vi sóng",
+      "ground_truths": [
+        "lò vi sóng"
+      ]
+    },
+    {
+      "index": 325,
+      "question": "người đàn ông ở đâu với một khuôn mặt đỏ và trắng",
+      "prediction": "Trên đường phố",
+      "ground_truths": [
+        "đường phố"
+      ]
+    },
+    {
+      "index": 326,
+      "question": "bồn vệ sinh với gạch màu xanh ở đâu",
+      "prediction": "Trong một căn phòng",
+      "ground_truths": [
+        "nhà vệ sinh"
+      ]
+    },
+    {
+      "index": 327,
+      "question": "người đàn ông trên một con ngựa đối mặt một con bò đực ở đâu",
+      "prediction": "Trên sân đấu",
+      "ground_truths": [
+        "sân vận động"
+      ]
+    },
+    {
+      "index": 328,
+      "question": "người đàn ông nấu pizza ở đâu",
+      "prediction": "Trong nhà bếp",
+      "ground_truths": [
+        "lò vi sóng"
+      ]
+    },
+    {
+      "index": 329,
+      "question": "nhà vệ sinh trắng và vách tắm bằng kính ở đâu",
+      "prediction": "Trong một căn phòng",
+      "ground_truths": [
+        "phòng tắm"
+      ]
+    },
+    {
+      "index": 330,
+      "question": "người phụ nữ giúp một người lên chiếc xe buýt khổng lồ ở đâu",
+      "prediction": "Trên vỉa hè",
+      "ground_truths": [
+        "xe lăn"
+      ]
+    },
+    {
+      "index": 331,
+      "question": "người đàn ông làm việc đang tạo ra một ván lướt sóng ở đâu",
+      "prediction": "Trong một căn phòng",
+      "ground_truths": [
+        "cửa tiệm"
+      ]
+    },
+    {
+      "index": 332,
+      "question": "hai con hươu cao cổ đang ở đâu",
+      "prediction": "Trên cánh đồng cỏ",
+      "ground_truths": [
+        "rào chắn"
+      ]
+    },
+    {
+      "index": 333,
+      "question": "hai động cơ đang đỗ ở đâu",
+      "prediction": "Trong một chiếc xe máy",
+      "ground_truths": [
+        "ga-ra"
+      ]
+    },
+    {
+      "index": 334,
+      "question": "cậu bé ngồi ở đâu",
+      "prediction": "Trong phòng",
+      "ground_truths": [
+        "cái ghế"
+      ]
+    },
+    {
+      "index": 335,
+      "question": "một số người nói chuyện ở đâu",
+      "prediction": "Trong hang động",
+      "ground_truths": [
+        "ga-ra"
+      ]
+    },
+    {
+      "index": 336,
+      "question": "mặt phẳng trắng, cam và đỏ còn lại ở đâu",
+      "prediction": "Trên cánh máy bay",
+      "ground_truths": [
+        "sân bay"
+      ]
+    },
+    {
+      "index": 337,
+      "question": "bánh pizza nằm ở đâu",
+      "prediction": "Trên đĩa",
+      "ground_truths": [
+        "chảo"
+      ]
+    },
+    {
+      "index": 338,
+      "question": "xe vận chuyển công cộng màu xanh ở đâu với chi tiết màu vàng và thiết kế",
+      "prediction": "Trong thành phố",
+      "ground_truths": [
+        "đường phố"
+      ]
+    },
+    {
+      "index": 339,
+      "question": "phía trước của một công viên xe máy ở đâu",
+      "prediction": "Trên một chiếc xe máy",
+      "ground_truths": [
+        "ga-ra"
+      ]
+    },
+    {
+      "index": 340,
+      "question": "một chiếc giường trống trắng nằm ở đâu",
+      "prediction": "Trên tường",
+      "ground_truths": [
+        "phòng ngủ"
+      ]
+    },
+    {
+      "index": 341,
+      "question": "một con mèo đen trưởng thành ở đâu",
+      "prediction": "Trong một chiếc ghế",
+      "ground_truths": [
+        "giường"
+      ]
+    },
+    {
+      "index": 342,
+      "question": "hai chuyến tàu có đầy đủ người ở đâu",
+      "prediction": "Trên đường ray",
+      "ground_truths": [
+        "trạm"
+      ]
+    },
+    {
+      "index": 343,
+      "question": "người đàn ông chuẩn bị một bữa ăn ở đâu",
+      "prediction": "Trong nhà bếp",
+      "ground_truths": [
+        "phòng bếp"
+      ]
+    },
+    {
+      "index": 344,
+      "question": "người đàn ông đang ăn một con chó lớn ở đâu",
+      "prediction": "Trên đường phố",
+      "ground_truths": [
+        "đường phố"
+      ]
+    },
+    {
+      "index": 345,
+      "question": "con gấu đang ở đâu",
+      "prediction": "Trong tủ kính",
+      "ground_truths": [
+        "thư viện"
+      ]
+    },
+    {
+      "index": 346,
+      "question": "cặp vợ chồng ở đâu",
+      "prediction": "Trên một chiếc thuyền",
+      "ground_truths": [
+        "con thuyền"
+      ]
+    },
+    {
+      "index": 347,
+      "question": "vài con gấu nhồi bông đang ngồi ở đâu",
+      "prediction": "Trên kệ gỗ",
+      "ground_truths": [
+        "phòng"
+      ]
+    },
+    {
+      "index": 348,
+      "question": "cặp vợ chồng nằm ở đâu",
+      "prediction": "Trên giường",
+      "ground_truths": [
+        "giường"
+      ]
+    },
+    {
+      "index": 349,
+      "question": "cừu và dê ăn thức ăn ở đâu",
+      "prediction": "Trong chuồng",
+      "ground_truths": [
+        "chuồng"
+      ]
+    },
+    {
+      "index": 350,
+      "question": "cặp vợ chồng đang ngồi ở đâu",
+      "prediction": "Trên một chiếc thuyền",
+      "ground_truths": [
+        "con thuyền"
+      ]
+    },
+    {
+      "index": 351,
+      "question": "một số chuối xanh treo ở đâu",
+      "prediction": "Trên giá",
+      "ground_truths": [
+        "tòa nhà"
+      ]
+    },
+    {
+      "index": 352,
+      "question": "gấu lớn ngồi ở đâu",
+      "prediction": "Trên ghế",
+      "ground_truths": [
+        "cái ghế"
+      ]
+    },
+    {
+      "index": 353,
+      "question": "tranh treo ở đâu",
+      "prediction": "Trên tường",
+      "ground_truths": [
+        "phòng tắm"
+      ]
+    },
+    {
+      "index": 354,
+      "question": "hai đầu bếp đang chuẩn bị thức ăn ở đâu",
+      "prediction": "Trong nhà bếp",
+      "ground_truths": [
+        "phòng bếp"
+      ]
+    },
+    {
+      "index": 355,
+      "question": "người phụ nữ đang làm việc ở đâu",
+      "prediction": "Trong nhà bếp",
+      "ground_truths": [
+        "phòng bếp"
+      ]
+    },
+    {
+      "index": 356,
+      "question": "nhà vệ sinh trắng ở đâu",
+      "prediction": "Trong một căn phòng",
+      "ground_truths": [
+        "vòi hoa sen"
+      ]
+    },
+    {
+      "index": 357,
+      "question": "ván trượt cậu bé đã ở đâu",
+      "prediction": "Trong một cái bể trượt",
+      "ground_truths": [
+        "hồ bơi"
+      ]
+    },
+    {
+      "index": 358,
+      "question": "con mèo đang ngủ trưa ở đâu",
+      "prediction": "Trong hộp",
+      "ground_truths": [
+        "ngăn kéo"
+      ]
+    },
+    {
+      "index": 359,
+      "question": "giường lớn ở đâu",
+      "prediction": "Trong phòng khách",
+      "ground_truths": [
+        "phòng"
+      ]
+    },
+    {
+      "index": 360,
+      "question": "người phụ nữ sử dụng máy tính xách tay ở đâu",
+      "prediction": "Trong phòng ngủ",
+      "ground_truths": [
+        "phòng"
+      ]
+    },
+    {
+      "index": 361,
+      "question": "người chơi tennis nữ đang ở đâu",
+      "prediction": "Trên sân tennis",
+      "ground_truths": [
+        "cái ghế"
+      ]
+    },
+    {
+      "index": 362,
+      "question": "người đi xe đạp của họ ở đâu",
+      "prediction": "Trên vỉa hè",
+      "ground_truths": [
+        "đường"
+      ]
+    },
+    {
+      "index": 363,
+      "question": "những con hươu cao cổ bị nhốt ở đâu",
+      "prediction": "Trên một bức tường",
+      "ground_truths": [
+        "lồng"
+      ]
+    },
+    {
+      "index": 364,
+      "question": "tín hiệu giao thông nằm ở đâu",
+      "prediction": "Trên đường",
+      "ground_truths": [
+        "đường phố"
+      ]
+    },
+    {
+      "index": 365,
+      "question": "bạch đàn đột biến màu xanh và tím ở đâu",
+      "prediction": "Trên một cây",
+      "ground_truths": [
+        "lọ cắm hoa"
+      ]
+    },
+    {
+      "index": 366,
+      "question": "chuối, cam và chanh nằm ở đâu",
+      "prediction": "Trên một chiếc đĩa",
+      "ground_truths": [
+        "cái rổ"
+      ]
+    },
+    {
+      "index": 367,
+      "question": "hai bồn tiểu ở đâu trên sàn và một người đàn ông đang chụp ảnh",
+      "prediction": "Trên sàn nhà",
+      "ground_truths": [
+        "gương"
+      ]
+    },
+    {
+      "index": 368,
+      "question": "người đàn ông mặc đồng phục bóng chày sọc cầm gậy ở đâu",
+      "prediction": "Trên sân bóng chày",
+      "ground_truths": [
+        "chuồng"
+      ]
+    },
+    {
+      "index": 369,
+      "question": "người chụp một hình ảnh của mình ở đâu",
+      "prediction": "Trong tủ",
+      "ground_truths": [
+        "gương"
+      ]
+    },
+    {
+      "index": 370,
+      "question": "đầu bếp chuẩn bị thức ăn ở đâu",
+      "prediction": "Trên bàn làm việc",
+      "ground_truths": [
+        "phòng bếp"
+      ]
+    },
+    {
+      "index": 371,
+      "question": "cánh quạt máy bay đang ở đâu",
+      "prediction": "Trong nhà ga",
+      "ground_truths": [
+        "tòa nhà"
+      ]
+    },
+    {
+      "index": 372,
+      "question": "miếng bánh pizza bông cải xanh nằm ở đâu",
+      "prediction": "Trên hộp pizza",
+      "ground_truths": [
+        "hộp"
+      ]
+    },
+    {
+      "index": 373,
+      "question": "gấu bông ngồi ở đâu",
+      "prediction": "Trên ghế",
+      "ground_truths": [
+        "cái ghế"
+      ]
+    },
+    {
+      "index": 374,
+      "question": "xe đang di chuyển ở đâu",
+      "prediction": "Trên đường",
+      "ground_truths": [
+        "đường phố"
+      ]
+    },
+    {
+      "index": 375,
+      "question": "con mèo nhiều màu ở đâu",
+      "prediction": "Trên ghế",
+      "ground_truths": [
+        "cái ghế"
+      ]
+    },
+    {
+      "index": 376,
+      "question": "những chiếc nồi và chảo treo lên ở đâu",
+      "prediction": "Trên tường",
+      "ground_truths": [
+        "phòng bếp"
+      ]
+    },
+    {
+      "index": 377,
+      "question": "tủ lạnh và lò vi sóng đặt ở đâu",
+      "prediction": "Trên tường",
+      "ground_truths": [
+        "phòng ngủ"
+      ]
+    },
+    {
+      "index": 378,
+      "question": "ngựa vằn và tê giác ăn ở đâu",
+      "prediction": "Trên cỏ",
+      "ground_truths": [
+        "chuồng"
+      ]
+    },
+    {
+      "index": 379,
+      "question": "đứa trẻ đang tập đánh bóng ở đâu",
+      "prediction": "Trong một chiếc ô",
+      "ground_truths": [
+        "lồng"
+      ]
+    },
+    {
+      "index": 380,
+      "question": "con chó đã sẵn sàng để nằm xuống đâu",
+      "prediction": "Trên chiếc ghế",
+      "ground_truths": [
+        "giường"
+      ]
+    },
+    {
+      "index": 381,
+      "question": "chuối nằm ở đâu",
+      "prediction": "Trong một cái bồn",
+      "ground_truths": [
+        "bát"
+      ]
+    },
+    {
+      "index": 382,
+      "question": "người đàn ông đứng gần một chiếc xe buýt trên một đêm sương mù",
+      "prediction": "Có vẻ như anh ta đang chờ xe",
+      "ground_truths": [
+        "áo vest"
+      ]
+    },
+    {
+      "index": 383,
+      "question": "người phụ nữ đứng cạnh một con gấu kích thước thật ở đâu",
+      "prediction": "Trên một kệ hàng",
+      "ground_truths": [
+        "cửa hàng"
+      ]
+    },
+    {
+      "index": 384,
+      "question": "người phụ nữ đang đi xe đạp ở đâu",
+      "prediction": "Trên đường phố",
+      "ground_truths": [
+        "đường phố"
+      ]
+    },
+    {
+      "index": 385,
+      "question": "cặp vợ chồng đứng ở đâu",
+      "prediction": "Trong vườn thú",
+      "ground_truths": [
+        "chuồng"
+      ]
+    },
+    {
+      "index": 386,
+      "question": "người đàn ông đang ngồi ở đâu",
+      "prediction": "Trên giường",
+      "ground_truths": [
+        "phòng ngủ"
+      ]
+    },
+    {
+      "index": 387,
+      "question": "hai đứa trẻ đang nằm ở đâu",
+      "prediction": "Trên giường",
+      "ground_truths": [
+        "giường"
+      ]
+    },
+    {
+      "index": 388,
+      "question": "cô bé đang ngồi ở đâu",
+      "prediction": "Trong một chiếc kéo",
+      "ground_truths": [
+        "vali"
+      ]
+    },
+    {
+      "index": 389,
+      "question": "người phụ nữ đang đứng ở đâu khi uống đồ uống",
+      "prediction": "Trong bồn rửa mặt",
+      "ground_truths": [
+        "nhà vệ sinh"
+      ]
+    },
+    {
+      "index": 390,
+      "question": "những con chim dường như đang ở đâu",
+      "prediction": "Trong một căn phòng",
+      "ground_truths": [
+        "phòng"
+      ]
+    },
+    {
+      "index": 391,
+      "question": "giường đơn đặt ở đâu",
+      "prediction": "Trên bàn ghế",
+      "ground_truths": [
+        "phòng"
+      ]
+    },
+    {
+      "index": 392,
+      "question": "tủ lạnh đen trông hơi nhòe ở đâu",
+      "prediction": "Trên kệ bếp",
+      "ground_truths": [
+        "phòng bếp"
+      ]
+    },
+    {
+      "index": 393,
+      "question": "bồn tắm cũ rỉ sét ngồi ở đâu",
+      "prediction": "Trong một căn phòng",
+      "ground_truths": [
+        "phòng tắm"
+      ]
+    },
+    {
+      "index": 394,
+      "question": "hai lò nướng được xếp chồng lên nhau ở đâu",
+      "prediction": "Trên bàn bếp",
+      "ground_truths": [
+        "phòng bếp"
+      ]
+    },
+    {
+      "index": 395,
+      "question": "nơi thuyền đánh cá neo đậu",
+      "prediction": "Trong một khu vực",
+      "ground_truths": [
+        "bến du thuyền"
+      ]
+    },
+    {
+      "index": 396,
+      "question": "xe ô-tô chạy ngang qua đâu",
+      "prediction": "Trong cửa hàng",
+      "ground_truths": [
+        "cửa sổ"
+      ]
+    },
+    {
+      "index": 397,
+      "question": "người đàn ông đang mặc một bộ đồ và kính râm nằm ở đâu",
+      "prediction": "Trên ghế sau",
+      "ground_truths": [
+        "xe ô tô"
+      ]
+    },
+    {
+      "index": 398,
+      "question": "giường đôi với tấm kéo xuống ở đâu",
+      "prediction": "Trên giường",
+      "ground_truths": [
+        "phòng ngủ"
+      ]
+    },
+    {
+      "index": 399,
+      "question": "nhà vệ sinh đang được sửa chữa ở đâu",
+      "prediction": "Trong một căn phòng",
+      "ground_truths": [
+        "phòng tắm"
+      ]
+    },
+    {
+      "index": 400,
+      "question": "dấu hiệu dừng hình nón nằm ở đâu",
+      "prediction": "Trên một con đường",
+      "ground_truths": [
+        "đường bộ"
+      ]
+    },
+    {
+      "index": 401,
+      "question": "người đàn ông đang di chuyển tủ lạnh ở đâu",
+      "prediction": "Trong nhà",
+      "ground_truths": [
+        "tòa nhà"
+      ]
+    },
+    {
+      "index": 402,
+      "question": "con mèo nhỏ đang ngồi ở đâu",
+      "prediction": "Trên bàn gỗ",
+      "ground_truths": [
+        "bát"
+      ]
+    },
+    {
+      "index": 403,
+      "question": "có bao nhiêu con ngựa vằn đứng trong nhóm gần một đám bụi",
+      "prediction": "Bốn con ngựa vằn",
+      "ground_truths": [
+        "năm"
+      ]
+    },
+    {
+      "index": 404,
+      "question": "có bao nhiêu ván trượt tuyết đang dựa vào bức tường gỗ",
+      "prediction": "Bốn ván",
+      "ground_truths": [
+        "sáu"
+      ]
+    },
+    {
+      "index": 405,
+      "question": "bao nhiêu người đàn ông đang chia sẻ nụ hôn thân mật bên trong một tòa nhà",
+      "prediction": "Hai người",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 406,
+      "question": "có bao nhiêu chiếc máy bay trong không trung có khói bay ra từ họ",
+      "prediction": "Sáu chiếc",
+      "ground_truths": [
+        "bốn"
+      ]
+    },
+    {
+      "index": 407,
+      "question": "có bao nhiêu miếng trái cây trên đĩa",
+      "prediction": "Một miếng",
+      "ground_truths": [
+        "một"
+      ]
+    },
+    {
+      "index": 408,
+      "question": "có bao nhiêu cô gái đang chơi trò chơi điện tử bằng vô lăng không dây",
+      "prediction": "Hai cô gái",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 409,
+      "question": "tòa nhà có bao nhiêu tầng với cây cô đơn trước tòa nhà",
+      "prediction": "Một tầng",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 410,
+      "question": "có bao nhiêu người trên lưng ngựa nuôi ngựa",
+      "prediction": "Hai người",
+      "ground_truths": [
+        "ba"
+      ]
+    },
+    {
+      "index": 411,
+      "question": "có bao nhiêu con hươu cao cổ lớn đang ăn thức ăn tại một cuộc triển lãm ở sở thú",
+      "prediction": "Hai con",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 412,
+      "question": "có bao nhiêu con voi đang đứng bên một thác nước do người đàn ông tạo ra",
+      "prediction": "Hai con voi",
+      "ground_truths": [
+        "ba"
+      ]
+    },
+    {
+      "index": 413,
+      "question": "có bao nhiêu con cừu trắng đang nhìn vào máy ảnh với bầu trời trong nền",
+      "prediction": "Ba con",
+      "ground_truths": [
+        "ba"
+      ]
+    },
+    {
+      "index": 414,
+      "question": "có bao nhiêu người đàn ông ngồi ở bàn gỗ đang thảo luận về các vấn đề",
+      "prediction": "Bốn người",
+      "ground_truths": [
+        "năm"
+      ]
+    },
+    {
+      "index": 415,
+      "question": "ban ngày có bao nhiêu người đàn ông cầm ván lướt sóng trên bãi biển",
+      "prediction": "Ba người",
+      "ground_truths": [
+        "ba"
+      ]
+    },
+    {
+      "index": 416,
+      "question": "có bao nhiêu nam thanh niên đang lướt ván buồm trên biển",
+      "prediction": "Hai nam thanh niên",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 417,
+      "question": "có bao nhiêu người với bàn tay của họ trên một lò nung ngoài trời",
+      "prediction": "Hai người",
+      "ground_truths": [
+        "sáu"
+      ]
+    },
+    {
+      "index": 418,
+      "question": "có bao nhiêu đứa trẻ tranh giành quyền kiểm soát bóng trong một trận đấu bóng đá",
+      "prediction": "Hai đứa trẻ",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 419,
+      "question": "có bao nhiêu chiếc máy bay đang bay trên bầu trời như một phần của chương trình phát sóng",
+      "prediction": "Sáu chiếc",
+      "ground_truths": [
+        "bốn"
+      ]
+    },
+    {
+      "index": 420,
+      "question": "có bao nhiêu con bò nâu theo một con chó chăn gia súc lớn và trắng qua một khu rừng rậm",
+      "prediction": "Hai con",
+      "ground_truths": [
+        "bốn"
+      ]
+    },
+    {
+      "index": 421,
+      "question": "có bao nhiêu điện thoại nằm trên một tấm chăn màu cam",
+      "prediction": "Ba",
+      "ground_truths": [
+        "ba"
+      ]
+    },
+    {
+      "index": 422,
+      "question": "có bao nhiêu cô gái đang xoay tròn với cây gậy bóng chày",
+      "prediction": "Hai cô gái",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 423,
+      "question": "có bao nhiêu góc nhìn khác nhau của một tòa nhà với cột, gác chuông",
+      "prediction": "Ba",
+      "ground_truths": [
+        "bốn"
+      ]
+    },
+    {
+      "index": 424,
+      "question": "có bao nhiêu biến thể của điện thoại di động đang ngồi trên bàn",
+      "prediction": "Ba",
+      "ground_truths": [
+        "năm"
+      ]
+    },
+    {
+      "index": 425,
+      "question": "có bao nhiêu đĩa lớn màu trắng chứa đầy rau củ ngồi làm tổ với một chai rượu vang và những ly rượu nhỏ",
+      "prediction": "Hai đĩa",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 426,
+      "question": "có bao nhiêu bức ảnh thể hiện các bộ phận khác nhau của một tòa nhà",
+      "prediction": "Ba bức ảnh",
+      "ground_truths": [
+        "ba"
+      ]
+    },
+    {
+      "index": 427,
+      "question": "có bao nhiêu người mặc trang phục gần một vùng nước",
+      "prediction": "Ba người",
+      "ground_truths": [
+        "bốn"
+      ]
+    },
+    {
+      "index": 428,
+      "question": "có bao nhiêu con gấu trong chuồng gấu",
+      "prediction": "Hai con gấu",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 429,
+      "question": "có bao nhiêu người trượt tuyết đang tạo dáng cho bức ảnh",
+      "prediction": "Bốn người",
+      "ground_truths": [
+        "bốn"
+      ]
+    },
+    {
+      "index": 430,
+      "question": "có bao nhiêu con ngựa đang kéo một người đàn ông trên máy kéo trên đất nông nghiệp",
+      "prediction": "Một con ngựa",
+      "ground_truths": [
+        "sáu"
+      ]
+    },
+    {
+      "index": 431,
+      "question": "có bao nhiêu bức ảnh chụp các cô gái đang quay mặt vào máy ảnh",
+      "prediction": "Hai bức ảnh",
+      "ground_truths": [
+        "ba"
+      ]
+    },
+    {
+      "index": 432,
+      "question": "có bao nhiêu người trong áo vest màu vàng trên xe máy đang cưỡi trên đường phố",
+      "prediction": "Một nhóm",
+      "ground_truths": [
+        "ba"
+      ]
+    },
+    {
+      "index": 433,
+      "question": "có bao nhiêu con voi di chuyển ngược chiều gần một cái hố tưới nước",
+      "prediction": "Hai con voi",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 434,
+      "question": "có bao nhiêu con voi biểu diễn trò lừa bịp cho một đám đông",
+      "prediction": "Bốn con voi",
+      "ground_truths": [
+        "bốn"
+      ]
+    },
+    {
+      "index": 435,
+      "question": "có bao nhiêu người đàn ông đang ngồi trước cửa sổ quay lưng lại",
+      "prediction": "Hai người",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 436,
+      "question": "có bao nhiêu trang trình bày bánh pizza trên đĩa giấy ngồi gần nhau",
+      "prediction": "Hai trang",
+      "ground_truths": [
+        "ba"
+      ]
+    },
+    {
+      "index": 437,
+      "question": "có bao nhiêu bộ khăn tắm được đặt dưới chân giường",
+      "prediction": "Hai bộ",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 438,
+      "question": "có bao nhiêu người đàn ông trên một chiếc thuyền hoover trong nước",
+      "prediction": "Một nhóm người",
+      "ground_truths": [
+        "sáu"
+      ]
+    },
+    {
+      "index": 439,
+      "question": "có bao nhiêu con hươu cao cổ đang ăn từ máng ăn lơ lửng",
+      "prediction": "Hai con",
+      "ground_truths": [
+        "năm"
+      ]
+    },
+    {
+      "index": 440,
+      "question": "có bao nhiêu phụ nữ đang ở trong bếp đóng băng thương mại",
+      "prediction": "Hai phụ nữ",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 441,
+      "question": "bao nhiêu đường chỉ dẫn tại giao lộ của madison st. và đại lộ 1",
+      "prediction": "Hai",
+      "ground_truths": [
+        "một"
+      ]
+    },
+    {
+      "index": 442,
+      "question": "có bao nhiêu phụ nữ đang nói chuyện trong mưa bên ngoài",
+      "prediction": "Hai phụ nữ",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 443,
+      "question": "có bao nhiêu con gấu bông đang ngồi trên sàn nhà",
+      "prediction": "Hai con gấu bông",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 444,
+      "question": "có bao nhiêu chiếc thuyền màu xanh đang ngồi cạnh một cái lán nhỏ",
+      "prediction": "Một chiếc",
+      "ground_truths": [
+        "ba"
+      ]
+    },
+    {
+      "index": 445,
+      "question": "có bao nhiêu kế hoạch hai chiến tranh thế giới cổ điển ngồi trên đường băng",
+      "prediction": "Ba chiếc",
+      "ground_truths": [
+        "ba"
+      ]
+    },
+    {
+      "index": 446,
+      "question": "có bao nhiêu người ngồi trên chiếc ghế dài chơi game trên wii",
+      "prediction": "Hai người",
+      "ground_truths": [
+        "bốn"
+      ]
+    },
+    {
+      "index": 447,
+      "question": "có bao nhiêu con ngựa vằn đi dạo quanh một cái chuồng vào một ngày nắng đẹp",
+      "prediction": "Hai con ngựa vằn",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 448,
+      "question": "có bao nhiêu chảo pizza với vài lát bánh pizza trên đó",
+      "prediction": "Hai chảo",
+      "ground_truths": [
+        "bốn"
+      ]
+    },
+    {
+      "index": 449,
+      "question": "có bao nhiêu con ngựa trên cánh đồng trên một bụi cây",
+      "prediction": "Hai con ngựa",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 450,
+      "question": "có bao nhiêu con chim đứng trên một cái ống lớn gỉ sét với một chiếc thuyền ở phía xa",
+      "prediction": "Bốn con",
+      "ground_truths": [
+        "bốn"
+      ]
+    },
+    {
+      "index": 451,
+      "question": "có bao nhiêu đứa trẻ đang chơi với những con diều trên bãi cỏ",
+      "prediction": "Một nhóm trẻ",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 452,
+      "question": "có bao nhiêu con ngựa vằn pha trộn vào bụi cây và cây cối",
+      "prediction": "Hai con",
+      "ground_truths": [
+        "bốn"
+      ]
+    },
+    {
+      "index": 453,
+      "question": "có bao nhiêu con hươu cao cổ đang đi dạo trên cánh đồng",
+      "prediction": "Ba con",
+      "ground_truths": [
+        "ba"
+      ]
+    },
+    {
+      "index": 454,
+      "question": "có bao nhiêu máy bay đóng thế yak-11 trình diễn tại một triển lãm hàng không",
+      "prediction": "Bốn máy bay",
+      "ground_truths": [
+        "ba"
+      ]
+    },
+    {
+      "index": 455,
+      "question": "có bao nhiêu bát sản phẩm sữa đang ngồi trên bàn",
+      "prediction": "Ba bát",
+      "ground_truths": [
+        "ba"
+      ]
+    },
+    {
+      "index": 456,
+      "question": "có bao nhiêu con voi đang đứng cạnh nhau với người ngồi trên chúng và một con voi cắm cỏ trong thân",
+      "prediction": "Một con voi cắm cỏ",
+      "ground_truths": [
+        "bốn"
+      ]
+    },
+    {
+      "index": 457,
+      "question": "có bao nhiêu con ngựa đã bị buộc vào cột",
+      "prediction": "Ba con ngựa",
+      "ground_truths": [
+        "bốn"
+      ]
+    },
+    {
+      "index": 458,
+      "question": "có bao nhiêu con ngựa lớn ăn cỏ cạnh nhau",
+      "prediction": "Một con",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 459,
+      "question": "có bao nhiêu chàng trai đang chơi một trò chơi trong sân",
+      "prediction": "Hai chàng trai",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 460,
+      "question": "có bao nhiêu người đàn ông trên xe đạp đang lái xe dưới đường chuyền",
+      "prediction": "Hai người",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 461,
+      "question": "có bao nhiêu tảng đá có một bảng chỉ đường khác trên đó",
+      "prediction": "Hai tảng đá",
+      "ground_truths": [
+        "một"
+      ]
+    },
+    {
+      "index": 462,
+      "question": "có bao nhiêu bánh được tải với nhiều thực phẩm và gia vị khác nhau",
+      "prediction": "Bốn bánh",
+      "ground_truths": [
+        "chín"
+      ]
+    },
+    {
+      "index": 463,
+      "question": "có bao nhiêu con mòng biển đang đậu trên đường ống rỉ sét",
+      "prediction": "Nhiều con",
+      "ground_truths": [
+        "bốn"
+      ]
+    },
+    {
+      "index": 464,
+      "question": "có bao nhiêu cậu bé chơi bóng chày trên sân có hàng rào xung quanh",
+      "prediction": "Hai cậu bé",
+      "ground_truths": [
+        "ba"
+      ]
+    },
+    {
+      "index": 465,
+      "question": "có bao nhiêu con vịt cùng nhau bơi qua vùng nước",
+      "prediction": "Hai con",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 466,
+      "question": "trên bàn màu nâu có bao nhiêu ly với rượu",
+      "prediction": "Hai ly",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 467,
+      "question": "có bao nhiêu bánh rán có hương vị khác nhau ngồi trên bàn cạnh một tách cà phê",
+      "prediction": "Hai bánh",
+      "ground_truths": [
+        "ba"
+      ]
+    },
+    {
+      "index": 468,
+      "question": "có bao nhiêu quả chuối đang đặt trên mặt đất gần chân hai người",
+      "prediction": "Một quả",
+      "ground_truths": [
+        "ba"
+      ]
+    },
+    {
+      "index": 469,
+      "question": "có bao nhiêu vòng quay động cơ đậu cạnh nhau trước một tòa nhà",
+      "prediction": "Nhiều vòng quay",
+      "ground_truths": [
+        "mười"
+      ]
+    },
+    {
+      "index": 470,
+      "question": "có bao nhiêu bóng của người trượt tuyết trên dốc tuyết",
+      "prediction": "Hai bóng",
+      "ground_truths": [
+        "sáu"
+      ]
+    },
+    {
+      "index": 471,
+      "question": "có bao nhiêu con cừu ở trong hàng rào trong khu vực cỏ",
+      "prediction": "Hai con",
+      "ground_truths": [
+        "bốn"
+      ]
+    },
+    {
+      "index": 472,
+      "question": "có bao nhiêu con gấu đen lớn trên xe hơi",
+      "prediction": "Hai con",
+      "ground_truths": [
+        "ba"
+      ]
+    },
+    {
+      "index": 473,
+      "question": "có bao nhiêu con bò đứng trong đống đất bẩn trong chuồng",
+      "prediction": "Hai con bò",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 474,
+      "question": "có bao nhiêu cậu bé đang trượt ván trên đường phố",
+      "prediction": "Bốn cậu bé",
+      "ground_truths": [
+        "năm"
+      ]
+    },
+    {
+      "index": 475,
+      "question": "có bao nhiêu đĩa pizza phủ phô mai và rau",
+      "prediction": "Hai đĩa",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 476,
+      "question": "có bao nhiêu cao bồi đứng đội mũ cao bồi gần ngựa của họ",
+      "prediction": "Hai cao bồi",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 477,
+      "question": "đồng hồ chiếm bao nhiêu mặt của tòa tháp của tòa nhà này",
+      "prediction": "Một mặt",
+      "ground_truths": [
+        "bốn"
+      ]
+    },
+    {
+      "index": 478,
+      "question": "có bao nhiêu con ngựa đang kéo toa xe màu đỏ trên đường phố",
+      "prediction": "Hai con ngựa",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 479,
+      "question": "có bao nhiêu con dê đang leo lên ngọn núi nâu",
+      "prediction": "Ba con",
+      "ground_truths": [
+        "ba"
+      ]
+    },
+    {
+      "index": 480,
+      "question": "có bao nhiêu người chơi quần vợt trông giống nhau trong bức ảnh cũ này",
+      "prediction": "Hai người",
+      "ground_truths": [
+        "năm"
+      ]
+    },
+    {
+      "index": 481,
+      "question": "có bao nhiêu mặt phẳng đang bay thẳng với khói trắng",
+      "prediction": "Ba mặt phẳng",
+      "ground_truths": [
+        "bốn"
+      ]
+    },
+    {
+      "index": 482,
+      "question": "có bao nhiêu con ngựa vằn đi qua cánh đồng xanh trên một đường thẳng",
+      "prediction": "Bốn con ngựa vằn",
+      "ground_truths": [
+        "bốn"
+      ]
+    },
+    {
+      "index": 483,
+      "question": "có bao nhiêu người đàn ông trong nhà bếp, hai người đang ngồi trên quầy",
+      "prediction": "Hai người",
+      "ground_truths": [
+        "năm"
+      ]
+    },
+    {
+      "index": 484,
+      "question": "có bao nhiêu phụ nữ đang làm khuôn mặt đáng sợ và cầm vợt tennis",
+      "prediction": "Hai phụ nữ",
+      "ground_truths": [
+        "sáu"
+      ]
+    },
+    {
+      "index": 485,
+      "question": "có bao nhiêu người với thiết bị trượt tuyết tạo dáng bên cạnh tuyết trôi",
+      "prediction": "Hai người",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 486,
+      "question": "có bao nhiêu con chó đang nằm trên một chiếc giường trong một căn phòng",
+      "prediction": "Hai con chó",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 487,
+      "question": "có bao nhiêu con bò tương tác trên cánh đồng cỏ gần cây",
+      "prediction": "Ba con",
+      "ground_truths": [
+        "bốn"
+      ]
+    },
+    {
+      "index": 488,
+      "question": "có bao nhiêu con ngựa vằn bên trong một hàng rào bằng gỗ với một cái máng ăn màu xanh lá cây",
+      "prediction": "Hai con",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 489,
+      "question": "có bao nhiêu người trượt tuyết đứng và một người ngồi trên tuyết",
+      "prediction": "Hai người",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 490,
+      "question": "có bao nhiêu con ngựa vằn đứng giữa những cây cằn cỗi trên cánh đồng",
+      "prediction": "Hai con ngựa vằn",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 491,
+      "question": "có bao nhiêu người đàn ông đang nói trước một giá đỡ sản phẩm",
+      "prediction": "Hai người",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 492,
+      "question": "có bao nhiêu chàng trai đang cầm vợt tennis đứng cạnh lưới của họ",
+      "prediction": "Năm chàng trai",
+      "ground_truths": [
+        "bảy"
+      ]
+    },
+    {
+      "index": 493,
+      "question": "có bao nhiêu chiếc máy bay đang bay ngay cạnh nhau, để lại những vệt hơi",
+      "prediction": "Sáu chiếc",
+      "ground_truths": [
+        "bốn"
+      ]
+    },
+    {
+      "index": 494,
+      "question": "có bao nhiêu người chơi quần vợt chào nhau khi đứng ở hai phía đối diện của lưới",
+      "prediction": "Hai người",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 495,
+      "question": "có bao nhiêu con hươu cao cổ đang gặm cỏ trên cánh đồng xanh",
+      "prediction": "Bốn con",
+      "ground_truths": [
+        "bốn"
+      ]
+    },
+    {
+      "index": 496,
+      "question": "có bao nhiêu đứa trẻ nhỏ trên thuyền với chuối",
+      "prediction": "Hai đứa trẻ",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 497,
+      "question": "có bao nhiêu người trong quân đội mệt mỏi khi cắt một chiếc bánh",
+      "prediction": "Hai người",
+      "ground_truths": [
+        "năm"
+      ]
+    },
+    {
+      "index": 498,
+      "question": "có bao nhiêu con hươu cao cổ đứng cạnh hàng rào được liên kết bằng dây chuyền",
+      "prediction": "Hai con",
+      "ground_truths": [
+        "ba"
+      ]
+    },
+    {
+      "index": 499,
+      "question": "có bao nhiêu người đàn ông trẻ đang ngồi trên chiếc ghế dài sử dụng máy tính xách tay của họ",
+      "prediction": "Hai người",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 500,
+      "question": "có bao nhiêu người đàn ông đang chuẩn bị bảng của họ cho một môn thể thao",
+      "prediction": "Hai người",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 501,
+      "question": "có bao nhiêu chàng trai đang chơi xóc đĩa bên ngoài",
+      "prediction": "Hai chàng trai",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 502,
+      "question": "biển báo dừng có bao nhiêu biển báo trên đường phố",
+      "prediction": "Hai biển báo",
+      "ground_truths": [
+        "hai"
+      ]
+    },
+    {
+      "index": 503,
+      "question": "có bao nhiêu nhà vệ sinh trắng đang ngồi cạnh nhau trước một tòa nhà gạch",
+      "prediction": "Ba nhà vệ sinh",
+      "ground_truths": [
+        "ba"
+      ]
+    },
+    {
+      "index": 504,
+      "question": "có bao nhiêu nam một số bánh nướng nhỏ và một cái bánh màu xám",
+      "prediction": "Một số bánh và một cái bánh màu xám",
+      "ground_truths": [
+        "ba"
+      ]
+    }
+  ]
+}

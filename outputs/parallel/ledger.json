@@ -3725,7 +3725,7 @@
     "ood-gl:vivqa": {
       "account": "acc5",
       "kernel": "nguyennguyen263/mvlm-oodgl-vivqa",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-09T13:28:58",
       "dataset": "vivqa"
     }

@@ -1,5 +1,22 @@
 # Paper changelog (ACIIDS 2027, ViBridge-VQA)
 
+## 2026-10-09 (evening) — OOD evaluation and global–local + decoder LoRA
+
+- **OOD table back** (Table 5, §4.7): ViTextVQA, OpenViVQA, ViVQA-X, ViVQA × sampling seeds
+  42/123/3407; Vintern-1B zero-shot (6 tiles), global only + LoRA, ours k=36 / k=144 (seed-42
+  checkpoints). k=144 exceeds six-tile Vintern-1B on ViTextVQA (33.26 vs 32.01 F1); Vintern-1B
+  stays better on OpenViVQA. Source: `analysis/ood_gl_table.json` (`score_gl.py` @991fb21).
+- **ViBridge-VQA + decoder LoRA** (g14-k36 + rank-16 LoRA, 1 joint epoch, 3 seeds; 15.02M =
+  1.57% trained): test F1 58.17 ± 0.19, CIDEr 122.88 — best accuracy / BLEU / ROUGE-L /
+  METEOR / CIDEr of all systems; ViMoE-VQA keeps P and F1 (+2.5). Added to Tables 2–3,
+  Fig. 2 (a: star; b: hatched bars), §4.2, ablation, reasoning types, abstract, intro,
+  conclusion. Source: `gl_results.json["g14-k36+lora1"]` (@9db84ba).
+- Claim changed: decoder LoRA is "not needed to surpass global-only + LoRA, but
+  complementary" (+3.3 val F1 on top of the global–local bridge vs +2.7 on global only;
+  best in 7/8 reasoning categories).
+- Space: Table 1 (data) and the global-bridge design table folded into text, ViT tile-cost
+  table into the Efficiency paragraph. Still 15 pages.
+
 ## 2026-10-09 — rewritten around the global–local bridge
 
 **Why.** The global–local bridge (Multi-Token on `[CLS]` + Vintern's frozen `mlp1` tokens,

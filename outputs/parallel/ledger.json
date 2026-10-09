@@ -3680,7 +3680,7 @@
     "ood-gl:vitextvqa": {
       "account": "acc5",
       "kernel": "nguyennguyen263/mvlm-oodgl-vitextvqa",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-09T12:34:42",
       "dataset": "vitextvqa"
     },
@@ -3714,6 +3714,20 @@
       "status": "done",
       "pushed_at": "2026-10-09T12:35:47",
       "dataset": "openvivqa"
+    },
+    "ood-gl:vivqax": {
+      "account": "acc5",
+      "kernel": "nguyennguyen263/mvlm-oodgl-vivqax",
+      "status": "running",
+      "pushed_at": "2026-10-09T13:27:51",
+      "dataset": "vivqax"
+    },
+    "ood-gl:vivqa": {
+      "account": "acc5",
+      "kernel": "nguyennguyen263/mvlm-oodgl-vivqa",
+      "status": "running",
+      "pushed_at": "2026-10-09T13:28:58",
+      "dataset": "vivqa"
     }
   }
 }

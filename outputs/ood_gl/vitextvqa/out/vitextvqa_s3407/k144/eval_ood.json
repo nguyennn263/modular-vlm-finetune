@@ -1,0 +1,18 @@
+{
+  "dataset": "vitextvqa_s3407",
+  "n": 1000,
+  "bridge": "global_local",
+  "n_tiles": 1,
+  "checkpoint": "/tmp/ck/k144.pt",
+  "gen_image": "full",
+  "accuracy": 0.156,
+  "exact_match": 0.167,
+  "bleu": 0.06790872331255467,
+  "rouge_l": 0.3260801446314265,
+  "meteor": 0.28345538634144485,
+  "cider": 1.9708751816121812,
+  "precision": 0.35012638472638474,
+  "recall": 0.36761477221179234,
+  "f1": 0.34169659248013445,
+  "wups": 0.156
+}

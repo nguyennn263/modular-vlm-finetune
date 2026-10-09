@@ -1,0 +1,8005 @@
+{
+  "epoch": 1,
+  "samples": [
+    {
+      "index": 0,
+      "question": "đây là đâu ?",
+      "prediction": "Điểm đài tưởng niệm",
+      "ground_truths": [
+        "bảo tàng"
+      ]
+    },
+    {
+      "index": 1,
+      "question": "mức giá khuyến mãi đầu của bảng đầu tiên là bao nhiêu ?",
+      "prediction": "100 đồng",
+      "ground_truths": [
+        "32500"
+      ]
+    },
+    {
+      "index": 2,
+      "question": "hàng hóa tài trợ trong ảnh như thế nào ?",
+      "prediction": "Hàng hóa được tài trợ",
+      "ground_truths": [
+        "không tính giá"
+      ]
+    },
+    {
+      "index": 3,
+      "question": "quầy trong ảnh đang có chương trình gì ?",
+      "prediction": "Chương trình bán thịt",
+      "ground_truths": [
+        "thưởng thức miễn phí"
+      ]
+    },
+    {
+      "index": 4,
+      "question": "số điện thoại nơi này là gì ?",
+      "prediction": "08.3722.0539",
+      "ground_truths": [
+        "08 . 3722 . 0539"
+      ]
+    },
+    {
+      "index": 5,
+      "question": "tên của bức hình này là gì ?",
+      "prediction": "Bức ảnh về một ngôi chùa",
+      "ground_truths": [
+        "đàn chim câu thơ thẩn trước chùa quán sứ"
+      ]
+    },
+    {
+      "index": 6,
+      "question": "chùa do đơn vị nào quản lý ?",
+      "prediction": "Chùa Quản Sáu",
+      "ground_truths": [
+        "giáo hội phật giáo việt nam"
+      ]
+    },
+    {
+      "index": 7,
+      "question": "thông điệp này do ai đưa ra ?",
+      "prediction": "Ban An Toàn Giao Thông Tỉnh Vĩnh Long",
+      "ground_truths": [
+        "ban an toàn giao thông tỉnh vĩnh long"
+      ]
+    },
+    {
+      "index": 8,
+      "question": "bức hình này được lấy ở đâu ?",
+      "prediction": "Bắc Liêu",
+      "ground_truths": [
+        "bạc liêu online"
+      ]
+    },
+    {
+      "index": 9,
+      "question": "ai xuất hiện trong bức hình ?",
+      "prediction": "Ông già Noel",
+      "ground_truths": [
+        "ông già noel"
+      ]
+    },
+    {
+      "index": 10,
+      "question": "lộ giới của hẻm 320 là bao nhiêu ?",
+      "prediction": "100m",
+      "ground_truths": [
+        "10m"
+      ]
+    },
+    {
+      "index": 11,
+      "question": "bức hình chụp cảnh chèo thuyền lấy nguồn từ đâu ?",
+      "prediction": "Viviviet",
+      "ground_truths": [
+        "vivu viet travel"
+      ]
+    },
+    {
+      "index": 12,
+      "question": "siêu thị này đang có chương chình gì ?",
+      "prediction": "Chương chình khuyến mãi",
+      "ground_truths": [
+        "khuyến mãi"
+      ]
+    },
+    {
+      "index": 13,
+      "question": "những quầy bên góc phải bức hình bán gì ?",
+      "prediction": "Món ăn",
+      "ground_truths": [
+        "thực phẩm chế biến"
+      ]
+    },
+    {
+      "index": 14,
+      "question": "trường học này tên gì ?",
+      "prediction": "Trường Đại học",
+      "ground_truths": [
+        "trường dự bị đại học tp . hcm"
+      ]
+    },
+    {
+      "index": 15,
+      "question": "công việc này do công ty nào quảng cáo ?",
+      "prediction": "Công ty Quảng cáo Sài Gòn",
+      "ground_truths": [
+        "công ty quảng cáo sài gòn"
+      ]
+    },
+    {
+      "index": 16,
+      "question": "thời gian khai trương của cửa hàng ?",
+      "prediction": "Từ ngày 15 tháng 10 đến ngày 15 tháng 11",
+      "ground_truths": [
+        "thứ bảy 18 / 02 đến hết ngày 26 / 02"
+      ]
+    },
+    {
+      "index": 17,
+      "question": "đứa sáng tác như thế nào ?",
+      "prediction": "Thơ hay quá",
+      "ground_truths": [
+        "quá pro"
+      ]
+    },
+    {
+      "index": 18,
+      "question": "chữ trong hình là gì ?",
+      "prediction": "Xin chào",
+      "ground_truths": [
+        "xin chào"
+      ]
+    },
+    {
+      "index": 19,
+      "question": "bức hình thứ ba mô tả học sinh , sinh viên khi đang làm gì ?",
+      "prediction": "Đang làm bài kiểm tra",
+      "ground_truths": [
+        "khi làm bài kiểm tra ! ! !"
+      ]
+    },
+    {
+      "index": 20,
+      "question": "hình dưới là mắt biếc gì ?",
+      "prediction": "Mắt biếc trong mặt hủ nữ",
+      "ground_truths": [
+        "mắt biếc trong mắt hủ nữ"
+      ]
+    },
+    {
+      "index": 21,
+      "question": "gà gì hay gáy ?",
+      "prediction": "Gà con",
+      "ground_truths": [
+        "gà mà hay gáy là con gà điên ."
+      ]
+    },
+    {
+      "index": 22,
+      "question": "cá cắn câu như thế nào ?",
+      "prediction": "Dù lâu vẫn đợi",
+      "ground_truths": [
+        "dù lâu vẫn đợi"
+      ]
+    },
+    {
+      "index": 23,
+      "question": "đề thi toán sáng nay như thế nào ?",
+      "prediction": "Đây là đề thi toán sáng nay",
+      "ground_truths": [
+        "đề thi toán sáng nay dễ quá"
+      ]
+    },
+    {
+      "index": 24,
+      "question": "ai suốt ngày hát bài con bướm xuân ?",
+      "prediction": "Vợ mình",
+      "ground_truths": [
+        "thằng hàng xóm"
+      ]
+    },
+    {
+      "index": 25,
+      "question": "cướp đang dọa người đàn ông làm gì ?",
+      "prediction": "Đưa tiền",
+      "ground_truths": [
+        "đưa hết con mẹ tiền ra đây nhanh"
+      ]
+    },
+    {
+      "index": 26,
+      "question": "bên nắng là bên như thế nào ?",
+      "prediction": "Bên trời",
+      "ground_truths": [
+        "địa ngục"
+      ]
+    },
+    {
+      "index": 27,
+      "question": "anh em tối nay sẽ đón ai ?",
+      "prediction": "Neymar",
+      "ground_truths": [
+        "neymar"
+      ]
+    },
+    {
+      "index": 28,
+      "question": "vì sao ngày hôm nay không phải học ?",
+      "prediction": "Đang có hứng đi học",
+      "ground_truths": [
+        "nghỉ lễ"
+      ]
+    },
+    {
+      "index": 29,
+      "question": "ả tập xê út đã đánh bại argentina ở trận nào ?",
+      "prediction": "Trận World Cup 2022",
+      "ground_truths": [
+        "trận khai màn"
+      ]
+    },
+    {
+      "index": 30,
+      "question": "ảnh chế meme chuyên làm về mèo như thế nào ?",
+      "prediction": "Mèo khóc, cute, cười đều",
+      "ground_truths": [
+        "mèo khóc , cute , bựa , cười đểu"
+      ]
+    },
+    {
+      "index": 31,
+      "question": "đây là biển hiệu của quán café nào ?",
+      "prediction": "Quán café Nửa Vàng Trắng",
+      "ground_truths": [
+        "nữa vầng trắng"
+      ]
+    },
+    {
+      "index": 32,
+      "question": "số điện thoại của studio chụp bức hình là gì ?",
+      "prediction": "0987 588 888",
+      "ground_truths": [
+        "0928975888"
+      ]
+    },
+    {
+      "index": 33,
+      "question": "đây là thẻ bàn ăn số mấy ?",
+      "prediction": "05",
+      "ground_truths": [
+        "05"
+      ]
+    },
+    {
+      "index": 34,
+      "question": "tấm bảng trong chợ nói về điều gì ?",
+      "prediction": "Chợ bán lẻ",
+      "ground_truths": [
+        "chợ bình tây chào đón quý khách"
+      ]
+    },
+    {
+      "index": 35,
+      "question": "dòng chữ trên tòa nhà nói về gì ?",
+      "prediction": "Thông tin về một người",
+      "ground_truths": [
+        "xây dựng lại đất nước ta đàng hoàng hơn to đẹp hơn"
+      ]
+    },
+    {
+      "index": 36,
+      "question": "bức hình chụp khu chợ này lấy nguồn từ trang web nào ?",
+      "prediction": "CaoNguyenHoang.com",
+      "ground_truths": [
+        "caobangquehuongtoi . com"
+      ]
+    },
+    {
+      "index": 37,
+      "question": "thực phẩm trên tấm băng rôn được miêu tả như thế nào ?",
+      "prediction": "Được bán trong siêu thị",
+      "ground_truths": [
+        "chất lượng - an toàn"
+      ]
+    },
+    {
+      "index": 38,
+      "question": "cái gì được bán với giá 130k ?",
+      "prediction": "Mua sắm quần áo",
+      "ground_truths": [
+        "áo sơ mi caro"
+      ]
+    },
+    {
+      "index": 39,
+      "question": "khi vi phạm nồng độ còn sẽ bị tước gplx bao lâu ?",
+      "prediction": "Tháng",
+      "ground_truths": [
+        "6 tháng"
+      ]
+    },
+    {
+      "index": 40,
+      "question": "chữ số trên cái cây là số mấy ?",
+      "prediction": "Số 12",
+      "ground_truths": [
+        "2"
+      ]
+    },
+    {
+      "index": 41,
+      "question": "quầy trái cây có nguồn gốc như thế nào ?",
+      "prediction": "Có nguồn gốc từ VinMart",
+      "ground_truths": [
+        "rõ ràng"
+      ]
+    },
+    {
+      "index": 42,
+      "question": "siêu thị ở đây tên gì ?",
+      "prediction": "VinMart",
+      "ground_truths": [
+        "vinmart"
+      ]
+    },
+    {
+      "index": 43,
+      "question": "nguồn của tấm hình này là gì ?",
+      "prediction": "Vườn ảnh",
+      "ground_truths": [
+        "kham pha 24"
+      ]
+    },
+    {
+      "index": 44,
+      "question": "hệ thống siêu thị co . opmart mở cửa trong khoảng thời gian nào trong ngày ?",
+      "prediction": "Từ 7h đến 17h",
+      "ground_truths": [
+        "07 : 00 đến 17 : 00"
+      ]
+    },
+    {
+      "index": 45,
+      "question": "ai là người dịch cuốn truyện ?",
+      "prediction": "Aisha Tsai",
+      "ground_truths": [
+        "nhiều người"
+      ]
+    },
+    {
+      "index": 46,
+      "question": "tên tựa đề của cuốn sách này là gì ?",
+      "prediction": "Kinh Thánh về Phong Cách",
+      "ground_truths": [
+        "kinh thánh về phong cách"
+      ]
+    },
+    {
+      "index": 47,
+      "question": "cuốn sách mỹ thuật 6 này dành cho ai ?",
+      "prediction": "Học sinh lớp 6",
+      "ground_truths": [
+        "giáo viên"
+      ]
+    },
+    {
+      "index": 48,
+      "question": "ở đây chuyên sỉ lẻ đồ dùng của nước nào ?",
+      "prediction": "Nước Nga",
+      "ground_truths": [
+        "nga"
+      ]
+    },
+    {
+      "index": 49,
+      "question": "số điện thoại của cửa hàng là bao nhiêu ?",
+      "prediction": "0909759768",
+      "ground_truths": [
+        "0909579768"
+      ]
+    },
+    {
+      "index": 50,
+      "question": "tên quán là gì ?",
+      "prediction": "Mì Quảng",
+      "ground_truths": [
+        "mua"
+      ]
+    },
+    {
+      "index": 51,
+      "question": "địa chỉ của quán ở đâu ?",
+      "prediction": "19 Trần Bình Trọng",
+      "ground_truths": [
+        "190 trần bình trọng"
+      ]
+    },
+    {
+      "index": 52,
+      "question": "thí sinh ở giữa mang số báo danh là bao nhiêu ?",
+      "prediction": "1",
+      "ground_truths": [
+        "036"
+      ]
+    },
+    {
+      "index": 53,
+      "question": "đây là đâu ?",
+      "prediction": "Phở Việt Nam",
+      "ground_truths": [
+        "quán phở việt nam"
+      ]
+    },
+    {
+      "index": 54,
+      "question": "bên trái cá chèo bẻo là món gì ?",
+      "prediction": "Gà chèo",
+      "ground_truths": [
+        "dê heo rừng"
+      ]
+    },
+    {
+      "index": 55,
+      "question": "đây là đâu ?",
+      "prediction": "Điểm đón bùi",
+      "ground_truths": [
+        "sở chỉ huy chiến dịch điện biên phủ"
+      ]
+    },
+    {
+      "index": 56,
+      "question": "cuốn sách này tên là gì ?",
+      "prediction": "Giải mã siêu trí nhớ",
+      "ground_truths": [
+        "giải mã siêu trí nhớ"
+      ]
+    },
+    {
+      "index": 57,
+      "question": "cuốn sách này do nhà xuất bản nào phát hành ?",
+      "prediction": "Nhà xuất bản Kim Đồng",
+      "ground_truths": [
+        "nhà xuất bản đà nẵng"
+      ]
+    },
+    {
+      "index": 58,
+      "question": "cuốn sách này tên gì ?",
+      "prediction": "Opening the Door of Your Heart",
+      "ground_truths": [
+        "mở cửa trái tim"
+      ]
+    },
+    {
+      "index": 59,
+      "question": "địa chỉ trang web của tiệm quảng cáo đại phát là gì ?",
+      "prediction": "http://www.kirks.com",
+      "ground_truths": [
+        "thietkethicongdaiphat . com"
+      ]
+    },
+    {
+      "index": 60,
+      "question": "trang web của baolangson là gì ?",
+      "prediction": "Baolangson",
+      "ground_truths": [
+        "http : / / www . baolangson . vn"
+      ]
+    },
+    {
+      "index": 61,
+      "question": "nơi này có địa chỉ là ở đâu ?",
+      "prediction": "Trên một tòa nhà",
+      "ground_truths": [
+        "263 an dương vương p . 3 q . 5"
+      ]
+    },
+    {
+      "index": 62,
+      "question": "quán trong ảnh bán những thứ gì ?",
+      "prediction": "Hải sản, lẩu, nướng",
+      "ground_truths": [
+        "hải sản - lẩu - nướng"
+      ]
+    },
+    {
+      "index": 63,
+      "question": "câu khẩu hiệu của bút đỏ là gì ?",
+      "prediction": "Bút đỏ là chuyên gia",
+      "ground_truths": [
+        "chuyên gia hàng hiệu hàng đầu"
+      ]
+    },
+    {
+      "index": 64,
+      "question": "hướng đi thẳng theo bảng hiệu là dẫn tới đâu ?",
+      "prediction": "Hà Nội",
+      "ground_truths": [
+        "hà nội"
+      ]
+    },
+    {
+      "index": 65,
+      "question": "nơi trong ảnh là tu đoàn gì ?",
+      "prediction": "Tu đoàn nhà chùa",
+      "ground_truths": [
+        "nhà chúa"
+      ]
+    },
+    {
+      "index": 66,
+      "question": "không đi vệ sinh xuống nền nhà là nội quy số mấy ?",
+      "prediction": "Nội quy số 5",
+      "ground_truths": [
+        "3 ."
+      ]
+    },
+    {
+      "index": 67,
+      "question": "quán ăn trong ảnh bán phở gì ?",
+      "prediction": "Phở gà",
+      "ground_truths": [
+        "gà phố cổ"
+      ]
+    },
+    {
+      "index": 68,
+      "question": "tác giả cuốn sách này là ai ?",
+      "prediction": "Mai Lan Hương và Nguyễn Thanh Loan",
+      "ground_truths": [
+        "mai lan hương nguyễn thanh loan"
+      ]
+    },
+    {
+      "index": 69,
+      "question": "điệm máy xanh tổ chức sự kiện mừng vượt mốc bao nhiêu siêu thị toàn quốc ?",
+      "prediction": "100 triệu khách hàng",
+      "ground_truths": [
+        "30"
+      ]
+    },
+    {
+      "index": 70,
+      "question": "tên của những thương hiệu trên bảng hiệu điện máy xanh là gì ?",
+      "prediction": "Sony, Toshiba, Panasonic, Samsung, Sanyo, Electrolux",
+      "ground_truths": [
+        "sony toshiba panasonic sunhouse samsung sanyo electrolux lg"
+      ]
+    },
+    {
+      "index": 71,
+      "question": "bức tường màu xanh biển bên trái ghi trồng nhiều gì ?",
+      "prediction": "Các lá cờ",
+      "ground_truths": [
+        "cây xanh"
+      ]
+    },
+    {
+      "index": 72,
+      "question": "đỗ sơn là trường gì ?",
+      "prediction": "Trường Trung học cơ sở",
+      "ground_truths": [
+        "trung học cơ sở"
+      ]
+    },
+    {
+      "index": 73,
+      "question": "ở đây có dịch vụ internet như thế nào ?",
+      "prediction": "Đi kèm wifi",
+      "ground_truths": [
+        "cáp quang tốc độ cao"
+      ]
+    },
+    {
+      "index": 74,
+      "question": "bức hình lấy nguồn từ đâu ?",
+      "prediction": "Nguồn internet",
+      "ground_truths": [
+        "kenh14 . vn"
+      ]
+    },
+    {
+      "index": 75,
+      "question": "bức hình chụp khu đại nam năm nào ?",
+      "prediction": "Năm 2019",
+      "ground_truths": [
+        "2021"
+      ]
+    },
+    {
+      "index": 76,
+      "question": "khẩu hiệu của đảng là gì ?",
+      "prediction": "Nước Cộng hòa Xã hội Việt Nam",
+      "ground_truths": [
+        "đảng cộng sản việt nam muôn năm"
+      ]
+    },
+    {
+      "index": 77,
+      "question": "con đường này đi đến thành phố nào ?",
+      "prediction": "Thành phố Kon Tum",
+      "ground_truths": [
+        "kon tum"
+      ]
+    },
+    {
+      "index": 78,
+      "question": "trong bức hình là kệ gì ?",
+      "prediction": "Kệ hàng tạp hóa",
+      "ground_truths": [
+        "kệ siêu thị miền nam"
+      ]
+    },
+    {
+      "index": 79,
+      "question": "công ty sản xuất kệ siêu thị miền nam tên gì ?",
+      "prediction": "HanTech",
+      "ground_truths": [
+        "hanatech"
+      ]
+    },
+    {
+      "index": 80,
+      "question": "phòng khám trong bức hình tên gì ?",
+      "prediction": "Phòng khám bệnh viện",
+      "ground_truths": [
+        "nhi đồng 315"
+      ]
+    },
+    {
+      "index": 81,
+      "question": "địa điểm diễn ra sự kiện ở đâu ?",
+      "prediction": "Hà Nội",
+      "ground_truths": [
+        "hà nội"
+      ]
+    },
+    {
+      "index": 82,
+      "question": "số hiệu của con thuyền là gì ?",
+      "prediction": "KKN-106",
+      "ground_truths": [
+        "kn - 106"
+      ]
+    },
+    {
+      "index": 83,
+      "question": "công ty cổ phần phát triển nhà bình ba liên lạc bằng số điện thoại nào ?",
+      "prediction": "0903 333 333",
+      "ground_truths": [
+        "02513 839 655 - 0911 398 588"
+      ]
+    },
+    {
+      "index": 84,
+      "question": "slogan của jimmy food là gì ?",
+      "prediction": "Tình bạn từ Gia Vĩ",
+      "ground_truths": [
+        "tinh hoa từ gạo việt"
+      ]
+    },
+    {
+      "index": 85,
+      "question": "cửa tiệm bảng trắng bên phải tấm ảnh tên là gì ?",
+      "prediction": "Cửa tiệm bảng trắng",
+      "ground_truths": [
+        "bbn coffee"
+      ]
+    },
+    {
+      "index": 86,
+      "question": "tấm bảng treo bên xe bên trái nhắc mọi người làm gì ?",
+      "prediction": "Để giữ gìn vệ sinh",
+      "ground_truths": [
+        "rửa tay thường xuyên bằng nước sạch và xà phòng đeo khẩu trang y tế đúng cách"
+      ]
+    },
+    {
+      "index": 87,
+      "question": "địa chỉ web của nguồn tấm ảnh này là gì ?",
+      "prediction": "www.bietthudean2",
+      "ground_truths": [
+        "www . bietthudepquan2 . com"
+      ]
+    },
+    {
+      "index": 88,
+      "question": "quầy sạp bên trái tấm ảnh tên là gì ?",
+      "prediction": "Thủy hải sản",
+      "ground_truths": [
+        "thủy hải sản"
+      ]
+    },
+    {
+      "index": 89,
+      "question": "tấm biển ở giữa tấm ảnh có nội dung là gì ?",
+      "prediction": "Tấm biển quảng cáo",
+      "ground_truths": [
+        "ubnd huyện lập thạch tỉnh vĩnh phúc"
+      ]
+    },
+    {
+      "index": 90,
+      "question": "tấm bảng được treo ở cột chào mừng cái gì ?",
+      "prediction": "Cái xe máy",
+      "ground_truths": [
+        "hoa hậu việt nam 2020"
+      ]
+    },
+    {
+      "index": 91,
+      "question": "cửa hàng ba tuấn là cửa hàng như thế nào ?",
+      "prediction": "Cửa hàng trang trí nội thất",
+      "ground_truths": [
+        "trang trí nội thất"
+      ]
+    },
+    {
+      "index": 92,
+      "question": "quán trà sữa có bảng hiệu màu nâu trong ảnh là quán gì ?",
+      "prediction": "Quán trà sữa",
+      "ground_truths": [
+        "happy life"
+      ]
+    },
+    {
+      "index": 93,
+      "question": "số điện thoại của cửa hàng haiminh fruit là gì ?",
+      "prediction": "0903 933 033",
+      "ground_truths": [
+        "0977 . 992 . 328 / 04 . 85893836"
+      ]
+    },
+    {
+      "index": 94,
+      "question": "đảo trường sa nằm ở vĩ độ nào ?",
+      "prediction": "08.2000",
+      "ground_truths": [
+        "08 38 30"
+      ]
+    },
+    {
+      "index": 95,
+      "question": "tấm ảnh này được lấy từ nguồn nào ?",
+      "prediction": "Nguồn internet",
+      "ground_truths": [
+        "hoangsa . org"
+      ]
+    },
+    {
+      "index": 96,
+      "question": "địa chỉ trang web của difa là gì ?",
+      "prediction": "www.difa.vn",
+      "ground_truths": [
+        "www . difa . vn"
+      ]
+    },
+    {
+      "index": 97,
+      "question": "cuốn sách này có tựa đề là gì ?",
+      "prediction": "48 nguyên tắc của quyền lực",
+      "ground_truths": [
+        "48 nguyên tắc chủ chốt của quyền lực"
+      ]
+    },
+    {
+      "index": 98,
+      "question": "sản phẩm này ở siêu thị nào ?",
+      "prediction": "Siêu thị LIX",
+      "ground_truths": [
+        "vinmart"
+      ]
+    },
+    {
+      "index": 99,
+      "question": "ai tặng 10 . 000 phần quà hỗ trợ chống dịch covid ?",
+      "prediction": "Máy lọc",
+      "ground_truths": [
+        "mb ageas life tặng"
+      ]
+    },
+    {
+      "index": 100,
+      "question": "ở đây bán cơm tấm gì ?",
+      "prediction": "Chị Cám",
+      "ground_truths": [
+        "sà bì chưởng"
+      ]
+    },
+    {
+      "index": 101,
+      "question": "số điện thoại của quán là bao nhiêu ?",
+      "prediction": "0906 610 779",
+      "ground_truths": [
+        "0906 640 779"
+      ]
+    },
+    {
+      "index": 102,
+      "question": "tên của nhà ở giữa ?",
+      "prediction": "Trạm chăn nuôi và thú y Hà Đông",
+      "ground_truths": [
+        "trạm chăn nuôi và thú y hà dông"
+      ]
+    },
+    {
+      "index": 103,
+      "question": "trạm chăn nuôi và thú y hà đông có dịch vụ gì ?",
+      "prediction": "Dịch vụ thú y",
+      "ground_truths": [
+        "dịch vụ thú y quận hà đông"
+      ]
+    },
+    {
+      "index": 104,
+      "question": "tên quán là gì ?",
+      "prediction": "Thai BBQ",
+      "ground_truths": [
+        "thaibbq"
+      ]
+    },
+    {
+      "index": 105,
+      "question": "giá tiền của buffet nướng , lẩu buổi tối ngày lễ 11 : 00 - 23 : 00 là bao nhiêu ?",
+      "prediction": "318.000 VNĐ",
+      "ground_truths": [
+        "318000"
+      ]
+    },
+    {
+      "index": 106,
+      "question": "giá của bắp cải trắn bắc là bao nhiêu ?",
+      "prediction": "3.000 vnd/kg",
+      "ground_truths": [
+        "3000"
+      ]
+    },
+    {
+      "index": 107,
+      "question": "trước chợ bên trái là bãi gì ?",
+      "prediction": "Bãi hàng",
+      "ground_truths": [
+        "bãi giữ xe"
+      ]
+    },
+    {
+      "index": 108,
+      "question": "bên trái chợ là cửa hàng chuyên bán buôn - bán lẻ cái gì ?",
+      "prediction": "Bán rau củ",
+      "ground_truths": [
+        "các loại chậu cảnh - lọ hoa - bát đũa - ấm chén"
+      ]
+    },
+    {
+      "index": 109,
+      "question": "đây là bản tin về cái gì ?",
+      "prediction": "Tàu chiến Trung Quốc",
+      "ground_truths": [
+        "tin biển đông"
+      ]
+    },
+    {
+      "index": 110,
+      "question": "đây là đâu ?",
+      "prediction": "Bệnh viện Đại học Y dược",
+      "ground_truths": [
+        "bệnh viện đại học y dược"
+      ]
+    },
+    {
+      "index": 111,
+      "question": "số fax là bao nhiêu ?",
+      "prediction": "16277",
+      "ground_truths": [
+        "8557399"
+      ]
+    },
+    {
+      "index": 112,
+      "question": "hoàn thế giới tóc là tiệm gì ?",
+      "prediction": "Tiệm làm tóc",
+      "ground_truths": [
+        "beauty salon"
+      ]
+    },
+    {
+      "index": 113,
+      "question": "tên của hàng là gì ?",
+      "prediction": "Hàng Kids Plaza",
+      "ground_truths": [
+        "kids plaza"
+      ]
+    },
+    {
+      "index": 114,
+      "question": "ở đây chuyên bán gì ?",
+      "prediction": "Các loại hải sản",
+      "ground_truths": [
+        "các món đặc sản , hải sản tươi sống"
+      ]
+    },
+    {
+      "index": 115,
+      "question": "tên cửa hang là gì ?",
+      "prediction": "Chợ Lớn",
+      "ground_truths": [
+        "chợ lớn"
+      ]
+    },
+    {
+      "index": 116,
+      "question": "slogan của quán là gì ?",
+      "prediction": "Ốc Nhỏ Sài Gòn",
+      "ground_truths": [
+        "càng ăn càng ngon . . . ! !"
+      ]
+    },
+    {
+      "index": 117,
+      "question": "bức hình này lấy ở báo nào ?",
+      "prediction": "Báo điện tử",
+      "ground_truths": [
+        "lao động"
+      ]
+    },
+    {
+      "index": 118,
+      "question": "rẽ trái là đi đâu ?",
+      "prediction": "Bài Tầm Xuân Thành",
+      "ground_truths": [
+        "bãi tắm xuân thành"
+      ]
+    },
+    {
+      "index": 119,
+      "question": "tên khu du lịch là gì ?",
+      "prediction": "Khu du lịch Sinh Thái",
+      "ground_truths": [
+        "đà lạt tiên cảnh"
+      ]
+    },
+    {
+      "index": 120,
+      "question": "tiệm đầu tiên bên trái là tiệm gì ?",
+      "prediction": "Tiệm bán đồ ăn",
+      "ground_truths": [
+        "vân an"
+      ]
+    },
+    {
+      "index": 121,
+      "question": "tên của hiệu là gì ?",
+      "prediction": "Nhà Quảng Trào",
+      "ground_truths": [
+        "quảng cáo nhân"
+      ]
+    },
+    {
+      "index": 122,
+      "question": "quán ăn này có tên là gì ?",
+      "prediction": "Quán Bò Tơ Tây Ninh Sầu Tý",
+      "ground_truths": [
+        "sáu tâm"
+      ]
+    },
+    {
+      "index": 123,
+      "question": "công trình này là gì ?",
+      "prediction": "Cột cờ Tổ quốc huyện Đào Lý Sơn",
+      "ground_truths": [
+        "cột cờ tổ quốc huyện đảo lý sơn"
+      ]
+    },
+    {
+      "index": 124,
+      "question": "các đơn vị thực hiện của công trình này là ai ?",
+      "prediction": "Các đơn vị thực hiện",
+      "ground_truths": [
+        "hội sinh viên việt nam trung tâm hộ trợ và phát triển sinh viên việt nam ngân hàng tmcp đầu tư và phát triển việt nam tỉnh đoàn quảng ngãi"
+      ]
+    },
+    {
+      "index": 125,
+      "question": "khẩu hiệu của nguồn bức ảnh này là gì ?",
+      "prediction": "Gà rán - Trà sữa",
+      "ground_truths": [
+        "uy tín - sáng tạo - hiệu quả"
+      ]
+    },
+    {
+      "index": 126,
+      "question": "quán ăn này có khung giờ mở cửa là gì ?",
+      "prediction": "10h - 12h",
+      "ground_truths": [
+        "10 am - 10 pm"
+      ]
+    },
+    {
+      "index": 127,
+      "question": "giá cả giao hàng là bao nhiêu ?",
+      "prediction": "100.000 đồng",
+      "ground_truths": [
+        "miễn phí"
+      ]
+    },
+    {
+      "index": 128,
+      "question": "trung tâm này có tên là gì ?",
+      "prediction": "Trung tâm",
+      "ground_truths": [
+        "siêu thị hạnh phúc"
+      ]
+    },
+    {
+      "index": 129,
+      "question": "biển hiệu này tên gì ?",
+      "prediction": "Fitplus Center",
+      "ground_truths": [
+        "fitplus center"
+      ]
+    },
+    {
+      "index": 130,
+      "question": "tên của cuốn sách bên phải là gì ?",
+      "prediction": "Giai đoạn mẹ",
+      "ground_truths": [
+        "me tập thói quen hay , con trưởng thành hạnh phúc"
+      ]
+    },
+    {
+      "index": 131,
+      "question": "địa chỉ của cửa hàng này là gì ?",
+      "prediction": "169 Lô Bốc",
+      "ground_truths": [
+        "168 lò đúc"
+      ]
+    },
+    {
+      "index": 132,
+      "question": "siêu thị này có tên là gì ?",
+      "prediction": "Siêu thị sơn",
+      "ground_truths": [
+        "paintmart"
+      ]
+    },
+    {
+      "index": 133,
+      "question": "hình ảnh được lấy từ nguồn nào ?",
+      "prediction": "Dienbienty.vn",
+      "ground_truths": [
+        "dienbientv . vn"
+      ]
+    },
+    {
+      "index": 134,
+      "question": "các món vịt được bán trong quán này là gì ?",
+      "prediction": "Vịt 8 món",
+      "ground_truths": [
+        "vịt nướng lẩu tiết canh vịt 100 %"
+      ]
+    },
+    {
+      "index": 135,
+      "question": "ai là tác giả của cuốn sách này ?",
+      "prediction": "Tác giả là Tác Giả",
+      "ground_truths": [
+        "ts . phạm hoàng - phan hoàng ngân"
+      ]
+    },
+    {
+      "index": 136,
+      "question": "nhà xuất bản phát hành cuốn sách này là gì ?",
+      "prediction": "Nhà xuất bản",
+      "ground_truths": [
+        "nhà xuất bản quốc gia hà nội"
+      ]
+    },
+    {
+      "index": 137,
+      "question": "ai là người đã viết ra cuốn sách này ?",
+      "prediction": "Dr. Sarah Brewert",
+      "ground_truths": [
+        "dr . sarah brever"
+      ]
+    },
+    {
+      "index": 138,
+      "question": "nhà xuất bản phát hành cuốn sách này là gì ?",
+      "prediction": "Nhà xuất bản Hà Nội",
+      "ground_truths": [
+        "nhà xuất bản hà nội"
+      ]
+    },
+    {
+      "index": 139,
+      "question": "cuốn sách màu xanh dương có tựa đề là gì ?",
+      "prediction": "Khởi nghiệp đồng phục triệu đô",
+      "ground_truths": [
+        "khởi nghiệp 0 đồng chinh phục triệu đô"
+      ]
+    },
+    {
+      "index": 140,
+      "question": "đi theo đường màu xanh bản đồ chỉ thì mất bao lâu để đi từ phú thọ đến hà nội ?",
+      "prediction": "1 giờ 20 phút",
+      "ground_truths": [
+        "2 h 8 p"
+      ]
+    },
+    {
+      "index": 141,
+      "question": "diện tích tầng 3 của siêu thị người đàn ông đang đi qua là bao nhiêu ?",
+      "prediction": "1.200 m2",
+      "ground_truths": [
+        "2 . 020 m2"
+      ]
+    },
+    {
+      "index": 142,
+      "question": "slogan của sản phẩm trên bảng quảng cáo trên cái cột là gì ?",
+      "prediction": "“Chế biến”",
+      "ground_truths": [
+        "lựa chọn thông minh , cuộc sống dễ dàng"
+      ]
+    },
+    {
+      "index": 143,
+      "question": "trong bức hình là nơi nào ?",
+      "prediction": "Trong siêu thị VinMart",
+      "ground_truths": [
+        "siêu thị vinmart phạm ngọc thạch"
+      ]
+    },
+    {
+      "index": 144,
+      "question": "vận tải ô tô vĩnh long là công ty gì ?",
+      "prediction": "Công ty vận tải ô tô Vĩnh Long",
+      "ground_truths": [
+        "cổ phần"
+      ]
+    },
+    {
+      "index": 145,
+      "question": "mọi người đang xếp hàng ở bảo tàng nào ?",
+      "prediction": "Bảo tàng Hồng Vương",
+      "ground_truths": [
+        "hùng vương"
+      ]
+    },
+    {
+      "index": 146,
+      "question": "quán karaoke duyên ngọc này có dịch vụ gì ?",
+      "prediction": "Hát thu âm trên nền nhạc",
+      "ground_truths": [
+        "hát thu âm trên nền nhạc"
+      ]
+    },
+    {
+      "index": 147,
+      "question": "bức hình là công trình gì ?",
+      "prediction": "Công trình nhà",
+      "ground_truths": [
+        "nhà anh văn mẫu 2"
+      ]
+    },
+    {
+      "index": 148,
+      "question": "căn nhà trong hình do công ty nào thiết kế ?",
+      "prediction": "Công trình nhà anh văn",
+      "ground_truths": [
+        "nhà xinh"
+      ]
+    },
+    {
+      "index": 149,
+      "question": "bức hình chụp ở đâu ?",
+      "prediction": "Bên cạnh biển hiệu",
+      "ground_truths": [
+        "biển sao hotel"
+      ]
+    },
+    {
+      "index": 150,
+      "question": "hai người đàn ông đang xem sản phẩm tại siêu thị nào ?",
+      "prediction": "Siêu thị tạp hóa",
+      "ground_truths": [
+        "coop . mart"
+      ]
+    },
+    {
+      "index": 151,
+      "question": "buổi lễ này diễn ra tại tỉnh nào ?",
+      "prediction": "Gia Lai",
+      "ground_truths": [
+        "gia lai"
+      ]
+    },
+    {
+      "index": 152,
+      "question": "người đàn ông áo đỏ đang tính tiền các chai dầu ăn hãng gì ?",
+      "prediction": "Dầu ăn Cao Cấp",
+      "ground_truths": [
+        "cook"
+      ]
+    },
+    {
+      "index": 153,
+      "question": "biển số xe của chiếc xe taxi màu xanh lá là gì ?",
+      "prediction": "101",
+      "ground_truths": [
+        "30f 620 . 48"
+      ]
+    },
+    {
+      "index": 154,
+      "question": "số điện thoại liên hệ để thuê căn nhà cho thuê trong ảnh là gì ?",
+      "prediction": "0903333333",
+      "ground_truths": [
+        "0918630465 - 09333973376"
+      ]
+    },
+    {
+      "index": 155,
+      "question": "năm sinh năm mất của anh hùng lê lợi là gì ?",
+      "prediction": "1911 - 1945",
+      "ground_truths": [
+        "1385 - 1433"
+      ]
+    },
+    {
+      "index": 156,
+      "question": "tòa nhà sang trọng ở trong ảnh có tên là gì ?",
+      "prediction": "Queen Tea",
+      "ground_truths": [
+        "queen plaza"
+      ]
+    },
+    {
+      "index": 157,
+      "question": "số điện thoại liên lạc cho bệnh viện thú y bằng phạm là gì ?",
+      "prediction": "1900 3333",
+      "ground_truths": [
+        "0786 211 211 - 0942 321 123"
+      ]
+    },
+    {
+      "index": 158,
+      "question": "ngôi chùa này đang kỉ niệm bao nhiêu năm ngày sinh của nguyễn đình chiểu ?",
+      "prediction": "Kỉ niệm 100 năm",
+      "ground_truths": [
+        "196"
+      ]
+    },
+    {
+      "index": 159,
+      "question": "cửa hàng bảo lâm là cửa hàng như thế nào ?",
+      "prediction": "Chuyên các loại sữa - tã - thực phẩm",
+      "ground_truths": [
+        "bách hóa tự chọn"
+      ]
+    },
+    {
+      "index": 160,
+      "question": "số điện thoại liên lạc cho hồng phúc camera là gì ?",
+      "prediction": "093 444 5354",
+      "ground_truths": [
+        "093 444 5354"
+      ]
+    },
+    {
+      "index": 161,
+      "question": "rẽ trái ở ngã đường trong ảnh là đường nào ?",
+      "prediction": "Đường phố",
+      "ground_truths": [
+        "phố lương ngọc quyền"
+      ]
+    },
+    {
+      "index": 162,
+      "question": "trường mầm non hoa hồng trong ảnh là cơ sở ở đâu ?",
+      "prediction": "Trường mầm non hoa hồng",
+      "ground_truths": [
+        "lai thế"
+      ]
+    },
+    {
+      "index": 163,
+      "question": "tiêu đề chính của tấm ảnh là gì ?",
+      "prediction": "Thâm nhập chợ",
+      "ground_truths": [
+        "thâm nhập chợ giời 2"
+      ]
+    },
+    {
+      "index": 164,
+      "question": "tấm ảnh được sở hữu bởi nguồn nào ?",
+      "prediction": "diachiamthuc.vn",
+      "ground_truths": [
+        "diachiamthuc . vn"
+      ]
+    },
+    {
+      "index": 165,
+      "question": "câu slogan của diachiamthuc là gì ?",
+      "prediction": "Diachiamthuc: Hẹn tân",
+      "ground_truths": [
+        "hội tụ tinh hoa ẩm thực"
+      ]
+    },
+    {
+      "index": 166,
+      "question": "cửa tiệm bảng hiệu màu trắng có tên là gì ?",
+      "prediction": "Tiệm trà chanh",
+      "ground_truths": [
+        "tmore"
+      ]
+    },
+    {
+      "index": 167,
+      "question": "nơi ở trong ảnh là nơi nào ?",
+      "prediction": "Đại Hỷ Palace",
+      "ground_truths": [
+        "đại hỷ palace"
+      ]
+    },
+    {
+      "index": 168,
+      "question": "tên quán đầu tiên bên trái là gì ?",
+      "prediction": "Rạng 22 Hàng Đào",
+      "ground_truths": [
+        "ang 22 hàng đào"
+      ]
+    },
+    {
+      "index": 169,
+      "question": "năm mất của tôn đức thắng là bao nhiêu ?",
+      "prediction": "1930",
+      "ground_truths": [
+        "1980"
+      ]
+    },
+    {
+      "index": 170,
+      "question": "tiệm cuối cùng bên trái tên là gì ?",
+      "prediction": "Ngọc Anh",
+      "ground_truths": [
+        "bạch yến"
+      ]
+    },
+    {
+      "index": 171,
+      "question": "bức hình này được lấy nguồn ở đâu ?",
+      "prediction": "Trên một tờ giấy",
+      "ground_truths": [
+        "chuyenhang365 . com"
+      ]
+    },
+    {
+      "index": 172,
+      "question": "bức hình này được chụp vào ngày bao nhiêu ?",
+      "prediction": "Ngày 14 tháng 11 năm 2021",
+      "ground_truths": [
+        "cn , 14 tháng 11 / 2021"
+      ]
+    },
+    {
+      "index": 173,
+      "question": "bức hình này được chụp ở đâu ?",
+      "prediction": "Hoi An",
+      "ground_truths": [
+        "hoi an"
+      ]
+    },
+    {
+      "index": 174,
+      "question": "báo tổ quốc là báo gì ?",
+      "prediction": "Báo Tổ quốc",
+      "ground_truths": [
+        "báo điện tử của bộ văn hóa , thể thao và du lịch"
+      ]
+    },
+    {
+      "index": 175,
+      "question": "tên của tờ báo này là gì ?",
+      "prediction": "Đông Nai",
+      "ground_truths": [
+        "đồng nai"
+      ]
+    },
+    {
+      "index": 176,
+      "question": "tiệm đầu tiên bên tay phải có tên là gì ?",
+      "prediction": "Hương Tinh",
+      "ground_truths": [
+        "hồng huân"
+      ]
+    },
+    {
+      "index": 177,
+      "question": "cửa khẩu này có tên là gì ?",
+      "prediction": "Cửa khẩu hội đồng",
+      "ground_truths": [
+        "vĩ hội đồng"
+      ]
+    },
+    {
+      "index": 178,
+      "question": "việt nam là một nước như thế nào ?",
+      "prediction": "Nước Việt Nam",
+      "ground_truths": [
+        "cộng hào xã hội chủ nghĩa"
+      ]
+    },
+    {
+      "index": 179,
+      "question": "khẩu hiệu của diachiamthuc . vn ?",
+      "prediction": "Hội tụt tinh hoa ẩm thực",
+      "ground_truths": [
+        "hội tụ tinh hoa ẩm thực"
+      ]
+    },
+    {
+      "index": 180,
+      "question": "dòng chữ ở dưới có ý nghĩa gì ?",
+      "prediction": "Đây là bước chân mới",
+      "ground_truths": [
+        "bước chân không mỏi"
+      ]
+    },
+    {
+      "index": 181,
+      "question": "dòng chữ trên bảng màu đen có ý nghĩa gì ?",
+      "prediction": "Có thể là tên của một sản phẩm",
+      "ground_truths": [
+        "khí chất bao nhiêu hạnh phúc bấy nhiêu"
+      ]
+    },
+    {
+      "index": 182,
+      "question": "cửa hàng này có nhận làm gì ?",
+      "prediction": "Nhận đồ ăn",
+      "ground_truths": [
+        "nhận đặt tiệc"
+      ]
+    },
+    {
+      "index": 183,
+      "question": "năm đây là năm gì ?",
+      "prediction": "Năm 2022",
+      "ground_truths": [
+        "quý dần"
+      ]
+    },
+    {
+      "index": 184,
+      "question": "website của cửa hàng này là gì ?",
+      "prediction": "Hoang Long Vũ",
+      "ground_truths": [
+        "www . hoanglongvu . com"
+      ]
+    },
+    {
+      "index": 185,
+      "question": "cảnh báo gì ở trụ điện này ?",
+      "prediction": "Có điện nguy hiểm",
+      "ground_truths": [
+        "cấm sờ ! có điện nguy hiểm chết người"
+      ]
+    },
+    {
+      "index": 186,
+      "question": "ở đâu bán loại thịt gì ?",
+      "prediction": "Bán thịt cá",
+      "ground_truths": [
+        "heo"
+      ]
+    },
+    {
+      "index": 187,
+      "question": "món bún mắm được ship như thế nào ?",
+      "prediction": "Đang ship",
+      "ground_truths": [
+        "ship tận nơi"
+      ]
+    },
+    {
+      "index": 188,
+      "question": "địa chỉ của cơ sở 1 trên bảng hiệu màu trắng là gì ?",
+      "prediction": "101 Đường 101",
+      "ground_truths": [
+        "100 huy căn - đà nẵng"
+      ]
+    },
+    {
+      "index": 189,
+      "question": "sở nông nghiệp và ptnt của giang hàng này thuộc tỉnh nào ?",
+      "prediction": "Thừa Thiên Huế",
+      "ground_truths": [
+        "thừa thiên huế"
+      ]
+    },
+    {
+      "index": 190,
+      "question": "số điện thoại liên hệ của cửa hàng này là gì ?",
+      "prediction": "093 369 999",
+      "ground_truths": [
+        "0961 345 997"
+      ]
+    },
+    {
+      "index": 191,
+      "question": "gian hàng này do ủy ban nào tổ chức ?",
+      "prediction": "Ủy ban Tổ chức",
+      "ground_truths": [
+        "ủy ban mttq việt nam quận 8"
+      ]
+    },
+    {
+      "index": 192,
+      "question": "người trong bước ảnh có tên là gì ?",
+      "prediction": "Ths. Trần Việt Dũng",
+      "ground_truths": [
+        "trần việt dũng"
+      ]
+    },
+    {
+      "index": 193,
+      "question": "cửa hàng tiện lợi bên phải quán trà sữa là gì ?",
+      "prediction": "Cửa hàng Circle K",
+      "ground_truths": [
+        "circle k"
+      ]
+    },
+    {
+      "index": 194,
+      "question": "số hiệu của tấm lót trên xe là gì ?",
+      "prediction": "GRANDI 10",
+      "ground_truths": [
+        "grandi10"
+      ]
+    },
+    {
+      "index": 195,
+      "question": "xe này đề nghị khách làm gì ?",
+      "prediction": "Để nhận quà",
+      "ground_truths": [
+        "quý khách vui lòng thắt dây an toàn khi ngồi trong ô tô"
+      ]
+    },
+    {
+      "index": 196,
+      "question": "nha khoa tâm đức là gì ?",
+      "prediction": "Trung tâm nha khoa tâm đức",
+      "ground_truths": [
+        "trung tâm nha khoa kỹ thuật cao"
+      ]
+    },
+    {
+      "index": 197,
+      "question": "nha khoa tâm đức có những dịch vụ gì ?",
+      "prediction": "Tổng quát - Phục hồi - Thẩm mỹ",
+      "ground_truths": [
+        "tổng quát - phụ hồi - thẩm mỹ"
+      ]
+    },
+    {
+      "index": 198,
+      "question": "nha khoa trong hình tên gì ?",
+      "prediction": "Nha khoa Đại Phát",
+      "ground_truths": [
+        "đại phát việt"
+      ]
+    },
+    {
+      "index": 199,
+      "question": "kế bên nha khoa là cửa hàng gì ?",
+      "prediction": "Cửa hàng tiêm",
+      "ground_truths": [
+        "viettel"
+      ]
+    },
+    {
+      "index": 200,
+      "question": "tấm bảng chính giữa hai quầy có nội dung gì ?",
+      "prediction": "Làm Tết",
+      "ground_truths": [
+        "cung chúc tân xuân"
+      ]
+    },
+    {
+      "index": 201,
+      "question": "kế bên quầy trái cây là quầy gì ?",
+      "prediction": "Quầy rau củ",
+      "ground_truths": [
+        "bơ sữa dairy"
+      ]
+    },
+    {
+      "index": 202,
+      "question": "bức hình này được chụp năm nào ?",
+      "prediction": "Năm 2008",
+      "ground_truths": [
+        "2004"
+      ]
+    },
+    {
+      "index": 203,
+      "question": "bức hình chỉ cách tìm thứ gì ?",
+      "prediction": "Nguồn hàng tạp hóa",
+      "ground_truths": [
+        "nguồn hàng tạp hóa"
+      ]
+    },
+    {
+      "index": 204,
+      "question": "trong tấm hình thứ nhất quán 50 d5 bán gì ?",
+      "prediction": "Lẩu cá viên",
+      "ground_truths": [
+        "cà phê sinh tố điểm tâm"
+      ]
+    },
+    {
+      "index": 205,
+      "question": "địa chỉ của công ty này là đâu ?",
+      "prediction": "277 Trịnh Đình Trọng - Phường Hòa Thạnh - Quận Tân Phú",
+      "ground_truths": [
+        "277 trịnh đình trọng - phường hòa thạnh - quận tân phú"
+      ]
+    },
+    {
+      "index": 206,
+      "question": "ngõ trong hình có khẩu hiệu gì ?",
+      "prediction": "Toàn dân đoàn kết",
+      "ground_truths": [
+        "toàn dân đoàn kết"
+      ]
+    },
+    {
+      "index": 207,
+      "question": "khu chợ ở đây tên gì ?",
+      "prediction": "Chợ Đông Kinh",
+      "ground_truths": [
+        "đông kinh"
+      ]
+    },
+    {
+      "index": 208,
+      "question": "bãi tắm ở đây tên gì ?",
+      "prediction": "Bãi tắm Phú Thuận",
+      "ground_truths": [
+        "phú thuận"
+      ]
+    },
+    {
+      "index": 209,
+      "question": "ở đây phú thuận là tên của cái gì ?",
+      "prediction": "Bài tắm",
+      "ground_truths": [
+        "bãi tắm"
+      ]
+    },
+    {
+      "index": 210,
+      "question": "địa chỉ của green mart ở đây là đâu ?",
+      "prediction": "20 Nguyễn Công Trứ - TP. Huế",
+      "ground_truths": [
+        "20 nguyễn công trứ - tp . huế"
+      ]
+    },
+    {
+      "index": 211,
+      "question": "dịch vụ giao hàng của fpt shop như thế nào ?",
+      "prediction": "Giảm giá 50%",
+      "ground_truths": [
+        "miễn phí trong 1 giờ"
+      ]
+    },
+    {
+      "index": 212,
+      "question": "siêu thị này có miễn phí gì ?",
+      "prediction": "Mua hàng",
+      "ground_truths": [
+        "giao hàng"
+      ]
+    },
+    {
+      "index": 213,
+      "question": "cơ sở trường chuyên nhận cung cấp những thứ gì ?",
+      "prediction": "Cung cấp các loại thực phẩm",
+      "ground_truths": [
+        "nội thất ôtô - bọc salo"
+      ]
+    },
+    {
+      "index": 214,
+      "question": "ngã tư ở trong ảnh tên là gì ?",
+      "prediction": "Trúc Bạch - Châu Long",
+      "ground_truths": [
+        "trúc bạch - châu long"
+      ]
+    },
+    {
+      "index": 215,
+      "question": "cửa hàng ở bên phải cửa hàng mai hường là cửa tiệm như thế nào ?",
+      "prediction": "Cửa tiệm đóng",
+      "ground_truths": [
+        "nhà thuốc"
+      ]
+    },
+    {
+      "index": 216,
+      "question": "đảng bộ quân và dân thành phố tam kỳ quyết tâm làm gì ?",
+      "prediction": "Thực hiện tốt nếp sống văn minh",
+      "ground_truths": [
+        "thực hiện tốt nếp sống văn minh đô thị"
+      ]
+    },
+    {
+      "index": 217,
+      "question": "lô 3 khăn giấy có giá bao nhiêu ?",
+      "prediction": "100 đồng",
+      "ground_truths": [
+        "32 . 000"
+      ]
+    },
+    {
+      "index": 218,
+      "question": "các sản phẩm trái cây trong ảnh như thế nào ?",
+      "prediction": "Được trưng bày đẹp mắt",
+      "ground_truths": [
+        "tươi - ngon"
+      ]
+    },
+    {
+      "index": 219,
+      "question": "cửa hàng đang đóng cửa cuốn xuống bán mặt hàng gì ?",
+      "prediction": "Mặt hàng đóng gói",
+      "ground_truths": [
+        "bánh kẹo các loại"
+      ]
+    },
+    {
+      "index": 220,
+      "question": "siêu thị ở trong ảnh tên là gì ?",
+      "prediction": "Siêu thị",
+      "ground_truths": [
+        "tops market"
+      ]
+    },
+    {
+      "index": 221,
+      "question": "có bao nhiêu tuyệt chiêu lấy hàng tạp hóa giá rẻ ?",
+      "prediction": "9 tuyệt chiêu",
+      "ground_truths": [
+        "9"
+      ]
+    },
+    {
+      "index": 222,
+      "question": "tên được ghi trên chiếc áo thi đấu trong ảnh là gì ?",
+      "prediction": "An cơm cháy",
+      "ground_truths": [
+        "ăn cơm cháy"
+      ]
+    },
+    {
+      "index": 223,
+      "question": "biểu đồ màu cam chiếm bao nhiêu phần trăm ?",
+      "prediction": "3,8%",
+      "ground_truths": [
+        "6 . 8 %"
+      ]
+    },
+    {
+      "index": 224,
+      "question": "địa chỉ của quán ở đâu ?",
+      "prediction": "Địa chỉ: Ấp Hòn Tre, Phụ Tú, Chùa Hàng, Kiên Lương, KG",
+      "ground_truths": [
+        "ấp hòn trẹm , phụ tử , chùa hang , kiên lương , kg"
+      ]
+    },
+    {
+      "index": 225,
+      "question": "ở đây chuyên làm gì ?",
+      "prediction": "Chuyên sản xuất, cho thuê, trả góp và buôn bán phụ kiện",
+      "ground_truths": [
+        "sản xuất , cho thuê , trả góp - buôn bán phụ kiện bid"
+      ]
+    },
+    {
+      "index": 226,
+      "question": "theo nội dung thì đây là huyện nào ?",
+      "prediction": "Huyện Cần Giờ",
+      "ground_truths": [
+        "huyện cần giờ"
+      ]
+    },
+    {
+      "index": 227,
+      "question": "tên bức hinh là gì ?",
+      "prediction": "Làng gốm Thanh Hà",
+      "ground_truths": [
+        "làng gốm thanh hà"
+      ]
+    },
+    {
+      "index": 228,
+      "question": "gạo sạch này có tên là gì ?",
+      "prediction": "Gạo sạch",
+      "ground_truths": [
+        "sạch 121"
+      ]
+    },
+    {
+      "index": 229,
+      "question": "nhà thuốc này có tên là gì ?",
+      "prediction": "Nhà thuốc Hiếu Hương",
+      "ground_truths": [
+        "hiếu thương"
+      ]
+    },
+    {
+      "index": 230,
+      "question": "đây là nhà thuốc chính hãng của thương hiệu nào ?",
+      "prediction": "Hiếu Hương",
+      "ground_truths": [
+        "hisamitsu việt nam"
+      ]
+    },
+    {
+      "index": 231,
+      "question": "số điện thoại cửa hàng bên trái là bao nhiêu ?",
+      "prediction": "1000 2000",
+      "ground_truths": [
+        "0935 265 928"
+      ]
+    },
+    {
+      "index": 232,
+      "question": "địa chỉ của siêu thị này ở đâu ?",
+      "prediction": "Trung tâm Thiên Hòa - Biên Hòa Đồng",
+      "ground_truths": [
+        "trung tâm thiên hòa - biên hòa đồng nai"
+      ]
+    },
+    {
+      "index": 233,
+      "question": "giá của chanh tứ quý là bao nhiêu ?",
+      "prediction": "15.000 đồng",
+      "ground_truths": [
+        "10 . 000"
+      ]
+    },
+    {
+      "index": 234,
+      "question": "chợ này thuộc phường nào ?",
+      "prediction": "Phường Linh Lang",
+      "ground_truths": [
+        "phường cống vị"
+      ]
+    },
+    {
+      "index": 235,
+      "question": "hình ảnh cho ta thấy địa điểm gì ?",
+      "prediction": "Một khu vườn",
+      "ground_truths": [
+        "di sản thế giới"
+      ]
+    },
+    {
+      "index": 236,
+      "question": "các sản phẩm bán ở đây là đặc sản tỉnh nào ?",
+      "prediction": "Đặc sản Hà Nội",
+      "ground_truths": [
+        "hà nội"
+      ]
+    },
+    {
+      "index": 237,
+      "question": "giá ưu đãi của gạo hoa sen 2 ký là bao nhiêu ?",
+      "prediction": "150.000 đồng",
+      "ground_truths": [
+        "33 . 000 đ"
+      ]
+    },
+    {
+      "index": 238,
+      "question": "hình ảnh nói về nơi nào ?",
+      "prediction": "Chợ An Đông",
+      "ground_truths": [
+        "chợ"
+      ]
+    },
+    {
+      "index": 239,
+      "question": "nơi này bán sản phẩm gì ?",
+      "prediction": "Áo quần",
+      "ground_truths": [
+        "áo quần"
+      ]
+    },
+    {
+      "index": 240,
+      "question": "webstie liên hệ của công ty này là gì ?",
+      "prediction": "http://dangquangad.com",
+      "ground_truths": [
+        "http : / / dangqungad . com"
+      ]
+    },
+    {
+      "index": 241,
+      "question": "hướng bên phải là cổng gì ?",
+      "prediction": "Cổng 72 Nguyễn Thái Học",
+      "ground_truths": [
+        "cổng 72 nguyễn thái học"
+      ]
+    },
+    {
+      "index": 242,
+      "question": "bên trái của cửa hàng này bán các món ăn liên quan đến gì ?",
+      "prediction": "Quay - Hấp",
+      "ground_truths": [
+        "chim câu"
+      ]
+    },
+    {
+      "index": 243,
+      "question": "giá của 1 món lẫu bồ câu là bao nhiêu ?",
+      "prediction": "150.000 đồng",
+      "ground_truths": [
+        "250k / nồi"
+      ]
+    },
+    {
+      "index": 244,
+      "question": "hình ảnh được lấy nguồn từ đâu ?",
+      "prediction": "HANOITOPLOT",
+      "ground_truths": [
+        "hanoitoplist"
+      ]
+    },
+    {
+      "index": 245,
+      "question": "cửa hàng này bán các sản phẩm gì ?",
+      "prediction": "Thiết bị vệ sinh, phòng tắm, nhà bếp",
+      "ground_truths": [
+        "thiết bị vệ sinh - phòng tắm - nhà bếp"
+      ]
+    },
+    {
+      "index": 246,
+      "question": "tên của quán này là gì ?",
+      "prediction": "Tokyo Yakiniku",
+      "ground_truths": [
+        "tokyo yakiniku"
+      ]
+    },
+    {
+      "index": 247,
+      "question": "hộp màu xanh nước đậm là món ăn gì ?",
+      "prediction": "Cá kho",
+      "ground_truths": [
+        "cá ngừ kho"
+      ]
+    },
+    {
+      "index": 248,
+      "question": "đây là địa điểm tham quan gì ?",
+      "prediction": "Địa điểm tham quan",
+      "ground_truths": [
+        "đô thị cổ hội an"
+      ]
+    },
+    {
+      "index": 249,
+      "question": "biển hiệu màu xanh lá cây bán gì ?",
+      "prediction": "Bán đồ ăn",
+      "ground_truths": [
+        "quần áo váy , đồ mẫu"
+      ]
+    },
+    {
+      "index": 250,
+      "question": "thời gian diễn ra khai trương là gì ?",
+      "prediction": "Từ ngày 08/08 đến ngày 09/09",
+      "ground_truths": [
+        "08h ngày 08 / 08 / 2018"
+      ]
+    },
+    {
+      "index": 251,
+      "question": "thời gian diễn ra ưu đãi ngày khai trương là gì ?",
+      "prediction": "Từ ngày 08/08 đến ngày 09/09",
+      "ground_truths": [
+        "từ ngày 08 - 08 - 2018 đến ngày 09 - 09 - 2018"
+      ]
+    },
+    {
+      "index": 252,
+      "question": "nơi này được gọi là gì ?",
+      "prediction": "Ga trạm xe",
+      "ground_truths": [
+        "ga trạm tramway"
+      ]
+    },
+    {
+      "index": 253,
+      "question": "quán này bán gì ?",
+      "prediction": "Cá cảnh",
+      "ground_truths": [
+        "cá"
+      ]
+    },
+    {
+      "index": 254,
+      "question": "biển hiệu màu trắng nói về dịch vụ gì ?",
+      "prediction": "Làm nồi khói",
+      "ground_truths": [
+        "phụ tùng ô tô"
+      ]
+    },
+    {
+      "index": 255,
+      "question": "sản phẩm trên các kệ hàng phía trước mặt cô gái có giá đắt nhất là bao nhiêu ?",
+      "prediction": "35.000 đồng",
+      "ground_truths": [
+        "190 . 000 đ"
+      ]
+    },
+    {
+      "index": 256,
+      "question": "thực phẩm trong siêu thị này có chất gì ?",
+      "prediction": "Chất dinh dưỡng",
+      "ground_truths": [
+        "kháng sinh"
+      ]
+    },
+    {
+      "index": 257,
+      "question": "thương hiệu của sản phẩm màu vàng góc phải bức hình là gì ?",
+      "prediction": "Tipo",
+      "ground_truths": [
+        "tipo"
+      ]
+    },
+    {
+      "index": 258,
+      "question": "hộp bánh màu đỏ góc phải bức hình tên gì ?",
+      "prediction": "Hộp bánh quy",
+      "ground_truths": [
+        "layer cake"
+      ]
+    },
+    {
+      "index": 259,
+      "question": "bức hình chụp con phố này lấy nguồn từ đâu ?",
+      "prediction": "Báo Đà Nẵng",
+      "ground_truths": [
+        "báo đà nẵng"
+      ]
+    },
+    {
+      "index": 260,
+      "question": "hình này lấy từ báo nào xuống ?",
+      "prediction": "Báo điện tử",
+      "ground_truths": [
+        "công an nhân dân"
+      ]
+    },
+    {
+      "index": 261,
+      "question": "những người này đang biểu tình ở đâu ?",
+      "prediction": "Nơi có nhà đất",
+      "ground_truths": [
+        "nhà đất đồng nai"
+      ]
+    },
+    {
+      "index": 262,
+      "question": "các bậc phụ huỳnh không được làm gì trước cổng trường này ?",
+      "prediction": "Không được đỗ xe máy",
+      "ground_truths": [
+        "không đỗ ô tô - xe máy"
+      ]
+    },
+    {
+      "index": 263,
+      "question": "tiệm bánh mì tuấn mập sài gòn bán bánh mì như thế nào ?",
+      "prediction": "Đặc sản",
+      "ground_truths": [
+        "bánh mì đặc ruột sản xuất tại chỗ"
+      ]
+    },
+    {
+      "index": 264,
+      "question": "tấm bảng góc trái bức hình có nội dung gì ?",
+      "prediction": "Có các bảng giá",
+      "ground_truths": [
+        "tết diệu kỳ xuân như ý"
+      ]
+    },
+    {
+      "index": 265,
+      "question": "tấm hình này nói đến gì ?",
+      "prediction": "Một quán cà phê",
+      "ground_truths": [
+        "tìm việc"
+      ]
+    },
+    {
+      "index": 266,
+      "question": "mọi người có thể tham gia hội chợ vào khoảng thời gian nào ?",
+      "prediction": "Vào đêm",
+      "ground_truths": [
+        "25 / 02 đến 04 / 03 / 2016"
+      ]
+    },
+    {
+      "index": 267,
+      "question": "siêu thị đang diễn ra sự kiện tháng gì ?",
+      "prediction": "Tháng Tết",
+      "ground_truths": [
+        "tháng khuyến mãi"
+      ]
+    },
+    {
+      "index": 268,
+      "question": "shop bin gu chuyên bán mặt hàng gì ?",
+      "prediction": "Thời trang cao cấp",
+      "ground_truths": [
+        "thời trang cao cấp bé yêu"
+      ]
+    },
+    {
+      "index": 269,
+      "question": "quầy sản phẩm này là các sản phẩm tới từ đâu ?",
+      "prediction": "An Giang",
+      "ground_truths": [
+        "an giang"
+      ]
+    },
+    {
+      "index": 270,
+      "question": "nội dung chính của tấm áp phích này là gì ?",
+      "prediction": "Từ vựng tiếng Trung",
+      "ground_truths": [
+        "từ vựng tiếng trung chủ đề phố cổ hà nội"
+      ]
+    },
+    {
+      "index": 271,
+      "question": "website của trường là gì ?",
+      "prediction": "Website của trường",
+      "ground_truths": [
+        "www . sgu . edu . vn"
+      ]
+    },
+    {
+      "index": 272,
+      "question": "ở đây đăng kí như thế nào ?",
+      "prediction": "Đăng kí qua website",
+      "ground_truths": [
+        "đăng kí miễn phí"
+      ]
+    },
+    {
+      "index": 273,
+      "question": "thông báo này của siêu thị nào ?",
+      "prediction": "VinMart",
+      "ground_truths": [
+        "vinmart+"
+      ]
+    },
+    {
+      "index": 274,
+      "question": "trong bức hình bình tây là cái gì ?",
+      "prediction": "Cái tòa nhà",
+      "ground_truths": [
+        "chợ"
+      ]
+    },
+    {
+      "index": 275,
+      "question": "hiệp huyền là tên của một cái gì ?",
+      "prediction": "Cửa hàng tạp hóa",
+      "ground_truths": [
+        "cửa hàng tạp hóa"
+      ]
+    },
+    {
+      "index": 276,
+      "question": "gian hàng đầu tiên xả cái gì ?",
+      "prediction": "Xả quần áo",
+      "ground_truths": [
+        "xả dây lưng xả ví xả dép xả tất"
+      ]
+    },
+    {
+      "index": 277,
+      "question": "thiên hương là cửa hàng gì ?",
+      "prediction": "Cửa hàng thiên hương",
+      "ground_truths": [
+        "đại lý mè xửng"
+      ]
+    },
+    {
+      "index": 278,
+      "question": "chợ này có tên là gì ?",
+      "prediction": "Chợ Bến Thành",
+      "ground_truths": [
+        "tân định"
+      ]
+    },
+    {
+      "index": 279,
+      "question": "cửa hàng nào kinh doanh dịch vụ sản phẩm gì ?",
+      "prediction": "Cửa hàng bếp",
+      "ground_truths": [
+        "tủ bếp"
+      ]
+    },
+    {
+      "index": 280,
+      "question": "tên của cửa hàng này là gì ?",
+      "prediction": "Tủ bếp Phú Mỹ Hưng",
+      "ground_truths": [
+        "phú mỹ hưng"
+      ]
+    },
+    {
+      "index": 281,
+      "question": "hình ảnh được lấy nguồn từ đâu ?",
+      "prediction": "Travel",
+      "ground_truths": [
+        "danatravel"
+      ]
+    },
+    {
+      "index": 282,
+      "question": "hình ảnh được lấy nguồn từ đâu ?",
+      "prediction": "Website",
+      "ground_truths": [
+        "blogyeuphuol . com"
+      ]
+    },
+    {
+      "index": 283,
+      "question": "sologan của cặp này là gì ?",
+      "prediction": "Slogan của cặp",
+      "ground_truths": [
+        "chọn uit - chọn để dẫn đầu"
+      ]
+    },
+    {
+      "index": 284,
+      "question": "quán trước mặt bán sản phẩm gì ?",
+      "prediction": "Sản phẩm trái cây",
+      "ground_truths": [
+        "chả nướng"
+      ]
+    },
+    {
+      "index": 285,
+      "question": "số điện thoại của cửa hàng này là gì ?",
+      "prediction": "1900 2000",
+      "ground_truths": [
+        "0913 55 77 59 - 0043 110 865"
+      ]
+    },
+    {
+      "index": 286,
+      "question": "quán này bán loại bia gì ?",
+      "prediction": "Bia Hà Nội",
+      "ground_truths": [
+        "bia hơi"
+      ]
+    },
+    {
+      "index": 287,
+      "question": "quán có biển hiệu màu vàng có tên là g2 ?",
+      "prediction": "Không, biển hiệu màu đỏ",
+      "ground_truths": [
+        "sữa chua dẻo"
+      ]
+    },
+    {
+      "index": 288,
+      "question": "cấu đối bên trái cổng làng cần có nội dung gì ?",
+      "prediction": "Nó là “Trồng”",
+      "ground_truths": [
+        "truyền thống hào hùng cha ông dựng"
+      ]
+    },
+    {
+      "index": 289,
+      "question": "nội dung của tấm bảng treo trước của tòa nhà có hai lá cờ là gì ?",
+      "prediction": "Lá cờ đỏ",
+      "ground_truths": [
+        "bác hồ và nền độc lập dân tộc"
+      ]
+    },
+    {
+      "index": 290,
+      "question": "bức hình chỉ đường đi từ cà mau tới đâu ?",
+      "prediction": "Đến Thờ Vua Hùng",
+      "ground_truths": [
+        "di tích lịch sử đền thờ vua hùng"
+      ]
+    },
+    {
+      "index": 291,
+      "question": "từ cà mau tới di tích lịch sử đền thờ vua hùng thì đi đường nào ?",
+      "prediction": "Đi 57 phút",
+      "ground_truths": [
+        "ql63"
+      ]
+    },
+    {
+      "index": 292,
+      "question": "những bảng tròn chính giữu ghép thành số bao nhiêu ?",
+      "prediction": "Hai",
+      "ground_truths": [
+        "1968"
+      ]
+    },
+    {
+      "index": 293,
+      "question": "bảng hiệu trong hình là của cửa hàng nào ?",
+      "prediction": "Cửa hàng LED",
+      "ground_truths": [
+        "duhal led"
+      ]
+    },
+    {
+      "index": 294,
+      "question": "quán hai tín này bán món gì ?",
+      "prediction": "Bò",
+      "ground_truths": [
+        "lẩu bò các món chế biến từ thịt bò"
+      ]
+    },
+    {
+      "index": 295,
+      "question": "giấy chứng nhận này do cơ quan nào cấp ?",
+      "prediction": "Phòng đăng ký kinh doanh",
+      "ground_truths": [
+        "sở kế hoạch và đầu tư thành phố hồ chí minh"
+      ]
+    },
+    {
+      "index": 296,
+      "question": "thương hiệu nào được quảng cáo trên cửa của cửa hàng xuân hồng ?",
+      "prediction": "Nokia Lumia",
+      "ground_truths": [
+        "nokia lumia"
+      ]
+    },
+    {
+      "index": 297,
+      "question": "hệ điều hành nào được quảng cáo trên cửa của cửa hàng xuân hồng ?",
+      "prediction": "Nokia Lumia",
+      "ground_truths": [
+        "windows phone"
+      ]
+    },
+    {
+      "index": 298,
+      "question": "tấm ảnh này trích xuất từ đâu ?",
+      "prediction": "Quán Nhậu Bình Dài",
+      "ground_truths": [
+        "phuot3mien . com"
+      ]
+    },
+    {
+      "index": 299,
+      "question": "quán trong hình bán những món ăn của nước nào ?",
+      "prediction": "Nước Hàn Quốc",
+      "ground_truths": [
+        "hàn quốc"
+      ]
+    },
+    {
+      "index": 300,
+      "question": "bức hình chụp cảnh căn nhà quê này được trích từ nguồn nào ?",
+      "prediction": "Blog Huế Thức",
+      "ground_truths": [
+        "blogyeuphuot . com"
+      ]
+    },
+    {
+      "index": 301,
+      "question": "khẩu hiệu của cửa hàng n & a là gì ?",
+      "prediction": "Thời trang hơn, quyến rũ hơn",
+      "ground_truths": [
+        "thời trang hơn , quyến rũ hơn"
+      ]
+    },
+    {
+      "index": 302,
+      "question": "trung tâm doji kinh doanh gì ?",
+      "prediction": "Vàng bạc",
+      "ground_truths": [
+        "vàng bạc trang sức"
+      ]
+    },
+    {
+      "index": 303,
+      "question": "biển số của chiếc xe máy là gì ?",
+      "prediction": "29-19",
+      "ground_truths": [
+        "29 - c1 063 . 08"
+      ]
+    },
+    {
+      "index": 304,
+      "question": "địa chỉ của cửa hàng phụng thủy là gì ?",
+      "prediction": "744 cầu gỗ",
+      "ground_truths": [
+        "74b cầu gỗ"
+      ]
+    },
+    {
+      "index": 305,
+      "question": "sự kiện đang diễn ra ở mắt kính sài gòn là gì ?",
+      "prediction": "Mắt kính trọn gói",
+      "ground_truths": [
+        "tưng bừng khai trương cùng quà tặng hấp dẫn"
+      ]
+    },
+    {
+      "index": 306,
+      "question": "tấm quảng cáo màu đỏ được dán trên tường xanh lá chỉ đường tới đâu ?",
+      "prediction": "Đường phố",
+      "ground_truths": [
+        "mì quảng 3 anh em"
+      ]
+    },
+    {
+      "index": 307,
+      "question": "đơn vị nào sở hữu tấm ảnh này ?",
+      "prediction": "Bahtinh.vn",
+      "ground_truths": [
+        "bht"
+      ]
+    },
+    {
+      "index": 308,
+      "question": "khẩu hiệu của baohatinh là gì ?",
+      "prediction": "Tin nhanh, chính xác, cập nhật liên tục",
+      "ground_truths": [
+        "tin nhanh , chính xác , cập nhập liên tục"
+      ]
+    },
+    {
+      "index": 309,
+      "question": "quầy táo ở bên phải có giá bao nhiêu ?",
+      "prediction": "100.000 đồng",
+      "ground_truths": [
+        "74 . 000"
+      ]
+    },
+    {
+      "index": 310,
+      "question": "nguồn nào sở hữu tấm ảnh này ?",
+      "prediction": "Phương",
+      "ground_truths": [
+        "phụ nữ"
+      ]
+    },
+    {
+      "index": 311,
+      "question": "những sản phẩm ở siêu thị này được giảm giá như thế nào ?",
+      "prediction": "Giảm 50%",
+      "ground_truths": [
+        "đến 50 %"
+      ]
+    },
+    {
+      "index": 312,
+      "question": "quán ăn này có tên là gì ?",
+      "prediction": "Nội thất Masta",
+      "ground_truths": [
+        "như ý"
+      ]
+    },
+    {
+      "index": 313,
+      "question": "ngoài khẩu trang thì ở đây còn cái gì miễn phí nữa không ?",
+      "prediction": "Món ăn",
+      "ground_truths": [
+        "nước rửa tay"
+      ]
+    },
+    {
+      "index": 314,
+      "question": "vị trí số 1 là vị trí gì ?",
+      "prediction": "Điểm xuất phát",
+      "ground_truths": [
+        "điểm xuất phát - starting point"
+      ]
+    },
+    {
+      "index": 315,
+      "question": "cuốn sách này có lê khắc kiều lục và ai làm tác giả nữa ?",
+      "prediction": "Trương Văn Giới",
+      "ground_truths": [
+        "trương văn giới"
+      ]
+    },
+    {
+      "index": 316,
+      "question": "tấm bảng màu vàng tên gì ?",
+      "prediction": "Thông báo",
+      "ground_truths": [
+        "thông báo"
+      ]
+    },
+    {
+      "index": 317,
+      "question": "cửa hàng bên trái cùng có tên là gì ?",
+      "prediction": "Cửa hàng",
+      "ground_truths": [
+        "lẩu bu chua cay"
+      ]
+    },
+    {
+      "index": 318,
+      "question": "đề nghị ai đeo khẩu trang , giữ khoảng cách ?",
+      "prediction": "Để phòng dịch",
+      "ground_truths": [
+        "đồng bào , du khách"
+      ]
+    },
+    {
+      "index": 319,
+      "question": "thông tin sản phẩm ngày mấy ?",
+      "prediction": "05/01/2022",
+      "ground_truths": [
+        "05 / 01 / 2022"
+      ]
+    },
+    {
+      "index": 320,
+      "question": "biển báo màu đỏ cảnh báo gì ?",
+      "prediction": "An toàn giao thông",
+      "ground_truths": [
+        "an toàn giao thông là hạnh phúc cho mọi nhà"
+      ]
+    },
+    {
+      "index": 321,
+      "question": "người này kinh doanh dịch vụ gì ?",
+      "prediction": "Cung cấp lá cây",
+      "ground_truths": [
+        "khám bắt mạch chữa bệnh"
+      ]
+    },
+    {
+      "index": 322,
+      "question": "hình ảnh được lấy nguồn từ đâu ?",
+      "prediction": "DiaLai247.com",
+      "ground_truths": [
+        "diadiem247 . com"
+      ]
+    },
+    {
+      "index": 323,
+      "question": "gian hàng này là gì ?",
+      "prediction": "Gian hàng bán quà",
+      "ground_truths": [
+        "hội chợ quê"
+      ]
+    },
+    {
+      "index": 324,
+      "question": "gian hàng này được lập ra vào thời gian nào ?",
+      "prediction": "Năm",
+      "ground_truths": [
+        "xuân canh tý 2020"
+      ]
+    },
+    {
+      "index": 325,
+      "question": "ưu đãi ở đây được đánh giá như thế nào ?",
+      "prediction": "Khuyến mãi",
+      "ground_truths": [
+        "sốc"
+      ]
+    },
+    {
+      "index": 326,
+      "question": "cửa hàng này có tên là gì ?",
+      "prediction": "Đêm Hạ Long",
+      "ground_truths": [
+        "vinh đinh"
+      ]
+    },
+    {
+      "index": 327,
+      "question": "xe buýt này có ý nghĩa gì ?",
+      "prediction": "Để đưa du khách đi du lịch",
+      "ground_truths": [
+        "chuyến xe chở tri thức chở tương lai"
+      ]
+    },
+    {
+      "index": 328,
+      "question": "cửa hàng này chuyên làm gì ?",
+      "prediction": "Chuyên bán các loại nước",
+      "ground_truths": [
+        "cung cấp các thiết bị tưới nhỏ giọt thiết bị phun sương - phun mưa công nghệ cao"
+      ]
+    },
+    {
+      "index": 329,
+      "question": "cửa hàng này đang kinh doanh dịch vụ gì ?",
+      "prediction": "Hair salon",
+      "ground_truths": [
+        "hair salon"
+      ]
+    },
+    {
+      "index": 330,
+      "question": "địa chỉ của cửa hàng này là gì ?",
+      "prediction": "411-101-101",
+      "ground_truths": [
+        "48 lê lợi , hội an"
+      ]
+    },
+    {
+      "index": 331,
+      "question": "hình ảnh nói về gì ?",
+      "prediction": "Tháng Cảnh Voi",
+      "ground_truths": [
+        "thắng cảnh"
+      ]
+    },
+    {
+      "index": 332,
+      "question": "hướng bên trái đi đâu ?",
+      "prediction": "Tắm Bùn Tháp Bà",
+      "ground_truths": [
+        "tháp bà mudbath"
+      ]
+    },
+    {
+      "index": 333,
+      "question": "hình ảnh nói về tin tức gì ?",
+      "prediction": "Tin tức về Vinmart",
+      "ground_truths": [
+        "tin covid - 19"
+      ]
+    },
+    {
+      "index": 334,
+      "question": "hình ảnh nói về cuộc thi gì ?",
+      "prediction": "Đánh giá năng lực",
+      "ground_truths": [
+        "đánh giá năng lực"
+      ]
+    },
+    {
+      "index": 335,
+      "question": "tác giả của cuốn sách này là gì ?",
+      "prediction": "Kim Quốc Cương",
+      "ground_truths": [
+        "kim quốc cường"
+      ]
+    },
+    {
+      "index": 336,
+      "question": "những người này đang xếp hàng để làm gì ?",
+      "prediction": "Đang chờ nhận gạo",
+      "ground_truths": [
+        "nhận gạo miễn phí"
+      ]
+    },
+    {
+      "index": 337,
+      "question": "sau mỗi 7 ngày có thể nhận bao nhiêu phần gạo miễn phí tại đây ?",
+      "prediction": "Phần 1",
+      "ground_truths": [
+        "1"
+      ]
+    },
+    {
+      "index": 338,
+      "question": "quán thanh nhàn có nhận làm gì ?",
+      "prediction": "Gà quay bánh bao",
+      "ground_truths": [
+        "nhận quay gia công tiệc liên hoan"
+      ]
+    },
+    {
+      "index": 339,
+      "question": "facebook của quán thanh nhàn tên gì ?",
+      "prediction": "Facebook",
+      "ground_truths": [
+        "dầu nóng hàn quốc"
+      ]
+    },
+    {
+      "index": 340,
+      "question": "tiệm tóc xuân bình có những dịch vụ gì ?",
+      "prediction": "Có dịch vụ cắt tóc",
+      "ground_truths": [
+        "uốn - duỗi - nhuộm"
+      ]
+    },
+    {
+      "index": 341,
+      "question": "trà đá quán này bán giá như thế nào ?",
+      "prediction": "Đặc biệt 35k",
+      "ground_truths": [
+        "1k"
+      ]
+    },
+    {
+      "index": 342,
+      "question": "dựa vào bức hình , có liên hệ tới số zalo 0886 678970 để làm gì ?",
+      "prediction": "Để liên hệ",
+      "ground_truths": [
+        "quảng cáo"
+      ]
+    },
+    {
+      "index": 343,
+      "question": "tấm ảnh này được trích xuất từ báo hay kênh nào ?",
+      "prediction": "Tuoitre",
+      "ground_truths": [
+        "tuổi trẻ"
+      ]
+    },
+    {
+      "index": 344,
+      "question": "con tàu có số hiệu 8004 là tàu của lực lượng nào ?",
+      "prediction": "Lực lượng Cảnh sát biển Việt Nam",
+      "ground_truths": [
+        "cảnh sát biển việt nam"
+      ]
+    },
+    {
+      "index": 345,
+      "question": "tỉ số của trận game này là bao nhiêu ?",
+      "prediction": "16 tỉ số",
+      "ground_truths": [
+        "3 - 2"
+      ]
+    },
+    {
+      "index": 346,
+      "question": "ngoài trà sữa , quán còn bán gì ?",
+      "prediction": "Nấu đường phèn",
+      "ground_truths": [
+        "bánh"
+      ]
+    },
+    {
+      "index": 347,
+      "question": "neptune là loại dầu ăn có chất lượng như thế nào ?",
+      "prediction": "Chất lượng cao",
+      "ground_truths": [
+        "chất lượng điểm 10 từ 3 loại dầu tự nhiên cao cấp"
+      ]
+    },
+    {
+      "index": 348,
+      "question": "chỗ này có dịch vụ gì ?",
+      "prediction": "Chăm sóc xe hơi",
+      "ground_truths": [
+        "chăm sóc xe hơi chuyên nghiệp"
+      ]
+    },
+    {
+      "index": 349,
+      "question": "nhà thuốc trong đây được đặt tên là gì ?",
+      "prediction": "Nhà thuốc Mai Khanh",
+      "ground_truths": [
+        "mai khanh"
+      ]
+    },
+    {
+      "index": 350,
+      "question": "nhà thuốc mai khanh chuyên làm gì với thuốc ?",
+      "prediction": "Chuyên bán thuốc",
+      "ground_truths": [
+        "chuyên bán lẻ"
+      ]
+    },
+    {
+      "index": 351,
+      "question": "góc phía trên bức phải bức hình có nội dung gì ?",
+      "prediction": "Một biển hiệu",
+      "ground_truths": [
+        "bảo vệ rừng và môi trường"
+      ]
+    },
+    {
+      "index": 352,
+      "question": "sạp 103 huệ linh có bán gì ?",
+      "prediction": "Mua sắm",
+      "ground_truths": [
+        "hủ ky gia vị"
+      ]
+    },
+    {
+      "index": 353,
+      "question": "tại đây là đâu ?",
+      "prediction": "Điểm đến của bạn",
+      "ground_truths": [
+        "homy dentistry"
+      ]
+    },
+    {
+      "index": 354,
+      "question": "khẩu hiệu của homy dentistry là gì ?",
+      "prediction": "Không chỉ phòng khám, không chỉ nhà",
+      "ground_truths": [
+        "not only clinic , it ' s home"
+      ]
+    },
+    {
+      "index": 355,
+      "question": "số điện thoại đầu tiên để liên lạc cho aeros là gì ?",
+      "prediction": "0901 833 938",
+      "ground_truths": [
+        "0901 806 999"
+      ]
+    },
+    {
+      "index": 356,
+      "question": "mọi người trong ảnh đang tụ họp cho buổi lễ gì ?",
+      "prediction": "Buổi lễ Tết",
+      "ground_truths": [
+        "hội chợ xuân năm 2019"
+      ]
+    },
+    {
+      "index": 357,
+      "question": "chùa này tên là gì ?",
+      "prediction": "Chùa hương năm 2008",
+      "ground_truths": [
+        "hương"
+      ]
+    },
+    {
+      "index": 358,
+      "question": "tấm bảng vàng ghi nội dung gì ?",
+      "prediction": "Q. Tân Phú, TP. HCM",
+      "ground_truths": [
+        "q . tân phú , tp . hcm"
+      ]
+    },
+    {
+      "index": 359,
+      "question": "ba số đầu của số điện thoại quán linh chi là gì ?",
+      "prediction": "7",
+      "ground_truths": [
+        "070"
+      ]
+    },
+    {
+      "index": 360,
+      "question": "số điện thoại trên tivi màn hình màu vàng là gì ?",
+      "prediction": "1300000000",
+      "ground_truths": [
+        "024 710 66866"
+      ]
+    },
+    {
+      "index": 361,
+      "question": "chúng ta phải giữ gìn và phát huy cái gì ?",
+      "prediction": "Nhiệt đẹp văn hóa",
+      "ground_truths": [
+        "nét đẹp văn hóa của người dân cố đô huế"
+      ]
+    },
+    {
+      "index": 362,
+      "question": "địa chỉ của cửa tiệm luuly là ở đâu ?",
+      "prediction": "Trên một tấm biển",
+      "ground_truths": [
+        "thanh phước , thanh điền , châu thành , tây ninh"
+      ]
+    },
+    {
+      "index": 363,
+      "question": "quán ẩm thực cây me 289 nhận những việc gì ?",
+      "prediction": "Đón khách và phục vụ",
+      "ground_truths": [
+        "đặt tiệc : cưới hỏi , liên hoan , sinh nhật , hội họp"
+      ]
+    },
+    {
+      "index": 364,
+      "question": "đây là nhà sách gì ?",
+      "prediction": "Nhà sách Phượng Môn",
+      "ground_truths": [
+        "phuong nam book"
+      ]
+    },
+    {
+      "index": 365,
+      "question": "khu này là khu tên gì ?",
+      "prediction": "Khu bán phở",
+      "ground_truths": [
+        "phố"
+      ]
+    },
+    {
+      "index": 366,
+      "question": "bức hình này được trích dẫn ở đâu ?",
+      "prediction": "Trên một bảng hiệu",
+      "ground_truths": [
+        "vtcnews"
+      ]
+    },
+    {
+      "index": 367,
+      "question": "bức hình này lấy nguồn ở đâu ?",
+      "prediction": "Hàn Quốc",
+      "ground_truths": [
+        "hanoitvonline"
+      ]
+    },
+    {
+      "index": 368,
+      "question": "trại này diễn ra vào năm bao nhiêu ?",
+      "prediction": "Năm 2018",
+      "ground_truths": [
+        "2019"
+      ]
+    },
+    {
+      "index": 369,
+      "question": "cửa hàng này có tên là gì ?",
+      "prediction": "Thời trang Hồng Ngọc",
+      "ground_truths": [
+        "thời trang hồng ngọc"
+      ]
+    },
+    {
+      "index": 370,
+      "question": "cửa hàng tên là gì ?",
+      "prediction": "Cửa hàng nghệ thuật",
+      "ground_truths": [
+        "khánh huy"
+      ]
+    },
+    {
+      "index": 371,
+      "question": "địa chỉ chợ ở đâu vậy ?",
+      "prediction": "260 Toi Hien",
+      "ground_truths": [
+        "268 tô hiên thành , q10"
+      ]
+    },
+    {
+      "index": 372,
+      "question": "địa chỉ cửa hàng ở đâu ?",
+      "prediction": "334 Phan Mây, Q. Đống Đa",
+      "ground_truths": [
+        "334 phan huy ích , p . 12 , q . gò vấp"
+      ]
+    },
+    {
+      "index": 373,
+      "question": "đây là chi nhánh thứ bao nhiêu ?",
+      "prediction": "Chi nhánh 2",
+      "ground_truths": [
+        "chi nhanh 2"
+      ]
+    },
+    {
+      "index": 374,
+      "question": "mọi người đang đứng ở bàn nào ?",
+      "prediction": "Bàn bán sách",
+      "ground_truths": [
+        "đọc sách"
+      ]
+    },
+    {
+      "index": 375,
+      "question": "bia đá này có tên là gì ?",
+      "prediction": "Bia đá Rạch Đàng Hải",
+      "ground_truths": [
+        "bạch đằng hải khấu"
+      ]
+    },
+    {
+      "index": 376,
+      "question": "bạch đằng hải khấu do ai sáng tác ?",
+      "prediction": "Nguyễn Thủy",
+      "ground_truths": [
+        "nguyễn trãi"
+      ]
+    },
+    {
+      "index": 377,
+      "question": "nội dung của bức hình này là gì ?",
+      "prediction": "Một lễ hội",
+      "ground_truths": [
+        "em hãy kể về một cuộc đi thăm di tích lịch sử"
+      ]
+    },
+    {
+      "index": 378,
+      "question": "cửa hàng này có tên là gì ?",
+      "prediction": "Burger King",
+      "ground_truths": [
+        "burger king"
+      ]
+    },
+    {
+      "index": 379,
+      "question": "số điện thoại cửa hàng là bao nhiêu ?",
+      "prediction": "1900 3742",
+      "ground_truths": [
+        "0978 769 439"
+      ]
+    },
+    {
+      "index": 380,
+      "question": "quà tặng của chương trình khuyến mãi là gì ?",
+      "prediction": "Đại lý gạo",
+      "ground_truths": [
+        "1 ký đường biên hòa"
+      ]
+    },
+    {
+      "index": 381,
+      "question": "giờ nào là giờ làm việc của cửa hàng ?",
+      "prediction": "6h30 - 22h",
+      "ground_truths": [
+        "6h30 - 22h"
+      ]
+    },
+    {
+      "index": 382,
+      "question": "galaxy j7 prime có giá như thế nào ?",
+      "prediction": "5.990.000 đồng",
+      "ground_truths": [
+        "giá mới siêu thơm"
+      ]
+    },
+    {
+      "index": 383,
+      "question": "điện máy xanh có bán những sản phẩm của hãng nào ?",
+      "prediction": "Panasonic, TCL, LG, Samsung",
+      "ground_truths": [
+        "panasonic tcl electrolux lg oppo"
+      ]
+    },
+    {
+      "index": 384,
+      "question": "mưa sắm tết năm bao nhiêu ?",
+      "prediction": "Năm bao nhiêu",
+      "ground_truths": [
+        "2021"
+      ]
+    },
+    {
+      "index": 385,
+      "question": "bảng yêu cầu dành cho ai ?",
+      "prediction": "Quý khách tham quan",
+      "ground_truths": [
+        "quý khách tham quan bảo tàng vhdt khmer"
+      ]
+    },
+    {
+      "index": 386,
+      "question": "những yêu cầu cho khách tham quan là gì ?",
+      "prediction": "Đeo khẩu trang, khử khuẩn, khoảng cách và đo thân nhiệt",
+      "ground_truths": [
+        "đeo khẩu trang khử khuẩn khoảng cách đo thân nhiệt"
+      ]
+    },
+    {
+      "index": 387,
+      "question": "cửa hàng có bảng hiệu màu cam là gì ?",
+      "prediction": "Cửa hàng có bảng hiệu màu cam",
+      "ground_truths": [
+        "nhà sách"
+      ]
+    },
+    {
+      "index": 388,
+      "question": "bó hoa đời đời nhớ ơn các anh hùng liệt sỹ của ai ?",
+      "prediction": "Công ty KBC",
+      "ground_truths": [
+        "công ty kbc"
+      ]
+    },
+    {
+      "index": 389,
+      "question": "bức ảnh có nguồn từ trang web nào ?",
+      "prediction": "Trang web GQ",
+      "ground_truths": [
+        "kesatquangminh . com"
+      ]
+    },
+    {
+      "index": 390,
+      "question": "số điện thoại của qm là gì ?",
+      "prediction": "0333400000",
+      "ground_truths": [
+        "0334030000"
+      ]
+    },
+    {
+      "index": 391,
+      "question": "qm bán sản phẩm gì ?",
+      "prediction": "Sản phẩm điện tử",
+      "ground_truths": [
+        "kesatquangminh . com"
+      ]
+    },
+    {
+      "index": 392,
+      "question": "cuốn sách thứ 2 tên gì ?",
+      "prediction": "Cây người",
+      "ground_truths": [
+        "chuyện con mèo dạy hải âu bay"
+      ]
+    },
+    {
+      "index": 393,
+      "question": "số điện thoại nào có thể liên lạc với tạp hóa hải anh sơn ?",
+      "prediction": "090 363 9199",
+      "ground_truths": [
+        "0779 . 024 . 778"
+      ]
+    },
+    {
+      "index": 394,
+      "question": "tên của biển hiệu 301f là gì ?",
+      "prediction": "Biển hiệu 301f",
+      "ground_truths": [
+        "các xe chỉ được đi thẳng và rẻ phải"
+      ]
+    },
+    {
+      "index": 395,
+      "question": "tiệm bán chăn - drap - gối - nệm tên gì ?",
+      "prediction": "Thế Linh",
+      "ground_truths": [
+        "thế linh"
+      ]
+    },
+    {
+      "index": 396,
+      "question": "cửa hàng duy minh chuyên bán gì ?",
+      "prediction": "Chăn, drap, gối, nệm",
+      "ground_truths": [
+        "chuyên : tủ , cửa nhôm , mặt dựng , vách ngăn , nhận cắt kính lắp ráp công trình từ 3li - 14li theo yêu cầu"
+      ]
+    },
+    {
+      "index": 397,
+      "question": "địa chỉ của cửa hàng linh luxury là ở đâu ?",
+      "prediction": "Trên đường Lê Lợi",
+      "ground_truths": [
+        "46 hàng cân"
+      ]
+    },
+    {
+      "index": 398,
+      "question": "số điện thoại của hanatech là gì ?",
+      "prediction": "036 912 9565",
+      "ground_truths": [
+        "036 912 4565 032 957 6282"
+      ]
+    },
+    {
+      "index": 399,
+      "question": "những thùng dưới cùng kệ là sản phẩm gì ?",
+      "prediction": "Sản phẩm đóng gói",
+      "ground_truths": [
+        "sữa tươi"
+      ]
+    },
+    {
+      "index": 400,
+      "question": "người đàn ông độ nón vàng trên áo có chữ gì ?",
+      "prediction": "TO",
+      "ground_truths": [
+        "tq"
+      ]
+    },
+    {
+      "index": 401,
+      "question": "giải đặc biệt của xổ số bình thuận là số nào ?",
+      "prediction": "7616",
+      "ground_truths": [
+        "243110"
+      ]
+    },
+    {
+      "index": 402,
+      "question": "nhất tâm là nhà ăn như thế nào ?",
+      "prediction": "Nhà ăn không đồng",
+      "ground_truths": [
+        "nhà ăn không đồng"
+      ]
+    },
+    {
+      "index": 403,
+      "question": "nhà ăn nhất tâm mở cửa những ngày nào ?",
+      "prediction": "Từ thứ 2 đến thứ 6",
+      "ground_truths": [
+        "từ thứ 2 - thứ 6"
+      ]
+    },
+    {
+      "index": 404,
+      "question": "cửa hàng này tên gì ?",
+      "prediction": "Moss-Nail Beauty Studio",
+      "ground_truths": [
+        "mosy nail"
+      ]
+    },
+    {
+      "index": 405,
+      "question": "đây là cửa hàng gì ?",
+      "prediction": "Cửa hàng nước hoa",
+      "ground_truths": [
+        "nước hoa chính hãng"
+      ]
+    },
+    {
+      "index": 406,
+      "question": "quán ăn thu trâm bán món gì ?",
+      "prediction": "Món nướng",
+      "ground_truths": [
+        "lẩu"
+      ]
+    },
+    {
+      "index": 407,
+      "question": "ngoài lầu thì quán ăn thu trâm còn có món gì ?",
+      "prediction": "Món lẩu",
+      "ground_truths": [
+        "nướng ( hấp - xào )"
+      ]
+    },
+    {
+      "index": 408,
+      "question": "số điện thoại của quán cơm hồng phúc là gì ?",
+      "prediction": "0799.525.187",
+      "ground_truths": [
+        "0799525187"
+      ]
+    },
+    {
+      "index": 409,
+      "question": "trong phạm vi 3 km thì sẽ như thế nào ?",
+      "prediction": "Giao tận nhà",
+      "ground_truths": [
+        "giao tận nhà"
+      ]
+    },
+    {
+      "index": 410,
+      "question": "giao tận nhà ?",
+      "prediction": "Có",
+      "ground_truths": [
+        "trong phạm vi 3 km"
+      ]
+    },
+    {
+      "index": 411,
+      "question": "bức ảnh có nguồn từ đâu ?",
+      "prediction": "DIFA.vn",
+      "ground_truths": [
+        "difa . vn"
+      ]
+    },
+    {
+      "index": 412,
+      "question": "địa chỉ của tiệm tóc nam là gì ?",
+      "prediction": "219A",
+      "ground_truths": [
+        "219a"
+      ]
+    },
+    {
+      "index": 413,
+      "question": "đây là mô hình gì ?",
+      "prediction": "Mô hình nghiên cứu đề xuất",
+      "ground_truths": [
+        "mô hình nghiên cứu đề xuất"
+      ]
+    },
+    {
+      "index": 414,
+      "question": "vào cuối tuần thì quán cà phê có sự kiện gì ?",
+      "prediction": "Có sự kiện",
+      "ground_truths": [
+        "văn nghệ"
+      ]
+    },
+    {
+      "index": 415,
+      "question": "ngoài số 082 . 39 . 78910 thì còn số nào liên lạc cho xe máy hoàn thiện không ?",
+      "prediction": "0899.79.4567",
+      "ground_truths": [
+        "0899 . 79 . 4567"
+      ]
+    },
+    {
+      "index": 416,
+      "question": "người đàn ông áo xanh dương đang cầm bìa đỏ ghi chữ gì ?",
+      "prediction": "Chữ “tươi”",
+      "ground_truths": [
+        "tết 2022"
+      ]
+    },
+    {
+      "index": 417,
+      "question": "0888 . 3888 . 65 là số gì ?",
+      "prediction": "Số điện thoại",
+      "ground_truths": [
+        "hotline"
+      ]
+    },
+    {
+      "index": 418,
+      "question": "hộp sản phẩm này là sản phẩm gì ?",
+      "prediction": "Sữa bịch có đường",
+      "ground_truths": [
+        "sữa bịch có đường"
+      ]
+    },
+    {
+      "index": 419,
+      "question": "chiếc ghe bên trái là của nơi nào ?",
+      "prediction": "Một khu chợ",
+      "ground_truths": [
+        "lý khơi"
+      ]
+    },
+    {
+      "index": 420,
+      "question": "tại nơi của bác sĩ bằng và trúc có nhận mẫu gì ?",
+      "prediction": "Xét nghiệm y khoa",
+      "ground_truths": [
+        "xét nghiệm y khoa"
+      ]
+    },
+    {
+      "index": 421,
+      "question": "hộp bánh này có tên là gì ?",
+      "prediction": "Bánh Orion Chocopie",
+      "ground_truths": [
+        "chocopie"
+      ]
+    },
+    {
+      "index": 422,
+      "question": "ngôi đền này có tên là gì ?",
+      "prediction": "Ngôi đền",
+      "ground_truths": [
+        "độc cước"
+      ]
+    },
+    {
+      "index": 423,
+      "question": "độc cước là tên của địa danh gì ?",
+      "prediction": "Độc cước",
+      "ground_truths": [
+        "đền"
+      ]
+    },
+    {
+      "index": 424,
+      "question": "trong ảnh đang làm bảng hiệu cho nhà hàng gì ?",
+      "prediction": "Nhà hàng Tuyệt Thành",
+      "ground_truths": [
+        "tuyết thanh"
+      ]
+    },
+    {
+      "index": 425,
+      "question": "số điện thoại của thế giới ad là gì ?",
+      "prediction": "0933.172.912",
+      "ground_truths": [
+        "0933 . 172 . 912"
+      ]
+    },
+    {
+      "index": 426,
+      "question": "tô phở này của quán nào ?",
+      "prediction": "Phở Nha",
+      "ground_truths": [
+        "phở đệ nhất"
+      ]
+    },
+    {
+      "index": 427,
+      "question": "bên trái cuốn dám mơ lớn là cuốn gì ?",
+      "prediction": "Năng đoạn kim cương",
+      "ground_truths": [
+        "năng đoạn kim cương"
+      ]
+    },
+    {
+      "index": 428,
+      "question": "indra nooyi là ai ?",
+      "prediction": "Người viết cuốn sách",
+      "ground_truths": [
+        "cựu chủ tịch và ceo của pepsico"
+      ]
+    },
+    {
+      "index": 429,
+      "question": "trần thị ngân tuyền đóng góp gì cho cuốn dám mơ lớn ?",
+      "prediction": "Để công tác giàu có và giàu sang",
+      "ground_truths": [
+        "dịch"
+      ]
+    },
+    {
+      "index": 430,
+      "question": "ở đây là siêu thị gì ?",
+      "prediction": "Siêu thị VinMart",
+      "ground_truths": [
+        "vinmart"
+      ]
+    },
+    {
+      "index": 431,
+      "question": "cửa hàng có số điện thoại 0945 166 799 và số nào nữa ?",
+      "prediction": "0945 166 799",
+      "ground_truths": [
+        "0945 166 899"
+      ]
+    },
+    {
+      "index": 432,
+      "question": "cửa hàng bên phải có tên là gì ?",
+      "prediction": "Cửa hàng hạt giống",
+      "ground_truths": [
+        "cà phê giải khát 102"
+      ]
+    },
+    {
+      "index": 433,
+      "question": "bức hình được lấy nguồn ở đâu ?",
+      "prediction": "Nguồn ảnh",
+      "ground_truths": [
+        "gia thịnh"
+      ]
+    },
+    {
+      "index": 434,
+      "question": "cái gì được nhập khẩu ?",
+      "prediction": "Rượu",
+      "ground_truths": [
+        "rượu"
+      ]
+    },
+    {
+      "index": 435,
+      "question": "bên phải bức hình là siêu thị nào ?",
+      "prediction": "Số 10",
+      "ground_truths": [
+        "aeon"
+      ]
+    },
+    {
+      "index": 436,
+      "question": "nội dung của bức hình là gì ?",
+      "prediction": "7 nguyên tắc trưng bày hàng hóa tại điểm bán lẻ không thể bỏ quá",
+      "ground_truths": [
+        "7 nguyên tắc trưng bày hàng hóa"
+      ]
+    },
+    {
+      "index": 437,
+      "question": "địa chỉ zuly nguyễn là gì ?",
+      "prediction": "Ấp 4 x 4, xã An, huyện Trung Bông, Đồng Nai",
+      "ground_truths": [
+        "ấp 4 , xã an viễn , huyện trảng bom , đồng nai"
+      ]
+    },
+    {
+      "index": 438,
+      "question": "cửa hàng này có tên là gì ?",
+      "prediction": "Poongsan",
+      "ground_truths": [
+        "poongsan"
+      ]
+    },
+    {
+      "index": 439,
+      "question": "địa chỉ cửa hàng ở đâu ?",
+      "prediction": "1900 27270",
+      "ground_truths": [
+        "12c 12d nguyên hồng , p . 1 , q . gò vấp , tp . hồ chí minh"
+      ]
+    },
+    {
+      "index": 440,
+      "question": "mục iii . 2 có tên là gì ?",
+      "prediction": "Tài liệu tham khảo",
+      "ground_truths": [
+        "đông dương đại hội"
+      ]
+    },
+    {
+      "index": 441,
+      "question": "cửa hàng ngoài bán trà sữa và bán cái gì ?",
+      "prediction": "Trà sữa & Xiên",
+      "ground_truths": [
+        "xiên que"
+      ]
+    },
+    {
+      "index": 442,
+      "question": "hoàng hà là cửa hàng gì ?",
+      "prediction": "Cửa hàng đồ ăn",
+      "ground_truths": [
+        "spa"
+      ]
+    },
+    {
+      "index": 443,
+      "question": "địa chỉ của hoàng hòa ?",
+      "prediction": "Số 17, số 17, số 17",
+      "ground_truths": [
+        "4 / 67 võ thị sáu"
+      ]
+    },
+    {
+      "index": 444,
+      "question": "của hàng ở giữa có tên là gì ?",
+      "prediction": "Gà nướng ô ơ",
+      "ground_truths": [
+        "bò lế rồ"
+      ]
+    },
+    {
+      "index": 445,
+      "question": "mọi người đang ở siêu thị nào ?",
+      "prediction": "Siêu thị Lotte Mart",
+      "ground_truths": [
+        "lotte mart"
+      ]
+    },
+    {
+      "index": 446,
+      "question": "bức hình này của doanh nghiệp nào ?",
+      "prediction": "AhaMove",
+      "ground_truths": [
+        "ahamove"
+      ]
+    },
+    {
+      "index": 447,
+      "question": "theo nội dung trên xe thì chở cái gì ?",
+      "prediction": "Cái xe chở hàng",
+      "ground_truths": [
+        "hàng nhà"
+      ]
+    },
+    {
+      "index": 448,
+      "question": "bác sĩ huỳnh văn tuấn là bác sĩ gì ?",
+      "prediction": "Bác sĩ phòng khám",
+      "ground_truths": [
+        "bác sĩ gia đình saigon co . op"
+      ]
+    },
+    {
+      "index": 449,
+      "question": "bên phải cửa hàng có bảng nội dung gì ?",
+      "prediction": "Chuyển tiền",
+      "ground_truths": [
+        "bán buôn bán lẻ phụ kiện chính"
+      ]
+    },
+    {
+      "index": 450,
+      "question": "đây là đâu ?",
+      "prediction": "Một cửa hàng",
+      "ground_truths": [
+        "tâm coffee"
+      ]
+    },
+    {
+      "index": 451,
+      "question": "nội dung trên tấm băng rôn màu đỏ là gì ?",
+      "prediction": "Kỳ thi Trung học Phổ thông Quốc gia năm 2010",
+      "ground_truths": [
+        "kì thi trung học phổ thông quốc gia năm 2018"
+      ]
+    },
+    {
+      "index": 452,
+      "question": "sản phẩm bên ngoài cùng bên phải có tên là gì ?",
+      "prediction": "Gạo 725",
+      "ground_truths": [
+        "gạo st 25"
+      ]
+    },
+    {
+      "index": 453,
+      "question": "buỗi lễ này do ai tổ chức ?",
+      "prediction": "Văn phòng Vĩ",
+      "ground_truths": [
+        "ủy ban nhân dân thành phố hội an"
+      ]
+    },
+    {
+      "index": 454,
+      "question": "bảng hiệu này của ai ?",
+      "prediction": "Công ty Quảng cáo và tổ chức kiến thiết",
+      "ground_truths": [
+        "sinh nhà việt"
+      ]
+    },
+    {
+      "index": 455,
+      "question": "địa chỉ web của công ty là gì ?",
+      "prediction": "web.vn",
+      "ground_truths": [
+        "quangcaosinhnhaviet . vn"
+      ]
+    },
+    {
+      "index": 456,
+      "question": "địa chỉ công ty ở đâu ?",
+      "prediction": "350 đường Đào Bà, P.2, Q.1, TP. HCM",
+      "ground_truths": [
+        "350 đường bùi văn hòa , tổ 22 , kp . 3 , p . long bình tân , biên hòa , đn"
+      ]
+    },
+    {
+      "index": 457,
+      "question": "ở đây in nhanh như thế nào ?",
+      "prediction": "Nó in nhanh",
+      "ground_truths": [
+        "lấy liền"
+      ]
+    },
+    {
+      "index": 458,
+      "question": "ở đây là đâu ?",
+      "prediction": "Trên một tảng đá",
+      "ground_truths": [
+        "điện biên phủ"
+      ]
+    },
+    {
+      "index": 459,
+      "question": "điện biên phủ này là địa điểm nào ?",
+      "prediction": "Điện biên phủ",
+      "ground_truths": [
+        "sở chỉ huy chiến dịch"
+      ]
+    },
+    {
+      "index": 460,
+      "question": "bên trái cửa hàng là nhà mang số nhà bao nhiêu ?",
+      "prediction": "178",
+      "ground_truths": [
+        "178"
+      ]
+    },
+    {
+      "index": 461,
+      "question": "bầu trời xanh là tên của trường gì ?",
+      "prediction": "Trường Hầm Non",
+      "ground_truths": [
+        "trường mầm non"
+      ]
+    },
+    {
+      "index": 462,
+      "question": "cửa hàng bên trái chợ có tên là gì ?",
+      "prediction": "Chợ Bình Tây",
+      "ground_truths": [
+        "lịch 2017"
+      ]
+    },
+    {
+      "index": 463,
+      "question": "đây là khu vui chơi dành cho ai ?",
+      "prediction": "Nhà sách",
+      "ground_truths": [
+        "trẻ em"
+      ]
+    },
+    {
+      "index": 464,
+      "question": "sở chỉ huy chiến dịch này có tên là gì ?",
+      "prediction": "Sở chỉ huy chiến dịch Điện Biên Phủ",
+      "ground_truths": [
+        "điện biên phủ"
+      ]
+    },
+    {
+      "index": 465,
+      "question": "chiến dịch kết thúc vào ngày nào ?",
+      "prediction": "11 tháng 11 năm 1958",
+      "ground_truths": [
+        "15 / 5 / 1954"
+      ]
+    },
+    {
+      "index": 466,
+      "question": "đi sang phải là đi đâu ?",
+      "prediction": "Nội Bài",
+      "ground_truths": [
+        "nội bài"
+      ]
+    },
+    {
+      "index": 467,
+      "question": "tên chương trình là gì ?",
+      "prediction": "Hương Sắc Việt - Hon",
+      "ground_truths": [
+        "hương sắc việt nam"
+      ]
+    },
+    {
+      "index": 468,
+      "question": "buổi lễ này có tên là gì ?",
+      "prediction": "Lễ quay",
+      "ground_truths": [
+        "vu quy"
+      ]
+    },
+    {
+      "index": 469,
+      "question": "gián hàng đầu tiên có tên là gì ?",
+      "prediction": "Đông Hoa",
+      "ground_truths": [
+        "đông hoa"
+      ]
+    },
+    {
+      "index": 470,
+      "question": "slogan của abk là gì ?",
+      "prediction": "ABK - 100%",
+      "ground_truths": [
+        "tận tâm xây dựng tổ ấm"
+      ]
+    },
+    {
+      "index": 471,
+      "question": "ta liên hệ người nào để làm những tấm bảng quảng cáo này ?",
+      "prediction": "Mr. Điệp",
+      "ground_truths": [
+        "mr . điệp"
+      ]
+    },
+    {
+      "index": 472,
+      "question": "khu nằm phí dưới khu phố cổ là gì ?",
+      "prediction": "Khu phố Pháp",
+      "ground_truths": [
+        "khu phố pháp phía nam"
+      ]
+    },
+    {
+      "index": 473,
+      "question": "trang web nào sở hữu tấm ảnh này ?",
+      "prediction": "HCMPLST.COM",
+      "ground_truths": [
+        "hcmtoplist . com"
+      ]
+    },
+    {
+      "index": 474,
+      "question": "tầng dưới của shop giữa tấm ảnh là shop nào ?",
+      "prediction": "Shop Adidas",
+      "ground_truths": [
+        "adidas"
+      ]
+    },
+    {
+      "index": 475,
+      "question": "dòng chữ ghi trên góc trái trên tấm ảnh là gì ?",
+      "prediction": "Như ở Việt Nam",
+      "ground_truths": [
+        "như ở việt nam"
+      ]
+    },
+    {
+      "index": 476,
+      "question": "nam anh bán sản phẩm như thế nào ?",
+      "prediction": "Bán sản phẩm cho khách hàng",
+      "ground_truths": [
+        "39 . 000 đ / sp"
+      ]
+    },
+    {
+      "index": 477,
+      "question": "số điện thoại liên lạc cho nhà hàng bạn hiền là gì ?",
+      "prediction": "0931 212 242",
+      "ground_truths": [
+        "08 77 87 5678 - 08 77 78 6868"
+      ]
+    },
+    {
+      "index": 478,
+      "question": "trên bảng tiệm của quán diễm hằng có logo của thương hiệu nào ?",
+      "prediction": "Thương hiệu sách",
+      "ground_truths": [
+        "pepsi"
+      ]
+    },
+    {
+      "index": 479,
+      "question": "tại điện máy xanh đang có chương trình gì ?",
+      "prediction": "Chương trình khuyến mãi",
+      "ground_truths": [
+        "mua tủ lạnh , máy giặt samsung trúng 20 bộ sản phẩm cao cấp"
+      ]
+    },
+    {
+      "index": 480,
+      "question": "chi nhánh ở đoàn thị điểm có số nhà là bao nhiêu ?",
+      "prediction": "10",
+      "ground_truths": [
+        "05"
+      ]
+    },
+    {
+      "index": 481,
+      "question": "người phụ nữ đang cầm sản phẩm gì ?",
+      "prediction": "Sản phẩm trên tivi",
+      "ground_truths": [
+        "dầu gội"
+      ]
+    },
+    {
+      "index": 482,
+      "question": "số điện thoại của quangcaotaybac . com là gì ?",
+      "prediction": "0909 837 837",
+      "ground_truths": [
+        "0968 858 111"
+      ]
+    },
+    {
+      "index": 483,
+      "question": "sản phẩm trà hộp đôi là sản phẩm như thế nào ?",
+      "prediction": "Được bán trong siêu thị",
+      "ground_truths": [
+        "cao cấp"
+      ]
+    },
+    {
+      "index": 484,
+      "question": "người đàn ông đang thi công cho shop nào ?",
+      "prediction": "Kim Huyền Shop",
+      "ground_truths": [
+        "kim huyền shop"
+      ]
+    },
+    {
+      "index": 485,
+      "question": "số điện thoại bên trái là gì ?",
+      "prediction": "0964 90 104",
+      "ground_truths": [
+        "0966 . 930 . 100"
+      ]
+    },
+    {
+      "index": 486,
+      "question": "quán ăn này đang có chương trình gì ?",
+      "prediction": "Khuyến mãi",
+      "ground_truths": [
+        "10 ngày tri ân khách hàng"
+      ]
+    },
+    {
+      "index": 487,
+      "question": "địa chỉ của quán umaya là gì ?",
+      "prediction": "25 Đường Thanh",
+      "ground_truths": [
+        "25 đường thành"
+      ]
+    },
+    {
+      "index": 488,
+      "question": "ngày giải phóng miền nam thống nhất đất nước vào ngày mấy ?",
+      "prediction": "Ngày 2 tháng 10",
+      "ground_truths": [
+        "30 / 4 / 1975"
+      ]
+    },
+    {
+      "index": 489,
+      "question": "tinh thần ngày chiến thắng 30 / 4 và ngày quốc tế lao động 1 / 5 như thế nào ?",
+      "prediction": "Cả hai đều là ngày",
+      "ground_truths": [
+        "bất diệt"
+      ]
+    },
+    {
+      "index": 490,
+      "question": "cửa hàng này kinh doanh cái gì ?",
+      "prediction": "Chính hàng",
+      "ground_truths": [
+        "linh phụ kiện chính hãng"
+      ]
+    },
+    {
+      "index": 491,
+      "question": "cửa hàng này chuyên về những việc gì ?",
+      "prediction": "Siêu thị mini và cửa hàng tiện lợi",
+      "ground_truths": [
+        "set up - tư vấn - vận hành"
+      ]
+    },
+    {
+      "index": 492,
+      "question": "ngôi trường mà các bạn trẻ đang chụp ảnh là ?",
+      "prediction": "Trường trường",
+      "ground_truths": [
+        "dương quảng hàm"
+      ]
+    },
+    {
+      "index": 493,
+      "question": "tác giả của bộ anime ?",
+      "prediction": "Nega",
+      "ground_truths": [
+        "negi haruba"
+      ]
+    },
+    {
+      "index": 494,
+      "question": "cửa hàng bên trái có tên là gì ?",
+      "prediction": "Nha Khoa New York",
+      "ground_truths": [
+        "mai"
+      ]
+    },
+    {
+      "index": 495,
+      "question": "tòa nhà bên phải là gì ?",
+      "prediction": "Trung rong",
+      "ground_truths": [
+        "cửa hàng may mặc số 7"
+      ]
+    },
+    {
+      "index": 496,
+      "question": "nguồn của bức ảnh này đến từ đâu ?",
+      "prediction": "Nhà bên sông",
+      "ground_truths": [
+        "đặc sản miền sông nước"
+      ]
+    },
+    {
+      "index": 497,
+      "question": "số điện thoại liên hệ đến quán ăn được ghi trên biển hiệu là gì ?",
+      "prediction": "0906 199 130 - 024 517 5078",
+      "ground_truths": [
+        "0988 139 023 - 0704 519 789"
+      ]
+    },
+    {
+      "index": 498,
+      "question": "lễ này có mục đích gì ?",
+      "prediction": "Đi lễ đón nhận",
+      "ground_truths": [
+        "nhận bằng xếp hạng di tích lịch sử"
+      ]
+    },
+    {
+      "index": 499,
+      "question": "nơi này do ai quản lý ?",
+      "prediction": "Ủy ban nhân dân quận Hà Đông",
+      "ground_truths": [
+        "ủy ban nhân dân quận hà đông"
+      ]
+    },
+    {
+      "index": 500,
+      "question": "lễ thờ cúng hùng vương được diễn ra ở đâu ?",
+      "prediction": "Ở một khu vực rộng lớn",
+      "ground_truths": [
+        "phú thọ"
+      ]
+    },
+    {
+      "index": 501,
+      "question": "bức ảnh được lấy từ nguồn nào ?",
+      "prediction": "Quảng cáo",
+      "ground_truths": [
+        "www . alphabeta . com . vn"
+      ]
+    },
+    {
+      "index": 502,
+      "question": "bức hình này được chụp tại đâu ?",
+      "prediction": "Trên một cổng chào",
+      "ground_truths": [
+        "công viên"
+      ]
+    },
+    {
+      "index": 503,
+      "question": "siêu thị trên thuộc quản lý của công ty nào ?",
+      "prediction": "Công ty CP TM DV",
+      "ground_truths": [
+        "công ty cp xd tm dv thành vạn phát"
+      ]
+    },
+    {
+      "index": 504,
+      "question": "cuốn sách có hình mặt người có tiêu đề là gì ?",
+      "prediction": "Đường vào tình sự",
+      "ground_truths": [
+        "đường vào tình sử"
+      ]
+    },
+    {
+      "index": 505,
+      "question": "tác giả của cuốn sách đường vào tình sử là ai ?",
+      "prediction": "Đinh Hùng",
+      "ground_truths": [
+        "đinh hùng"
+      ]
+    },
+    {
+      "index": 506,
+      "question": "chuyên mục của người đưa tin trong bức ảnh này là gì ?",
+      "prediction": "Chuyên mục của người đưa tin",
+      "ground_truths": [
+        "pháp luật"
+      ]
+    },
+    {
+      "index": 507,
+      "question": "số lượng và thị phần thảo luận của maxima rk trên social media là bao nhiêu ?",
+      "prediction": "1,887",
+      "ground_truths": [
+        "18 , 500"
+      ]
+    },
+    {
+      "index": 508,
+      "question": "bức ảnh này được chụp tại đâu ?",
+      "prediction": "Trên biển hiệu của một tòa nhà",
+      "ground_truths": [
+        "lê đức thọ - hà nội"
+      ]
+    },
+    {
+      "index": 509,
+      "question": "số điện thoại khi cần liên hệ thuê mặt bằng bên trái căn nhà màu vàng là số nào ?",
+      "prediction": "0988 988 988",
+      "ground_truths": [
+        "09 888 64 086"
+      ]
+    },
+    {
+      "index": 510,
+      "question": "khi cần gọi quán hai tín thì gọi qua số điện thoại nào ?",
+      "prediction": "09896694517 hoặc 0912143321",
+      "ground_truths": [
+        "0989694517"
+      ]
+    },
+    {
+      "index": 511,
+      "question": "hình thức trình bày về di tích lịch sử ngục kon tum là gì ?",
+      "prediction": "Thuyết minh",
+      "ground_truths": [
+        "thuyết minh"
+      ]
+    },
+    {
+      "index": 512,
+      "question": "gói xúc xích super 5 là của thương hiệu nhà sản xuất nào ?",
+      "prediction": "Nhà sản xuất Super",
+      "ground_truths": [
+        "vissan"
+      ]
+    },
+    {
+      "index": 513,
+      "question": "combo 4 có bộ đầu khẩu bao nhiêu pcs ?",
+      "prediction": "16",
+      "ground_truths": [
+        "14"
+      ]
+    },
+    {
+      "index": 514,
+      "question": "giá bán của combo 4 sau khi giảm giá là bao nhiêu ?",
+      "prediction": "4.990.000 VND",
+      "ground_truths": [
+        "4 . 990 . 000 vnd"
+      ]
+    },
+    {
+      "index": 515,
+      "question": "số điện thoại của nhà hàng phố biển là gì ?",
+      "prediction": "386521862",
+      "ground_truths": [
+        "38621862"
+      ]
+    },
+    {
+      "index": 516,
+      "question": "nhà sách mang tên gọi như thế nào ?",
+      "prediction": "Nhà sách Pipo",
+      "ground_truths": [
+        "pipopu"
+      ]
+    },
+    {
+      "index": 517,
+      "question": "số lượng nhân viên nữ phục vụ bida cần tuyển là bao nhiêu ?",
+      "prediction": "100",
+      "ground_truths": [
+        "5 người"
+      ]
+    },
+    {
+      "index": 518,
+      "question": "loại cải mà quán phá lấu kinh doanh là cải gì ?",
+      "prediction": "Cải Pipo",
+      "ground_truths": [
+        "chua"
+      ]
+    },
+    {
+      "index": 519,
+      "question": "gogi house bán món gì ?",
+      "prediction": "Món Hàn Quốc",
+      "ground_truths": [
+        "thịt nướng"
+      ]
+    },
+    {
+      "index": 520,
+      "question": "gogi house bán thịt nướng theo phong cách nào ?",
+      "prediction": "Theo phong cách Hàn Quốc",
+      "ground_truths": [
+        "hàn quốc"
+      ]
+    },
+    {
+      "index": 521,
+      "question": "đại lí gạo này bán gạo như thế nào ?",
+      "prediction": "Bán gạo cho người bán",
+      "ground_truths": [
+        "bán buôn bán lẻ"
+      ]
+    },
+    {
+      "index": 522,
+      "question": "cửa hàng có biển hiệu màu trắng ngoài bán gạo ra còn bán thứ gì ?",
+      "prediction": "Gạo",
+      "ground_truths": [
+        "rượu"
+      ]
+    },
+    {
+      "index": 523,
+      "question": "tác phẩm vợ nhặt do ai xuất bản ?",
+      "prediction": "Kim Lân",
+      "ground_truths": [
+        "nhà xuất bản văn học"
+      ]
+    },
+    {
+      "index": 524,
+      "question": "khu dân cư văn hóa này là khu dân cư văn hóa số mấy ?",
+      "prediction": "Số 3",
+      "ground_truths": [
+        "3"
+      ]
+    },
+    {
+      "index": 525,
+      "question": "ở bach long mobile có gì ?",
+      "prediction": "Có một cửa hàng",
+      "ground_truths": [
+        "điện thoại máy tính bảng phụ kiện dịch vụ"
+      ]
+    },
+    {
+      "index": 526,
+      "question": "biển hiệu trên cổng trường có nội dung gì ?",
+      "prediction": "Nhiệt diệt cho năm học mới",
+      "ground_truths": [
+        "cổng trường an toàn giao thông"
+      ]
+    },
+    {
+      "index": 527,
+      "question": "slogan của co . op mart là gì ?",
+      "prediction": "Co.opmart",
+      "ground_truths": [
+        "bạn của mọi nhà"
+      ]
+    },
+    {
+      "index": 528,
+      "question": "bức ảnh này có nguồn góc từ đâu ?",
+      "prediction": "Việt Trấn",
+      "ground_truths": [
+        "việt trân"
+      ]
+    },
+    {
+      "index": 529,
+      "question": "nhãn hiệu của cuộn phim bên phải bức ảnh là gì ?",
+      "prediction": "Suzi",
+      "ground_truths": [
+        "lumiere"
+      ]
+    },
+    {
+      "index": 530,
+      "question": "phim lumiere có đặc điểm gì ?",
+      "prediction": "Có thể là một phim",
+      "ground_truths": [
+        "chụp ảnh tốt nhất"
+      ]
+    },
+    {
+      "index": 531,
+      "question": "số điện thoại của nhà hàng này là gì ?",
+      "prediction": "0987 654 654",
+      "ground_truths": [
+        "08 . 6279 . 5656"
+      ]
+    },
+    {
+      "index": 532,
+      "question": "có bao nhiêu ca nhiễm trong thời gian 1 ?",
+      "prediction": "1000 ca",
+      "ground_truths": [
+        "415 ca"
+      ]
+    },
+    {
+      "index": 533,
+      "question": "sách ở hàng cuối cùng bên phải có tên là gì ?",
+      "prediction": "Nghệ",
+      "ground_truths": [
+        "hoàng sa trường sa"
+      ]
+    },
+    {
+      "index": 534,
+      "question": "biển hiệu này của ai ?",
+      "prediction": "Trường",
+      "ground_truths": [
+        "trường"
+      ]
+    },
+    {
+      "index": 535,
+      "question": "website của công ty này là gì ?",
+      "prediction": "https://tonghieuhcm.vn",
+      "ground_truths": [
+        "https : / / banghieuhcm . vn https : quangcaohcm . vn"
+      ]
+    },
+    {
+      "index": 536,
+      "question": "đây là nơi nào ?",
+      "prediction": "Đền thờ Chủ tịch Hồ Chí Minh",
+      "ground_truths": [
+        "đền thờ"
+      ]
+    },
+    {
+      "index": 537,
+      "question": "tỉnh gia lai đang tổ chức chương trình gì ?",
+      "prediction": "Chương trình Ấm áp mùa đông",
+      "ground_truths": [
+        "ấm áp mùa đông"
+      ]
+    },
+    {
+      "index": 538,
+      "question": "tầng trệt của vincom có tiệm coffee tên gì ?",
+      "prediction": "Highlands Coffee",
+      "ground_truths": [
+        "highlands coffee"
+      ]
+    },
+    {
+      "index": 539,
+      "question": "quán hải sản thiên nhiên tươi sống có tên là gì ?",
+      "prediction": "Hiền Nhung",
+      "ground_truths": [
+        "hiền nhung"
+      ]
+    },
+    {
+      "index": 540,
+      "question": "biển hiệu biển đỏ chữ trắng nhấp nháy phía dưới chữ popeyes là gì ?",
+      "prediction": "Bảo quản gà hầm",
+      "ground_truths": [
+        "lousiana kitchen"
+      ]
+    },
+    {
+      "index": 541,
+      "question": "siêu thị đang tổ chức sự kiện gì ?",
+      "prediction": "Chúc mừng khách hàng",
+      "ground_truths": [
+        "tưng bừng khai trương"
+      ]
+    },
+    {
+      "index": 542,
+      "question": "bánh mì xíu mại mà quán bán được xuất xứ từ đâu ?",
+      "prediction": "Mỹ",
+      "ground_truths": [
+        "đà lạt"
+      ]
+    },
+    {
+      "index": 543,
+      "question": "địa chỉ của công ty này là ở đâu ?",
+      "prediction": "Địa chỉ: 101 Đường 1, 101, 101, 101",
+      "ground_truths": [
+        "số 04 đường số 7 , kdc cityland park hill , p10 , q . gò vấp"
+      ]
+    },
+    {
+      "index": 544,
+      "question": "bếp trong bức ảnh tên là gì ?",
+      "prediction": "Bếp Xuân Tuân",
+      "ground_truths": [
+        "xuân tuân"
+      ]
+    },
+    {
+      "index": 545,
+      "question": "ngoài ra quán còn bán loại thức ăn gì ?",
+      "prediction": "Bún cá cay",
+      "ground_truths": [
+        "bún cá cay"
+      ]
+    },
+    {
+      "index": 546,
+      "question": "thời gian mở phố đi bộ ?",
+      "prediction": "Từ 19h00 đến 24h00",
+      "ground_truths": [
+        "từ 19h00 đến 24h00"
+      ]
+    },
+    {
+      "index": 547,
+      "question": "của hàng trong ảnh tên là gì ?",
+      "prediction": "Dịch vụ phụ tùng và phụ kiện chính hãng",
+      "ground_truths": [
+        "mùa xuân"
+      ]
+    },
+    {
+      "index": 548,
+      "question": "tuần lễ này là tuần lễ gì ?",
+      "prediction": "Mùa xuân",
+      "ground_truths": [
+        "tuần lễ vàng"
+      ]
+    },
+    {
+      "index": 549,
+      "question": "website liên hệ là gì ?",
+      "prediction": "www.GocNinh.com",
+      "ground_truths": [
+        "www . tovi . vn"
+      ]
+    },
+    {
+      "index": 550,
+      "question": "xưởng này ở thành phố nào ?",
+      "prediction": "Hà Nội",
+      "ground_truths": [
+        "tphcm"
+      ]
+    },
+    {
+      "index": 551,
+      "question": "biển số xe của se này là số mấy ?",
+      "prediction": "101",
+      "ground_truths": [
+        "60b - 001 . 97"
+      ]
+    },
+    {
+      "index": 552,
+      "question": "tên tiệm tạp hóa trong ảnh là gì ?",
+      "prediction": "Tạp hóa hàng cảnh",
+      "ground_truths": [
+        "hằng cảnh"
+      ]
+    },
+    {
+      "index": 553,
+      "question": "tết trong hình diễn ra trong năm mấy ?",
+      "prediction": "Năm 2021",
+      "ground_truths": [
+        "2021"
+      ]
+    },
+    {
+      "index": 554,
+      "question": "chợ tết này bán món gì ?",
+      "prediction": "Món pháo hoa",
+      "ground_truths": [
+        "pháo hoa"
+      ]
+    },
+    {
+      "index": 555,
+      "question": "buổi lễ này là buổi lễ gì ?",
+      "prediction": "Lễ giao lưu",
+      "ground_truths": [
+        "giao lưu ngày quốc tế bảo tàng"
+      ]
+    },
+    {
+      "index": 556,
+      "question": "tên của hiệu bánh cốm này là gì ?",
+      "prediction": "Đặng Ninh",
+      "ground_truths": [
+        "đăng ninh"
+      ]
+    },
+    {
+      "index": 557,
+      "question": "dòng chữ màu trắng trên thanh màu nâu có nội dung gì ?",
+      "prediction": "Có thể là tên cửa hàng",
+      "ground_truths": [
+        "cac moi ."
+      ]
+    },
+    {
+      "index": 558,
+      "question": "nội dung của tấm bảng là gì ?",
+      "prediction": "Vừa rẻ - vừa ngon",
+      "ground_truths": [
+        "vừa rẻ - vừa ngon"
+      ]
+    },
+    {
+      "index": 559,
+      "question": "dòng chữ màu xanh lá ở dưới bức hình là gì ?",
+      "prediction": "Chi phí sản xuất",
+      "ground_truths": [
+        "yếu tố nội tại"
+      ]
+    },
+    {
+      "index": 560,
+      "question": "số điện thoại của cửa hàng bo shop là gì ?",
+      "prediction": "1900 3100",
+      "ground_truths": [
+        "1900 7101 - 3 - 091 800 5600"
+      ]
+    },
+    {
+      "index": 561,
+      "question": "cửa hàng thanh tùng chuyên làm gì ?",
+      "prediction": "Sửa chữa ô tô",
+      "ground_truths": [
+        "sửa đề - đy mô các loại xe ô tô và xe cơ giới"
+      ]
+    },
+    {
+      "index": 562,
+      "question": "số điện thoại của cửa hàng thanh tùng là gì ?",
+      "prediction": "0932.924.261",
+      "ground_truths": [
+        "0932 . 924 . 261"
+      ]
+    },
+    {
+      "index": 563,
+      "question": "lê hàn quốc có giá bao nhiêu ?",
+      "prediction": "109.900 đồng",
+      "ground_truths": [
+        "109 . 900 đ"
+      ]
+    },
+    {
+      "index": 564,
+      "question": "ghn liên tục cập nhật gì ?",
+      "prediction": "Cập nhật hành chính",
+      "ground_truths": [
+        "danh sách khu vực giao nhận bị ảnh hưởng do dịch covid - 19"
+      ]
+    },
+    {
+      "index": 565,
+      "question": "sự kiện trong bản tin là của cơ quan nào ?",
+      "prediction": "Bộ Ngoại giao Việt Nam",
+      "ground_truths": [
+        "bộ ngoại giao"
+      ]
+    },
+    {
+      "index": 566,
+      "question": "nguồn của bức ảnh này là gì ?",
+      "prediction": "Toà quốc",
+      "ground_truths": [
+        "tổquốc"
+      ]
+    },
+    {
+      "index": 567,
+      "question": "trong cuốn sách này có bí quyết gì ?",
+      "prediction": "Để dạy con cái",
+      "ground_truths": [
+        "khắc phục sai lầm trong giáo dục con cái"
+      ]
+    },
+    {
+      "index": 568,
+      "question": "tiệm bánh cối xay gió bán món gì ?",
+      "prediction": "Bánh mì, bánh nướng, bún",
+      "ground_truths": [
+        "bánh mì bánh ngọt"
+      ]
+    },
+    {
+      "index": 569,
+      "question": "cuốn sách này đạt giải thưởng gì ?",
+      "prediction": "Nhà xuất bản New York Times",
+      "ground_truths": [
+        "new york times bestseller"
+      ]
+    },
+    {
+      "index": 570,
+      "question": "ai là tác giả của cuốn sách này ?",
+      "prediction": "Mỹ Phương",
+      "ground_truths": [
+        "miêu công tử"
+      ]
+    },
+    {
+      "index": 571,
+      "question": "3 . 500 vnđ / cái là giá của thức gì trong đây ?",
+      "prediction": "Thức bánh mì",
+      "ground_truths": [
+        "bánh mì thanh long 100g"
+      ]
+    },
+    {
+      "index": 572,
+      "question": "chương trình gì đang được diễn ra ?",
+      "prediction": "Chương trình Tết Việt",
+      "ground_truths": [
+        "tết việt gắn kết mọi nhà"
+      ]
+    },
+    {
+      "index": 573,
+      "question": "cửa hàng này tên là gì ?",
+      "prediction": "Pan 2021",
+      "ground_truths": [
+        "panpan"
+      ]
+    },
+    {
+      "index": 574,
+      "question": "slogon của cửa hàng lẩu bò sài gòn là gì ?",
+      "prediction": "Slogan của cửa hàng",
+      "ground_truths": [
+        "ngon vui quá"
+      ]
+    },
+    {
+      "index": 575,
+      "question": "cửa hàng này tên là gì ?",
+      "prediction": "Cửa hàng tạp hóa",
+      "ground_truths": [
+        "vinmart"
+      ]
+    },
+    {
+      "index": 576,
+      "question": "nguyên hồng chuyên bán các mặt hàng nào ?",
+      "prediction": "Mặt hàng",
+      "ground_truths": [
+        "các mặt hàng đặc sản miền trung"
+      ]
+    },
+    {
+      "index": 577,
+      "question": "số điện thoại của nhà thuốc tuyết vy là gì ?",
+      "prediction": "0918779855",
+      "ground_truths": [
+        "0915 . 775 . 053"
+      ]
+    },
+    {
+      "index": 578,
+      "question": "địa chỉ của nhà thuốc tuyết vy là gì ?",
+      "prediction": "Địa chỉ: ấp bình lâm - lạc an - long thành",
+      "ground_truths": [
+        "ấp bình lâm - lộc an - long thành"
+      ]
+    },
+    {
+      "index": 579,
+      "question": "cửa hàng này tên gì ?",
+      "prediction": "Công ty Goldstar",
+      "ground_truths": [
+        "gold start 11"
+      ]
+    },
+    {
+      "index": 580,
+      "question": "công ty aviva làm lễ khai trương cho gì ?",
+      "prediction": "Văn phòng kinh doanh AVIVA Việt Nam",
+      "ground_truths": [
+        "văn phòng kinh doanh aviva việt nam"
+      ]
+    },
+    {
+      "index": 581,
+      "question": "cửa hàng ở góc phải tên là gì ?",
+      "prediction": "Thành Nguyễn",
+      "ground_truths": [
+        "thanh nguyệt"
+      ]
+    },
+    {
+      "index": 582,
+      "question": "cửa hàng này tên là gì ?",
+      "prediction": "Bít Tết Ngon",
+      "ground_truths": [
+        "bít tết ngon"
+      ]
+    },
+    {
+      "index": 583,
+      "question": "đang có sự kiện gì ở fujimart ?",
+      "prediction": "Khuyến mãi",
+      "ground_truths": [
+        "khuyến mãi đặc biệt"
+      ]
+    },
+    {
+      "index": 584,
+      "question": "cửa hàng hiển có phục vụ những gì ?",
+      "prediction": "Sửa chữa xe và điện",
+      "ground_truths": [
+        "sửa chữa xe máy điện thay thế phụ tùng bán xăng"
+      ]
+    },
+    {
+      "index": 585,
+      "question": "cửa hàng bên trái có tên là gì ?",
+      "prediction": "Cửa hàng Triệu",
+      "ground_truths": [
+        "hội chợ"
+      ]
+    },
+    {
+      "index": 586,
+      "question": "thông điệp trong bức ảnh ?",
+      "prediction": "Thiên tài thắng thắng",
+      "ground_truths": [
+        "win win"
+      ]
+    },
+    {
+      "index": 587,
+      "question": "điều gì khiến mọi người tin dùng nhà thuốc này ?",
+      "prediction": "Điều này là nhà thuốc tốt",
+      "ground_truths": [
+        "đạt chuẩn gpp"
+      ]
+    },
+    {
+      "index": 588,
+      "question": "nhà thuốc này tọa lạc ở đâu ?",
+      "prediction": "Bình Khánh",
+      "ground_truths": [
+        "a23 - lương định của - phường bình an - quận 2"
+      ]
+    },
+    {
+      "index": 589,
+      "question": "tấm bảng này muốn làm gì ?",
+      "prediction": "Để quảng cáo",
+      "ground_truths": [
+        "quảng cáo"
+      ]
+    },
+    {
+      "index": 590,
+      "question": "địa chỉ của shop 2 banh nằm ở ?",
+      "prediction": "333 Đống Đa, P. Tân Bình, TP. Hồ Chí Minh",
+      "ground_truths": [
+        "313 đồng khởi , p . tân mai , tp . biên hòa"
+      ]
+    },
+    {
+      "index": 591,
+      "question": "nguồn đã chụp bức ảnh này là ở đau ?",
+      "prediction": "Không, nguồn là Vinter",
+      "ground_truths": [
+        "hachi"
+      ]
+    },
+    {
+      "index": 592,
+      "question": "tác giả đã sáng tác ra tác phẩm này là ai ?",
+      "prediction": "Nguyễn Đức Hiệp",
+      "ground_truths": [
+        "nguyễn đức hiệp"
+      ]
+    },
+    {
+      "index": 593,
+      "question": "quyển sách trong hình là lần tái bản thứ bao nhiêu ?",
+      "prediction": "Lần tái bản thứ 10",
+      "ground_truths": [
+        "tái bản lần thứ nhất"
+      ]
+    },
+    {
+      "index": 594,
+      "question": "hội chợ mua sắm được tổ chức từ ngày nào đến ngày nào ?",
+      "prediction": "16 đến 24 tháng 12 năm 2021",
+      "ground_truths": [
+        "từ 16 . 01 đến 24 . 01 . 2021"
+      ]
+    },
+    {
+      "index": 595,
+      "question": "vé vào cổng được miễn phí trong khoảng thời gian nào ?",
+      "prediction": "Từ 16 đến 24 tháng 1 năm 2021",
+      "ground_truths": [
+        "từ 8h30 đến 15h30"
+      ]
+    },
+    {
+      "index": 596,
+      "question": "căn phòng ở góc trên phải là căn phòng gì ?",
+      "prediction": "Căn phòng của trường",
+      "ground_truths": [
+        "tin học"
+      ]
+    },
+    {
+      "index": 597,
+      "question": "câu slogan của trường đào duy từ là gì ?",
+      "prediction": "Kỷ niệm 10 năm",
+      "ground_truths": [
+        "thành công từ sự khác biệt"
+      ]
+    },
+    {
+      "index": 598,
+      "question": "tiệm coco chuyên bán loại trà gì ?",
+      "prediction": "Trà sữa",
+      "ground_truths": [
+        "đài loan"
+      ]
+    },
+    {
+      "index": 599,
+      "question": "naman market giảm đến 40 % cho các loại sản phẩm gì ?",
+      "prediction": "Sản phẩm nhập khẩu cao cấp",
+      "ground_truths": [
+        "nhập khẩu cao cấp"
+      ]
+    },
+    {
+      "index": 600,
+      "question": "trứng gà cao cấp của thương hiệu ba huân là trứng gà như thế nào ?",
+      "prediction": "Trứng gà cao cấp",
+      "ground_truths": [
+        "dinh dưỡng"
+      ]
+    },
+    {
+      "index": 601,
+      "question": "hộp sữa màu xanh lá thuộc dòng sữa gì ?",
+      "prediction": "Sữa Milo",
+      "ground_truths": [
+        "milo"
+      ]
+    },
+    {
+      "index": 602,
+      "question": "vị bác sĩ trên màn hình ở góc trên bên phải bức ảnh tên gì ?",
+      "prediction": "Bác sĩ Trần Văn Tuấn",
+      "ground_truths": [
+        "huỳnh văn tuân"
+      ]
+    },
+    {
+      "index": 603,
+      "question": "cửa hàng có bảng hiệu màu đỏ có chữ vàng bên trái bức ảnh có tên là gì ?",
+      "prediction": "HHD Việt Nam",
+      "ground_truths": [
+        "hhd viet nam"
+      ]
+    },
+    {
+      "index": 604,
+      "question": "tên của các siêu thị bên phải bức ảnh là gì ?",
+      "prediction": "Coopmart, Big C, Aeon",
+      "ground_truths": [
+        "co . op mart co . op food vinmart big c supercenter bách hóa xanh aeon"
+      ]
+    },
+    {
+      "index": 605,
+      "question": "chọn loại sữa nào là sai ?",
+      "prediction": "Sữa Alpine",
+      "ground_truths": [
+        "alpine cows milk"
+      ]
+    },
+    {
+      "index": 606,
+      "question": "phiên bản điện thoại vsmart active 3 được chụp là gì ?",
+      "prediction": "Phiên bản 3",
+      "ground_truths": [
+        "6gb / 64gb"
+      ]
+    },
+    {
+      "index": 607,
+      "question": "vsmart active 3 được trang bị mấy camera ?",
+      "prediction": "Một camera",
+      "ground_truths": [
+        "3 camera"
+      ]
+    },
+    {
+      "index": 608,
+      "question": "bức ảnh chụp ở chợ nào ?",
+      "prediction": "Chợ Bà Hoa",
+      "ground_truths": [
+        "chợ bà hoa"
+      ]
+    },
+    {
+      "index": 609,
+      "question": "bệnh viện đa khoa thuộc tỉnh nào ?",
+      "prediction": "Tỉnh Sóc Trăng",
+      "ground_truths": [
+        "tỉnh sóc trăng"
+      ]
+    },
+    {
+      "index": 610,
+      "question": "dòng chữ màu đỏ phía trên chữ bệnh viện đa khoa tỉnh sóc trăng có nội dung gì ?",
+      "prediction": "Sở Y tế",
+      "ground_truths": [
+        "sở y tế"
+      ]
+    },
+    {
+      "index": 611,
+      "question": "số điện thoại của phở thủy là gì ?",
+      "prediction": "1800 333 3333",
+      "ground_truths": [
+        "0984 . 474 . 623"
+      ]
+    },
+    {
+      "index": 612,
+      "question": "quán ốc bông bán món gì ?",
+      "prediction": "Ốc bông",
+      "ground_truths": [
+        "ốc"
+      ]
+    },
+    {
+      "index": 613,
+      "question": "cuốn sách này có tựa đề là gì ?",
+      "prediction": "Điều trọng nhất",
+      "ground_truths": [
+        "điều quan trọng nhất"
+      ]
+    },
+    {
+      "index": 614,
+      "question": "địa chỉ của cửa hàng này ở đâu ?",
+      "prediction": "153 A Trần Quang Khải",
+      "ground_truths": [
+        "153a trần quang khải , p . tân định , q . 1 , tp . hcm"
+      ]
+    },
+    {
+      "index": 615,
+      "question": "cửa hàng kệ siêu thị này có tên là gì ?",
+      "prediction": "Hanatech",
+      "ground_truths": [
+        "hanatech"
+      ]
+    },
+    {
+      "index": 616,
+      "question": "cửa hàng này có chi nhánh tại đâu ?",
+      "prediction": "Bảng Bảng",
+      "ground_truths": [
+        "tây ninh"
+      ]
+    },
+    {
+      "index": 617,
+      "question": "phụ kiện điện thoại giá như thế nào ?",
+      "prediction": "Được bán rẻ",
+      "ground_truths": [
+        "giá rẻ"
+      ]
+    },
+    {
+      "index": 618,
+      "question": "số điện thoại của cửa hàng này là gì ?",
+      "prediction": "0986 770 770",
+      "ground_truths": [
+        "0936 766 707"
+      ]
+    },
+    {
+      "index": 619,
+      "question": "biển hiệu màu xanh đang quảng cáo thương hiệu nước ngọt nào ?",
+      "prediction": "Pepsi",
+      "ground_truths": [
+        "pepsi"
+      ]
+    },
+    {
+      "index": 620,
+      "question": "số điện thoại của bên thiết kế này là gì ?",
+      "prediction": "0983 429 429",
+      "ground_truths": [
+        "0935 422 625"
+      ]
+    },
+    {
+      "index": 621,
+      "question": "địa chỉ của tiệm bánh này ở đâu ?",
+      "prediction": "3245 Nguyễn Thiện Thủy",
+      "ground_truths": [
+        "245 / 5 nguyễn thiện thuật p . thắng nhất , tp . vt"
+      ]
+    },
+    {
+      "index": 622,
+      "question": "thực phẩm nào đang được khuyến mãi ?",
+      "prediction": "Dưa hấu và cam",
+      "ground_truths": [
+        "dưa leo"
+      ]
+    },
+    {
+      "index": 623,
+      "question": "thương hiệu có dòng chữ đỏ là gì ?",
+      "prediction": "Ngon",
+      "ground_truths": [
+        "chohlimex"
+      ]
+    },
+    {
+      "index": 624,
+      "question": "quán chú há được thành lập vào năm nào ?",
+      "prediction": "Năm 2008",
+      "ground_truths": [
+        "1985"
+      ]
+    },
+    {
+      "index": 625,
+      "question": "giờ mở cửa của quán là ?",
+      "prediction": "Từ 6h30 đến 9h30",
+      "ground_truths": [
+        "8h30 sáng"
+      ]
+    },
+    {
+      "index": 626,
+      "question": "công ty người đưa tin đưa tin về vấn đề gì ?",
+      "prediction": "Công ty đưa tin về tình hình",
+      "ground_truths": [
+        "pháp luật"
+      ]
+    },
+    {
+      "index": 627,
+      "question": "góc phố này là giao của hai con đường nào ?",
+      "prediction": "Giao của Trần Phú và Lê Lợi",
+      "ground_truths": [
+        "trần phú & lê lợi"
+      ]
+    },
+    {
+      "index": 628,
+      "question": "nguồn của bức ảnh này là gì ?",
+      "prediction": "Trang web PanStreetView",
+      "ground_truths": [
+        "hoianstreetview . com"
+      ]
+    },
+    {
+      "index": 629,
+      "question": "nhà hàng hưng phát có chương trình nhân dịp gì ?",
+      "prediction": "Nhận 10%",
+      "ground_truths": [
+        "khai trường giảm giá 10 %"
+      ]
+    },
+    {
+      "index": 630,
+      "question": "câu nói của andrew \" thỏ \" huang , xbox hacker là gì ?",
+      "prediction": "Đại chiến hacker",
+      "ground_truths": [
+        "\" hãy như m1lk3y : bước ra khỏi cửa và dám sống tự do . \""
+      ]
+    },
+    {
+      "index": 631,
+      "question": "nguồn của bức ảnh này là gì ?",
+      "prediction": "Dân Việt",
+      "ground_truths": [
+        "dân việt . vn"
+      ]
+    },
+    {
+      "index": 632,
+      "question": "hotline của quảng cáo gia phát là gì ?",
+      "prediction": "0903 989 543",
+      "ground_truths": [
+        "0903 098 643"
+      ]
+    },
+    {
+      "index": 633,
+      "question": "cửa hàng thời trang xuất khẩu có sản phẩm được làm ra ở đâu ?",
+      "prediction": "Trên đường",
+      "ground_truths": [
+        "vietnam - combodia"
+      ]
+    },
+    {
+      "index": 634,
+      "question": "bức ảnh này chụp khu vực nào ?",
+      "prediction": "Khu vực đô thị",
+      "ground_truths": [
+        "viện viễn đông bác cổ , trung tâm hà nội"
+      ]
+    },
+    {
+      "index": 635,
+      "question": "mì xào ở quầy bên phải người phụ nữ là của hãng nào ?",
+      "prediction": "Mì xào của hãng KFC",
+      "ground_truths": [
+        "hảo hảo"
+      ]
+    },
+    {
+      "index": 636,
+      "question": "quầy ở bên trái bức ảnh bán bơ gì ?",
+      "prediction": "Bơ xanh",
+      "ground_truths": [
+        "sáp"
+      ]
+    },
+    {
+      "index": 637,
+      "question": "chương trình học thử này diễn ra vào khoảng thời gian nào ?",
+      "prediction": "Từ thứ 2 đến thứ 6 hàng tuần",
+      "ground_truths": [
+        "từ thứ 2 đến thứ 6 hàng tuần"
+      ]
+    },
+    {
+      "index": 638,
+      "question": "địa chỉ của nhà sách tân việt là gì ?",
+      "prediction": "Địa chỉ: 123 Nguyễn Văn Cừ",
+      "ground_truths": [
+        "315 bạch mai - hai bà trưng - hà nội"
+      ]
+    },
+    {
+      "index": 639,
+      "question": "trang web của nhà sách tân việt là gì ?",
+      "prediction": "Nhà sách tân việt",
+      "ground_truths": [
+        "www . tanvietbooks . com . vn"
+      ]
+    },
+    {
+      "index": 640,
+      "question": "tài nguyên & môi trường là báo gì của bộ tài nguyên và môi trường ?",
+      "prediction": "Báo điện tử của Bộ Tài nguyên và Môi trường",
+      "ground_truths": [
+        "điện tử"
+      ]
+    },
+    {
+      "index": 641,
+      "question": "công ty cổ phần dược phẩm này tên là gì ?",
+      "prediction": "Công ty cổ phần dược phẩm",
+      "ground_truths": [
+        "opc"
+      ]
+    },
+    {
+      "index": 642,
+      "question": "slogan của công ty opc là gì ?",
+      "prediction": "Sông sông tươi đẹp",
+      "ground_truths": [
+        "thiên nhiên & cuộc sống"
+      ]
+    },
+    {
+      "index": 643,
+      "question": "công ty bất động sản bên trái tên gì ?",
+      "prediction": "Sân hàng",
+      "ground_truths": [
+        "sàigònlink"
+      ]
+    },
+    {
+      "index": 644,
+      "question": "người phát ngôn của nước nào ?",
+      "prediction": "Nước Chứng minh Quốc tế",
+      "ground_truths": [
+        "nước chxhcn việt nam"
+      ]
+    },
+    {
+      "index": 645,
+      "question": "website trên bảng quảng cáo là gì ?",
+      "prediction": "www.lienviet.com.vn",
+      "ground_truths": [
+        "www . lienviet . c"
+      ]
+    },
+    {
+      "index": 646,
+      "question": "khẩu hiệu của ngân hàng này là gì ?",
+      "prediction": "Lien Viet Bank",
+      "ground_truths": [
+        "liên kết phát triển"
+      ]
+    },
+    {
+      "index": 647,
+      "question": "số trên tấm bảng màu đỏ là số mấy ?",
+      "prediction": "Số 9",
+      "ground_truths": [
+        "9"
+      ]
+    },
+    {
+      "index": 648,
+      "question": "ảnh này lấy nguồn từ đâu ?",
+      "prediction": "Một nguồn khác",
+      "ground_truths": [
+        "minhnd"
+      ]
+    },
+    {
+      "index": 649,
+      "question": "chương trình áp dụng ở đâu ?",
+      "prediction": "Trong thời gian từ 21/12 đến 31/12/2021",
+      "ground_truths": [
+        "cpn số 7 lô 2a lê hồng phong"
+      ]
+    },
+    {
+      "index": 650,
+      "question": "phố này tên gì ?",
+      "prediction": "Phố Highlands",
+      "ground_truths": [
+        "đinh tiên hoàng"
+      ]
+    },
+    {
+      "index": 651,
+      "question": "trường mầm non tên gì ?",
+      "prediction": "Trường mầm non Sakura Montessori",
+      "ground_truths": [
+        "sakura montessori"
+      ]
+    },
+    {
+      "index": 652,
+      "question": "phở này tên gì ?",
+      "prediction": "Phở Hùng",
+      "ground_truths": [
+        "hùng"
+      ]
+    },
+    {
+      "index": 653,
+      "question": "ảnh lấy nguồn từ đâu ?",
+      "prediction": "diachiamthuc.vn",
+      "ground_truths": [
+        "diachiamthuc . vn"
+      ]
+    },
+    {
+      "index": 654,
+      "question": "đây là nước nào ?",
+      "prediction": "Nước Cộng hòa Xã hội Chủ nghĩa Việt Nam",
+      "ground_truths": [
+        "nước cộng hòa xã hội chủ nghĩa việt nam"
+      ]
+    },
+    {
+      "index": 655,
+      "question": "cửa hàng này bán gì ?",
+      "prediction": "Bữa sáng và rượu",
+      "ground_truths": [
+        "breakfast and beer"
+      ]
+    },
+    {
+      "index": 656,
+      "question": "cửa hàng này chuyên bán gì ?",
+      "prediction": "Thiết bị tập thể thao",
+      "ground_truths": [
+        "thiết bị tập thể"
+      ]
+    },
+    {
+      "index": 657,
+      "question": "trang web của cửa hàng này là gì ?",
+      "prediction": "Hoa loi Vinh",
+      "ground_truths": [
+        "www . hoaloivinh . com"
+      ]
+    },
+    {
+      "index": 658,
+      "question": "chữ trên tấm vải là gì ?",
+      "prediction": "VIỆT NAM",
+      "ground_truths": [
+        "việt nam"
+      ]
+    },
+    {
+      "index": 659,
+      "question": "biển hiệu bên trái có tên là gì ?",
+      "prediction": "Bất đồng sản",
+      "ground_truths": [
+        "3 miền group"
+      ]
+    },
+    {
+      "index": 660,
+      "question": "số điện thoại của biển hiệu ở trên là gì ?",
+      "prediction": "0919 800 215",
+      "ground_truths": [
+        "phone : 099 . 800 . 215"
+      ]
+    },
+    {
+      "index": 661,
+      "question": "số điện thoại của phòng quản lý là gì ?",
+      "prediction": "02193.875.210",
+      "ground_truths": [
+        "điện thoại : 02193 . 875 . 210"
+      ]
+    },
+    {
+      "index": 662,
+      "question": "biển hiệu này tên gì ?",
+      "prediction": "Sofa Bảo Tín",
+      "ground_truths": [
+        "bảo tín"
+      ]
+    },
+    {
+      "index": 663,
+      "question": "số điện thoại của công ty là gì ?",
+      "prediction": "1900 3333",
+      "ground_truths": [
+        "đt : 0822301666"
+      ]
+    },
+    {
+      "index": 664,
+      "question": "địa chỉ email của công ty là gì ?",
+      "prediction": "anphatviet@gmail.com",
+      "ground_truths": [
+        "tnhhanphatvn@gmail . com"
+      ]
+    },
+    {
+      "index": 665,
+      "question": "cửa hàng màu trắng bên trái có tên là gì ?",
+      "prediction": "Phụ Kiên",
+      "ground_truths": [
+        "phụ kiện đẹp"
+      ]
+    },
+    {
+      "index": 666,
+      "question": "cửa hàng ở giữa tên là gì ?",
+      "prediction": "Bia cổ",
+      "ground_truths": [
+        "lợi béo"
+      ]
+    },
+    {
+      "index": 667,
+      "question": "cửa hàng này có tên là gì ?",
+      "prediction": "Bạch Vân",
+      "ground_truths": [
+        "bạch vân"
+      ]
+    },
+    {
+      "index": 668,
+      "question": "cửa hàng này bán loại phụ kiện gì ?",
+      "prediction": "Phụ kiện điện thoại và đồ chơi công nghệ",
+      "ground_truths": [
+        "phụ kiện điện thoại đồ chơi công nghệ"
+      ]
+    },
+    {
+      "index": 669,
+      "question": "cửa hàng thành trung bên phải mua bán loại trang sức gì ?",
+      "prediction": "Trang sức đá",
+      "ground_truths": [
+        "vàng"
+      ]
+    },
+    {
+      "index": 670,
+      "question": "số điện thoại liên lạc với thành trung là gì ?",
+      "prediction": "9999",
+      "ground_truths": [
+        "0613 . 862023"
+      ]
+    },
+    {
+      "index": 671,
+      "question": "di tích xuất hiện trong ảnh có tên gọi là ?",
+      "prediction": "Giếng Bá Lễ",
+      "ground_truths": [
+        "giếng bá lễ"
+      ]
+    },
+    {
+      "index": 672,
+      "question": "từ vị trí tấm bảng đi bao nhiêu mét để đến giếng bá lễ ?",
+      "prediction": "20 mét",
+      "ground_truths": [
+        "20m"
+      ]
+    },
+    {
+      "index": 673,
+      "question": "trung tâm thời trang có tên chính thức là ?",
+      "prediction": "Bảo Ngọc",
+      "ground_truths": [
+        "bảo ngọc"
+      ]
+    },
+    {
+      "index": 674,
+      "question": "hanatech chuyên về mặt hàng nào ?",
+      "prediction": "Kẹo siêu thị miền Nam",
+      "ground_truths": [
+        "kệ siêu thị việt nam"
+      ]
+    },
+    {
+      "index": 675,
+      "question": "cửa hang 339 cho thuê các loại xe nào ?",
+      "prediction": "Xe 3 chỗ và 4 chỗ",
+      "ground_truths": [
+        "4 - 7 - 16 - 29 chổ"
+      ]
+    },
+    {
+      "index": 676,
+      "question": "muốn lấy xe thì có thể liên hệ vào số điện thoại ?",
+      "prediction": "Có thể liên hệ vào số điện thoại",
+      "ground_truths": [
+        "0703 . 837 . 339"
+      ]
+    },
+    {
+      "index": 677,
+      "question": "ai đã dịch quyển sách này ?",
+      "prediction": "Nguyễn Phong",
+      "ground_truths": [
+        "nguyên phong"
+      ]
+    },
+    {
+      "index": 678,
+      "question": "quán nước trong hình bán nước gì ?",
+      "prediction": "Rau má",
+      "ground_truths": [
+        "rau má mix"
+      ]
+    },
+    {
+      "index": 679,
+      "question": "cửa hàng bán quần áo bên trái có gì đặc biệt ?",
+      "prediction": "Được trang trí",
+      "ground_truths": [
+        "hàng hiệu xuất khẩu + big size"
+      ]
+    },
+    {
+      "index": 680,
+      "question": "tựa đề của quyển sách ?",
+      "prediction": "Tôi thấy hoa trên cây xanh",
+      "ground_truths": [
+        "tôi thấy hoa vàng trên cỏ xanh"
+      ]
+    },
+    {
+      "index": 681,
+      "question": "tên của cuốn sách là gì ?",
+      "prediction": "Dấu phỏng nhìn nắng",
+      "ground_truths": [
+        "dẫu không nhìn thấy nắng"
+      ]
+    },
+    {
+      "index": 682,
+      "question": "cửa hàng ở giữa có tên gọi là gì ?",
+      "prediction": "Hàng Thái Lan",
+      "ground_truths": [
+        "hàng thái lan"
+      ]
+    },
+    {
+      "index": 683,
+      "question": "đi về phía bên phải là đến nơi nào ?",
+      "prediction": "Khu biệt thự",
+      "ground_truths": [
+        "khu biệt thự"
+      ]
+    },
+    {
+      "index": 684,
+      "question": "cửa hàng có bảng hiệu màu cam nằm trên con đường phía bên trái có tên gọi là gì ?",
+      "prediction": "Cửa hàng Bò",
+      "ground_truths": [
+        "hotgirl shop"
+      ]
+    },
+    {
+      "index": 685,
+      "question": "tòa nhà ở phía xa xa phía bên phải có tên gọi là gì ?",
+      "prediction": "Nhà hàng",
+      "ground_truths": [
+        "diamond plaza"
+      ]
+    },
+    {
+      "index": 686,
+      "question": "cửa hàng nằm trên cửa hàng eyemax được đặt tên là gì ?",
+      "prediction": "Cửa hàng mắt",
+      "ground_truths": [
+        "totalbeauty"
+      ]
+    },
+    {
+      "index": 687,
+      "question": "trung tâm kiểm soát bệnh tật thuộc sở gì ?",
+      "prediction": "Trung tâm kiểm soát bệnh tật",
+      "ground_truths": [
+        "y tế"
+      ]
+    },
+    {
+      "index": 688,
+      "question": "sản phẩm trong thùng mang hương vị gì ?",
+      "prediction": "Lẩu Thái tôm",
+      "ground_truths": [
+        "lẩu thái tôm"
+      ]
+    },
+    {
+      "index": 689,
+      "question": "chương trình sale diễn ra trong khoảng thời gian nào trong ngày ?",
+      "prediction": "Từ 10h đến 21h",
+      "ground_truths": [
+        "từ 13g đến 21g"
+      ]
+    },
+    {
+      "index": 690,
+      "question": "muốn đến phố đinh tiên hoàng thì đi về hướng bên nào ?",
+      "prediction": "Đứng bên phải",
+      "ground_truths": [
+        "phải"
+      ]
+    },
+    {
+      "index": 691,
+      "question": "cửa hàng tạp hóa được đặt tên như thế nào ?",
+      "prediction": "Thầy Triều",
+      "ground_truths": [
+        "thầy triều"
+      ]
+    },
+    {
+      "index": 692,
+      "question": "bức ảnh được chụp vào ngày tháng năm nào ?",
+      "prediction": "Ngày 17 tháng 10 năm 2018",
+      "ground_truths": [
+        "06 / 24 / 2020"
+      ]
+    },
+    {
+      "index": 693,
+      "question": "cửa hàng tên là gì ?",
+      "prediction": "Món Huế",
+      "ground_truths": [
+        "món huế"
+      ]
+    },
+    {
+      "index": 694,
+      "question": "tòa nhà này tên gì ?",
+      "prediction": "Tòa nhà A",
+      "ground_truths": [
+        "an dong"
+      ]
+    },
+    {
+      "index": 695,
+      "question": "chốt kiểm soát thực hiện chỉ thị gì ?",
+      "prediction": "Chốt kiểm soát",
+      "ground_truths": [
+        "chỉ thị 16"
+      ]
+    },
+    {
+      "index": 696,
+      "question": "di tích quốc gia này là gì ?",
+      "prediction": "Di tích quốc gia đặc biệt",
+      "ground_truths": [
+        "chiến trường điện biên phủ"
+      ]
+    },
+    {
+      "index": 697,
+      "question": "ảnh lấy nguồn từ đâu ?",
+      "prediction": "Nguồn ảnh là Vinter",
+      "ground_truths": [
+        "anh thái"
+      ]
+    },
+    {
+      "index": 698,
+      "question": "số điện thoại của anh thái là gì ?",
+      "prediction": "0972 106 670",
+      "ground_truths": [
+        "0972 610 670"
+      ]
+    },
+    {
+      "index": 699,
+      "question": "công ty xăng dầu này tên gì ?",
+      "prediction": "MaiCorp",
+      "ground_truths": [
+        "mipecorp"
+      ]
+    },
+    {
+      "index": 700,
+      "question": "chi nhánh xăng dầu này tên gì ?",
+      "prediction": "Chi nhánh xăng dầu",
+      "ground_truths": [
+        "tân vinh"
+      ]
+    },
+    {
+      "index": 701,
+      "question": "số điện thoại bên trái là gì ?",
+      "prediction": "1900 2000",
+      "ground_truths": [
+        "024 2240 5136"
+      ]
+    },
+    {
+      "index": 702,
+      "question": "cửa hàng này tên gì ?",
+      "prediction": "Chống thám",
+      "ground_truths": [
+        "trần phương"
+      ]
+    },
+    {
+      "index": 703,
+      "question": "quán này tên gì ?",
+      "prediction": "Quán Nhâm Thìn",
+      "ground_truths": [
+        "nhâm thìn"
+      ]
+    },
+    {
+      "index": 704,
+      "question": "đi thẳng thì sẽ đến đâu ?",
+      "prediction": "Phòng trưng bày",
+      "ground_truths": [
+        "tiếp đón dịch vụ"
+      ]
+    },
+    {
+      "index": 705,
+      "question": "rẻ phải sẽ đi đến đâu ?",
+      "prediction": "Phòng trưng bày",
+      "ground_truths": [
+        "phòng trưng bày"
+      ]
+    },
+    {
+      "index": 706,
+      "question": "ảnh lấy nguồn từ đâu ?",
+      "prediction": "Hình ảnh của Hà Nội",
+      "ground_truths": [
+        "hinhanhvietnam . com"
+      ]
+    },
+    {
+      "index": 707,
+      "question": "đơn vị truyền thông vàng tên gì ?",
+      "prediction": "Bản Tuyên Giáo Trung Ương",
+      "ground_truths": [
+        "pv gas"
+      ]
+    },
+    {
+      "index": 708,
+      "question": "bức ảnh này lấy nguồn từ đâu ?",
+      "prediction": "Kienbank",
+      "ground_truths": [
+        "kienbank"
+      ]
+    },
+    {
+      "index": 709,
+      "question": "bức ảnh này chụp ở đâu ?",
+      "prediction": "Trên một con đường",
+      "ground_truths": [
+        "trung tâm giao thương 365"
+      ]
+    },
+    {
+      "index": 710,
+      "question": "bức ảnh này lấy nguồn từ đâu ?",
+      "prediction": "Tin tức",
+      "ground_truths": [
+        "tổ quốc"
+      ]
+    },
+    {
+      "index": 711,
+      "question": "địa chỉ của hội chợ mua sắm này ở đâu ?",
+      "prediction": "Số 38 A Khu phố Tầu Đế, Hội chợ mua sắm Tết Phú Thọ",
+      "ground_truths": [
+        "số 38 - khu a - hội chợ mua sắm tết bính thân 2016 nhà thi đấu tdtt phú thọ"
+      ]
+    },
+    {
+      "index": 712,
+      "question": "hội chợ này còn có tổ chức tại địa chỉ nào ở tphcm ?",
+      "prediction": "Số 38 A Khu phố Tầu Đế",
+      "ground_truths": [
+        "cổng số 1 , đường lữ gia , p . 15 , q . 11 , tp . hồ chí minh"
+      ]
+    },
+    {
+      "index": 713,
+      "question": "hội chợ có chương trình gì ?",
+      "prediction": "Mua sắm Tết",
+      "ground_truths": [
+        "mua hàng ưu đãi"
+      ]
+    },
+    {
+      "index": 714,
+      "question": "số hotline của điện gia dụng là gì ?",
+      "prediction": "190 588 008",
+      "ground_truths": [
+        "1900 636 006"
+      ]
+    },
+    {
+      "index": 715,
+      "question": "website của điện gia dụng là gì ?",
+      "prediction": "www.ariranglue.com",
+      "ground_truths": [
+        "www . ariranglife . vn"
+      ]
+    },
+    {
+      "index": 716,
+      "question": "đây là trường đại học nào ?",
+      "prediction": "Trường Đại học Sư phạm Hà Nội",
+      "ground_truths": [
+        "trường đại học sư phạm hà nội"
+      ]
+    },
+    {
+      "index": 717,
+      "question": "chủ tịch hồ chí minh thăm trường vào thời gian nào ?",
+      "prediction": "Vào ngày 15 tháng 10",
+      "ground_truths": [
+        "ngày 21 / 10 / 1964"
+      ]
+    },
+    {
+      "index": 718,
+      "question": "địa chỉ cửa hàng đồng hồ này là gì ?",
+      "prediction": "Số 34F, Đ. CMT8, P. Quang Vinh, Biên Hòa, Đồng Nai",
+      "ground_truths": [
+        "số 34f , đ . cmt8 , p . quang vinh , biên hòa , đồng nai"
+      ]
+    },
+    {
+      "index": 719,
+      "question": "website của công ty là gì ?",
+      "prediction": "www.kenan.vn",
+      "ground_truths": [
+        "xaydungkienan . com"
+      ]
+    },
+    {
+      "index": 720,
+      "question": "cửa hàng này có tên là gì ?",
+      "prediction": "Cửa hàng Cũ Biên Dung",
+      "ground_truths": [
+        "biên dung"
+      ]
+    },
+    {
+      "index": 721,
+      "question": "địa chỉ của bệnh viện này ở đâu ?",
+      "prediction": "Trên một con đường",
+      "ground_truths": [
+        "120 , đường hồng bàng , phường 12 , quận 5 , thành phố hồ chí minh"
+      ]
+    },
+    {
+      "index": 722,
+      "question": "cái răng là tên của khu chợ nào ?",
+      "prediction": "Khu chợ Cái Răng",
+      "ground_truths": [
+        "chợ nổi"
+      ]
+    },
+    {
+      "index": 723,
+      "question": "theo tựa đề cuốn sách , tần suất học tiếng hàn là bao nhiêu ?",
+      "prediction": "10 phút",
+      "ground_truths": [
+        "mỗi ngày"
+      ]
+    },
+    {
+      "index": 724,
+      "question": "quán bán phở bò - lẩu có nhà tài trợ là gì ?",
+      "prediction": "Nhà hàng",
+      "ground_truths": [
+        "coca - cola"
+      ]
+    },
+    {
+      "index": 725,
+      "question": "chương trình khai trương của quán mì vịt tiềm diễn ra trong mấy ngày ?",
+      "prediction": "5 ngày",
+      "ground_truths": [
+        "5 ngày"
+      ]
+    },
+    {
+      "index": 726,
+      "question": "trường tiểu học trong ảnh tên là gì ?",
+      "prediction": "Trường Tiểu học Quang Trung",
+      "ground_truths": [
+        "quang trung"
+      ]
+    },
+    {
+      "index": 727,
+      "question": "kafe trong ảnh được thiết kế theo loại hình nào ?",
+      "prediction": "Cafe",
+      "ground_truths": [
+        "container"
+      ]
+    },
+    {
+      "index": 728,
+      "question": "số điện thoại thứ hai để liên hệ đến công ty thảo hạnh là gì ?",
+      "prediction": "0916 222 222",
+      "ground_truths": [
+        "0916 240 725"
+      ]
+    },
+    {
+      "index": 729,
+      "question": "quán trong ảnh có tên là gì ?",
+      "prediction": "Anytime",
+      "ground_truths": [
+        "anytime"
+      ]
+    },
+    {
+      "index": 730,
+      "question": "địa chỉ của tiệm anytime này là gì ?",
+      "prediction": "401-100-000",
+      "ground_truths": [
+        "p . thống nhất - bh - đn"
+      ]
+    },
+    {
+      "index": 731,
+      "question": "nguồn của bức ảnh này đến từ đâu ?",
+      "prediction": "KienThucKhao",
+      "ground_truths": [
+        "kienthuckhoahoc . org"
+      ]
+    },
+    {
+      "index": 732,
+      "question": "số điện thoại liên hệ luatvietnam . vn là gì ?",
+      "prediction": "1900 6192",
+      "ground_truths": [
+        "1900 . 6192"
+      ]
+    },
+    {
+      "index": 733,
+      "question": "slogan của luatvuetnam la gi ?",
+      "prediction": "Hỗ kinh doanh có cần treo biển",
+      "ground_truths": [
+        "tiện ích vẫn bàn luật"
+      ]
+    },
+    {
+      "index": 734,
+      "question": "nguồn của bức ảnh này đến từ đâu ?",
+      "prediction": "VietArchitectGroup",
+      "ground_truths": [
+        "kientruckinhbac . vn"
+      ]
+    },
+    {
+      "index": 735,
+      "question": "số điện thoại thứ 2 của công ty đông vinh là gì ?",
+      "prediction": "072.3638707 - 072.3638708",
+      "ground_truths": [
+        "072 . 3638708"
+      ]
+    },
+    {
+      "index": 736,
+      "question": "số fax của công ty đông vinh là gì ?",
+      "prediction": "072.3638707 - 072.3638708",
+      "ground_truths": [
+        "072 . 3638706"
+      ]
+    },
+    {
+      "index": 737,
+      "question": "châm ngôn của vineco là gì ?",
+      "prediction": "Vineco",
+      "ground_truths": [
+        "an toàn đạt chuẩn , tươi ngon mỗi ngày"
+      ]
+    },
+    {
+      "index": 738,
+      "question": "hộp bánh màu đỏ của hãng orion có tên là gì ?",
+      "prediction": "ChocoPie",
+      "ground_truths": [
+        "chocopie"
+      ]
+    },
+    {
+      "index": 739,
+      "question": "quán ẩm thực việt - hàn này có tên là gì ?",
+      "prediction": "Góc Việt",
+      "ground_truths": [
+        "góc việt"
+      ]
+    },
+    {
+      "index": 740,
+      "question": "hotline ở góc dưới bên phải bức ảnh là gì ?",
+      "prediction": "0941 577 333",
+      "ground_truths": [
+        "0941 577 339"
+      ]
+    },
+    {
+      "index": 741,
+      "question": "mì ramen chả cá hàn quố có giá bao nhiêu ?",
+      "prediction": "100 đồng",
+      "ground_truths": [
+        "40k"
+      ]
+    },
+    {
+      "index": 742,
+      "question": "ai là người dịch cuốn sách này ?",
+      "prediction": "Damon Zahariades",
+      "ground_truths": [
+        "khánh linh"
+      ]
+    },
+    {
+      "index": 743,
+      "question": "siêu thị hàng nhật này có tên là gì ?",
+      "prediction": "Tokyo II",
+      "ground_truths": [
+        "tokyo ii"
+      ]
+    },
+    {
+      "index": 744,
+      "question": "tiệm cầm vàng có tên là gì ?",
+      "prediction": "Tokyo II",
+      "ground_truths": [
+        "kim ton"
+      ]
+    },
+    {
+      "index": 745,
+      "question": "hotline của cửa hàng trong ảnh là gì ?",
+      "prediction": "0917 877 669",
+      "ground_truths": [
+        "0917 677 598"
+      ]
+    },
+    {
+      "index": 746,
+      "question": "cuốn sách màu cam có tên là gì ?",
+      "prediction": "Sách Thái",
+      "ground_truths": [
+        "tranh tết"
+      ]
+    },
+    {
+      "index": 747,
+      "question": "cửa hàng này có tên là gì ?",
+      "prediction": "Quầy",
+      "ground_truths": [
+        "ở quãy"
+      ]
+    },
+    {
+      "index": 748,
+      "question": "đây là trung tâm gì ?",
+      "prediction": "Trung tâm tiêm chủng",
+      "ground_truths": [
+        "tiêm chủng"
+      ]
+    },
+    {
+      "index": 749,
+      "question": "chương trình trong bảng bên trái bức ảnh là gì ?",
+      "prediction": "Chương trình nhà bếp",
+      "ground_truths": [
+        "lắng nghe thấu hiểu sẻ chia"
+      ]
+    },
+    {
+      "index": 750,
+      "question": "hộp sữa người phụ nữ đang xem có chữ gì ?",
+      "prediction": "Sữa tươi",
+      "ground_truths": [
+        "100 % organic"
+      ]
+    },
+    {
+      "index": 751,
+      "question": "đây là giấy chứng nhận gì ?",
+      "prediction": "Giấy chứng nhận bảo hiểm",
+      "ground_truths": [
+        "bảo hiểm tự nguyện"
+      ]
+    },
+    {
+      "index": 752,
+      "question": "giấy chứng nhận bảo hiểm tự nguyện dành cho loại phương tiện nào ?",
+      "prediction": "Một chiếc xe máy",
+      "ground_truths": [
+        "môtô - xe máy"
+      ]
+    },
+    {
+      "index": 753,
+      "question": "tên cuốn sách này là gì ?",
+      "prediction": "Sách sáng tạo",
+      "ground_truths": [
+        "insight handbook"
+      ]
+    },
+    {
+      "index": 754,
+      "question": "tấm ảnh này được chụp ở đâu ?",
+      "prediction": "Trong chợ",
+      "ground_truths": [
+        "hội chợ đặc sản"
+      ]
+    },
+    {
+      "index": 755,
+      "question": "hộp bánh màu đỏ chữ trắng trên kệ phía trước người phụ nữ áo xanh có chữ gì ?",
+      "prediction": "Coca Cola",
+      "ground_truths": [
+        "chocopie"
+      ]
+    },
+    {
+      "index": 756,
+      "question": "dòng chữ trên tủ lạnh màu đỏ là gì ?",
+      "prediction": "Coca-Cola",
+      "ground_truths": [
+        "coca cola"
+      ]
+    },
+    {
+      "index": 757,
+      "question": "mũi tên chỉ hướng bên trái dẫn đến đâu ?",
+      "prediction": "Đường 2 km",
+      "ground_truths": [
+        "ubnd xã bình châu"
+      ]
+    },
+    {
+      "index": 758,
+      "question": "chữ được in trên xe bus là gì ?",
+      "prediction": "Trường Xuân, Mỹ An, Cao Lãnh",
+      "ground_truths": [
+        "trường xuân mỹ an cao lãnh"
+      ]
+    },
+    {
+      "index": 759,
+      "question": "bức ảnh lấy nguồn từ đâu ?",
+      "prediction": "Kỹ thuật tin",
+      "ground_truths": [
+        "người đưa tin pháp luật"
+      ]
+    },
+    {
+      "index": 760,
+      "question": "bảng hiệu màu xanh có ghi gì ?",
+      "prediction": "Ghi \"Vườn\"",
+      "ground_truths": [
+        "nhóm rau củ quả"
+      ]
+    },
+    {
+      "index": 761,
+      "question": "cửa hàng này tên gì ?",
+      "prediction": "Barber Shop",
+      "ground_truths": [
+        "barber shop"
+      ]
+    },
+    {
+      "index": 762,
+      "question": "đây là loại kẹo gì ?",
+      "prediction": "Kẹo đậu nành",
+      "ground_truths": [
+        "premium dark chocolate"
+      ]
+    },
+    {
+      "index": 763,
+      "question": "cửa hàng đắc kim bán gì ?",
+      "prediction": "Bún chả hàng mặn",
+      "ground_truths": [
+        "bún chả hàng mành"
+      ]
+    },
+    {
+      "index": 764,
+      "question": "đây là con phố gì ?",
+      "prediction": "Con phố Hàng Bái",
+      "ground_truths": [
+        "hàng gai"
+      ]
+    },
+    {
+      "index": 765,
+      "question": "cửa hàng có bảng hiệu màu xanh bên phải tên gì ?",
+      "prediction": "Silk Shop",
+      "ground_truths": [
+        "silk shop"
+      ]
+    },
+    {
+      "index": 766,
+      "question": "đường dây nóng của làm quảng cáo giá rẻ là gì ?",
+      "prediction": "0935 248 949",
+      "ground_truths": [
+        "0935 248 949"
+      ]
+    },
+    {
+      "index": 767,
+      "question": "viện uốn - tóc này tên gì ?",
+      "prediction": "Viện uốn tóc",
+      "ground_truths": [
+        "tóc vip"
+      ]
+    },
+    {
+      "index": 768,
+      "question": "cửa hàng có bảng hiệu màu trắng phía bên trái tên gì ?",
+      "prediction": "Toại",
+      "ground_truths": [
+        "toại"
+      ]
+    },
+    {
+      "index": 769,
+      "question": "đây là thông báo gì ?",
+      "prediction": "Thông báo tuyển viên chức",
+      "ground_truths": [
+        "xét tuyển viên chức sự nghiệp giáo dục thành phố tây ninh"
+      ]
+    },
+    {
+      "index": 770,
+      "question": "đây là quảng cáo gì ?",
+      "prediction": "Quảng cáo biển hiệu LED",
+      "ground_truths": [
+        "hải mỹ sơn"
+      ]
+    },
+    {
+      "index": 771,
+      "question": "chữ trong hình tròn màu cam là gì ?",
+      "prediction": "Promotion",
+      "ground_truths": [
+        "promotion"
+      ]
+    },
+    {
+      "index": 772,
+      "question": "chữ trong hình tròn màu tím là gì ?",
+      "prediction": "Place",
+      "ground_truths": [
+        "place"
+      ]
+    },
+    {
+      "index": 773,
+      "question": "đây là con phố gì ?",
+      "prediction": "Con phố Hàng Đào",
+      "ground_truths": [
+        "hàng đào"
+      ]
+    },
+    {
+      "index": 774,
+      "question": "cửa hàng dược phẩm này tên gì ?",
+      "prediction": "Sơn Minh",
+      "ground_truths": [
+        "sơn minh"
+      ]
+    },
+    {
+      "index": 775,
+      "question": "cửa hàng trúc bạch bán gì ?",
+      "prediction": "Bán quần áo",
+      "ground_truths": [
+        "beer"
+      ]
+    },
+    {
+      "index": 776,
+      "question": "hải sản ở siêu thị này bán như thế nào ?",
+      "prediction": "Bán buôn và bán lẻ",
+      "ground_truths": [
+        "bán buôn - bán lẻ"
+      ]
+    },
+    {
+      "index": 777,
+      "question": "tấm ảnh này có nguồn từ đâu ?",
+      "prediction": "Toida.net",
+      "ground_truths": [
+        "toidi . net"
+      ]
+    },
+    {
+      "index": 778,
+      "question": "đây là con phố gì ?",
+      "prediction": "Con phố nhỏ",
+      "ground_truths": [
+        "phố hàng vải"
+      ]
+    },
+    {
+      "index": 779,
+      "question": "ai là tác giả của cuốn sách này ?",
+      "prediction": "Joe Gordon",
+      "ground_truths": [
+        "jon gordon"
+      ]
+    },
+    {
+      "index": 780,
+      "question": "bảng hiệu hiệu màu vàng ghi gì ?",
+      "prediction": "Một số thông tin",
+      "ground_truths": [
+        "cho thuê nhà"
+      ]
+    },
+    {
+      "index": 781,
+      "question": "cửa hàng kim ngân chuyên về gì ?",
+      "prediction": "Kim sỉ và lẻ",
+      "ground_truths": [
+        "chuyên sỉ & lẻ"
+      ]
+    },
+    {
+      "index": 782,
+      "question": "chất lượng cửa sữa đà lạt như thế nào ?",
+      "prediction": "Có chất lượng tốt",
+      "ground_truths": [
+        "nguồn sữa chất lượng cao"
+      ]
+    },
+    {
+      "index": 783,
+      "question": "số điện thoại của tlp là gì ?",
+      "prediction": "090 2468 882 - 024 665 2965",
+      "ground_truths": [
+        "096 2468 882 - 024 6665 29 665"
+      ]
+    },
+    {
+      "index": 784,
+      "question": "cửa hàng bên phải cửa hàng hồng - vinh tên gì ?",
+      "prediction": "Thuốc Bắc",
+      "ground_truths": [
+        "thuốc - bắc"
+      ]
+    },
+    {
+      "index": 785,
+      "question": "đại lý bích uyên chuyên cung cấp các loại thực phẩm gì ?",
+      "prediction": "Trà, bánh kẹo",
+      "ground_truths": [
+        "bánh kẹo trà rượu"
+      ]
+    },
+    {
+      "index": 786,
+      "question": "cửa hàng lo lắng điều gì vào ngày khai trương ?",
+      "prediction": "Không biết bán được gì",
+      "ground_truths": [
+        "không biết bán được không"
+      ]
+    },
+    {
+      "index": 787,
+      "question": "tiệm bắc trần tiến là loại tiệm gì ?",
+      "prediction": "Tiệm làm tóc",
+      "ground_truths": [
+        "hair salon"
+      ]
+    },
+    {
+      "index": 788,
+      "question": "quán kfc bán món ăn gì ?",
+      "prediction": "Món ăn Hàn Quốc",
+      "ground_truths": [
+        "gà rán kentucky"
+      ]
+    },
+    {
+      "index": 789,
+      "question": "cửa hàng trong hình có tên gọi là gì ?",
+      "prediction": "Trú Bistro",
+      "ground_truths": [
+        "trúc bistro"
+      ]
+    },
+    {
+      "index": 790,
+      "question": "số điện thoại đầu tiên của quán oanh đặng ?",
+      "prediction": "383 348 887",
+      "ground_truths": [
+        "0938 343 997"
+      ]
+    },
+    {
+      "index": 791,
+      "question": "số điện thoại phía trên màu đỏ ở góc trái ?",
+      "prediction": "Số điện thoại 0988 988 988",
+      "ground_truths": [
+        "0905 224 888"
+      ]
+    },
+    {
+      "index": 792,
+      "question": "hồ nước có dung tích bao nhiêu ?",
+      "prediction": "150 lít",
+      "ground_truths": [
+        "15m3"
+      ]
+    },
+    {
+      "index": 793,
+      "question": "số nhà của cơ sở thành hội đông y hà nội ?",
+      "prediction": "122",
+      "ground_truths": [
+        "14 hàng bài"
+      ]
+    },
+    {
+      "index": 794,
+      "question": "liên lạc với tòa nhà bằng số nào ?",
+      "prediction": "04273 8888",
+      "ground_truths": [
+        "094 273 8888"
+      ]
+    },
+    {
+      "index": 795,
+      "question": "quán ăn có những món đặc biệt nào ?",
+      "prediction": "Thạch tráng và chè đậu xanh",
+      "ground_truths": [
+        "thạch trắng . chè đậu xanh"
+      ]
+    },
+    {
+      "index": 796,
+      "question": "cơ sở trong hình được gọi là gì ?",
+      "prediction": "HOTEL CONVENTIAL SAIGON",
+      "ground_truths": [
+        "hotel continental saigon"
+      ]
+    },
+    {
+      "index": 797,
+      "question": "tiệm bánh mì tự chọn có dịch vụ giao hàng như thế nào ?",
+      "prediction": "Giao hàng tận nơi",
+      "ground_truths": [
+        "giao hàng tận nơi"
+      ]
+    },
+    {
+      "index": 798,
+      "question": "số điện thoại để gọi đặt hàng ?",
+      "prediction": "999 333 3333",
+      "ground_truths": [
+        "0666 99 77 08"
+      ]
+    },
+    {
+      "index": 799,
+      "question": "địa chỉ của tạp hóa sơn hà là ở đâu ?",
+      "prediction": "Ngã 10, đường Bác, Cầu Mây, Hà Nội",
+      "ground_truths": [
+        "ngã tư gốt , đông sơn , chương mỹ , hà nội"
+      ]
+    },
+    {
+      "index": 800,
+      "question": "siêu thị có các sản phẩm như thế nào cho bé yêu ?",
+      "prediction": "Có các sản phẩm dành cho trẻ em",
+      "ground_truths": [
+        "dịu mềm"
+      ]
+    },
+    {
+      "index": 801,
+      "question": "cuốn sách có bìa màu cam có tên gọi là gì ?",
+      "prediction": "Thành gia",
+      "ground_truths": [
+        "tri thức cực hạn"
+      ]
+    },
+    {
+      "index": 802,
+      "question": "ai là tác giả của cuốn tri thức cực hạn ?",
+      "prediction": "Jeff Degruyter và Stanley",
+      "ground_truths": [
+        "thành giáp"
+      ]
+    },
+    {
+      "index": 803,
+      "question": "cuốn thai giáo giới thiệu các phương pháp gì ?",
+      "prediction": "Khoa học dạy bung mẹ",
+      "ground_truths": [
+        "khoa học dạy con từ trong bụng mẹ"
+      ]
+    },
+    {
+      "index": 804,
+      "question": "điều thứ 03 cần làm tốt để phòng chống dịch covid - 19 là gì ?",
+      "prediction": "Khai báo y tế",
+      "ground_truths": [
+        "rửa tay thường xuyên"
+      ]
+    },
+    {
+      "index": 805,
+      "question": "sản phẩm được gọi là gì ?",
+      "prediction": "Thịt bò",
+      "ground_truths": [
+        "bơ lạt tự nhiên"
+      ]
+    },
+    {
+      "index": 806,
+      "question": "minh hiển là cửa hàng gì ?",
+      "prediction": "Cửa hàng ô tô",
+      "ground_truths": [
+        "auto"
+      ]
+    },
+    {
+      "index": 807,
+      "question": "auto minh hiển có địa chỉ là gì ?",
+      "prediction": "Địa chỉ Long Thành, Đồng Nai",
+      "ground_truths": [
+        "số 98 , tổ 17 , khu cầu xéo , long thành , đồng nai"
+      ]
+    },
+    {
+      "index": 808,
+      "question": "quầy hàng có các đặc sản vùng gì ?",
+      "prediction": "Vùng miền",
+      "ground_truths": [
+        "miền"
+      ]
+    },
+    {
+      "index": 809,
+      "question": "bộ y tế khuyến cáo điều gì ?",
+      "prediction": "Khi bị nhiễm virus",
+      "ground_truths": [
+        "một số biện pháp phòng ngừa virus"
+      ]
+    },
+    {
+      "index": 810,
+      "question": "quán phố đêm có bán các món gì ?",
+      "prediction": "Món nhậu bình dân",
+      "ground_truths": [
+        "nhậu bình dân"
+      ]
+    },
+    {
+      "index": 811,
+      "question": "để làm phục vụ nữ của quán phố đêm thì liên hệ qua số điện thoại nào ?",
+      "prediction": "0128 456 3333",
+      "ground_truths": [
+        "0128 456 3333"
+      ]
+    },
+    {
+      "index": 812,
+      "question": "nhà hàng tên gì ?",
+      "prediction": "Nhà hàng Sài Gòn",
+      "ground_truths": [
+        "nét sài gòn"
+      ]
+    },
+    {
+      "index": 813,
+      "question": "tiệm giặt ủi tên gì ?",
+      "prediction": "Tiệm giặt ủi",
+      "ground_truths": [
+        "star launory"
+      ]
+    },
+    {
+      "index": 814,
+      "question": "nguồn của tấm ảnh từ đâu ?",
+      "prediction": "Gettyimages",
+      "ground_truths": [
+        "getty mages"
+      ]
+    },
+    {
+      "index": 815,
+      "question": "siêu thị này tên gì ?",
+      "prediction": "Siêu thị Việt",
+      "ground_truths": [
+        "co . opmart"
+      ]
+    },
+    {
+      "index": 816,
+      "question": "chợ tết này diễn ra ngày mấy ?",
+      "prediction": "19 - 20 tháng 01 năm 2019",
+      "ground_truths": [
+        "19 - 20 . 01 . 2019"
+      ]
+    },
+    {
+      "index": 817,
+      "question": "khu này tên gì ?",
+      "prediction": "Khu Chuyên Doanh Hoa Tươi Hồ Thị Kỳ",
+      "ground_truths": [
+        "hồ thị kỷ"
+      ]
+    },
+    {
+      "index": 818,
+      "question": "cửa hàng bên trái của quán cà phê tên gì ?",
+      "prediction": "Cafe Bắc",
+      "ground_truths": [
+        "phượng"
+      ]
+    },
+    {
+      "index": 819,
+      "question": "đây là lễ gì ?",
+      "prediction": "Lễ khai mạc chương trình khuyến mãi",
+      "ground_truths": [
+        "khai mạc"
+      ]
+    },
+    {
+      "index": 820,
+      "question": "đây là bệnh viện gì ?",
+      "prediction": "Bệnh viện Tâm Thần",
+      "ground_truths": [
+        "tâm thần"
+      ]
+    },
+    {
+      "index": 821,
+      "question": "trang web nào được chèn vào đây ?",
+      "prediction": "Gỗtrangtrí.vn",
+      "ground_truths": [
+        "gỗtrangtrí . vn"
+      ]
+    },
+    {
+      "index": 822,
+      "question": "đây là khu vực nào ?",
+      "prediction": "Khu vực mua sắm",
+      "ground_truths": [
+        "khu vực thạch , mứt"
+      ]
+    },
+    {
+      "index": 823,
+      "question": "slogan của aeon shop là gì ?",
+      "prediction": "Mua sắm giá rẻ",
+      "ground_truths": [
+        "mua sắm tại gia đẩy xa dịch bệnh"
+      ]
+    },
+    {
+      "index": 824,
+      "question": "aeon shop có giá chỉ từ bao nhiêu ?",
+      "prediction": "6.500đ",
+      "ground_truths": [
+        "6 . 500 đ"
+      ]
+    },
+    {
+      "index": 825,
+      "question": "tín ngưỡng thờ cúng hùng vương ở đâu ?",
+      "prediction": "Trên đài tưởng niệm",
+      "ground_truths": [
+        "phú thọ"
+      ]
+    },
+    {
+      "index": 826,
+      "question": "quán trà sữa - ăn vặt này bán món ăn gì ?",
+      "prediction": "Trà sữa và ăn vặt",
+      "ground_truths": [
+        "ẩm thực hàn - pizza"
+      ]
+    },
+    {
+      "index": 827,
+      "question": "bức ảnh này lấy nguồn từ đâu ?",
+      "prediction": "Kênh tin tức",
+      "ground_truths": [
+        "kenh14 . vn"
+      ]
+    },
+    {
+      "index": 828,
+      "question": "website của milano coffee là gì ?",
+      "prediction": "www.milanov.com",
+      "ground_truths": [
+        "www . milanocoffee . com . vn"
+      ]
+    },
+    {
+      "index": 829,
+      "question": "băng rôn này chào mừng ai ?",
+      "prediction": "Các bé đến trường",
+      "ground_truths": [
+        "các bé"
+      ]
+    },
+    {
+      "index": 830,
+      "question": "bảng hiệu này do công ty nào thiết kế ?",
+      "prediction": "Sài Gòn Advertising",
+      "ground_truths": [
+        "saigon advertising"
+      ]
+    },
+    {
+      "index": 831,
+      "question": "địa chỉ của quán này là gì ?",
+      "prediction": "17 Hàng Buồm",
+      "ground_truths": [
+        "17 hang buom"
+      ]
+    },
+    {
+      "index": 832,
+      "question": "nguồn của bức ảnh này đến từ đâu ?",
+      "prediction": "afamily.vn",
+      "ground_truths": [
+        "afamily . vn"
+      ]
+    },
+    {
+      "index": 833,
+      "question": "bệnh viện răng hàm mặt thược sở gì ?",
+      "prediction": "Bệnh viện",
+      "ground_truths": [
+        "y tế tp hồ chí minh"
+      ]
+    },
+    {
+      "index": 834,
+      "question": "số điệ thoại liên hệ quán út thủy là số mấy ?",
+      "prediction": "1900 6666",
+      "ground_truths": [
+        "090 9341079"
+      ]
+    },
+    {
+      "index": 835,
+      "question": "khu chợ trong ảnh tên là gì ?",
+      "prediction": "Chợ Tháp Khê",
+      "ground_truths": [
+        "chợ thất khê"
+      ]
+    },
+    {
+      "index": 836,
+      "question": "stl là viết tắt của tên công ty nào ?",
+      "prediction": "STL",
+      "ground_truths": [
+        "sontunglamjbc"
+      ]
+    },
+    {
+      "index": 837,
+      "question": "garage an khang gairm 50 % cho dịch vụ gì ?",
+      "prediction": "Lắp đặt xe",
+      "ground_truths": [
+        "rửa xe"
+      ]
+    },
+    {
+      "index": 838,
+      "question": "slogan của garden là gì ?",
+      "prediction": "Garden By The Lake",
+      "ground_truths": [
+        "by the lake"
+      ]
+    },
+    {
+      "index": 839,
+      "question": "cửa hàng này bán thuốc gì ?",
+      "prediction": "Thuốc thú y và thức ăn gia súc",
+      "ground_truths": [
+        "thú y"
+      ]
+    },
+    {
+      "index": 840,
+      "question": "quán coffee này tuyên chuyến với cái gì ?",
+      "prediction": "Chuyến với 20%",
+      "ground_truths": [
+        "cà phê bẩn"
+      ]
+    },
+    {
+      "index": 841,
+      "question": "quỹ tín dụng nguyễn trãi cho vay với lãi suất như thế nào ?",
+      "prediction": "Lãi suất 10%",
+      "ground_truths": [
+        "hấp dẫn"
+      ]
+    },
+    {
+      "index": 842,
+      "question": "siêu thị này đang có chương trình trò chơi gì ?",
+      "prediction": "Chương trình trò chơi",
+      "ground_truths": [
+        "đố vui trực tuyến"
+      ]
+    },
+    {
+      "index": 843,
+      "question": "viettel shop thuộc công ty nào ?",
+      "prediction": "Công ty Cổ phần Viettel",
+      "ground_truths": [
+        "viettel"
+      ]
+    },
+    {
+      "index": 844,
+      "question": "số điện thoại thứ hai của cit decor là gì ?",
+      "prediction": "0912 277 666",
+      "ground_truths": [
+        "0922 272 868"
+      ]
+    },
+    {
+      "index": 845,
+      "question": "sản phẩm này thuộc tổ chức nào ?",
+      "prediction": "Một tổ chức",
+      "ground_truths": [
+        "m & a forum vietnam"
+      ]
+    },
+    {
+      "index": 846,
+      "question": "cửa hàng cttnhh sx tmdv này có tên là gì ?",
+      "prediction": "Cửa hàng cttnhh sx tmdv",
+      "ground_truths": [
+        "bảo đức"
+      ]
+    },
+    {
+      "index": 847,
+      "question": "văn phòng tre việt là văn phòng gì ?",
+      "prediction": "Văn phòng du lịch",
+      "ground_truths": [
+        "du lịch"
+      ]
+    },
+    {
+      "index": 848,
+      "question": "cửa hàng quảng cáo trong ảnh có địa chỉ là gì ?",
+      "prediction": "Mỹ Sơn Quảng Cáo",
+      "ground_truths": [
+        "392 cách mạng tháng 8 - p . 3 - tp . tây ninh"
+      ]
+    },
+    {
+      "index": 849,
+      "question": "số điện thoại thứ ba của cửa hàng quảng cáo trong ảnh là gì ?",
+      "prediction": "1900 8888",
+      "ground_truths": [
+        "6250 . 355"
+      ]
+    },
+    {
+      "index": 850,
+      "question": "mục 1 là kế hoạch gì ?",
+      "prediction": "Kế hoạch bảo tồn biển",
+      "ground_truths": [
+        "kế hoạch hành động quốc gia về bảo tồn rùa biển việt nam đến năm 2010"
+      ]
+    },
+    {
+      "index": 851,
+      "question": "tên nội dung của bài viết ?",
+      "prediction": "Những hình ảnh đẹp ngày Tết quê hương",
+      "ground_truths": [
+        "những hình ảnh đẹp ngày tết quê hương"
+      ]
+    },
+    {
+      "index": 852,
+      "question": "quán nhậu có tấm biển trắng là quán gì ?",
+      "prediction": "Bia Lợi",
+      "ground_truths": [
+        "bia lợi béo"
+      ]
+    },
+    {
+      "index": 853,
+      "question": "quán bia lợi béo có logo của hãng bia nào ?",
+      "prediction": "Tiger",
+      "ground_truths": [
+        "tiger"
+      ]
+    },
+    {
+      "index": 854,
+      "question": "bức hình là từ bài viết của kênh nào ?",
+      "prediction": "Cafebiz",
+      "ground_truths": [
+        "cafebiz"
+      ]
+    },
+    {
+      "index": 855,
+      "question": "tên tiêu đề của bài viết ?",
+      "prediction": "Câu chuyện kinh doanh",
+      "ground_truths": [
+        "câu chuyện kinh doanh"
+      ]
+    },
+    {
+      "index": 856,
+      "question": "người mẫu ảnh đang chụp ở địa chỉ bao nhiêu ?",
+      "prediction": "7B Tôn Thất Thiệp",
+      "ground_truths": [
+        "7b tôn thất thiệp"
+      ]
+    },
+    {
+      "index": 857,
+      "question": "buổi lễ được tổ chức ở thành phố nào ?",
+      "prediction": "Thành phố Hà Nội",
+      "ground_truths": [
+        "hà nội"
+      ]
+    },
+    {
+      "index": 858,
+      "question": "nội dung tiếng anh của tác phẩm ?",
+      "prediction": "Sài Gòn xưa",
+      "ground_truths": [
+        "saigon in ancient time"
+      ]
+    },
+    {
+      "index": 859,
+      "question": "chữ trong hình tròn màu xanh trên cuốn sách là gì ?",
+      "prediction": "Chào bạn",
+      "ground_truths": [
+        "chấp nhận thất bại , rèn luyện kiên trì , đi đến thành công"
+      ]
+    },
+    {
+      "index": 860,
+      "question": "ai là tác giả của cuốn sách này ?",
+      "prediction": "Warren Benjamin, Steve R. Asghar",
+      "ground_truths": [
+        "warren bennis steven b . sample rob asghar"
+      ]
+    },
+    {
+      "index": 861,
+      "question": "bảng màu xanh dưới quầy kẹo có ghi gì ?",
+      "prediction": "Bảng quảng cáo",
+      "ground_truths": [
+        "cho cuộc sống thêm ngọt ngào"
+      ]
+    },
+    {
+      "index": 862,
+      "question": "chương trình livestream vào lúc mấy giờ ?",
+      "prediction": "20h00",
+      "ground_truths": [
+        "20h00"
+      ]
+    },
+    {
+      "index": 863,
+      "question": "quán ăn bình dân này tên gì ?",
+      "prediction": "Quán Ăn Bình Dân",
+      "ground_truths": [
+        "126"
+      ]
+    },
+    {
+      "index": 864,
+      "question": "quán ăn bình dân đang có chương trình gì ?",
+      "prediction": "Mừng khai trương",
+      "ground_truths": [
+        "mừng khai trương quán ăn 126"
+      ]
+    },
+    {
+      "index": 865,
+      "question": "địa chỉ của quán ăn 126 là gì ?",
+      "prediction": "126 Hồng Đào, P.4, Q. Tân Bình",
+      "ground_truths": [
+        "126 nguyễn hồng đào , p . 14 , q . tân bình"
+      ]
+    },
+    {
+      "index": 866,
+      "question": "ảnh này được lấy nguồn từ đâu ?",
+      "prediction": "TVN",
+      "ground_truths": [
+        "thvl1"
+      ]
+    },
+    {
+      "index": 867,
+      "question": "mèo vui vẻ 63cm / mèo may mắn 65cm có chương trình gì ?",
+      "prediction": "Khuyến mãi",
+      "ground_truths": [
+        "khuyến mãi"
+      ]
+    },
+    {
+      "index": 868,
+      "question": "đây là danh sách tập thể và cá nhân anh hùng tỉnh nào ?",
+      "prediction": "Tập thể và cá nhân tỉnh Quảng",
+      "ground_truths": [
+        "tỉnh cần thơ"
+      ]
+    },
+    {
+      "index": 869,
+      "question": "bức ảnh lấy nguồn từ đâu ?",
+      "prediction": "Lao Động",
+      "ground_truths": [
+        "lao động"
+      ]
+    },
+    {
+      "index": 870,
+      "question": "cif là loại nước lau như thế nào ?",
+      "prediction": "Siêu nhanh",
+      "ground_truths": [
+        "siêu nhanh"
+      ]
+    },
+    {
+      "index": 871,
+      "question": "số điện thoại của công ty ovenmaru chicken là gì ?",
+      "prediction": "08 230 2846",
+      "ground_truths": [
+        "08 3823 2866"
+      ]
+    },
+    {
+      "index": 872,
+      "question": "chữ trên bảng hiệu là gì ?",
+      "prediction": "Bongo",
+      "ground_truths": [
+        "bongo"
+      ]
+    },
+    {
+      "index": 873,
+      "question": "địa chỉ của cửa hàng pozaa . tea là gì ?",
+      "prediction": "Điểm 1 - Trà sữa Đài Loan",
+      "ground_truths": [
+        "khu phố 3 - thị trấn yên lạc"
+      ]
+    },
+    {
+      "index": 874,
+      "question": "cửa hàng lợi béo báng mặc hàng gì ?",
+      "prediction": "Một chiếc xe máy",
+      "ground_truths": [
+        "bia phố cổ"
+      ]
+    },
+    {
+      "index": 875,
+      "question": "bức ảnh có nguồn từ đâu ?",
+      "prediction": "Nguồn từ Vinter",
+      "ground_truths": [
+        "làm bảng quảng cáo giá rẻ"
+      ]
+    },
+    {
+      "index": 876,
+      "question": "như ý là muối tôm như thế nào ?",
+      "prediction": "Được đóng gói",
+      "ground_truths": [
+        "muối tôm thượng hạng"
+      ]
+    },
+    {
+      "index": 877,
+      "question": "bức ảnh này lấy nguồn từ đâu ?",
+      "prediction": "Quanggiaatbac.vn",
+      "ground_truths": [
+        "quangcaotaybac . vn"
+      ]
+    },
+    {
+      "index": 878,
+      "question": "bức ảnh được lấy nguồn từ đâu ?",
+      "prediction": "giaysecondandang.com",
+      "ground_truths": [
+        "giaysecondhand . com"
+      ]
+    },
+    {
+      "index": 879,
+      "question": "quán như ý bán những món ăn gì ?",
+      "prediction": "Gà tần, Bún chả, Trứng vịt lộn",
+      "ground_truths": [
+        "gà tần bánh cuốn bún chả trứng vịt lộn"
+      ]
+    },
+    {
+      "index": 880,
+      "question": "bảng đầu tiên có chữ gì ?",
+      "prediction": "HOÀNG LAN",
+      "ground_truths": [
+        "hoàng lan"
+      ]
+    },
+    {
+      "index": 881,
+      "question": "chữ trên áo người phụ nữ áo xám đứng trước bức tượng là gì ?",
+      "prediction": "I love car",
+      "ground_truths": [
+        "i don ' t care"
+      ]
+    },
+    {
+      "index": 882,
+      "question": "đây là đại hội gì ?",
+      "prediction": "Đại hội IV",
+      "ground_truths": [
+        "liên minh hợp tác xã"
+      ]
+    },
+    {
+      "index": 883,
+      "question": "tên của cửa hàng này tên gì ?",
+      "prediction": "Billuxury",
+      "ground_truths": [
+        "biluxury"
+      ]
+    },
+    {
+      "index": 884,
+      "question": "bên phải quầy sữa hạt là quầy gì ?",
+      "prediction": "Quầy sữa chua",
+      "ground_truths": [
+        "nước giải khát"
+      ]
+    },
+    {
+      "index": 885,
+      "question": "đây là bánh gì ?",
+      "prediction": "Bánh chả",
+      "ground_truths": [
+        "bánh chả"
+      ]
+    },
+    {
+      "index": 886,
+      "question": "bánh chả là loại bánh của công ty nào ?",
+      "prediction": "Bảo Minh",
+      "ground_truths": [
+        "bảo minh"
+      ]
+    },
+    {
+      "index": 887,
+      "question": "bảng bên trái lưu ý vấn đề gì ?",
+      "prediction": "Lưu ý cá nhân",
+      "ground_truths": [
+        "đồ dùng cá nhân quý khách tự giữ lấy"
+      ]
+    },
+    {
+      "index": 888,
+      "question": "bức ảnh có nguồn từ đâu ?",
+      "prediction": "Vườn sách",
+      "ground_truths": [
+        "thanhuytrum . vn"
+      ]
+    },
+    {
+      "index": 889,
+      "question": "chương trình bảo dưỡng và sửa chữa lưu động do ai tổ chức ?",
+      "prediction": "Víkng và Vinapro",
+      "ground_truths": [
+        "vikyno & vinappro"
+      ]
+    },
+    {
+      "index": 890,
+      "question": "cửa hàng kim phượng 2 có bán những gì ?",
+      "prediction": "Kim phượng",
+      "ground_truths": [
+        "gạch men - gạch đá - ngói lợp - thiết bị vệ sinh cao cấp"
+      ]
+    },
+    {
+      "index": 891,
+      "question": "địa chỉ của cửa hàng kim phượng 2 là gì ?",
+      "prediction": "Đc Quảng Hạnh Tiến",
+      "ground_truths": [
+        "quảng biên , quảng tiến , trảng bom , đồng nai"
+      ]
+    },
+    {
+      "index": 892,
+      "question": "cửa hàng tuấn chuyên bán gì ?",
+      "prediction": "Cửa hàng tuấn",
+      "ground_truths": [
+        "chuyên ri đô"
+      ]
+    },
+    {
+      "index": 893,
+      "question": "ai là tác giả của sống kỷ luật , gặt thành công ?",
+      "prediction": "Peter Hollins",
+      "ground_truths": [
+        "peter hollins"
+      ]
+    },
+    {
+      "index": 894,
+      "question": "đây là công ty gì ?",
+      "prediction": "Vietnamobile",
+      "ground_truths": [
+        "vietnamonile"
+      ]
+    },
+    {
+      "index": 895,
+      "question": "đây là trung tâm gì ?",
+      "prediction": "Trung tâm thể thao",
+      "ground_truths": [
+        "trung tâm thể thao"
+      ]
+    },
+    {
+      "index": 896,
+      "question": "trung tâm thể thao này tên gì ?",
+      "prediction": "Trung tâm thể thao Mường Thanh",
+      "ground_truths": [
+        "mường thanh"
+      ]
+    },
+    {
+      "index": 897,
+      "question": "trung tâm thể thao mường thanh thuộc công ty gì ?",
+      "prediction": "Công ty cổ phần tập đoàn mường thanh",
+      "ground_truths": [
+        "cn tông ty cổ phần tập đoàn mường thanh"
+      ]
+    },
+    {
+      "index": 898,
+      "question": "bảo tàng này tên gì ?",
+      "prediction": "Bảo tàng di cư",
+      "ground_truths": [
+        "thiên nhiên việt nam"
+      ]
+    },
+    {
+      "index": 899,
+      "question": "go travel là dịch vụ như thế nào ?",
+      "prediction": "Để du khách tham quan",
+      "ground_truths": [
+        "\" trải nghiệm sự khác biệt \""
+      ]
+    },
+    {
+      "index": 900,
+      "question": "nhạc cụ dân tộc là những loại nhạc cụ nào ?",
+      "prediction": "Đàn tranh, đàn ghi-ta, đàn phông",
+      "ground_truths": [
+        "đàn tranh , đàn kìm , đờn ghi - ta phím lõm"
+      ]
+    },
+    {
+      "index": 901,
+      "question": "số điện thoại của lớp nhạc lê nam là gì ?",
+      "prediction": "0987 888 789",
+      "ground_truths": [
+        "0987 088 789"
+      ]
+    },
+    {
+      "index": 902,
+      "question": "thời gian buổi chiều từ mấy giờ ?",
+      "prediction": "14 - 16",
+      "ground_truths": [
+        "14h - 16h"
+      ]
+    },
+    {
+      "index": 903,
+      "question": "bảng hiệu màu đỏ là của công ty gì ?",
+      "prediction": "Công ty Toto",
+      "ground_truths": [
+        "cho thuê mặt bằng"
+      ]
+    },
+    {
+      "index": 904,
+      "question": "cửa hàng có bảng hiệu màu vàng là cửa hàng gì ?",
+      "prediction": "Cửa hàng Kim Hà",
+      "ground_truths": [
+        "hottoc"
+      ]
+    },
+    {
+      "index": 905,
+      "question": "bức ảnh lấy nguồn từ đâu ?",
+      "prediction": "PhotoBuu",
+      "ground_truths": [
+        "photobucket"
+      ]
+    },
+    {
+      "index": 906,
+      "question": "cửa hàng có cung cấp các sản phẩm gì ?",
+      "prediction": "Sản phẩm điện thoại",
+      "ground_truths": [
+        "điện thoại - laptop - apple - phụ kiện"
+      ]
+    },
+    {
+      "index": 907,
+      "question": "bức ảnh bao gồm những diễn viên gì ?",
+      "prediction": "Những diễn viên",
+      "ground_truths": [
+        "chính & diễn viên quần chúng"
+      ]
+    },
+    {
+      "index": 908,
+      "question": "các diễn viên thuộc khu tập thể nào ?",
+      "prediction": "Trung tâm Bóng đẹp",
+      "ground_truths": [
+        "12a10 thpt đông thụy anh"
+      ]
+    },
+    {
+      "index": 909,
+      "question": "tấm bảng hiệu bên phải là của quán gì ?",
+      "prediction": "Quán cà phê",
+      "ground_truths": [
+        "café & restaura"
+      ]
+    },
+    {
+      "index": 910,
+      "question": "bức hình được lấy từ nguồn nào ?",
+      "prediction": "Nguồn Vườn thực phẩm",
+      "ground_truths": [
+        "afamily . vn"
+      ]
+    },
+    {
+      "index": 911,
+      "question": "bức hình được chụp bởi ai ?",
+      "prediction": "Nguyễn Thị Bình Ân",
+      "ground_truths": [
+        "nguyen thi binh an"
+      ]
+    },
+    {
+      "index": 912,
+      "question": "quầy hàng có món cá kho gì ?",
+      "prediction": "Cá kho",
+      "ground_truths": [
+        "làng chài"
+      ]
+    },
+    {
+      "index": 913,
+      "question": "tấm bảng được làm bởi đơn vị gì ?",
+      "prediction": "Kabi",
+      "ground_truths": [
+        "kabi"
+      ]
+    },
+    {
+      "index": 914,
+      "question": "vào năm 2020 lượng tin đăng về nhà riêng đã tăng bao nhiêu phần trăm so với năm 2019 ?",
+      "prediction": "12%",
+      "ground_truths": [
+        "4"
+      ]
+    },
+    {
+      "index": 915,
+      "question": "quán ăn có tên là gì ?",
+      "prediction": "Ba Ghiền",
+      "ground_truths": [
+        "ba ghiền"
+      ]
+    },
+    {
+      "index": 916,
+      "question": "ba ghiền có bán món gì ngoài cơm tấm ?",
+      "prediction": "Bún thịt nướng",
+      "ground_truths": [
+        "bún thịt nướng"
+      ]
+    },
+    {
+      "index": 917,
+      "question": "số điện thoại của ms linh là số nào ?",
+      "prediction": "097.997.3013",
+      "ground_truths": [
+        "0947 94 91 97"
+      ]
+    },
+    {
+      "index": 918,
+      "question": "số điện thoại của ms lý là số nào ?",
+      "prediction": "097.997.3013",
+      "ground_truths": [
+        "097 997 3013"
+      ]
+    },
+    {
+      "index": 919,
+      "question": "chỗ này cho biết thông tin gì ?",
+      "prediction": "Thông tin du lịch",
+      "ground_truths": [
+        "du lịch nghệ an"
+      ]
+    },
+    {
+      "index": 920,
+      "question": "cửa hàng này tên gì ?",
+      "prediction": "King BBQ",
+      "ground_truths": [
+        "kingbbq"
+      ]
+    },
+    {
+      "index": 921,
+      "question": "số điện thoại bên phải của cửa hàng là gì ?",
+      "prediction": "0913 752 251",
+      "ground_truths": [
+        "0919 236 748"
+      ]
+    },
+    {
+      "index": 922,
+      "question": "đường đèo gia bắc như thế nào ?",
+      "prediction": "Đường đèo quanh co",
+      "ground_truths": [
+        "dốc quanh co"
+      ]
+    },
+    {
+      "index": 923,
+      "question": "tủ phía sau bên phải bán cái gì ?",
+      "prediction": "Sơn",
+      "ground_truths": [
+        "ốp lưng"
+      ]
+    },
+    {
+      "index": 924,
+      "question": "ảnh này lấy từ nguồn nào ?",
+      "prediction": "Siêu thị điện máy Chợ Lớn",
+      "ground_truths": [
+        "@top10dongnai . com"
+      ]
+    },
+    {
+      "index": 925,
+      "question": "bản đồ này của tỉnh nào ?",
+      "prediction": "Tỉnh Tây Ninh",
+      "ground_truths": [
+        "tây ninh"
+      ]
+    },
+    {
+      "index": 926,
+      "question": "ảnh lấy từ nguồn nào ?",
+      "prediction": "Tờ Quốc",
+      "ground_truths": [
+        "tổquốc"
+      ]
+    },
+    {
+      "index": 927,
+      "question": "tổquốc là báo gì ?",
+      "prediction": "Báo Tiếng Việt",
+      "ground_truths": [
+        "điện tử của bộ văn hóa , thể thao và du lịch"
+      ]
+    },
+    {
+      "index": 928,
+      "question": "cửa hàng này tên gì ?",
+      "prediction": "FRESHFoods",
+      "ground_truths": [
+        "freshfoods"
+      ]
+    },
+    {
+      "index": 929,
+      "question": "trang web của cửa hàng này là gì ?",
+      "prediction": "www.freshfoods.vn",
+      "ground_truths": [
+        "www . freshfoods . vn"
+      ]
+    },
+    {
+      "index": 930,
+      "question": "dịch giả của cuốn sách này là ai ?",
+      "prediction": "Dương Anh",
+      "ground_truths": [
+        "trang quách"
+      ]
+    },
+    {
+      "index": 931,
+      "question": "điểm cách ly y tế này phòng chống gì ?",
+      "prediction": "Cách ly bệnh tật",
+      "ground_truths": [
+        "dịch covid - 19"
+      ]
+    },
+    {
+      "index": 932,
+      "question": "ở đây có thực phẩm như thế nào ?",
+      "prediction": "Có thực phẩm tươi",
+      "ground_truths": [
+        "miễn phí"
+      ]
+    },
+    {
+      "index": 933,
+      "question": "đây là sở y tế của tỉnh nào ?",
+      "prediction": "Tỉnh Tây Ninh",
+      "ground_truths": [
+        "tây ninh"
+      ]
+    },
+    {
+      "index": 934,
+      "question": "bức ảnh này đang quảng cáo sản phẩm gì ?",
+      "prediction": "Bao bì bánh kẹo",
+      "ground_truths": [
+        "bao bì bánh kẹo túi opp hàn miệng little daisy"
+      ]
+    },
+    {
+      "index": 935,
+      "question": "kích thước bao bì bánh kẹo là bao nhiêu ?",
+      "prediction": "7 x 10cm",
+      "ground_truths": [
+        "7x10cm"
+      ]
+    },
+    {
+      "index": 936,
+      "question": "bức ảnh này lấy nguồn từ đâu ?",
+      "prediction": "Vỹ Phong",
+      "ground_truths": [
+        "vỹ phong"
+      ]
+    },
+    {
+      "index": 937,
+      "question": "thâu băng nhạc như thế nào ?",
+      "prediction": "Để có băng nhạc",
+      "ground_truths": [
+        "mới hay"
+      ]
+    },
+    {
+      "index": 938,
+      "question": "quán cafe có tên là gì ?",
+      "prediction": "Cafe 79",
+      "ground_truths": [
+        "79"
+      ]
+    },
+    {
+      "index": 939,
+      "question": "cafe 79 có dịch vụ gì ?",
+      "prediction": "Có dịch vụ sửa chữa",
+      "ground_truths": [
+        "trực tiếp bóng đá k+"
+      ]
+    },
+    {
+      "index": 940,
+      "question": "vận chuyển hàng hóa được nhắc đến trong ảnh là đi về đâu ?",
+      "prediction": "Tây Ninh",
+      "ground_truths": [
+        "tây ninh"
+      ]
+    },
+    {
+      "index": 941,
+      "question": "khu phố trong ảnh là khu phố như thế nào ?",
+      "prediction": "Khu phố đông đúc",
+      "ground_truths": [
+        "văn hóa"
+      ]
+    },
+    {
+      "index": 942,
+      "question": "các anh hùng liệt sĩ được mọi người làm gì ?",
+      "prediction": "Đi thăm cúng",
+      "ground_truths": [
+        "đời đời nhớ ơn"
+      ]
+    },
+    {
+      "index": 943,
+      "question": "trường mầm non vinschool đạt tiêu chuẩn gì ?",
+      "prediction": "Tích hợp",
+      "ground_truths": [
+        "ipc"
+      ]
+    },
+    {
+      "index": 944,
+      "question": "địa điểm 120 dốc ngữ là bệnh viện gì ?",
+      "prediction": "Bệnh viện 120 dốc ngữ",
+      "ground_truths": [
+        "354"
+      ]
+    },
+    {
+      "index": 945,
+      "question": "số điện thoại liên hệ dovi là gì ?",
+      "prediction": "04 66808199",
+      "ground_truths": [
+        "04 66801099"
+      ]
+    },
+    {
+      "index": 946,
+      "question": "webiste của dovi là gì ?",
+      "prediction": "Dovi",
+      "ground_truths": [
+        "www . thienduonganvat . com"
+      ]
+    },
+    {
+      "index": 947,
+      "question": "bịch bánh trong ảnh là sản phẩm của thương hiệu nào ?",
+      "prediction": "Aroma",
+      "ground_truths": [
+        "ostar"
+      ]
+    },
+    {
+      "index": 948,
+      "question": "nguồn của bức ảnh này đến từ đâu ?",
+      "prediction": "Nguồn internet",
+      "ground_truths": [
+        "hanoi etoco"
+      ]
+    },
+    {
+      "index": 949,
+      "question": "năm đang diễn ra trong ảnh là năm bao nhiêu ?",
+      "prediction": "Năm 2022",
+      "ground_truths": [
+        "2022"
+      ]
+    },
+    {
+      "index": 950,
+      "question": "cửa hàng này có tên là gì ?",
+      "prediction": "Bánh Huế",
+      "ground_truths": [
+        "bánh huế"
+      ]
+    },
+    {
+      "index": 951,
+      "question": "cửa hàng này bán những loại bánh gì ?",
+      "prediction": "Bánh bò, bánh nậm và bánh lọc",
+      "ground_truths": [
+        "bèo - nậm - lọc"
+      ]
+    },
+    {
+      "index": 952,
+      "question": "dòng chữ màu trắng trong bảng màu cam phía trên bức ảnh là gì ?",
+      "prediction": "Kính lịch sử văn hóa",
+      "ground_truths": [
+        "khu du lịch lịch sử văn hoa"
+      ]
+    },
+    {
+      "index": 953,
+      "question": "quán phương bán đặc sản ở đâu ?",
+      "prediction": "Bên cạnh quán",
+      "ground_truths": [
+        "hà nội"
+      ]
+    },
+    {
+      "index": 954,
+      "question": "quầy trong ảnh có tên là gì ?",
+      "prediction": "Quầy cà phê",
+      "ground_truths": [
+        "logo demo"
+      ]
+    },
+    {
+      "index": 955,
+      "question": "chương trình này thuộc đoàn thanh niên của tổng công ty nào ?",
+      "prediction": "Tổng công ty",
+      "ground_truths": [
+        "cảng hàng không việt nam"
+      ]
+    },
+    {
+      "index": 956,
+      "question": "dòng chữ màu đen trong bảng màu vàng ở dưới bức ảnh là gì ?",
+      "prediction": "Hanateh",
+      "ground_truths": [
+        "liên hệ hotline - hoặc để lại thông tin liên hệ"
+      ]
+    },
+    {
+      "index": 957,
+      "question": "số điện thoại của quán cháo này là gì ?",
+      "prediction": "190",
+      "ground_truths": [
+        "0983 080 419"
+      ]
+    },
+    {
+      "index": 958,
+      "question": "ngân hàng này được khai trương vào ngày nào ?",
+      "prediction": "08/01/2019",
+      "ground_truths": [
+        "08 / 01 / 2019"
+      ]
+    },
+    {
+      "index": 959,
+      "question": "đây là chương trình ngày hội gì ?",
+      "prediction": "Chương trình ngày hội mùa sinh",
+      "ground_truths": [
+        "làm mẹ"
+      ]
+    },
+    {
+      "index": 960,
+      "question": "chương trình này có khuyến mãi bao nhiêu ?",
+      "prediction": "90%",
+      "ground_truths": [
+        "90 %"
+      ]
+    },
+    {
+      "index": 961,
+      "question": "dòng chữ ở góc trên bên trái bức ảnh là gì ?",
+      "prediction": "Vui lòng đeo khẩu trang",
+      "ground_truths": [
+        "vui lòng đo thân nhiệt và rửa tay"
+      ]
+    },
+    {
+      "index": 962,
+      "question": "kho này thuộc công ty nào ?",
+      "prediction": "Phan Duy Corp",
+      "ground_truths": [
+        "phan duy corp"
+      ]
+    },
+    {
+      "index": 963,
+      "question": "cửa hàng lê trịnh store thuộc công ty tnhh nào ?",
+      "prediction": "Công ty TNHH MTV Điện tử",
+      "ground_truths": [
+        "lê trịnh"
+      ]
+    },
+    {
+      "index": 964,
+      "question": "cửa hàng này có tên là gì ?",
+      "prediction": "Dala Ichfoods",
+      "ground_truths": [
+        "dalat ichifoods"
+      ]
+    },
+    {
+      "index": 965,
+      "question": "cửa tiệm tỏng ảnh có tên chính thức là gì ?",
+      "prediction": "Khánh Nhị",
+      "ground_truths": [
+        "khánh nhi"
+      ]
+    },
+    {
+      "index": 966,
+      "question": "giá tiền 70k là cho đối tượng nào ?",
+      "prediction": "Trẻ em",
+      "ground_truths": [
+        "người lớn"
+      ]
+    },
+    {
+      "index": 967,
+      "question": "giá vé vào cửa và ghế ngồi tốn bao nhiêu tiền ?",
+      "prediction": "50k và 70k",
+      "ground_truths": [
+        "30k"
+      ]
+    },
+    {
+      "index": 968,
+      "question": "khu vực cuối góc phải màn hình là sản phẩm gì ?",
+      "prediction": "Sản phẩm gia dụng",
+      "ground_truths": [
+        "điện máy"
+      ]
+    },
+    {
+      "index": 969,
+      "question": "nội dung dòng chữ ở giữa quyển sách ?",
+      "prediction": "Làng xóm Việt Nam",
+      "ground_truths": [
+        "làng xóm việt nam"
+      ]
+    },
+    {
+      "index": 970,
+      "question": "giá các sản phẩm của quán thấp nhất là bao nhiêu ?",
+      "prediction": "22k",
+      "ground_truths": [
+        "22k"
+      ]
+    },
+    {
+      "index": 971,
+      "question": "với tính năng mới khách hàng có điều gì tiện dụng ?",
+      "prediction": "Có thể xếp hàng",
+      "ground_truths": [
+        "không lo xếp hàng"
+      ]
+    },
+    {
+      "index": 972,
+      "question": "bức hình có nguồn gốc ở đâu ?",
+      "prediction": "HànTech",
+      "ground_truths": [
+        "hanatech"
+      ]
+    },
+    {
+      "index": 973,
+      "question": "ngoài liên hệ với hotline của hanatech thì còn có thể làm gì ?",
+      "prediction": "Để tìm thêm thông tin",
+      "ground_truths": [
+        "để lại thông tin liên hệ"
+      ]
+    },
+    {
+      "index": 974,
+      "question": "ở dưới là tấm bảng của công ty nào ?",
+      "prediction": "Công ty Mobifone",
+      "ground_truths": [
+        "mobifone"
+      ]
+    },
+    {
+      "index": 975,
+      "question": "trải nghiệm wifi 3g như thế nào ?",
+      "prediction": "Trải nghiệm wifi 3g",
+      "ground_truths": [
+        "free"
+      ]
+    },
+    {
+      "index": 976,
+      "question": "nội dung dòng chữ trắng ?",
+      "prediction": "Hello Kid's",
+      "ground_truths": [
+        "hello kid ' s"
+      ]
+    },
+    {
+      "index": 977,
+      "question": "đối tượng khách hàng của spa ?",
+      "prediction": "Nam - Nữ",
+      "ground_truths": [
+        "nam - nữ"
+      ]
+    },
+    {
+      "index": 978,
+      "question": "nội dung dòng chữ màu đỏ ?",
+      "prediction": "Hàng mới",
+      "ground_truths": [
+        "hà nội mới"
+      ]
+    },
+    {
+      "index": 979,
+      "question": "cải ngọt bán bao nhiêu ?",
+      "prediction": "1000 đồng",
+      "ground_truths": [
+        "17 . 50"
+      ]
+    },
+    {
+      "index": 980,
+      "question": "chữ tiếng anh của phòng vé ?",
+      "prediction": "PHÒNG VÉ",
+      "ground_truths": [
+        "ticket office"
+      ]
+    },
+    {
+      "index": 981,
+      "question": "scan & go có gì đặc biêt ?",
+      "prediction": "Có thể quét",
+      "ground_truths": [
+        "công nghệ lần đầu có mặt tại việt nam"
+      ]
+    },
+    {
+      "index": 982,
+      "question": "cột màu xanh dương thể hiện cho khoảng thời gian nào ?",
+      "prediction": "Quốc gia",
+      "ground_truths": [
+        "q4 / 2020"
+      ]
+    },
+    {
+      "index": 983,
+      "question": "cửa hàng có tên là gì ?",
+      "prediction": "Nhật Quân",
+      "ground_truths": [
+        "nhật quân"
+      ]
+    },
+    {
+      "index": 984,
+      "question": "nguồn clean & green có số hotline nào ?",
+      "prediction": "0915 38 50 38",
+      "ground_truths": [
+        "0915 38 50 38"
+      ]
+    },
+    {
+      "index": 985,
+      "question": "nhà nghỉ hải quân khu b tọa lạc tại thành phố nào ?",
+      "prediction": "Thôn Ngã Chín",
+      "ground_truths": [
+        "hạ long"
+      ]
+    },
+    {
+      "index": 986,
+      "question": "địa chỉ của công ty nguyễn tuấn là gì ?",
+      "prediction": "Số 101 Đường 201, P.10, Q.1, TP. HCM",
+      "ground_truths": [
+        "số 14 đường 28b , kdc feliza , p . phước long b , q . 9 , tp . hcm"
+      ]
+    },
+    {
+      "index": 987,
+      "question": "cửa hàng coffee này có tên là gì ?",
+      "prediction": "Nguyên chát Coffee",
+      "ground_truths": [
+        "nguyen chat"
+      ]
+    },
+    {
+      "index": 988,
+      "question": "nguồn của bức ảnh này là gì ?",
+      "prediction": "Dulich9.com",
+      "ground_truths": [
+        "dulich9 . com"
+      ]
+    },
+    {
+      "index": 989,
+      "question": "quán bò tơ này có tên là gì ?",
+      "prediction": "Quán bò tơ",
+      "ground_truths": [
+        "năm sánh"
+      ]
+    },
+    {
+      "index": 990,
+      "question": "nguồn của bức ảnh này là gì ?",
+      "prediction": "Vingroup News",
+      "ground_truths": [
+        "vtcnews"
+      ]
+    },
+    {
+      "index": 991,
+      "question": "khẩu hiệu của vtcnews là gì ?",
+      "prediction": "VTC News",
+      "ground_truths": [
+        "hơi thở cuộc sống"
+      ]
+    },
+    {
+      "index": 992,
+      "question": "quán ở số 139 có tên là gì ?",
+      "prediction": "Phở Đêm",
+      "ground_truths": [
+        "phố đêm"
+      ]
+    },
+    {
+      "index": 993,
+      "question": "cửa hàng xăng dầu phúc lâm 79 là chi nhánh công ty cổ phần nhiên liệu gì ?",
+      "prediction": "Công ty cổ phần nhiên liệu",
+      "ground_truths": [
+        "phúc lâm"
+      ]
+    },
+    {
+      "index": 994,
+      "question": "khẩu hiệu của cửa hàng phúc lâm 79 là gì ?",
+      "prediction": "Cửa hàng xăng dầu phúc lâm 79",
+      "ground_truths": [
+        "niềm tin là sức mạnh"
+      ]
+    },
+    {
+      "index": 995,
+      "question": "đường buôn ma thuột là đường gì ?",
+      "prediction": "Đường sách và cà phê",
+      "ground_truths": [
+        "sách & cà phê"
+      ]
+    },
+    {
+      "index": 996,
+      "question": "quán gà quay thiên phước nhận gì ?",
+      "prediction": "Nước heo tươi",
+      "ground_truths": [
+        "đào tạo học viên"
+      ]
+    },
+    {
+      "index": 997,
+      "question": "bảng này được làm vào năm nào ?",
+      "prediction": "Năm 2022",
+      "ground_truths": [
+        "2022"
+      ]
+    },
+    {
+      "index": 998,
+      "question": "quán này có tên là gì ?",
+      "prediction": "Quán Cồn",
+      "ground_truths": [
+        "gà quê"
+      ]
+    },
+    {
+      "index": 999,
+      "question": "nguồn của bức ảnh này là gì ?",
+      "prediction": "Báo điện tử",
+      "ground_truths": [
+        "bht"
+      ]
+    }
+  ]
+}

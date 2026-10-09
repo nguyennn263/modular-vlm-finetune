@@ -1,0 +1,18 @@
+{
+  "dataset": "openvivqa_s42",
+  "n": 1000,
+  "bridge": "global_local",
+  "n_tiles": 1,
+  "checkpoint": "/tmp/ck/k36.pt",
+  "gen_image": "full",
+  "accuracy": 0.024,
+  "exact_match": 0.024,
+  "bleu": 0.016232978922042608,
+  "rouge_l": 0.2789231921026258,
+  "meteor": 0.18751659690671815,
+  "cider": 1.3127274804747553,
+  "precision": 0.4545059884559885,
+  "recall": 0.23401052349872647,
+  "f1": 0.2871523445023231,
+  "wups": 0.024
+}

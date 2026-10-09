@@ -3676,6 +3676,44 @@
       "pushed_at": "2026-10-09T01:07:09",
       "chain": "gl-g14-k144-s3407",
       "phase": 2
+    },
+    "ood-gl:vitextvqa": {
+      "account": "acc5",
+      "kernel": "nguyennguyen263/mvlm-oodgl-vitextvqa",
+      "status": "running",
+      "pushed_at": "2026-10-09T12:34:42",
+      "dataset": "vitextvqa"
+    },
+    "gl-g14-k36-lora1-s42:ep1": {
+      "account": "acc3",
+      "kernel": "nguyennn2603/mvlm-gl-g14-k36-lora1-s42-ep1",
+      "status": "running",
+      "pushed_at": "2026-10-09T12:34:42",
+      "chain": "gl-g14-k36-lora1-s42",
+      "phase": 0
+    },
+    "gl-g14-k36-lora1-s123:ep1": {
+      "account": "acc10",
+      "kernel": "giapht/mvlm-gl-g14-k36-lora1-s123-ep1",
+      "status": "running",
+      "pushed_at": "2026-10-09T12:34:49",
+      "chain": "gl-g14-k36-lora1-s123",
+      "phase": 0
+    },
+    "gl-g14-k36-lora1-s3407:ep1": {
+      "account": "acc7",
+      "kernel": "tinquc220300nguyn/mvlm-gl-g14-k36-lora1-s3407-ep1",
+      "status": "running",
+      "pushed_at": "2026-10-09T12:34:56",
+      "chain": "gl-g14-k36-lora1-s3407",
+      "phase": 0
+    },
+    "ood-gl:openvivqa": {
+      "account": "acc5",
+      "kernel": "nguyennguyen263/mvlm-oodgl-openvivqa",
+      "status": "done",
+      "pushed_at": "2026-10-09T12:35:47",
+      "dataset": "openvivqa"
     }
   }
 }

@@ -3752,6 +3752,20 @@
       "pushed_at": "2026-10-09T17:58:05",
       "chain": "gl-g14-k36-lora1-s42",
       "phase": 1
+    },
+    "ood-gllora:vitextvqa": {
+      "account": "acc5",
+      "kernel": "nguyennguyen263/mvlm-oodgllora-vitextvqa",
+      "status": "running",
+      "pushed_at": "2026-10-09T21:25:02",
+      "dataset": "vitextvqa"
+    },
+    "ood-gllora:openvivqa": {
+      "account": "acc5",
+      "kernel": "nguyennguyen263/mvlm-oodgllora-openvivqa",
+      "status": "done",
+      "pushed_at": "2026-10-09T21:26:13",
+      "dataset": "openvivqa"
     }
   }
 }

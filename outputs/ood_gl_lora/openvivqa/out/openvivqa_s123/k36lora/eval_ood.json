@@ -1,0 +1,18 @@
+{
+  "dataset": "openvivqa_s123",
+  "n": 1000,
+  "bridge": "global_local",
+  "n_tiles": 1,
+  "checkpoint": "/tmp/ck/k36lora.pt",
+  "gen_image": "full",
+  "accuracy": 0.024,
+  "exact_match": 0.024,
+  "bleu": 0.012503022043034155,
+  "rouge_l": 0.283051926135632,
+  "meteor": 0.1909938061397177,
+  "cider": 1.2986524783167472,
+  "precision": 0.4385834054834055,
+  "recall": 0.24167533574530345,
+  "f1": 0.2911801048581139,
+  "wups": 0.024
+}

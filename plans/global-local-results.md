@@ -58,3 +58,27 @@ g8-k144 56.15 ± 0.08 is 0.46 below (> 5 std), so **g = 14, k = 144** (158 token
 56.04 ± 0.19 F1, 116.74 CIDEr. Cost-aware alternative: g14-k36 (50 tokens), val 54.96 ±
 0.28 / test 54.56 ± 0.19, on par with Multi-Token 8 + LoRA 3 epochs (54.78 / 54.52)
 without LoRA.
+
+## Choosing one configuration that is both good and cheap (2026-10-09)
+
+Costs: tokens into the LLM (g + k), measured eval wall-clock (val + test, mean of 3 seeds:
+k=1 57-59 min, k=9 58-59, k=36 60-61, k=144 70-71), trainable params (g8 7.35M, g14 12.86M).
+
+1. **Pareto front:** accuracy rises with every token step, so all 8 points are Pareto-optimal;
+   the front alone does not pick one.
+2. **Knee of the front (Kneedle: max normalised height above the cheapest-best chord)** --
+   **g14-k36** for every metric (Acc, P, R, F1, BLEU, ROUGE-L, METEOR, CIDEr) on both val and
+   test, with cost = tokens (16/16) and cost = measured eval time (16/16); with cost =
+   log(tokens), 11/16.
+3. **TOPSIS** (benefits = gain over Multi-Token 8 in F1/CIDEr/METEOR; costs = extra tokens,
+   extra eval time, params, F1 std): accuracy weight 0.5 -> g14-k36 first; 0.3-0.4 -> k=9
+   configs; 0.6-0.7 -> g14-k144. g14-k36 is the only configuration in the top 4 at every
+   weight from 0.3 to 0.7.
+4. **Parity target:** g14-k36 is the cheapest configuration at or above Multi-Token 8 + LoRA
+   3 epochs (54.78 / 54.52): val 54.96 ± 0.28, test 54.56 ± 0.19, without LoRA.
+5. Share of the maximum gain: g14-k36 gets +4.22 of the +5.87 F1 that g14-k144 gets
+   (72%) with 50 of 158 tokens (32%), and ~15% less eval time.
+
+**Choice: g14-k36** (14 global + 36 local = 50 tokens) as the efficient configuration;
+g14-k144 as the most accurate one. g = 14 over g = 8 at k = 36: +0.64 val / +0.74 test F1
+(> 2 std) for 6 more tokens.

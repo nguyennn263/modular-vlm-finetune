@@ -110,3 +110,8 @@ seed-42 checkpoints, sampling seeds 42/123/3407, shared questions, F1 mean):
 | ViVQA | 23.90 | 31.48 | 42.68 | 44.95 |
 
 Paper: `exp/vintern-ft-baseline` @2e76d2c (Tables 2, 3, 5; Fig. 2). Not run: OOD of the LoRA model.
+
+**OOD of g14-k36 + LoRA** (2026-10-10; `outputs/ood_gl_lora/`, `outputs/ood_gl/table_with_lora.json`,
+`score_gl.py --gl-lora`): F1 ViTextVQA 15.39, OpenViVQA 28.99, ViVQA-X 27.64, ViVQA 44.76 —
++2.7 / +2.1 over g14-k36 on the general sets, +0.3 / +0.8 on scene text. In the paper @4203a41
+(Table 5).

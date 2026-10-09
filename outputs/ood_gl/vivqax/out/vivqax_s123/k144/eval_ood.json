@@ -1,0 +1,18 @@
+{
+  "dataset": "vivqax_s123",
+  "n": 1000,
+  "bridge": "global_local",
+  "n_tiles": 1,
+  "checkpoint": "/tmp/ck/k144.pt",
+  "gen_image": "full",
+  "accuracy": 0.079,
+  "exact_match": 0.079,
+  "bleu": 0.0031673810179170085,
+  "rouge_l": 0.2220286435786436,
+  "meteor": 0.18554474362924245,
+  "cider": 0.9055725364987874,
+  "precision": 0.23102499999999998,
+  "recall": 0.4662833333333333,
+  "f1": 0.2796159451659452,
+  "wups": 0.079
+}

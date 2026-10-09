@@ -1,0 +1,18 @@
+{
+  "dataset": "vitextvqa_s42",
+  "n": 1000,
+  "bridge": "global_local",
+  "n_tiles": 1,
+  "checkpoint": "/tmp/ck/k36lora.pt",
+  "gen_image": "full",
+  "accuracy": 0.035,
+  "exact_match": 0.038,
+  "bleu": 0.010635155013697857,
+  "rouge_l": 0.14530955000451906,
+  "meteor": 0.11298856910223412,
+  "cider": 0.7127728641342258,
+  "precision": 0.17453333333333332,
+  "recall": 0.1587756895881896,
+  "f1": 0.15624169735493265,
+  "wups": 0.035
+}

@@ -1,5 +1,14 @@
 # Paper changelog (ACIIDS 2027, ViBridge-VQA)
 
+## 2026-10-10 — OOD of ViBridge-VQA + decoder LoRA
+
+- Table 5: row "ours, k=36 + LoRA" on the four OOD sets (seed-42 checkpoint, same sampled
+  questions). F1: ViTextVQA 15.39, OpenViVQA 28.99, ViVQA-X 27.64, ViVQA 44.76 — LoRA helps the
+  general-domain sets (+2.7 / +2.1 over k=36) but hardly scene text (+0.3 / +0.8). Text of §4.7
+  and the conclusion updated. Source: `analysis/ood_gl_table.json` (`score_gl.py --gl-lora`,
+  @8c980a2).
+- Qualitative and global-bridge-design paragraphs shortened to stay at 15 pages.
+
 ## 2026-10-09 (evening) — OOD evaluation and global–local + decoder LoRA
 
 - **OOD table back** (Table 5, §4.7): ViTextVQA, OpenViVQA, ViVQA-X, ViVQA × sampling seeds

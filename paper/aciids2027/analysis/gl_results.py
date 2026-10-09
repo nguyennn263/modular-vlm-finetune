@@ -42,8 +42,10 @@ def _eval_minutes(run_dir: Path) -> float | None:
     return (ts[-1] - ts[0]).total_seconds() / 60 if len(ts) > 1 else None
 
 
-def _run_dir(gl: Path, g: int, k: int, s: int) -> Path:
-    for name in (f"gl-g{g}-k{k}-s{s}_eval", f"gl-g{g}-k{k}r2-s{s}_eval"):
+def _run_dir(gl: Path, g: int, k: int, s: int, lora: bool = False) -> Path:
+    names = ((f"gl-g{g}-k{k}-lora1-s{s}_eval",) if lora
+             else (f"gl-g{g}-k{k}-s{s}_eval", f"gl-g{g}-k{k}r2-s{s}_eval"))
+    for name in names:
         if (gl / name).exists():
             return gl / name
     raise FileNotFoundError(f"no eval run for g{g} k{k} s{s}")
@@ -88,6 +90,18 @@ def main() -> None:
                 **{sp: {name: [st.mean(c), st.pstdev(c)] for name, c in zip(M + ["ce"], zip(*rows))}
                    for sp, rows in runs.items()},
             }
+
+    # g14-k36 trained jointly with a rank-16 decoder LoRA for one epoch (not part of the
+    # budget selection: it is the selected budget plus decoder adaptation)
+    lora = {sp: [] for sp in ("val", "test")}
+    for s in SEEDS:
+        d = _run_dir(gl, 14, 36, s, lora=True)
+        for sp in lora:
+            e = json.loads((d / "out" / sp / f"eval_{sp}.json").read_text())
+            lora[sp].append([100 * e[m] for m in M] + [e["loss"]])
+    lora_cfg = {"g": 14, "k": 36, "tokens": 50, "trainable_params": 15_020_288, "epochs": 1,
+                **{sp: {name: [st.mean(c), st.pstdev(c)] for name, c in zip(M + ["ce"], zip(*rows))}
+                   for sp, rows in lora.items()}}
 
     # selection: knee per metric x split x cost axis
     names = list(cfg)
@@ -136,8 +150,9 @@ def main() -> None:
         "multi_token_s42": by_cat(diag / "mt-s42-t1-full/out/mt-s42-t1-full/text_predictions_epoch_1.json"),
         "multi_token_lora3ep_s42": by_cat(diag / "l3ep-s42-t1-full/out/l3ep-s42-t1-full/text_predictions_epoch_1.json"),
     }
-    for n in ("g14-k36", "g14-k144"):
-        seeds = [by_cat(_run_dir(gl, cfg[n]["g"], cfg[n]["k"], s) / "out/val/text_predictions_epoch_1.json")
+    for n, is_lora in (("g14-k36", False), ("g14-k144", False), ("g14-k36+lora1", True)):
+        g, k = (14, 36) if is_lora else (cfg[n]["g"], cfg[n]["k"])
+        seeds = [by_cat(_run_dir(gl, g, k, s, lora=is_lora) / "out/val/text_predictions_epoch_1.json")
                  for s in SEEDS]
         per_cat[n] = {c: {"n": seeds[0][c]["n"], "f1": st.mean(x[c]["f1"] for x in seeds)} for c in seeds[0]}
 
@@ -148,7 +163,7 @@ def main() -> None:
                        "runs": "outputs/train_gl/gl-g{g}-k{k}[r2]-s{seed}_eval/out/{val,test}/eval_*.json",
                        "metric": "metrics.vqa_metrics.score_answers, x100; std ddof=0",
                        "generated": datetime.now().isoformat(timespec="seconds")},
-        "configs": cfg, "knee": knees,
+        "configs": cfg, "g14-k36+lora1": lora_cfg, "knee": knees,
         "topsis_val": {f"{w:.1f}": topsis(w) for w in (0.3, 0.4, 0.5, 0.6, 0.7)},
         "per_category_val_f1": per_cat,
     }, indent=1, ensure_ascii=False))

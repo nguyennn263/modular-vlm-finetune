@@ -11,8 +11,11 @@
 %    2026-10-05); Full Q-Former is the leak-fixed retrain (4a8eb6d).
 %  - Table design (k sweep of the global bridge, pooling operators): earlier 448px-crop
 %    evaluation, said so in its caption.
-%  - Out-of-distribution study removed: it used the Multi-Token + LoRA model; the
-%    global-local model has not been evaluated out of distribution yet.
+%  - g14-k36 + decoder LoRA (1 joint epoch, 3 seeds): gl_results.json["g14-k36+lora1"]
+%    (same generator, exp/eval-input-diagnostic @9db84ba; outputs/train_gl/*lora1*).
+%  - Out-of-distribution table: analysis/ood_gl_table.json <- experiments/ood-eval/
+%    score_gl.py --gl-lora on exp/eval-input-diagnostic @8c980a2 (seed-42 checkpoints,
+%    incl. g14-k36 + LoRA).
 
 \documentclass[runningheads]{llncs}
 \usepackage[T1]{fontenc}
@@ -95,8 +98,10 @@ ViBridge-VQA raises the F1 of Vintern-1B from 17.6 to 54.6 and outperforms the
 officially fine-tuned Vintern-1B on seven of eight metrics while passing 50 instead of
 up to 1{,}792 visual tokens; with all 144 local tokens it outperforms it on all eight
 (F1 +2.3, CIDEr +43.9). Local tokens matter far more than global ones and help most on
-perception-heavy questions, and without any decoder adaptation the model surpasses our
-best decoder-LoRA model.
+perception-heavy questions, and they are complementary to decoder adaptation: adding a
+rank-16 decoder LoRA for one epoch raises F1 to 58.2 and CIDEr to 122.9, the best
+accuracy and generation scores among all compared systems. Out of distribution, a single
+view with 144 local tokens exceeds six-tile Vintern-1B on the scene-text ViTextVQA.
 
 \keywords{Vietnamese Visual Question Answering \and Vision--Language Models \and
 Parameter-Efficient Fine-Tuning \and Low-Rank Adaptation \and Generative VQA}

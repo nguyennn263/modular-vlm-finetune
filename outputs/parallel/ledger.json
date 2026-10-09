@@ -3770,9 +3770,16 @@
     "ood-gllora:vivqax": {
       "account": "acc5",
       "kernel": "nguyennguyen263/mvlm-oodgllora-vivqax",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-09T21:58:04",
       "dataset": "vivqax"
+    },
+    "ood-gllora:vivqa": {
+      "account": "acc5",
+      "kernel": "nguyennguyen263/mvlm-oodgllora-vivqa",
+      "pushed_at": "2026-10-09",
+      "dataset": "vivqa",
+      "status": "done"
     }
   }
 }

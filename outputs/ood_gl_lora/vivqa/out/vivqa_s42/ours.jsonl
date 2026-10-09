@@ -1,0 +1,520 @@
+{"id": "1", "image_name": "COCO_train2014_000000436394.jpg", "question": "màu của áo là gì", "answers": ["màu cam"]}
+{"id": "2", "image_name": "COCO_train2014_000000541050.jpg", "question": "màu của áo là gì", "answers": ["màu xanh dương"]}
+{"id": "4", "image_name": "COCO_train2014_000000314710.jpg", "question": "màu của quả bóng là gì", "answers": ["màu đỏ"]}
+{"id": "5", "image_name": "COCO_train2014_000000402362.jpg", "question": "màu của con ngựa là gì", "answers": ["màu nâu"]}
+{"id": "6", "image_name": "COCO_train2014_000000488812.jpg", "question": "màu của tòa nhà là gì", "answers": ["màu xám"]}
+{"id": "8", "image_name": "COCO_train2014_000000334135.jpg", "question": "màu của điện thoại là gì", "answers": ["màu nâu"]}
+{"id": "10", "image_name": "COCO_train2014_000000378790.jpg", "question": "màu của chiếc đĩa là gì", "answers": ["màu trắng"]}
+{"id": "13", "image_name": "COCO_train2014_000000027711.jpg", "question": "màu của xe buýt là gì", "answers": ["màu xanh dương"]}
+{"id": "14", "image_name": "COCO_train2014_000000479944.jpg", "question": "màu của túi là gì", "answers": ["màu vàng"]}
+{"id": "22", "image_name": "COCO_train2014_000000232410.jpg", "question": "màu của chiếc bình là gì", "answers": ["màu xanh dương"]}
+{"id": "24", "image_name": "COCO_train2014_000000287173.jpg", "question": "màu của xe máy là gì", "answers": ["màu xanh lá"]}
+{"id": "26", "image_name": "COCO_train2014_000000389702.jpg", "question": "màu của bảng là gì", "answers": ["màu vàng"]}
+{"id": "29", "image_name": "COCO_train2014_000000077557.jpg", "question": "màu của chiếc đĩa là gì", "answers": ["màu trắng"]}
+{"id": "32", "image_name": "COCO_train2014_000000189361.jpg", "question": "màu của xe buýt là gì", "answers": ["màu xanh lá"]}
+{"id": "38", "image_name": "COCO_train2014_000000070380.jpg", "question": "màu sắc của icing là gì", "answers": ["màu trắng"]}
+{"id": "39", "image_name": "COCO_train2014_000000114674.jpg", "question": "màu của chiếc ô là gì", "answers": ["màu tía"]}
+{"id": "41", "image_name": "COCO_train2014_000000513241.jpg", "question": "màu của chiếc đĩa là gì", "answers": ["màu trắng"]}
+{"id": "47", "image_name": "COCO_train2014_000000025470.jpg", "question": "màu của mặt bàn là gì", "answers": ["màu đen"]}
+{"id": "50", "image_name": "COCO_train2014_000000221042.jpg", "question": "màu của bình hoa là gì", "answers": ["màu xanh dương"]}
+{"id": "51", "image_name": "COCO_train2014_000000093764.jpg", "question": "màu của đồng cỏ là gì", "answers": ["màu xanh lá"]}
+{"id": "56", "image_name": "COCO_train2014_000000405264.jpg", "question": "màu của ghế là gì", "answers": ["màu đỏ"]}
+{"id": "57", "image_name": "COCO_train2014_000000451381.jpg", "question": "màu của vali là gì", "answers": ["màu đen"]}
+{"id": "60", "image_name": "COCO_train2014_000000096073.jpg", "question": "màu của chiếc cặp là gì", "answers": ["màu xanh lá"]}
+{"id": "70", "image_name": "COCO_train2014_000000424472.jpg", "question": "màu của áo là gì", "answers": ["màu xanh dương"]}
+{"id": "79", "image_name": "COCO_train2014_000000345899.jpg", "question": "màu của chiếc ghế dài là gì", "answers": ["màu trắng"]}
+{"id": "80", "image_name": "COCO_train2014_000000171328.jpg", "question": "màu của cam là gì", "answers": ["màu cam"]}
+{"id": "83", "image_name": "COCO_train2014_000000138807.jpg", "question": "màu của ánh sáng là gì", "answers": ["màu xanh lá"]}
+{"id": "84", "image_name": "COCO_train2014_000000140100.jpg", "question": "màu của xe buýt là gì", "answers": ["màu đỏ"]}
+{"id": "86", "image_name": "COCO_train2014_000000167622.jpg", "question": "màu của lửa là gì", "answers": ["màu tía"]}
+{"id": "96", "image_name": "COCO_train2014_000000526419.jpg", "question": "màu của xe buýt là gì", "answers": ["màu xám"]}
+{"id": "100", "image_name": "COCO_train2014_000000480745.jpg", "question": "màu con hổ là gì", "answers": ["màu xám"]}
+{"id": "101", "image_name": "COCO_train2014_000000048939.jpg", "question": "màu của cái tủ là gì", "answers": ["màu nâu"]}
+{"id": "102", "image_name": "COCO_train2014_000000480012.jpg", "question": "màu của con bò là gì", "answers": ["màu nâu"]}
+{"id": "105", "image_name": "COCO_train2014_000000186275.jpg", "question": "màu của con bò là gì", "answers": ["màu nâu"]}
+{"id": "108", "image_name": "COCO_train2014_000000031161.jpg", "question": "màu của áo là gì", "answers": ["màu đỏ"]}
+{"id": "110", "image_name": "COCO_train2014_000000249259.jpg", "question": "màu của máy bay phản lực là gì", "answers": ["màu xám"]}
+{"id": "111", "image_name": "COCO_train2014_000000161013.jpg", "question": "màu của con mèo là gì", "answers": ["màu trắng"]}
+{"id": "113", "image_name": "COCO_train2014_000000242404.jpg", "question": "màu của chiếc bình là gì", "answers": ["màu xanh dương"]}
+{"id": "117", "image_name": "COCO_train2014_000000442682.jpg", "question": "màu của kính bảo hộ là gì", "answers": ["màu cam"]}
+{"id": "118", "image_name": "COCO_train2014_000000271079.jpg", "question": "màu của tòa nhà là gì", "answers": ["màu vàng"]}
+{"id": "122", "image_name": "COCO_train2014_000000079971.jpg", "question": "màu của lá là gì", "answers": ["màu xanh lá"]}
+{"id": "127", "image_name": "COCO_train2014_000000447985.jpg", "question": "màu của ghế là gì", "answers": ["màu trắng"]}
+{"id": "128", "image_name": "COCO_train2014_000000245139.jpg", "question": "màu của bầu trời là gì", "answers": ["màu xanh dương"]}
+{"id": "130", "image_name": "COCO_train2014_000000323646.jpg", "question": "màu của cà vạt là gì", "answers": ["màu xanh dương"]}
+{"id": "131", "image_name": "COCO_train2014_000000179479.jpg", "question": "màu của radio là gì", "answers": ["màu vàng"]}
+{"id": "133", "image_name": "COCO_train2014_000000394175.jpg", "question": "màu của trang trí là gì", "answers": ["màu xanh dương"]}
+{"id": "142", "image_name": "COCO_train2014_000000253266.jpg", "question": "màu sắc của trang phục là gì", "answers": ["màu xanh dương"]}
+{"id": "147", "image_name": "COCO_train2014_000000513881.jpg", "question": "màu của quầy là gì", "answers": ["màu đen"]}
+{"id": "150", "image_name": "COCO_train2014_000000557137.jpg", "question": "màu của chiếc đĩa là gì", "answers": ["màu trắng"]}
+{"id": "156", "image_name": "COCO_train2014_000000006422.jpg", "question": "màu của chiếc điều khiển là gì", "answers": ["màu xám"]}
+{"id": "158", "image_name": "COCO_train2014_000000415918.jpg", "question": "màu của áo là gì", "answers": ["màu đen"]}
+{"id": "162", "image_name": "COCO_train2014_000000172171.jpg", "question": "màu sắc của đường phố là gì", "answers": ["màu đỏ"]}
+{"id": "163", "image_name": "COCO_train2014_000000038546.jpg", "question": "màu của thảm là gì", "answers": ["màu nâu"]}
+{"id": "164", "image_name": "COCO_train2014_000000559486.jpg", "question": "màu của bầu trời là gì", "answers": ["màu xanh dương"]}
+{"id": "168", "image_name": "COCO_train2014_000000023735.jpg", "question": "màu của lát là gì", "answers": ["màu cam"]}
+{"id": "171", "image_name": "COCO_train2014_000000373283.jpg", "question": "màu của chiếc ô là gì", "answers": ["màu vàng"]}
+{"id": "177", "image_name": "COCO_train2014_000000173184.jpg", "question": "màu sắc của hành khách là gì", "answers": ["màu xanh dương"]}
+{"id": "180", "image_name": "COCO_train2014_000000187351.jpg", "question": "màu của con cừu là gì", "answers": ["màu trắng"]}
+{"id": "181", "image_name": "COCO_train2014_000000560997.jpg", "question": "màu của xe buýt là gì", "answers": ["màu đen"]}
+{"id": "186", "image_name": "COCO_train2014_000000091288.jpg", "question": "màu của hàng rào là gì", "answers": ["màu vàng"]}
+{"id": "187", "image_name": "COCO_train2014_000000191729.jpg", "question": "màu của xe tải là gì", "answers": ["màu xanh dương"]}
+{"id": "189", "image_name": "COCO_train2014_000000443308.jpg", "question": "màu của gấu là gì", "answers": ["màu nâu"]}
+{"id": "192", "image_name": "COCO_train2014_000000335477.jpg", "question": "màu sắc của bông hoa là gì", "answers": ["màu tía"]}
+{"id": "205", "image_name": "COCO_train2014_000000152483.jpg", "question": "màu sắc của bức ảnh là gì", "answers": ["màu trắng"]}
+{"id": "207", "image_name": "COCO_train2014_000000453167.jpg", "question": "màu của chiếc ô là gì", "answers": ["màu đỏ"]}
+{"id": "208", "image_name": "COCO_train2014_000000402668.jpg", "question": "màu của chiếc đĩa là gì", "answers": ["màu trắng"]}
+{"id": "210", "image_name": "COCO_train2014_000000523985.jpg", "question": "màu của gấu là gì", "answers": ["màu trắng"]}
+{"id": "211", "image_name": "COCO_train2014_000000119418.jpg", "question": "màu của phòng tắm là gì", "answers": ["màu xanh dương"]}
+{"id": "213", "image_name": "COCO_train2014_000000149381.jpg", "question": "màu sắc của trái cây là gì", "answers": ["màu cam"]}
+{"id": "219", "image_name": "COCO_train2014_000000535418.jpg", "question": "màu của gấu là gì", "answers": ["màu nâu"]}
+{"id": "221", "image_name": "COCO_train2014_000000268197.jpg", "question": "màu sắc của bộ đồ là gì", "answers": ["màu đen"]}
+{"id": "222", "image_name": "COCO_train2014_000000109973.jpg", "question": "màu của tường là gì", "answers": ["màu xanh lá"]}
+{"id": "223", "image_name": "COCO_train2014_000000318108.jpg", "question": "màu của lều là gì", "answers": ["màu xanh dương"]}
+{"id": "229", "image_name": "COCO_train2014_000000007476.jpg", "question": "màu của chiếc bình là gì", "answers": ["màu xanh lá"]}
+{"id": "232", "image_name": "COCO_train2014_000000230616.jpg", "question": "màu của con bò là gì", "answers": ["màu nâu"]}
+{"id": "234", "image_name": "COCO_train2014_000000384328.jpg", "question": "màu của áo là gì", "answers": ["màu xanh dương"]}
+{"id": "237", "image_name": "COCO_train2014_000000007601.jpg", "question": "màu của con bò là gì", "answers": ["màu đen"]}
+{"id": "239", "image_name": "COCO_train2014_000000366740.jpg", "question": "màu sắc của sự bình yên là gì", "answers": ["màu xám"]}
+{"id": "240", "image_name": "COCO_train2014_000000426420.jpg", "question": "màu của con ngựa là gì", "answers": ["màu nâu"]}
+{"id": "241", "image_name": "COCO_train2014_000000290201.jpg", "question": "màu của chiếc ô là gì", "answers": ["màu xanh dương"]}
+{"id": "244", "image_name": "COCO_train2014_000000454887.jpg", "question": "màu tóc là gì", "answers": ["màu đỏ"]}
+{"id": "246", "image_name": "COCO_train2014_000000111889.jpg", "question": "màu của xe máy là gì", "answers": ["màu xanh dương"]}
+{"id": "248", "image_name": "COCO_train2014_000000400926.jpg", "question": "màu của dĩa nhựa là gì", "answers": ["màu tía"]}
+{"id": "249", "image_name": "COCO_train2014_000000258894.jpg", "question": "màu của chiếc đĩa là gì", "answers": ["màu trắng"]}
+{"id": "255", "image_name": "COCO_train2014_000000292993.jpg", "question": "màu của con mèo là gì", "answers": ["màu xanh dương"]}
+{"id": "260", "image_name": "COCO_train2014_000000123721.jpg", "question": "màu của chiếc tàu là gì", "answers": ["màu đỏ"]}
+{"id": "262", "image_name": "COCO_train2014_000000234319.jpg", "question": "màu của tăm là gì", "answers": ["màu vàng"]}
+{"id": "263", "image_name": "COCO_train2014_000000501957.jpg", "question": "màu của trạm là gì", "answers": ["màu xanh dương"]}
+{"id": "267", "image_name": "COCO_train2014_000000148706.jpg", "question": "màu của chiếc giường là gì", "answers": ["màu đen"]}
+{"id": "271", "image_name": "COCO_train2014_000000108536.jpg", "question": "màu của ánh sáng là gì", "answers": ["màu đỏ"]}
+{"id": "276", "image_name": "COCO_train2014_000000530282.jpg", "question": "màu của xe tải là gì", "answers": ["màu vàng"]}
+{"id": "278", "image_name": "COCO_train2014_000000023177.jpg", "question": "màu sắc của bông hoa là gì", "answers": ["màu đỏ"]}
+{"id": "279", "image_name": "COCO_train2014_000000172105.jpg", "question": "màu của áo là gì", "answers": ["màu trắng"]}
+{"id": "280", "image_name": "COCO_train2014_000000435750.jpg", "question": "màu của điểm dừng là gì", "answers": ["màu xanh lá"]}
+{"id": "281", "image_name": "COCO_train2014_000000358915.jpg", "question": "màu của tủ lạnh là gì", "answers": ["màu trắng"]}
+{"id": "282", "image_name": "COCO_train2014_000000315568.jpg", "question": "màu của bìa là gì", "answers": ["màu cam"]}
+{"id": "283", "image_name": "COCO_train2014_000000536008.jpg", "question": "màu sắc của bông hoa là gì", "answers": ["màu tía"]}
+{"id": "284", "image_name": "COCO_train2014_000000468202.jpg", "question": "màu của áo là gì", "answers": ["màu vàng"]}
+{"id": "286", "image_name": "COCO_train2014_000000225828.jpg", "question": "màu của bánh rán là gì", "answers": ["màu trắng"]}
+{"id": "290", "image_name": "COCO_train2014_000000042644.jpg", "question": "màu của vòi nước là gì", "answers": ["màu đỏ"]}
+{"id": "291", "image_name": "COCO_train2014_000000094667.jpg", "question": "màu của gấu là gì", "answers": ["màu trắng"]}
+{"id": "292", "image_name": "COCO_train2014_000000108259.jpg", "question": "màu sắc của cây cột là gì", "answers": ["màu xanh lá"]}
+{"id": "296", "image_name": "COCO_train2014_000000141386.jpg", "question": "màu của cà vạt là gì", "answers": ["màu xanh dương"]}
+{"id": "297", "image_name": "COCO_train2014_000000574251.jpg", "question": "màu sắc của hành lý là gì", "answers": ["màu đen"]}
+{"id": "298", "image_name": "COCO_train2014_000000312946.jpg", "question": "màu của con bò là gì", "answers": ["màu trắng"]}
+{"id": "300", "image_name": "COCO_train2014_000000061966.jpg", "question": "màu sắc của chiếc váy là gì", "answers": ["màu đen"]}
+{"id": "303", "image_name": "COCO_train2014_000000329948.jpg", "question": "màu của chiếc ghế dài là gì", "answers": ["màu trắng"]}
+{"id": "304", "image_name": "COCO_train2014_000000173833.jpg", "question": "màu của ô liu là gì", "answers": ["màu đen"]}
+{"id": "307", "image_name": "COCO_train2014_000000259242.jpg", "question": "màu của chiếc bình là gì", "answers": ["màu trắng"]}
+{"id": "308", "image_name": "COCO_train2014_000000084002.jpg", "question": "màu của đèn là gì", "answers": ["màu đen"]}
+{"id": "311", "image_name": "COCO_train2014_000000386684.jpg", "question": "màu của áo là gì", "answers": ["màu cam"]}
+{"id": "317", "image_name": "COCO_train2014_000000291788.jpg", "question": "màu của tín hiệu là gì", "answers": ["màu xanh lá"]}
+{"id": "322", "image_name": "COCO_train2014_000000555493.jpg", "question": "màu của con chó là gì", "answers": ["màu đen"]}
+{"id": "326", "image_name": "COCO_train2014_000000087653.jpg", "question": "màu của tủ lạnh là gì", "answers": ["màu trắng"]}
+{"id": "328", "image_name": "COCO_train2014_000000074179.jpg", "question": "màu của xe là gì", "answers": ["màu vàng"]}
+{"id": "329", "image_name": "COCO_train2014_000000255480.jpg", "question": "màu của gấu là gì", "answers": ["màu nâu"]}
+{"id": "330", "image_name": "COCO_train2014_000000086412.jpg", "question": "màu của gấu là gì", "answers": ["màu nâu"]}
+{"id": "332", "image_name": "COCO_train2014_000000580790.jpg", "question": "màu của cam là gì", "answers": ["màu tía"]}
+{"id": "335", "image_name": "COCO_train2014_000000366040.jpg", "question": "màu của pizza là gì", "answers": ["màu xanh lá"]}
+{"id": "343", "image_name": "COCO_train2014_000000172974.jpg", "question": "màu của chiếc ghế dài là gì", "answers": ["màu xanh dương"]}
+{"id": "347", "image_name": "COCO_train2014_000000099892.jpg", "question": "màu của rừng là gì", "answers": ["màu xanh lá"]}
+{"id": "348", "image_name": "COCO_train2014_000000046656.jpg", "question": "màu của lửa là gì", "answers": ["màu vàng"]}
+{"id": "350", "image_name": "COCO_train2014_000000362561.jpg", "question": "màu của bầu trời là gì", "answers": ["màu xanh dương"]}
+{"id": "354", "image_name": "COCO_train2014_000000322659.jpg", "question": "màu của xe buýt là gì", "answers": ["màu vàng"]}
+{"id": "356", "image_name": "COCO_train2014_000000045437.jpg", "question": "màu sắc của trang phục là gì", "answers": ["màu tía"]}
+{"id": "360", "image_name": "COCO_train2014_000000416026.jpg", "question": "màu của chuối là gì", "answers": ["màu xanh lá"]}
+{"id": "372", "image_name": "COCO_train2014_000000524088.jpg", "question": "màu của chăn là gì", "answers": ["màu đỏ"]}
+{"id": "373", "image_name": "COCO_train2014_000000033567.jpg", "question": "màu của gấu bông là gì", "answers": ["màu nâu"]}
+{"id": "374", "image_name": "COCO_train2014_000000473681.jpg", "question": "màu của tấm thảm là gì", "answers": ["màu xanh dương"]}
+{"id": "378", "image_name": "COCO_train2014_000000044960.jpg", "question": "màu của xe buýt là gì", "answers": ["màu đỏ"]}
+{"id": "379", "image_name": "COCO_train2014_000000556801.jpg", "question": "màu của đèn là gì", "answers": ["màu vàng"]}
+{"id": "381", "image_name": "COCO_train2014_000000546232.jpg", "question": "màu của gấu bông là gì", "answers": ["màu nâu"]}
+{"id": "382", "image_name": "COCO_train2014_000000559267.jpg", "question": "màu của chiếc ô là gì", "answers": ["màu xanh dương"]}
+{"id": "383", "image_name": "COCO_train2014_000000002007.jpg", "question": "màu sắc của chơi là gì", "answers": ["màu trắng"]}
+{"id": "386", "image_name": "COCO_train2014_000000145738.jpg", "question": "màu của dấu hiệu là gì", "answers": ["màu đỏ"]}
+{"id": "390", "image_name": "COCO_train2014_000000189805.jpg", "question": "màu của xe tải là gì", "answers": ["màu đỏ"]}
+{"id": "396", "image_name": "COCO_train2014_000000165126.jpg", "question": "màu của chiếc tàu là gì", "answers": ["màu đen"]}
+{"id": "397", "image_name": "COCO_train2014_000000412687.jpg", "question": "màu của dĩa nhựa là gì", "answers": ["màu trắng"]}
+{"id": "401", "image_name": "COCO_train2014_000000136905.jpg", "question": "màu của chiếc tàu là gì", "answers": ["màu đỏ"]}
+{"id": "403", "image_name": "COCO_train2014_000000170579.jpg", "question": "màu của đồng cỏ là gì", "answers": ["màu xanh lá"]}
+{"id": "406", "image_name": "COCO_train2014_000000530040.jpg", "question": "màu của mảnh là gì", "answers": ["màu đỏ"]}
+{"id": "409", "image_name": "COCO_train2014_000000421346.jpg", "question": "màu sắc của ớt là gì", "answers": ["màu xanh lá"]}
+{"id": "411", "image_name": "COCO_train2014_000000343574.jpg", "question": "màu của ghế là gì", "answers": ["màu xanh dương"]}
+{"id": "413", "image_name": "COCO_train2014_000000480012.jpg", "question": "màu của sườn đồi là gì", "answers": ["màu xanh lá"]}
+{"id": "417", "image_name": "COCO_train2014_000000014446.jpg", "question": "màu của gấu là gì", "answers": ["màu trắng"]}
+{"id": "418", "image_name": "COCO_train2014_000000523985.jpg", "question": "màu của bên ngoài là gì", "answers": ["màu xanh lá"]}
+{"id": "419", "image_name": "COCO_train2014_000000051270.jpg", "question": "màu của chiếc ô là gì", "answers": ["màu vàng"]}
+{"id": "420", "image_name": "COCO_train2014_000000462880.jpg", "question": "màu sắc của bông hoa là gì", "answers": ["màu vàng"]}
+{"id": "421", "image_name": "COCO_train2014_000000485097.jpg", "question": "màu của chiếc tàu là gì", "answers": ["màu vàng"]}
+{"id": "424", "image_name": "COCO_train2014_000000078320.jpg", "question": "màu sắc của bông hoa là gì", "answers": ["màu tía"]}
+{"id": "428", "image_name": "COCO_train2014_000000389788.jpg", "question": "màu của con mèo là gì", "answers": ["màu đen"]}
+{"id": "432", "image_name": "COCO_train2014_000000427163.jpg", "question": "màu của nhà vệ sinh là gì", "answers": ["màu xanh lá"]}
+{"id": "435", "image_name": "COCO_train2014_000000010327.jpg", "question": "màu của cỏ là gì", "answers": ["màu xanh lá"]}
+{"id": "436", "image_name": "COCO_train2014_000000185232.jpg", "question": "màu của con chó là gì", "answers": ["màu trắng"]}
+{"id": "438", "image_name": "COCO_train2014_000000544001.jpg", "question": "màu của nền sân là gì", "answers": ["màu xanh dương"]}
+{"id": "442", "image_name": "COCO_train2014_000000520736.jpg", "question": "màu sắc của bông hoa là gì", "answers": ["màu đỏ"]}
+{"id": "444", "image_name": "COCO_train2014_000000409451.jpg", "question": "màu của xe máy là gì", "answers": ["màu cam"]}
+{"id": "447", "image_name": "COCO_train2014_000000046674.jpg", "question": "màu của chiếc ô là gì", "answers": ["màu cam"]}
+{"id": "449", "image_name": "COCO_train2014_000000200311.jpg", "question": "màu của chiếc đĩa là gì", "answers": ["màu trắng"]}
+{"id": "456", "image_name": "COCO_train2014_000000482310.jpg", "question": "màu của con chó là gì", "answers": ["màu đen"]}
+{"id": "458", "image_name": "COCO_train2014_000000502593.jpg", "question": "màu của con cừu là gì", "answers": ["màu nâu"]}
+{"id": "464", "image_name": "COCO_train2014_000000521769.jpg", "question": "màu sắc của những con bướm là gì", "answers": ["màu tía"]}
+{"id": "467", "image_name": "COCO_train2014_000000564687.jpg", "question": "màu của con bò là gì", "answers": ["màu trắng"]}
+{"id": "468", "image_name": "COCO_train2014_000000016578.jpg", "question": "màu của ánh sáng là gì", "answers": ["màu vàng"]}
+{"id": "469", "image_name": "COCO_train2014_000000421578.jpg", "question": "màu của quả là gì", "answers": ["màu vàng"]}
+{"id": "470", "image_name": "COCO_train2014_000000112849.jpg", "question": "màu của xe tải là gì", "answers": ["màu vàng"]}
+{"id": "472", "image_name": "COCO_train2014_000000477434.jpg", "question": "màu của chiếc giường là gì", "answers": ["màu trắng"]}
+{"id": "473", "image_name": "COCO_train2014_000000425576.jpg", "question": "màu mắt là gì", "answers": ["màu xanh dương"]}
+{"id": "474", "image_name": "COCO_train2014_000000335316.jpg", "question": "màu sắc của viên đá là gì", "answers": ["màu trắng"]}
+{"id": "481", "image_name": "COCO_train2014_000000220218.jpg", "question": "màu của hình là gì", "answers": ["màu tía"]}
+{"id": "485", "image_name": "COCO_train2014_000000301591.jpg", "question": "màu của chiếc đĩa là gì", "answers": ["màu trắng"]}
+{"id": "489", "image_name": "COCO_train2014_000000311988.jpg", "question": "màu của bông hoa là gì", "answers": ["màu tía"]}
+{"id": "491", "image_name": "COCO_train2014_000000055753.jpg", "question": "màu của dấu hiệu là gì", "answers": ["màu đỏ"]}
+{"id": "494", "image_name": "COCO_train2014_000000553850.jpg", "question": "màu của ghế là gì", "answers": ["màu nâu"]}
+{"id": "495", "image_name": "COCO_train2014_000000236936.jpg", "question": "màu của kính là gì", "answers": ["màu xanh dương"]}
+{"id": "497", "image_name": "COCO_train2014_000000541109.jpg", "question": "màu của con mèo là gì", "answers": ["màu xám"]}
+{"id": "499", "image_name": "COCO_train2014_000000345951.jpg", "question": "màu nước là gì", "answers": ["màu xanh dương"]}
+{"id": "509", "image_name": "COCO_train2014_000000288794.jpg", "question": "màu của bầu trời là gì", "answers": ["màu xanh dương"]}
+{"id": "510", "image_name": "COCO_train2014_000000161337.jpg", "question": "màu của chiếc ô là gì", "answers": ["màu tía"]}
+{"id": "511", "image_name": "COCO_train2014_000000201273.jpg", "question": "màu sắc của bông hoa là gì", "answers": ["màu vàng"]}
+{"id": "515", "image_name": "COCO_train2014_000000427007.jpg", "question": "màu của dĩa nhựa là gì", "answers": ["màu vàng"]}
+{"id": "517", "image_name": "COCO_train2014_000000308739.jpg", "question": "màu của con mèo là gì", "answers": ["màu xám"]}
+{"id": "518", "image_name": "COCO_train2014_000000249315.jpg", "question": "màu sắc của chiếc váy là gì", "answers": ["màu đỏ"]}
+{"id": "521", "image_name": "COCO_train2014_000000489524.jpg", "question": "màu của chiếc thuyền là gì", "answers": ["màu xanh dương"]}
+{"id": "522", "image_name": "COCO_train2014_000000192852.jpg", "question": "màu của bức tượng là gì", "answers": ["màu xám"]}
+{"id": "525", "image_name": "COCO_train2014_000000242404.jpg", "question": "màu của chiếc bình là gì", "answers": ["màu xanh dương"]}
+{"id": "535", "image_name": "COCO_train2014_000000176249.jpg", "question": "màu của vòi nước là gì", "answers": ["màu vàng"]}
+{"id": "536", "image_name": "COCO_train2014_000000236941.jpg", "question": "màu của lồng là gì", "answers": ["màu trắng"]}
+{"id": "541", "image_name": "COCO_train2014_000000319256.jpg", "question": "màu sắc của người đó là gì", "answers": ["màu tía"]}
+{"id": "542", "image_name": "COCO_train2014_000000348785.jpg", "question": "màu của gấu là gì", "answers": ["màu nâu"]}
+{"id": "546", "image_name": "COCO_train2014_000000000322.jpg", "question": "màu của dĩa nhựa là gì", "answers": ["màu cam"]}
+{"id": "547", "image_name": "COCO_train2014_000000334477.jpg", "question": "màu của màn hình là gì", "answers": ["màu cam"]}
+{"id": "550", "image_name": "COCO_train2014_000000477156.jpg", "question": "màu của chiếc hộp là gì", "answers": ["màu nâu"]}
+{"id": "555", "image_name": "COCO_train2014_000000430395.jpg", "question": "màu của lốp xe là gì", "answers": ["màu đen"]}
+{"id": "565", "image_name": "COCO_train2014_000000371226.jpg", "question": "màu sắc của các dấu hiệu là gì", "answers": ["màu xanh lá"]}
+{"id": "566", "image_name": "COCO_train2014_000000282485.jpg", "question": "màu của cà vạt là gì", "answers": ["màu đỏ"]}
+{"id": "571", "image_name": "COCO_train2014_000000560629.jpg", "question": "màu của máy bay là gì", "answers": ["màu xám"]}
+{"id": "574", "image_name": "COCO_train2014_000000361930.jpg", "question": "màu của tòa án là gì", "answers": ["màu tía"]}
+{"id": "579", "image_name": "COCO_train2014_000000146620.jpg", "question": "màu của chiếc ghế dài là gì", "answers": ["màu vàng"]}
+{"id": "582", "image_name": "COCO_train2014_000000517656.jpg", "question": "màu của hình ảnh là gì", "answers": ["màu trắng"]}
+{"id": "585", "image_name": "COCO_train2014_000000267719.jpg", "question": "màu của chiếc đĩa là gì", "answers": ["màu trắng"]}
+{"id": "603", "image_name": "COCO_train2014_000000316807.jpg", "question": "màu sắc của trang phục là gì", "answers": ["màu đen"]}
+{"id": "604", "image_name": "COCO_train2014_000000569550.jpg", "question": "màu của ghế là gì", "answers": ["màu cam"]}
+{"id": "606", "image_name": "COCO_train2014_000000448696.jpg", "question": "màu của gấu là gì", "answers": ["màu nâu"]}
+{"id": "610", "image_name": "COCO_train2014_000000060873.jpg", "question": "màu của người lướt sóng là gì", "answers": ["màu đen"]}
+{"id": "611", "image_name": "COCO_train2014_000000541324.jpg", "question": "màu của bếp là gì", "answers": ["màu đen"]}
+{"id": "617", "image_name": "COCO_train2014_000000205000.jpg", "question": "màu của cà vạt là gì", "answers": ["màu tía"]}
+{"id": "621", "image_name": "COCO_train2014_000000157190.jpg", "question": "màu của đồ uống là gì", "answers": ["màu xanh lá"]}
+{"id": "624", "image_name": "COCO_train2014_000000239762.jpg", "question": "màu của lá là gì", "answers": ["màu xanh lá"]}
+{"id": "625", "image_name": "COCO_train2014_000000149185.jpg", "question": "cậu bé đang làm thủ thuật ván trượt ở đâu", "answers": ["đường phố"]}
+{"id": "626", "image_name": "COCO_train2014_000000191197.jpg", "question": "hai cô gái đang chơi một trò chơi điện tử ở đâu", "answers": ["phòng"]}
+{"id": "630", "image_name": "COCO_train2014_000000394036.jpg", "question": "con mèo đen ở đâu", "answers": ["chậu"]}
+{"id": "633", "image_name": "COCO_train2014_000000458705.jpg", "question": "con ngựa len đứng ở đâu", "answers": ["lồng"]}
+{"id": "634", "image_name": "COCO_train2014_000000142689.jpg", "question": "người đàn ông đang tắm cho em bé ở đâu", "answers": ["chậu"]}
+{"id": "636", "image_name": "COCO_train2014_000000564912.jpg", "question": "tủ lạnh bằng kim loại đặt ở đâu", "answers": ["phòng bếp"]}
+{"id": "641", "image_name": "COCO_train2014_000000333626.jpg", "question": "người đàn ông đang làm việc ở đâu", "answers": ["phòng bếp"]}
+{"id": "643", "image_name": "COCO_train2014_000000190002.jpg", "question": "người phụ nữ nhâm nhi một loại đồ uống ở đâu", "answers": ["phòng ngủ"]}
+{"id": "644", "image_name": "COCO_train2014_000000235953.jpg", "question": "một đống thức ăn đang để ở đâu", "answers": ["cái mâm"]}
+{"id": "646", "image_name": "COCO_train2014_000000144747.jpg", "question": "những viên kem đang ở đâu", "answers": ["bát"]}
+{"id": "647", "image_name": "COCO_train2014_000000121977.jpg", "question": "hoa màu hồng và trắng với lá ở đâu", "answers": ["lọ cắm hoa"]}
+{"id": "648", "image_name": "COCO_train2014_000000263744.jpg", "question": "táo, cam và chuối ở đâu", "answers": ["bát"]}
+{"id": "651", "image_name": "COCO_train2014_000000579725.jpg", "question": "nước tăng màu vàng ở đâu", "answers": ["lọ cắm hoa"]}
+{"id": "652", "image_name": "COCO_train2014_000000067077.jpg", "question": "người đàn ông đang chơi wii ở đâu", "answers": ["văn phòng"]}
+{"id": "653", "image_name": "COCO_train2014_000000555101.jpg", "question": "người đàn ông trẻ đang chụp ảnh mình ở đâu", "answers": ["phòng tắm"]}
+{"id": "655", "image_name": "COCO_train2014_000000182201.jpg", "question": "người phụ nữ xinh đẹp đang ở đâu", "answers": ["giường"]}
+{"id": "658", "image_name": "COCO_train2014_000000180160.jpg", "question": "nơi nào ba chìm ngồi", "answers": ["phòng tắm"]}
+{"id": "661", "image_name": "COCO_train2014_000000544485.jpg", "question": "người đàn ông đang ngồi ở đâu", "answers": ["cái ghế"]}
+{"id": "665", "image_name": "COCO_train2014_000000474363.jpg", "question": "đoàn tàu trống ở đâu", "answers": ["trạm"]}
+{"id": "666", "image_name": "COCO_train2014_000000009904.jpg", "question": "con chó trắng đang ngồi ở đâu", "answers": ["cái ghế"]}
+{"id": "669", "image_name": "COCO_train2014_000000199598.jpg", "question": "bồn tắm đặt ở đâu", "answers": ["phòng tắm"]}
+{"id": "670", "image_name": "COCO_train2014_000000527073.jpg", "question": "7 con gấu bông nhồi ở đâu", "answers": ["toa xe"]}
+{"id": "676", "image_name": "COCO_train2014_000000155253.jpg", "question": "hai cô gái trẻ đang ngủ ở đâu", "answers": ["trạm"]}
+{"id": "679", "image_name": "COCO_train2014_000000369593.jpg", "question": "đồng hồ treo ở đâu", "answers": ["tường"]}
+{"id": "681", "image_name": "COCO_train2014_000000441358.jpg", "question": "nơi không có bồn rửa hoặc bồn tắm", "answers": ["phòng tắm"]}
+{"id": "687", "image_name": "COCO_train2014_000000322852.jpg", "question": "nhà vệ sinh đã dời đi đâu", "answers": ["buồng"]}
+{"id": "695", "image_name": "COCO_train2014_000000261271.jpg", "question": "cô gái đang ngồi với lò vi sóng ở đâu", "answers": ["cái ghế"]}
+{"id": "696", "image_name": "COCO_train2014_000000558555.jpg", "question": "những chiếc bánh rán nằm ở đâu", "answers": ["hộp"]}
+{"id": "700", "image_name": "COCO_train2014_000000481634.jpg", "question": "con ngựa kéo một chiếc xe đẩy ở đâu", "answers": ["đường phố"]}
+{"id": "706", "image_name": "COCO_train2014_000000570801.jpg", "question": "người đang nằm ở đâu", "answers": ["giường"]}
+{"id": "711", "image_name": "COCO_train2014_000000253435.jpg", "question": "bộ đồ ướt ở đâu", "answers": ["vòi hoa sen"]}
+{"id": "717", "image_name": "COCO_train2014_000000492659.jpg", "question": "con hươu cao cổ đang nghiêng về phía trước ở đâu", "answers": ["chuồng"]}
+{"id": "720", "image_name": "COCO_train2014_000000206279.jpg", "question": "người đàn ông đeo mặt nạ da và còng cổ tay nằm ở đâu", "answers": ["cái ghế"]}
+{"id": "721", "image_name": "COCO_train2014_000000393664.jpg", "question": "người đàn ông làm một chiêu trò trượt ván ở đâu", "answers": ["bát"]}
+{"id": "725", "image_name": "COCO_train2014_000000481465.jpg", "question": "con mèo đen trắng nằm ở đâu", "answers": ["vali"]}
+{"id": "731", "image_name": "COCO_train2014_000000579437.jpg", "question": "nhà vệ sinh bị hỏng ở đâu", "answers": ["phòng tắm"]}
+{"id": "734", "image_name": "COCO_train2014_000000057199.jpg", "question": "cả nam và nữ đứng cùng nhau ở đâu", "answers": ["ô cửa"]}
+{"id": "743", "image_name": "COCO_train2014_000000154869.jpg", "question": "một số người đứng xung quanh đâu", "answers": ["quán ăn"]}
+{"id": "744", "image_name": "COCO_train2014_000000481178.jpg", "question": "người có một con dơi bóng chày ở đâu", "answers": ["hộp"]}
+{"id": "751", "image_name": "COCO_train2014_000000389577.jpg", "question": "người đàn ông ngồi ở đâu trong khi sử dụng máy tính xách tay", "answers": ["xe ô tô"]}
+{"id": "768", "image_name": "COCO_train2014_000000440347.jpg", "question": "vận động viên trượt ván đang làm trò ở đâu", "answers": ["đường ống"]}
+{"id": "777", "image_name": "COCO_train2014_000000223682.jpg", "question": "người trượt ván đang đi trên ván trượt của mình ở đâu", "answers": ["đường phố"]}
+{"id": "779", "image_name": "COCO_train2014_000000336075.jpg", "question": "người đang ngồi đi văng ở đâu", "answers": ["phòng"]}
+{"id": "782", "image_name": "COCO_train2014_000000491737.jpg", "question": "người đàn ông chuẩn bị thức ăn ở đâu trong khi đứng", "answers": ["phòng bếp"]}
+{"id": "784", "image_name": "COCO_train2014_000000244279.jpg", "question": "người phụ nữ đang chải tóc ở đâu", "answers": ["cái ghế"]}
+{"id": "785", "image_name": "COCO_train2014_000000463953.jpg", "question": "người đàn ông và một người phụ nữ chơi trò chơi ở đâu", "answers": ["nhà"]}
+{"id": "787", "image_name": "COCO_train2014_000000069346.jpg", "question": "nấu bánh pizza ở đâu", "answers": ["lò vi sóng"]}
+{"id": "788", "image_name": "COCO_train2014_000000438912.jpg", "question": "đâu là con mèo con ngủ trưa", "answers": ["món ăn"]}
+{"id": "791", "image_name": "COCO_train2014_000000078320.jpg", "question": "hoa violet ở đâu trên bàn", "answers": ["lọ cắm hoa"]}
+{"id": "795", "image_name": "COCO_train2014_000000327328.jpg", "question": "một con mèo cam đang ngồi ở đâu", "answers": ["cái túi"]}
+{"id": "796", "image_name": "COCO_train2014_000000366162.jpg", "question": "bồn tiểu bẩn ở đâu", "answers": ["phòng tắm"]}
+{"id": "807", "image_name": "COCO_train2014_000000016664.jpg", "question": "con mèo sọc nâu với màu trắng ở đâu", "answers": ["thùng chứa"]}
+{"id": "810", "image_name": "COCO_train2014_000000256877.jpg", "question": "hành lý đi vòng quanh đâu", "answers": ["trạm"]}
+{"id": "812", "image_name": "COCO_train2014_000000074825.jpg", "question": "con mèo đang ngồi ở đâu", "answers": ["cái ghế"]}
+{"id": "814", "image_name": "COCO_train2014_000000513266.jpg", "question": "một số bánh rán khác nhau được đặt ở đâu", "answers": ["hộp"]}
+{"id": "815", "image_name": "COCO_train2014_000000018395.jpg", "question": "bông hoa màu đỏ đang nằm ở đâu", "answers": ["lọ cắm hoa"]}
+{"id": "816", "image_name": "COCO_train2014_000000330164.jpg", "question": "người đàn ông mang một chú chó con tắm ở đâu", "answers": ["chậu"]}
+{"id": "833", "image_name": "COCO_train2014_000000409216.jpg", "question": "người biểu diễn đứng ở đâu", "answers": ["vali"]}
+{"id": "836", "image_name": "COCO_train2014_000000522360.jpg", "question": "người đàn ông đang nằm ở đâu", "answers": ["giường"]}
+{"id": "847", "image_name": "COCO_train2014_000000248564.jpg", "question": "phòng khách trống ở đâu", "answers": ["nhà ở"]}
+{"id": "851", "image_name": "COCO_train2014_000000577333.jpg", "question": "những con gấu bông được xếp ở đâu", "answers": ["phòng"]}
+{"id": "858", "image_name": "COCO_train2014_000000305227.jpg", "question": "thanh niên và một con chó trôi ở đâu", "answers": ["con thuyền"]}
+{"id": "860", "image_name": "COCO_train2014_000000359399.jpg", "question": "anh chàng mặc vest đâu", "answers": ["phòng"]}
+{"id": "862", "image_name": "COCO_train2014_000000250261.jpg", "question": "đồng hồ tròn lớn có ít nhất ba mặt gắn trên đâu", "answers": ["tòa nhà"]}
+{"id": "864", "image_name": "COCO_train2014_000000323264.jpg", "question": "hai chàng trai và một cô gái đang ngồi ở đâu và các chàng trai đang chơi wii", "answers": ["phòng ngủ"]}
+{"id": "866", "image_name": "COCO_train2014_000000347111.jpg", "question": "những con voi xếp hàng ở đâu", "answers": ["ảnh chụp"]}
+{"id": "868", "image_name": "COCO_train2014_000000143900.jpg", "question": "trẻ nhỏ đang đánh răng ở đâu", "answers": ["phòng tắm"]}
+{"id": "873", "image_name": "COCO_train2014_000000147122.jpg", "question": "một khe hở mà thức ăn có thể được đưa vào phòng khách nằm ở đâu", "answers": ["tường"]}
+{"id": "875", "image_name": "COCO_train2014_000000183197.jpg", "question": "con chó con đang ngồi ở đâu", "answers": ["cái rổ"]}
+{"id": "876", "image_name": "COCO_train2014_000000437832.jpg", "question": "mọi người đang lên tàu ở đâu", "answers": ["trạm"]}
+{"id": "877", "image_name": "COCO_train2014_000000033995.jpg", "question": "pizza nhỏ đang nằm ở đâu", "answers": ["chảo"]}
+{"id": "881", "image_name": "COCO_train2014_000000510246.jpg", "question": "người phụ nữ đang tạo dáng ở đâu", "answers": ["nhà ở"]}
+{"id": "891", "image_name": "COCO_train2014_000000032832.jpg", "question": "hai xe bus đầy màu sắc đang đỗ ở đâu", "answers": ["ga-ra"]}
+{"id": "892", "image_name": "COCO_train2014_000000040901.jpg", "question": "người đàn ông trẻ đang rửa tay ở đâu", "answers": ["chậu"]}
+{"id": "896", "image_name": "COCO_train2014_000000255849.jpg", "question": "người phụ nữ nướng bánh pizza ở đâu", "answers": ["phòng bếp"]}
+{"id": "898", "image_name": "COCO_train2014_000000017587.jpg", "question": "hai người ăn ở đâu", "answers": ["quán ăn"]}
+{"id": "899", "image_name": "COCO_train2014_000000581566.jpg", "question": "ghế vệ sinh làm bằng gỗ ở đâu", "answers": ["phòng tắm"]}
+{"id": "902", "image_name": "COCO_train2014_000000468214.jpg", "question": "một bàn chải đánh răng điện được rửa sạch ở đâu", "answers": ["chậu"]}
+{"id": "903", "image_name": "COCO_train2014_000000457085.jpg", "question": "hai con mèo đen trắng đang ở đâu", "answers": ["cửa sổ"]}
+{"id": "911", "image_name": "COCO_train2014_000000369167.jpg", "question": "bé trai đẻ ở đâu", "answers": ["giường"]}
+{"id": "913", "image_name": "COCO_train2014_000000145212.jpg", "question": "hai gấu bắc cực trắng đang ở đâu", "answers": ["chuồng"]}
+{"id": "914", "image_name": "COCO_train2014_000000580629.jpg", "question": "bát và thìa ở đâu", "answers": ["chậu"]}
+{"id": "918", "image_name": "COCO_train2014_000000415232.jpg", "question": "đầu bếp giữ một con dao ở đâu", "answers": ["phòng bếp"]}
+{"id": "924", "image_name": "COCO_train2014_000000503647.jpg", "question": "vài con ngựa vằn đang đứng ở đâu", "answers": ["chuồng"]}
+{"id": "931", "image_name": "COCO_train2014_000000252801.jpg", "question": "người đàn ông đang đo một số nước đóng chai ở đâu", "answers": ["cái thìa"]}
+{"id": "932", "image_name": "COCO_train2014_000000309710.jpg", "question": "bồn vệ sinh được trưng bày ở đâu", "answers": ["cửa hàng"]}
+{"id": "933", "image_name": "COCO_train2014_000000374033.jpg", "question": "giường ngồi ở đâu", "answers": ["phòng ngủ"]}
+{"id": "935", "image_name": "COCO_train2014_000000154547.jpg", "question": "nơi để đồ cho trẻ mới biết đi và đeo ván trượt, mỉm cười trước ống kính ở đâu", "answers": ["trượt tuyết"]}
+{"id": "937", "image_name": "COCO_train2014_000000305887.jpg", "question": "nhà vệ sinh trắng ở đâu", "answers": ["phòng tắm"]}
+{"id": "938", "image_name": "COCO_train2014_000000380086.jpg", "question": "hai con hươu cao cổ đứng cạnh nhau ở đâu", "answers": ["chuồng"]}
+{"id": "942", "image_name": "COCO_train2014_000000287998.jpg", "question": "những trái cam được đặt ở đâu", "answers": ["cái rổ"]}
+{"id": "944", "image_name": "COCO_train2014_000000508281.jpg", "question": "cậu bé đang ở đâu", "answers": ["xe đẩy"]}
+{"id": "947", "image_name": "COCO_train2014_000000259712.jpg", "question": "một đống thứ ngẫu nhiên đang nằm ở đâu", "answers": ["ngăn kéo"]}
+{"id": "948", "image_name": "COCO_train2014_000000253424.jpg", "question": "hai nhà vệ sinh đặt ở đâu", "answers": ["phòng"]}
+{"id": "953", "image_name": "COCO_train2014_000000303076.jpg", "question": "người chuẩn bị thức ăn ở đâu", "answers": ["phòng bếp"]}
+{"id": "956", "image_name": "COCO_train2014_000000348290.jpg", "question": "người đàn ông đang ngồi ở đâu", "answers": ["cái ghế"]}
+{"id": "960", "image_name": "COCO_train2014_000000354532.jpg", "question": "cậu bé đọc một cuốn sách ở đâu", "answers": ["giường"]}
+{"id": "962", "image_name": "COCO_train2014_000000074502.jpg", "question": "gạo, trái cây và rau quả ở đâu", "answers": ["cái mâm"]}
+{"id": "963", "image_name": "COCO_train2014_000000456033.jpg", "question": "bông hoa hồng ở đâu", "answers": ["lọ cắm hoa"]}
+{"id": "968", "image_name": "COCO_train2014_000000077298.jpg", "question": "tàu đang kéo lên ở đâu", "answers": ["trạm"]}
+{"id": "969", "image_name": "COCO_train2014_000000332836.jpg", "question": "một số ít người làm nhiều công việc khác nhau ở đâu", "answers": ["văn phòng"]}
+{"id": "977", "image_name": "COCO_train2014_000000196096.jpg", "question": "người xuống một ngọn núi trắng dưới bầu trời xanh ở đâu", "answers": ["trượt tuyết"]}
+{"id": "979", "image_name": "COCO_train2014_000000237550.jpg", "question": "xe đạp và xe máy đã xếp hàng ở đâu", "answers": ["tòa nhà"]}
+{"id": "980", "image_name": "COCO_train2014_000000545351.jpg", "question": "cặp đôi đứng trên đỉnh dốc ở đâu", "answers": ["trang thiết bị"]}
+{"id": "982", "image_name": "COCO_train2014_000000151499.jpg", "question": "xe buýt thành phố dừng lại ở đâu", "answers": ["vạch kẻ đường"]}
+{"id": "984", "image_name": "COCO_train2014_000000246494.jpg", "question": "người phụ nữ đang ở đâu", "answers": ["phòng bếp"]}
+{"id": "986", "image_name": "COCO_train2014_000000250949.jpg", "question": "những trái chuối nằm ở đâu", "answers": ["cái rổ"]}
+{"id": "988", "image_name": "COCO_train2014_000000422828.jpg", "question": "bánh mì được chứa ở đâu", "answers": ["hộp"]}
+{"id": "991", "image_name": "COCO_train2014_000000577052.jpg", "question": "người đàn ông nhật bản đang chuẩn bị thức ăn ở đâu", "answers": ["quán ăn"]}
+{"id": "994", "image_name": "COCO_train2014_000000326414.jpg", "question": "người đàn ông đang nằm ở đâu", "answers": ["giường"]}
+{"id": "995", "image_name": "COCO_train2014_000000049866.jpg", "question": "những người đang ngồi và đứng ở đâu,", "answers": ["xe ô tô"]}
+{"id": "998", "image_name": "COCO_train2014_000000158107.jpg", "question": "người đàn ông mặc một chiếc áo len trắng đang ngồi ở đâu", "answers": ["cái ghế"]}
+{"id": "999", "image_name": "COCO_train2014_000000440310.jpg", "question": "người đàn ông dừng lại ở đâu", "answers": ["xe lăn"]}
+{"id": "1000", "image_name": "COCO_train2014_000000294083.jpg", "question": "người phụ nữ trẻ mỉm cười sử dụng máy tính ở đâu", "answers": ["phòng bếp"]}
+{"id": "1002", "image_name": "COCO_train2014_000000331370.jpg", "question": "học sinh vận hành máy tính xách tay ở đâu", "answers": ["lớp học"]}
+{"id": "1010", "image_name": "COCO_train2014_000000331544.jpg", "question": "những người làm việc ở đâu", "answers": ["thư viện"]}
+{"id": "1012", "image_name": "COCO_train2014_000000029356.jpg", "question": "con dao và nĩa nằm bên cạnh một vài lát pizza ở đâu", "answers": ["món ăn"]}
+{"id": "1015", "image_name": "COCO_train2014_000000100014.jpg", "question": "điêu khắc của một con chim đang ngồi ở đâu", "answers": ["cửa sổ"]}
+{"id": "1016", "image_name": "COCO_train2014_000000571328.jpg", "question": "con mèo đang nằm ở đâu", "answers": ["chậu"]}
+{"id": "1018", "image_name": "COCO_train2014_000000450478.jpg", "question": "người phụ nữ mặc một chiếc áo màu hồng ở đâu", "answers": ["phòng bếp"]}
+{"id": "1022", "image_name": "COCO_train2014_000000199136.jpg", "question": "người đàn ông trên một con ngựa đối mặt một con bò đực ở đâu", "answers": ["sân vận động"]}
+{"id": "1023", "image_name": "COCO_train2014_000000167577.jpg", "question": "con mèo đang cuộn tròn ở đâu", "answers": ["giường"]}
+{"id": "1025", "image_name": "COCO_train2014_000000299123.jpg", "question": "hai con ngựa đã sẵn sàng ở đâu", "answers": ["xe"]}
+{"id": "1028", "image_name": "COCO_train2014_000000386295.jpg", "question": "em bé đang ngồi lấy bàn chải đánh răng ở đâu", "answers": ["chậu"]}
+{"id": "1029", "image_name": "COCO_train2014_000000185247.jpg", "question": "người đàn ông đang đẩy xe đẩy ở đâu", "answers": ["sân bay"]}
+{"id": "1033", "image_name": "COCO_train2014_000000328888.jpg", "question": "nhóm gấu nhồi bông ở đâu", "answers": ["cái rổ"]}
+{"id": "1034", "image_name": "COCO_train2014_000000251405.jpg", "question": "người đàn ông đứng ở đâu nhìn vào một chiếc bánh", "answers": ["phòng bếp"]}
+{"id": "1039", "image_name": "COCO_train2014_000000488066.jpg", "question": "gấu bông với một cuốn sách được đặt ở đâu", "answers": ["cái ghế"]}
+{"id": "1040", "image_name": "COCO_train2014_000000403953.jpg", "question": "người phụ nữ đang làm những món ăn ở đâu", "answers": ["phòng bếp"]}
+{"id": "1049", "image_name": "COCO_train2014_000000574000.jpg", "question": "con chó nhìn ra đâu khi một con mèo ngồi gần một chiếc vali", "answers": ["lồng"]}
+{"id": "1058", "image_name": "COCO_train2014_000000443575.jpg", "question": "màn hình máy tính ở đâu", "answers": ["văn phòng"]}
+{"id": "1061", "image_name": "COCO_train2014_000000237762.jpg", "question": "một số xoài và chuối được đặt ở đâu", "answers": ["đĩa ăn"]}
+{"id": "1068", "image_name": "COCO_train2014_000000020583.jpg", "question": "nhà vệ sinh trắng ở đâu", "answers": ["phòng tắm"]}
+{"id": "1072", "image_name": "COCO_train2014_000000476993.jpg", "question": "mặt phẳng trắng, cam và đỏ còn lại ở đâu", "answers": ["sân bay"]}
+{"id": "1076", "image_name": "COCO_train2014_000000054918.jpg", "question": "con mèo đen đang ngồi ở đâu", "answers": ["chậu"]}
+{"id": "1078", "image_name": "COCO_train2014_000000300738.jpg", "question": "xe vận chuyển công cộng màu xanh ở đâu với chi tiết màu vàng và thiết kế", "answers": ["đường phố"]}
+{"id": "1083", "image_name": "COCO_train2014_000000229678.jpg", "question": "phía trước của một công viên xe máy ở đâu", "answers": ["ga-ra"]}
+{"id": "1084", "image_name": "COCO_train2014_000000189045.jpg", "question": "một chiếc giường trống trắng nằm ở đâu", "answers": ["phòng ngủ"]}
+{"id": "1085", "image_name": "COCO_train2014_000000463055.jpg", "question": "cậu bé ngồi ở đâu khi anh ta xem một màn hình máy tính xách tay", "answers": ["cái ghế"]}
+{"id": "1086", "image_name": "COCO_train2014_000000182758.jpg", "question": "một con mèo đen trưởng thành ở đâu", "answers": ["giường"]}
+{"id": "1087", "image_name": "COCO_train2014_000000446199.jpg", "question": "hai chuyến tàu có đầy đủ người ở đâu", "answers": ["trạm"]}
+{"id": "1088", "image_name": "COCO_train2014_000000114703.jpg", "question": "cậu bé chơi trượt ván ở đâu", "answers": ["tòa nhà"]}
+{"id": "1092", "image_name": "COCO_train2014_000000428912.jpg", "question": "cặp vợ chồng ở đâu", "answers": ["con thuyền"]}
+{"id": "1093", "image_name": "COCO_train2014_000000191310.jpg", "question": "cô gái trẻ đang mặc áo khoác màu tím và quần màu hồng ở đâu", "answers": ["đường phố"]}
+{"id": "1096", "image_name": "COCO_train2014_000000015071.jpg", "question": "cặp vợ chồng nằm ở đâu", "answers": ["giường"]}
+{"id": "1103", "image_name": "COCO_train2014_000000397075.jpg", "question": "một số chuối xanh treo ở đâu", "answers": ["tòa nhà"]}
+{"id": "1105", "image_name": "COCO_train2014_000000560969.jpg", "question": "cậu bé ăn một ít thức ăn ở đâu", "answers": ["cái ghế"]}
+{"id": "1106", "image_name": "COCO_train2014_000000021320.jpg", "question": "tủ lạnh trắng cũ ngồi ở đâu", "answers": ["phòng bếp"]}
+{"id": "1112", "image_name": "COCO_train2014_000000044814.jpg", "question": "con chó canh gác đang ngồi ở đâu và chạy đi", "answers": ["ca nô"]}
+{"id": "1115", "image_name": "COCO_train2014_000000126047.jpg", "question": "người đàn ông ngồi với gia đình ở đâu", "answers": ["xe lăn"]}
+{"id": "1117", "image_name": "COCO_train2014_000000479331.jpg", "question": "gấu lớn ngồi ở đâu", "answers": ["cái ghế"]}
+{"id": "1123", "image_name": "COCO_train2014_000000363486.jpg", "question": "hai bánh sandwich đang nằm ở đâu", "answers": ["lò vi sóng"]}
+{"id": "1124", "image_name": "COCO_train2014_000000451987.jpg", "question": "người đàn ông chuẩn bị một cái gì đó để đi đâu", "answers": ["máy xay"]}
+{"id": "1126", "image_name": "COCO_train2014_000000102754.jpg", "question": "tranh treo ở đâu", "answers": ["phòng tắm"]}
+{"id": "1128", "image_name": "COCO_train2014_000000359290.jpg", "question": "đàn ngựa tập hợp ở đâu", "answers": ["chuồng"]}
+{"id": "1130", "image_name": "COCO_train2014_000000442150.jpg", "question": "người phụ nữ đang đánh răng ở đâu", "answers": ["phòng tắm"]}
+{"id": "1131", "image_name": "COCO_train2014_000000344181.jpg", "question": "con mèo đang ngủ trưa ở đâu", "answers": ["vali"]}
+{"id": "1133", "image_name": "COCO_train2014_000000570951.jpg", "question": "hai đầu bếp đang chuẩn bị thức ăn ở đâu", "answers": ["phòng bếp"]}
+{"id": "1135", "image_name": "COCO_train2014_000000084558.jpg", "question": "người phụ nữ đang đứng ở đâu", "answers": ["bảo tàng"]}
+{"id": "1138", "image_name": "COCO_train2014_000000474970.jpg", "question": "hoa héo nằm ở đâu", "answers": ["cái lọ"]}
+{"id": "1139", "image_name": "COCO_train2014_000000235906.jpg", "question": "gấu bắc cực ăn cà rốt ở đâu?", "answers": ["vườn bách thú"]}
+{"id": "1140", "image_name": "COCO_train2014_000000127855.jpg", "question": "xe máy đang dừng ở đâu", "answers": ["chuồng"]}
+{"id": "1141", "image_name": "COCO_train2014_000000332578.jpg", "question": "những người đang ngồi và đứng ở đâu", "answers": ["phòng"]}
+{"id": "1142", "image_name": "COCO_train2014_000000504187.jpg", "question": "ngựa vằn đang ăn ở đâu", "answers": ["chuồng"]}
+{"id": "1143", "image_name": "COCO_train2014_000000558576.jpg", "question": "bánh rán có đường mới làm ở đâu", "answers": ["cái túi"]}
+{"id": "1145", "image_name": "COCO_train2014_000000033323.jpg", "question": "đầu cành hoa tụ lại ở đâu", "answers": ["bát"]}
+{"id": "1154", "image_name": "COCO_train2014_000000454258.jpg", "question": "bunch của táo ở đâu", "answers": ["bát"]}
+{"id": "1159", "image_name": "COCO_train2014_000000178476.jpg", "question": "nơi nào để người trượt tuyết xuống dốc tuyết gần cây thông", "answers": ["trượt tuyết"]}
+{"id": "1162", "image_name": "COCO_train2014_000000248360.jpg", "question": "hai con chim sẻ đang ngồi ở đâu", "answers": ["gương"]}
+{"id": "1164", "image_name": "COCO_train2014_000000369637.jpg", "question": "giường lớn ở đâu", "answers": ["phòng"]}
+{"id": "1167", "image_name": "COCO_train2014_000000523964.jpg", "question": "người phụ nữ sử dụng máy tính xách tay ở đâu", "answers": ["phòng"]}
+{"id": "1168", "image_name": "COCO_train2014_000000152898.jpg", "question": "một con vật đang đi bộ ở đâu", "answers": ["vườn bách thú"]}
+{"id": "1170", "image_name": "COCO_train2014_000000107620.jpg", "question": "con mèo tóc dài đang ngồi ở đâu", "answers": ["vali"]}
+{"id": "1175", "image_name": "COCO_train2014_000000201260.jpg", "question": "người đi xe đạp của họ ở đâu", "answers": ["đường"]}
+{"id": "1179", "image_name": "COCO_train2014_000000524927.jpg", "question": "tín hiệu giao thông nằm ở đâu", "answers": ["đường phố"]}
+{"id": "1182", "image_name": "COCO_train2014_000000539922.jpg", "question": "bạch đàn đột biến màu xanh và tím ở đâu", "answers": ["lọ cắm hoa"]}
+{"id": "1185", "image_name": "COCO_train2014_000000157860.jpg", "question": "chuối, cam và chanh nằm ở đâu", "answers": ["cái rổ"]}
+{"id": "1187", "image_name": "COCO_train2014_000000262239.jpg", "question": "cặp vợ chồng nấu ăn ở đâu", "answers": ["phòng"]}
+{"id": "1192", "image_name": "COCO_train2014_000000326628.jpg", "question": "người đàn ông mặc đồng phục bóng chày sọc cầm gậy ở đâu", "answers": ["chuồng"]}
+{"id": "1195", "image_name": "COCO_train2014_000000327368.jpg", "question": "cánh quạt máy bay đang ở đâu", "answers": ["tòa nhà"]}
+{"id": "1196", "image_name": "COCO_train2014_000000517294.jpg", "question": "ngựa vằn nằm ở đâu trên mặt đất khi những người khác chơi đùa", "answers": ["đường bộ"]}
+{"id": "1200", "image_name": "COCO_train2014_000000236155.jpg", "question": "cô gái nhỏ đang ăn ở đâu", "answers": ["cái ghế"]}
+{"id": "1202", "image_name": "COCO_train2014_000000463232.jpg", "question": "món ăn trong lò nướng đặt ở đâu", "answers": ["đĩa ăn"]}
+{"id": "1205", "image_name": "COCO_train2014_000000207463.jpg", "question": "bốn người bạn đang chơi wii ở đâu", "answers": ["phòng"]}
+{"id": "1211", "image_name": "COCO_train2014_000000505980.jpg", "question": "cậu bé đang nhìn ở đâu", "answers": ["gương"]}
+{"id": "1213", "image_name": "COCO_train2014_000000404147.jpg", "question": "những chiếc nồi và chảo treo lên ở đâu", "answers": ["phòng bếp"]}
+{"id": "1215", "image_name": "COCO_train2014_000000400966.jpg", "question": "tủ lạnh và lò vi sóng đặt ở đâu", "answers": ["phòng ngủ"]}
+{"id": "1217", "image_name": "COCO_train2014_000000365206.jpg", "question": "nhiều áp phích lớn được treo ở đâu", "answers": ["đường phố"]}
+{"id": "1222", "image_name": "COCO_train2014_000000214507.jpg", "question": "ngựa vằn và tê giác ăn ở đâu", "answers": ["chuồng"]}
+{"id": "1226", "image_name": "COCO_train2014_000000085272.jpg", "question": "ghế và ghế bập bênh ở đâu", "answers": ["phòng"]}
+{"id": "1227", "image_name": "COCO_train2014_000000573166.jpg", "question": "hai chiếc xe tay ga đỗ ở đâu", "answers": ["cửa sổ"]}
+{"id": "1228", "image_name": "COCO_train2014_000000129067.jpg", "question": "chuối đang ăn dở đang ở đâu", "answers": ["tách"]}
+{"id": "1230", "image_name": "COCO_train2014_000000186034.jpg", "question": "con chó đã sẵn sàng để nằm xuống đâu", "answers": ["giường"]}
+{"id": "1232", "image_name": "COCO_train2014_000000179134.jpg", "question": "tàu trung chuyển ở đâu", "answers": ["trạm"]}
+{"id": "1235", "image_name": "COCO_train2014_000000036482.jpg", "question": "người lính đang giữ một chiếc xe đạp màu xanh ở đâu", "answers": ["văn phòng"]}
+{"id": "1238", "image_name": "COCO_train2014_000000468867.jpg", "question": "em bé đang nằm ở đâu", "answers": ["giường"]}
+{"id": "1239", "image_name": "COCO_train2014_000000042725.jpg", "question": "người phụ nữ rửa bát ở đâu", "answers": ["chậu"]}
+{"id": "1244", "image_name": "COCO_train2014_000000357208.jpg", "question": "người đàn ông đứng gần một chiếc xe buýt trên một đêm sương mù", "answers": ["áo vest"]}
+{"id": "1245", "image_name": "COCO_train2014_000000494680.jpg", "question": "người phụ nữ đứng cạnh một con gấu kích thước thật ở đâu", "answers": ["cửa hàng"]}
+{"id": "1254", "image_name": "COCO_train2014_000000229919.jpg", "question": "hai đứa trẻ đang nằm ở đâu", "answers": ["giường"]}
+{"id": "1255", "image_name": "COCO_train2014_000000331505.jpg", "question": "các loại trái cây trưng bày ở đâu", "answers": ["bát"]}
+{"id": "1262", "image_name": "COCO_train2014_000000251366.jpg", "question": "những con chim dường như đang ở đâu", "answers": ["phòng"]}
+{"id": "1266", "image_name": "COCO_train2014_000000334938.jpg", "question": "tủ lạnh đen trông hơi nhòe ở đâu", "answers": ["phòng bếp"]}
+{"id": "1271", "image_name": "COCO_train2014_000000552919.jpg", "question": "bồn tắm cũ rỉ sét ngồi ở đâu", "answers": ["phòng tắm"]}
+{"id": "1272", "image_name": "COCO_train2014_000000487038.jpg", "question": "hai lò nướng được xếp chồng lên nhau ở đâu", "answers": ["phòng bếp"]}
+{"id": "1274", "image_name": "COCO_train2014_000000532253.jpg", "question": "bánh ngô và trứng đội mũ ở đâu", "answers": ["cái lọ"]}
+{"id": "1276", "image_name": "COCO_train2014_000000024915.jpg", "question": "bàn chân được kết nối vào đâu", "answers": ["trượt tuyết"]}
+{"id": "1285", "image_name": "COCO_train2014_000000012461.jpg", "question": "bát vệ sinh kín ở đâu", "answers": ["phòng tắm"]}
+{"id": "1286", "image_name": "COCO_train2014_000000346309.jpg", "question": "giường đôi với tấm kéo xuống ở đâu", "answers": ["phòng ngủ"]}
+{"id": "1295", "image_name": "COCO_train2014_000000267502.jpg", "question": "em bé ăn ở đâu bằng cách sử dụng một dụng cụ", "answers": ["cái ghế"]}
+{"id": "1299", "image_name": "COCO_train2014_000000398331.jpg", "question": "một số người đi du lịch và sẵn sàng đi đâu", "answers": ["đường phố"]}
+{"id": "1309", "image_name": "COCO_train2014_000000324456.jpg", "question": "con mèo nhỏ đang ngồi ở đâu", "answers": ["bát"]}
+{"id": "2568", "image_name": "COCO_train2014_000000429407.jpg", "question": "có bao nhiêu con hươu cao cổ trong một cái bao quanh một cái cây", "answers": ["bốn"]}
+{"id": "2574", "image_name": "COCO_train2014_000000065162.jpg", "question": "có bao nhiêu cầu thủ bóng chày đứng xung quanh một căn cứ", "answers": ["ba"]}
+{"id": "2575", "image_name": "COCO_train2014_000000344632.jpg", "question": "có bao nhiêu đứa trẻ trên bàn ăn và uống nước", "answers": ["ba"]}
+{"id": "2584", "image_name": "COCO_train2014_000000027829.jpg", "question": "có bao nhiêu con hươu cao cổ đi ngược chiều nhau gần một bức tường", "answers": ["hai"]}
+{"id": "2597", "image_name": "COCO_train2014_000000229552.jpg", "question": "có bao nhiêu người trên lưng ngựa nuôi ngựa", "answers": ["ba"]}
+{"id": "2598", "image_name": "COCO_train2014_000000178763.jpg", "question": "có bao nhiêu bữa trưa salad tương tự được đựng trong hộp nhựa", "answers": ["bốn"]}
+{"id": "2600", "image_name": "COCO_train2014_000000238843.jpg", "question": "có bao nhiêu con hươu cao cổ lớn đang ăn thức ăn tại một cuộc triển lãm ở sở thú", "answers": ["hai"]}
+{"id": "2602", "image_name": "COCO_train2014_000000498297.jpg", "question": "có bao nhiêu con cừu trắng đang nhìn vào máy ảnh với bầu trời trong nền", "answers": ["ba"]}
+{"id": "2603", "image_name": "COCO_train2014_000000482470.jpg", "question": "có bao nhiêu người đàn ông ngồi ở bàn gỗ đang thảo luận về các vấn đề", "answers": ["năm"]}
+{"id": "2606", "image_name": "COCO_train2014_000000341087.jpg", "question": "có bao nhiêu người đang tạo dáng chụp ảnh bên trong cửa hàng tạp hóa", "answers": ["ba"]}
+{"id": "2611", "image_name": "COCO_train2014_000000099785.jpg", "question": "có bao nhiêu cậu bé đang nằm trên giường với khuôn mặt được vẽ", "answers": ["hai"]}
+{"id": "2616", "image_name": "COCO_train2014_000000246012.jpg", "question": "có bao nhiêu chiếc máy bay đang bay trên bầu trời như một phần của chương trình phát sóng", "answers": ["bốn"]}
+{"id": "2617", "image_name": "COCO_train2014_000000197330.jpg", "question": "có bao nhiêu con bò nâu theo một con chó chăn gia súc lớn và trắng qua một khu rừng rậm", "answers": ["bốn"]}
+{"id": "2619", "image_name": "COCO_train2014_000000436400.jpg", "question": "có bao nhiêu lọ thủy tinh có hình bóng bồ công anh được chụp ảnh", "answers": ["hai"]}
+{"id": "2621", "image_name": "COCO_train2014_000000314879.jpg", "question": "có bao nhiêu con chó đứng trên cỏ trước một cái cây", "answers": ["hai"]}
+{"id": "2625", "image_name": "COCO_train2014_000000234653.jpg", "question": "có bao nhiêu con ngựa vằn đứng gần nhau trong một bụi cây gần hàng rào", "answers": ["hai"]}
+{"id": "2626", "image_name": "COCO_train2014_000000573725.jpg", "question": "có bao nhiêu cô gái trẻ đang chơi nintendo bên trong một phòng khách", "answers": ["hai"]}
+{"id": "2631", "image_name": "COCO_train2014_000000576187.jpg", "question": "có bao nhiêu cảnh sát xe máy đang đi xe đạp của họ", "answers": ["hai"]}
+{"id": "2633", "image_name": "COCO_train2014_000000085151.jpg", "question": "có bao nhiêu trẻ em đang thả diều trong một không gian rộng lớn", "answers": ["năm"]}
+{"id": "2643", "image_name": "COCO_train2014_000000163326.jpg", "question": "có bao nhiêu cô gái đang xoay tròn với cây gậy bóng chày", "answers": ["hai"]}
+{"id": "2646", "image_name": "COCO_train2014_000000340528.jpg", "question": "có bao nhiêu góc nhìn khác nhau của một tòa nhà với cột, gác chuông", "answers": ["bốn"]}
+{"id": "2649", "image_name": "COCO_train2014_000000099498.jpg", "question": "có bao nhiêu biến thể của điện thoại di động đang ngồi trên bàn", "answers": ["năm"]}
+{"id": "2652", "image_name": "COCO_train2014_000000506640.jpg", "question": "có bao nhiêu con ngựa vằn đứng gần một vùng nước", "answers": ["ba"]}
+{"id": "2654", "image_name": "COCO_train2014_000000086573.jpg", "question": "có bao nhiêu đĩa lớn màu trắng chứa đầy rau củ ngồi làm tổ với một chai rượu vang và những ly rượu nhỏ", "answers": ["hai"]}
+{"id": "2656", "image_name": "COCO_train2014_000000092729.jpg", "question": "có bao nhiêu con mèo đang chơi trên bàn với bình hoa ở giữa", "answers": ["hai"]}
+{"id": "2658", "image_name": "COCO_train2014_000000254714.jpg", "question": "có bao nhiêu bức ảnh thể hiện các bộ phận khác nhau của một tòa nhà", "answers": ["ba"]}
+{"id": "2661", "image_name": "COCO_train2014_000000559995.jpg", "question": "có bao nhiêu đường biển đang ngồi bên lề đường", "answers": ["một"]}
+{"id": "2671", "image_name": "COCO_train2014_000000079572.jpg", "question": "có bao nhiêu con chó đang ngồi cùng nhau trên một chiếc giường đã được trang bị sẵn", "answers": ["hai"]}
+{"id": "2672", "image_name": "COCO_train2014_000000045146.jpg", "question": "có bao nhiêu người trượt tuyết đang tạo dáng cho bức ảnh", "answers": ["bốn"]}
+{"id": "2676", "image_name": "COCO_train2014_000000209722.jpg", "question": "có bao nhiêu con ngựa đang kéo một người đàn ông trên máy kéo trên đất nông nghiệp", "answers": ["sáu"]}
+{"id": "2683", "image_name": "COCO_train2014_000000404183.jpg", "question": "có bao nhiêu phương tiện đang đậu trước nhà để xe", "answers": ["ba"]}
+{"id": "2688", "image_name": "COCO_train2014_000000077854.jpg", "question": "có bao nhiêu máy bay đậu ở các phần khác nhau của đường băng", "answers": ["năm"]}
+{"id": "2699", "image_name": "COCO_train2014_000000500165.jpg", "question": "có bao nhiêu con kangaroo bằng kim loại trên mặt đất và một con đang nằm trên băng ghế", "answers": ["một"]}
+{"id": "2702", "image_name": "COCO_train2014_000000544215.jpg", "question": "có bao nhiêu con voi di chuyển ngược chiều gần một cái hố tưới nước", "answers": ["hai"]}
+{"id": "2706", "image_name": "COCO_train2014_000000246528.jpg", "question": "có bao nhiêu người đàn ông đang ngồi trước cửa sổ quay lưng lại", "answers": ["hai"]}
+{"id": "2708", "image_name": "COCO_train2014_000000271079.jpg", "question": "có bao nhiêu thang máy khác nhau bên cạnh một chiếc đồng hồ treo lớn", "answers": ["hai"]}
+{"id": "2709", "image_name": "COCO_train2014_000000074069.jpg", "question": "có bao nhiêu con hươu cao cổ đứng bên trong một cái bao vây", "answers": ["bốn"]}
+{"id": "2712", "image_name": "COCO_train2014_000000278055.jpg", "question": "có bao nhiêu cậu bé đang ngồi trên bãi cỏ của công viên, một người cầm đĩa ném.", "answers": ["ba"]}
+{"id": "2720", "image_name": "COCO_train2014_000000262171.jpg", "question": "có bao nhiêu người đàn ông trên một chiếc thuyền hoover trong nước", "answers": ["sáu"]}
+{"id": "2728", "image_name": "COCO_train2014_000000493732.jpg", "question": "có bao nhiêu chiếc bánh với kiểu dáng trên bàn đang ngồi trên giấy bạc trên bàn", "answers": ["năm"]}
+{"id": "2730", "image_name": "COCO_train2014_000000016209.jpg", "question": "bao nhiêu đường chỉ dẫn tại giao lộ của madison st. và đại lộ 1", "answers": ["một"]}
+{"id": "2740", "image_name": "COCO_train2014_000000245802.jpg", "question": "có bao nhiêu cầu thủ bóng chày đi bộ trên sân cỏ", "answers": ["mười"]}
+{"id": "2742", "image_name": "COCO_train2014_000000284014.jpg", "question": "có bao nhiêu người đang nhìn vào một vườn xương rồng trong mưa", "answers": ["bốn"]}
+{"id": "2748", "image_name": "COCO_train2014_000000067560.jpg", "question": "có bao nhiêu người ngồi trên chiếc ghế dài chơi game trên wii", "answers": ["bốn"]}
+{"id": "2751", "image_name": "COCO_train2014_000000288372.jpg", "question": "có bao nhiêu con ngựa vằn đi dạo quanh một cái chuồng vào một ngày nắng đẹp", "answers": ["hai"]}
+{"id": "2770", "image_name": "COCO_train2014_000000121792.jpg", "question": "có bao nhiêu người đội mũ bảo hiểm đang trượt patin trên đường mòn", "answers": ["ba"]}
+{"id": "2782", "image_name": "COCO_train2014_000000579095.jpg", "question": "người đàn ông đang đi bộ xuống giữa đường có bao nhiêu con bò con", "answers": ["hai"]}
+{"id": "2785", "image_name": "COCO_train2014_000000505658.jpg", "question": "có bao nhiêu con ngựa trên cánh đồng trên một bụi cây", "answers": ["hai"]}
+{"id": "2786", "image_name": "COCO_train2014_000000119979.jpg", "question": "có bao nhiêu cô gái đang cầm đĩa ném, một cô gái khác đang cố gắng lấy nó", "answers": ["một"]}
+{"id": "2792", "image_name": "COCO_train2014_000000360617.jpg", "question": "có bao nhiêu con ngựa vằn pha trộn vào bụi cây và cây cối", "answers": ["bốn"]}
+{"id": "2798", "image_name": "COCO_train2014_000000271574.jpg", "question": "đây là bao nhiêu con gà xung quanh một cái ghế dài với một chai nước trên đó", "answers": ["bốn"]}
+{"id": "2800", "image_name": "COCO_train2014_000000277200.jpg", "question": "bao nhiêu người lướt ván mang ván của anh ta vào và hai người khác chỉ ngồi trên bãi biển", "answers": ["một"]}
+{"id": "2804", "image_name": "COCO_train2014_000000060953.jpg", "question": "có bao nhiêu máy bay đóng thế yak-11 trình diễn tại một triển lãm hàng không", "answers": ["ba"]}
+{"id": "2807", "image_name": "COCO_train2014_000000263276.jpg", "question": "có bao nhiêu hộp đựng với các loại thực phẩm khác nhau, bên cạnh một cái bánh mì nhỏ", "answers": ["hai"]}
+{"id": "2815", "image_name": "COCO_train2014_000000117494.jpg", "question": "có bao nhiêu bức tượng bò ở phía trước với một ngọn đèn và quả bóng quá khổ ở phía sau", "answers": ["ba"]}
+{"id": "2816", "image_name": "COCO_train2014_000000369512.jpg", "question": "có bao nhiêu con voi đang tắm trên sông", "answers": ["ba"]}
+{"id": "2817", "image_name": "COCO_train2014_000000206377.jpg", "question": "có bao nhiêu con gấu đen đang ngồi giữa thảm cỏ xanh tươi", "answers": ["ba"]}
+{"id": "2822", "image_name": "COCO_train2014_000000077874.jpg", "question": "có bao nhiêu con ngựa đã bị buộc vào cột", "answers": ["bốn"]}
+{"id": "2834", "image_name": "COCO_train2014_000000370383.jpg", "question": "có bao nhiêu phụ nữ trên bàn ăn và uống bia", "answers": ["ba"]}
+{"id": "2838", "image_name": "COCO_train2014_000000549898.jpg", "question": "có bao nhiêu người đàn ông trên xe đạp đang lái xe dưới đường chuyền", "answers": ["hai"]}
+{"id": "2841", "image_name": "COCO_train2014_000000561545.jpg", "question": "có bao nhiêu bánh được tải với nhiều thực phẩm và gia vị khác nhau", "answers": ["chín"]}
+{"id": "2845", "image_name": "COCO_train2014_000000466054.jpg", "question": "tổng hợp này cho thấy có bao nhiêu quan điểm về việc xếp dỡ hành lý trong sân bay", "answers": ["sáu"]}
+{"id": "2847", "image_name": "COCO_train2014_000000311726.jpg", "question": "có bao nhiêu con ngựa mô tả quá giang cho một toa xe với một người đàn ông và một chiếc ô", "answers": ["bốn"]}
+{"id": "2851", "image_name": "COCO_train2014_000000530903.jpg", "question": "có bao nhiêu người đang mỉm cười đang ngồi quanh bàn ăn", "answers": ["ba"]}
+{"id": "2853", "image_name": "COCO_train2014_000000442069.jpg", "question": "có bao nhiêu con vịt cùng nhau bơi qua vùng nước", "answers": ["hai"]}
+{"id": "2859", "image_name": "COCO_train2014_000000306798.jpg", "question": "có bao nhiêu bánh rán có hương vị khác nhau ngồi trên bàn cạnh một tách cà phê", "answers": ["ba"]}
+{"id": "2861", "image_name": "COCO_train2014_000000155040.jpg", "question": "có bao nhiêu con cừu gặm cỏ trên cánh đồng cỏ", "answers": ["năm"]}
+{"id": "2863", "image_name": "COCO_train2014_000000142847.jpg", "question": "có bao nhiêu người đàn ông đang đứng bên ngoài xe buýt", "answers": ["ba"]}
+{"id": "2870", "image_name": "COCO_train2014_000000145912.jpg", "question": "đàn chó đen trắng có bao nhiêu con cừu", "answers": ["ba"]}
+{"id": "2872", "image_name": "COCO_train2014_000000524453.jpg", "question": "một cặp vợ chồng già đi dạo trên bãi biển có bao nhiêu con chó", "answers": ["hai"]}
+{"id": "2874", "image_name": "COCO_train2014_000000158207.jpg", "question": "có bao nhiêu bóng của người trượt tuyết trên dốc tuyết", "answers": ["sáu"]}
+{"id": "2885", "image_name": "COCO_train2014_000000559865.jpg", "question": "có bao nhiêu con gấu đen lớn trên xe hơi", "answers": ["ba"]}
+{"id": "2890", "image_name": "COCO_train2014_000000217113.jpg", "question": "có bao nhiêu đĩa pizza phủ phô mai và rau", "answers": ["hai"]}
+{"id": "2891", "image_name": "COCO_train2014_000000131784.jpg", "question": "có bao nhiêu máy bay thủ công đang bay trên bầu trời", "answers": ["ba"]}
+{"id": "2896", "image_name": "COCO_train2014_000000032739.jpg", "question": "có bao nhiêu người đang ngồi trong phòng chơi trò chơi điện tử", "answers": ["ba"]}
+{"id": "2910", "image_name": "COCO_train2014_000000506371.jpg", "question": "có bao nhiêu mặt phẳng đang bay thẳng với khói trắng", "answers": ["bốn"]}
+{"id": "2915", "image_name": "COCO_train2014_000000485499.jpg", "question": "có bao nhiêu người chơi quần vợt đẩy xa người khác trên sân", "answers": ["một"]}
+{"id": "2918", "image_name": "COCO_train2014_000000071502.jpg", "question": "có bao nhiêu con ngựa vằn đi qua cánh đồng xanh trên một đường thẳng", "answers": ["bốn"]}
+{"id": "2920", "image_name": "COCO_train2014_000000224699.jpg", "question": "có bao nhiêu bức ảnh chụp bộ truyền hình với chiếc mũ trên đầu", "answers": ["sáu"]}
+{"id": "2935", "image_name": "COCO_train2014_000000461480.jpg", "question": "có bao nhiêu con ngựa vằn bên trong một hàng rào bằng gỗ với một cái máng ăn màu xanh lá cây", "answers": ["hai"]}
+{"id": "2940", "image_name": "COCO_train2014_000000506750.jpg", "question": "có bao nhiêu người đàn ông đang nói trước một giá đỡ sản phẩm", "answers": ["hai"]}
+{"id": "2941", "image_name": "COCO_train2014_000000039708.jpg", "question": "có bao nhiêu chàng trai đang cầm vợt tennis đứng cạnh lưới của họ", "answers": ["bảy"]}
+{"id": "2943", "image_name": "COCO_train2014_000000171090.jpg", "question": "có bao nhiêu con ngựa vằn đang đứng trên đồng cỏ", "answers": ["ba"]}
+{"id": "2946", "image_name": "COCO_train2014_000000160852.jpg", "question": "có bao nhiêu con bò nâu đứng trong tuyết", "answers": ["ba"]}
+{"id": "2949", "image_name": "COCO_train2014_000000538557.jpg", "question": "có bao nhiêu con hươu cao cổ đang gặm cỏ trên cánh đồng xanh", "answers": ["bốn"]}
+{"id": "2952", "image_name": "COCO_train2014_000000032105.jpg", "question": "có bao nhiêu kiện hành lý nằm trên sàn nhà", "answers": ["bốn"]}
+{"id": "2957", "image_name": "COCO_train2014_000000431376.jpg", "question": "có bao nhiêu chiếc xe buýt màu đỏ đậu ở bãi đất đối diện với các tòa nhà", "answers": ["hai"]}
+{"id": "2962", "image_name": "COCO_train2014_000000466621.jpg", "question": "có bao nhiêu xe lửa cũ ở đầu đường ray", "answers": ["ba"]}
+{"id": "2963", "image_name": "COCO_train2014_000000110776.jpg", "question": "giữa cánh cửa sắt có bao nhiêu con gấu bông màu nâu nhạt", "answers": ["một"]}
+{"id": "2964", "image_name": "COCO_train2014_000000390093.jpg", "question": "có bao nhiêu đứa trẻ nhỏ trên thuyền với chuối", "answers": ["hai"]}
+{"id": "2969", "image_name": "COCO_train2014_000000197850.jpg", "question": "có bao nhiêu con ngựa vằn trên cánh đồng gần nhiều cây", "answers": ["bốn"]}
+{"id": "2970", "image_name": "COCO_train2014_000000053184.jpg", "question": "có bao nhiêu người đàn ông trẻ đang ngồi trên chiếc ghế dài sử dụng máy tính xách tay của họ", "answers": ["hai"]}
+{"id": "2972", "image_name": "COCO_train2014_000000295015.jpg", "question": "có bao nhiêu người đàn ông đang chuẩn bị bảng của họ cho một môn thể thao", "answers": ["hai"]}
+{"id": "2976", "image_name": "COCO_train2014_000000260982.jpg", "question": "có bao nhiêu chàng trai đang chơi xóc đĩa bên ngoài", "answers": ["hai"]}
+{"id": "2978", "image_name": "COCO_train2014_000000251696.jpg", "question": "có bao nhiêu người trên một chuyến tàu công cộng sử dụng điện thoại di động", "answers": ["hai"]}
+{"id": "2981", "image_name": "COCO_train2014_000000067114.jpg", "question": "có bao nhiêu chiếc máy bay bay qua bầu trời và để lại dấu vết", "answers": ["bốn"]}
+{"id": "2988", "image_name": "COCO_train2014_000000067114.jpg", "question": "thùng có bao nhiêu máy bay phản lực lăn trên bầu trời rộng mở", "answers": ["bốn"]}
+{"id": "2995", "image_name": "COCO_train2014_000000256540.jpg", "question": "có bao nhiêu chàng trai mặc quần áo giống nhau nhưng màu sắc khác nhau đang giải trí", "answers": ["hai"]}
+{"id": "2999", "image_name": "COCO_train2014_000000417219.jpg", "question": "có bao nhiêu người trượt tuyết tạo dáng trên sườn núi tuyết", "answers": ["bốn"]}

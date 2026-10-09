@@ -17,13 +17,11 @@ newly learned compression of the patches, and that a frozen decoder with such to
 surpasses a decoder adapted with LoRA over global tokens only.
 
 ViMoE-VQA, a model trained specifically for AutoViVQA, still achieves a higher F1, and
-the baselines were reported on a different split of AutoViVQA. Accuracy had not
-saturated at the 144 region tokens available at our resolution, the decoder-LoRA
-model remains better on causal and relational questions, and the global--local model
-has not yet been evaluated on other Vietnamese VQA datasets, in particular scene-text
-ones, where local tokens should matter most. Future work will therefore combine the
-local tokens with decoder adaptation, raise the image resolution, and evaluate
-ViBridge-VQA out of distribution. The code and the grouped split are available at
+the baselines were reported on a different split of AutoViVQA. Out of distribution,
+the local tokens let a single $336\times336$ view match the six-tile Vintern-1B on
+ViTextVQA, but Vintern-1B remains clearly better on OpenViVQA, and accuracy had not
+saturated at the 144 region tokens available at our resolution. Future work will raise
+the image resolution and study how the local tokens combine with decoder adaptation. The code and the grouped split are available at
 \url{https://github.com/nguyennn263/modular-vlm-finetune}.
 
 Overall, ViBridge-VQA shows that an existing Vietnamese VLM can be improved

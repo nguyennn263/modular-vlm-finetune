@@ -287,3 +287,9 @@ checkpoints/_stale_backup/
 experiments/vintern-ft/data/
 experiments/vintern-ft/worker/
 experiments/vintern-ft/out/
+
+# Experiment results stay off main (kept on exp/eval-input-diagnostic and in history);
+# every number in the paper is in paper/aciids2027/analysis/*.json
+outputs/
+smoke_out/
+checkpoints/

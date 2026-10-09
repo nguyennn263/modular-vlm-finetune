@@ -109,10 +109,11 @@ cross-entropy
   \label{eq:ce}
 \end{equation}
 where $x$ are the merged patch vectors. With $g=14$, 12.86M parameters (1.35\%) are
-trainable. For comparison we also report the \emph{global-only} model ($k=0$, the
-Multi-Token bridge with $g=8$) and its variant trained jointly with a rank-16 decoder
-LoRA~\cite{hu2022lora} on the query, key, value and output projections (2.16M
-additional parameters).
+trainable. We also train ViBridge-VQA jointly with a rank-16 decoder
+LoRA~\cite{hu2022lora} on the query, key, value and output projections of every decoder
+layer (2.16M additional parameters, 15.02M or 1.57\% in total), and, for comparison, the
+\emph{global-only} model ($k=0$, the Multi-Token bridge with $g=8$) with and without the
+same LoRA.
 
 \subsection{Choosing the Token Budget}
 \label{sec:budget}

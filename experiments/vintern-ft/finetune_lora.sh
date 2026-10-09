@@ -1,0 +1,130 @@
+#!/bin/bash
+# Vintern-1B-v3_5 2nd-stage fine-tune on AutoViVQA (grouped leak-free split).
+#
+# VERBATIM from the official Vintern cookbook recipe
+#   (reference/repo_default_finetune_lora.sh + colab cells 35-38):
+#   freeze backbone + MLP + LLM ; LoRA rank 16 on the LLM only ;
+#   max_dynamic_patch 6 ; force_image_size 448 ; down_sample_ratio 0.5 ;
+#   lr 4e-5 ; cosine ; warmup 0.03 ; wd 0.01 ; 1 epoch ; conv_style Hermes-2.
+#
+# Only deviations: paths, GPU count, and total-batch plumbing for a single
+# 16 GB card. Recipe hyper-params are UNCHANGED.
+#
+# CORRECTED max_seq_length: the colab-cells transcription had 700, but that's
+# too short for max_dynamic_patch=6 on 4:3-aspect images (AutoViVQA/COCO's
+# dominant format resolves to the full 6 tiles -> ~1792 image tokens alone),
+# which silently zeroes the loss for most samples (InternVL's own
+# modeling_internvl_chat.py sets ignore_flag=True -> loss*0.0 on token-count
+# mismatch). repo_default_finetune_lora.sh -- the SAME official repo's own
+# shipped default script, pairing the identical max_dynamic_patch=6 -- uses
+# 4096. Using that value here instead: it's the official repo default, not
+# an invented number.
+#
+# CHECKPOINT CADENCE (pure infra, not a recipe hyperparameter -- doesn't touch
+# training math): at ~38s/optimizer step (measured, 6 tiles + eager attention
+# on Kaggle P100/T4), the earlier save_steps=500 only checkpointed every
+# ~5.3h -- just 1-2 opportunities in a whole 12h session. If the cap hit
+# between saves, all progress since the last one was lost, needing a fresh
+# --resume from further back. save_steps=100 (~1h between saves; even the
+# official repo_default_finetune_lora.sh uses 200, we go tighter given the
+# 12h-cap risk) bounds the worst-case loss to ~1h instead of ~5h.
+set -x
+
+GPUS=${GPUS:-1}
+BATCH_SIZE=${BATCH_SIZE:-16}                     # cookbook total batch = 16
+PER_DEVICE_BATCH_SIZE=${PER_DEVICE_BATCH_SIZE:-4}
+GRADIENT_ACC=$((BATCH_SIZE / PER_DEVICE_BATCH_SIZE / GPUS))
+
+MODEL_PATH=${MODEL_PATH:-"./pretrained/Vintern-1B-v3_5"}
+META_PATH=${META_PATH:-"./shell/data/meta_autovivqa.json"}
+OUTPUT_DIR=${OUTPUT_DIR:-"work_dirs/vintern_1b_v3_5_autovivqa_lora"}
+EPOCHS=${EPOCHS:-1}
+SEED=${SEED:-42}
+RESUME_ARG=${RESUME_ARG:-}                       # e.g. "--resume_from_checkpoint <dir>/checkpoint-1000"
+
+# --overwrite_output_dir would wipe a resume checkpoint we just copied in.
+OVERWRITE=True
+[ -n "$RESUME_ARG" ] && OVERWRITE=False
+
+export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+export PYTHONUNBUFFERED=1  # so `tee` actually captures progress instead of losing it to a full stdout buffer on kill
+export MASTER_PORT=34229
+export TF_CPP_MIN_LOG_LEVEL=3
+export LAUNCHER=pytorch
+
+mkdir -p "$OUTPUT_DIR"
+
+# deepspeed is optional for a single-GPU LoRA run; drop it if unavailable
+DS_ARG="--deepspeed zero_stage1_config.json"
+if [ "${SKIP_DEEPSPEED:-0}" = "1" ] || [ ! -f "zero_stage1_config.json" ]; then
+  DS_ARG=""
+  echo "[finetune] deepspeed disabled (SKIP_DEEPSPEED=${SKIP_DEEPSPEED:-0}, config present=$([ -f zero_stage1_config.json ] && echo yes || echo no))"
+fi
+
+# --save_only_model alone did NOT shrink the checkpoint last time (still
+# ~21GB) -- this fork's Trainer plumbing doesn't seem to honor it. Belt and
+# suspenders: a background sweeper strips the known-huge, resume-unnecessary
+# files (optimizer/scheduler/rng/scaler state) out of the checkpoint dir every
+# 20s WHILE training runs, so even a mid-checkpoint SIGKILL at the 12h cap
+# leaves a small, fetchable directory on disk. Pure disk-management side
+# effect -- does not touch training math. trainer_state.json (global_step) is
+# untouched, so --resume_from_checkpoint still skips completed steps; only the
+# optimizer's momentum resets across a session boundary. LoRA/lr/tiles/epoch
+# unchanged.
+(
+  while true; do
+    sleep 20
+    find "$OUTPUT_DIR" -maxdepth 2 \( -name 'optimizer.pt' -o -name 'optimizer.bin' \
+      -o -name 'scheduler.pt' -o -name 'rng_state*.pth' -o -name 'scaler.pt' \) \
+      -exec rm -f {} + 2>/dev/null
+    du -sh "$OUTPUT_DIR" 2>/dev/null | sed 's/^/[sweeper] size: /'
+  done
+) &
+SWEEPER_PID=$!
+trap 'kill $SWEEPER_PID 2>/dev/null' EXIT
+
+torchrun \
+  --nnodes=1 --node_rank=0 --master_addr=127.0.0.1 \
+  --nproc_per_node=${GPUS} --master_port=${MASTER_PORT} \
+  internvl/train/internvl_chat_finetune.py \
+  --model_name_or_path "${MODEL_PATH}" \
+  --conv_style "Hermes-2" \
+  --output_dir ${OUTPUT_DIR} \
+  --meta_path "${META_PATH}" \
+  --overwrite_output_dir ${OVERWRITE} \
+  ${RESUME_ARG} \
+  --force_image_size 448 \
+  --max_dynamic_patch 6 \
+  --down_sample_ratio 0.5 \
+  --drop_path_rate 0.0 \
+  --freeze_llm True \
+  --freeze_mlp True \
+  --freeze_backbone True \
+  --use_llm_lora 16 \
+  --vision_select_layer -1 \
+  --dataloader_num_workers 4 \
+  --bf16 True \
+  --seed ${SEED} \
+  --num_train_epochs ${EPOCHS} \
+  --per_device_train_batch_size ${PER_DEVICE_BATCH_SIZE} \
+  --gradient_accumulation_steps ${GRADIENT_ACC} \
+  --evaluation_strategy "no" \
+  --save_strategy "steps" \
+  --save_steps 100 \
+  --save_total_limit 1 \
+  --save_only_model True \
+  --learning_rate 4e-5 \
+  --weight_decay 0.01 \
+  --warmup_ratio 0.03 \
+  --lr_scheduler_type "cosine" \
+  --logging_steps 10 \
+  --max_seq_length 4096 \
+  --do_train True \
+  --grad_checkpoint True \
+  --group_by_length True \
+  --dynamic_image_size True \
+  --use_thumbnail True \
+  --ps_version 'v2' \
+  ${DS_ARG} \
+  --report_to "tensorboard" \
+  2>&1 | tee -a "${OUTPUT_DIR}/training_log.txt"

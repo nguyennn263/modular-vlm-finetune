@@ -1,0 +1,31 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+This work presents \textbf{ViBridge-VQA}, which improves the Vietnamese VLM
+Vintern-1B for generative visual question answering without updating any of its
+weights. ViBridge-VQA passes the frozen decoder two kinds of visual tokens from a
+single image view: global tokens, produced from the \texttt{[CLS]} vector by a small
+trainable bridge, and local tokens, produced by the frozen pre-trained projector of
+Vintern-1B and pooled to a chosen budget. Selecting that budget as the knee of the
+accuracy--cost Pareto front gives 14 global and 36 local tokens for every metric and
+both evaluation splits. With 1.35\% of the parameters trained and 50 visual tokens, it
+raises the F1 of Vintern-1B on AutoViVQA from 17.6 to 54.6 and outperforms the
+officially fine-tuned Vintern-1B on seven of eight metrics; with all 144 local tokens
+it outperforms it on all eight. Our analysis shows that local tokens matter far more
+than global ones, that the pre-trained projector should provide them rather than a
+newly learned compression of the patches, and that a frozen decoder with such tokens
+surpasses a decoder adapted with LoRA over global tokens only.
+
+ViMoE-VQA, a model trained specifically for AutoViVQA, still achieves a higher F1, and
+the baselines were reported on a different split of AutoViVQA. Out of distribution,
+the local tokens let a single $336\times336$ view match the six-tile Vintern-1B on
+ViTextVQA, but Vintern-1B remains clearly better on OpenViVQA, and accuracy had not
+saturated at the 144 region tokens available at our resolution. Future work will raise
+the image resolution and study how the local tokens combine with decoder adaptation. The code and the grouped split are available at
+\url{https://github.com/nguyennn263/modular-vlm-finetune}.
+
+Overall, ViBridge-VQA shows that an existing Vietnamese VLM can be improved
+substantially by choosing which visual tokens its frozen decoder receives, and that
+the size of this budget can be chosen with an explicit accuracy--cost criterion. We
+hope this work will encourage efficient and well-evaluated multimodal models for
+low-resource languages.

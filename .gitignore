@@ -281,3 +281,9 @@ notebooks/_kaggle_pulled/
 /ck-tiled/
 /ck/
 /outputs/parallel/bundle/
+checkpoints/_stale_backup/
+
+# vintern-ft experiment: regenerated in-kernel / pulled artifacts
+experiments/vintern-ft/data/
+experiments/vintern-ft/worker/
+experiments/vintern-ft/out/

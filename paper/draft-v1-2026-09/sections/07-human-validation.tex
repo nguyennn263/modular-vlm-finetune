@@ -1,0 +1,42 @@
+\section{Human Validation and Error Analysis}
+\label{sec:human}
+
+Every result above is read through automatic metrics against five reference
+answers. This section asks how much those metrics track answer \emph{correctness}.
+
+\paragraph{Scope, stated up front.}
+The planned protocol was 300--500 samples, 2 annotators, Cohen's $\kappa$; time
+did not allow it before the deadline. What follows is a \textbf{single-rater
+self-check substitute}, not human validation: $N = 120$, one rater, no image
+access --- judged for plausibility against the five references only, a materially
+weaker check for open-ended categories. Samples are drawn proportionally by
+category $\times$ actual F1 bucket; all 120 judgments are released.
+
+\begin{table}[t]
+  \centering
+  \caption{F1 bucket vs.\ semantic judgment (\multitoken{}, $N=120$).
+  ``Acceptable'' $=$ correct $+$ partially correct ($\%$).}
+  \label{tab:human}
+  \begin{tabular}{lrrrrrr}
+    \toprule
+    F1 bucket & $n$ & correct & partial & wrong & nonsense & acceptable \\
+    \midrule
+    strong ($\ge 0.6$)    & 45 & 80.0 & 11.1 & 6.7  & 2.2 & \textbf{91.1} \\
+    partial ($0.2$--$0.6$) & 58 & 12.1 & 31.0 & 55.2 & 1.7 & \textbf{43.1} \\
+    weak ($0$--$0.2$)     & 3  & 0    & 0    & 100  & 0   & \textbf{0} \\
+    zero ($\text{F1}=0$)  & 13 & 7.7  & 7.7  & 76.9 & 7.7 & \textbf{15.4} \\
+    \midrule
+    \textbf{total ($n=119$)} & & \textbf{37.0} & \textbf{20.2} & \textbf{40.3} & \textbf{2.5} & \textbf{57.1} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The ``strong'' bucket ($\ge 0.6$ F1) is reliable ($91.1\%$ acceptable), but the
+\textbf{``partial'' bucket ($0.2$--$0.6$) --- the \emph{largest} single bucket,
+$51.5\%$ of val --- is only $43.1\%$ acceptable}, $55.2\%$ actually wrong despite
+non-zero token overlap. The errors are not random noise (wrong colour / count /
+object, or the wrong facet of the question), which is why they still score
+mid-range F1. Overall $37.0\%$ of val predictions are fully correct, $57.1\%$
+acceptable. \textbf{Mid-range token-F1 is not a reliable correctness signal},
+which qualifies how the CIDEr-D / F1 numbers elsewhere should be read. A real
+2-annotator, image-access study remains the camera-ready item.

@@ -1,0 +1,62 @@
+\section{Introduction}
+\label{sec:intro}
+
+Visual Question Answering (VQA) is a multimodal task in which a model must
+interpret an image, understand a natural-language question and produce an
+answer. Recent progress has been driven by large vision--language models (VLMs)
+such as BLIP-2~\cite{li2023blip2}, Flamingo~\cite{alayrac2022flamingo} and
+LLaVA~\cite{liu2023visualinstructiontuning}, which pair a pre-trained vision encoder
+with a pre-trained language model. For Vietnamese, Vintern-1B~\cite{doan2024vintern1b}
+follows this design: it connects an InternViT-300M encoder~\cite{chen2024internvl}
+to a Qwen2.5-0.5B decoder~\cite{qwen2025qwen25} through a small projector and is among
+the strongest open Vietnamese VLMs. Benchmarks such as ViVQA~\cite{tran2021vivqa},
+OpenViVQA~\cite{nguyen2023openvivqa} and, more recently, the reasoning-oriented
+AutoViVQA~\cite{autovivqa2026} allow such models to be evaluated in a low-resource
+setting.
+
+Obtaining a strong model on a new Vietnamese benchmark, however, remains costly.
+One option is to fine-tune an existing VLM: the fine-tuned Vintern-1B baseline of
+AutoViVQA adds LoRA to the language model and encodes every image as up to six
+high-resolution tiles plus a thumbnail, so that the decoder reads up to 1{,}792
+visual tokens per image. Another option is to design a new architecture, as
+ViMoE-VQA~\cite{vimoevqa} does with a sparse mixture-of-experts fusion module and a
+decoder trained on top of frozen encoders. A cheaper alternative is to keep the VLM
+frozen and train only a small connector, but the choice of connector is delicate. A
+connector that reads a single global image vector is light but cannot convey small
+objects, text or positions, whereas connectors that learn to compress the patch
+tokens, such as Q-Formers or learned pooling, must learn a new alignment to the
+decoder from limited data. This raises the question: \emph{which visual tokens should
+a frozen Vietnamese VLM receive, and how many?}
+
+We propose \textbf{ViBridge-VQA}, which answers this question with two complementary
+kinds of tokens. Vintern-1B passes its decoder one token per image region through a
+projector that was pre-trained to align the two backbones, but it discards the global
+\texttt{[CLS]} vector of the encoder. ViBridge-VQA reuses that frozen projector to
+produce \emph{local} tokens, average-pooled to a chosen budget and placed in
+Vintern-1B's own image slot, and adds \emph{global} tokens produced from the
+\texttt{[CLS]} vector by a small trainable bridge. The vision encoder, the projector
+and the decoder remain frozen; only the global bridge is trained (1.35\% of the
+parameters), and each image is encoded once at $336\times336$ pixels. Because more
+tokens cost more computation, we treat the number of global and local tokens as a
+budget and select it as the knee of the accuracy--cost Pareto front.
+
+\paragraph{Contributions.}
+This work makes the following contributions:
+\begin{itemize}
+  \item We propose \textbf{ViBridge-VQA}, a global--local bridge that improves
+  Vintern-1B without updating any of its weights. With 14 global and 36 local tokens
+  it raises F1 on AutoViVQA from 17.6 (zero-shot) to 54.6 and outperforms the
+  officially fine-tuned Vintern-1B on seven of eight metrics while passing 50 instead
+  of up to 1{,}792 visual tokens; with all 144 local tokens it outperforms it on all
+  eight metrics (F1 $+2.3$, CIDEr $+43.9$).
+  \item We study the \textbf{visual token budget} over eight configurations and three
+  seeds and select it with an explicit criterion: the knee of the Pareto front falls
+  on the same configuration for all eight metrics, on validation and test, whether
+  cost is counted in tokens or in measured inference time, and a multi-criteria
+  decision analysis (TOPSIS) confirms the choice.
+  \item We provide a \textbf{component-wise analysis}: local tokens matter far more
+  than global ones and help most on perception-heavy questions; bridges that learn to
+  compress the patches do not beat a bridge over the global vector; and decoder LoRA,
+  which lifts every global-only bridge, is not needed once local tokens are present,
+  as the frozen-decoder model surpasses our best decoder-LoRA model.
+\end{itemize}

@@ -1,0 +1,20 @@
+{
+  "split": "test",
+  "n": 5468,
+  "bridge": "mini_qformer",
+  "n_tiles": 1,
+  "checkpoint": "/kaggle/working/ck/mini_qformer/model.pt",
+  "loss": 1.5929674462257901,
+  "num_samples": 5468,
+  "perplexity": 4.9183220863342285,
+  "accuracy": 0.05888807607900512,
+  "exact_match": 0.06217995610826628,
+  "bleu": 0.13784599129794886,
+  "rouge_l": 0.45347502004515455,
+  "meteor": 0.37891025281847956,
+  "cider": 0.8791596852071326,
+  "precision": 0.4743464005717115,
+  "recall": 0.4988396935909738,
+  "f1": 0.4724843128428384,
+  "wups": 0.05888807607900512
+}

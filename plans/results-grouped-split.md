@@ -13,35 +13,137 @@
 
 ---
 
-## 0. multi_token multi-seed (C2) — ĐÃ KHÓA, 4/4 seed xong
+## 0. multi_token multi-seed (C2) — ĐÃ KHÓA, 4/4 seed @ 2 epoch (seed 42 re-run 07/09)
 
 | seed | CIDEr-D | BLEU-4 | ROUGE-L | F1 |
 |---|---:|---:|---:|---:|
-| 42 | 94.4 | 19.58 | 50.0 | 50.7 |
-| 123 | 91.7 | 19.24 | 48.8 | 49.5 |
-| 2026 | 93.1 | 19.12 | 49.0 | 49.6 |
-| 3407 | 91.8 | 18.80 | 48.9 | 49.5 |
-| **mean ± std (n=4)** | **92.8 ± 1.1** | **19.2 ± 0.3** | **49.2 ± 0.5** | **49.8 ± 0.5** |
+| 42 (re-run 2ep) | 92.5 | 18.5 | 48.9 | 49.61 |
+| 123 | 91.7 | 19.24 | 48.8 | 49.46 |
+| 2026 | 93.1 | 19.12 | 49.0 | 49.64 |
+| 3407 | 91.8 | 18.80 | 48.9 | 49.51 |
+| **mean ± std (n=4)** | **92.3 ± 0.6** | **18.9 ± 0.3** | **48.9 ± 0.1** | **49.55 ± 0.07** |
 | ViMoE-VQA (5 seed) | 88.7 | 12.5 | 47.1 | 60.7 |
 
-**4/4 seed xong, std nhỏ (~1–2% relative)** → multi_token vượt ViMoE trên CIDEr-D
-(+4.1), BLEU-4 (+6.7), ROUGE-L (+2.1) **ổn định qua seed, không phải may rủi seed 42**.
-Vẫn thua F1 rõ rệt (49.8 vs 60.7, −10.9) — nhất quán với 3-way negative ở mục 3
-(frozen decoder là trần). Đây là dòng headline chính thức cho paper.
+**Ghi chú epoch:** seed 42 cũ là 4 epoch (F1 50.7 / CIDEr-D 94.4). Re-run 2ep cho
+F1 49.61 / CIDEr-D 92.5 — khớp 3 seed kia (đều 2ep). Headline giờ đồng nhất 2ep.
 
-## 1. So 5 bridge (val, grouped split, seed 42, 1 tile) — ĐÃ KHÓA
+std nhỏ (~0.1–0.6% relative) → multi_token vượt ViMoE trên CIDEr-D (+3.6),
+BLEU-4 (+6.4), ROUGE-L (+1.8) **ổn định qua seed**. Vẫn thua F1 rõ rệt (49.55 vs
+60.7, −11.2) — nhất quán với 3-way negative ở mục 3 (frozen decoder là trần).
+Đây là dòng headline chính thức cho paper.
 
-Metric pycocoevalcap corpus (chuẩn để so paper khác).
+---
 
-| Bridge | Tham số train | % | CIDEr-D | BLEU-4 | ROUGE-L | F1(token) | val CE |
+## TIER-1 progress + epoch audit — 06/09/2026 13:15 UTC (ĐANG XỬ LÝ, chưa chốt)
+
+### Epoch KHÔNG đồng đều giữa các seed — đang chuẩn hoá về 2 epoch
+
+Kiểm tra `epochs_trained` trong summary.json:
+
+| Nhóm | seed 42 | seed 123 / 2026 / 3407 |
+|---|:--:|:--:|
+| Bridge plain (5 bridge) | **4 ep** (~10h) | **2 ep** (~5h) |
+| multi_token plain 4-seed "khoá" | s42 = 4 ep | s123/2026/3407 = 2 ep |
+| Decoder-LoRA r=16 (mọi bridge, mọi seed) | 1 ep | 1 ep ✅ |
+| Decoder-LoRA biến thể dài | 3 ep | 3 ep (multi_token) ✅ |
+| Dòng âm answer-random | s42 = 4 ep | s123/s3407 = 2 ep |
+| Dòng âm align-feat | s42 = **3 ep** (lạ) | s123/s3407 = 2 ep |
+
+→ LoRA an toàn. Bridge plain + dòng âm bị lệch epoch giữa s42 và các seed khác.
+seed 42 KHÔNG lưu checkpoint epoch-2 (chỉ epoch-4) → không re-eval được.
+
+**Hành động:** đã stash 7 key seed-42 (`__Nep_locked`), checkpoint 4ep lưu ở
+`checkpoints/expA-4ep/seed42/`. Launched lại 7 job seed-42 @ `--epochs 2`
+(2026-09-06 ~13:15 UTC, acc1/4/5/8/10/13/14). Dự kiến ~18:15 UTC. Chuẩn 2 epoch
+= default `run.py` + CIDEr bão hoà từ ep2.
+
+### residual seed-42 @ 4ep là LẦN CHẠY HỎNG, không phải "bridge yếu"
+
+| residual | best val loss | F1(token) | CIDEr-D (corpus, full-val) |
+|---|--:|--:|--:|
+| seed 42 @ 4ep (số cũ ở §1, §4b, blueprint) | **2.354** ⚠️ | 36.45 | 56.3 |
+| seed 42 @ 2ep (re-run) | **1.650** ✅ | **45.91** | **81.6** |
+| seed 123 @ 2ep | 1.672 | 45.14 | 80.2 |
+| seed 3407 @ 2ep | 1.676 | 45.88 | 81.5 |
+| **mean 3-seed @ 2ep** | | **45.64** | **~81.1** |
+
+**ĐÃ XÁC NHẬN:** val loss 2.35 của seed-42 @ 4ep là bất thường (mọi seed/bridge
+khác 1.5–1.7). seed-42 @ 2ep re-run cho val loss 1.65, F1 45.91 — bình thường
+hoá hoàn toàn. Lần chạy 4ep là training instability, KHÔNG phải đặc tính residual.
+
+**Hệ quả cho paper:** câu chuyện "residual = bridge tệ nhất (F1 36.5) → sau LoRA
+lên ngang hàng, ΔF1 +16.2" (§4b, §5.6/§5.7 draft) **bị bác bỏ**. residual plain
+= F1 45.6 (3-seed) → + LoRA ~52.6 = **ΔF1 ~+7**, giống các bridge khác. Điểm
+"san bằng bridge" VẪN đúng (mọi bridge plain 45–50 → + LoRA 52–53) nhưng bỏ hẳn
+con số +16.2 và "started 38 points apart" (thực ra ~7–8 điểm).
+
+### GOTCHA rescore: dùng text_predictions_epoch_1.json (full-val 5463), KHÔNG phải epoch_2 (600-subset)
+
+Job 2-epoch ghi text-metrics epoch 2 chỉ trên 600 mẫu (`--text-metrics-max-samples
+600`); bước `src.cli.evaluate` cuối ghi `text_predictions_epoch_1.json` full-val.
+Các số CIDEr-D dưới đây đã rescore lại đúng từ epoch_1 (n=5463).
+
+### Số 1a + neg rows (seed @ 2ep, full-val n=5463, in-house F1/CIDEr + corpus CIDEr-D)
+
+| bridge · seed | F1 | CIDEr(ih) | BLEU(ih) | ROUGE(ih) | MET(ih) | val loss | CIDEr-D | BLEU-4 | ROUGE-L |
+|---|--:|--:|--:|--:|--:|--:|--:|--:|--:|
+| multi_token · 42 | 49.61 | 96.72 | 15.28 | 47.86 | 40.05 | 1.4933 | 92.5 | 18.5 | 48.9 |
+| mini_qformer · 123 | 46.16 | 86.33 | 13.43 | 44.45 | 36.79 | 1.615 | 81.7 | 16.2 | 45.5 |
+| mini_qformer · 3407 | 45.54 | 84.28 | 13.03 | 43.87 | 36.13 | 1.603 | 79.7 | 15.8 | 44.9 |
+| qformer · 3407 | 47.13 | 89.01 | 14.01 | 45.38 | 37.62 | 1.566 | 84.8 | 17.0 | 46.5 |
+| qformer · 42 | 47.56 | 90.11 | 13.81 | 45.86 | — | 1.606 | 85.4 | 16.6 | 47.0 |
+| qformer · 123 | 47.35 | 90.82 | — | — | — | 1.560 | 85.9 | 16.6 | 46.7 |
+| residual · 42 | 45.91 | 86.70 | 12.89 | 43.92 | 36.38 | 1.6503 | 81.6 | 15.7 | 45.2 |
+| residual · 123 | 45.14 | 85.38 | 12.50 | 43.23 | 36.27 | 1.672 | 80.2 | 14.8 | 44.5 |
+| residual · 3407 | 45.88 | 86.67 | 12.70 | 44.10 | 36.82 | 1.676 | 81.5 | 15.5 | 45.2 |
+| tile_attention · 123 | 46.49 | 86.48 | 12.66 | 44.60 | 37.12 | 1.646 | 81.9 | 15.5 | 45.8 |
+| tile_attention · 3407 | 44.51 | 82.37 | 12.13 | 42.59 | 35.53 | 1.706 | 77.2 | 14.5 | 43.8 |
+| answer-random · 42 | 48.05 | 89.89 | 14.31 | 46.26 | 38.04 | 1.7749 | 86.3 | 17.6 | 47.2 |
+| answer-random · 123 | 48.19 | 91.28 | 14.14 | 46.41 | 38.43 | 1.551 | 87.5 | 17.2 | 47.4 |
+| answer-random · 3407 | 48.01 | 90.53 | 14.34 | 46.37 | 38.54 | 1.552 | 86.4 | 17.3 | 47.4 |
+| align-feat · 123 | 49.38 | 96.41 | 15.65 | — | — | 1.495 | 92.3 | 18.8 | 48.8 |
+| align-feat · 3407 | 49.39 | 96.14 | 15.13 | — | — | 1.496 | 91.7 | 18.1 | 48.9 |
+| align-logit · 42 | 39.67 | 74.71 | 7.66 | — | — | 2.097 | 68.3 | 9.3 | 38.9 |
+| align-logit · 123 | 40.04 | 74.72 | 8.70 | — | — | 2.101 | 68.3 | 10.4 | 39.4 |
+| align-logit · 3407 | 42.54 | 82.09 | 9.54 | — | — | 1.964 | 75.5 | 11.5 | 42.0 |
+
+**Đang chờ seed-42 @ 2ep:** qformer, mini_qformer, tile_attention, align-feat.
+
+Nhận xét: với 2 epoch, các bridge phụ chụm F1 44.5–49.6, CIDEr-D 77–92 — chênh
+lệch giữa bridge nhỏ hơn NHIỀU so với bảng §1 cũ (dùng seed-42 với residual hỏng).
+answer-random ≈ F1 48.1 (ΔF1 −1.5 vs anchor 49.56) — âm nhẹ, nhất quán.
+align-logit α=1.0 ≈ F1 40.75 (ΔF1 −8.8, KL lấn CE); α=0.1 ≈ F1 49.75 (ΔF1 +0.20, NULL).
+
+### Còn chạy (20:00 UTC)
+
+- seed-42 @ 2ep: qformer, mini_qformer, tile_attention, align-feat — 4 job
+- LoRA 5ep (epoch curve) — 1 job
+- TIER-2 MLP-only × 3 seed — 3 job
+- 7 job seed-42 @ 2ep re-run vừa launch
+
+---
+
+## 1. So 5 bridge (val, grouped split, 1 tile, 2 epoch, 3-seed) — CẬP NHẬT 07/09
+
+F1/val CE = in-house; CIDEr-D/BLEU-4/ROUGE-L = pycocoevalcap corpus. Mọi số là
+**trung bình 3 seed @ 2 epoch** (multi_token = 4 seed). ± = độ lệch chuẩn.
+
+| Bridge | Tham số | % | CIDEr-D | BLEU-4 | ROUGE-L | F1(token) | val CE |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| **Multi-Token** (8 tok pooled) | 7.35M | 0.78 | **94.4** | **19.6** | **50.0** | **44.2** | **1.49** |
-| Full Q-Former (16 query) | 69.4M | 6.91 | 86.7 | 17.5 | 47.1 | 43.3 | 1.57 |
-| Light Q-Former (8 query) | 27.6M | 2.87 | 83.8 | 16.8 | 46.0 | 42.9 | 1.59 |
-| Tile-Attention (8 tok) | 4.14M | 0.44 | 82.7 | 16.3 | 46.1 | 43.0 | 1.62 |
-| Residual (1 tok) | 4.86M | 0.52 | 56.3 | 8.1 | 36.0 | 37.6 | 2.35 |
+| **Multi-Token** (8 tok pooled) | 7.35M | 0.78 | **92.3** ± 0.6 | **18.9** | **48.9** | **49.55** ± 0.07 | **1.49** |
+| Full Q-Former (16 query) | 69.4M | 6.91 | 85.4 ± 0.5 | 16.7 | 46.7 | 47.35 ± 0.17 | 1.58 |
+| Light Q-Former (8 query) | 27.6M | 2.87 | 81.7 ± 1.7 | 16.3 | 45.5 | 46.25 ± 0.62 | 1.60 |
+| Tile-Attention (8 tok) | 4.14M | 0.44 | 79.0 ± 2.1 | 14.8 | 44.5 | 45.17 ± 0.94 | 1.67 |
+| Residual (1 tok) | 4.86M | 0.52 | 81.1 ± 0.6 | 15.3 | 45.0 | 45.64 ± 0.36 | 1.67 |
 
-Multi-token tốt nhất mọi mặt **và** có CE thấp nhất — quan trọng cho §2 dưới.
+**Thay đổi lớn so với bản cũ (seed-42-only, 4ep):** residual không còn là ngoại
+lai — F1 45.64 / CIDEr-D 81.1 (bản cũ 37.6 / 56.3 là lần chạy hỏng, val CE 2.35).
+Khoảng CIDEr-D giữa 5 bridge giờ 79–92 (bản cũ 56–94). F1 giữa 5 bridge 45.2–49.6
+(chênh ~4.4 điểm, bản cũ ~13). Multi-Token vẫn tốt nhất mọi mặt + val CE thấp nhất.
+
+Per-seed (F1): multi_token {49.61, 49.46, 49.51, 49.64}; qformer {47.56, 47.35,
+47.13}; mini_qformer {47.05, 46.16, 45.54}; residual {45.91, 45.14, 45.88};
+tile_attention {44.50, 46.49, 44.51}.
 
 ## 2. Multi-Token vs prior work trên AutoViVQA — ĐÃ KHÓA (val, seed 42)
 
@@ -62,21 +164,30 @@ file là ĐÚNG, đã confirm chứ không phải giả định.</small>
 **Thắng rõ (metric sinh ổn định):** CIDEr-D +5.7 / BLEU-4 +7.0 / ROUGE-L +2.9 so với ViMoE.
 **Thua:** F1 token-level, Acc. → §3.
 
-## 3. Ba can thiệp khép F1 gap — TẤT CẢ ÂM (val, seed 42, anchor = 50.7 / 94.4) — ĐÃ KHÓA
+## 3. Can thiệp khép F1 gap — TẤT CẢ ÂM (2 epoch, 3-seed, anchor = 49.55) — CẬP NHẬT 07/09
 
-| Can thiệp (trục) | F1 | CIDEr-D | Δ F1 |
-|---|---:|---:|---:|
-| baseline `first` | 50.7 | 94.4 | — |
-| answer-sampling=random (training target) | 49.0 | 87.3 | −1.7 |
-| align-feat α=1.0 (representation alignment) | 49.7 | 92.0 | −1.0 |
-| align-logit α=1.0 (representation alignment) | 40.7† | 80.1† | −10 |
+| Can thiệp (trục) | F1 (3-seed) | CIDEr-D | Δ F1 | val CE |
+|---|---:|---:|---:|---:|
+| baseline `first` (multi_token) | 49.55 ± 0.07 | 92.3 | — | 1.49 |
+| answer-sampling=random (training target) | 48.08 ± 0.08 | ~86.7 | **−1.47** | 1.63 |
+| align-feat α=1.0 (representation alignment) | 49.53 ± 0.20 | 92.1 | **−0.03** | 1.50 |
+| align-logit **α=0.1** (representation alignment) | 49.75 ± 0.29 | 91.9 | **+0.20** | 1.53 |
+| align-logit α=1.0 (representation alignment) | 40.75 ± 1.27 | ~70.7 | **−8.80** | ~2.05 |
 
-<small>† ep2 subset — bị cắt trước full-val. val CE 2.84 (vs 1.49) → KL term ở weight 1.0 chèn CE.</small>
+<small>align-feat = **NULL sạch** (ΔF1 −0.03). align-logit **α=0.1 cũng NULL**
+(ΔF1 +0.20, val CE 1.53 ≈ baseline 1.49) — 3-seed full-val, re-run 2026-09-07
+(bị cắt ở cap 12h nhưng train 2ep + eval val đã xong). align-logit α=1.0 sụp
+(ΔF1 −8.80, val CE ~2.05) **CHỈ do α quá lớn**: KL lấn CE gây nhiễu tối ưu, KHÔNG
+phải vì logit-KD tự thân xấu. → caveat "có thể do sai trọng số KD" ĐÃ BỎ — alignment
+ở mọi cường độ hợp lý là null thật.</small>
 
-**Kết luận (§6.1):** ba trục độc lập — phân bổ visual compute (routing, §5.2–5.4), training
-target, representation alignment — đều **không** cải thiện token-F1. multi_token đã đạt CE
-thấp nhất trong 5 bridge. → **frozen Qwen2-0.5B decoder LÀ trần cho khớp phrasing;
-capacity phía thị giác/training KHÔNG phải nút thắt.**
+**Kết luận (§6.1) — MẠNH HƠN:** bốn trục độc lập — phân bổ visual compute
+(routing, §5.2–5.4), số tile, training target, representation alignment — đều
+**không** cải thiện token-F1 (align-feat = 0, answer-random = −1.5, routing ≈ 0,
+tile < 0). multi_token đã đạt CE thấp nhất trong 5 bridge. → **frozen Qwen2-0.5B
+decoder LÀ trần cho khớp phrasing; capacity phía thị giác / training KHÔNG phải
+nút thắt.** Trục decoder-LoRA (§4b, §4d) là hướng DUY NHẤT dương — và cụ thể là
+attention của decoder (§4d).
 
 ## 4. Error analysis (multi_token, val 5463) — ĐÃ KHÓA
 
@@ -150,7 +261,7 @@ LoRA r=16 trên q/k/v/o của Qwen2-0.5B, huấn luyện cùng bridge multi_toke
 
 | | Plain (mean 4 seed) | **LoRA r=16 (mean 3 seed)** | Δ | ViMoE |
 |---|---:|---:|---:|---:|
-| F1 | 49.8 | **53.17** | **+3.4** | 60.7 |
+| F1 | 49.8 | **53.52** | **+3.7** | 60.7 |
 | CIDEr (in-house) | 97.0 | **~105.6** | **+8.6** | — |
 | BLEU | 16.0 | **~19.5** | **+3.5** | 12.5 |
 | Acc | 8.3 | **10.4** (2-seed) | **+2.1** | 9.7 |
@@ -162,7 +273,7 @@ thấp hơn hẳn plain (1.37–1.39 vs 1.49).
 **Ý nghĩa cho paper:** đây là can thiệp DUY NHẤT trong tất cả các thử (routing, answer-
 sampling, align-KD, decoder-LoRA) thực sự cải thiện F1 — và nó là can thiệp DUY NHẤT
 đụng vào decoder. Càng củng cố §6.1: **frozen decoder là trần**; mở nó ra (dù rất nhẹ,
-~2% param LoRA) mới nhích được, còn mọi can thiệp phía thị giác/training đều vô ích.
+0.23% param LoRA) mới nhích được, còn mọi can thiệp phía thị giác/training đều vô ích.
 
 Đóng khung: multi_token + LoRA vẫn KHÔNG phải "frozen backbone" nữa — trình bày như
 **phần bổ sung/reference point**, không phải spine chính (spine chính vẫn là bridge
@@ -175,7 +286,7 @@ Tất cả LoRA runs trước chỉ 1 epoch (cố tình test nhanh). Chạy lạ
 
 | | LoRA r=16 · 1 epoch (mean 3 seed) | **LoRA r=16 · 3 epoch (mean 3 seed)** | Δ | ViMoE |
 |---|---:|---:|---:|---:|
-| F1 (in-house) | 53.17 ± 0.03 | **54.67 ± 0.15** | **+1.5** | 60.7 |
+| F1 (in-house) | 53.52 ± 0.11 | **54.71 ± 0.14** | **+1.2** | 60.7 |
 | CIDEr-D (corpus) | 101.7 (seed42) | **106.8 ± 1.1** | **+5.1** | 88.7 |
 | BLEU-4 (corpus) | 23.2 (seed42) | **25.0 ± 0.4** | **+1.8** | 12.5 |
 | ROUGE-L (corpus) | 52.7 (seed42) | **54.2 ± 0.2** | **+1.5** | 47.1 |
@@ -277,29 +388,29 @@ rõ ràng đáng để đánh đổi thêm tham số.
 Cực kỳ khít (std 0.11, nhỏ hơn cả multi_token's 0.03... thực ra tương đương) — xác
 nhận chắc chắn decoder-LoRA generalize sang qformer, không phải may rủi seed.
 
-### Bridge-agnostic mở rộng 4/5: mini_qformer + residual — ĐÃ XONG, residual gây bất ngờ lớn
+### Bridge-agnostic 5/5: decoder-LoRA có lợi ở MỌI bridge — CẬP NHẬT 07/09 (plain @ 2ep 3-seed)
 
-LoRA r=16 áp thêm lên 2 bridge nữa (seed42, full-val n=5463, in-house + corpus):
+plain = trung bình 3 seed @ 2 epoch (§1). +LoRA = LoRA r=16, 1 epoch (multi_token
+/ qformer / mini_qformer / residual = mean 3-seed; tile_attention = seed 42).
 
-| bridge | | plain | +LoRA r=16 | Δ |
-|---|---|---:|---:|---:|
-| mini_qformer | F1 | 46.63 | **53.39** | **+6.8** |
-| | CIDEr-D (corpus) | 83.8 | **103.3** | **+19.5** |
-| | BLEU-4 (corpus) | 16.8 | **24.1** | **+7.3** |
-| | val loss | 1.585 | **1.370** | −0.22 |
-| **residual** (bridge yếu nhất) | F1 | 36.45 | **52.66** | **+16.2** |
-| | CIDEr-D (corpus) | 56.3 | **100.0** | **+43.7** |
-| | BLEU-4 (corpus) | 8.1 | **22.1** | **+14.0** |
-| | val loss | 2.354 | **1.400** | **−0.95** |
+| bridge | F1 plain | F1 +LoRA | ΔF1 | CIDEr-D plain | CIDEr-D +LoRA | ΔCIDEr-D |
+|---|---:|---:|---:|---:|---:|---:|
+| multi_token | 49.55 | 53.52 | **+4.0** | 92.3 | 101.7 | +9.4 |
+| qformer | 47.36 | 53.21 | **+5.9** | 86.9 | 102.4 | +15.5 |
+| mini_qformer | 46.25 | 53.21 | **+7.0** | 83.7 | 103.0 | +19.3 |
+| residual | 45.64 | 52.64 | **+7.0** | 81.1 | 100.8 | +19.7 |
+| tile_attention | 45.17 | 52.99 | **+7.8** | 79.0 | 102.0 | +23.0 |
 
-**Residual đi từ bridge TỆ NHẤT (§1: CIDEr-D 56.3, cách xa nhóm 82-94) lên NGANG HÀNG
-với mọi bridge khác sau LoRA (CIDEr-D 100.0, so với multi_token+LoRA 101.7, qformer+LoRA
-101.9, mini_qformer+LoRA 103.3)** — chênh lệch giữa các bridge gần như BIẾN MẤT sau khi
-mở decoder. Đây là bằng chứng mạnh nhất cho luận điểm §6.1: khi decoder được mở (dù
-chỉ LoRA r=16, ~2% param), **bridge nào cho decoder cũng dùng được gần như nhau** —
-cái quyết định chất lượng cuối không phải bridge tinh vi cỡ nào, mà là decoder có
-capacity để khai thác hay không. Giờ đã 4/5 bridge (multi_token, qformer, mini_qformer,
-residual) đều xác nhận decoder-LoRA có lợi, chỉ còn tile_attention chưa test.
+**San bằng bridge (điểm §6.1):** 5 bridge plain trải F1 **45.2–49.6** (~4.4 điểm)
+và CIDEr-D **79–92** (~13 điểm), với 3 kiểu trộn token khác nhau (pool / dense
+attention / query). Sau LoRA r=16 (0.23% param) tất cả hội tụ về **F1 52.6–53.2**
+(dải ~0.6) và **CIDEr-D 100.8–103.0** (dải ~2.2). Mức nâng LỚN HƠN khi bridge
+plain yếu hơn (multi_token +4.0 → tile_attention +7.8). → khi decoder có capacity,
+**thiết kế bridge gần như không còn ảnh hưởng đến chất lượng cuối**.
+
+*(Đã bỏ hẳn câu chuyện cũ "residual từ bridge tệ nhất F1 36.5 → +16.2": số 36.5
+là lần chạy seed-42 hỏng. residual plain thật = 45.64, ΔF1 +7.0 như các bridge
+khác.)*
 
 ### B3: tile-sweep multi_token @ {1,3,6,12} — ĐÃ XONG 3/4 (tile 12 bị cắt ở mốc 12h, KHÔNG cần)
 
@@ -346,6 +457,44 @@ tile không giúp gì thêm — khớp với câu chuyện "1 tile không phải
 multi_token cụ thể", không phải "1 tile luôn đủ cho MỌI bridge". Cần full-val eval
 riêng (standalone, giống cách làm với LoRA) để có số so sánh chuẩn — chưa làm, ghi
 nhận là việc còn lại.
+
+## 4d. TIER-2: decoder-LoRA localization (RQ6 sâu hơn) — ĐÃ XONG (07/09)
+
+LoRA r=16, α=32, 1 epoch, multi_token, 3-seed. Thay đổi target module:
+
+| Target LoRA | F1 (3-seed) | val loss | Kết luận |
+|---|--:|--:|---|
+| **attn-only** (q/k/v/o) — recipe hiện tại | **53.52** | 1.37 | ✅ +4.0 vs plain, ổn định |
+| MLP-only (gate/up/down_proj) | **20.24 ± 1.52** | ~3.7 | 💥 **PHÂN KỲ** |
+| attn + MLP (cả 7 module) | **37.51 ± 1.70** | ~2.08 | 💥 tệ (phần attn cứu lại một phần) |
+
+**Phát hiện:** dư địa hữu ích của decoder nằm **cụ thể ở các projection của
+attention**. LoRA lên feed-forward (gate/up/down) ở cùng cấu hình làm training
+phân kỳ (val loss 3–4 vs 1.37) — F1 sụp còn ~20. attn+MLP đỡ hơn MLP-only (attn
+kéo lại) nhưng vẫn tệ hơn plain.
+
+→ Làm **sắc nét** RQ6: không phải "mở decoder" chung chung, mà là **mở riêng
+attention**. Câu chuyện paper: "the useful capacity is in the decoder's attention
+layers, not its feed-forward path".
+
+**Cần trung thực (ghi rõ trong paper):** kết quả MLP-only/attn+MLP có thể là
+hyperparameter artifact — α=32 quá mạnh cho MLP (intermediate dim ~4864 vs attn
+896), lr không retune, 1 epoch. Claim an toàn: "ở cấu hình của recipe (r=16,
+α=32, 1 epoch, lr khớp), attn-only là target DUY NHẤT vừa ổn định vừa có lợi;
+adapt MLP theo cách này làm phân kỳ." MLP LoRA có thể work nếu retune — ngoài scope.
+
+per-seed MLP-only F1: s42 18.68 / s123 19.74 / s3407 22.30 (loss 3.41/3.26/4.46)
+per-seed attn+MLP F1: s42 38.11 / s123 39.22 / s3407 35.19 (loss 1.99/1.99/2.26)
+
+## 4e. LoRA epoch curve (multi_token, attn-only) — ĐANG CHỜ 5ep
+
+| epoch | F1 | CIDEr (ih) | CIDEr-D |
+|---|--:|--:|--:|
+| 1 | 53.52 | 106.56 | ≈101.7 |
+| 3 | 54.71 | 110.49 | ≈106.8 |
+| 5 | *đang chạy (acc16)* | | |
+
+1→3 ep: +1.5 F1, +5 CIDEr-D. Dự đoán 5ep phẳng dần (~55 F1) → củng cố "đã kịch trần".
 
 ## 5. Còn PENDING (sau reset quota 00:00 UTC 5/9)
 

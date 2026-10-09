@@ -1,0 +1,20 @@
+{
+  "split": "val",
+  "n": 5463,
+  "bridge": "multi_token",
+  "n_tiles": 1,
+  "checkpoint": "/kaggle/working/ck-random/seed123/multi_token/last_model.pt",
+  "loss": 1.551295174152139,
+  "num_samples": 5463,
+  "perplexity": 4.717576026916504,
+  "accuracy": 0.07742998352553541,
+  "exact_match": 0.07926047958996889,
+  "bleu": 0.14139930968290246,
+  "rouge_l": 0.4641250133720812,
+  "meteor": 0.3842625475545418,
+  "cider": 0.9128160698486594,
+  "precision": 0.4903368917372212,
+  "recall": 0.49997814894849485,
+  "f1": 0.48188040643160907,
+  "wups": 0.07742998352553541
+}

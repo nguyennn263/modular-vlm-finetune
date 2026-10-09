@@ -1,0 +1,3919 @@
+{
+  "model": "multi_token bridge, frozen backbone, seed 42 (plain, 2 epochs)",
+  "pred_file": "checkpoints/expA/seed42/multi_token/results/text_predictions_epoch_1.json",
+  "n": 300,
+  "category_counts": {
+    "Câu hỏi có/không": 3,
+    "Lý do/ Nhân quả": 38,
+    "Mô tả hành động": 21,
+    "Mô tả thuộc tính": 1,
+    "Mô tả vị trí/ không gian": 44,
+    "Mối quan hệ": 90,
+    "Suy luận ngữ cảnh": 8,
+    "Xác định số lượng": 38,
+    "Xác định thuộc tính": 2,
+    "Xác định đối tượng/ thuộc tính": 55
+  },
+  "items": [
+    {
+      "id": 1,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.3333,
+      "model_answer": "Trên mặt nước",
+      "refs": [
+        "Ở giữa vườn hoa.",
+        "Nằm trong thành phố.",
+        "Giữa các bản vá hoa.",
+        "Trên vòng xuyến.",
+        "Trong khu vực trung tâm."
+      ]
+    },
+    {
+      "id": 2,
+      "category": "Xác định số lượng",
+      "token_f1": 1.0,
+      "model_answer": "Hai con",
+      "refs": [
+        "Hai con",
+        "Có hai con",
+        "Hai",
+        "Chỉ có hai",
+        "Hai cá thể"
+      ]
+    },
+    {
+      "id": 3,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.5,
+      "model_answer": "Thiết kế hiện đại",
+      "refs": [
+        "Hoa trang trí",
+        "Theo kiểu cổ",
+        "Có nhiều ghế",
+        "Thiết kế đặc biệt",
+        "Phủ hoa văn"
+      ]
+    },
+    {
+      "id": 4,
+      "category": "Mối quan hệ",
+      "token_f1": 0.9231,
+      "model_answer": "Lát pizza được đặt trên mì ống",
+      "refs": [
+        "Lát pizza nằm trên mì ống",
+        "Chúng được đặt cùng trên đĩa",
+        "Mì ống ở dưới lát pizza",
+        "Chúng là các món ăn kèm",
+        "Pizza được đặt trên mì ống"
+      ]
+    },
+    {
+      "id": 5,
+      "category": "Mối quan hệ",
+      "token_f1": 0.7273,
+      "model_answer": "Giao thông đi qua toà nhà",
+      "refs": [
+        "Giao thông chảy ra khỏi toà nhà",
+        "Giao thông gần toà nhà",
+        "Toà nhà là điểm xuất phát của giao thông",
+        "Toà nhà liền kề đường phố",
+        "Giao thông ở phía trước toà nhà"
+      ]
+    },
+    {
+      "id": 6,
+      "category": "Câu hỏi có/không",
+      "token_f1": 1.0,
+      "model_answer": "Có, gần lá cờ",
+      "refs": [
+        "Có, anh ấy đang ở gần một lá cờ.",
+        "Có, người trượt tuyết đang dựa gần cờ.",
+        "Vâng, một lá cờ trên tuyết.",
+        "Đúng vậy, anh ấy gần cờ.",
+        "Có, gần lá cờ."
+      ]
+    },
+    {
+      "id": 7,
+      "category": "Suy luận ngữ cảnh",
+      "token_f1": 0.3333,
+      "model_answer": "Đi trên đường",
+      "refs": [
+        "Đi tìm thức ăn",
+        "Di chuyển đến nơi khác",
+        "Đi đến nguồn nước",
+        "Tìm bóng râm",
+        "Đi theo đàn"
+      ]
+    },
+    {
+      "id": 8,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.5,
+      "model_answer": "Để tránh ngã tư",
+      "refs": [
+        "Để tiếp tục lộ trình",
+        "Có lẽ để đón học sinh",
+        "Vì đây là ngã rẽ",
+        "Để đến điểm dừng tiếp theo",
+        "Để tránh xe cộ"
+      ]
+    },
+    {
+      "id": 9,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.0,
+      "model_answer": "Một cái cây",
+      "refs": [
+        "Những chiếc bánh bò lớn",
+        "Bánh bò lớn",
+        "Bánh bò",
+        "Những chiếc bánh",
+        "Bánh lớn"
+      ]
+    },
+    {
+      "id": 10,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.8,
+      "model_answer": "Vì có nhiều đồ đạc",
+      "refs": [
+        "Có nhiều vật dụng",
+        "Chứa nhiều nội thất",
+        "Để tạo sự tiện nghi",
+        "Do có ghế, bàn và tủ",
+        "Vì có nhiều đồ vật"
+      ]
+    },
+    {
+      "id": 11,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.2222,
+      "model_answer": "Cà phê, bánh và nước ép",
+      "refs": [
+        "Thịt và rau trộn",
+        "Thịt, rau trộn",
+        "Thịt và rau",
+        "Bao gồm thịt và rau trộn",
+        "Gồm thịt và rau"
+      ]
+    },
+    {
+      "id": 12,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.0,
+      "model_answer": "Một phần thịt",
+      "refs": [
+        "Ớt jalapenos và đậu",
+        "Chủ yếu là ớt",
+        "Đậu và ớt xanh",
+        "Gia vị cay",
+        "Lớp phủ đặc trưng"
+      ]
+    },
+    {
+      "id": 13,
+      "category": "Mối quan hệ",
+      "token_f1": 0.3077,
+      "model_answer": "Người đi đường đang đi qua đồn cảnh sát",
+      "refs": [
+        "Họ đi qua mặt tiền",
+        "Họ đi ngang qua",
+        "Họ di chuyển gần đó",
+        "Họ đang ở trước đồn",
+        "Họ đi bộ qua khu vực"
+      ]
+    },
+    {
+      "id": 14,
+      "category": "Mối quan hệ",
+      "token_f1": 0.4,
+      "model_answer": "Bánh ngọt được dán lên tờ giấy",
+      "refs": [
+        "Bánh nằm trên giấy",
+        "Giấy là đế cho bánh",
+        "Giấy gói bánh",
+        "Giấy dùng để lót bánh",
+        "Giấy giữ bánh sạch"
+      ]
+    },
+    {
+      "id": 15,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.0,
+      "model_answer": "Một cuốn sách",
+      "refs": [
+        "Sơ đồ bàn phím máy tính",
+        "Bàn phím máy tính",
+        "Hình ảnh bàn phím",
+        "Trang giải thích bàn phím",
+        "Sơ đồ bàn phím"
+      ]
+    },
+    {
+      "id": 16,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.5714,
+      "model_answer": "Trên bàn",
+      "refs": [
+        "Trong một cái vali",
+        "Trong chiếc vali mở",
+        "Bên trong vali",
+        "Trong vali trước cửa sổ",
+        "Trong cái vali trên bàn"
+      ]
+    },
+    {
+      "id": 17,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.1818,
+      "model_answer": "Để bảo vệ mình",
+      "refs": [
+        "Để vươn tới lá mềm trên cao",
+        "Ăn lá non ở ngọn cây",
+        "Tiếp cận thức ăn trên cao",
+        "Ngửa những chiếc lá mềm",
+        "Lấy lá cây trên cao"
+      ]
+    },
+    {
+      "id": 18,
+      "category": "Mối quan hệ",
+      "token_f1": 0.5455,
+      "model_answer": "Đàn cừu đang đi trên xe",
+      "refs": [
+        "Cừu đang chặn đường xe",
+        "Xe bị cừu làm gián đoạn",
+        "Cừu gây cản trở xe",
+        "Xe đang chờ cừu qua",
+        "Cừu và xe đang đối mặt"
+      ]
+    },
+    {
+      "id": 19,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.2857,
+      "model_answer": "Trên một chiếc xe",
+      "refs": [
+        "trên vỉa hè",
+        "bên đường",
+        "trên đường phố",
+        "ở vỉa hè",
+        "không rõ vị trí cụ thể"
+      ]
+    },
+    {
+      "id": 20,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.2,
+      "model_answer": "Để ghi thời gian",
+      "refs": [
+        "Để mọi người dễ dàng xem giờ",
+        "Tạo điểm nhấn cho kiến trúc",
+        "Thể hiện sự uy nghiêm của tòa nhà",
+        "Để đồng hồ được bảo vệ",
+        "Để đồng hồ không bị che khuất"
+      ]
+    },
+    {
+      "id": 21,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.2857,
+      "model_answer": "Một quả cà chua",
+      "refs": [
+        "Tre",
+        "Thức ăn chính",
+        "Một số cây",
+        "Thực vật",
+        "Cây tre"
+      ]
+    },
+    {
+      "id": 22,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.8,
+      "model_answer": "Màu xanh",
+      "refs": [
+        "Màu xanh lá cây và đen",
+        "Xanh lá và đen",
+        "Xanh lá cây, đen",
+        "Có màu xanh và đen",
+        "Màu xanh đen"
+      ]
+    },
+    {
+      "id": 23,
+      "category": "Câu hỏi có/không",
+      "token_f1": 0.6154,
+      "model_answer": "Có, nó được trang trí",
+      "refs": [
+        "Có, được trang trí bằng các nốt nhạc",
+        "Có, nốt nhạc ở trên bánh",
+        "Đúng vậy, bánh có nốt nhạc",
+        "Vâng, có các nốt nhạc",
+        "Có, trang trí nốt nhạc"
+      ]
+    },
+    {
+      "id": 24,
+      "category": "Xác định số lượng",
+      "token_f1": 1.0,
+      "model_answer": "Hai loại",
+      "refs": [
+        "Hai loại thuyền",
+        "Có hai loại",
+        "Hai loại chính",
+        "Hai loại thuyền khác nhau",
+        "Hai loại"
+      ]
+    },
+    {
+      "id": 25,
+      "category": "Mối quan hệ",
+      "token_f1": 0.6154,
+      "model_answer": "Thức ăn được đặt trên máy tính",
+      "refs": [
+        "Máy tính nằm sau thức ăn",
+        "Thức ăn ở trước máy tính",
+        "Máy tính và thức ăn gần nhau",
+        "Máy tính ở phía sau đồ ăn",
+        "Thức ăn ở phía trước laptop"
+      ]
+    },
+    {
+      "id": 26,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.6667,
+      "model_answer": "Gạch màu trắng",
+      "refs": [
+        "Màu nâu sẫm",
+        "Nâu sẫm",
+        "Gạch màu nâu",
+        "Nâu",
+        "Màu nâu"
+      ]
+    },
+    {
+      "id": 27,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.5,
+      "model_answer": "Màu trắng",
+      "refs": [
+        "Màu xanh",
+        "Màu xanh lam",
+        "Màu xanh nước biển",
+        "Xanh",
+        "Xanh dương"
+      ]
+    },
+    {
+      "id": 28,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.8571,
+      "model_answer": "Trên xe máy",
+      "refs": [
+        "Trên đầu của xe máy",
+        "Trên một chiếc xe máy",
+        "Trên chiếc xe máy cổ điển",
+        "Trên chiếc xe máy đậu",
+        "Trên ghế xe máy"
+      ]
+    },
+    {
+      "id": 29,
+      "category": "Mô tả hành động",
+      "token_f1": 0.0,
+      "model_answer": "Đang bơi",
+      "refs": [
+        "Đứng xung quanh",
+        "Đi vào hố nước",
+        "Đi bộ gần hồ",
+        "Tụ tập lại",
+        "Tìm nước uống"
+      ]
+    },
+    {
+      "id": 30,
+      "category": "Mối quan hệ",
+      "token_f1": 0.3333,
+      "model_answer": "Các xuồng đậu trước bến tàu",
+      "refs": [
+        "Chúng được kéo đến bến tàu",
+        "Đang chờ được thuê",
+        "Được kéo đến và chờ thuê",
+        "Chúng chờ thuê ở bến tàu",
+        "Được kéo đến bến"
+      ]
+    },
+    {
+      "id": 31,
+      "category": "Mối quan hệ",
+      "token_f1": 0.7143,
+      "model_answer": "Con dao dùng để cắt củ cà rốt",
+      "refs": [
+        "Dao đang cắt cà rốt",
+        "Dao dùng để thái cà rốt",
+        "Dao đang xử lý cà rốt",
+        "Dao và cà rốt đang được dùng",
+        "Dao đang cắt nhỏ cà rốt"
+      ]
+    },
+    {
+      "id": 32,
+      "category": "Mối quan hệ",
+      "token_f1": 0.4286,
+      "model_answer": "Người đàn ông đứng cạnh hai người đàn ông ngồi",
+      "refs": [
+        "Đứng giữa hai người",
+        "Ở giữa họ",
+        "Giữa những người ngồi",
+        "Người đứng ở giữa",
+        "Giữa hai người kia"
+      ]
+    },
+    {
+      "id": 33,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.5455,
+      "model_answer": "Để tạo không gian thoải mái",
+      "refs": [
+        "Phục vụ nhiều khách",
+        "Tạo không gian đa dạng",
+        "Tối ưu hóa sức chứa",
+        "Mang lại sự thoải mái",
+        "Đáp ứng nhu cầu khác nhau"
+      ]
+    },
+    {
+      "id": 34,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.8571,
+      "model_answer": "Để chụp ảnh",
+      "refs": [
+        "Để chụp ảnh đẹp",
+        "Chúng đang được quay phim",
+        "Chúng tò mò về máy ảnh",
+        "Chắc là thói quen",
+        "Để người ta nhìn thấy"
+      ]
+    },
+    {
+      "id": 35,
+      "category": "Xác định số lượng",
+      "token_f1": 0.4,
+      "model_answer": "Hai con",
+      "refs": [
+        "Vài con vịt",
+        "Một vài con",
+        "Nhiều con vịt",
+        "Không xác định rõ",
+        "Một số con"
+      ]
+    },
+    {
+      "id": 36,
+      "category": "Mối quan hệ",
+      "token_f1": 0.6154,
+      "model_answer": "Gia đình đang chở những con diều",
+      "refs": [
+        "Diều ở phía sau gia đình",
+        "Gia đình gần diều đang bay",
+        "Diều ở trên bầu trời",
+        "Diều làm bối cảnh chụp ảnh",
+        "Gia đình đứng cạnh diều"
+      ]
+    },
+    {
+      "id": 37,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.6,
+      "model_answer": "Một chiếc xe hơi",
+      "refs": [
+        "Xe buýt trường học",
+        "Một chiếc xe buýt trường học",
+        "Xe buýt",
+        "Phương tiện xe buýt",
+        "Xe buýt học sinh"
+      ]
+    },
+    {
+      "id": 38,
+      "category": "Mối quan hệ",
+      "token_f1": 0.7273,
+      "model_answer": "Người đi xe buýt",
+      "refs": [
+        "Người lên xuống xe buýt",
+        "Hành khách đang sử dụng xe buýt",
+        "Người đang tương tác với xe buýt",
+        "Người đang đi lại bằng xe buýt",
+        "Người lên và xuống xe buýt"
+      ]
+    },
+    {
+      "id": 39,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.75,
+      "model_answer": "Trên một cánh đồng",
+      "refs": [
+        "Trên cánh đồng cỏ",
+        "Trong cánh đồng cỏ",
+        "Tại khu vực cỏ",
+        "Ở bãi cỏ",
+        "Cánh đồng xanh"
+      ]
+    },
+    {
+      "id": 40,
+      "category": "Mô tả thuộc tính",
+      "token_f1": 0.6667,
+      "model_answer": "Có nhiều cây cối",
+      "refs": [
+        "Cỏ khô",
+        "Khô cằn",
+        "Màu vàng úa",
+        "Có ngựa vằn",
+        "Không có nhiều cây xanh"
+      ]
+    },
+    {
+      "id": 41,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.25,
+      "model_answer": "Đang bị bỏ trống",
+      "refs": [
+        "Cũ và rỉ sét",
+        "Rỉ sét và đã cũ",
+        "Đã cũ và có rỉ sét",
+        "Cũ, có dấu hiệu rỉ sét",
+        "Xuống cấp, bị rỉ"
+      ]
+    },
+    {
+      "id": 42,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.5,
+      "model_answer": "Đường phố",
+      "refs": [
+        "Đường đất",
+        "Một con đường đất",
+        "Đường đất",
+        "Trên đường đất",
+        "Đường đất"
+      ]
+    },
+    {
+      "id": 43,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.25,
+      "model_answer": "Để làm sáng",
+      "refs": [
+        "Có thể đèn trong nhà bật",
+        "Ánh sáng từ bên trong",
+        "Có lẽ có đèn đường",
+        "Do ánh trăng",
+        "Do đèn ngoài hiên"
+      ]
+    },
+    {
+      "id": 44,
+      "category": "Mối quan hệ",
+      "token_f1": 0.4,
+      "model_answer": "Con ngựa đang ngồi trên toa tải",
+      "refs": [
+        "Kéo toa tải",
+        "Đang kéo",
+        "Nó kéo toa tải",
+        "Ngựa kéo xe",
+        "Kéo xe đầy túi"
+      ]
+    },
+    {
+      "id": 45,
+      "category": "Mối quan hệ",
+      "token_f1": 0.7692,
+      "model_answer": "Máy bay đậu trên sân bay",
+      "refs": [
+        "Máy bay đang ở trên sân bay",
+        "Sân bay là nơi máy bay đỗ",
+        "Máy bay thuộc về sân bay",
+        "Máy bay đang sử dụng sân bay",
+        "Sân bay chứa máy bay"
+      ]
+    },
+    {
+      "id": 46,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.8889,
+      "model_answer": "Để tìm thức ăn",
+      "refs": [
+        "Để tìm kiếm thức ăn",
+        "Để tránh những nguy hiểm khác",
+        "Để dạy con kỹ năng sinh tồn",
+        "Có thể chúng đang di chuyển đến nơi ở mới",
+        "Vì ban ngày quá nóng"
+      ]
+    },
+    {
+      "id": 47,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.8,
+      "model_answer": "Trên tường",
+      "refs": [
+        "Gắn trên một bức tường",
+        "Vào một bên của bức tường gạch",
+        "Trên bức tường",
+        "Được treo trên tường",
+        "Bên cạnh nước"
+      ]
+    },
+    {
+      "id": 48,
+      "category": "Xác định số lượng",
+      "token_f1": 0.6667,
+      "model_answer": "Bốn cửa sổ",
+      "refs": [
+        "Nhiều cửa sổ",
+        "Rất nhiều",
+        "Không đếm được",
+        "Vô số",
+        "Rất nhiều cửa"
+      ]
+    },
+    {
+      "id": 49,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.5714,
+      "model_answer": "Để ăn pizza",
+      "refs": [
+        "Để cắt dễ dàng hơn",
+        "Vì topping nhiều",
+        "Để ăn lịch sự",
+        "Vì bánh pizza lớn",
+        "Để không bị bỏng tay"
+      ]
+    },
+    {
+      "id": 50,
+      "category": "Mối quan hệ",
+      "token_f1": 0.5,
+      "model_answer": "Pizza được đặt trên chảo",
+      "refs": [
+        "Mỗi pizza nằm trong một chảo riêng",
+        "Chảo dùng để đựng và nấu pizza",
+        "Chảo giữ pizza nóng",
+        "Pizza được nấu trực tiếp trong chảo",
+        "Chảo giúp tạo hình cho pizza"
+      ]
+    },
+    {
+      "id": 51,
+      "category": "Mối quan hệ",
+      "token_f1": 0.8571,
+      "model_answer": "Máy bay bay qua hàng rào",
+      "refs": [
+        "Máy bay bay phía trên hàng rào",
+        "Máy bay đang bay thấp qua hàng rào",
+        "Hàng rào ở dưới máy bay",
+        "Máy bay đang vượt qua hàng rào",
+        "Máy bay bay trên hàng rào"
+      ]
+    },
+    {
+      "id": 52,
+      "category": "Mối quan hệ",
+      "token_f1": 0.7143,
+      "model_answer": "Ván lướt sóng ở trên lan can",
+      "refs": [
+        "Ván lướt sóng dựa vào lan can",
+        "Ván lướt sóng được chống vào lan can",
+        "Ván lướt sóng đang dựa vào lan can",
+        "Ván lướt sóng tựa vào lan can",
+        "Chúng dựa vào nhau"
+      ]
+    },
+    {
+      "id": 53,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.8,
+      "model_answer": "Trên đường",
+      "refs": [
+        "Trên đường băng",
+        "Bên cạnh máy bay",
+        "Trong sân bay",
+        "Gần máy bay",
+        "Trên đường sân bay"
+      ]
+    },
+    {
+      "id": 54,
+      "category": "Xác định số lượng",
+      "token_f1": 0.5,
+      "model_answer": "Ba chiếc",
+      "refs": [
+        "Một chiếc",
+        "Một máy bay",
+        "Chỉ một",
+        "Một",
+        "Chỉ có một"
+      ]
+    },
+    {
+      "id": 55,
+      "category": "Mối quan hệ",
+      "token_f1": 0.9091,
+      "model_answer": "Động cơ tàu chở xe đẩy",
+      "refs": [
+        "Động cơ kéo các xe đẩy",
+        "Động cơ chở xe đẩy",
+        "Động cơ di chuyển xe đẩy",
+        "Động cơ vận chuyển xe đẩy",
+        "Động cơ mang theo xe đẩy"
+      ]
+    },
+    {
+      "id": 56,
+      "category": "Mô tả hành động",
+      "token_f1": 0.3333,
+      "model_answer": "Một lớp mì",
+      "refs": [
+        "Có khuôn mặt được làm trên đó",
+        "Một khuôn mặt được tạo hình",
+        "Có hình mặt người",
+        "Được làm thành khuôn mặt",
+        "Một khuôn mặt"
+      ]
+    },
+    {
+      "id": 57,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.5455,
+      "model_answer": "Để điều khiển máy bay",
+      "refs": [
+        "Để có tầm nhìn tốt hơn.",
+        "Để tránh chướng ngại vật.",
+        "Để máy bay bay xa hơn.",
+        "Vì gió trên cao mạnh hơn.",
+        "Có thể là địa điểm quen thuộc."
+      ]
+    },
+    {
+      "id": 58,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.8889,
+      "model_answer": "Vì họ đang vui vẻ",
+      "refs": [
+        "Vì họ đang tạo dáng chụp ảnh",
+        "Vì họ vui vẻ",
+        "Có thể họ đang chiến thắng",
+        "Do đang thi đấu vui vẻ",
+        "Họ đang tận hưởng"
+      ]
+    },
+    {
+      "id": 59,
+      "category": "Mối quan hệ",
+      "token_f1": 0.8333,
+      "model_answer": "Họ đang đứng cạnh tòa nhà",
+      "refs": [
+        "Họ đang ở gần tòa nhà",
+        "Họ đứng bên ngoài tòa nhà",
+        "Đứng cạnh tòa nhà",
+        "Tòa nhà ở phía sau họ",
+        "Họ đang đứng trước tòa nhà"
+      ]
+    },
+    {
+      "id": 60,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.5714,
+      "model_answer": "Đậu trên đường",
+      "refs": [
+        "Đậu dọc theo bên đường.",
+        "Đậu bên lề đường.",
+        "Đậu trên vỉa hè.",
+        "Đậu gần nhà máy rượu.",
+        "Đậu trước vườn nho."
+      ]
+    },
+    {
+      "id": 61,
+      "category": "Mối quan hệ",
+      "token_f1": 0.5714,
+      "model_answer": "Đèn nằm trên cột",
+      "refs": [
+        "Đèn gắn liền với cột",
+        "Đèn được gắn vào cột",
+        "Cột giữ đèn",
+        "Đèn và cột liên kết",
+        "Chúng gắn kết với nhau"
+      ]
+    },
+    {
+      "id": 62,
+      "category": "Xác định số lượng",
+      "token_f1": 1.0,
+      "model_answer": "Hai cầu thủ",
+      "refs": [
+        "Hai cầu thủ",
+        "Có hai người",
+        "Chỉ có hai",
+        "Được hai người",
+        "Tổng cộng hai"
+      ]
+    },
+    {
+      "id": 63,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.25,
+      "model_answer": "Để tránh bị cướp",
+      "refs": [
+        "Để tiện lấy đồ",
+        "Để không gian trong phòng rộng hơn",
+        "Có thể là chưa nhận phòng",
+        "Chờ người đến giúp mang đồ",
+        "Có thể đồ quá nhiều"
+      ]
+    },
+    {
+      "id": 64,
+      "category": "Xác định số lượng",
+      "token_f1": 0.5,
+      "model_answer": "Hai con",
+      "refs": [
+        "Ba con",
+        "3 con",
+        "Có ba con",
+        "Ba con ngỗng",
+        "Chính xác ba con"
+      ]
+    },
+    {
+      "id": 65,
+      "category": "Mối quan hệ",
+      "token_f1": 0.5,
+      "model_answer": "Thuyền đậu trên bờ",
+      "refs": [
+        "Chúng được gắn liền",
+        "Được neo đậu",
+        "Gắn với bờ",
+        "Neo đậu gần bờ",
+        "Được buộc vào bờ"
+      ]
+    },
+    {
+      "id": 66,
+      "category": "Mối quan hệ",
+      "token_f1": 0.4,
+      "model_answer": "Máy bay bay xa",
+      "refs": [
+        "Nó bay xa khỏi trái đất",
+        "Nó ở trên cao so với trái đất",
+        "Nó di chuyển tách biệt khỏi trái đất",
+        "Khoảng cách giữa nó và trái đất",
+        "Nó đang xa dần trái đất"
+      ]
+    },
+    {
+      "id": 67,
+      "category": "Xác định số lượng",
+      "token_f1": 1.0,
+      "model_answer": "Hai con",
+      "refs": [
+        "Hai con",
+        "Có hai",
+        "Hai con chó",
+        "Chỉ hai",
+        "2 con"
+      ]
+    },
+    {
+      "id": 68,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 1.0,
+      "model_answer": "Cột kim loại",
+      "refs": [
+        "Cột kim loại",
+        "Cột bằng kim loại",
+        "Một cột kim loại",
+        "Trên cột kim loại",
+        "Cột trụ kim loại"
+      ]
+    },
+    {
+      "id": 69,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.25,
+      "model_answer": "Một lớp bơ, một lớp kem và một lớp bơ",
+      "refs": [
+        "Bông cải xanh và cà chua",
+        "Rau củ và các lớp phủ khác",
+        "Bông cải xanh, cà chua",
+        "Rau và một số topping khác",
+        "Cà chua, bông cải xanh"
+      ]
+    },
+    {
+      "id": 70,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.2857,
+      "model_answer": "Được lát gạch",
+      "refs": [
+        "Có bãi đậu xe",
+        "Có bức tường gạch",
+        "Gần lề đường",
+        "Là một phần của con phố đồi núi",
+        "Nơi đặt đồng hồ đỗ xe"
+      ]
+    },
+    {
+      "id": 71,
+      "category": "Xác định thuộc tính",
+      "token_f1": 0.5714,
+      "model_answer": "Hoa văn tuyết",
+      "refs": [
+        "Hoa văn ca rô",
+        "Vải ca rô",
+        "Ca rô",
+        "Có hoa văn ca rô",
+        "Vải trải bàn ca rô"
+      ]
+    },
+    {
+      "id": 72,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.3077,
+      "model_answer": "Để chờ người đi bộ",
+      "refs": [
+        "Để người lái có thể vào công viên",
+        "Vì đó là nơi đỗ xe thuận tiện",
+        "Có thể để chủ xe tập thể dục",
+        "Để dễ dàng tiếp cận công viên",
+        "Có thể do đang tham quan công viên"
+      ]
+    },
+    {
+      "id": 73,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.2222,
+      "model_answer": "Rau xà lách và cà chua",
+      "refs": [
+        "Ngô, bông cải xanh",
+        "Có cả rau khác",
+        "Ngô và bông cải",
+        "Nhiều loại rau",
+        "Bông cải xanh"
+      ]
+    },
+    {
+      "id": 74,
+      "category": "Xác định số lượng",
+      "token_f1": 1.0,
+      "model_answer": "Hai chiếc",
+      "refs": [
+        "Hai chiếc",
+        "Có hai cái",
+        "2 chiếc ghế",
+        "Hai",
+        "Hai ghế"
+      ]
+    },
+    {
+      "id": 75,
+      "category": "Mối quan hệ",
+      "token_f1": 0.3636,
+      "model_answer": "Chảo thức ăn nằm trên đĩa",
+      "refs": [
+        "Chúng ở gần nhau",
+        "Chúng cùng nằm trên bếp",
+        "Đều là đồ dùng nấu ăn",
+        "Có thể dùng để nấu nướng",
+        "Cả hai đều chứa thức ăn"
+      ]
+    },
+    {
+      "id": 76,
+      "category": "Mối quan hệ",
+      "token_f1": 0.6667,
+      "model_answer": "Ô nằm trên bông tai",
+      "refs": [
+        "Bông tai trang trí ô",
+        "Ô được treo bông tai",
+        "Ô trưng bày bông tai",
+        "Bông tai làm đẹp ô",
+        "Ô có bông tai"
+      ]
+    },
+    {
+      "id": 77,
+      "category": "Mô tả hành động",
+      "token_f1": 0.6667,
+      "model_answer": "Đang chạy trên đường",
+      "refs": [
+        "Đang chạy dọc",
+        "Đang di chuyển",
+        "Đang đi lại",
+        "Đang lăn bánh",
+        "Đang chạy"
+      ]
+    },
+    {
+      "id": 78,
+      "category": "Mối quan hệ",
+      "token_f1": 0.4,
+      "model_answer": "Họ đang chở hàng",
+      "refs": [
+        "Họ có thể là bạn bè.",
+        "Có lẽ họ là gia đình.",
+        "Có thể là người bán và người mua.",
+        "Họ đang giao tiếp với nhau.",
+        "Có lẽ họ là khách du lịch."
+      ]
+    },
+    {
+      "id": 79,
+      "category": "Mối quan hệ",
+      "token_f1": 0.1667,
+      "model_answer": "Ngựa vằn đang bám vào linh dương",
+      "refs": [
+        "Chúng đang đứng gần nhau",
+        "Chúng đứng cạnh nhau",
+        "Chúng cùng đứng trên cánh đồng",
+        "Cả hai đều ở đó",
+        "Chúng là những con vật"
+      ]
+    },
+    {
+      "id": 80,
+      "category": "Mối quan hệ",
+      "token_f1": 0.3077,
+      "model_answer": "Nhân viên đang sử dụng cửa sổ kính",
+      "refs": [
+        "Cửa sổ cho phép nhìn vào",
+        "Cửa sổ thể hiện hoạt động",
+        "Nhìn thấy qua cửa sổ",
+        "Quan sát từ bên ngoài",
+        "Cửa sổ hiển thị bên trong"
+      ]
+    },
+    {
+      "id": 81,
+      "category": "Mối quan hệ",
+      "token_f1": 0.5,
+      "model_answer": "Chúng đang chạy nhau",
+      "refs": [
+        "Cặp đôi",
+        "Đứng cùng nhau",
+        "Bạn đồng hành",
+        "Một già một trẻ",
+        "Đang ở gần nhau"
+      ]
+    },
+    {
+      "id": 82,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.25,
+      "model_answer": "Trên một cái bồn cầu",
+      "refs": [
+        "Trên cánh đồng cỏ",
+        "Trên cỏ xanh",
+        "Trên thảm cỏ",
+        "Trên bãi cỏ",
+        "Trên đất cỏ"
+      ]
+    },
+    {
+      "id": 83,
+      "category": "Mối quan hệ",
+      "token_f1": 0.8333,
+      "model_answer": "Bình hoa ở cạnh hai cốc",
+      "refs": [
+        "Bình hoa ở giữa hai cốc",
+        "Nó nằm giữa hai cốc",
+        "Được đặt giữa hai cốc",
+        "Nằm ở trung tâm",
+        "Bình hoa ở giữa"
+      ]
+    },
+    {
+      "id": 84,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.2222,
+      "model_answer": "Để vận chuyển năng lượng",
+      "refs": [
+        "Để sửa chữa cột điện nghiêng",
+        "Sửa đường dây điện bị rơi",
+        "Để khôi phục điện",
+        "Giải quyết sự cố",
+        "Để khắc phục sự cố"
+      ]
+    },
+    {
+      "id": 85,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.5,
+      "model_answer": "Màu trắng",
+      "refs": [
+        "Màu đen",
+        "Màu đen tuyền",
+        "Màu tối",
+        "Đen",
+        "Tối màu"
+      ]
+    },
+    {
+      "id": 86,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.2222,
+      "model_answer": "Trên một con đường",
+      "refs": [
+        "Dưới biển báo Đường Butt",
+        "Ở góc tòa nhà",
+        "Bên cạnh bãi đậu xe",
+        "Gần biển hiệu Butt St",
+        "Dưới biển hiệu Butt St"
+      ]
+    },
+    {
+      "id": 87,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.0,
+      "model_answer": "Băng cứng",
+      "refs": [
+        "Gỗ",
+        "Bằng gỗ",
+        "Chất liệu gỗ",
+        "Gỗ tự nhiên",
+        "Gỗ công viên"
+      ]
+    },
+    {
+      "id": 88,
+      "category": "Xác định số lượng",
+      "token_f1": 0.25,
+      "model_answer": "Một món đồ sứ màu trắng",
+      "refs": [
+        "Ba món",
+        "Ba mảnh",
+        "Ba vật dụng",
+        "Ba đồ dùng",
+        "Có ba món"
+      ]
+    },
+    {
+      "id": 89,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.3333,
+      "model_answer": "Gạch bông",
+      "refs": [
+        "Gạch màu be nhiều màu",
+        "Gạch be nhiều màu",
+        "Gạch lát màu be",
+        "Gạch có màu be",
+        "Gạch đa sắc be"
+      ]
+    },
+    {
+      "id": 90,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.3333,
+      "model_answer": "Trên mặt máy tính",
+      "refs": [
+        "Ở giữa nắp",
+        "Giữa nắp máy",
+        "Trên nắp",
+        "Phần trung tâm của nắp",
+        "Nằm giữa nắp"
+      ]
+    },
+    {
+      "id": 91,
+      "category": "Mối quan hệ",
+      "token_f1": 0.4444,
+      "model_answer": "Họ đang ở nhà hàng",
+      "refs": [
+        "Khách hàng đang ăn",
+        "Người đàn ông là khách",
+        "Người ăn tại đó",
+        "Người đang dùng bữa",
+        "Khách quen của nhà hàng"
+      ]
+    },
+    {
+      "id": 92,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.0,
+      "model_answer": "Trên một con đường",
+      "refs": [
+        "Giữa sảnh chính",
+        "Ở khu vực trung tâm",
+        "Nằm ở vị trí dễ thấy",
+        "Trong khu vực có nhiều người qua lại",
+        "Gần các cửa hàng lớn"
+      ]
+    },
+    {
+      "id": 93,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.3636,
+      "model_answer": "Vì nó đang ngắm nhìn",
+      "refs": [
+        "Có thể nó đang bảo vệ lãnh thổ",
+        "Có lẽ nó không thích bị làm phiền",
+        "Có thể nó đang cảnh giác",
+        "Có thể nó đang đi săn",
+        "Không biết, mèo hay vậy"
+      ]
+    },
+    {
+      "id": 94,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.25,
+      "model_answer": "Có thể là xe tải",
+      "refs": [
+        "Bằng một chiếc xe đạp",
+        "Trên chiếc xe đạp",
+        "Một chiếc xe đạp",
+        "Xe đạp đang chở",
+        "Trên xe đạp"
+      ]
+    },
+    {
+      "id": 95,
+      "category": "Xác định số lượng",
+      "token_f1": 1.0,
+      "model_answer": "Hai người",
+      "refs": [
+        "Hai người",
+        "Có hai người",
+        "Hai",
+        "2 người",
+        "Chỉ hai"
+      ]
+    },
+    {
+      "id": 96,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.8571,
+      "model_answer": "Trên sườn dốc",
+      "refs": [
+        "Đứng trên tuyết",
+        "Ngồi trên sườn dốc",
+        "Nổi bật trên tuyết",
+        "Ở giữa sườn dốc",
+        "Gần đỉnh sườn dốc"
+      ]
+    },
+    {
+      "id": 97,
+      "category": "Xác định số lượng",
+      "token_f1": 0.75,
+      "model_answer": "Hai chiếc đồng hồ",
+      "refs": [
+        "Ba chiếc đồng hồ",
+        "Ba cái đồng hồ",
+        "Hai cái đồng hồ",
+        "Tổng cộng ba",
+        "Ba"
+      ]
+    },
+    {
+      "id": 98,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.0,
+      "model_answer": "Đồng hồ có màu đỏ",
+      "refs": [
+        "Thắp sáng",
+        "Rất lớn",
+        "Chiếu sáng",
+        "Lớn và sáng",
+        "Sáng rực"
+      ]
+    },
+    {
+      "id": 99,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.75,
+      "model_answer": "Cạnh phòng khách",
+      "refs": [
+        "Nằm bên cạnh phòng khách",
+        "Dẫn lên tầng trên từ phòng khách",
+        "Ở góc phòng khách",
+        "Kề sát khu vực ghế sofa",
+        "Cạnh khu vực phòng ăn"
+      ]
+    },
+    {
+      "id": 100,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.6667,
+      "model_answer": "Trên đĩa",
+      "refs": [
+        "Trên một cái đĩa trắng.",
+        "Chúng ở trên đĩa.",
+        "Trên đĩa màu trắng.",
+        "Được đặt trên đĩa.",
+        "Ở trên cái đĩa."
+      ]
+    },
+    {
+      "id": 101,
+      "category": "Xác định số lượng",
+      "token_f1": 0.8,
+      "model_answer": "Hai con",
+      "refs": [
+        "Hai",
+        "2",
+        "Hai con vật",
+        "Chỉ hai",
+        "Có hai"
+      ]
+    },
+    {
+      "id": 102,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.3636,
+      "model_answer": "Có bồn rửa mặt và ghế tắm",
+      "refs": [
+        "Một cái bồn cầu",
+        "Một cái bồn rửa",
+        "Giấy vệ sinh",
+        "Một cái khăn",
+        "Chậu tiểu"
+      ]
+    },
+    {
+      "id": 103,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.6667,
+      "model_answer": "Màu trắng và xanh",
+      "refs": [
+        "Đồ đạc màu trắng",
+        "Màu trắng",
+        "Màu trắng sạch sẽ",
+        "Tất cả đều màu trắng",
+        "Màu trắng tinh khôi"
+      ]
+    },
+    {
+      "id": 104,
+      "category": "Mối quan hệ",
+      "token_f1": 0.4286,
+      "model_answer": "Thời tiết xấu, mặt đường khô cằn",
+      "refs": [
+        "Mưa làm đường ẩm ướt",
+        "Trời mưa khiến đường ướt",
+        "Mặt đường ẩm ướt vì mưa",
+        "Mưa là nguyên nhân đường ướt",
+        "Thời tiết mưa khiến đường bị ướt"
+      ]
+    },
+    {
+      "id": 105,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.1818,
+      "model_answer": "Để trải nghiệm biển xanh",
+      "refs": [
+        "Họ đang tham gia cuộc đua.",
+        "Để luyện tập cho cuộc đua.",
+        "Họ đang thi đấu.",
+        "Có thể là một giải đấu.",
+        "Họ đang tập dượt."
+      ]
+    },
+    {
+      "id": 106,
+      "category": "Mối quan hệ",
+      "token_f1": 0.2222,
+      "model_answer": "Ghế dài ở phía trước bàn",
+      "refs": [
+        "Đối diện nhau",
+        "Nằm gần bàn",
+        "Xung quanh bàn",
+        "Bố trí đối diện",
+        "Hai bên bàn"
+      ]
+    },
+    {
+      "id": 107,
+      "category": "Mô tả hành động",
+      "token_f1": 0.4,
+      "model_answer": "Đang chạy",
+      "refs": [
+        "Đuổi theo đàn cừu",
+        "Đánh nhau với cừu",
+        "Sủa vào đàn cừu",
+        "Chạy trên cỏ",
+        "Tương tác với cừu"
+      ]
+    },
+    {
+      "id": 108,
+      "category": "Mối quan hệ",
+      "token_f1": 0.0,
+      "model_answer": "Ngựa vằn đang ăn lợn",
+      "refs": [
+        "Đứng cạnh nhau",
+        "Ở gần nhau",
+        "Đứng cùng nhau",
+        "Là các động vật hoang dã",
+        "Đều là động vật"
+      ]
+    },
+    {
+      "id": 109,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.5,
+      "model_answer": "Màu đỏ",
+      "refs": [
+        "Màu xám",
+        "Màu đá",
+        "Màu cũ",
+        "Màu của tháp",
+        "Màu tối"
+      ]
+    },
+    {
+      "id": 110,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.25,
+      "model_answer": "Để chờ tàu khác",
+      "refs": [
+        "Để đón trả khách",
+        "Để hành khách lên xuống",
+        "Có thể là chờ giờ khởi hành",
+        "Để nạp nhiên liệu",
+        "Để kiểm tra kỹ thuật"
+      ]
+    },
+    {
+      "id": 111,
+      "category": "Mối quan hệ",
+      "token_f1": 0.8,
+      "model_answer": "Ngựa vằn đang ăn cỏ cao",
+      "refs": [
+        "Ngựa vằn ăn cỏ",
+        "Ngựa vằn gặm cỏ",
+        "Ngựa vằn đang tiêu thụ cỏ",
+        "Cỏ là thức ăn của ngựa vằn",
+        "Ngựa vằn đang tương tác với cỏ"
+      ]
+    },
+    {
+      "id": 112,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.7273,
+      "model_answer": "Vì có bàn ghế và giường",
+      "refs": [
+        "Vì có ghế và TV",
+        "Do có giường và các vật dụng",
+        "Vì có trần gỗ và thảm",
+        "Có thể là cả hai loại phòng",
+        "Các đồ vật trong phòng đa dạng"
+      ]
+    },
+    {
+      "id": 113,
+      "category": "Xác định số lượng",
+      "token_f1": 0.5,
+      "model_answer": "Hai người",
+      "refs": [
+        "Bốn người",
+        "Có bốn người",
+        "Bốn người trong phòng khách",
+        "Bốn",
+        "Chỉ bốn người"
+      ]
+    },
+    {
+      "id": 114,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.2857,
+      "model_answer": "Tháp đồng hồ bằng đá",
+      "refs": [
+        "Gạch",
+        "Chủ yếu là gạch",
+        "Bằng gạch",
+        "Gạch xây",
+        "Vật liệu gạch"
+      ]
+    },
+    {
+      "id": 115,
+      "category": "Mối quan hệ",
+      "token_f1": 0.8,
+      "model_answer": "Họ là một nhóm người",
+      "refs": [
+        "Họ là bạn bè",
+        "Họ là một nhóm bạn",
+        "Có vẻ là bạn bè",
+        "Là các frinds",
+        "Một nhóm frinds"
+      ]
+    },
+    {
+      "id": 116,
+      "category": "Mô tả hành động",
+      "token_f1": 0.0,
+      "model_answer": "Đang ngủ",
+      "refs": [
+        "Nhìn lên trên",
+        "Quan sát xung quanh",
+        "Ngồi ngắm cảnh",
+        "Đứng trên nóc ô",
+        "Chờ đợi điều gì đó"
+      ]
+    },
+    {
+      "id": 117,
+      "category": "Mối quan hệ",
+      "token_f1": 0.2222,
+      "model_answer": "Bồn rửa nằm cạnh bếp",
+      "refs": [
+        "Chúng ở cạnh nhau",
+        "Chúng là thiết bị bếp",
+        "Chúng được đặt gần nhau",
+        "Chúng thuộc cùng một khu vực nấu ăn",
+        "Chúng là các thiết bị thiết yếu"
+      ]
+    },
+    {
+      "id": 118,
+      "category": "Mối quan hệ",
+      "token_f1": 0.6667,
+      "model_answer": "Có thể là bạn bè",
+      "refs": [
+        "Họ là bạn bè.",
+        "Có thể là đồng nghiệp.",
+        "Họ giúp nhau cho hươu cao cổ ăn.",
+        "Có thể là người yêu.",
+        "Họ cùng làm việc ở sở thú."
+      ]
+    },
+    {
+      "id": 119,
+      "category": "Mối quan hệ",
+      "token_f1": 0.8,
+      "model_answer": "Chim đang ngồi trên xe",
+      "refs": [
+        "Chim đậu trên xe.",
+        "Chim đậu trên kính chắn gió.",
+        "Chim đang ở trên xe.",
+        "Chim dùng xe làm chỗ đậu.",
+        "Chim tiếp xúc với xe."
+      ]
+    },
+    {
+      "id": 120,
+      "category": "Mô tả hành động",
+      "token_f1": 0.0,
+      "model_answer": "Đang đi dạo",
+      "refs": [
+        "Thả diều",
+        "Chơi diều",
+        "Thả diều trên cánh đồng",
+        "Thả diều trong công viên",
+        "Chơi diều trên cánh đồng"
+      ]
+    },
+    {
+      "id": 121,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.7273,
+      "model_answer": "Vì họ đang vui vẻ",
+      "refs": [
+        "Vì họ đang nâng cốc chúc mừng",
+        "Có thể họ đang vui vẻ",
+        "Vì họ đang thưởng thức rượu",
+        "Có lẽ họ đang trò chuyện vui vẻ",
+        "Vì họ đang có khoảnh khắc đẹp"
+      ]
+    },
+    {
+      "id": 122,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.4444,
+      "model_answer": "Cạnh một chiếc xe tải",
+      "refs": [
+        "Một cái ghế dài nhỏ",
+        "Ghế dài nhỏ",
+        "Một chiếc ghế dài",
+        "Cái ghế dài",
+        "Ghế dài"
+      ]
+    },
+    {
+      "id": 123,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.3333,
+      "model_answer": "Để trải nghiệm",
+      "refs": [
+        "Để giải trí",
+        "Vì thời tiết đẹp",
+        "Để vui chơi cùng nhau",
+        "Tạo không khí lễ hội",
+        "Để tận hưởng không gian thoáng đãng"
+      ]
+    },
+    {
+      "id": 124,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.5714,
+      "model_answer": "Một tòa nhà",
+      "refs": [
+        "Bên trong một đấu trường",
+        "Trong một toà nhà",
+        "Đấu trường",
+        "Trong nhà",
+        "Một đấu trường trong nhà"
+      ]
+    },
+    {
+      "id": 125,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.3333,
+      "model_answer": "Phần đầu xe",
+      "refs": [
+        "Thanh giữa của xe đạp.",
+        "Thanh giữa.",
+        "Phần thanh giữa.",
+        "Vào thanh giữa.",
+        "Thanh giữa xe."
+      ]
+    },
+    {
+      "id": 126,
+      "category": "Mối quan hệ",
+      "token_f1": 0.25,
+      "model_answer": "Để điều khiển",
+      "refs": [
+        "Nó được gắn vào",
+        "Nó dùng để lên máy bay",
+        "Nó kết nối máy bay",
+        "Để hành khách đi vào",
+        "Để lên xuống máy bay"
+      ]
+    },
+    {
+      "id": 127,
+      "category": "Xác định số lượng",
+      "token_f1": 0.0,
+      "model_answer": "Hai tầng",
+      "refs": [
+        "Một ngôi nhà",
+        "Chỉ một",
+        "Có một",
+        "Một",
+        "Duy nhất một"
+      ]
+    },
+    {
+      "id": 128,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.25,
+      "model_answer": "Vì nó đã được sử dụng trong một thời gian dài",
+      "refs": [
+        "Vì có nhiều tờ giấy.",
+        "Có nhiều đồ vật xung quanh.",
+        "Do sự bừa bộn.",
+        "Vì không được dọn dẹp.",
+        "Có thể đang trong quá trình làm việc."
+      ]
+    },
+    {
+      "id": 129,
+      "category": "Mô tả hành động",
+      "token_f1": 0.3333,
+      "model_answer": "Đặt một quả bóng",
+      "refs": [
+        "Đánh bóng chày",
+        "Đánh bóng",
+        "Chuẩn bị đánh bóng",
+        "Ra lượt đánh bóng",
+        "Đang chuẩn bị đánh"
+      ]
+    },
+    {
+      "id": 130,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.2857,
+      "model_answer": "Trên một chiếc xe",
+      "refs": [
+        "Trên lề đường",
+        "Trên vỉa hè",
+        "Gần bãi đậu xe",
+        "Trên con phố dốc",
+        "Cạnh bức tường gạch"
+      ]
+    },
+    {
+      "id": 131,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.5,
+      "model_answer": "Màu xanh",
+      "refs": [
+        "Màu đỏ",
+        "Màu đỏ",
+        "Màu đỏ",
+        "Màu đỏ",
+        "Màu đỏ"
+      ]
+    },
+    {
+      "id": 132,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.25,
+      "model_answer": "Trên một con đường",
+      "refs": [
+        "Trong sân của một ngôi nhà",
+        "Sân sau của ngôi nhà",
+        "Sân một ngôi nhà",
+        "Sân sau",
+        "Ngoài sân"
+      ]
+    },
+    {
+      "id": 133,
+      "category": "Xác định số lượng",
+      "token_f1": 0.6667,
+      "model_answer": "Ba loại rau",
+      "refs": [
+        "Hai loại",
+        "Hai",
+        "Hai loại rau",
+        "Có hai",
+        "Hai loại khác nhau"
+      ]
+    },
+    {
+      "id": 134,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.6667,
+      "model_answer": "Một chiếc lá",
+      "refs": [
+        "Một cái nón",
+        "Cái nón",
+        "Nón",
+        "Một chiếc nón",
+        "Nón trên tay"
+      ]
+    },
+    {
+      "id": 135,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.3333,
+      "model_answer": "Màu xanh lá cây",
+      "refs": [
+        "Màu vàng.",
+        "Màu vàng nhạt.",
+        "Vàng tươi.",
+        "Sơn vàng.",
+        "Màu vàng nổi bật."
+      ]
+    },
+    {
+      "id": 136,
+      "category": "Suy luận ngữ cảnh",
+      "token_f1": 0.2,
+      "model_answer": "Để ăn bữa tối",
+      "refs": [
+        "Có lẽ là một bữa tiệc.",
+        "Có thể là sinh nhật.",
+        "Có vẻ như một buổi sum họp.",
+        "Có thể là một dịp đặc biệt.",
+        "Có thể là kỷ niệm ngày cưới."
+      ]
+    },
+    {
+      "id": 137,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.0,
+      "model_answer": "Trên bàn",
+      "refs": [
+        "Nằm cạnh",
+        "Ở bên cạnh",
+        "Được đặt cạnh",
+        "Gần chiếc màu trắng",
+        "Sát bên"
+      ]
+    },
+    {
+      "id": 138,
+      "category": "Mối quan hệ",
+      "token_f1": 0.4444,
+      "model_answer": "Tàu chở khách đi qua silo",
+      "refs": [
+        "Chúng ở gần nhau",
+        "Tàu ở cạnh silo",
+        "Tàu cạnh silo ngũ cốc",
+        "Tàu đậu gần silo",
+        "Tàu gần silo"
+      ]
+    },
+    {
+      "id": 139,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.25,
+      "model_answer": "Không có bồn cầu",
+      "refs": [
+        "Có một ghế gỗ",
+        "Ghế nhà vệ sinh bằng gỗ",
+        "Có ghế ngồi bằng gỗ",
+        "Ghế được làm từ gỗ",
+        "Đặc điểm là ghế gỗ"
+      ]
+    },
+    {
+      "id": 140,
+      "category": "Xác định số lượng",
+      "token_f1": 0.6667,
+      "model_answer": "Hai xe",
+      "refs": [
+        "Hai",
+        "Ít nhất hai chiếc",
+        "Khoảng hai chiếc",
+        "Một vài",
+        "Hai xe buýt lớn"
+      ]
+    },
+    {
+      "id": 141,
+      "category": "Suy luận ngữ cảnh",
+      "token_f1": 0.4,
+      "model_answer": "Đang ngủ",
+      "refs": [
+        "Đang suy tư",
+        "Đang suy nghĩ",
+        "Đang trầm tư",
+        "Đang ngẫm nghĩ",
+        "Đang thư giãn"
+      ]
+    },
+    {
+      "id": 142,
+      "category": "Mối quan hệ",
+      "token_f1": 0.6,
+      "model_answer": "Người đàn ông đang cưỡi ngựa",
+      "refs": [
+        "Người lái xe kéo ngựa",
+        "Người điều khiển ngựa",
+        "Người cưỡi xe ngựa",
+        "Người điều khiển xe đẩy",
+        "Người lái xe"
+      ]
+    },
+    {
+      "id": 143,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 1.0,
+      "model_answer": "Hai con gấu bông",
+      "refs": [
+        "Gấu bông mặc áo flanen đỏ",
+        "Gấu đồ chơi nhỏ",
+        "Một con gấu bông",
+        "Hai con gấu bông",
+        "Gấu bông trên chăn kẻ sọc"
+      ]
+    },
+    {
+      "id": 144,
+      "category": "Xác định số lượng",
+      "token_f1": 0.6667,
+      "model_answer": "Một bồn rửa",
+      "refs": [
+        "Hai bồn rửa",
+        "Có hai cái",
+        "Hai chiếc",
+        "2 bồn rửa",
+        "Hai cái bồn"
+      ]
+    },
+    {
+      "id": 145,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.4,
+      "model_answer": "Trên bàn ăn",
+      "refs": [
+        "Trên giường",
+        "Trên chiếc giường",
+        "Nằm trên giường",
+        "Trên giường của chủ nhân",
+        "Trên giường ngủ"
+      ]
+    },
+    {
+      "id": 146,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.7273,
+      "model_answer": "Vòi nước ở trước bức tường",
+      "refs": [
+        "Vòi nước nằm cạnh tường",
+        "Vòi nước ở gần tường",
+        "Vòi nước đặt cạnh tường",
+        "Vòi nước dựa vào tường",
+        "Vòi nước nằm sát tường"
+      ]
+    },
+    {
+      "id": 147,
+      "category": "Xác định số lượng",
+      "token_f1": 0.5,
+      "model_answer": "Hai đĩa",
+      "refs": [
+        "Bốn đĩa",
+        "Có bốn",
+        "Bốn cái",
+        "Chính xác bốn",
+        "Tổng cộng bốn"
+      ]
+    },
+    {
+      "id": 148,
+      "category": "Mối quan hệ",
+      "token_f1": 0.5455,
+      "model_answer": "Bánh bao phủ lớp phủ",
+      "refs": [
+        "Xúc xích nằm trên bánh bao",
+        "Bánh bao phủ lấy xúc xích",
+        "Xúc xích được đặt trên bánh bao",
+        "Xúc xích kết hợp với bánh bao",
+        "Bánh bao là nền cho xúc xích"
+      ]
+    },
+    {
+      "id": 149,
+      "category": "Mối quan hệ",
+      "token_f1": 0.7692,
+      "model_answer": "Máy bay đang đậu tại nhà ga",
+      "refs": [
+        "Máy bay đậu cạnh nhà ga",
+        "Máy bay gắn liền với nhà ga",
+        "Nhà ga phục vụ máy bay",
+        "Máy bay gần nhà ga",
+        "Nhà ga là nơi đón khách"
+      ]
+    },
+    {
+      "id": 150,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.6667,
+      "model_answer": "Vì có nhiều phương tiện giao thông",
+      "refs": [
+        "Vì đây là đường phố thành phố",
+        "Vì có đèn giao thông",
+        "Vì nhiều người đang đi dạo",
+        "Vì có vỉa hè cho người đi bộ",
+        "Vì đây là khu vực đông đúc"
+      ]
+    },
+    {
+      "id": 151,
+      "category": "Mối quan hệ",
+      "token_f1": 0.3333,
+      "model_answer": "Lớp vỏ có độ tối cao hơn",
+      "refs": [
+        "Vỏ mỏng và hơi tối",
+        "Vỏ bánh được nướng kỹ",
+        "Vỏ bánh giòn",
+        "Vỏ bánh nướng vàng",
+        "Các cạnh vỏ bánh sẫm màu"
+      ]
+    },
+    {
+      "id": 152,
+      "category": "Mối quan hệ",
+      "token_f1": 0.5333,
+      "model_answer": "Cà chua được đặt cạnh các loại quả khác",
+      "refs": [
+        "Cà chua là một loại quả",
+        "Chúng nằm chung trong bát",
+        "Cà chua có màu đỏ",
+        "Tất cả đều là thực phẩm",
+        "Chúng bổ sung dinh dưỡng"
+      ]
+    },
+    {
+      "id": 153,
+      "category": "Suy luận ngữ cảnh",
+      "token_f1": 1.0,
+      "model_answer": "New York",
+      "refs": [
+        "New York",
+        "Thành phố New York",
+        "New York City",
+        "Thành phố New York",
+        "New York"
+      ]
+    },
+    {
+      "id": 154,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.1818,
+      "model_answer": "Để tạo không khí vui vẻ",
+      "refs": [
+        "Thể hiện sở thích cá nhân",
+        "Để trang trí căn phòng",
+        "Có thể là phong cách của chủ nhân",
+        "Chủ phòng yêu thích ảnh rùng rợn",
+        "Là một phần của không gian làm việc"
+      ]
+    },
+    {
+      "id": 155,
+      "category": "Mô tả hành động",
+      "token_f1": 0.6667,
+      "model_answer": "Cắt chuối",
+      "refs": [
+        "Đang chuẩn bị thức ăn",
+        "Đang sơ chế trái cây",
+        "Đang thái chuối",
+        "Đang dọn dẹp bếp",
+        "Đang cắt lát chuối"
+      ]
+    },
+    {
+      "id": 156,
+      "category": "Mối quan hệ",
+      "token_f1": 0.25,
+      "model_answer": "Người bán hàng",
+      "refs": [
+        "Cô ấy đang bán trái cây",
+        "Cô ấy là chủ quầy hàng",
+        "Cô ấy đang ngồi tại quầy",
+        "Cô ấy đang làm việc ở đó",
+        "Cô ấy đang bày bán"
+      ]
+    },
+    {
+      "id": 157,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.5,
+      "model_answer": "Màu đỏ",
+      "refs": [
+        "Màu xanh",
+        "Màu xanh lá",
+        "Xanh",
+        "Có màu xanh",
+        "Là màu xanh"
+      ]
+    },
+    {
+      "id": 158,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.4,
+      "model_answer": "Môi trường rừng",
+      "refs": [
+        "Môi trường với khúc gỗ và cây",
+        "Một cái cây duy nhất",
+        "Một khu vực có khúc gỗ",
+        "Khu vực có cây và gỗ",
+        "Chứa khúc gỗ và cây"
+      ]
+    },
+    {
+      "id": 159,
+      "category": "Xác định số lượng",
+      "token_f1": 0.5,
+      "model_answer": "Hai người",
+      "refs": [
+        "Một vài người",
+        "Một phụ nữ và một chàng trai trẻ",
+        "Hai công nhân và một vài người",
+        "Ít nhất ba người",
+        "Có thể nhiều hơn hai người"
+      ]
+    },
+    {
+      "id": 160,
+      "category": "Mối quan hệ",
+      "token_f1": 0.4286,
+      "model_answer": "Người trượt ván đi trên dải phân cách",
+      "refs": [
+        "Đang ở cạnh nhau",
+        "Người trượt ván ở bên cạnh",
+        "Đang song song",
+        "Đang đi qua nhau",
+        "Họ gần nhau"
+      ]
+    },
+    {
+      "id": 161,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.75,
+      "model_answer": "Để ăn thức ăn",
+      "refs": [
+        "Để tự chải chuốt",
+        "Có thể để kiếm ăn",
+        "Có thể để nghỉ ngơi",
+        "Để tìm thức ăn",
+        "Có thể để làm mát"
+      ]
+    },
+    {
+      "id": 162,
+      "category": "Mô tả hành động",
+      "token_f1": 0.2857,
+      "model_answer": "Đang ăn thức ăn",
+      "refs": [
+        "Đang tự chải chuốt",
+        "Đang nhặt mình",
+        "Đang chải lông",
+        "Chải chuốt",
+        "Tự chăm sóc"
+      ]
+    },
+    {
+      "id": 163,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 1.0,
+      "model_answer": "Để dễ dàng vệ sinh.",
+      "refs": [
+        "Để tạo điểm nhấn độc đáo",
+        "Vì tính thẩm mỹ cao",
+        "Để có thiết kế hiện đại",
+        "Để dễ dàng vệ sinh",
+        "Vì thủy tinh trong suốt và đẹp"
+      ]
+    },
+    {
+      "id": 164,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.0,
+      "model_answer": "Trái cây dưa chuột",
+      "refs": [
+        "Chuối, táo, khoai tây và khoai mỡ",
+        "Chuối, táo, khoai tây, khoai mỡ",
+        "Một đống chuối, táo, khoai tây",
+        "Chuối, táo và các loại củ",
+        "Táo, chuối, khoai tây, khoai mỡ"
+      ]
+    },
+    {
+      "id": 165,
+      "category": "Mối quan hệ",
+      "token_f1": 0.3636,
+      "model_answer": "Chuối được đặt trên chảo nước sốt",
+      "refs": [
+        "Chúng đặt cạnh nhau",
+        "Chuối bên cạnh chảo",
+        "Chúng được nấu cùng",
+        "Cạnh nhau trên bếp",
+        "Gần nhau trên vỉ nướng"
+      ]
+    },
+    {
+      "id": 166,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.0,
+      "model_answer": "Một chiếc xe máy",
+      "refs": [
+        "Vào tòa nhà",
+        "Vào tường",
+        "Cạnh bốt điện thoại",
+        "Gần buồng điện thoại",
+        "Cạnh buồng điện thoại màu đỏ"
+      ]
+    },
+    {
+      "id": 167,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.6667,
+      "model_answer": "Để bay trên bầu trời",
+      "refs": [
+        "Để cất cánh.",
+        "Bắt đầu chuyến bay.",
+        "Để bay lên trời.",
+        "Thực hiện hành trình.",
+        "Chuẩn bị bay."
+      ]
+    },
+    {
+      "id": 168,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.0,
+      "model_answer": "Đường bê tông",
+      "refs": [
+        "Cánh đồng xanh tươi tốt",
+        "Một cánh đồng cỏ cao",
+        "Cánh đồng cỏ",
+        "Một bãi cỏ cao",
+        "Đồng cỏ"
+      ]
+    },
+    {
+      "id": 169,
+      "category": "Mối quan hệ",
+      "token_f1": 0.4615,
+      "model_answer": "Người đàn ông đang cầm xe đẩy chuối",
+      "refs": [
+        "Người bán hàng rong",
+        "Chủ xe đẩy",
+        "Người bán chuối",
+        "Đang bán hàng",
+        "Người điều hành xe đẩy"
+      ]
+    },
+    {
+      "id": 170,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.2857,
+      "model_answer": "Cạnh nhau",
+      "refs": [
+        "Máy xay bên cạnh lò nướng",
+        "Cả hai đều trên quầy",
+        "Lò nướng bên phải máy xay",
+        "Chúng gần nhau trên quầy",
+        "Máy xay thủy tinh gần lò nướng"
+      ]
+    },
+    {
+      "id": 171,
+      "category": "Mối quan hệ",
+      "token_f1": 0.8,
+      "model_answer": "Con thuyền đang đi qua cầu",
+      "refs": [
+        "Thuyền trôi gần cầu",
+        "Thuyền đi qua cầu",
+        "Thuyền ở trên hồ có cầu",
+        "Thuyền trôi qua cây cầu",
+        "Thuyền đang ở gần cầu"
+      ]
+    },
+    {
+      "id": 172,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.4,
+      "model_answer": "Vì họ đang đi bộ",
+      "refs": [
+        "Để đảm bảo an toàn",
+        "Vì họ là công nhân",
+        "Để dễ nhận biết",
+        "Đó là đồng phục lao động",
+        "Để tăng khả năng hiển thị"
+      ]
+    },
+    {
+      "id": 173,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.2857,
+      "model_answer": "Để tránh thức ăn",
+      "refs": [
+        "Để cảm thấy an toàn",
+        "Để giữ ấm",
+        "Vì chúng là bạn",
+        "Chúng thích ngủ cùng nhau",
+        "Để không cô đơn"
+      ]
+    },
+    {
+      "id": 174,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.4,
+      "model_answer": "Gạch màu trắng",
+      "refs": [
+        "Màu xanh",
+        "Màu xanh lam",
+        "Gạch xanh",
+        "Xanh",
+        "Xanh dương"
+      ]
+    },
+    {
+      "id": 175,
+      "category": "Xác định số lượng",
+      "token_f1": 0.6667,
+      "model_answer": "Hai cột điện",
+      "refs": [
+        "Một cột điện",
+        "Chỉ một",
+        "Một",
+        "Một cột",
+        "Duy nhất một"
+      ]
+    },
+    {
+      "id": 176,
+      "category": "Mối quan hệ",
+      "token_f1": 0.6667,
+      "model_answer": "Lưới kim loại bao quanh ô",
+      "refs": [
+        "Lưới kim loại là giá đỡ ô",
+        "Lưới kim loại dùng để treo ô",
+        "Ô được giữ bởi lưới kim loại",
+        "Lưới kim loại là nơi để ô",
+        "Ô treo trên lưới kim loại"
+      ]
+    },
+    {
+      "id": 177,
+      "category": "Xác định số lượng",
+      "token_f1": 0.5,
+      "model_answer": "Hai quả",
+      "refs": [
+        "Một số quả",
+        "Nhiều quả",
+        "Vài quả",
+        "Một chồng",
+        "Không đếm được"
+      ]
+    },
+    {
+      "id": 178,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.5,
+      "model_answer": "Để quan sát và ghi hình",
+      "refs": [
+        "Để xem chó chăn cừu",
+        "Vì đây là sự kiện chăn gia súc",
+        "Để quan sát chó làm việc",
+        "Vì họ là khán giả",
+        "Để học hỏi cách chăn cừu"
+      ]
+    },
+    {
+      "id": 179,
+      "category": "Câu hỏi có/không",
+      "token_f1": 0.6667,
+      "model_answer": "Có",
+      "refs": [
+        "Có, nó có",
+        "Đúng vậy",
+        "Có, nó có rau diếp và cà chua",
+        "Phải, có",
+        "Vâng, có"
+      ]
+    },
+    {
+      "id": 180,
+      "category": "Xác định số lượng",
+      "token_f1": 0.5,
+      "model_answer": "Hai con",
+      "refs": [
+        "Ba con hươu cao cổ",
+        "Ba con",
+        "Có ba con",
+        "Khoảng ba con",
+        "Chính xác ba con"
+      ]
+    },
+    {
+      "id": 181,
+      "category": "Mô tả hành động",
+      "token_f1": 0.0,
+      "model_answer": "Đang bơi",
+      "refs": [
+        "Cưỡi người",
+        "Chở người",
+        "Đi bộ",
+        "Mang người",
+        "Đi qua"
+      ]
+    },
+    {
+      "id": 182,
+      "category": "Mô tả hành động",
+      "token_f1": 0.5714,
+      "model_answer": "Đang ăn cỏ",
+      "refs": [
+        "Đứng và ăn cỏ",
+        "Chăn thả cỏ",
+        "Ăn cỏ và đứng",
+        "Đang ăn và đứng",
+        "Đứng và chăn thả"
+      ]
+    },
+    {
+      "id": 183,
+      "category": "Mối quan hệ",
+      "token_f1": 0.7273,
+      "model_answer": "Họ đang xem đồ ăn",
+      "refs": [
+        "Họ đang xem sản phẩm",
+        "Họ là khách hàng tiềm năng",
+        "Họ đang cân nhắc mua hàng",
+        "Họ đang xem xét thức ăn",
+        "Có thể họ là người mua"
+      ]
+    },
+    {
+      "id": 184,
+      "category": "Mối quan hệ",
+      "token_f1": 0.6,
+      "model_answer": "Chúng đang chơi nhau",
+      "refs": [
+        "Chúng là một cặp",
+        "Chúng cùng bắt thức ăn",
+        "Chúng là đồng loại",
+        "Chúng đang kiếm ăn cùng nhau",
+        "Chúng là gấu đang kiếm cá"
+      ]
+    },
+    {
+      "id": 185,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.6667,
+      "model_answer": "Trên đường",
+      "refs": [
+        "Phía trên một con đường",
+        "Trên cao của giao lộ",
+        "Cao hơn mặt đường",
+        "Treo trên không",
+        "Ở trên con đường"
+      ]
+    },
+    {
+      "id": 186,
+      "category": "Mối quan hệ",
+      "token_f1": 0.75,
+      "model_answer": "Chúng ở cạnh nhau",
+      "refs": [
+        "Chúng được đẩy vào nhau",
+        "Chúng được ghép lại",
+        "Đang ở cạnh nhau",
+        "Được đặt sát nhau",
+        "Kết hợp thành một giường lớn"
+      ]
+    },
+    {
+      "id": 187,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.6667,
+      "model_answer": "Để thư giãn",
+      "refs": [
+        "Vì họ thích hoạt động ngoài trời",
+        "Để tận hưởng khung cảnh bình yên",
+        "Để thư giãn trên mặt nước",
+        "Vì yêu thích chèo thuyền",
+        "Để trải nghiệm cảm giác đi thuyền"
+      ]
+    },
+    {
+      "id": 188,
+      "category": "Suy luận ngữ cảnh",
+      "token_f1": 0.2222,
+      "model_answer": "Một cái cây nhỏ",
+      "refs": [
+        "Khung cảnh xung quanh",
+        "Cây cối và cây xanh",
+        "Những tán lá cao",
+        "Phần trên của rừng",
+        "Xa hơn trong rừng"
+      ]
+    },
+    {
+      "id": 189,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.3333,
+      "model_answer": "Trên nóc xe",
+      "refs": [
+        "Ở phía sau",
+        "Phía sau xe",
+        "Phần đuôi xe",
+        "Treo ở phía sau",
+        "Đuôi xe máy"
+      ]
+    },
+    {
+      "id": 190,
+      "category": "Mối quan hệ",
+      "token_f1": 0.5882,
+      "model_answer": "Cột trang trí ở phía trước xe",
+      "refs": [
+        "Cột trang trí nằm trên lề đường bên cạnh xe",
+        "Chúng nằm dọc theo con đường xe chạy",
+        "Cột trang trí ở lề đường nơi xe đi qua",
+        "Chúng cùng xuất hiện trên con đường",
+        "Cột trang trí và xe ở gần nhau trên đường"
+      ]
+    },
+    {
+      "id": 191,
+      "category": "Mối quan hệ",
+      "token_f1": 0.6,
+      "model_answer": "Các máy bay bay cùng nhau",
+      "refs": [
+        "Chúng bay theo đội hình",
+        "Chúng bay cùng nhau",
+        "Chúng là một nhóm",
+        "Chúng phối hợp với nhau",
+        "Chúng bay trong sự phối hợp"
+      ]
+    },
+    {
+      "id": 192,
+      "category": "Xác định số lượng",
+      "token_f1": 0.5,
+      "model_answer": "Hai bình hoa",
+      "refs": [
+        "Hai",
+        "Có hai",
+        "Chỉ hai",
+        "Hai cái",
+        "Dạ, hai"
+      ]
+    },
+    {
+      "id": 193,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.6667,
+      "model_answer": "Gạch màu trắng",
+      "refs": [
+        "Gạch màu đen",
+        "Màu đen",
+        "Đen",
+        "Hoàn toàn màu đen",
+        "Đen tuyền"
+      ]
+    },
+    {
+      "id": 194,
+      "category": "Xác định số lượng",
+      "token_f1": 0.5,
+      "model_answer": "Hai người",
+      "refs": [
+        "Ba người",
+        "Một vài người",
+        "Một nhóm",
+        "Một số người",
+        "Không rõ số lượng chính xác"
+      ]
+    },
+    {
+      "id": 195,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.3333,
+      "model_answer": "Trong một chiếc xe",
+      "refs": [
+        "Trong tuyết trắng lạnh",
+        "Trên dốc trượt tuyết",
+        "Trong rừng",
+        "Giữa những cái cây phủ tuyết",
+        "Trên sườn dốc tuyết"
+      ]
+    },
+    {
+      "id": 196,
+      "category": "Xác định số lượng",
+      "token_f1": 0.4,
+      "model_answer": "Một con ngựa",
+      "refs": [
+        "Hai con",
+        "2 con",
+        "Tổng cộng 2 con",
+        "Chỉ có 2",
+        "Hai"
+      ]
+    },
+    {
+      "id": 197,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.8571,
+      "model_answer": "Nằm cạnh chìa khóa",
+      "refs": [
+        "Bên cạnh chìa khóa xe",
+        "Gần chìa khóa xe",
+        "Ngay cạnh chìa khóa xe",
+        "Cạnh chìa khóa",
+        "Ở bên cạnh"
+      ]
+    },
+    {
+      "id": 198,
+      "category": "Xác định số lượng",
+      "token_f1": 1.0,
+      "model_answer": "Hai chiếc",
+      "refs": [
+        "Hai chiếc",
+        "Ít nhất hai",
+        "Nhiều hơn một",
+        "Một vài chiếc",
+        "Một cặp"
+      ]
+    },
+    {
+      "id": 199,
+      "category": "Mối quan hệ",
+      "token_f1": 0.5,
+      "model_answer": "Con mèo đang ngồi trên ghế",
+      "refs": [
+        "Con mèo nằm cạnh ghế đẩu",
+        "Ghế đẩu ở gần mèo",
+        "Mèo và ghế đẩu ở gần nhau",
+        "Ghế đẩu đặt cạnh mèo",
+        "Chúng ở cạnh nhau"
+      ]
+    },
+    {
+      "id": 200,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 1.0,
+      "model_answer": "Màu trắng",
+      "refs": [
+        "Màu trắng",
+        "Màu trắng sáng",
+        "Trắng",
+        "Trắng tinh",
+        "Trắng sạch"
+      ]
+    },
+    {
+      "id": 201,
+      "category": "Mối quan hệ",
+      "token_f1": 0.7692,
+      "model_answer": "Người đi xe đang lái xe máy",
+      "refs": [
+        "Xe máy thuộc về người đi xe",
+        "Người đi xe sở hữu xe máy",
+        "Xe máy được sử dụng bởi người đi xe",
+        "Họ là chủ sở hữu và phương tiện",
+        "Người đi xe đang đậu xe"
+      ]
+    },
+    {
+      "id": 202,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.6667,
+      "model_answer": "Trên lò vi sóng",
+      "refs": [
+        "Bên dưới lò vi sóng",
+        "Phía dưới lò vi sóng",
+        "Nằm dưới lò vi sóng",
+        "Đặt bên dưới",
+        "Ngay dưới lò vi sóng"
+      ]
+    },
+    {
+      "id": 203,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.0,
+      "model_answer": "Một quả trứng",
+      "refs": [
+        "Cỏ khô",
+        "Thức ăn",
+        "Thức ăn từ xô",
+        "Cỏ khô từ xô",
+        "Đồ ăn"
+      ]
+    },
+    {
+      "id": 204,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.8,
+      "model_answer": "Màu trắng",
+      "refs": [
+        "Xanh và trắng",
+        "Màu xanh trắng",
+        "Trắng xanh",
+        "Xanh lơ và trắng",
+        "Trắng xen lẫn xanh"
+      ]
+    },
+    {
+      "id": 205,
+      "category": "Mô tả hành động",
+      "token_f1": 0.0,
+      "model_answer": "Đang quan sát chúng",
+      "refs": [
+        "Đứng cùng cừu",
+        "Chăn dắt cừu",
+        "Ở trong chuồng cừu",
+        "Quanh đàn cừu",
+        "Đứng cạnh cừu"
+      ]
+    },
+    {
+      "id": 206,
+      "category": "Mối quan hệ",
+      "token_f1": 0.2222,
+      "model_answer": "Chúng đang ngồi cạnh nhau",
+      "refs": [
+        "Họ là thợ máy",
+        "Chủ xe và thợ",
+        "Đồng nghiệp sửa xe",
+        "Đang làm việc cùng",
+        "Sửa chữa phương tiện"
+      ]
+    },
+    {
+      "id": 207,
+      "category": "Suy luận ngữ cảnh",
+      "token_f1": 0.0,
+      "model_answer": "Có thể là một cửa hàng",
+      "refs": [
+        "Dịp sinh nhật lần thứ 50",
+        "Kỷ niệm năm mươi tuổi",
+        "Lễ kỷ niệm năm mươi",
+        "Người đàn ông 50 tuổi",
+        "Dấu hiệu tuổi 50"
+      ]
+    },
+    {
+      "id": 208,
+      "category": "Mối quan hệ",
+      "token_f1": 0.8571,
+      "model_answer": "Đoàn tàu chạy trên đường ray xe lửa",
+      "refs": [
+        "Đoàn tàu chạy trên đường ray",
+        "Đường ray dẫn đường cho tàu",
+        "Chúng tạo thành một mô hình",
+        "Đường ray hỗ trợ đoàn tàu",
+        "Cùng trang trí bánh sinh nhật"
+      ]
+    },
+    {
+      "id": 209,
+      "category": "Mô tả hành động",
+      "token_f1": 0.4,
+      "model_answer": "Đang bơi",
+      "refs": [
+        "Bú sữa mẹ",
+        "Đang bú mẹ",
+        "Nó đang bú",
+        "Tìm kiếm thức ăn",
+        "Chăm sóc mẹ"
+      ]
+    },
+    {
+      "id": 210,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.3333,
+      "model_answer": "Màu xanh",
+      "refs": [
+        "Màu đỏ và đen",
+        "Đỏ và đen",
+        "Kết hợp đỏ đen",
+        "Đỏ, đen",
+        "Đỏ với đen"
+      ]
+    },
+    {
+      "id": 211,
+      "category": "Mô tả hành động",
+      "token_f1": 0.5,
+      "model_answer": "Đang ăn",
+      "refs": [
+        "Gặm cỏ cùng nhau",
+        "Tìm kiếm thức ăn",
+        "Thư giãn trên đồng cỏ",
+        "Ăn cỏ",
+        "Ở bên nhau"
+      ]
+    },
+    {
+      "id": 212,
+      "category": "Mối quan hệ",
+      "token_f1": 0.2,
+      "model_answer": "Máy sấy tóc đặt trên bồn cầu",
+      "refs": [
+        "Cùng nằm trong phòng tắm",
+        "Đặt cạnh nhau",
+        "Đều có màu trắng",
+        "Không có mối quan hệ trực tiếp",
+        "Cả hai đều là đồ dùng cá nhân"
+      ]
+    },
+    {
+      "id": 213,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.5714,
+      "model_answer": "Trang phục màu xanh",
+      "refs": [
+        "Đồ da đen",
+        "Áo khoác da",
+        "Đồ da",
+        "Trang phục đen",
+        "Áo khoác"
+      ]
+    },
+    {
+      "id": 214,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.4,
+      "model_answer": "Chúng được đặt cạnh nhau",
+      "refs": [
+        "Nó ngồi trước hai cái kia",
+        "Nó được đặt phía trước",
+        "Nó ở phía trước chúng",
+        "Nó nằm phía trước hai chiếc",
+        "Chiếc bánh yêu nước ở phía trước"
+      ]
+    },
+    {
+      "id": 215,
+      "category": "Mối quan hệ",
+      "token_f1": 0.9231,
+      "model_answer": "Gia vị được đặt trên bếp lò",
+      "refs": [
+        "Gia vị được đặt trên bếp.",
+        "Gia vị nằm trên đầu trang.",
+        "Gia vị ở trên bếp.",
+        "Gia vị trang trí bếp.",
+        "Bếp là nơi để gia vị."
+      ]
+    },
+    {
+      "id": 216,
+      "category": "Xác định số lượng",
+      "token_f1": 0.5,
+      "model_answer": "Hai hàng",
+      "refs": [
+        "Nhiều hàng",
+        "Nhiều",
+        "Một vài",
+        "Rất nhiều",
+        "Nhiều hàng thuyền"
+      ]
+    },
+    {
+      "id": 217,
+      "category": "Mối quan hệ",
+      "token_f1": 0.0,
+      "model_answer": "Cừu đang bò",
+      "refs": [
+        "Cả hai đều gặm cỏ",
+        "Chúng cùng ở trên cánh đồng",
+        "Đều là động vật ăn cỏ",
+        "Cùng hiện diện ở gần nước",
+        "Cùng xuất hiện trên cánh đồng cỏ"
+      ]
+    },
+    {
+      "id": 218,
+      "category": "Mô tả hành động",
+      "token_f1": 0.25,
+      "model_answer": "Đang đi về phía cỏ",
+      "refs": [
+        "Hàng rào",
+        "Hàng rào dây thừng",
+        "Phía hàng rào",
+        "Rào chắn",
+        "Hàng rào dây"
+      ]
+    },
+    {
+      "id": 219,
+      "category": "Xác định thuộc tính",
+      "token_f1": 0.2857,
+      "model_answer": "Màu xanh lá cây",
+      "refs": [
+        "Đen trắng",
+        "Chỉ có màu đen trắng",
+        "Ảnh đen trắng",
+        "Màu đơn sắc",
+        "Không có màu"
+      ]
+    },
+    {
+      "id": 220,
+      "category": "Mô tả hành động",
+      "token_f1": 0.5714,
+      "model_answer": "Đang chạy trên đường",
+      "refs": [
+        "Đang đậu",
+        "Dường như đang đậu",
+        "Ngồi trên đường",
+        "Đậu ở bên cạnh",
+        "Đang dừng"
+      ]
+    },
+    {
+      "id": 221,
+      "category": "Mối quan hệ",
+      "token_f1": 0.7273,
+      "model_answer": "Người đang chơi ván trượt",
+      "refs": [
+        "Người đang đứng trên ván trượt",
+        "Người sử dụng ván trượt",
+        "Ván trượt nâng đỡ người",
+        "Người điều khiển ván trượt",
+        "Người và ván trượt cùng chuyển động"
+      ]
+    },
+    {
+      "id": 222,
+      "category": "Mô tả hành động",
+      "token_f1": 0.0,
+      "model_answer": "Đang bơi",
+      "refs": [
+        "Đứng cạnh hàng rào",
+        "Đứng bên ngoài",
+        "Nằm trong khu vực rào",
+        "Lăn mũi của nó",
+        "Quấn vòi vào miệng"
+      ]
+    },
+    {
+      "id": 223,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.0,
+      "model_answer": "'Chuẩn bị cho một chuyến đi'",
+      "refs": [
+        "KHÔNG CÓ ĐƯỜNG QUA",
+        "Không có đường qua",
+        "Chữ KHÔNG CÓ ĐƯỜNG QUA",
+        "Dòng chữ KHÔNG CÓ ĐƯỜNG QUA",
+        "Nó ghi KHÔNG CÓ ĐƯỜNG QUA"
+      ]
+    },
+    {
+      "id": 224,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.25,
+      "model_answer": "Thuyền ở gần lều",
+      "refs": [
+        "Được neo đậu bên cạnh",
+        "Đậu gần bãi cỏ",
+        "Nằm sát bãi cỏ",
+        "Gắn liền bãi cỏ",
+        "Có vị trí gần bãi cỏ"
+      ]
+    },
+    {
+      "id": 225,
+      "category": "Mối quan hệ",
+      "token_f1": 0.6667,
+      "model_answer": "Voi đang sống trong môi trường tự nhiên",
+      "refs": [
+        "Chúng hòa mình vào cảnh vật",
+        "Chúng sinh sống trong tự nhiên",
+        "Chúng tương tác với hồ nước",
+        "Là một phần của cảnh quan",
+        "Chúng đang ở trong môi trường sống"
+      ]
+    },
+    {
+      "id": 226,
+      "category": "Mô tả hành động",
+      "token_f1": 0.4,
+      "model_answer": "Đang bơi",
+      "refs": [
+        "Đang gặm cỏ",
+        "Đứng gặm cỏ",
+        "Tìm kiếm thức ăn",
+        "Đang ăn cây",
+        "Gặm cỏ một mình"
+      ]
+    },
+    {
+      "id": 227,
+      "category": "Xác định số lượng",
+      "token_f1": 0.5,
+      "model_answer": "Hai chiếc",
+      "refs": [
+        "Năm chiếc",
+        "5 chiếc",
+        "Năm đối tượng",
+        "Rất nhiều",
+        "Nhiều hơn một"
+      ]
+    },
+    {
+      "id": 228,
+      "category": "Mối quan hệ",
+      "token_f1": 0.4615,
+      "model_answer": "Chúng là hai chiếc xe tải",
+      "refs": [
+        "Một chiếc đang kéo chiếc còn lại",
+        "Chiếc xe tải trắng kéo xe khác",
+        "Chiếc xe tải lớn đang được kéo",
+        "Có một xe kéo và một xe được kéo",
+        "Chúng đang trong hành động kéo nhau"
+      ]
+    },
+    {
+      "id": 229,
+      "category": "Suy luận ngữ cảnh",
+      "token_f1": 0.1818,
+      "model_answer": "Giai đoạn lịch sử cổ",
+      "refs": [
+        "Kiến trúc cổ điển châu Âu",
+        "Có lẽ thời kỳ Phục Hưng",
+        "Phong cách Gothic có thể",
+        "Mang dáng dấp kiến trúc thuộc địa",
+        "Khó xác định, cần thêm chi tiết"
+      ]
+    },
+    {
+      "id": 230,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.1818,
+      "model_answer": "Để nhìn lên",
+      "refs": [
+        "Có thể chúng đang tìm thức ăn.",
+        "Có thể chúng đang di chuyển lên dốc.",
+        "Chúng có thể đang quan sát xung quanh.",
+        "Có lẽ chúng đang tránh mối nguy hiểm.",
+        "Chúng có thể đang đi theo đàn."
+      ]
+    },
+    {
+      "id": 231,
+      "category": "Mối quan hệ",
+      "token_f1": 0.8571,
+      "model_answer": "Người đàn ông đang lái xe tải",
+      "refs": [
+        "Người đàn ông đang nhìn vào phía sau xe tải",
+        "Người đàn ông quan sát xe tải",
+        "Người đàn ông đứng gần xe tải",
+        "Người đàn ông đang xem xe tải",
+        "Người đàn ông tương tác với xe tải"
+      ]
+    },
+    {
+      "id": 232,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.0,
+      "model_answer": "Đang được sửa chữa",
+      "refs": [
+        "Có ghế kim loại",
+        "Ghế kim loại",
+        "Một ghế kim loại",
+        "Ghế ở phía sau",
+        "Ghế"
+      ]
+    },
+    {
+      "id": 233,
+      "category": "Mối quan hệ",
+      "token_f1": 0.4615,
+      "model_answer": "Người phụ nữ đang quan sát con chim",
+      "refs": [
+        "Người tương tác chim",
+        "Con người điều khiển chim",
+        "Chủ và chim thú cưng",
+        "Người và chim đang chơi",
+        "Tương tác thân thiện"
+      ]
+    },
+    {
+      "id": 234,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.5,
+      "model_answer": "Một phần thịt và một phần rau",
+      "refs": [
+        "Thịt bò và khoai tây",
+        "Khoai tây và các loại thịt",
+        "Thịt, khoai tây và rau",
+        "Thịt, khoai tây, rau bina",
+        "Thịt bò, khoai tây, bít tết"
+      ]
+    },
+    {
+      "id": 235,
+      "category": "Xác định số lượng",
+      "token_f1": 0.4,
+      "model_answer": "Hai bông hoa",
+      "refs": [
+        "Ba bông",
+        "Ba",
+        "3 bông",
+        "3",
+        "Có ba"
+      ]
+    },
+    {
+      "id": 236,
+      "category": "Mối quan hệ",
+      "token_f1": 0.1333,
+      "model_answer": "Đèn giao thông ở phía trước cột đèn",
+      "refs": [
+        "Chúng được nối với nhau bằng dây điện",
+        "Dây điện vắt ngang giữa chúng",
+        "Chúng là hai điểm cố định cho dây điện",
+        "Dây điện tạo sự kết nối",
+        "Dây điện treo ở giữa cả hai"
+      ]
+    },
+    {
+      "id": 237,
+      "category": "Xác định số lượng",
+      "token_f1": 0.5,
+      "model_answer": "Hai miếng",
+      "refs": [
+        "33 miếng",
+        "Ba mươi ba miếng",
+        "Có 33 miếng",
+        "33 lát",
+        "Đến 33 miếng"
+      ]
+    },
+    {
+      "id": 238,
+      "category": "Mối quan hệ",
+      "token_f1": 0.1818,
+      "model_answer": "Chim ở trên bay, chim ở dưới bay",
+      "refs": [
+        "Bay cạnh nhau",
+        "Ở gần nhau",
+        "Song song",
+        "Bên cạnh nhau",
+        "Gần kề"
+      ]
+    },
+    {
+      "id": 239,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.0,
+      "model_answer": "Trong phòng khách",
+      "refs": [
+        "Quanh bàn cà phê",
+        "Gần bàn",
+        "Xung quanh bàn",
+        "Tại bàn",
+        "Bên cạnh bàn cà phê"
+      ]
+    },
+    {
+      "id": 240,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.3333,
+      "model_answer": "Màu xanh lá cây",
+      "refs": [
+        "Màu đỏ",
+        "Màu đỏ neon",
+        "Đỏ nổi bật",
+        "Đỏ rực",
+        "Màu đỏ tươi"
+      ]
+    },
+    {
+      "id": 241,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.8571,
+      "model_answer": "Để có ánh sáng tốt hơn",
+      "refs": [
+        "Để có ánh sáng tự nhiên tốt hơn",
+        "Để tiết kiệm điện",
+        "Để không gian sáng sủa hơn",
+        "Để thông thoáng hơn",
+        "Để nhìn rõ hơn"
+      ]
+    },
+    {
+      "id": 242,
+      "category": "Mối quan hệ",
+      "token_f1": 0.8,
+      "model_answer": "Họ đang đi bộ gần xe buýt",
+      "refs": [
+        "Người đi bộ lên xe buýt",
+        "Họ đang đi bộ để lên xe buýt",
+        "Người đi bộ di chuyển đến xe buýt",
+        "Mọi người đang tiến về phía xe buýt",
+        "Họ chuẩn bị lên xe buýt"
+      ]
+    },
+    {
+      "id": 243,
+      "category": "Mô tả hành động",
+      "token_f1": 0.8,
+      "model_answer": "Bừa bộn",
+      "refs": [
+        "Rất lộn xộn",
+        "Bừa bộn nhiều đồ",
+        "Đầy đủ công cụ",
+        "Lộn xộn với nhiều đồ",
+        "Hơi bừa bộn"
+      ]
+    },
+    {
+      "id": 244,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.25,
+      "model_answer": "Một chiếc điện thoại",
+      "refs": [
+        "Tay cầm điều khiển Wii",
+        "Bộ điều khiển máy chơi game",
+        "Wii controller",
+        "Tay cầm chơi game",
+        "Một bộ điều khiển"
+      ]
+    },
+    {
+      "id": 245,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 1.0,
+      "model_answer": "Màu xanh",
+      "refs": [
+        "Xanh và trắng",
+        "Màu xanh",
+        "Màu trắng",
+        "Xanh trắng",
+        "Hai màu xanh và trắng"
+      ]
+    },
+    {
+      "id": 246,
+      "category": "Xác định số lượng",
+      "token_f1": 0.5,
+      "model_answer": "Hai quả",
+      "refs": [
+        "Bốn",
+        "4",
+        "Bốn quả",
+        "Hai quả ở ngoài toà nhà, hai cái đầu bí ngô",
+        "Bốn tổng cộng"
+      ]
+    },
+    {
+      "id": 247,
+      "category": "Xác định số lượng",
+      "token_f1": 0.0,
+      "model_answer": "Hai",
+      "refs": [
+        "Một vài",
+        "Một số",
+        "Không rõ số lượng",
+        "Không thể xác định",
+        "Nhiều hơn một"
+      ]
+    },
+    {
+      "id": 248,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.3636,
+      "model_answer": "Để tránh bị cướp",
+      "refs": [
+        "Có thể để chuẩn bị chuyển đi",
+        "Có thể là hàng mới đến",
+        "Để chờ được dọn dẹp",
+        "Có thể là vật liệu đóng gói",
+        "Để thuận tiện cho việc bốc dỡ"
+      ]
+    },
+    {
+      "id": 249,
+      "category": "Mối quan hệ",
+      "token_f1": 0.5455,
+      "model_answer": "Xe buýt đang đậu tại trạm",
+      "refs": [
+        "Xe buýt dỡ hành khách",
+        "Xe buýt đang dỡ khách",
+        "Xe buýt cho khách xuống",
+        "Khách đang xuống xe buýt",
+        "Xe buýt đang phục vụ hành khách"
+      ]
+    },
+    {
+      "id": 250,
+      "category": "Mối quan hệ",
+      "token_f1": 0.8235,
+      "model_answer": "Người đi xe đạp đang đi trên xe buýt",
+      "refs": [
+        "Người đi xe đạp đi qua xe buýt",
+        "Người đi xe đạp đang vượt xe buýt",
+        "Họ đi cùng hướng nhưng người đi xe đạp nhanh hơn",
+        "Người đi xe đạp đi cạnh xe buýt",
+        "Xe buýt dừng, người đi xe đạp đi qua"
+      ]
+    },
+    {
+      "id": 251,
+      "category": "Mối quan hệ",
+      "token_f1": 0.6667,
+      "model_answer": "Máy bay bay trên mặt nước",
+      "refs": [
+        "Máy bay ở cạnh mặt nước",
+        "Máy bay gần biển",
+        "Máy bay đối diện vùng nước",
+        "Máy bay trên đường băng bên cạnh nước",
+        "Máy bay gần khu vực nước"
+      ]
+    },
+    {
+      "id": 252,
+      "category": "Mô tả hành động",
+      "token_f1": 1.0,
+      "model_answer": "Đang mở",
+      "refs": [
+        "Đang mở",
+        "Mở rộng",
+        "Mở hờ",
+        "Không đóng",
+        "Mở"
+      ]
+    },
+    {
+      "id": 253,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.4,
+      "model_answer": "Món bánh mì",
+      "refs": [
+        "Một chiếc bánh rán",
+        "Bánh rán",
+        "Chiếc bánh rán",
+        "Bánh ngọt",
+        "Một chiếc bánh ngọt"
+      ]
+    },
+    {
+      "id": 254,
+      "category": "Mô tả hành động",
+      "token_f1": 0.8,
+      "model_answer": "Đang chơi bóng",
+      "refs": [
+        "Đi bộ",
+        "Chạy",
+        "Ném bóng",
+        "Ném quả bóng",
+        "Đang chơi"
+      ]
+    },
+    {
+      "id": 255,
+      "category": "Mối quan hệ",
+      "token_f1": 0.5,
+      "model_answer": "Nến chiếu TV",
+      "refs": [
+        "Nến được đặt cạnh TV",
+        "Nến ở mỗi bên của TV",
+        "Nến và TV cùng trên mặt phẳng",
+        "Chúng đặt gần nhau",
+        "Nến làm nổi bật TV"
+      ]
+    },
+    {
+      "id": 256,
+      "category": "Suy luận ngữ cảnh",
+      "token_f1": 0.0,
+      "model_answer": "Có thể là bông cải xanh",
+      "refs": [
+        "Mềm",
+        "Không giòn",
+        "Hơi mềm",
+        "Nấu chín",
+        "Đã được nướng"
+      ]
+    },
+    {
+      "id": 257,
+      "category": "Mối quan hệ",
+      "token_f1": 0.1667,
+      "model_answer": "Bồn tắm nước nóng nằm cạnh bồn rửa",
+      "refs": [
+        "Chúng ở gần nhau",
+        "Chúng được đặt cạnh nhau",
+        "Cùng trong phòng tắm",
+        "Cả hai đều có trên tường",
+        "Cả hai đều ở trong phòng tắm"
+      ]
+    },
+    {
+      "id": 258,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.5,
+      "model_answer": "Màu xanh",
+      "refs": [
+        "Màu vàng",
+        "Vàng là chủ đạo",
+        "Một màu vàng",
+        "Màu vàng nhẹ",
+        "Vàng ấm áp"
+      ]
+    },
+    {
+      "id": 259,
+      "category": "Mối quan hệ",
+      "token_f1": 0.4,
+      "model_answer": "Con diều thợ lặn đang bay",
+      "refs": [
+        "Bay cạnh nhau",
+        "Chúng bay cùng nhau",
+        "Cả hai đang bay",
+        "Một bên cạnh cái kia",
+        "Cùng trên không trung"
+      ]
+    },
+    {
+      "id": 260,
+      "category": "Mối quan hệ",
+      "token_f1": 0.8333,
+      "model_answer": "Họ đang chạy trên đường đua",
+      "refs": [
+        "Họ đang đua trên đường đua",
+        "Họ là những tay đua",
+        "Họ đang cạnh tranh",
+        "Họ đang tham gia cuộc đua",
+        "Họ đang thể hiện kỹ năng lái xe"
+      ]
+    },
+    {
+      "id": 261,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.25,
+      "model_answer": "Một cái ghế",
+      "refs": [
+        "Kẹo táo khô",
+        "Những quả táo khô",
+        "Táo kẹo đã khô",
+        "Một vài quả táo kẹo",
+        "Các quả táo kẹo khô"
+      ]
+    },
+    {
+      "id": 262,
+      "category": "Mối quan hệ",
+      "token_f1": 0.75,
+      "model_answer": "Họ đang đi đến trạm xe buýt",
+      "refs": [
+        "Họ là du khách tại trạm xe buýt.",
+        "Họ đang đi bộ xung quanh trạm xe buýt.",
+        "Có thể họ đang đợi xe buýt.",
+        "Họ đang ở khu vực trạm xe buýt.",
+        "Họ đang di chuyển gần xe buýt."
+      ]
+    },
+    {
+      "id": 263,
+      "category": "Xác định số lượng",
+      "token_f1": 0.5,
+      "model_answer": "Hai món",
+      "refs": [
+        "Một món",
+        "Một",
+        "Chỉ một",
+        "Một cái",
+        "Có một"
+      ]
+    },
+    {
+      "id": 264,
+      "category": "Xác định số lượng",
+      "token_f1": 1.0,
+      "model_answer": "Hai người",
+      "refs": [
+        "Hai người",
+        "Có hai người",
+        "Hai người đàn ông",
+        "Chỉ có hai người",
+        "Hai"
+      ]
+    },
+    {
+      "id": 265,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.5,
+      "model_answer": "Sân bay quốc tế",
+      "refs": [
+        "Sân bay trên núi",
+        "Sân bay nằm trên núi",
+        "Trên đường băng sân bay trên núi",
+        "Sân bay có núi",
+        "Đường băng của sân bay núi"
+      ]
+    },
+    {
+      "id": 266,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.4,
+      "model_answer": "Trên bàn ghế",
+      "refs": [
+        "Trong gương",
+        "Trước tấm gương",
+        "Trên cửa sổ",
+        "Với hình phản chiếu",
+        "Trên tường"
+      ]
+    },
+    {
+      "id": 267,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.8333,
+      "model_answer": "Có ghế sofa và bàn ghế",
+      "refs": [
+        "Bàn, ghế và ghế dài",
+        "Có bàn, ghế và ghế dài",
+        "Bàn, ghế và một chiếc ghế dài",
+        "Một cái bàn, ghế và ghế dài",
+        "Ghế dài, bàn và ghế"
+      ]
+    },
+    {
+      "id": 268,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.3333,
+      "model_answer": "Để chơi bóng",
+      "refs": [
+        "Có thể không có sân tennis.",
+        "Có thể để giải trí.",
+        "Có lẽ vì thích không gian rộng.",
+        "Có thể không có nơi nào khác để chơi.",
+        "Có lẽ vì đường phố vắng."
+      ]
+    },
+    {
+      "id": 269,
+      "category": "Xác định số lượng",
+      "token_f1": 1.0,
+      "model_answer": "Hai người",
+      "refs": [
+        "Hai người",
+        "Cho hai",
+        "Hai vị trí",
+        "Hai chỗ",
+        "Có hai chỗ"
+      ]
+    },
+    {
+      "id": 270,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.0,
+      "model_answer": "Bê tông",
+      "refs": [
+        "Đá và gạch đỏ",
+        "Chủ yếu là gạch đỏ",
+        "Gạch đỏ",
+        "Đá và gạch",
+        "Gạch và có lẽ đá"
+      ]
+    },
+    {
+      "id": 271,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.8,
+      "model_answer": "Khu vực bên ngoài",
+      "refs": [
+        "Nhà vệ sinh",
+        "Khu vực bồn rửa",
+        "Nhà vệ sinh và bồn rửa",
+        "Khu vực bên ngoài phòng tắm",
+        "Một không gian khác"
+      ]
+    },
+    {
+      "id": 272,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.2857,
+      "model_answer": "Một lớp mỏng",
+      "refs": [
+        "Nước thịt",
+        "Một loại nước sốt",
+        "Sốt thịt",
+        "Chất lỏng",
+        "Nước chấm"
+      ]
+    },
+    {
+      "id": 273,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.3636,
+      "model_answer": "Vì có nhiều người xem",
+      "refs": [
+        "Vì đây là trận đấu quan trọng",
+        "Vì họ thích quần vợt",
+        "Để cổ vũ cho các vận động viên",
+        "Vì muốn xem trận đấu đôi",
+        "Vì tò mò về trận đấu"
+      ]
+    },
+    {
+      "id": 274,
+      "category": "Mối quan hệ",
+      "token_f1": 0.0,
+      "model_answer": "Được đặt cạnh nhau",
+      "refs": [
+        "Dao dùng để cắt",
+        "Dao cắt bánh",
+        "Dùng dao xử lý",
+        "Dao tác động lên",
+        "Dao chia nhỏ"
+      ]
+    },
+    {
+      "id": 275,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.25,
+      "model_answer": "Màu xanh lá cây",
+      "refs": [
+        "Màu đỏ và trắng",
+        "Đỏ và trắng",
+        "Đỏ trắng",
+        "Đỏ, trắng",
+        "Chủ yếu là đỏ và trắng"
+      ]
+    },
+    {
+      "id": 276,
+      "category": "Mối quan hệ",
+      "token_f1": 0.3636,
+      "model_answer": "Bồn tắm ở phía trước",
+      "refs": [
+        "Bồn tắm ngồi cạnh bồn rửa",
+        "Chúng ở cạnh nhau",
+        "Chúng được đặt gần nhau",
+        "Bồn tắm nằm cạnh bồn rửa",
+        "Bồn rửa và bồn tắm gần kề"
+      ]
+    },
+    {
+      "id": 277,
+      "category": "Mối quan hệ",
+      "token_f1": 0.6667,
+      "model_answer": "Cầu thủ đang cầm quả bóng",
+      "refs": [
+        "Cầu thủ chuẩn bị đánh bóng",
+        "Cầu thủ đang tương tác với bóng",
+        "Cầu thủ sắp thực hiện cú đánh",
+        "Cầu thủ và bóng đang ở trong trận đấu",
+        "Cầu thủ sắp đánh quả bóng"
+      ]
+    },
+    {
+      "id": 278,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.8,
+      "model_answer": "Trên ghế",
+      "refs": [
+        "Trên băng ghế.",
+        "Ghế ở quán cà phê.",
+        "Ở nơi công cộng.",
+        "Trên ghế dự bị.",
+        "Ghế ngoài trời."
+      ]
+    },
+    {
+      "id": 279,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.9231,
+      "model_answer": "Ly rượu vang nằm trên góc bàn",
+      "refs": [
+        "Ly rượu đặt ở góc bàn",
+        "Ly rượu đang ở trên góc bàn",
+        "Ly rượu nằm trên góc bàn",
+        "Ly rượu gần góc bàn",
+        "Ly rượu kê vào góc bàn"
+      ]
+    },
+    {
+      "id": 280,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.25,
+      "model_answer": "Để bảo vệ hàng hóa",
+      "refs": [
+        "Phân chia đường",
+        "Để cảnh báo",
+        "Hướng dẫn giao thông",
+        "Báo hiệu nguy hiểm",
+        "Ngăn cách khu vực"
+      ]
+    },
+    {
+      "id": 281,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.2222,
+      "model_answer": "Màu xanh lá cây",
+      "refs": [
+        "Màu đen và trắng, giữa hai cột",
+        "Đen và trắng, giữa hai cột bạc",
+        "Màu đen trắng, giữa hai cột",
+        "Đen trắng, giữa hai cột bạc",
+        "Màu đen trắng, hai cột"
+      ]
+    },
+    {
+      "id": 282,
+      "category": "Mối quan hệ",
+      "token_f1": 0.3077,
+      "model_answer": "Được đặt cạnh nhau",
+      "refs": [
+        "Dụng cụ mở chai nằm trên tủ lạnh",
+        "Dụng cụ mở chai được gắn vào tủ lạnh",
+        "Dụng cụ mở chai là một vật dụng trên tủ lạnh",
+        "Dụng cụ mở chai được đặt trên tủ lạnh",
+        "Dụng cụ mở chai được dán lên tủ lạnh"
+      ]
+    },
+    {
+      "id": 283,
+      "category": "Mối quan hệ",
+      "token_f1": 0.5455,
+      "model_answer": "Chiếc kéo đang cầm tờ giấy",
+      "refs": [
+        "Kéo nằm trên giấy",
+        "Kéo đang đặt trên giấy",
+        "Giấy là bề mặt đặt kéo",
+        "Kéo được đặt lên tờ giấy",
+        "Kéo tiếp xúc với giấy"
+      ]
+    },
+    {
+      "id": 284,
+      "category": "Mối quan hệ",
+      "token_f1": 0.7143,
+      "model_answer": "Người đàn ông đang ngồi trên xe đẩy",
+      "refs": [
+        "Người đàn ông điều khiển xe",
+        "Người đàn ông đang lái xe",
+        "Người đàn ông cưỡi xe",
+        "Người đàn ông đi cùng xe",
+        "Người đàn ông kiểm soát xe"
+      ]
+    },
+    {
+      "id": 285,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.4,
+      "model_answer": "Màu vàng",
+      "refs": [
+        "Đầy màu sắc",
+        "Được trang trí nhiều màu",
+        "Sơn đủ màu",
+        "Màu sắc rực rỡ",
+        "Rất nhiều màu"
+      ]
+    },
+    {
+      "id": 286,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.0,
+      "model_answer": "Trên sàn",
+      "refs": [
+        "Nép mình trong đá cuội cắt ra",
+        "Trong một viên đá cuội",
+        "Âm vào đá cuội",
+        "Nằm trong khối đá",
+        "Lọt thỏm vào đá"
+      ]
+    },
+    {
+      "id": 287,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.5,
+      "model_answer": "Con mèo ở phía trước cửa sổ",
+      "refs": [
+        "Ngồi gần cửa sổ.",
+        "Ngồi trên gờ tường.",
+        "Ở ngay sát cửa sổ.",
+        "Đang nhìn ra ngoài cửa.",
+        "Đối diện với cửa sổ."
+      ]
+    },
+    {
+      "id": 288,
+      "category": "Mối quan hệ",
+      "token_f1": 0.6667,
+      "model_answer": "Nĩa đang cầm thức ăn",
+      "refs": [
+        "Cái nĩa đang đào vào thức ăn",
+        "Cái nĩa tiếp xúc với thức ăn",
+        "Nĩa đang được dùng để lấy thức ăn",
+        "Nĩa chọc vào đồ ăn",
+        "Nĩa và thức ăn đang tương tác"
+      ]
+    },
+    {
+      "id": 289,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.5,
+      "model_answer": "Để chờ khách đi xe",
+      "refs": [
+        "Đang chờ học sinh",
+        "Để đón học sinh",
+        "Để đỗ tạm thời",
+        "Đang chờ đi",
+        "Có thể hỏng"
+      ]
+    },
+    {
+      "id": 290,
+      "category": "Mối quan hệ",
+      "token_f1": 0.7692,
+      "model_answer": "Tấm thảm nằm cạnh nhà vệ sinh",
+      "refs": [
+        "Thảm ở phía trước nhà vệ sinh",
+        "Thảm đặt trước nhà vệ sinh",
+        "Thảm nằm gần nhà vệ sinh",
+        "Thảm được đặt cạnh nhà vệ sinh",
+        "Thảm gần bồn cầu"
+      ]
+    },
+    {
+      "id": 291,
+      "category": "Mối quan hệ",
+      "token_f1": 0.6667,
+      "model_answer": "Ban công nằm cạnh giường",
+      "refs": [
+        "Cả hai đều là tiện nghi",
+        "Cung cấp không gian nghỉ ngơi",
+        "Tạo tầm nhìn và sự thoải mái",
+        "Ban công nằm ngoài, giường bên trong",
+        "Đều thuộc về phòng khách sạn"
+      ]
+    },
+    {
+      "id": 292,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.0,
+      "model_answer": "Các nhân vật",
+      "refs": [
+        "Một người đàn ông và một người phụ nữ",
+        "Người đàn ông và phụ nữ",
+        "Một cặp đôi nam nữ",
+        "Hai người: một nam, một nữ",
+        "Đàn ông và phụ nữ"
+      ]
+    },
+    {
+      "id": 293,
+      "category": "Xác định số lượng",
+      "token_f1": 0.5,
+      "model_answer": "Hai loại",
+      "refs": [
+        "Ba loại trái cây",
+        "Có ba loại",
+        "Ba loại",
+        "Tổng cộng ba",
+        "Chỉ ba loại"
+      ]
+    },
+    {
+      "id": 294,
+      "category": "Mối quan hệ",
+      "token_f1": 0.3077,
+      "model_answer": "Thuyền ở phía trước mặt trời",
+      "refs": [
+        "Thuyền di chuyển về phía hoàng hôn",
+        "Thuyền đang đi trong ánh hoàng hôn",
+        "Hoàng hôn làm nền cho chiếc thuyền",
+        "Thuyền rời xa ánh hoàng hôn",
+        "Thuyền xuất hiện cùng hoàng hôn"
+      ]
+    },
+    {
+      "id": 295,
+      "category": "Lý do/ Nhân quả",
+      "token_f1": 0.3636,
+      "model_answer": "Để giữ cho pizza tươi ngon",
+      "refs": [
+        "Để dễ dàng di chuyển",
+        "Giữ pizza không bị dính",
+        "Để pizza nguội nhanh hơn",
+        "Để tiện lợi khi cắt",
+        "Bảo vệ bàn khỏi nhiệt"
+      ]
+    },
+    {
+      "id": 296,
+      "category": "Xác định đối tượng/ thuộc tính",
+      "token_f1": 0.2857,
+      "model_answer": "Một tấm ván gỗ",
+      "refs": [
+        "Đá granite",
+        "Đá",
+        "Đá hoa cương",
+        "Một loại đá",
+        "Đá cứng"
+      ]
+    },
+    {
+      "id": 297,
+      "category": "Xác định số lượng",
+      "token_f1": 1.0,
+      "model_answer": "Hai chiếc",
+      "refs": [
+        "Hai chiếc ghế",
+        "Hai chiếc",
+        "Hai ghế",
+        "2 chiếc",
+        "2 ghế gỗ"
+      ]
+    },
+    {
+      "id": 298,
+      "category": "Mối quan hệ",
+      "token_f1": 0.6667,
+      "model_answer": "Vòi nước ở gần vỉa hè",
+      "refs": [
+        "Vòi nước đứng trên vỉa hè",
+        "Vòi chữa cháy đặt cạnh vỉa hè",
+        "Vòi nước gắn liền vỉa hè",
+        "Vòi nước nằm trên vỉa hè",
+        "Vỉa hè nâng đỡ vòi nước"
+      ]
+    },
+    {
+      "id": 299,
+      "category": "Mối quan hệ",
+      "token_f1": 0.5556,
+      "model_answer": "Thịt gà được đặt trên bông cải xanh",
+      "refs": [
+        "Cả hai đều là thành phần món ăn.",
+        "Chúng được nấu chung trong nước dùng.",
+        "Bông cải xanh có lẽ ăn kèm với thịt gà.",
+        "Thịt gà và bông cải xanh tạo sự cân bằng dinh dưỡng.",
+        "Chúng là các nguyên liệu chính."
+      ]
+    },
+    {
+      "id": 300,
+      "category": "Mô tả vị trí/ không gian",
+      "token_f1": 0.75,
+      "model_answer": "Trên một bãi cỏ",
+      "refs": [
+        "Trên cỏ",
+        "Trên bãi cỏ xanh",
+        "Trên thảm cỏ",
+        "Trên đồng cỏ",
+        "Trên nền cỏ"
+      ]
+    }
+  ]
+}

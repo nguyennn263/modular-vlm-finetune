@@ -1,0 +1,16 @@
+{
+  "id": "duongcubu/mvlm-vintern-ft-minimal",
+  "title": "mvlm-vintern-ft-minimal",
+  "code_file": "worker.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": [
+    "duongcubu/autovivqa-internvl-sft",
+    "nguynrichard/auto-vqabest"
+  ],
+  "competition_sources": [],
+  "kernel_sources": []
+}

@@ -1,0 +1,51 @@
+\section{Related Work}
+\label{sec:related}
+
+Early VQA systems treated the task as classification over a fixed answer set,
+combining visual features with recurrent or attention-based language models.
+Transformer-based multimodal models then became the dominant paradigm, and
+generative VLMs now produce free-form answers with an autoregressive language
+model~\cite{li2023blip2,alayrac2022flamingo,liu2023visualinstructiontuning}.
+
+\paragraph{Vietnamese VQA.}
+Vietnamese VQA resources include ViVQA~\cite{tran2021vivqa}, the open-ended
+OpenViVQA~\cite{nguyen2023openvivqa}, and specialised datasets for synthetic
+reasoning (ViCLEVR~\cite{tran2023viclevr}), book covers
+(ViOCRVQA~\cite{pham2024viocrvqa}) and scene text
+(ViTextVQA~\cite{nguyen2025vitextvqa}). AutoViVQA~\cite{autovivqa2026} provides
+37{,}077 LLM-generated and ensemble-filtered questions on 19{,}411 COCO
+images~\cite{lin2015coco}, each with five short answers and a reasoning label,
+and emphasises relational, causal and multi-step reasoning. On the modelling
+side, BARTPhoBEiT~\cite{tran2023bartphobeitpretrainedsequencetosequenceimage} and
+AViVQA-TranConI~\cite{nguyen2024tranconi} combine visual and Vietnamese language
+representations, Vintern-1B~\cite{doan2024vintern1b} brings an
+instruction-tuned VLM to Vietnamese, and ViMoE-VQA~\cite{vimoevqa} introduces sparse
+expert routing for generative VQA on AutoViVQA. These approaches either train a
+new model or fine-tune an existing VLM on multi-tile inputs. We instead keep all
+pre-trained weights of Vintern-1B frozen and use a single image view.
+
+\paragraph{Frozen backbones and vision--language connectors.}
+Many VLMs keep a pre-trained image encoder and language model frozen and train
+only a connector between them: Frozen~\cite{tsimpoukelli2021frozen} learns a visual
+prefix, BLIP-2~\cite{li2023blip2} a Q-Former, and
+LLaVA~\cite{liu2023visualinstructiontuning,liu2024llava15} an MLP projector over all
+patch tokens. Honeybee~\cite{cha2024honeybee} argues that connectors should preserve
+locality, and InternVL~\cite{chen2024internvl}, on which Vintern-1B is built, merges
+neighbouring patches before its projector. We compare connectors that read the global
+vector or learn to compress the patches with one that reuses the pre-trained projector
+of the VLM itself.
+
+\paragraph{Visual token budget.}
+The number of visual tokens dominates the cost of the decoder. Work on
+inference-optimal VLMs~\cite{li2024inferenceoptimal} finds that few tokens can suffice
+for many tasks, and Matryoshka models~\cite{cai2024matryoshka} train one model at
+several pooled token budgets and show that the required budget depends on the task.
+We vary the number of global and local tokens separately and select the budget with
+explicit criteria: the knee of the Pareto front~\cite{satopaa2011kneedle} and
+TOPSIS~\cite{hwang1981topsis}.
+
+\paragraph{Parameter-efficient adaptation.}
+Adapters~\cite{houlsby2019adapters}, prefix tuning~\cite{li2021prefix} and
+LoRA~\cite{hu2022lora} adapt a frozen network by training a small number of
+additional weights. We compare training a decoder LoRA with giving the frozen decoder
+richer visual tokens, which shows where a small budget is best spent in a frozen VLM.

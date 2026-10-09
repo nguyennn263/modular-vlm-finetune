@@ -47,14 +47,15 @@ ViT, `mlp1`, Qwen đều đóng băng, **không LoRA**; train 12.86M tham số (
   cao nhất ở 7/8 loại câu hỏi.
 - **OOD (F1, 3 tập con seed):**
 
-  | Tập | Vintern 6 tile | Global + LoRA (cũ) | Ours k=36 | Ours k=144 |
-  |---|--:|--:|--:|--:|
-  | ViTextVQA | 32.01 | 3.96 | 15.14 | **33.26** |
-  | OpenViVQA | **58.40** | 21.56 | 28.24 | 35.89 |
-  | ViVQA-X | 14.52 | 15.89 | 24.91 | **27.89** |
-  | ViVQA | 23.90 | 31.48 | 42.68 | **44.95** |
+  | Tập | Vintern 6 tile | Global + LoRA (cũ) | Ours k=36 | Ours k=36 + LoRA | Ours k=144 |
+  |---|--:|--:|--:|--:|--:|
+  | ViTextVQA | 32.01 | 3.96 | 15.14 | 15.39 | **33.26** |
+  | OpenViVQA | **58.40** | 21.56 | 28.24 | 28.99 | 35.89 |
+  | ViVQA-X | 14.52 | 15.89 | 24.91 | 27.64 | **27.89** |
+  | ViVQA | 23.90 | 31.48 | 42.68 | 44.76 | **44.95** |
 
   → k=144 (1 ảnh 336px) vượt Vintern 6 tile ở ViTextVQA; OpenViVQA thì Vintern vẫn hơn rõ.
+  LoRA giúp ở 2 tập câu hỏi chung (+2–3 F1) nhưng gần như không giúp ở 2 tập đọc chữ.
 
 Thay đổi trong paper: `paper/aciids2027/CHANGELOG.md`. Bản HTML của báo cáo này chưa được cập nhật.
 

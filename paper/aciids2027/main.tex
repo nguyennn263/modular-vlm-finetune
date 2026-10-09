@@ -14,7 +14,8 @@
 %  - g14-k36 + decoder LoRA (1 joint epoch, 3 seeds): gl_results.json["g14-k36+lora1"]
 %    (same generator, exp/eval-input-diagnostic @9db84ba; outputs/train_gl/*lora1*).
 %  - Out-of-distribution table: analysis/ood_gl_table.json <- experiments/ood-eval/
-%    score_gl.py on exp/eval-input-diagnostic @991fb21 (seed-42 checkpoints).
+%    score_gl.py --gl-lora on exp/eval-input-diagnostic @8c980a2 (seed-42 checkpoints,
+%    incl. g14-k36 + LoRA).
 
 \documentclass[runningheads]{llncs}
 \usepackage[T1]{fontenc}

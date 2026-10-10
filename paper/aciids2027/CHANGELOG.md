@@ -1,5 +1,44 @@
 # Paper changelog (ACIIDS 2027, ViBridge-VQA)
 
+## 2026-10-11 (evening) — pre-submission review fixes
+
+Review points checked against the raw runs; all fixed in text, captions and figures.
+
+- **Numbers verified.** `analysis/verify_numbers.py` re-scores all 54 ViBridge-VQA runs
+  (9 configurations x 3 seeds x val/test) from the prediction files with `score_answers`:
+  max |diff| vs the Kaggle eval JSONs and vs `gl_results.json` = 0.0000. Global-only rows: the
+  per-seed eval JSONs reproduce 50.74 (4 seeds) and 54.78 (3 seeds).
+- **Fig. 2b vs §4.6 (real inconsistency).** The figure showed ours+LoRA minus global only (seed
+  42), the text quoted k=36 minus global only (seed 42) — different comparisons. Now every model
+  is averaged over all its seeds (`analysis/per_category.py` -> `per_category.json`; global only
+  4 seeds, others 3) and both the figure labels and the text give ViBridge-VQA (k=36, no LoRA)
+  minus global only: recognition +11.0, action +6.4, spatial +5.8 (was +10.2/+5.4/+5.1 vs seed
+  42). Error analysis also uses all seeds (`error_analysis.json`; F1=1 for global only 9.7%).
+- **Token-budget selection.** Method and §4.4 now say the knee and TOPSIS are computed on
+  validation only and the test knee is a post-hoc check. Log-axis claim corrected: on
+  validation the log-axis knee is g14-k36 for 4/8 metrics and g8-k9 for the other 4 (old text:
+  "11 of 16 cases", which mixed val and test).
+- **Trainable parameters.** Defined once (Method §3.4): % of all model parameters = frozen
+  Vintern-1B components (~0.94B incl. vision encoder, projector, embeddings, output layer) +
+  trained modules. Bridge = 1025*896*g parameters (12,857,600 for g=14); LoRA = 2,162,688;
+  totals 1.35% / 1.57% check out against the training logs (frozen 934,628,608 without mlp1,
+  + mlp1 4,482,816).
+- **Cost (real error).** The old text attributed 362 GFLOPs / 229 ms to one 336x336 view; that
+  profile (plans/final-plan.md, P1) was one 448x448 tile, and 2,172 GFLOPs was 6 tiles without
+  the thumbnail. Now: decoder tokens (50 vs <=1,792), vision-encoder GMACs from
+  `analysis/vit_cost.py` (191 per 336 view vs 362 per 448 view, <=2,533 for 7 views = 13x;
+  matches fvcore at 448), and evaluation runtime (Table 2: session incl. loading, greedy, batch
+  2, Kaggle P100/T4). No latency speed-up claimed.
+- **Baselines on another split.** Caption of Table 1, Baselines paragraph, abstract,
+  intro and conclusion call them "published" reference points, not a controlled comparison.
+- **Abstract/intro/conclusion** separate bridge only (50 tokens, 1.35%, F1 54.6) from bridge +
+  LoRA (50 tokens, 1.57%, F1 58.2). Intro states the gap (global-only bridge vs learned patch
+  compressor vs reusing the pre-trained alignment) and the research question; Related Work
+  contrasts mechanism / parameters / budget selection; conclusion adds the scope limit
+  (Vintern-1B, tested benchmarks; global tokens only compared with g=8).
+- Claims limited to the tested configurations ("within the tested ranges"); no g=0 run exists.
+- Dropped for space: preliminary pooling-operator sentence, five redundant DOIs. 15 pages.
+
 ## 2026-10-11 — prose rewrite after AutoViVQA (ACIIDS 2026) and ViMoE-VQA (KES 2026)
 
 **Why.** The user found the text machine-like. Rewritten in the group's style: narrative abstract

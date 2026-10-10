@@ -4,9 +4,7 @@
 We formulate VQA as conditional answer generation: given an image $I$ and a Vietnamese
 question $q$, the model generates a short free-form answer $y=(y_1,\dots,y_T)$.
 ViBridge-VQA builds on Vintern-1B~\cite{doan2024vintern1b} and keeps all of its
-pre-trained weights frozen. Instead of adapting the model itself, it changes what the
-language decoder sees: a set of global tokens produced by a small trainable bridge and a
-set of local tokens produced by the frozen projector of Vintern-1B. 
+pre-trained weights frozen. Instead of adapting the model, it changes what the decoder sees. 
 
 \begin{figure}[t]
 \centering
@@ -66,9 +64,8 @@ $g=14$); the selected budget is $g=14$, $k=36$.}
 As illustrated in Fig.~\ref{fig:arch}, ViBridge-VQA keeps the three components of
 Vintern-1B: the InternViT-300M vision encoder (24 layers, width 1024), its two-layer MLP
 projector $P$, and the Qwen2.5-0.5B-Instruct language decoder (24 layers, width 896).
-Each image is resized to a single $336\times336$ view, which InternViT splits into
-$24\times24$ patches of $14\times14$ pixels. The encoder returns one 1024-dimensional
-vector per patch together with a global \texttt{[CLS]} vector $v\in\mathbb{R}^{1024}$.
+Each image is resized to one $336\times336$ view ($24\times24$ patches of $14\times14$ pixels);
+the encoder returns one vector per patch and a global \texttt{[CLS]} vector $v\in\mathbb{R}^{1024}$.
 Vintern-1B uses only the patch vectors: it merges every $2\times2$ block of neighbouring
 patches into one 4096-dimensional vector (pixel shuffle) and maps each merged vector into
 the decoder input space with $P$, which was pre-trained to align the two backbones. At our
@@ -85,10 +82,12 @@ heads:
   \in \mathbb{R}^{g\times 896}.
   \label{eq:bridge}
 \end{equation}
-The first head produces an \emph{anchor} token, and the second produces $g-1$
-complementary tokens that present the global content to the decoder from different
-learned directions. The global tokens are placed before the prompt. We use $g=14$ (12.86M parameters): in a
-preliminary study, the F1 of this bridge alone rose with $g$ up to 14 and then plateaued.
+where $W_a\in\mathbb{R}^{896\times1024}$ and $W_e\in\mathbb{R}^{(g-1)896\times1024}$. The first
+head produces an \emph{anchor} token, and the second produces $g-1$ complementary tokens that
+present the global content to the decoder from different learned directions. The bridge has
+$1025\cdot896\cdot g$ parameters, i.e., 12{,}857{,}600 for $g=14$, and its $g$ tokens are
+placed before the prompt. We use $g=14$ because, in a preliminary study, the F1 of this bridge
+alone rose with $g$ up to 14 and then plateaued.
 
 \subsection{Local Tokens}
 \label{sec:local}
@@ -114,11 +113,13 @@ cross-entropy of the answer tokens:
   \mathcal{L} = -\sum_{t=1}^{T} \log p\big(y_t \mid y_{<t},\, g_\phi(v),\, \mathrm{pool}_s(P(x)),\, q\big),
   \label{eq:ce}
 \end{equation}
-where $x$ denotes the merged patch vectors. With $g=14$, 12.86M parameters (1.35\% of the
-model) are trainable. ViBridge-VQA can also be combined with decoder adaptation: in that
-variant, a rank-16 LoRA~\cite{hu2022lora} on the query, key, value and output projections
-of every decoder layer is trained jointly with the bridge, which adds 2.16M parameters
-(15.02M or 1.57\% in total).
+where $x$ denotes the merged patch vectors. ViBridge-VQA can also be combined with decoder adaptation: in that variant, a rank-16
+LoRA~\cite{hu2022lora} on the query, key, value and output projections of every decoder layer is
+trained jointly with the bridge, which adds 2{,}162{,}688 parameters. Throughout the paper,
+percentages of trained parameters are relative to all parameters of the model, i.e., the
+frozen components of Vintern-1B (about 0.94B, including the vision encoder, projector,
+embeddings and output layer) plus the trained modules. With $g=14$, the bridge alone trains
+12.86M parameters (1.35\%), and the bridge with LoRA 15.02M (1.57\%).
 
 \subsection{Choosing the Token Budget}
 \label{sec:budget}
@@ -130,7 +131,7 @@ the front alone does not single one out. We therefore select its
 \emph{knee}~\cite{satopaa2011kneedle}, the point after which additional tokens bring
 diminishing returns. After normalising cost $c$ and accuracy $a$ to $[0,1]$ over the front,
 the knee is the configuration that maximises $\hat a - \hat c$, i.e., the one lying
-furthest above the line joining the cheapest and the most accurate configuration. The knee
-is computed on the validation split only, and we check the choice with the
-multi-criteria method TOPSIS~\cite{hwang1981topsis} under several weightings of accuracy
-and cost.
+furthest above the line joining the cheapest and the most accurate configuration. The knee is computed on the validation split only, and we check the choice with the
+multi-criteria method TOPSIS~\cite{hwang1981topsis}, also on validation, under several
+weightings of accuracy and cost. Test results are computed for every configuration only to be
+reported; no choice is based on them.

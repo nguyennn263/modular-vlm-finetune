@@ -1,7 +1,7 @@
 """Answer-length and error statistics for Sec. 4 (qualitative and error analysis).
 
-Validation split, the same prediction files as gl_results.py: Multi-Token 8 and
-Multi-Token 8 + LoRA 3 ep (seed 42, outputs/input_diag/), ViBridge-VQA g14-k36, g14-k144
+Validation split, all seeds of every model: Multi-Token 8 (seeds 42/123/2026/3407) and
+Multi-Token 8 + LoRA 3 ep (seeds 42/123/3407, outputs/input_diag/), ViBridge-VQA g14-k36, g14-k144
 and g14-k36 + LoRA 1 ep (seeds 42/123/3407, outputs/train_gl/). Per-sample F1 is the
 best-reference word-overlap F1 of metrics.vqa_metrics.PrecisionRecallF1, i.e. the F1 in
 every table. Run from a checkout of exp/eval-input-diagnostic:
@@ -32,8 +32,10 @@ def main() -> None:
     cats = [v["category"] for v in val]
     diag, gl = a.repo / "outputs/input_diag", a.repo / "outputs/train_gl"
     files = {
-        "global_only": [diag / "mt-s42-t1-full/out/mt-s42-t1-full/text_predictions_epoch_1.json"],
-        "global_only+lora3ep": [diag / "l3ep-s42-t1-full/out/l3ep-s42-t1-full/text_predictions_epoch_1.json"],
+        "global_only": [diag / f"mt-s{s}-t1-full/out/mt-s{s}-t1-full/text_predictions_epoch_1.json"
+                        for s in (42, 123, 2026, 3407)],
+        "global_only+lora3ep": [diag / f"l3ep-s{s}-t1-full/out/l3ep-s{s}-t1-full/text_predictions_epoch_1.json"
+                                for s in SEEDS],
         "g14-k36": [gl / f"gl-g14-k36-s{s}_eval/out/val/text_predictions_epoch_1.json" for s in SEEDS],
         "g14-k144": [next(gl.glob(f"gl-g14-k144*-s{s}_eval")) / "out/val/text_predictions_epoch_1.json"
                      for s in SEEDS],

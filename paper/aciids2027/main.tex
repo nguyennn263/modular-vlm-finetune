@@ -104,7 +104,9 @@ number of tokens as an accuracy--cost trade-off and select it on validation data
 Pareto front. On the reasoning-oriented AutoViVQA benchmark, the selected budget of 50 visual tokens
 gives two main results. Training only the bridge (1.35\% of the parameters) raises the F1 of Vintern-1B from 17.6 to 54.6, above the published fine-tuned Vintern-1B,
 which reads up to 36 times more visual tokens. Training a lightweight decoder
-LoRA together with the bridge (1.57\% of the parameters) raises F1 further to 58.2. Local tokens matter far more than global ones, and they also transfer better to unseen Vietnamese VQA datasets than decoder adaptation alone.
+LoRA together with the bridge (1.57\% of the parameters) raises F1 further to 58.2. Adding local tokens improves F1 far more than increasing the global tokens from 8 to 14, and on
+four other Vietnamese VQA datasets the model with local tokens outperforms a global-only model
+with a decoder LoRA.
 
 \keywords{Vietnamese Visual Question Answering \and Vision--Language Models \and
 Parameter-Efficient Learning \and Visual Token Budget \and Generative VQA}

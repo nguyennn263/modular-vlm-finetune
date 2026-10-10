@@ -8,7 +8,7 @@ Flamingo~\cite{alayrac2022flamingo} and LLaVA~\cite{liu2023visualinstructiontuni
 which connect a pre-trained vision encoder to a pre-trained language model and
 generate free-form answers. Vietnamese has followed this trend: Vintern-1B~\cite{doan2024vintern1b}
 connects an InternViT-300M encoder~\cite{chen2024internvl} to a Qwen2.5-0.5B
-decoder~\cite{qwen2025qwen25} and is among the strongest open Vietnamese VLMs, while
+decoder~\cite{qwen2025qwen25} and is an open Vietnamese VLM, while
 benchmarks such as ViVQA~\cite{tran2021vivqa}, OpenViVQA~\cite{nguyen2023openvivqa} and
 the recent reasoning-oriented AutoViVQA~\cite{autovivqa2026} make it possible to measure
 progress in this low-resource setting.
@@ -43,8 +43,7 @@ in the representation it was trained to read. \emph{Global} tokens are produced 
 \texttt{[CLS]} vector by a small trainable bridge and add the scene-level information that
 Vintern-1B ignores. Only this bridge is trained. Because every additional token
 increases inference cost, we treat the number of global and local tokens as a budget
-and select it as the knee of the accuracy--cost Pareto front. As a result, ViBridge-VQA with 14 global and 36 local tokens exceeds the published results of
-the fine-tuned Vintern-1B on most metrics while reading up to 36 times fewer visual tokens and
+and select it as the knee of the accuracy--cost Pareto front. As a result, ViBridge-VQA with 14 global and 36 local tokens exceeds the published F1 of the fine-tuned Vintern-1B while reading up to 36 times fewer visual tokens and
 updating none of its weights.
 
 In summary, our main contributions are as follows:
@@ -57,6 +56,7 @@ In summary, our main contributions are as follows:
   \item We study the \textbf{visual token budget} systematically over eight
   configurations and three random seeds, and select it on the validation split as the knee of the accuracy--cost Pareto front. The
   choice is the same for every metric and for cost measured in tokens or in runtime.
-  \item We \textbf{analyse where the gains come from}: local tokens matter far more than global ones, work better from the pre-trained projector than from a
-  learned compressor, complement decoder adaptation, and transfer to four unseen datasets.
+  \item We \textbf{analyse where the gains come from}: adding local tokens improves F1 far more than adding global tokens, local tokens from the
+  pre-trained projector work better than a learned compressor, they complement decoder
+  adaptation, and they improve results on four other Vietnamese VQA datasets.
 \end{itemize}

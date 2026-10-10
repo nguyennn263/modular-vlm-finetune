@@ -8,7 +8,7 @@
   successes of the local tokens (user: show strengths in the qualitative figure). Added the
   "Ours+LoRA" row; photos embedded at 600 dpi. Later (user choice): the global-only rows were
   removed and the examples replaced by four where the decoder LoRA makes a vague but on-topic
-  answer precise (val 2350, 1798, 2133, 1521; relational/causal); Fig. 3 shows GT, Ours, Ours+LoRA. Redrawn at text width (4.82 in,
+  answer precise (val 2109, 50, 2133, 2241; action/causal/yes-no, no relational questions); Fig. 3 shows GT, Ours, Ours+LoRA. Redrawn at text width (4.82 in,
   Times New Roman 6.6 pt) so it is not scaled down. §4.8 text and caption updated.
 - **Fig. 1 redrawn** compactly at text width: labels now ~9 pt (were ~6.4 pt after scaling).
 - **Main Results**: one sentence on the ViMoE-VQA gap (2.5 F1) framed by what is true — reuses an

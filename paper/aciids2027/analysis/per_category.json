@@ -1,0 +1,274 @@
+{
+ "provenance": {
+  "split": "val",
+  "metric": "F1 (score_answers), x100, mean over seeds",
+  "files": {
+   "global_only": [
+    "outputs/input_diag/mt-s42-t1-full/out/mt-s42-t1-full/text_predictions_epoch_1.json",
+    "outputs/input_diag/mt-s123-t1-full/out/mt-s123-t1-full/text_predictions_epoch_1.json",
+    "outputs/input_diag/mt-s2026-t1-full/out/mt-s2026-t1-full/text_predictions_epoch_1.json",
+    "outputs/input_diag/mt-s3407-t1-full/out/mt-s3407-t1-full/text_predictions_epoch_1.json"
+   ],
+   "global_only+lora3ep": [
+    "outputs/input_diag/l3ep-s42-t1-full/out/l3ep-s42-t1-full/text_predictions_epoch_1.json",
+    "outputs/input_diag/l3ep-s123-t1-full/out/l3ep-s123-t1-full/text_predictions_epoch_1.json",
+    "outputs/input_diag/l3ep-s3407-t1-full/out/l3ep-s3407-t1-full/text_predictions_epoch_1.json"
+   ],
+   "g14-k36": [
+    "outputs/train_gl/gl-g14-k36-s42_eval/out/val/text_predictions_epoch_1.json",
+    "outputs/train_gl/gl-g14-k36-s123_eval/out/val/text_predictions_epoch_1.json",
+    "outputs/train_gl/gl-g14-k36-s3407_eval/out/val/text_predictions_epoch_1.json"
+   ],
+   "g14-k144": [
+    "outputs/train_gl/gl-g14-k144r2-s42_eval/out/val/text_predictions_epoch_1.json",
+    "outputs/train_gl/gl-g14-k144-s123_eval/out/val/text_predictions_epoch_1.json",
+    "outputs/train_gl/gl-g14-k144-s3407_eval/out/val/text_predictions_epoch_1.json"
+   ],
+   "g14-k36+lora1": [
+    "outputs/train_gl/gl-g14-k36-lora1-s42_eval/out/val/text_predictions_epoch_1.json",
+    "outputs/train_gl/gl-g14-k36-lora1-s123_eval/out/val/text_predictions_epoch_1.json",
+    "outputs/train_gl/gl-g14-k36-lora1-s3407_eval/out/val/text_predictions_epoch_1.json"
+   ]
+  }
+ },
+ "global_only": {
+  "action": {
+   "n": 391,
+   "f1": 43.375417521648906,
+   "std": 0.8218161258550244
+  },
+  "causal": {
+   "n": 692,
+   "f1": 41.76781011594851,
+   "std": 0.5009245044795041
+  },
+  "context": {
+   "n": 145,
+   "f1": 37.11140057260747,
+   "std": 1.3114936525509568
+  },
+  "counting": {
+   "n": 689,
+   "f1": 66.83346165203929,
+   "std": 0.3426071614071061
+  },
+  "recognition": {
+   "n": 1016,
+   "f1": 44.53715856122931,
+   "std": 0.5520222911672208
+  },
+  "relational": {
+   "n": 1662,
+   "f1": 55.934344163987014,
+   "std": 0.3320825912197565
+  },
+  "spatial": {
+   "n": 802,
+   "f1": 46.78296501464491,
+   "std": 0.9591513286895839
+  },
+  "yesno": {
+   "n": 66,
+   "f1": 63.1637299618583,
+   "std": 1.438270777868675
+  },
+  "ALL": {
+   "n": 5463,
+   "f1": 50.74023397958402,
+   "std": 0.1747196294888007
+  },
+  "n_seeds": 4
+ },
+ "global_only+lora3ep": {
+  "action": {
+   "n": 391,
+   "f1": 46.51839693663072,
+   "std": 0.9574601268806178
+  },
+  "causal": {
+   "n": 692,
+   "f1": 48.288911980258455,
+   "std": 0.5731887175055091
+  },
+  "context": {
+   "n": 145,
+   "f1": 37.37007557088693,
+   "std": 0.6514479611055218
+  },
+  "counting": {
+   "n": 689,
+   "f1": 66.31585744793293,
+   "std": 0.269166253948961
+  },
+  "recognition": {
+   "n": 1016,
+   "f1": 49.621162593603536,
+   "std": 0.19398029850379206
+  },
+  "relational": {
+   "n": 1662,
+   "f1": 60.37916984948239,
+   "std": 0.10655673992854116
+  },
+  "spatial": {
+   "n": 802,
+   "f1": 51.222642319744764,
+   "std": 0.837429551260466
+  },
+  "yesno": {
+   "n": 66,
+   "f1": 71.38313286040558,
+   "std": 1.6371034055065108
+  },
+  "ALL": {
+   "n": 5463,
+   "f1": 54.781628121202424,
+   "std": 0.21519045635071987
+  },
+  "n_seeds": 3
+ },
+ "g14-k36": {
+  "action": {
+   "n": 391,
+   "f1": 49.762888766950745,
+   "std": 0.7472800359310298
+  },
+  "causal": {
+   "n": 692,
+   "f1": 45.362951127639114,
+   "std": 0.02099912857765682
+  },
+  "context": {
+   "n": 145,
+   "f1": 37.53178048005635,
+   "std": 0.6738767736268935
+  },
+  "counting": {
+   "n": 689,
+   "f1": 67.63517405026839,
+   "std": 0.49080973452420995
+  },
+  "recognition": {
+   "n": 1016,
+   "f1": 55.54113068239979,
+   "std": 0.42663759431966153
+  },
+  "relational": {
+   "n": 1662,
+   "f1": 56.870777954802385,
+   "std": 0.38113798580605984
+  },
+  "spatial": {
+   "n": 802,
+   "f1": 52.62460941608661,
+   "std": 0.6668827189196141
+  },
+  "yesno": {
+   "n": 66,
+   "f1": 64.06469017877217,
+   "std": 1.6358792665372106
+  },
+  "ALL": {
+   "n": 5463,
+   "f1": 54.96493187189223,
+   "std": 0.2757828542499195
+  },
+  "n_seeds": 3
+ },
+ "g14-k144": {
+  "action": {
+   "n": 391,
+   "f1": 51.18880064043296,
+   "std": 0.8715208946227242
+  },
+  "causal": {
+   "n": 692,
+   "f1": 45.99483555573947,
+   "std": 0.4987737231442187
+  },
+  "context": {
+   "n": 145,
+   "f1": 41.95031600508274,
+   "std": 0.23304062552207064
+  },
+  "counting": {
+   "n": 689,
+   "f1": 68.04368614237991,
+   "std": 0.6002151104890964
+  },
+  "recognition": {
+   "n": 1016,
+   "f1": 60.21144202622896,
+   "std": 0.43508874838702105
+  },
+  "relational": {
+   "n": 1662,
+   "f1": 57.694826433472656,
+   "std": 0.520748653690413
+  },
+  "spatial": {
+   "n": 802,
+   "f1": 53.691314315672535,
+   "std": 0.40147547448922294
+  },
+  "yesno": {
+   "n": 66,
+   "f1": 65.79850424547394,
+   "std": 1.3391359170003736
+  },
+  "ALL": {
+   "n": 5463,
+   "f1": 56.612649610153504,
+   "std": 0.0414002494663928
+  },
+  "n_seeds": 3
+ },
+ "g14-k36+lora1": {
+  "action": {
+   "n": 391,
+   "f1": 53.012932745894986,
+   "std": 0.4820831728574713
+  },
+  "causal": {
+   "n": 692,
+   "f1": 48.90513231086165,
+   "std": 0.20016619237538905
+  },
+  "context": {
+   "n": 145,
+   "f1": 40.90705583200512,
+   "std": 0.8183752332381758
+  },
+  "counting": {
+   "n": 689,
+   "f1": 69.06969689988559,
+   "std": 0.5660126248328923
+  },
+  "recognition": {
+   "n": 1016,
+   "f1": 58.70958947730601,
+   "std": 0.45830968457962495
+  },
+  "relational": {
+   "n": 1662,
+   "f1": 60.522152236120085,
+   "std": 0.16783475747820448
+  },
+  "spatial": {
+   "n": 802,
+   "f1": 56.39824169676976,
+   "std": 0.5730939066122858
+  },
+  "yesno": {
+   "n": 66,
+   "f1": 67.37505900384689,
+   "std": 1.9919803368421705
+  },
+  "ALL": {
+   "n": 5463,
+   "f1": 58.21084682095201,
+   "std": 0.16406575823580985
+  },
+  "n_seeds": 3
+ }
+}

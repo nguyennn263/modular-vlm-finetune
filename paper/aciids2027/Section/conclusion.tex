@@ -2,26 +2,24 @@
 \label{sec:conclusion}
 
 In this work, we introduced \textbf{ViBridge-VQA}, a parameter-efficient approach that
-improves the Vietnamese VLM Vintern-1B for generative visual question answering without
-updating any of its pre-trained weights. Instead of adapting the model on many high-resolution tiles, ViBridge-VQA changes what its
-frozen decoder sees: trainable global tokens from the \texttt{[CLS]} vector and local tokens
-from the pre-trained projector. By selecting their number as the knee of the accuracy--cost Pareto front, we obtained a single
-configuration, 14 global and 36 local tokens, that is the knee for every metric and both
-evaluation splits. Experiments on AutoViVQA show that this configuration outperforms the officially fine-tuned Vintern-1B on seven of eight metrics while reading up to 36 times fewer visual tokens, and that
-combining it with a lightweight decoder LoRA yields the highest accuracy, ROUGE-L and METEOR
-among the compared systems. Our analyses show that local tokens matter far more than global ones
-and complement decoder adaptation.
+improves the Vietnamese VLM Vintern-1B for generative VQA without updating any of its
+pre-trained weights, by giving its frozen decoder trainable global tokens from the
+\texttt{[CLS]} vector and local tokens from the pre-trained projector. With 14 global and 36
+local tokens, the knee of the accuracy--cost Pareto front on validation, training only the
+bridge raises F1 on AutoViVQA from 17.6 to 54.6, above the published fine-tuned Vintern-1B on
+seven of eight metrics, and training a lightweight decoder LoRA with it raises F1 to 58.2.
+Local tokens matter far more than global ones and complement decoder adaptation.
 
-Our study also has limitations. ViMoE-VQA, a model trained specifically for AutoViVQA,
-still achieves a higher F1, and the published baselines were evaluated on a different split
-of AutoViVQA than ours. Out of distribution, the local tokens allow a single
-$336\times336$ view to match the six-tile Vintern-1B on the scene-text ViTextVQA, but
-Vintern-1B remains clearly better on OpenViVQA. Finally, accuracy had not saturated at the 144 region tokens available at our resolution;
-higher-resolution inputs, which we plan to explore, could bring further gains, especially
-for reading text.
+Our study also has limitations. ViMoE-VQA still achieves a higher F1, and the published
+baselines were evaluated on a different split. Our evidence is limited to Vintern-1B and the
+Vietnamese benchmarks we tested, so it does not establish that the approach generalises in the
+same way to other VLMs or languages, and the global tokens were only compared against eight of
+them. Out of distribution, Vintern-1B remains clearly better on OpenViVQA, and accuracy had not
+saturated at 144 local tokens, so higher-resolution inputs, which we plan to explore, could
+help further, especially for reading text.
 
-Overall, our findings show that an existing Vietnamese VLM can be improved substantially by
-choosing carefully which visual tokens its frozen decoder receives, and that the number of
-these tokens can be set with an explicit accuracy--cost criterion. The code and the grouped split are available at
+Overall, an existing Vietnamese VLM can be improved substantially by choosing which visual
+tokens its frozen decoder receives, and how many, with an explicit accuracy--cost criterion.
+The code and the grouped split are available at
 \url{https://github.com/nguyennn263/modular-vlm-finetune}. We hope that this work will
 encourage efficient and carefully evaluated multimodal models for low-resource languages.

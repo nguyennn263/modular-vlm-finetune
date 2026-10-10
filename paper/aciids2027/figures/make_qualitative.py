@@ -1,7 +1,7 @@
 """Qualitative examples (Fig. 3). Predictions are seed-42 validation outputs with the
 whole image at generation (exp/eval-input-diagnostic: outputs/input_diag/mt-s42-t1-full,
 l3ep-s42-t1-full; outputs/train_gl/gl-g14-k36-s42_eval/out/val and
-gl-g14-k36-lora1-s42_eval/out/val). Val indices: 1849, 50, 2133, 2241.
+gl-g14-k36-lora1-s42_eval/out/val). Val indices: 3303, 50, 2133, 2241.
 Run from the repo root: .venv/bin/python paper/aciids2027/figures/make_qualitative.py"""
 import sys
 from pathlib import Path
@@ -20,11 +20,12 @@ OK, BAD = "#2b7a3d", "#a33b3b"
 
 EX = [  # image, Q (vi), Q (en), GT, ours (g=14, k=36), ours + LoRA (1 ep)
     # seed-42 validation predictions (images checked by eye): ViBridge-VQA already finds the
-    # relevant content, and the decoder LoRA makes the vague answer precise (recognition, causal and
+    # relevant content, and the decoder LoRA makes the vague answer precise (action, causal and
     # yes/no questions; no relational questions by request).
-    ("000000327550.jpg", "Món ăn trong bát bao gồm những gì?", "What does the dish in the bowl contain?",
-     "Khoai tây và bông cải xanh (potatoes and broccoli)", "Bánh mì và khoai tây (bread and potatoes)",
-     "Bông cải xanh và khoai tây (broccoli and potatoes)"),
+    ("000000055665.jpg", "Người lái xe có đang làm gì với điện thoại không?",
+     "Is the driver doing something with the phone?",
+     "Đang sử dụng điện thoại (using the phone)", "Đang sử dụng nó (using it)",
+     "Đang sử dụng điện thoại (using the phone)"),
     ("000000121792.jpg", "Tại sao những người phụ nữ này lại đội mũ bảo hiểm?",
      "Why are these women wearing helmets?", "Để bảo vệ đầu (to protect their heads)",
      "Để an toàn khi chạy (to be safe while running)", "Để bảo vệ đầu (to protect their heads)"),

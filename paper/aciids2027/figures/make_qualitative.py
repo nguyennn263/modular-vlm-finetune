@@ -1,7 +1,7 @@
 """Qualitative examples (Fig. 3). Predictions are seed-42 validation outputs with the
 whole image at generation (exp/eval-input-diagnostic: outputs/input_diag/mt-s42-t1-full,
 l3ep-s42-t1-full; outputs/train_gl/gl-g14-k36-s42_eval/out/val and
-gl-g14-k36-lora1-s42_eval/out/val). Val indices: 2350, 1798, 2133, 1521.
+gl-g14-k36-lora1-s42_eval/out/val). Val indices: 2109, 50, 2133, 2241.
 Run from the repo root: .venv/bin/python paper/aciids2027/figures/make_qualitative.py"""
 import sys
 from pathlib import Path
@@ -20,24 +20,22 @@ OK, BAD = "#2b7a3d", "#a33b3b"
 
 EX = [  # image, Q (vi), Q (en), GT, ours (g=14, k=36), ours + LoRA (1 ep)
     # seed-42 validation predictions (images checked by eye): ViBridge-VQA already finds the
-    # relevant content, and the decoder LoRA turns a vague answer into the precise relation or
-    # reason (relational / causal questions, where LoRA helps most, Sec. 4.6).
-    ("000000139944.jpg", "Mối quan hệ giữa những bó chuối và chiếc xe đạp là gì?",
-     "How are the bunches of bananas related to the bicycle?",
-     "Chuối được chở trên xe đạp (the bananas are carried on the bicycle)",
-     "Chúng được buộc vào nhau (they are tied together)",
-     "Chuối được buộc vào xe đạp (the bananas are tied to the bicycle)"),
-    ("000000515662.jpg", "Mối quan hệ giữa xúc xích và khay là gì?",
-     "How are the sausages related to the tray?", "Xúc xích nằm trên khay (the sausages are on the tray)",
-     "Chúng được đặt cạnh nhau (they are placed side by side)",
-     "Xúc xích được đặt trên khay (the sausages are placed on the tray)"),
+    # relevant content, and the decoder LoRA makes the vague answer precise (action, causal and
+    # yes/no questions; no relational questions by request).
+    ("000000139944.jpg", "Chiếc xe đạp được dùng để làm gì với những chùm chuối?",
+     "What is the bicycle used for with the bunches of bananas?",
+     "Để chở những chùm chuối (to carry the bananas)", "Để đựng chuối (to hold the bananas)",
+     "Để vận chuyển chuối (to transport the bananas)"),
+    ("000000121792.jpg", "Tại sao những người phụ nữ này lại đội mũ bảo hiểm?",
+     "Why are these women wearing helmets?", "Để bảo vệ đầu (to protect their heads)",
+     "Để an toàn khi chạy (to be safe while running)", "Để bảo vệ đầu (to protect their heads)"),
     ("000000423962.jpg", "Tại sao người lớn lại nhìn vào khi trẻ em chơi bóng đá?",
      "Why are the adults watching while the children play football?",
      "Để theo dõi trận đấu (to follow the match)", "Để theo dõi tình huống (to follow the situation)",
      "Để theo dõi trận đấu (to follow the match)"),
-    ("000000077544.jpg", "Mối quan hệ giữa các thành viên trong nhóm trượt tuyết là gì?",
-     "How are the members of the ski group related?", "Họ là một gia đình (they are a family)",
-     "Họ là một nhóm (they are a group)", "Họ là một gia đình (they are a family)"),
+    ("000000540656.jpg", "Cái máng ăn cho chim có treo trên cành cây không?",
+     "Is the bird feeder hanging from a branch?", "Có, nó treo trên cành (yes, it hangs from a branch)",
+     "Có (yes)", "Có, nó được treo (yes, it is hanging)"),
 ]
 
 _, img_dir = resolve_dirs()

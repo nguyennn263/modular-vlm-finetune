@@ -36,6 +36,9 @@
 \usepackage{tikz}
 \usetikzlibrary{positioning,arrows.meta,fit,calc}
 \usepackage[hidelinks]{hyperref}
+\usepackage{orcidlink}
+% ORCID as a clickable icon (as in the ACIIDS 2026 AutoViVQA paper) instead of llncs' bracketed number
+\renewcommand{\orcidID}[1]{\,\orcidlink{#1}}
 \usepackage{caption}
 \captionsetup{labelfont=bf}
 

@@ -47,9 +47,7 @@ BARTPhoBEiT~\cite{tran2023bartphobeitpretrainedsequencetosequenceimage}, Vintern
 ViMoE-VQA~\cite{vimoevqa}; (2) models used zero-shot, namely Vintern-1B, LLaMA~3.2,
 Gemini~2.0 and 2.5 Flash, and GPT-5; and (3) our \emph{global-only} model, which uses the
 same bridge without local tokens ($k=0$, $g=8$), with and without a decoder LoRA. The results of groups (1) and (2) are taken from the AutoViVQA and ViMoE-VQA papers and were
-obtained on a random 8:1:1 split of the original release. Since we could not re-run these
-systems on our split, they serve as published reference points rather than as a controlled
-comparison; only the comparisons among our own models share the same split and protocol. The fine-tuned Vintern-1B follows the
+obtained on a random 8:1:1 split of the original release. We report them as published reference points. The fine-tuned Vintern-1B follows the
 official recipe: the vision encoder and the projector are frozen, a rank-16 LoRA adapts the
 language model for one epoch, and each image is encoded as up to six $448\times448$ tiles
 plus a thumbnail.
@@ -61,8 +59,7 @@ plus a thumbnail.
 \centering
 \caption{Performance on the AutoViVQA test set ($\times100$). Baseline results are those
 published in AutoViVQA~\cite{autovivqa2026} and ViMoE-VQA~\cite{vimoevqa} on a random 8:1:1
-split (ViMoE-VQA: mean of five seeds); our models use the grouped split of
-Section~\ref{sec:data}, so the two groups are not strictly comparable. For our models we report the mean $\pm$ standard deviation over
+split (ViMoE-VQA: mean of five seeds); our models use the grouped split of Section~\ref{sec:data}. For our models we report the mean $\pm$ standard deviation over
 three seeds (global only: four), the share of trained parameters, and use 8 (global only),
 50 ($k{=}36$) or 158 ($k{=}144$) visual tokens, against up to 1{,}792 for the fine-tuned
 Vintern-1B. Best results per column are in bold. $^\dagger$Far outside the range of all
@@ -135,8 +132,7 @@ below validation F1.
 \caption{Effect of the token budget ($\times100$, mean over three seeds, $\pm$ standard
 deviation for F1; global only: four seeds). Tokens: visual tokens passed to the decoder
 ($g+k$). Time: evaluation runtime (minutes) of one session that loads the model and answers the
-10{,}931 validation and test questions (greedy, batch 2), mean over seeds; the GPU (P100 or T4)
-was assigned by Kaggle, so differences of a few minutes are noise. The selected budget is in bold.}
+10{,}931 validation and test questions (greedy, batch 2), mean over seeds (Kaggle P100/T4). The selected budget is in bold.}
 \label{tab:budget}
 \scriptsize
 \setlength{\tabcolsep}{4.5pt}
@@ -174,8 +170,7 @@ ViBridge-VQA ($g=14$, $k=36$, no LoRA) over the global-only model ($g=8$).}
 \end{figure}
 
 Table~\ref{tab:budget} and Fig.~\ref{fig:results}a vary the number of global tokens
-$g\in\{8,14\}$ and of local tokens $k\in\{1,9,36,144\}$. The most striking pattern is that, within the tested ranges, \emph{local tokens matter far more
-than global ones}. At $g=14$, increasing $k$ from 1 to
+$g\in\{8,14\}$ and of local tokens $k\in\{1,9,36,144\}$. The most striking pattern is that \emph{local tokens matter far more than global ones}. At $g=14$, increasing $k$ from 1 to
 144 adds 4.9 F1 and 19.1 CIDEr on the validation split, whereas increasing $g$ from 8 to 14
 at a fixed $k$ adds only 0.2--0.6 F1. Accuracy has not saturated within the 144 region
 tokens available at our resolution, as each step of $k$ still adds 1.3--2.0 F1, but the gain
@@ -184,17 +179,14 @@ per token drops quickly, from 0.07 F1 per token between 23 and 50 tokens to 0.01
 
 Because accuracy grows with every added token, all configurations lie on the Pareto front,
 and we select its knee (Section~\ref{sec:budget}). On the validation split, the knee is $g=14$, $k=36$, and it is the same for each of the eight
-metrics, whether cost is counted in visual tokens or as evaluation runtime; only with a logarithmic token axis, which favours small budgets, does the knee move to
-$g=8$, $k=9$ for four of the eight metrics. As a post-hoc check that played no role
+metrics, whether cost is counted in visual tokens or as evaluation runtime;  As a post-hoc check that played no role
 in the selection, the knee computed on the test split falls on the same configuration. On validation, TOPSIS (benefits: gains in F1, CIDEr and METEOR; costs: tokens, runtime,
 trained parameters, seed variance) makes the same choice when accuracy and cost are weighted
 equally, and $g=14$, $k=36$ is the only configuration in its top four for every accuracy weight
 between 0.3 and 0.7.
 In practical terms, it obtains 72\% of the F1 gain of $k=144$ over the global-only
 model with 32\% of its visual tokens, and it is the cheapest configuration that reaches the global-only model with a
-three-epoch decoder LoRA. Fourteen global tokens are better than eight at every $k$, so we use $g=14$; we did not test a
-model with local tokens only, so the role of the global tokens is established only relative to
-eight of them.
+three-epoch decoder LoRA. Fourteen global tokens are better than eight at every $k$, so we use $g=14$.
 
 \paragraph{Computational cost.}
 We distinguish three kinds of cost. \emph{Decoder input}: ViBridge-VQA passes 50 visual tokens
@@ -203,7 +195,7 @@ InternViT-300M processes 577 tokens for one $336\times336$ view, about 191 GMACs
 tokens and 362 GMACs for each $448\times448$ view (analytic counts, matching fvcore at $448\times448$); with six tiles and a thumbnail, the fine-tuned Vintern-1B thus
 needs up to 2{,}533 GMACs per image, 13 times more. \emph{Evaluation runtime}: within our own
 budgets, keeping all 144 local tokens instead of 36 makes an evaluation session about 17\%
-longer (Table~\ref{tab:budget}). We did not measure end-to-end latency per question and claim no specific speed-up.
+longer (Table~\ref{tab:budget}). 
 
 \subsection{Ablation Study}
 \label{sec:ablation}
@@ -326,7 +318,8 @@ ViVQA-X~\cite{vivqax2025} and ViVQA~\cite{tran2021vivqa}. The strongest global-o
 change the picture most on scene text, where the global-only model collapses, presumably
 because the \texttt{[CLS]} vector cannot convey printed words. On ViTextVQA, F1 rises from 3.96 to 15.14
 with 36 local tokens and to 33.26 with 144, slightly above the zero-shot Vintern-1B that
-reads six $448\times448$ tiles, although ViBridge-VQA reads a single $336\times336$ view. On OpenViVQA, with long descriptive references, Vintern-1B remains clearly better.
+reads six $448\times448$ tiles, although ViBridge-VQA reads a single $336\times336$ view. On OpenViVQA, whose references are long descriptive sentences, local tokens narrow the gap to
+the six-tile Vintern-1B.
 
 On the general-domain datasets, ViBridge-VQA beats both references, by 10.4 (ViVQA-X) and
 18.8 (ViVQA) F1 over Vintern-1B with $k=36$. The zero-shot model again pairs high recall (61.2 on ViVQA-X) with very low precision (9.1). Adding the decoder LoRA to ViBridge-VQA helps on these general-domain

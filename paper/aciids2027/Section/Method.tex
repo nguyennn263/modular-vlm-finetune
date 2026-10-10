@@ -8,44 +8,47 @@ pre-trained weights frozen. Instead of adapting the model, it changes what the d
 
 \begin{figure}[t]
 \centering
+% Compact layout: drawn at (about) text width, so the 9pt labels are not scaled down.
 \resizebox{\linewidth}{!}{%
-\begin{tikzpicture}[font=\small, node distance=3.5mm,
-  frozen/.style={draw=gray!70, rounded corners=2pt, fill=gray!10, minimum height=9mm, align=center},
-  train/.style={draw=green!45!black, rounded corners=2pt, fill=green!12, thick, minimum height=9mm, align=center},
-  data/.style={align=center, text=black!75},
-  arr/.style={-{Latex[length=1.6mm]}, thick, black!70},
-  lbl/.style={font=\footnotesize\bfseries, anchor=west}]
-% ---- row 1: official fine-tuning of Vintern-1B
-\node[lbl] (t1) at (0,1.2) {(a) Vintern-1B, official fine-tuning};
-\node[data] (img1) at (0.7,0) {image\\$\le$6 tiles + thumbnail\\($448^2$ each)};
-\node[frozen, right=of img1] (vit1) {InternViT-300M};
-\node[frozen, right=of vit1] (mlp1) {projector\\(patches, $2{\times}2$ merge)};
-\node[data, right=of mlp1] (tok1) {256 tokens / tile\\($\le$1{,}792)};
-\node[frozen, right=of tok1, text width=27mm] (llm1) {Qwen2.5-0.5B\\+ \textcolor{green!45!black}{\textbf{LoRA} $r{=}16$}};
-\node[data, right=of llm1] (ans1) {answer};
+\begin{tikzpicture}[font=\small, inner sep=2pt,
+  frozen/.style={draw=gray!70, rounded corners=2pt, fill=gray!10, minimum height=8mm, align=center},
+  train/.style={draw=green!45!black, rounded corners=2pt, fill=green!12, thick, minimum height=8mm, align=center},
+  data/.style={align=center, text=black!80},
+  arr/.style={-{Latex[length=1.5mm]}, thick, black!70},
+  lbl/.style={font=\small\bfseries, anchor=west}]
+% x positions of the six columns (cm)
+\def\xa{0.8}\def\xb{3.0}\def\xc{5.4}\def\xd{7.8}\def\xe{10.15}\def\xf{12.15}
+% ---- (a) official fine-tuning of Vintern-1B
+\node[lbl] at (-0.05,1.0) {(a) Vintern-1B, official fine-tuning};
+\node[data] (img1) at (\xa,0) {image\\$\le$6 tiles\\+ thumbnail};
+\node[frozen] (vit1) at (\xb,0) {InternViT\\300M};
+\node[frozen] (mlp1) at (\xc,0) {projector\\($2{\times}2$ merge)};
+\node[data] (tok1) at (\xd,0) {$\le$1{,}792\\visual tokens};
+\node[frozen] (llm1) at (\xe,0) {Qwen2.5\\0.5B + \textcolor{green!45!black}{\textbf{LoRA}}};
+\node[data] (ans1) at (\xf,0) {answer};
 \draw[arr] (img1) -- (vit1); \draw[arr] (vit1) -- (mlp1); \draw[arr] (mlp1) -- (tok1);
 \draw[arr] (tok1) -- (llm1); \draw[arr] (llm1) -- (ans1);
-% ---- row 2: ViBridge-VQA
-\node[lbl] (t2) at (0,-1.5) {(b) ViBridge-VQA (ours)};
-\node[data] (img2) at (0.7,-3.1) {image\\1 view\\($336^2$)};
-\node[frozen] (vit2) at (vit1 |- img2) {InternViT-300M};
-\node[train] (br) at ($(mlp1 |- img2)+(0,0.75)$) {\textbf{global bridge}\\(\texttt{[CLS]} $\to g$ tokens)};
-\node[frozen] (pj) at ($(mlp1 |- img2)+(0,-0.75)$) {projector of Vintern-1B\\+ avg.\ pool to $k$};
-\node[data] (tg) at (tok1 |- br) {$g$ global tokens\\(prefix)};
-\node[data] (tl) at (tok1 |- pj) {$k$ local tokens\\(image slot)};
-\node[frozen, text width=27mm] (llm2) at (llm1 |- img2) {Qwen2.5-0.5B\\(frozen, no LoRA)};
-\node[data, right=of llm2] (ans2) {answer};
+% ---- (b) ViBridge-VQA
+\node[lbl] at (-0.05,-1.05) {(b) ViBridge-VQA (ours)};
+\node[data] (img2) at (\xa,-2.55) {image\\1 view\\($336^2$)};
+\node[frozen] (vit2) at (\xb,-2.55) {InternViT\\300M};
+\node[train] (br) at (\xc,-1.95) {\textbf{global bridge}\\(\texttt{[CLS]}$\to g$)};
+\node[frozen] (pj) at (\xc,-3.15) {projector\\+ avg.\ pool};
+\node[data] (tg) at (\xd,-1.95) {$g$ global\\tokens};
+\node[data] (tl) at (\xd,-3.15) {$k$ local\\tokens};
+\node[frozen] (llm2) at (\xe,-2.55) {Qwen2.5\\0.5B};
+\node[data] (ans2) at (\xf,-2.55) {answer};
 \draw[arr] (img2) -- (vit2);
-\draw[arr] (vit2.east) -- ++(0.15,0) |- (br.west);
-\draw[arr] (vit2.east) -- ++(0.15,0) |- (pj.west);
+\draw[arr] (vit2.east) -- ++(0.2,0) |- (br.west);
+\draw[arr] (vit2.east) -- ++(0.2,0) |- (pj.west);
 \draw[arr] (br) -- (tg); \draw[arr] (pj) -- (tl);
 \draw[arr] (tg.east) -- ++(0.15,0) |- (llm2.west);
 \draw[arr] (tl.east) -- ++(0.15,0) |- (llm2.west);
 \draw[arr] (llm2) -- (ans2);
 % legend
-\node[frozen, minimum height=4mm, minimum width=5mm] (lf) at (13.2,-4.6) {};
+\node[frozen, minimum height=3.5mm, minimum width=5mm] (lf) at (9.75,-3.95) {};
 \node[anchor=west] at (lf.east) {frozen};
-\node[train, minimum height=4mm, minimum width=5mm] (lt) at (15.0,-4.6) {};
+\node[train, minimum height=3.5mm, minimum width=5mm] (lt) at (11.35,-3.95) {};
 \node[anchor=west] at (lt.east) {trained};
 \end{tikzpicture}}
 \caption{Overview of ViBridge-VQA compared with the official fine-tuning of Vintern-1B.

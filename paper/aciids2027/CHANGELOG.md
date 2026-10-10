@@ -1,5 +1,21 @@
 # Paper changelog (ACIIDS 2027, ViBridge-VQA)
 
+## 2026-10-12 — new qualitative examples, figure legibility, references
+
+- **Fig. 3 replaced** (user request). Seed-42 val predictions, images checked by eye; val indices
+  2909 (bird on side mirror, recognition), 5267 (stop sign next to lamp post, spatial), 248
+  (cat sitting on chair, action), 2475 (ducks on grass, causal failure fixed by LoRA). Added the
+  "Ours+LoRA" row and tick/cross marks (black-and-white safe). Redrawn at text width (4.82 in,
+  Times New Roman 6.6 pt) so it is not scaled down. §4.8 text and caption updated.
+- **Fig. 1 redrawn** compactly at text width: labels now ~9 pt (were ~6.4 pt after scaling).
+- **Main Results**: one sentence on the ViMoE-VQA gap (2.5 F1) framed by what is true — reuses an
+  existing VLM, 1.57% trained, leads on accuracy and generation metrics. (Review comment quoted
+  ViMoE F1 as 58.60; that is its recall — F1 is 60.69. A "36x fewer tokens than ViMoE" claim
+  would be false: ViMoE uses CLIP ViT-B/32 with ~50 visual tokens.)
+- **References** normalised to splncs04 conventions: "Proceedings of the ... (ACRONYM)" + pages,
+  arXiv preprints as "arXiv preprint arXiv:<id>", no DOI/URL fields; BARTPhoBEiT cited at MAPR
+  2023; pages added for Flamingo, Frozen, Honeybee; unused entries removed. 15 pages.
+
 ## 2026-10-11 (evening) — pre-submission review fixes
 
 Review points checked against the raw runs; all fixed in text, captions and figures.

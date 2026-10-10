@@ -1,5 +1,36 @@
 # Paper changelog (ACIIDS 2027, ViBridge-VQA)
 
+## 2026-10-11 — prose rewrite after AutoViVQA (ACIIDS 2026) and ViMoE-VQA (KES 2026)
+
+**Why.** The user found the text machine-like. Rewritten in the group's style: narrative abstract
+(context -> gap -> method -> outcome, few numbers), intro ending in "To address this question,
+we propose..." + three bold contributions, prose Related Work (no paragraph headings), Method
+opening with "Overall Architecture", Experiments with interpretive paragraphs instead of
+lists of deltas, a stability paragraph, error analysis, three-paragraph conclusion
+(summary / limitations / outlook). No result changed.
+
+**Tables.**
+- Table 1 (main): ± std only on our rows (as ViMoE-VQA does); the old stability table
+  (val+test, 8 metrics) removed — val-test gap and max std now in the "Statistical stability"
+  paragraph.
+- Table 2 (budget): ± only on F1; val/test grouped.
+- Table 3 (was bridges, 13 columns): now "where the visual tokens come from" — F1/CIDEr bridge
+  only vs + decoder LoRA, with ViBridge-VQA k=36/144 as the last group (2x2 view of local
+  tokens x LoRA). k=144 + LoRA not trained ("–").
+- Table 4 (OOD): datasets as column groups, F1 (± std) and CIDEr only.
+- Global-only + LoRA (3 ep.) in Tables 1 and 4 is stated as "the strongest global-only model,
+  as a reference" (answers the LoRA/no-LoRA asymmetry question; option (b)).
+
+**New numbers (error analysis, §4.6).** `analysis/error_analysis.py` -> `error_analysis.json`
+(val; global only / + LoRA seed 42, ours 3 seeds): answer length 4.3 words = reference length;
+77–81% partial overlap; F1=1: 9.8% -> 13.3% (k=36); no overlap: 9.6% -> 8.0% (6.8% + LoRA);
+no-overlap concentrated on context/recognition/spatial/action (12–18%).
+
+**Claims tightened.** Abstract/conclusion say "highest accuracy, ROUGE-L and METEOR" (not
+"best generation scores", because of the BARTPhoBEiT BLEU/CIDEr outliers); main text says
+"setting aside the outlying BARTPhoBEiT values". "Global bridge design" paragraph folded into
+§3.2 (one sentence); the random-reference lever dropped. Two bib entries shortened. 15 pages.
+
 ## 2026-10-10 — OOD of ViBridge-VQA + decoder LoRA
 
 - Table 5: row "ours, k=36 + LoRA" on the four OOD sets (seed-42 checkpoint, same sampled

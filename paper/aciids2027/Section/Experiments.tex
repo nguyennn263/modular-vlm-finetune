@@ -337,7 +337,9 @@ ViBridge-VQA with a one-epoch decoder LoRA.}
 \label{fig:qual}
 \end{figure}
 
-Fig.~\ref{fig:qual} shows representative predictions. In each example, the answer depends on a
-local detail that ViBridge-VQA reads from its local tokens: the small bird on the side mirror,
-the lamp post next to the stop sign, and the cat sitting on the chair. Example~4 shows that the
-same holds for a causal question, where the kites in the sky explain why the crowd has gathered.
+Fig.~\ref{fig:qual} illustrates how the two components work together. In every example,
+ViBridge-VQA already identifies the relevant content of the image (the bananas and the bicycle,
+the sausages, the football match, the skiers), but its answer remains vague. Adding the decoder
+LoRA turns it into the precise relation or reason that the question asks for, such as the
+bananas being tied \emph{to the bicycle} or the skiers being \emph{a family}, in line with the
+gains of decoder adaptation on relational and causal questions (Section~\ref{sec:analysis}).

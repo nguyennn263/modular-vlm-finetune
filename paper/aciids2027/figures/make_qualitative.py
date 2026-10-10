@@ -1,7 +1,7 @@
 """Qualitative examples (Fig. 3). Predictions are seed-42 validation outputs with the
 whole image at generation (exp/eval-input-diagnostic: outputs/input_diag/mt-s42-t1-full,
 l3ep-s42-t1-full; outputs/train_gl/gl-g14-k36-s42_eval/out/val and
-gl-g14-k36-lora1-s42_eval/out/val). Val indices: 2909, 5267, 248, 2159.
+gl-g14-k36-lora1-s42_eval/out/val). Val indices: 2350, 1798, 2133, 1521.
 Run from the repo root: .venv/bin/python paper/aciids2027/figures/make_qualitative.py"""
 import sys
 from pathlib import Path
@@ -18,26 +18,26 @@ OUT = Path(__file__).parent
 plt.rcParams.update({"font.family": "Times New Roman", "font.size": 6.6, "pdf.fonttype": 42})
 OK, BAD = "#2b7a3d", "#a33b3b"
 
-EX = [  # image, Q (vi), Q (en), GT, global only, + LoRA (3 ep), ours (g=14, k=36), ours + LoRA (1 ep), correct?
-    # seed-42 validation predictions with the whole image (images checked by eye). (1)-(3):
-    # recognition, spatial and action questions where only the models with local tokens are
-    # right; (4) a causal question answered from a local detail (the kites).
-    ("000000346583.jpg", "Vật gì đang đậu trên gương chiếu hậu của xe?",
-     "What is perched on the car's side mirror?", "Một con chim (a bird)",
-     "Một chiếc xe máy (a motorbike)", "Một chiếc xe hơi (a car)", "Một con chim (a bird)",
-     "Một con chim (a bird)", (False, False, True, True)),
-    ("000000517830.jpg", "Biển báo dừng nằm cạnh vật thể nào trên góc phố?",
-     "What is the stop sign next to on the corner?", "Cột đèn (a lamp post)",
-     "Gần một chiếc xe tải (near a truck)", "Một chiếc xe hơi (a car)",
-     "Một cột đèn (a lamp post)", "Một cột đèn (a lamp post)", (False, False, True, True)),
-    ("000000451440.jpg", "Con mèo đang làm gì tại bàn ăn?", "What is the cat doing at the table?",
-     "Ngồi trên ghế (sitting on a chair)", "Đang ăn (eating)", "Đang ăn (eating)",
-     "Đang ngồi trên ghế (sitting on a chair)", "Đang ngồi trên ghế (sitting on a chair)",
-     (False, False, True, True)),
-    ("000000343307.jpg", "Tại sao có một đám đông lớn người dân trong công viên?",
-     "Why is there a large crowd in the park?", "Để thả diều (to fly kites)",
-     "Để chụp ảnh (to take photos)", "Để xem biểu diễn (to watch a show)",
-     "Để thả diều (to fly kites)", "Để thả diều (to fly kites)", (False, False, True, True)),
+EX = [  # image, Q (vi), Q (en), GT, ours (g=14, k=36), ours + LoRA (1 ep)
+    # seed-42 validation predictions (images checked by eye): ViBridge-VQA already finds the
+    # relevant content, and the decoder LoRA turns a vague answer into the precise relation or
+    # reason (relational / causal questions, where LoRA helps most, Sec. 4.6).
+    ("000000139944.jpg", "Mối quan hệ giữa những bó chuối và chiếc xe đạp là gì?",
+     "How are the bunches of bananas related to the bicycle?",
+     "Chuối được chở trên xe đạp (the bananas are carried on the bicycle)",
+     "Chúng được buộc vào nhau (they are tied together)",
+     "Chuối được buộc vào xe đạp (the bananas are tied to the bicycle)"),
+    ("000000515662.jpg", "Mối quan hệ giữa xúc xích và khay là gì?",
+     "How are the sausages related to the tray?", "Xúc xích nằm trên khay (the sausages are on the tray)",
+     "Chúng được đặt cạnh nhau (they are placed side by side)",
+     "Xúc xích được đặt trên khay (the sausages are placed on the tray)"),
+    ("000000423962.jpg", "Tại sao người lớn lại nhìn vào khi trẻ em chơi bóng đá?",
+     "Why are the adults watching while the children play football?",
+     "Để theo dõi trận đấu (to follow the match)", "Để theo dõi tình huống (to follow the situation)",
+     "Để theo dõi trận đấu (to follow the match)"),
+    ("000000077544.jpg", "Mối quan hệ giữa các thành viên trong nhóm trượt tuyết là gì?",
+     "How are the members of the ski group related?", "Họ là một gia đình (they are a family)",
+     "Họ là một nhóm (they are a group)", "Họ là một gia đình (they are a family)"),
 ]
 
 _, img_dir = resolve_dirs()
@@ -52,7 +52,7 @@ def wrap(prefix, text, width=24):
 
 
 fig, axes = plt.subplots(2, 4, figsize=(4.82, 2.45), gridspec_kw={"height_ratios": [0.85, 1.1]})
-for j, (name, qv, qe, gt, pb, pl, po, pol, oks) in enumerate(EX):
+for j, (name, qv, qe, gt, po, pol) in enumerate(EX):
     ax = axes[0, j]
     im = crop_border(Image.open(img_dir / name).convert("RGB"))
     w, h = im.size
@@ -74,12 +74,8 @@ for j, (name, qv, qe, gt, pb, pl, po, pol, oks) in enumerate(EX):
     put(wrap("Q (VI):", qv), fontweight="bold", gap=0.044)
     put(wrap("Q (EN):", qe), style="italic", color="#444444")
     put(wrap("GT:", gt), gap=0.07)
-    rows = (("Ours:", po), ("Ours+LoRA:", pol))   # only our models are shown
-    for (lab, pred), ok in zip(rows, oks[2:]):
-        # tick / cross as a second, colour-independent cue (black-and-white print)
-        t.text(-0.1, y, "\u2713" if ok else "\u2717", va="top", fontsize=6.8, family="DejaVu Sans",
-               color=OK if ok else BAD, fontweight="bold")
-        put(wrap(lab, pred), color=OK if ok else BAD, fontweight="bold" if lab.startswith("Ours") else "normal")
+    put(wrap("Ours:", po), color="#333333")
+    put(wrap("Ours+LoRA:", pol), color=OK, fontweight="bold")
 fig.subplots_adjust(left=0.035, right=0.995, top=0.95, bottom=0.0, wspace=0.16, hspace=0.05)
 fig.savefig(OUT / "fig_qualitative.pdf", bbox_inches="tight", dpi=600)  # photos embedded sharply
 fig.savefig(OUT / "fig_qualitative.png", dpi=200, bbox_inches="tight")

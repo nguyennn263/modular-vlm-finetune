@@ -24,8 +24,11 @@ def main() -> None:
     ap.add_argument("--old", type=Path, required=True)
     ap.add_argument("--full", type=Path, required=True)
     ap.add_argument("--gl", type=Path, required=True)
+    ap.add_argument("--gl-lora", type=Path, default=None, dest="gl_lora",
+                    help="outputs/ood_gl_lora: adds g14-k36 + decoder LoRA (model gl_k36_lora)")
     ap.add_argument("--out", type=Path, required=True)
     a = ap.parse_args()
+    models = MODELS + (("gl_k36_lora",) if a.gl_lora else ())
 
     table = {}
     for ds in DATASETS:
@@ -37,8 +40,9 @@ def main() -> None:
             full = a.full / tag / "out" / tag / "ours.jsonl"
             full = full if full.exists() else None
             gl = next((a.gl / ds).rglob(f"{tag}/ours.jsonl"), None)
-            if full is None or gl is None:
-                print(f"[skip] {tag}: full={full} gl={gl}")
+            gll = next((a.gl_lora / ds).rglob(f"{tag}/ours.jsonl"), None) if a.gl_lora else None
+            if full is None or gl is None or (a.gl_lora and gll is None):
+                print(f"[skip] {tag}: full={full} gl={gl} gl_lora={gll}")
                 continue
             q = lambda r: r["question"]
             preds = {
@@ -49,17 +53,20 @@ def main() -> None:
             }
             for m in ("k36", "k144"):
                 preds[f"gl_{m}"] = _load(gl.parent / m / "text_predictions_epoch_1.json", _jsonl(gl), "image_name", q)
+            if gll is not None:
+                preds["gl_k36_lora"] = _load(gll.parent / "k36lora" / "text_predictions_epoch_1.json",
+                                             _jsonl(gll), "image_name", q)
             shared = sorted(set.intersection(*(set(p) for p in preds.values())))
-            row = {"seed": seed, "n": len(shared), **{m: _score([preds[m][k] for k in shared]) for m in MODELS}}
+            row = {"seed": seed, "n": len(shared), **{m: _score([preds[m][k] for k in shared]) for m in models}}
             per_seed.append(row)
             print(f"{ds:10s} s{seed:<5d} n={row['n']:4d}  F1 " +
-                  "  ".join(f"{m} {row[m]['f1']:6.2f}" for m in MODELS))
+                  "  ".join(f"{m} {row[m]['f1']:6.2f}" for m in models))
         if per_seed:
             table[ds] = {"seeds": per_seed, "mean_std": {
                 # population std (ddof=0), as every table of the paper (incl. its earlier OOD table)
                 f"{m}.{metric}": (st.mean(r[m][metric] for r in per_seed),
                                   st.pstdev([r[m][metric] for r in per_seed]))
-                for m in MODELS for metric in per_seed[0][MODELS[0]]}}
+                for m in models for metric in per_seed[0][models[0]]}}
     a.out.write_text(json.dumps(table, indent=2, ensure_ascii=False))
     print(f"[saved] {a.out}")
 

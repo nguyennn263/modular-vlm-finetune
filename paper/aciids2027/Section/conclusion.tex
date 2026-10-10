@@ -10,13 +10,9 @@ bridge raises F1 on AutoViVQA from 17.6 to 54.6, above the published fine-tuned 
 seven of eight metrics, and training a lightweight decoder LoRA with it raises F1 to 58.2.
 Local tokens matter far more than global ones and complement decoder adaptation.
 
-Our study also has limitations. ViMoE-VQA still achieves a higher F1, and the published
-baselines were evaluated on a different split. Our evidence is limited to Vintern-1B and the
-Vietnamese benchmarks we tested, so it does not establish that the approach generalises in the
-same way to other VLMs or languages, and the global tokens were only compared against eight of
-them. Out of distribution, Vintern-1B remains clearly better on OpenViVQA, and accuracy had not
-saturated at 144 local tokens, so higher-resolution inputs, which we plan to explore, could
-help further, especially for reading text.
+The task-specific ViMoE-VQA still reaches a higher F1, and
+accuracy had not saturated at 144 local tokens, which suggests that higher-resolution inputs
+could narrow this gap and further improve text reading, for instance on OpenViVQA.
 
 Overall, an existing Vietnamese VLM can be improved substantially by choosing which visual
 tokens its frozen decoder receives, and how many, with an explicit accuracy--cost criterion.

@@ -1,34 +1,27 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-This work presents \textbf{ViBridge-VQA}, which improves the Vietnamese VLM
-Vintern-1B for generative visual question answering without updating any of its
-weights. ViBridge-VQA passes the frozen decoder two kinds of visual tokens from a
-single image view: global tokens, produced from the \texttt{[CLS]} vector by a small
-trainable bridge, and local tokens, produced by the frozen pre-trained projector of
-Vintern-1B and pooled to a chosen budget. Selecting that budget as the knee of the
-accuracy--cost Pareto front gives 14 global and 36 local tokens for every metric and
-both evaluation splits. With 1.35\% of the parameters trained and 50 visual tokens, it
-raises the F1 of Vintern-1B on AutoViVQA from 17.6 to 54.6 and outperforms the
-officially fine-tuned Vintern-1B on seven of eight metrics; with all 144 local tokens
-it outperforms it on all eight. Our analysis shows that local tokens matter far more
-than global ones, that the pre-trained projector should provide them rather than a
-newly learned compression of the patches, and that a frozen decoder with such tokens
-surpasses a decoder adapted with LoRA over global tokens only. The two are nevertheless
-complementary: adding a one-epoch decoder LoRA to the selected budget gives 58.2 F1 and
-122.9 CIDEr, the best accuracy and generation scores among the compared systems.
+In this work, we introduced \textbf{ViBridge-VQA}, a parameter-efficient approach that
+improves the Vietnamese VLM Vintern-1B for generative visual question answering without
+updating any of its pre-trained weights. Instead of adapting the model on many high-resolution tiles, ViBridge-VQA changes what its
+frozen decoder sees: trainable global tokens from the \texttt{[CLS]} vector and local tokens
+from the pre-trained projector. By selecting their number as the knee of the accuracy--cost Pareto front, we obtained a single
+configuration, 14 global and 36 local tokens, that is the knee for every metric and both
+evaluation splits. Experiments on AutoViVQA show that this configuration outperforms the officially fine-tuned Vintern-1B on seven of eight metrics while reading up to 36 times fewer visual tokens, and that
+combining it with a lightweight decoder LoRA yields the highest accuracy, ROUGE-L and METEOR
+among the compared systems. Our analyses show that local tokens matter far more than global ones
+and complement decoder adaptation.
 
-ViMoE-VQA, a model trained specifically for AutoViVQA, still achieves a higher F1, and
-the baselines were reported on a different split of AutoViVQA. Out of distribution,
-the local tokens let a single $336\times336$ view match the six-tile Vintern-1B on
-ViTextVQA, but Vintern-1B remains clearly better on OpenViVQA, decoder adaptation does
-not help on scene text, and accuracy had not saturated at the 144 region tokens available
-at our resolution. Future work will therefore raise the image resolution. The code and
-the grouped split are available at
-\url{https://github.com/nguyennn263/modular-vlm-finetune}.
+Our study also has limitations. ViMoE-VQA, a model trained specifically for AutoViVQA,
+still achieves a higher F1, and the published baselines were evaluated on a different split
+of AutoViVQA than ours. Out of distribution, the local tokens allow a single
+$336\times336$ view to match the six-tile Vintern-1B on the scene-text ViTextVQA, but
+Vintern-1B remains clearly better on OpenViVQA. Finally, accuracy had not saturated at the 144 region tokens available at our resolution;
+higher-resolution inputs, which we plan to explore, could bring further gains, especially
+for reading text.
 
-Overall, ViBridge-VQA shows that an existing Vietnamese VLM can be improved
-substantially by choosing which visual tokens its frozen decoder receives, and that
-the size of this budget can be chosen with an explicit accuracy--cost criterion. We
-hope this work will encourage efficient and well-evaluated multimodal models for
-low-resource languages.
+Overall, our findings show that an existing Vietnamese VLM can be improved substantially by
+choosing carefully which visual tokens its frozen decoder receives, and that the number of
+these tokens can be set with an explicit accuracy--cost criterion. The code and the grouped split are available at
+\url{https://github.com/nguyennn263/modular-vlm-finetune}. We hope that this work will
+encourage efficient and carefully evaluated multimodal models for low-resource languages.

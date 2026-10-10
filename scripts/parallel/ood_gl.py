@@ -6,6 +6,9 @@ the launching account (`<user>/mvlm-gl-ckpt`), so every job runs on that account
 
     python scripts/parallel/ood_gl.py fill --acc=acc5      # launch as slots free up
     python scripts/parallel/ood_gl.py collect --acc=acc5
+
+--lora: the g14-k36 + decoder LoRA model instead (seed 42, private dataset
+`<user>/mvlm-gl-lora-ckpt`); its own job names, kernels and outputs/ood_gl_lora/.
 """
 from __future__ import annotations
 import json, sys, time
@@ -20,14 +23,20 @@ from train_queue import _checked
 ACC = next(a.split("=", 1)[1] for a in sys.argv if a.startswith("--acc="))
 DATASETS = ["vitextvqa", "openvivqa", "vivqax", "vivqa"]
 SEEDS = [42, 123, 3407]
-MODELS = {"k36": 6, "k144": 12}          # local_grid
+LORA = "--lora" in sys.argv
+# name -> (local_grid, checkpoint file in the private dataset)
+MODELS = ({"k36lora": (6, "gl-g14-k36-lora1-s42.pt")} if LORA else
+          {"k36": (6, "gl-g14-k36-s42.pt"), "k144": (12, "gl-g14-k144-s42.pt")})
+CKPT_DS = "mvlm-gl-lora-ckpt" if LORA else "mvlm-gl-ckpt"
+JOB = "ood-gllora" if LORA else "ood-gl"
 FINISHED = ("COMPLETE", "ERROR", "CANCEL_ACKNOWLEDGED")
 
 
 def _cells(dataset: str) -> list[dict]:
     cells = [_clone_cell(BRANCH), _code("!bash setup_kaggle.sh 2>&1 | tail -5"), _code("!pip -q install requests"),
              _code("import glob, os, shutil",
-                   "ck = {m: glob.glob(f'/kaggle/input/**/gl-g14-{m}-s42.pt', recursive=True) for m in ('k36', 'k144')}",
+                   f"ck = {{m: glob.glob(f'/kaggle/input/**/{{f}}', recursive=True) for m, f in "
+                   f"{ {m: f for m, (_, f) in MODELS.items()} }.items()}}",
                    "assert all(ck.values()), 'checkpoints not found: ' + repr(ck)",
                    "os.makedirs('/tmp/ck', exist_ok=True)",
                    "for m, f in ck.items(): shutil.copy(f[0], f'/tmp/ck/{m}.pt')",
@@ -39,7 +48,7 @@ def _cells(dataset: str) -> list[dict]:
                               f"--seed {seed} --out {data} 2>&1 | tail -5; test -s {data}/ours.jsonl"))
         cells.append(_code(f"os.makedirs('{out}', exist_ok=True)",
                            f"for f in ['{data}/ours.jsonl', '{data}/manifest.json']: shutil.copy(f, '{out}')"))
-        for m, grid in MODELS.items():
+        for m, (grid, _) in MODELS.items():
             res = f"/tmp/res/{tag}/{m}"
             cells.append(_checked(
                 f"python experiments/ood-eval/eval_ours_ood.py --data {data}/ours.jsonl --images-dir {data}/images "
@@ -53,7 +62,7 @@ def _cells(dataset: str) -> list[dict]:
 
 
 def _launch(dataset: str) -> None:
-    job, slug = f"ood-gl:{dataset}", f"mvlm-oodgl-{dataset}"
+    job, slug = f"{JOB}:{dataset}", f"mvlm-{JOB.replace('-', '')}-{dataset}"
     kid = f"{_user(ACC)}/{slug}"
     wd = ROOT / "outputs" / "parallel" / "workers" / slug
     wd.mkdir(parents=True, exist_ok=True)
@@ -62,7 +71,7 @@ def _launch(dataset: str) -> None:
         "id": kid, "title": slug[:50], "code_file": "worker.ipynb",
         "language": "python", "kernel_type": "notebook", "is_private": True,
         "enable_gpu": True, "enable_internet": True, "docker_image": DOCKER_IMAGE,
-        "dataset_sources": [f"{_user(ACC)}/mvlm-gl-ckpt"], "kernel_sources": [],
+        "dataset_sources": [f"{_user(ACC)}/{CKPT_DS}"], "kernel_sources": [],
     }, indent=2))
     _kaggle(ACC, "kernels", "push", "-p", str(wd))
     led = load_ledger()
@@ -73,7 +82,7 @@ def _launch(dataset: str) -> None:
 
 
 def cmd_fill() -> None:
-    queue = [d for d in DATASETS if f"ood-gl:{d}" not in load_ledger()["jobs"]]
+    queue = [d for d in DATASETS if f"{JOB}:{d}" not in load_ledger()["jobs"]]
     while queue:
         if _free_slots(ACC) > 0:
             _launch(queue.pop(0))
@@ -87,13 +96,13 @@ def cmd_collect() -> None:
     led = load_ledger()
     done = []
     for job, j in led["jobs"].items():
-        if not job.startswith("ood-gl:") or j.get("status") != "running":
+        if not job.startswith(f"{JOB}:") or j.get("status") != "running":
             continue
         st = _kaggle(j["account"], "kernels", "status", j["kernel"], check=False)
         if "COMPLETE" not in st:
             print(f"[wait] {job}: {st.strip()[-40:]}")
             continue
-        dst = ROOT / "outputs" / "ood_gl" / job.split(":", 1)[1]
+        dst = ROOT / "outputs" / ("ood_gl_lora" if LORA else "ood_gl") / job.split(":", 1)[1]
         _kaggle(j["account"], "kernels", "output", j["kernel"], "--file-pattern", r".*\.(json|jsonl|log)$",
                 "-p", str(dst), check=False)
         evs = sorted(dst.rglob("eval_ood.json"))

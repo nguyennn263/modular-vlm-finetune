@@ -338,10 +338,8 @@ one-epoch decoder LoRA. \ding{51}/green: correct; \ding{55}/red: wrong.}
 \label{fig:qual}
 \end{figure}
 
-In Examples 1--3 of Fig.~\ref{fig:qual}, only the models with local tokens answer correctly,
-and each answer depends on a local detail: the small bird on the side mirror, the lamp post
-next to the stop sign, and the cat sitting on the chair rather than eating. The global-only
-models give answers that fit the scene but not the image. Example~4 is a typical failure on a
-causal question: ViBridge-VQA gives a generic reason instead of the one the global-only models
-infer, and adding the decoder LoRA corrects it, in line with the gains of decoder adaptation on
-causal questions.
+In all four examples of Fig.~\ref{fig:qual}, only the models with local tokens answer
+correctly, and each answer depends on a local detail: the small bird on the side mirror, the
+lamp post next to the stop sign, and the cat sitting on the chair rather than eating. Example~4
+shows that the same holds for a causal question: the kites in the sky explain why the crowd has
+gathered, whereas the global-only models guess generic reasons such as taking photos.

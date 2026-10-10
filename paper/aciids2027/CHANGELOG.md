@@ -4,8 +4,9 @@
 
 - **Fig. 3 replaced** (user request). Seed-42 val predictions, images checked by eye; val indices
   2909 (bird on side mirror, recognition), 5267 (stop sign next to lamp post, spatial), 248
-  (cat sitting on chair, action), 2475 (ducks on grass, causal failure fixed by LoRA). Added the
-  "Ours+LoRA" row and tick/cross marks (black-and-white safe). Redrawn at text width (4.82 in,
+  (cat sitting on chair, action), 2159 (crowd in a park -> to fly kites, causal); all four are
+  successes of the local tokens (user: show strengths in the qualitative figure). Added the
+  "Ours+LoRA" row and tick/cross marks (black-and-white safe); photos embedded at 600 dpi. Redrawn at text width (4.82 in,
   Times New Roman 6.6 pt) so it is not scaled down. §4.8 text and caption updated.
 - **Fig. 1 redrawn** compactly at text width: labels now ~9 pt (were ~6.4 pt after scaling).
 - **Main Results**: one sentence on the ViMoE-VQA gap (2.5 F1) framed by what is true — reuses an

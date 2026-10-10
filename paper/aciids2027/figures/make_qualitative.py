@@ -51,7 +51,7 @@ def wrap(prefix, text, width=24):
     return textwrap.fill(f"{prefix} {text.replace(chr(10), ' ')}", width)
 
 
-fig, axes = plt.subplots(2, 4, figsize=(4.82, 3.2), gridspec_kw={"height_ratios": [0.85, 1.85]})
+fig, axes = plt.subplots(2, 4, figsize=(4.82, 2.45), gridspec_kw={"height_ratios": [0.85, 1.1]})
 for j, (name, qv, qe, gt, pb, pl, po, pol, oks) in enumerate(EX):
     ax = axes[0, j]
     im = crop_border(Image.open(img_dir / name).convert("RGB"))
@@ -65,17 +65,17 @@ for j, (name, qv, qe, gt, pb, pl, po, pol, oks) in enumerate(EX):
     ax.set_title(f"({j + 1})", fontsize=7, pad=2)
     t = axes[1, j]
     t.axis("off")
-    LH, GAP = 0.054, 0.025                    # line height and block gap (axes units)
+    LH, GAP = 0.091, 0.042                    # line height and block gap (axes units)
     y = 1.0
     def put(text, gap=GAP, x=0, **kw):
         global y
         t.text(x, y, text, va="top", **kw)
         y -= LH * (text.count("\n") + 1) + gap
-    put(wrap("Q (VI):", qv), fontweight="bold", gap=0.026)
+    put(wrap("Q (VI):", qv), fontweight="bold", gap=0.044)
     put(wrap("Q (EN):", qe), style="italic", color="#444444")
-    put(wrap("GT:", gt), gap=0.04)
-    rows = (("Global:", pb), ("+LoRA:", pl), ("Ours:", po), ("Ours+LoRA:", pol))
-    for (lab, pred), ok in zip(rows, oks):
+    put(wrap("GT:", gt), gap=0.07)
+    rows = (("Ours:", po), ("Ours+LoRA:", pol))   # only our models are shown
+    for (lab, pred), ok in zip(rows, oks[2:]):
         # tick / cross as a second, colour-independent cue (black-and-white print)
         t.text(-0.1, y, "\u2713" if ok else "\u2717", va="top", fontsize=6.8, family="DejaVu Sans",
                color=OK if ok else BAD, fontweight="bold")

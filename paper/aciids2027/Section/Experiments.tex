@@ -332,14 +332,12 @@ datasets, bringing $k=36$ close to $k=144$, but barely on scene text. Reading te
 \centering
 \includegraphics[width=\linewidth]{fig_qualitative}
 \caption{Qualitative examples from the AutoViVQA validation set (seed 42). Q: question,
-GT: one of the five reference answers; Global: global-only model, +LoRA: the same model with a
-three-epoch decoder LoRA, Ours: ViBridge-VQA ($g=14$, $k=36$), Ours+LoRA: ViBridge-VQA with a
-one-epoch decoder LoRA. \ding{51}/green: correct; \ding{55}/red: wrong.}
+GT: one of the five reference answers; Ours: ViBridge-VQA ($g=14$, $k=36$), Ours+LoRA:
+ViBridge-VQA with a one-epoch decoder LoRA.}
 \label{fig:qual}
 \end{figure}
 
-In all four examples of Fig.~\ref{fig:qual}, only the models with local tokens answer
-correctly, and each answer depends on a local detail: the small bird on the side mirror, the
-lamp post next to the stop sign, and the cat sitting on the chair rather than eating. Example~4
-shows that the same holds for a causal question: the kites in the sky explain why the crowd has
-gathered, whereas the global-only models guess generic reasons such as taking photos.
+Fig.~\ref{fig:qual} shows representative predictions. In each example, the answer depends on a
+local detail that ViBridge-VQA reads from its local tokens: the small bird on the side mirror,
+the lamp post next to the stop sign, and the cat sitting on the chair. Example~4 shows that the
+same holds for a causal question, where the kites in the sky explain why the crowd has gathered.

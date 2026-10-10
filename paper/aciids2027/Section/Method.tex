@@ -68,7 +68,9 @@ As illustrated in Fig.~\ref{fig:arch}, ViBridge-VQA keeps the three components o
 Vintern-1B: the InternViT-300M vision encoder (24 layers, width 1024), its two-layer MLP
 projector $P$, and the Qwen2.5-0.5B-Instruct language decoder (24 layers, width 896).
 Each image is resized to one $336\times336$ view ($24\times24$ patches of $14\times14$ pixels);
-the encoder returns one vector per patch and a global \texttt{[CLS]} vector $v\in\mathbb{R}^{1024}$.
+InternViT, pre-trained at $448\times448$, bicubically interpolates its position embeddings to
+this resolution. The encoder returns one vector per patch and a global \texttt{[CLS]} vector
+$v\in\mathbb{R}^{1024}$.
 Vintern-1B uses only the patch vectors: it merges every $2\times2$ block of neighbouring
 patches into one 4096-dimensional vector (pixel shuffle) and maps each merged vector into
 the decoder input space with $P$, which was pre-trained to align the two backbones. At our
@@ -95,8 +97,7 @@ alone rose with $g$ up to 14 and then plateaued.
 \subsection{Local Tokens}
 \label{sec:local}
 
-Global tokens alone cannot describe small objects, printed text or the position of
-objects. ViBridge-VQA therefore also passes local tokens, taken directly from the 144
+To give the decoder region-level detail, ViBridge-VQA also passes local tokens, taken directly from the 144
 region tokens of the frozen projector $P$. To control their number, we average-pool the
 $12\times12$ grid to an $s\times s$ grid, so that $k=s^2$ with $s\in\{1,3,6,12\}$: $k=144$
 keeps every region token, and $k=36$ averages each $2\times2$ block. The pooled tokens

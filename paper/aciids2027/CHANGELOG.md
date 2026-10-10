@@ -1,5 +1,27 @@
 # Paper changelog (ACIIDS 2027, ViBridge-VQA)
 
+## 2026-10-12 (later) — only claims we can verify
+
+Rule (user): state what we have; leave out what we do not know.
+- **Generation metrics vs published baselines removed.** Our BLEU/ROUGE-L/METEOR/CIDEr cannot be
+  compared with the AutoViVQA/ViMoE numbers: those papers do not say how they were computed, and
+  the value moves a lot with the implementation (same predictions: corpus BLEU-4 over 5 refs
+  18.5 vs a per-reference sentence-level variant ~5). Abstract/intro/§4.3/conclusion now compare
+  external baselines on P/R/F1 (and accuracy) only; Table 1 keeps all columns with a caption note.
+  F1 is comparable: the published F1 equals the harmonic mean of P and R for most baselines.
+- Known source errors kept as published: Gemini 2.5 Flash F1 24.75 (P/R give 37.05) and zero-shot
+  Vintern-1B F1 17.55 (P/R give 18.62) — copied correctly from AutoViVQA.
+- "local tokens matter far more than global ones" -> "adding local tokens improves F1 far more than
+  increasing global tokens from 8 to 14" (only g in {8,14} tested).
+- OOD: "unseen" -> "not used to train our models" (Vintern pre-training data not checked);
+  ViTextVQA 33.26 vs 32.01 "on par" (was "slightly above"); "outperforms a global-only model with
+  decoder LoRA" instead of "transfers better than decoder adaptation alone".
+- Method: InternViT (pre-trained at 448) interpolates its position embeddings to 336 (verified in
+  modeling_intern_vit.py `_get_pos_embed`).
+- Speculative sentences removed (decoder compensates; knowledge already in Vintern; answers phrased
+  differently; [CLS] cannot convey text; higher resolution could close the gap); §4.6 says
+  "slightly above" for causal/relational and names yes/no as the exception; "; As" typo fixed.
+
 ## 2026-10-12 — new qualitative examples, figure legibility, references
 
 - **Fig. 3 replaced** (user request). Seed-42 val predictions, images checked by eye; val indices

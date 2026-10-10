@@ -10,11 +10,11 @@
 We evaluate on AutoViVQA~\cite{autovivqa2026}, a Vietnamese VQA benchmark built on MS COCO
 images~\cite{lin2015coco} with an LLM-driven generation pipeline and ensemble-based
 quality control. Each question has five short free-form reference answers of 1--10 words
-and is labelled with its reasoning type. Because the public random 80/20 split lets questions about the same image appear in
-both training and validation, we remove 273 duplicated (image, question) pairs and 97 questions
+and is labelled with its reasoning type. In the public 80/20 split of the release, 2{,}941 of the 7{,}416 validation questions concern
+images that also appear in training. To avoid this overlap, we remove 273 duplicated (image, question) pairs and 97 questions
 with irregular type labels, keep the eight remaining reasoning categories, and re-partition
 the 36{,}707 questions by image into a 70/15/15 split (seed 42). This gives 25{,}776 / 5{,}463 / 5{,}468 questions on 13{,}579 / 2{,}909 / 2{,}910 images. All our results are reported on this grouped split; in a preliminary comparison, it lowered the
-F1 of the global-only bridge by about 0.5 points relative to a random split.
+F1 of the global-only bridge by about 0.5 points relative to a split that does not group questions by image.
 
 \paragraph{Evaluation metrics.}
 Following AutoViVQA and ViMoE-VQA, we report answer-matching metrics (exact-match
@@ -47,7 +47,7 @@ BARTPhoBEiT~\cite{tran2023bartphobeitpretrainedsequencetosequenceimage}, Vintern
 ViMoE-VQA~\cite{vimoevqa}; (2) models used zero-shot, namely Vintern-1B, LLaMA~3.2,
 Gemini~2.0 and 2.5 Flash, and GPT-5; and (3) our \emph{global-only} model, which uses the
 same bridge without local tokens ($k=0$, $g=8$), with and without a decoder LoRA. The results of groups (1) and (2) are taken from the AutoViVQA and ViMoE-VQA papers and were
-obtained on a random 8:1:1 split of the original release. We report them as published reference points. The fine-tuned Vintern-1B follows the
+obtained on splits that differ from ours (ViMoE-VQA reports an 80/10/10 split). We report them as published reference points. The fine-tuned Vintern-1B follows the
 official recipe: the vision encoder and the projector are frozen, a rank-16 LoRA adapts the
 language model for one epoch, and each image is encoded as up to six $448\times448$ tiles
 plus a thumbnail.
@@ -58,8 +58,7 @@ plus a thumbnail.
 \begin{table}[t]
 \centering
 \caption{Performance on the AutoViVQA test set ($\times100$). Baseline results are those
-published in AutoViVQA~\cite{autovivqa2026} and ViMoE-VQA~\cite{vimoevqa} on a random 8:1:1
-split (ViMoE-VQA: mean of five seeds); our models use the grouped split of Section~\ref{sec:data}. For our models we report the mean $\pm$ standard deviation over
+published in AutoViVQA~\cite{autovivqa2026} and ViMoE-VQA~\cite{vimoevqa} (ViMoE-VQA: 80/10/10 split, mean of five seeds); our models use the grouped split of Section~\ref{sec:data}. For our models we report the mean $\pm$ standard deviation over
 three seeds (global only: four), the share of trained parameters, and use 8 (global only),
 50 ($k{=}36$) or 158 ($k{=}144$) visual tokens, against up to 1{,}792 for the fine-tuned
 Vintern-1B. Best results per column are in bold. $^\dagger$Far outside the range of all
@@ -107,7 +106,7 @@ reading up to eleven times fewer visual tokens. These results suggest that much 
 what AutoViVQA requires is already present in the frozen Vintern-1B, provided that its
 decoder receives suitable visual input.
 
-Since our grouped split is, if anything, slightly harder, this is unlikely to favour us. Decoder adaptation adds to these gains rather
+Decoder adaptation adds to these gains rather
 than replacing them. Training ViBridge-VQA
 jointly with a rank-16 LoRA for a single epoch raises test F1 by a further 3.6 points to
 58.17 and gives the best accuracy, BLEU, ROUGE-L, METEOR and CIDEr in Table~\ref{tab:main}

@@ -222,12 +222,10 @@ Visual tokens from & Tokens & Params & F1 & CIDEr & F1 & CIDEr \\
 \end{table}
 
 \paragraph{Where should the visual tokens come from?}
-Table~\ref{tab:bridges} compares three sources of visual tokens for the frozen decoder. The
-first group reads only the global \texttt{[CLS]} vector, through a \emph{Residual} bridge
-that produces one token or the \emph{Multi-Token} bridge of Eq.~\eqref{eq:bridge}. The
-second group learns to compress the patch tokens, either with a \emph{Tile-Attention} bridge
-in which eight learned queries attend over the patches, or with a light or full
-Q-Former~\cite{li2023blip2}. Without decoder adaptation, the Multi-Token bridge is the best
+Table~\ref{tab:bridges} compares three sources of visual tokens: the global \texttt{[CLS]}
+vector (a one-token \emph{Residual} bridge or the \emph{Multi-Token} bridge of
+Eq.~\eqref{eq:bridge}), a learned compression of the patches (\emph{Tile-Attention} with eight
+learned queries, or a light or full Q-Former~\cite{li2023blip2}), and our local tokens. Without decoder adaptation, the Multi-Token bridge is the best
 of these five, and the bridges that compress the patches are 3.7--5.6 F1 lower despite
 having up to $9.4\times$ more parameters.  Taking local tokens from the pre-trained projector instead works better: at the same $g=8$,
 adding 36 or 144 of them improves F1 by 3.6 and 5.4 points (Table~\ref{tab:budget}). 
@@ -238,6 +236,12 @@ another (52.69--53.47). Even after this adaptation, all of them remain below ViB
 decoder. Decoder adaptation is therefore not needed to surpass them, but it is still
 useful: in the same one-epoch joint training, it adds 3.3 F1 to ViBridge-VQA, more than the
 2.7 F1 it adds to the Multi-Token bridge. Distilling the projector into the global-only bridge instead lowers F1 by 0.3--0.4 points.
+
+\paragraph{Number of global tokens.}
+We varied the Multi-Token bridge from $g=4$ to $g=20$ tokens (three seeds each). In this sweep,
+generation used the first $448\times448$ tile of the image, so its values are lower than those of
+the other tables and are compared only with each other. Validation F1 rose from 48.5 at $g=4$ to
+49.6 at $g=8$ and 50.7 at $g=14$, and stayed between 50.4 and 50.6 for $g=16$--$20$.
 
 \subsection{Analysis by Reasoning Type and Error Analysis}
 \label{sec:analysis}
@@ -299,7 +303,7 @@ with 36 local tokens and to 33.26 with 144, on par with the zero-shot Vintern-1B
 the six-tile Vintern-1B.
 
 On the general-domain datasets, ViBridge-VQA beats both references, by 10.4 (ViVQA-X) and
-18.8 (ViVQA) F1 over Vintern-1B with $k=36$. The zero-shot model again pairs high recall (61.2 on ViVQA-X) with very low precision (9.1). Adding the decoder LoRA to ViBridge-VQA helps on these general-domain
+18.8 (ViVQA) F1 over Vintern-1B with $k=36$.  Adding the decoder LoRA to ViBridge-VQA helps on these general-domain
 datasets, bringing $k=36$ close to $k=144$, but barely on scene text. On ViTextVQA, 144 local tokens give 33.26 F1, whereas 36 local tokens with LoRA give 15.39.
 
 \subsection{Qualitative Analysis}

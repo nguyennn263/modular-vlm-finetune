@@ -1,5 +1,15 @@
 # Paper changelog (ACIIDS 2027, ViBridge-VQA)
 
+## 2026-10-13 — global-token sweep shown
+
+- §4.5 "Number of global tokens": Multi-Token bridge g = 4..20, 3 seeds each
+  (plans/bridge-design-ablation.md, outputs/token_sweep/): 48.5 (g4), 49.6 (g8), 50.7 (g14),
+  50.4-50.6 (g16-20). Stated that this sweep used the first 448x448 tile at generation (the
+  pre-2026-10-04 evaluation; never re-evaluated on the full image), so it is compared only within
+  itself. For reference, the same g=8 checkpoints give 49.55 on the tile and 50.74 on the full image.
+- §3.2 now points to §4.5 for the g=14 candidate. Ablation bridge description shortened; one OOD
+  sentence removed (15 pages).
+
 ## 2026-10-13 — Table 1 shows only our final models
 
 - Table 1 (vs external systems) keeps only ViBridge-VQA (g14-k36) and ViBridge-VQA + LoRA (1 ep).

@@ -1,5 +1,15 @@
 # Paper changelog (ACIIDS 2027, ViBridge-VQA)
 
+## 2026-10-13 — Table 1 shows only our final models
+
+- Table 1 (vs external systems) keeps only ViBridge-VQA (g14-k36) and ViBridge-VQA + LoRA (1 ep).
+  Global-only rows (ablation) and k=144 removed from it; global-only stays in Table 3 / Fig. 2a.
+- §4.3 global-only comparison now on validation: frozen ViBridge-VQA 54.96 vs global + 3-ep LoRA
+  54.78; with the same 1-epoch LoRA 58.21 vs 53.47 (+4.7). k=144 accuracy quoted in text
+  (13.19 vs 13.01).
+- Implementation: LoRA variants trained 1 epoch; the global-only + LoRA also 3 epochs, its strongest
+  setting (+1.3 val F1: 53.47 -> 54.78).
+
 ## 2026-10-12 (review round 3)
 
 - **Different split => "comparable", not "above".** Abstract, intro, §4.3, conclusion: our F1

@@ -31,8 +31,8 @@ instead give 55.95 for ViBridge-VQA.
 \paragraph{Implementation details.}
 The vision encoder, the projector and the decoder are initialised from
 Vintern-1B-v3.5~\cite{doan2024vintern1b} and kept frozen. ViBridge-VQA is trained for two
-epochs, after which neither the validation loss nor CIDEr improves further; the variants
-with a decoder LoRA are trained for one or three epochs. We use AdamW with a learning rate
+epochs, after which neither the validation loss nor CIDEr improves further; the variants with a decoder LoRA are trained for one epoch, and the global-only model with LoRA
+also for three epochs, its strongest setting (+1.3 validation F1). We use AdamW with a learning rate
 of $2\times10^{-4}$ and an effective batch size of 8, train on the first reference answer, and decode greedily (batch size 2, at most 50 new
 tokens). Unless stated otherwise, every configuration is trained with three random
 seeds (42, 123 and 3407), and we report the mean and the standard deviation. All runs fit on a single 16\,GB
@@ -58,8 +58,9 @@ plus a thumbnail.
 \centering
 \caption{Performance on the AutoViVQA test set ($\times100$). Baselines: published results of
 AutoViVQA~\cite{autovivqa2026} and ViMoE-VQA~\cite{vimoevqa} (ViMoE-VQA: 80/10/10 split, five
-seeds). Ours: grouped split (Section~\ref{sec:data}), mean over three seeds (global only: four),
-share of trained parameters in parentheses; standard deviations in Section~\ref{sec:main}. The
+seeds). Ours: ViBridge-VQA ($g=14$, $k=36$, 50 visual tokens) without and with a one-epoch decoder LoRA,
+grouped split (Section~\ref{sec:data}), mean over three seeds, share of trained parameters in
+parentheses; standard deviations in Section~\ref{sec:main}. The
 baseline papers do not describe how BLEU, ROUGE-L (R-L), METEOR (MET.) and CIDEr were computed,
 so we compare these metrics only among our own models. Bold: best per column (generation
 metrics: among our models). $^\dagger$Far outside the range of all other systems.}
@@ -83,14 +84,9 @@ metrics: among our models). $^\dagger$Far outside the range of all other systems
  & Gemini 2.5 F. & 0.22 & 24.43 & \textbf{76.66} & 24.75 & 0.39 & 37.27 & 31.22 & 71.90 \\
  & GPT-5 & 10.84 & 47.20 & 55.20 & 50.89 & 6.07 & 47.30 & 33.34 & 84.20 \\
 \midrule
-\multirow{2}{*}{\shortstack[l]{Ours,\\global only}}
- & $g{=}8$ (0.78\%) & 8.86 & 51.19 & 52.37 & 50.47 & 16.24 & 48.70 & 41.10 & 96.19 \\
- & + LoRA 3 ep. (1.01\%) & 11.40 & 55.37 & 56.16 & 54.52 & 20.97 & 52.68 & 45.08 & 108.43 \\
-\midrule
-\multirow{3}{*}{\shortstack[l]{Ours,\\ViBridge}}
- & $k{=}36$ (1.35\%) & 11.75 & 55.36 & 56.56 & 54.56 & 18.52 & 52.64 & 45.53 & 110.58 \\
- & $k{=}144$ (1.35\%) & 13.19 & 56.64 & 58.17 & 56.04 & 19.79 & 54.11 & 47.38 & 116.74 \\
- & $k{=}36$ + LoRA 1 ep. (1.57\%) & \textbf{14.67} & 59.02 & 59.96 & 58.17 & \textbf{22.53} & \textbf{56.25} & \textbf{49.32} & \textbf{122.88} \\
+\multirow{2}{*}{Ours}
+ & ViBridge-VQA (1.35\%) & 11.75 & 55.36 & 56.56 & 54.56 & 18.52 & 52.64 & 45.53 & 110.58 \\
+ & ViBridge-VQA + LoRA (1.57\%) & \textbf{14.67} & 59.02 & 59.96 & 58.17 & \textbf{22.53} & \textbf{56.25} & \textbf{49.32} & \textbf{122.88} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -98,8 +94,7 @@ metrics: among our models). $^\dagger$Far outside the range of all other systems
 Table~\ref{tab:main} compares ViBridge-VQA with the baselines. Without updating any
 weight of Vintern-1B, ViBridge-VQA raises its F1 from 17.55 in the zero-shot setting to 54.56. With the selected budget of 50 visual tokens, its precision, recall and F1 are comparable to the
 published values of the fine-tuned Vintern-1B, obtained on a different split, while its
-exact-match accuracy is 1.3 points lower; with all 144 local tokens, its accuracy is also
-comparable. ViBridge-VQA reads up to eleven times fewer visual tokens in both cases.
+exact-match accuracy is 1.3 points lower; with all 144 local tokens, its accuracy is also comparable (13.19 versus 13.01). ViBridge-VQA reads up to eleven times fewer visual tokens in both cases.
 
 Decoder adaptation adds to these gains rather
 than replacing them. Training ViBridge-VQA
@@ -110,13 +105,14 @@ differently: instead of designing and training a new architecture, it reuses an 
 and trains 1.57\% of its parameters, and it leads in exact-match accuracy. Zero-shot language models reach a high recall with long answers but lose precision,
 whereas our answers match the reference length (Section~\ref{sec:analysis}).
 
-Compared with our global-only model trained with a three-epoch decoder LoRA, ViBridge-VQA with a
-frozen decoder reaches the same F1 (54.56 versus 54.52) and
-exceeds it in CIDEr (110.58 versus 108.43), although its BLEU is lower. 
+Compared with our global-only model (Table~\ref{tab:bridges}, Fig.~\ref{fig:results}a),
+ViBridge-VQA with a frozen decoder already reaches the global-only model trained with a
+three-epoch decoder LoRA (54.96 versus 54.78 validation F1), and with the same one-epoch LoRA it
+is 4.7 F1 above it (58.21 versus 53.47). 
 
 \paragraph{Statistical stability.}
 On the test split, the standard deviation of ViBridge-VQA is at most 0.19 for F1 and 0.95
-for CIDEr, and for each of our models in Table~\ref{tab:main}, test F1 lies at most 0.6 points
+for CIDEr, and for both models in Table~\ref{tab:main}, test F1 lies at most 0.6 points
 below validation F1.
 
 \subsection{Choosing the Token Budget}

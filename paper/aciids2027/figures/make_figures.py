@@ -59,7 +59,7 @@ h = 0.21
 SERIES = (("global_only", dict(facecolor="white", edgecolor=GREY, lw=0.8), "Global-only"),
           ("global_only+lora3ep", dict(color=GREY), "Global-only + LoRA"),
           ("g8-k36", dict(color=ORANGE), "$g$=8, $k$=36"),
-          ("g14-k36+lora1", dict(facecolor=BLUE, edgecolor="white", hatch="////", lw=0), "ViBridge-VQA + LoRA"))   # colours as in (a): grey = global only, orange = g=8, blue = g=14
+          ("g14-k36+lora1", dict(facecolor=BLUE, edgecolor="white", hatch="////", lw=0), "ViBridge-VQA (k=36) + LoRA"))   # colours as in (a): grey = global only, orange = g=8, blue = g=14
 for i, (key, kw, lab) in enumerate(SERIES):
     b.barh([k + (1.5 - i) * h for k in y], [P[key][c]["f1"] for c in order], h, label=lab, **kw)
 for k, c in zip(y, order):

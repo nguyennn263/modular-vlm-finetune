@@ -10,8 +10,9 @@ emphasis on relational, causal and multi-step reasoning. On the modelling side,
 BARTPhoBEiT~\cite{tran2023bartphobeitpretrainedsequencetosequenceimage} and
 AViVQA-TranConI~\cite{nguyen2024tranconi} combine pre-trained visual and Vietnamese
 language representations, Vintern-1B~\cite{doan2024vintern1b} brings an instruction-tuned
-VLM to Vietnamese, and ViMoE-VQA~\cite{vimoevqa} routes multimodal tokens to sparse experts
-for generative VQA on AutoViVQA. These approaches either train a new model or fine-tune an
+VLM to Vietnamese, and ViMoE-VQA~\cite{vimoevqa} routes multimodal tokens to sparse experts for generative VQA on AutoViVQA. AutoViVQA and
+ViMoE-VQA are earlier work of our group; here we use the AutoViVQA data but no component of
+ViMoE-VQA, and the method, the image-disjoint split and all our results are new. These approaches either train a new model or fine-tune an
 existing VLM on multi-tile inputs; in contrast, we keep every pre-trained weight of
 Vintern-1B frozen and use a single image view.
 

@@ -52,12 +52,9 @@ pre-trained weights frozen. Instead of adapting the model, it changes what the d
 \node[anchor=west] at (lt.east) {trained};
 \end{tikzpicture}}
 \caption{Overview of ViBridge-VQA compared with the official fine-tuning of Vintern-1B.
-(a) The official recipe encodes up to seven views per image, passes up to 1{,}792 visual
-tokens to the decoder and adapts the decoder with LoRA. (b) ViBridge-VQA encodes a single
-view and passes $g$ global tokens, produced from the \texttt{[CLS]} vector by a trainable
-bridge, and $k$ local tokens, produced by the frozen projector of Vintern-1B and
-average-pooled. Only the global bridge is trained (1.35\% of the parameters for
-$g=14$); the selected budget is $g=14$, $k=36$.}
+(a) The official recipe encodes up to seven views and adapts the decoder with LoRA.
+(b) ViBridge-VQA encodes one view; a trainable bridge maps the \texttt{[CLS]} vector to $g$ global
+tokens, and the frozen projector gives $k$ pooled local tokens (selected: $g=14$, $k=36$).}
 \label{fig:arch}
 \end{figure}
 

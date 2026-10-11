@@ -43,8 +43,7 @@ in the representation it was trained to read. \emph{Global} tokens are produced 
 \texttt{[CLS]} vector by a small trainable bridge and add the scene-level information that
 Vintern-1B ignores. Only this bridge is trained. Because every additional token
 increases inference cost, we treat the number of global and local tokens as a budget
-and select it as the knee of the accuracy--cost Pareto front. As a result, ViBridge-VQA with 14 global and 36 local tokens reaches an F1 comparable to the published fine-tuned Vintern-1B while reading up to 36 times fewer visual tokens and
-updating none of its weights.
+and select it as the knee of the accuracy--cost Pareto front. As a result, ViBridge-VQA with 14 global and 36 local tokens reaches an F1 comparable to the published fine-tuned Vintern-1B while its decoder reads 36 times fewer visual tokens and none of its weights is updated.
 
 In summary, our main contributions are as follows:
 \begin{itemize}

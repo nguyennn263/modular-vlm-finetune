@@ -16,7 +16,7 @@ Vintern-1B: the InternViT-300M vision encoder (24 layers, width 1024), its two-l
 projector $P$, and the Qwen2.5-0.5B-Instruct language decoder (24 layers, width 896).
 Each image is resized to one $336\times336$ view ($24\times24$ patches of $14\times14$ pixels);
 InternViT, pre-trained at $448\times448$, bicubically interpolates its position embeddings to
-this resolution. The encoder returns one vector per patch and a global \texttt{[CLS]} vector
+this resolution, which roughly halves the encoder cost (191 instead of 362 GMACs per view). The encoder returns one vector per patch and a global \texttt{[CLS]} vector
 $v\in\mathbb{R}^{1024}$.
 Vintern-1B uses only the patch vectors: it merges every $2\times2$ block of neighbouring
 patches into one 4096-dimensional vector (pixel shuffle) and maps each merged vector into
@@ -129,9 +129,9 @@ embeddings and output layer) plus the trained modules. With $g=14$, the bridge a
 \label{sec:budget}
 
 The cost of the decoder grows with the number of visual tokens $g+k$, so we treat the pair
-$(g,k)$ as a budget to be chosen. In our experiments, accuracy increases monotonically
-with the number of visual tokens, so every configuration lies on the accuracy--cost Pareto front and
-the front alone does not single one out. We therefore select its
+$(g,k)$ as a budget to be chosen. In our experiments, F1 increases with every added token among the configurations with local
+tokens, so all of them lie on the accuracy--token Pareto front and the front alone does not
+single one out. We therefore select its
 \emph{knee}~\cite{satopaa2011kneedle}, the point after which additional tokens bring
 diminishing returns. After normalising cost $c$ and accuracy $a$ to $[0,1]$ over the front,
 the knee is the configuration that maximises $\hat a - \hat c$, i.e., the one lying

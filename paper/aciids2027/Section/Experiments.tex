@@ -95,16 +95,14 @@ trained. Bold: best per column.}
 Table~\ref{tab:main} compares ViBridge-VQA with fine-tuned multimodal models and zero-shot
 language models. Without updating any weight of Vintern-1B, ViBridge-VQA raises its F1 from 17.55
 to 54.56, a level comparable to the published fine-tuned Vintern-1B (53.76), while its decoder
-reads 50 instead of 1{,}792 visual tokens. Only its exact-match accuracy is lower (11.75 versus
-13.01); with all 144 local tokens, it reaches the same level (13.19).
+reads 50 instead of 1{,}792 visual tokens. Only its exact-match accuracy is lower (11.75 versus 13.01).
 
 Decoder adaptation further improves these results. Training a rank-16 LoRA jointly with the
 bridge for one epoch raises F1 to 58.17 and gives the highest exact-match accuracy in
 Table~\ref{tab:main}. ViMoE-VQA, a task-specific model whose fusion module and decoder are trained
 on AutoViVQA, keeps the highest precision and F1, whereas ViBridge-VQA reuses an existing VLM and
-trains only 1.57\% of its parameters. Compared with Global-only, ViBridge-VQA with a
-frozen decoder already matches Global-only + LoRA trained for three epochs
-(54.96 versus 54.78 validation F1), and with the same one-epoch LoRA it is 4.7 F1 higher (58.21 versus 53.47; Table~\ref{tab:bridges}). Our models are stable across seeds: on the test split, the standard deviation is at most 0.19 for
+trains only 1.57\% of its parameters. With the same one-epoch LoRA, ViBridge-VQA is 4.7 validation F1 above Global-only (58.21
+versus 53.47; Table~\ref{tab:bridges}). Our models are stable across seeds: on the test split, the standard deviation is at most 0.19 for
 F1 and 0.95 for CIDEr, and test F1 is at most 0.6 points below validation F1.
 
 \subsection{Is Reusing the Projector Better than Learning a New Connector?}
@@ -149,8 +147,10 @@ learned queries, or a light or full Q-Former~\cite{li2023blip2}), and our local 
 pre-trained projector. Without decoder adaptation, the bridges that learn to compress the patches
 stay 3.7--5.6 F1 below the Multi-Token bridge despite having up to $9.4\times$ more parameters,
 whereas adding 36 or 144 local tokens from the projector to the same bridge ($g=8$) raises F1 by
-3.6 and 5.4 points (Table~\ref{tab:budget}). Distilling the projector into Global-only instead,
-at the feature or the output level, gives 50.35 and 50.46 F1, slightly below its 50.74.
+3.6 and 5.4 points (Table~\ref{tab:budget}). Training Global-only to imitate the projector instead, either by aligning the mean of its output
+tokens with that of the projector's tokens (cosine, feature distillation) or by matching the
+decoder's answer distribution obtained with the projector's tokens (KL, output distillation), gives 50.35 and 50.46 F1, slightly below
+its 50.74.
 
 \subsection{How Many Visual Tokens Are Needed?}
 \label{sec:budget-results}
@@ -190,7 +190,8 @@ $g$ & $k$ & Tokens & Time & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
 \caption{(a) Validation F1 against the number of visual tokens (mean $\pm$ std over three seeds);
 the circled point is the knee, $g=14$, $k=36$, and the star ViBridge-VQA + LoRA. (b) Validation F1
 by reasoning type (number of questions in parentheses), averaged over seeds; the numbers give the
-gain of adding 36 local tokens at $g=8$. Colours: grey Global-only, orange $g=8$, blue $g=14$.}
+gain of adding 36 local tokens at the same $g=8$. White: Global-only; grey: Global-only + LoRA;
+orange: $g=8$ with local tokens; blue: $g=14$ (ViBridge-VQA).}
 \label{fig:results}
 \end{figure}
 
@@ -202,9 +203,11 @@ whereas going from 8 to 14 global tokens adds only 0.2--0.6 F1 at a fixed $k$. A
 increasing with $k$, but the gain per token falls from 0.07 F1 between 23 and 50 tokens to 0.015
 between 50 and 158 tokens, so additional tokens bring diminishing returns.
 
-Since accuracy grows with every added token, all configurations lie on the Pareto front of
-accuracy against tokens, and we select its knee (Section~\ref{sec:budget}). On validation, the knee is $g=14$, $k=36$ for all eight metrics, whether cost is counted in visual
-tokens or in evaluation time on the T4, and TOPSIS with equal weights on accuracy and cost
+Among the configurations with local tokens, F1 grows with every added token, so all of them lie
+on the accuracy--token Pareto front, and we select its knee (Section~\ref{sec:budget}). On
+validation, the knee is $g=14$, $k=36$ for every metric, and also when cost is measured as
+evaluation time, although times differ by only a few minutes below $k=144$ and include model
+loading. TOPSIS with equal weights on accuracy and cost
 makes the same choice; the knee on the test split, computed only as a post-hoc check, is the
 same. This budget is a compromise rather than the most accurate configuration: $k=144$ is 1.7 F1
 higher, but the selected budget obtains 72\% of its gain over Global-only with 32\% of
@@ -227,7 +230,7 @@ slower (Table~\ref{tab:budget}).
 \label{sec:analysis}
 
 Yes: local tokens mainly improve perception, a decoder LoRA mainly improves reasoning answers, and
-the two gains add up. A decoder LoRA improves every global-only bridge and brings them within 0.8 F1 of one
+the two gains add up. A decoder LoRA improves every bridge without local tokens and brings them within 0.8 F1 of one
 another (52.69--53.47). Even after this adaptation, all of them remain below ViBridge-VQA with a frozen
 decoder. Decoder adaptation is therefore not needed to surpass them, but it is still
 useful: in the same one-epoch joint training, it adds 3.3 F1 to ViBridge-VQA, more than the
@@ -270,8 +273,9 @@ line with the gains of decoder adaptation on causal and yes/no questions describ
 
 \begin{table}[!tb]
 \centering
-\caption{Results on Vietnamese VQA datasets not used for training ($\times100$, mean $\pm$ std over
-three random samples of about 1{,}000 test questions; our models: seed 42). Best results per
+\caption{Results on Vietnamese VQA datasets whose questions were not used for training ($\times100$, mean $\pm$ std over
+three random samples of about 1{,}000 test questions; our models: seed 42; Global-only + LoRA:
+three epochs). Best results per
 dataset are in bold.}
 \label{tab:ood}
 \scriptsize
@@ -301,12 +305,13 @@ Model & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
 \end{tabular}
 \end{table}
 
-Largely yes. Table~\ref{tab:ood} reports results on three Vietnamese VQA datasets that were not used for
-training: the scene-text dataset ViTextVQA~\cite{nguyen2025vitextvqa} and the general-domain
-ViVQA-X~\cite{vivqax2025} and ViVQA~\cite{tran2021vivqa}. We evaluate our final model, ViBridge-VQA + LoRA with 50 visual
+Yes on general-domain questions, while reading scene text requires more local tokens.
+Table~\ref{tab:ood} reports results on three Vietnamese VQA datasets whose questions were not used
+for training: the scene-text dataset ViTextVQA~\cite{nguyen2025vitextvqa} and the general-domain
+ViVQA-X~\cite{vivqax2025} and ViVQA~\cite{tran2021vivqa}. ViVQA and ViVQA-X are built on COCO
+images; about 10\% of the sampled questions concern images that also appear, with other
+questions, in our training split. We evaluate our final model, ViBridge-VQA + LoRA with 50 visual
 tokens, and ViBridge-VQA ($k$=144). Both clearly outperform Global-only and, on the
-general-domain datasets, the zero-shot Vintern-1B (F1 44.8 and 45.0 against 23.9 on ViVQA).
-Scene text benefits most from more local tokens: on ViTextVQA, ViBridge-VQA ($k$=144) reaches 33.3
-F1, on par with Vintern-1B, which reads up to seven $448\times448$ views instead of one
-$336\times336$ view. Averaged over the three datasets, ViBridge-VQA ($k$=144) obtains the highest F1 (35.4, against
-23.5 for Vintern-1B), followed by ViBridge-VQA + LoRA (29.3).
+general-domain datasets, the zero-shot Vintern-1B (F1 44.8 and 45.0 against 23.9 on ViVQA). On
+ViTextVQA, the 50-token model reaches 15.4 F1, whereas ViBridge-VQA ($k$=144) reaches 33.3, on par
+with Vintern-1B, which reads up to seven $448\times448$ views instead of one $336\times336$ view.

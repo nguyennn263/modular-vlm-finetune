@@ -9,8 +9,11 @@ number of pooled local tokens is more effective than learning a new connector fr
 that the number of tokens can be chosen with an explicit accuracy--cost criterion, and that the
 local tokens complement decoder adaptation rather than replace it.
 
-The task-specific ViMoE-VQA still reaches a higher F1, and accuracy had not saturated at the 144
-local tokens available at our resolution.
+Our study also has limitations. We train on a single dataset, AutoViVQA, and the task-specific
+ViMoE-VQA still reaches a higher F1. Without decoder adaptation, the exact-match accuracy of
+ViBridge-VQA stays below that of the fine-tuned Vintern-1B, and with 50 visual tokens it reads
+scene text much worse than Vintern-1B; accuracy had not saturated at the 144 local tokens
+available at our resolution.
 
 Overall, an existing Vietnamese VLM can be improved substantially by choosing which visual tokens
 its frozen decoder receives, and how many. The code and the image-disjoint split are available at

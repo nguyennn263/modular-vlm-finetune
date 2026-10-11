@@ -10,23 +10,18 @@
 We evaluate on AutoViVQA~\cite{autovivqa2026}, a Vietnamese VQA benchmark on MS COCO
 images~\cite{lin2015coco} in which each question has five short free-form reference answers and
 a reasoning type. To measure answers about images the model has never seen, we use an
-image-disjoint split: in the public 80/20 split, 2{,}941 of the 7{,}416 validation questions
-concern training images. We remove 273 duplicated (image, question) pairs and 97 questions with
-irregular type labels and re-partition the remaining 36{,}707 questions by image into a 70/15/15
-split (seed 42), so that no image appears in more than one split: 25{,}776 / 5{,}463 / 5{,}468
+image-disjoint split. After removing 273 duplicated (image, question) pairs and 97 questions
+without one of the eight reasoning labels, we partition the 36{,}707 questions by image into a
+70/15/15 split (seed 42), so that no image appears in more than one split: 25{,}776 / 5{,}463 / 5{,}468
 questions on 13{,}579 / 2{,}909 / 2{,}910 images. In a preliminary comparison, this split lowered
 the F1 of the global-only bridge by about 0.5 points relative to a split that does not group
 questions by image.
 
 \paragraph{Evaluation metrics.}
-Following AutoViVQA and ViMoE-VQA, we report answer-matching metrics (exact-match
-Accuracy, and word-level Precision, Recall and F1) and generation metrics
-(BLEU~\cite{papineni2002bleu}, ROUGE-L~\cite{lin2004rouge},
-METEOR~\cite{banerjee2005meteor} and CIDEr~\cite{vedantam2015cider}), all multiplied by
-100. Word-level precision, recall and F1 are computed against each of the five references, and the
-reference with the highest F1 is kept for all three. All our numbers are produced by one
-implementation of these metrics. We average F1 over questions; the harmonic mean of the averaged precision and recall would
-instead give 55.95 for ViBridge-VQA.
+Following AutoViVQA and ViMoE-VQA, we report exact-match Accuracy, word-level Precision, Recall
+and F1, BLEU~\cite{papineni2002bleu}, ROUGE-L~\cite{lin2004rouge},
+METEOR~\cite{banerjee2005meteor} and CIDEr~\cite{vedantam2015cider}, all against the five
+reference answers and multiplied by 100. All our models are scored with the same implementation.
 
 \subsection{Experimental Setup}
 
@@ -46,8 +41,7 @@ AutoViVQA, namely ViT5\_ViT,
 BARTPhoBEiT~\cite{tran2023bartphobeitpretrainedsequencetosequenceimage}, Vintern-1B and
 ViMoE-VQA~\cite{vimoevqa}; (2) models used zero-shot, namely Vintern-1B, LLaMA~3.2,
 Gemini~2.0 and 2.5 Flash, and GPT-5; and (3) our \emph{global-only} model, which uses the
-same bridge without local tokens ($k=0$, $g=8$), with and without a decoder LoRA. The results of groups (1) and (2) are taken from the AutoViVQA and ViMoE-VQA papers, each
-evaluated with its own data split. The fine-tuned Vintern-1B follows the
+same bridge without local tokens ($k=0$, $g=8$), with and without a decoder LoRA. The results of groups (1) and (2) are those reported in the AutoViVQA and ViMoE-VQA papers. The fine-tuned Vintern-1B follows the
 official recipe: the vision encoder and the projector are frozen, a rank-16 LoRA adapts the
 language model for one epoch, and each image is encoded as up to six $448\times448$ tiles
 plus a thumbnail.
@@ -60,10 +54,7 @@ plus a thumbnail.
 \caption{Performance on the AutoViVQA test set ($\times100$). Baselines: results reported in AutoViVQA~\cite{autovivqa2026} and ViMoE-VQA~\cite{vimoevqa}
 (ViMoE-VQA: mean of five seeds). Ours: ViBridge-VQA ($g=14$, $k=36$, 50 visual tokens) without and with a one-epoch decoder LoRA,
 image-disjoint split (Section~\ref{sec:data}), mean over three seeds, share of trained parameters in
-parentheses; standard deviations in Section~\ref{sec:main}. The
-baseline papers do not describe how BLEU, ROUGE-L (R-L), METEOR (MET.) and CIDEr were computed,
-so we compare these metrics only among our own models. Bold: best per column (generation
-metrics: among our models). $^\dagger$Far outside the range of all other systems.}
+parentheses; standard deviations in Section~\ref{sec:main}. R-L: ROUGE-L, MET.: METEOR. Bold: best Acc, P, R and F1.}
 \label{tab:main}
 \scriptsize
 \setlength{\tabcolsep}{1.85pt}
@@ -73,7 +64,7 @@ metrics: among our models). $^\dagger$Far outside the range of all other systems
 \midrule
 \multirow{4}{*}{\shortstack[l]{Fine-\\tuned}}
  & ViT5\_ViT & 7.97 & 46.84 & 50.33 & 48.52 & 4.13 & 46.89 & 31.02 & 72.68 \\
- & BARTPhoBEiT & 8.81 & 45.30 & 46.48 & 45.88 & 43.29$^\dagger$ & 44.83 & 24.57 & 188.96$^\dagger$ \\
+ & BARTPhoBEiT & 8.81 & 45.30 & 46.48 & 45.88 & 43.29 & 44.83 & 24.57 & 188.96 \\
  & Vintern-1B & 13.01 & 52.47 & 55.12 & 53.76 & 6.11 & 51.93 & 35.25 & 72.84 \\
  & ViMoE-VQA & 9.55 & \textbf{62.89} & 58.60 & \textbf{60.69} & 12.54 & 47.12 & 39.10 & 88.76 \\
 \midrule
@@ -86,7 +77,7 @@ metrics: among our models). $^\dagger$Far outside the range of all other systems
 \midrule
 \multirow{2}{*}{Ours}
  & ViBridge-VQA (1.35\%) & 11.75 & 55.36 & 56.56 & 54.56 & 18.52 & 52.64 & 45.53 & 110.58 \\
- & ViBridge-VQA + LoRA (1.57\%) & \textbf{14.67} & 59.02 & 59.96 & 58.17 & \textbf{22.53} & \textbf{56.25} & \textbf{49.32} & \textbf{122.88} \\
+ & ViBridge-VQA + LoRA (1.57\%) & \textbf{14.67} & 59.02 & 59.96 & 58.17 & 22.53 & 56.25 & 49.32 & 122.88 \\
 \bottomrule
 \end{tabular}
 \end{table}

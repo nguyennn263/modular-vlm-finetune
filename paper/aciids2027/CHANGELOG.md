@@ -1,5 +1,20 @@
 # Paper changelog (ACIIDS 2027, ViBridge-VQA)
 
+## 2026-10-13 — review round 5
+
+- §4 reorganised around the research questions, each opening with its answer: 4.3 Main Results;
+  4.4 Is reusing the projector better than learning a new connector? (bridges table); 4.5 How many
+  visual tokens are needed? (budget table, Fig. 2a, number of global tokens, cost); 4.6 Do local
+  tokens complement decoder adaptation? (LoRA, reasoning types, error analysis, Fig. 3); 4.7 Do the
+  gains transfer to other datasets? (Table 4). Floats [!tb], all before the Conclusion.
+- Abstract 271 -> 168 words (4 numbers); contributions and conclusion without number recaps.
+- Fixed names (defined in §4.2): Global-only, Global-only + LoRA, ViBridge-VQA,
+  ViBridge-VQA + LoRA, ViBridge-VQA (k=144). Table columns F1, BLEU, R-L, MET., CIDEr everywhere;
+  +- in \scriptsize. Fig. 1 moved into §3.1; Fig. 2 colours grey/orange/blue = global-only/g8/g14,
+  bars from 0. Distillation sentence with numbers (50.35 / 50.46 vs 50.74).
+- Kept by user choice: title, Table 4 with five metrics, Fig. 3 LoRA examples.
+- Pending (re-eval running): \prov values (global-token sweep, g=14 k=0 row) and the §3.2 claim.
+
 ## 2026-10-13 — BARTPhoBEiT BLEU from ViMoE-VQA
 
 - Table 1: BARTPhoBEiT BLEU = 4.33 as reported in ViMoE-VQA (Table 2); the AutoViVQA table has

@@ -91,7 +91,7 @@ head produces an \emph{anchor} token, and the second produces $g-1$ complementar
 present the global content to the decoder from different learned directions. The bridge has
 $1025\cdot896\cdot g$ parameters, i.e., 12{,}857{,}600 for $g=14$, and its $g$ tokens are
 placed before the prompt. We consider $g\in\{8,14\}$: $g=8$ is our Global-only model, and $g=14$ gave the highest F1 when the Global-only bridge was varied from 4 to 20 tokens
-(Section~\ref{sec:ablation}). The final pair $(g,k)$ is selected with the criterion of
+(Section~\ref{sec:budget-results}). The final pair $(g,k)$ is selected with the criterion of
 Section~\ref{sec:budget}.
 
 \subsection{Local Tokens}

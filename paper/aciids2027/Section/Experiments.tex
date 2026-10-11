@@ -1,6 +1,12 @@
 \section{Experiments}
 \label{sec:exp}
 
+After comparing ViBridge-VQA with existing systems (Section~\ref{sec:main}), we answer four
+questions: whether reusing the pre-trained projector is better than learning a new connector
+(Section~\ref{sec:rq-source}), how many visual tokens are needed (Section~\ref{sec:budget-results}),
+whether local tokens complement decoder adaptation (Section~\ref{sec:analysis}), and whether the
+gains transfer to other datasets (Section~\ref{sec:ood}).
+
 
 
 \subsection{Dataset and Evaluation Metrics}
@@ -100,77 +106,10 @@ frozen decoder already matches Global-only + LoRA trained for three epochs
 (54.96 versus 54.78 validation F1), and with the same one-epoch LoRA it is 4.7 F1 higher (58.21 versus 53.47; Table~\ref{tab:bridges}). Our models are stable across seeds: on the test split, the standard deviation is at most 0.19 for
 F1 and 0.95 for CIDEr, and test F1 is at most 0.6 points below validation F1.
 
-\subsection{Choosing the Token Budget}
-\label{sec:budget-results}
+\subsection{Is Reusing the Projector Better than Learning a New Connector?}
+\label{sec:rq-source}
 
-\begin{table}[t]
-\centering
-\caption{Effect of the token budget on the validation set ($\times100$, mean $\pm$ std over three
-seeds; Global-only: four seeds). Tokens: visual tokens passed to the decoder; Time:
-minutes to evaluate the validation and test questions on one Tesla T4. The selected budget is in
-bold.}
-\label{tab:budget}
-\footnotesize
-\setlength{\tabcolsep}{2.4pt}
-\begin{tabular}{rrrrrrrrr}
-\toprule
-$g$ & $k$ & Tokens & Time & F1 & BLEU & R-L & MET. & CIDEr \\
-\midrule
-8 & 0 & 8 & -- & \pms{50.74}{.17} & \pms{16.88}{.23} & \pms{49.03}{.12} & \pms{41.38}{.21} & \pms{99.07}{.47} \\
-14 & 0 & 14 & -- & \prov{\pms{50.67}{.08}} & \prov{\pms{16.81}{.22}} & \prov{\pms{48.91}{.11}} & \prov{\pms{41.34}{.23}} & \prov{\pms{99.83}{.53}} \\
-\midrule
-8 & 1 & 9 & 57.0 & \pms{51.03}{.12} & \pms{16.54}{.27} & \pms{49.21}{.13} & \pms{41.37}{.11} & \pms{99.27}{.58} \\
-8 & 9 & 17 & 59.2 & \pms{52.82}{.11} & \pms{17.58}{.03} & \pms{50.96}{.05} & \pms{43.56}{.20} & \pms{106.11}{.55} \\
-8 & 36 & 44 & 60.6 & \pms{54.32}{.41} & \pms{18.22}{.39} & \pms{52.48}{.43} & \pms{45.31}{.42} & \pms{111.88}{1.43} \\
-8 & 144 & 152 & 71.2 & \pms{56.15}{.08} & \pms{19.82}{.00} & \pms{54.21}{.06} & \pms{47.51}{.05} & \pms{119.05}{.25} \\
-\midrule
-14 & 1 & 15 & 58.8 & \pms{51.67}{.25} & \pms{17.30}{.36} & \pms{49.93}{.24} & \pms{42.36}{.19} & \pms{101.66}{1.11} \\
-14 & 9 & 23 & 57.7 & \pms{52.98}{.08} & \pms{17.83}{.23} & \pms{51.17}{.10} & \pms{43.71}{.13} & \pms{106.02}{.80} \\
-\textbf{14} & \textbf{36} & \textbf{50} & \textbf{60.0} & \pms{\textbf{54.96}}{.28} & \pms{\textbf{18.73}}{.23} & \pms{\textbf{53.10}}{.27} & \pms{\textbf{46.01}}{.42} & \pms{\textbf{113.29}}{1.01} \\
-14 & 144 & 158 & 70.2 & \pms{56.61}{.04} & \pms{20.18}{.13} & \pms{54.70}{.05} & \pms{48.00}{.05} & \pms{120.71}{.12} \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{fig_results}
-\caption{(a) Validation F1 against the number of visual tokens (mean $\pm$ std over three seeds);
-the circled point is the knee, $g=14$, $k=36$, and the star ViBridge-VQA + LoRA. (b) Validation F1
-by reasoning type (number of questions in parentheses), averaged over seeds; the numbers give the
-gain of adding 36 local tokens at $g=8$. Colours: grey Global-only, orange $g=8$, blue $g=14$.}
-\label{fig:results}
-\end{figure}
-
-Table~\ref{tab:budget} and Fig.~\ref{fig:results}a vary the number of global tokens
-$g\in\{8,14\}$ and of local tokens $k\in\{1,9,36,144\}$. Local tokens have by far the larger
-effect: at $g=14$, going from 1 to 144 local tokens adds 4.9 F1 and 19.1 CIDEr on validation,
-whereas going from 8 to 14 global tokens adds only 0.2--0.6 F1 at a fixed $k$. Accuracy keeps
-increasing with $k$, but the gain per token falls from 0.07 F1 between 23 and 50 tokens to 0.015
-between 50 and 158 tokens, so additional tokens bring diminishing returns.
-
-Since accuracy grows with every added token, all configurations lie on the Pareto front of
-accuracy against tokens, and we select its knee (Section~\ref{sec:budget}). On validation, the knee is $g=14$, $k=36$ for all eight metrics, whether cost is counted in visual
-tokens or in evaluation time on the T4, and TOPSIS with equal weights on accuracy and cost
-makes the same choice; the knee on the test split, computed only as a post-hoc check, is the
-same. This budget is a compromise rather than the most accurate configuration: $k=144$ is 1.7 F1
-higher, but the selected budget obtains 72\% of its gain over Global-only with 32\% of
-its tokens.
-
-\paragraph{Computational cost.}
-ViBridge-VQA reduces the cost in two places. Its decoder reads 50 visual tokens, whereas the
-official tiling (at most six tiles plus a thumbnail) splits every AutoViVQA test image into
-seven views, i.e., 1{,}792 tokens. Its vision encoder processes one $336\times336$ view (577
-tokens, about 191 GMACs) instead of seven $448\times448$ views (362 GMACs each), 13 times less
-computation. Within our own budgets, 144 local tokens instead of 36 make evaluation about 17\%
-slower (Table~\ref{tab:budget}).
-
-\subsection{Ablation Study}
-\label{sec:ablation}
-
-
-
-\begin{table}[t]
+\begin{table}[!tb]
 \centering
 \caption{Source of the visual tokens, without and with a decoder LoRA (validation, $\times100$, mean
 $\pm$ std over three seeds; Multi-Token: four seeds; $^\ast$one seed). Params: trained bridge
@@ -203,29 +142,133 @@ Visual tokens from & Tokens & Params & F1 & BLEU & R-L & MET. & CIDEr \\
 \end{tabular}}
 \end{table}
 
-\paragraph{Where should the visual tokens come from?}
-Table~\ref{tab:bridges} compares three sources of visual tokens: the global \texttt{[CLS]}
+Yes. Table~\ref{tab:bridges} compares three sources of visual tokens: the global \texttt{[CLS]}
 vector (a one-token \emph{Residual} bridge or the \emph{Multi-Token} bridge of
 Eq.~\eqref{eq:bridge}), a learned compression of the patches (\emph{Tile-Attention} with eight
-learned queries, or a light or full Q-Former~\cite{li2023blip2}), and our local tokens. Without decoder adaptation, the Multi-Token bridge is the best
-of these five, and the bridges that compress the patches are 3.7--5.6 F1 lower despite
-having up to $9.4\times$ more parameters.  Taking local tokens from the pre-trained projector instead works better: at the same $g=8$,
-adding 36 or 144 of them improves F1 by 3.6 and 5.4 points (Table~\ref{tab:budget}). 
+learned queries, or a light or full Q-Former~\cite{li2023blip2}), and our local tokens from the
+pre-trained projector. Without decoder adaptation, the bridges that learn to compress the patches
+stay 3.7--5.6 F1 below the Multi-Token bridge despite having up to $9.4\times$ more parameters,
+whereas adding 36 or 144 local tokens from the projector to the same bridge ($g=8$) raises F1 by
+3.6 and 5.4 points (Table~\ref{tab:budget}). Distilling the projector into Global-only instead,
+at the feature or the output level, gives 50.35 and 50.46 F1, slightly below its 50.74.
 
-\paragraph{Local tokens and decoder adaptation are complementary.}
-A decoder LoRA improves every global-only bridge and brings them within 0.8 F1 of one
-another (52.69--53.47). Even after this adaptation, all of them remain below ViBridge-VQA with a frozen
-decoder. Decoder adaptation is therefore not needed to surpass them, but it is still
-useful: in the same one-epoch joint training, it adds 3.3 F1 to ViBridge-VQA, more than the
-2.7 F1 it adds to the Multi-Token bridge. Distilling the projector into Global-only instead, at the feature or the output level, gives
-50.35 and 50.46 F1, slightly below its 50.74.
+\subsection{How Many Visual Tokens Are Needed?}
+\label{sec:budget-results}
+
+\begin{table}[!tb]
+\centering
+\caption{Effect of the token budget on the validation set ($\times100$, mean $\pm$ std over three
+seeds; Global-only: four seeds). Tokens: visual tokens passed to the decoder; Time:
+minutes to evaluate the validation and test questions on one Tesla T4. The selected budget is in
+bold.}
+\label{tab:budget}
+\footnotesize
+\setlength{\tabcolsep}{2.4pt}
+\begin{tabular}{rrrrrrrrr}
+\toprule
+$g$ & $k$ & Tokens & Time & F1 & BLEU & R-L & MET. & CIDEr \\
+\midrule
+8 & 0 & 8 & -- & \pms{50.74}{.17} & \pms{16.88}{.23} & \pms{49.03}{.12} & \pms{41.38}{.21} & \pms{99.07}{.47} \\
+14 & 0 & 14 & -- & \prov{\pms{50.67}{.08}} & \prov{\pms{16.81}{.22}} & \prov{\pms{48.91}{.11}} & \prov{\pms{41.34}{.23}} & \prov{\pms{99.83}{.53}} \\
+\midrule
+8 & 1 & 9 & 57.0 & \pms{51.03}{.12} & \pms{16.54}{.27} & \pms{49.21}{.13} & \pms{41.37}{.11} & \pms{99.27}{.58} \\
+8 & 9 & 17 & 59.2 & \pms{52.82}{.11} & \pms{17.58}{.03} & \pms{50.96}{.05} & \pms{43.56}{.20} & \pms{106.11}{.55} \\
+8 & 36 & 44 & 60.6 & \pms{54.32}{.41} & \pms{18.22}{.39} & \pms{52.48}{.43} & \pms{45.31}{.42} & \pms{111.88}{1.43} \\
+8 & 144 & 152 & 71.2 & \pms{56.15}{.08} & \pms{19.82}{.00} & \pms{54.21}{.06} & \pms{47.51}{.05} & \pms{119.05}{.25} \\
+\midrule
+14 & 1 & 15 & 58.8 & \pms{51.67}{.25} & \pms{17.30}{.36} & \pms{49.93}{.24} & \pms{42.36}{.19} & \pms{101.66}{1.11} \\
+14 & 9 & 23 & 57.7 & \pms{52.98}{.08} & \pms{17.83}{.23} & \pms{51.17}{.10} & \pms{43.71}{.13} & \pms{106.02}{.80} \\
+\textbf{14} & \textbf{36} & \textbf{50} & \textbf{60.0} & \pms{\textbf{54.96}}{.28} & \pms{\textbf{18.73}}{.23} & \pms{\textbf{53.10}}{.27} & \pms{\textbf{46.01}}{.42} & \pms{\textbf{113.29}}{1.01} \\
+14 & 144 & 158 & 70.2 & \pms{56.61}{.04} & \pms{20.18}{.13} & \pms{54.70}{.05} & \pms{48.00}{.05} & \pms{120.71}{.12} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[!tb]
+\centering
+\includegraphics[width=\linewidth]{fig_results}
+\caption{(a) Validation F1 against the number of visual tokens (mean $\pm$ std over three seeds);
+the circled point is the knee, $g=14$, $k=36$, and the star ViBridge-VQA + LoRA. (b) Validation F1
+by reasoning type (number of questions in parentheses), averaged over seeds; the numbers give the
+gain of adding 36 local tokens at $g=8$. Colours: grey Global-only, orange $g=8$, blue $g=14$.}
+\label{fig:results}
+\end{figure}
+
+About 50 visual tokens, 14 global and 36 local, give the best compromise between accuracy and
+cost. Table~\ref{tab:budget} and Fig.~\ref{fig:results}a vary the number of global tokens
+$g\in\{8,14\}$ and of local tokens $k\in\{1,9,36,144\}$. Local tokens have by far the larger
+effect: at $g=14$, going from 1 to 144 local tokens adds 4.9 F1 and 19.1 CIDEr on validation,
+whereas going from 8 to 14 global tokens adds only 0.2--0.6 F1 at a fixed $k$. Accuracy keeps
+increasing with $k$, but the gain per token falls from 0.07 F1 between 23 and 50 tokens to 0.015
+between 50 and 158 tokens, so additional tokens bring diminishing returns.
+
+Since accuracy grows with every added token, all configurations lie on the Pareto front of
+accuracy against tokens, and we select its knee (Section~\ref{sec:budget}). On validation, the knee is $g=14$, $k=36$ for all eight metrics, whether cost is counted in visual
+tokens or in evaluation time on the T4, and TOPSIS with equal weights on accuracy and cost
+makes the same choice; the knee on the test split, computed only as a post-hoc check, is the
+same. This budget is a compromise rather than the most accurate configuration: $k=144$ is 1.7 F1
+higher, but the selected budget obtains 72\% of its gain over Global-only with 32\% of
+its tokens.
 
 \paragraph{Number of global tokens.}
 We varied the Multi-Token bridge from $g=4$ to $g=20$ tokens (three seeds each). Validation F1
 rose from \prov{48.5} at $g=4$ to \prov{49.6} at $g=8$ and \prov{50.7} at $g=14$, and stayed
 between \prov{50.4} and \prov{50.6} for $g=16$--$20$.
 
-\begin{table}[t]
+\paragraph{Computational cost.}
+ViBridge-VQA reduces the cost in two places. Its decoder reads 50 visual tokens, whereas the
+official tiling (at most six tiles plus a thumbnail) splits every AutoViVQA test image into
+seven views, i.e., 1{,}792 tokens. Its vision encoder processes one $336\times336$ view (577
+tokens, about 191 GMACs) instead of seven $448\times448$ views (362 GMACs each), 13 times less
+computation. Within our own budgets, 144 local tokens instead of 36 make evaluation about 17\%
+slower (Table~\ref{tab:budget}).
+
+\subsection{Do Local Tokens Complement Decoder Adaptation?}
+\label{sec:analysis}
+
+Yes: local tokens mainly improve perception, a decoder LoRA mainly improves reasoning answers, and
+the two gains add up. A decoder LoRA improves every global-only bridge and brings them within 0.8 F1 of one
+another (52.69--53.47). Even after this adaptation, all of them remain below ViBridge-VQA with a frozen
+decoder. Decoder adaptation is therefore not needed to surpass them, but it is still
+useful: in the same one-epoch joint training, it adds 3.3 F1 to ViBridge-VQA, more than the
+2.7 F1 it adds to the Multi-Token bridge.
+
+\paragraph{Reasoning types.}
+Fig.~\ref{fig:results}b breaks the validation F1 down by reasoning type. Local tokens help most
+when the answer depends on what is visible in the image: at $g=8$, adding 36 local tokens raises
+F1 by 10.3 on recognition, 5.0 on spatial and 3.7 on action questions, where this frozen-decoder
+model also outperforms Global-only + LoRA. Decoder adaptation helps more on causal
+and relational questions, whose answers are the longest (5.0 and 5.6 words on average), and on
+yes/no questions. ViBridge-VQA with LoRA combines both strengths and is the best of the four
+models in seven of the eight categories, all except yes/no.
+
+\paragraph{Error analysis.}
+Our answers are as long as the references (4.3 words on average), and most of them (77--81\%)
+partially overlap the closest reference. Compared with Global-only, ViBridge-VQA raises
+the share of exact matches (F1 = 1) from 9.7\% to 13.3\% and lowers the share of answers with no
+word in common with any reference from 9.6\% to 8.0\% (6.8\% with LoRA).
+
+\begin{figure}[!tb]
+\centering
+\includegraphics[width=\linewidth]{fig_qualitative}
+\caption{Qualitative examples from the AutoViVQA validation set (seed 42). Q: question,
+GT: one of the five reference answers; Ours: ViBridge-VQA ($g=14$, $k=36$), Ours+LoRA:
+ViBridge-VQA with a one-epoch decoder LoRA.}
+\label{fig:qual}
+\end{figure}
+
+\paragraph{Qualitative examples.}
+Fig.~\ref{fig:qual} illustrates how the two components work together. In every example,
+ViBridge-VQA already identifies the relevant content of the image (the driver's phone,
+the helmets, the football match, the bird feeder), but its answer is vague or incomplete.
+Adding the decoder LoRA turns it into the precise answer, for instance that the driver is using
+\emph{the phone} and that the helmets are worn \emph{to protect their heads}, in
+line with the gains of decoder adaptation on causal and yes/no questions described above.
+
+\subsection{Do the Gains Transfer to Other Datasets?}
+\label{sec:ood}
+
+\begin{table}[!tb]
 \centering
 \caption{Results on Vietnamese VQA datasets not used for training ($\times100$, mean $\pm$ std over
 three random samples of about 1{,}000 test questions; our models: seed 42). Best results per
@@ -264,30 +307,7 @@ Model & F1 & BLEU & R-L & MET. & CIDEr \\
 \end{tabular}
 \end{table}
 
-\subsection{Analysis by Reasoning Type and Error Analysis}
-\label{sec:analysis}
-
-\paragraph{Reasoning types.}
-Fig.~\ref{fig:results}b breaks the validation F1 down by reasoning type. Local tokens help most
-when the answer depends on what is visible in the image: at $g=8$, adding 36 local tokens raises
-F1 by 10.3 on recognition, 5.0 on spatial and 3.7 on action questions, where this frozen-decoder
-model also outperforms Global-only + LoRA. Decoder adaptation helps more on causal
-and relational questions, whose answers are the longest (5.0 and 5.6 words on average), and on
-yes/no questions. ViBridge-VQA with LoRA combines both strengths and is the best of the four
-models in seven of the eight categories, all except yes/no.
-
-\paragraph{Error analysis.}
-Our answers are as long as the references (4.3 words on average), and most of them (77--81\%)
-partially overlap the closest reference. Compared with Global-only, ViBridge-VQA raises
-the share of exact matches (F1 = 1) from 9.7\% to 13.3\% and lowers the share of answers with no
-word in common with any reference from 9.6\% to 8.0\% (6.8\% with LoRA).
-
-\subsection{Generalisation to Other Datasets}
-\label{sec:ood}
-
-
-
-Table~\ref{tab:ood} reports results on four Vietnamese VQA datasets that were not used for
+Largely yes. Table~\ref{tab:ood} reports results on four Vietnamese VQA datasets that were not used for
 training: the scene-text datasets ViTextVQA~\cite{nguyen2025vitextvqa} and
 OpenViVQA~\cite{nguyen2023openvivqa}, and the general-domain ViVQA-X~\cite{vivqax2025} and
 ViVQA~\cite{tran2021vivqa}. We evaluate our final model, ViBridge-VQA + LoRA with 50 visual
@@ -297,22 +317,3 @@ Scene text benefits most from more local tokens: on ViTextVQA, ViBridge-VQA ($k$
 F1, on par with Vintern-1B, which reads up to seven $448\times448$ views instead of one
 $336\times336$ view. Averaged over the four datasets, ViBridge-VQA ($k$=144) obtains the highest F1
 (35.5, against 32.2 for Vintern-1B).
-
-\subsection{Qualitative Analysis}
-
-\begin{figure}[tp]
-\centering
-\includegraphics[width=\linewidth]{fig_qualitative}
-\caption{Qualitative examples from the AutoViVQA validation set (seed 42). Q: question,
-GT: one of the five reference answers; Ours: ViBridge-VQA ($g=14$, $k=36$), Ours+LoRA:
-ViBridge-VQA with a one-epoch decoder LoRA.}
-\label{fig:qual}
-\end{figure}
-
-Fig.~\ref{fig:qual} illustrates how the two components work together. In every example,
-ViBridge-VQA already identifies the relevant content of the image (the driver's phone,
-the helmets, the football match, the bird feeder), but its answer is vague or incomplete.
-Adding the decoder LoRA turns it into the precise answer, for instance that the driver is using
-\emph{the phone} and that the helmets are worn \emph{to protect their heads}, in
-line with the gains of decoder adaptation on causal and yes/no questions
-(Section~\ref{sec:analysis}).

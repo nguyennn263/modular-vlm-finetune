@@ -1,5 +1,11 @@
 # Paper changelog (ACIIDS 2027, ViBridge-VQA)
 
+## 2026-10-13 — BARTPhoBEiT BLEU from ViMoE-VQA
+
+- Table 1: BARTPhoBEiT BLEU = 4.33 as reported in ViMoE-VQA (Table 2); the AutoViVQA table has
+  0.4329 (= 43.29), the only cell where the two sources differ (likely a decimal slip). Bold is the
+  best per column: ours + LoRA now leads BLEU (22.53); BARTPhoBEiT keeps CIDEr (188.96, same in both).
+
 ## 2026-10-13 — REVIEW DRAFT with provisional numbers (\prov)
 
 Provisional values, wrapped in \prov{} (plain text), come from the OLD first-tile evaluation of the

@@ -53,8 +53,8 @@ plus a thumbnail.
 \centering
 \caption{Performance on the AutoViVQA test set ($\times100$). Baselines: results reported in AutoViVQA~\cite{autovivqa2026} and ViMoE-VQA~\cite{vimoevqa}
 (ViMoE-VQA: mean of five seeds). Ours: ViBridge-VQA ($g=14$, $k=36$, 50 visual tokens) without and with a one-epoch decoder LoRA,
-image-disjoint split (Section~\ref{sec:data}), mean over three seeds, share of trained parameters in
-parentheses; standard deviations in Section~\ref{sec:main}. R-L: ROUGE-L, MET.: METEOR. Bold: best per column.}
+image-disjoint split (Section~\ref{sec:data}), mean over three seeds with the standard deviation below, share of trained
+parameters in parentheses. R-L: ROUGE-L, MET.: METEOR. Bold: best per column.}
 \label{tab:main}
 \scriptsize
 \setlength{\tabcolsep}{1.85pt}
@@ -75,9 +75,11 @@ parentheses; standard deviations in Section~\ref{sec:main}. R-L: ROUGE-L, MET.: 
  & Gemini 2.5 F. & 0.22 & 24.43 & \textbf{76.66} & 24.75 & 0.39 & 37.27 & 31.22 & 71.90 \\
  & GPT-5 & 10.84 & 47.20 & 55.20 & 50.89 & 6.07 & 47.30 & 33.34 & 84.20 \\
 \midrule
-\multirow{2}{*}{Ours}
+\multirow{4}{*}{Ours}
  & ViBridge-VQA (1.35\%) & 11.75 & 55.36 & 56.56 & 54.56 & 18.52 & 52.64 & 45.53 & 110.58 \\
+ & & {\tiny $\pm$0.21} & {\tiny $\pm$0.21} & {\tiny $\pm$0.21} & {\tiny $\pm$0.19} & {\tiny $\pm$0.18} & {\tiny $\pm$0.19} & {\tiny $\pm$0.33} & {\tiny $\pm$0.95} \\[1pt]
  & ViBridge-VQA + LoRA (1.57\%) & \textbf{14.67} & 59.02 & 59.96 & 58.17 & \textbf{22.53} & \textbf{56.25} & \textbf{49.32} & 122.88 \\
+ & & {\tiny $\pm$0.30} & {\tiny $\pm$0.12} & {\tiny $\pm$0.33} & {\tiny $\pm$0.19} & {\tiny $\pm$0.11} & {\tiny $\pm$0.22} & {\tiny $\pm$0.37} & {\tiny $\pm$0.93} \\
 \bottomrule
 \end{tabular}
 \end{table}

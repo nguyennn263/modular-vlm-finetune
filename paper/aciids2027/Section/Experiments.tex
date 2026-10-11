@@ -7,14 +7,16 @@
 \label{sec:data}
 
 \paragraph{Dataset.}
-We evaluate on AutoViVQA~\cite{autovivqa2026}, a Vietnamese VQA benchmark built on MS COCO
-images~\cite{lin2015coco} with an LLM-driven generation pipeline and ensemble-based
-quality control. Each question has five short free-form reference answers of 1--10 words
-and is labelled with its reasoning type. In the public 80/20 split of the release, 2{,}941 of the 7{,}416 validation questions concern
-images that also appear in training. To avoid this overlap, we remove 273 duplicated (image, question) pairs and 97 questions
-with irregular type labels, keep the eight remaining reasoning categories, and re-partition
-the 36{,}707 questions by image into a 70/15/15 split (seed 42). This gives 25{,}776 / 5{,}463 / 5{,}468 questions on 13{,}579 / 2{,}909 / 2{,}910 images. All our results are reported on this grouped split; in a preliminary comparison, it lowered the
-F1 of the global-only bridge by about 0.5 points relative to a split that does not group questions by image.
+We evaluate on AutoViVQA~\cite{autovivqa2026}, a Vietnamese VQA benchmark on MS COCO
+images~\cite{lin2015coco} in which each question has five short free-form reference answers and
+a reasoning type. To measure answers about images the model has never seen, we use an
+image-disjoint split: in the public 80/20 split, 2{,}941 of the 7{,}416 validation questions
+concern training images. We remove 273 duplicated (image, question) pairs and 97 questions with
+irregular type labels and re-partition the remaining 36{,}707 questions by image into a 70/15/15
+split (seed 42), so that no image appears in more than one split: 25{,}776 / 5{,}463 / 5{,}468
+questions on 13{,}579 / 2{,}909 / 2{,}910 images. In a preliminary comparison, this split lowered
+the F1 of the global-only bridge by about 0.5 points relative to a split that does not group
+questions by image.
 
 \paragraph{Evaluation metrics.}
 Following AutoViVQA and ViMoE-VQA, we report answer-matching metrics (exact-match
@@ -35,8 +37,7 @@ epochs, after which neither the validation loss nor CIDEr improves further; the 
 also for three epochs, its strongest setting (+1.3 validation F1). We use AdamW with a learning rate
 of $2\times10^{-4}$ and an effective batch size of 8, train on the first reference answer, and decode greedily (batch size 2, at most 50 new
 tokens). Unless stated otherwise, every configuration is trained with three random
-seeds (42, 123 and 3407), and we report the mean and the standard deviation. All runs fit on a single 16\,GB
-GPU (Tesla P100 or T4). The token budget is selected on the validation split, and the test
+seeds (42, 123 and 3407), and we report the mean and the standard deviation. Every model fits on a single 16\,GB GPU such as an NVIDIA T4. The token budget is selected on the validation split, and the test
 split is used only for the final report.
 
 \paragraph{Baselines.}
@@ -45,8 +46,8 @@ AutoViVQA, namely ViT5\_ViT,
 BARTPhoBEiT~\cite{tran2023bartphobeitpretrainedsequencetosequenceimage}, Vintern-1B and
 ViMoE-VQA~\cite{vimoevqa}; (2) models used zero-shot, namely Vintern-1B, LLaMA~3.2,
 Gemini~2.0 and 2.5 Flash, and GPT-5; and (3) our \emph{global-only} model, which uses the
-same bridge without local tokens ($k=0$, $g=8$), with and without a decoder LoRA. The results of groups (1) and (2) are taken from the AutoViVQA and ViMoE-VQA papers and were
-obtained on splits that differ from ours (ViMoE-VQA reports an 80/10/10 split). We report them as published reference points. The fine-tuned Vintern-1B follows the
+same bridge without local tokens ($k=0$, $g=8$), with and without a decoder LoRA. The results of groups (1) and (2) are taken from the AutoViVQA and ViMoE-VQA papers, each
+evaluated with its own data split. The fine-tuned Vintern-1B follows the
 official recipe: the vision encoder and the projector are frozen, a rank-16 LoRA adapts the
 language model for one epoch, and each image is encoded as up to six $448\times448$ tiles
 plus a thumbnail.
@@ -56,10 +57,9 @@ plus a thumbnail.
 
 \begin{table}[t]
 \centering
-\caption{Performance on the AutoViVQA test set ($\times100$). Baselines: published results of
-AutoViVQA~\cite{autovivqa2026} and ViMoE-VQA~\cite{vimoevqa} (ViMoE-VQA: 80/10/10 split, five
-seeds). Ours: ViBridge-VQA ($g=14$, $k=36$, 50 visual tokens) without and with a one-epoch decoder LoRA,
-grouped split (Section~\ref{sec:data}), mean over three seeds, share of trained parameters in
+\caption{Performance on the AutoViVQA test set ($\times100$). Baselines: results reported in AutoViVQA~\cite{autovivqa2026} and ViMoE-VQA~\cite{vimoevqa}
+(ViMoE-VQA: mean of five seeds). Ours: ViBridge-VQA ($g=14$, $k=36$, 50 visual tokens) without and with a one-epoch decoder LoRA,
+image-disjoint split (Section~\ref{sec:data}), mean over three seeds, share of trained parameters in
 parentheses; standard deviations in Section~\ref{sec:main}. The
 baseline papers do not describe how BLEU, ROUGE-L (R-L), METEOR (MET.) and CIDEr were computed,
 so we compare these metrics only among our own models. Bold: best per column (generation
@@ -92,8 +92,8 @@ metrics: among our models). $^\dagger$Far outside the range of all other systems
 \end{table}
 
 Table~\ref{tab:main} compares ViBridge-VQA with the baselines. Without updating any
-weight of Vintern-1B, ViBridge-VQA raises its F1 from 17.55 in the zero-shot setting to 54.56. With the selected budget of 50 visual tokens, its precision, recall and F1 are comparable to the
-published values of the fine-tuned Vintern-1B, obtained on a different split, while its
+weight of Vintern-1B, ViBridge-VQA raises its F1 from 17.55 in the zero-shot setting to 54.56. With the selected budget of 50 visual tokens, its precision, recall and F1 are comparable to the published values of the fine-tuned
+Vintern-1B, while its
 exact-match accuracy is 1.3 points lower; with all 144 local tokens, its accuracy is also comparable (13.19 versus 13.01). ViBridge-VQA reads up to eleven times fewer visual tokens in both cases.
 
 Decoder adaptation adds to these gains rather
@@ -123,7 +123,7 @@ below validation F1.
 \caption{Effect of the token budget ($\times100$, mean over three seeds, $\pm$ standard
 deviation for F1; global only: four seeds). Tokens: visual tokens passed to the decoder
 ($g+k$). Time: evaluation runtime (minutes) of one session that loads the model and answers the
-10{,}931 validation and test questions (greedy, batch 2), mean over seeds (Kaggle P100/T4). The selected budget is in bold.}
+10{,}931 validation and test questions (greedy, batch 2), mean over seeds (Kaggle GPUs). The selected budget is in bold.}
 \label{tab:budget}
 \scriptsize
 \setlength{\tabcolsep}{4.5pt}

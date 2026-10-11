@@ -35,8 +35,8 @@ for g, colour in ((8, ORANGE), (14, BLUE)):
         if g == 14:
             a.annotate(f"$k$={k}", (x, y), textcoords="offset points", xytext=(4, -9),
                        fontsize=6, color=BLUE, ha="left")
-a.axhline(MT8, color=GREY, lw=0.9, ls=(0, (4, 2)), label="global only")
-a.axhline(MT8_LORA, color=GREY, lw=0.9, ls=(0, (1, 1.5)), label="global + LoRA")
+a.axhline(MT8, color=GREY, lw=0.9, ls=(0, (4, 2)), label="Global-only")
+a.axhline(MT8_LORA, color=GREY, lw=0.9, ls=(0, (1, 1.5)), label="Global-only + LoRA")
 L = D["g14-k36+lora1"]                  # selected budget + decoder LoRA (1 epoch)
 a.errorbar([L["tokens"]], [L["val"]["f1"][0]], yerr=[L["val"]["f1"][1]], color=BLUE, marker="*", ms=9,
            ls="none", capsize=1.5, elinewidth=0.6, label="$g$=14, $k$=36 + LoRA")
@@ -56,19 +56,19 @@ order = sorted((c for c in P["g14-k36"] if c != "ALL" and isinstance(P["g14-k36"
 label = {"yesno": "yes/no"}
 y = list(range(len(order)))[::-1]
 h = 0.21
-SERIES = (("global_only", dict(facecolor="white", edgecolor=GREY, lw=0.8), "global only"),
-          ("g8-k36", dict(color=BLUE), "$g$=8, $k$=36"),
-          ("global_only+lora3ep", dict(color=ORANGE), "global + LoRA"),
-          ("g14-k36+lora1", dict(facecolor=BLUE, edgecolor="white", hatch="////", lw=0), "$g$=14, $k$=36 + LoRA"))   # ViBridge-VQA = g=14, k=36
+SERIES = (("global_only", dict(facecolor="white", edgecolor=GREY, lw=0.8), "Global-only"),
+          ("global_only+lora3ep", dict(color=GREY), "Global-only + LoRA"),
+          ("g8-k36", dict(color=ORANGE), "$g$=8, $k$=36"),
+          ("g14-k36+lora1", dict(facecolor=BLUE, edgecolor="white", hatch="////", lw=0), "ViBridge-VQA + LoRA"))   # colours as in (a): grey = global only, orange = g=8, blue = g=14
 for i, (key, kw, lab) in enumerate(SERIES):
     b.barh([k + (1.5 - i) * h for k in y], [P[key][c]["f1"] for c in order], h, label=lab, **kw)
 for k, c in zip(y, order):
     gain = P["g8-k36"][c]["f1"] - P["global_only"][c]["f1"]
     top = max(P[key][c]["f1"] for key, _, _ in SERIES)
-    b.text(top + 0.6, k + 0.5 * h, f"{gain:+.1f}", va="center", fontsize=6, color=BLUE)
+    b.text(top + 0.8, k + 0.5 * h, f"{gain:+.1f}", va="center", fontsize=6, color=ORANGE)
 b.set_yticks(y)
 b.set_yticklabels([f"{label.get(c, c)} ({P['g14-k36'][c]['n']})" for c in order], fontsize=6.3)
-b.set_xlim(30, 76); b.set_xticks([30, 40, 50, 60, 70]); b.set_xlabel("F1 (val)")
+b.set_xlim(0, 80); b.set_xticks([0, 20, 40, 60, 80]); b.set_xlabel("F1 (val)")
 b.legend(frameon=False, fontsize=5.8, loc="upper center", bbox_to_anchor=(0.35, -0.24), ncol=2, columnspacing=0.6, handlelength=1.2)
 b.set_title("(b) F1 by reasoning type", fontsize=7)
 

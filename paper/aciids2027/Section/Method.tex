@@ -6,6 +6,23 @@ question $q$, the model generates a short free-form answer $y=(y_1,\dots,y_T)$.
 ViBridge-VQA builds on Vintern-1B~\cite{doan2024vintern1b} and keeps all of its
 pre-trained weights frozen. Instead of adapting the model, it changes what the decoder sees. 
 
+
+
+\subsection{Overall Architecture}
+\label{sec:encoding}
+
+As illustrated in Fig.~\ref{fig:arch}, ViBridge-VQA keeps the three components of
+Vintern-1B: the InternViT-300M vision encoder (24 layers, width 1024), its two-layer MLP
+projector $P$, and the Qwen2.5-0.5B-Instruct language decoder (24 layers, width 896).
+Each image is resized to one $336\times336$ view ($24\times24$ patches of $14\times14$ pixels);
+InternViT, pre-trained at $448\times448$, bicubically interpolates its position embeddings to
+this resolution. The encoder returns one vector per patch and a global \texttt{[CLS]} vector
+$v\in\mathbb{R}^{1024}$.
+Vintern-1B uses only the patch vectors: it merges every $2\times2$ block of neighbouring
+patches into one 4096-dimensional vector (pixel shuffle) and maps each merged vector into
+the decoder input space with $P$, which was pre-trained to align the two backbones. At our
+resolution this yields a $12\times12$ grid of 144 region tokens. ViBridge-VQA uses both outputs of the encoder.
+
 \begin{figure}[t]
 \centering
 % Compact layout: drawn at (about) text width, so the 9pt labels are not scaled down.
@@ -58,21 +75,6 @@ tokens, and the frozen projector gives $k$ pooled local tokens (selected: $g=14$
 \label{fig:arch}
 \end{figure}
 
-\subsection{Overall Architecture}
-\label{sec:encoding}
-
-As illustrated in Fig.~\ref{fig:arch}, ViBridge-VQA keeps the three components of
-Vintern-1B: the InternViT-300M vision encoder (24 layers, width 1024), its two-layer MLP
-projector $P$, and the Qwen2.5-0.5B-Instruct language decoder (24 layers, width 896).
-Each image is resized to one $336\times336$ view ($24\times24$ patches of $14\times14$ pixels);
-InternViT, pre-trained at $448\times448$, bicubically interpolates its position embeddings to
-this resolution. The encoder returns one vector per patch and a global \texttt{[CLS]} vector
-$v\in\mathbb{R}^{1024}$.
-Vintern-1B uses only the patch vectors: it merges every $2\times2$ block of neighbouring
-patches into one 4096-dimensional vector (pixel shuffle) and maps each merged vector into
-the decoder input space with $P$, which was pre-trained to align the two backbones. At our
-resolution this yields a $12\times12$ grid of 144 region tokens. ViBridge-VQA uses both outputs of the encoder.
-
 \subsection{Global Tokens}
 \label{sec:bridge}
 
@@ -88,7 +90,7 @@ where $W_a\in\mathbb{R}^{896\times1024}$ and $W_e\in\mathbb{R}^{(g-1)896\times10
 head produces an \emph{anchor} token, and the second produces $g-1$ complementary tokens that
 present the global content to the decoder from different learned directions. The bridge has
 $1025\cdot896\cdot g$ parameters, i.e., 12{,}857{,}600 for $g=14$, and its $g$ tokens are
-placed before the prompt. We consider $g\in\{8,14\}$: $g=8$ is our global-only model, and $g=14$ gave the highest F1 when the global-only bridge was varied from 4 to 20 tokens
+placed before the prompt. We consider $g\in\{8,14\}$: $g=8$ is our Global-only model, and $g=14$ gave the highest F1 when the Global-only bridge was varied from 4 to 20 tokens
 (Section~\ref{sec:ablation}). The final pair $(g,k)$ is selected with the criterion of
 Section~\ref{sec:budget}.
 

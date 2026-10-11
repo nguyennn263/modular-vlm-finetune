@@ -57,7 +57,7 @@
 % review; replace every \prov when scripts/parallel/tok_full.py results are in (grep \prov).
 \newcommand{\prov}[1]{#1}
 % mean with a small std: \pms{50.74}{0.17}
-\newcommand{\pms}[2]{#1\,{\tiny$\pm$#2}}
+\newcommand{\pms}[2]{#1\,{\scriptsize$\pm$#2}}
 % corresponding-author envelope, as in the ACIIDS 2026 paper
 \newcommand{\mygraphic}[1]{\includegraphics[height=#1]{drawing.pdf}}
 \newcommand{\myenv}{(\raisebox{0pt}{\mygraphic{.6em}})}
@@ -94,24 +94,18 @@ Vietnam National University, Ho Chi Minh City, Vietnam\\
 \maketitle
 
 \begin{abstract}
-Vision--language models (VLMs) such as Vintern-1B have brought strong multimodal
-abilities to Vietnamese, but adapting them to a new Visual Question Answering (VQA)
-benchmark remains costly: the usual recipe fine-tunes the language model on many
-high-resolution image tiles, while task-specific architectures must be trained from
-scratch. In this paper, we propose \textbf{ViBridge-VQA}, a parameter-efficient approach
-that improves Vintern-1B without updating any of its pre-trained weights. ViBridge-VQA
-feeds the frozen language decoder two complementary kinds of visual tokens from a single
-image view: \emph{global} tokens, produced by a small trainable bridge from the
-\texttt{[CLS]} vector that Vintern-1B discards, and \emph{local} tokens, produced by
-Vintern-1B's own pre-aligned projector and pooled to a chosen budget. We treat the
-number of tokens as an accuracy--cost trade-off and select it on validation data as the knee of the
-Pareto front. On the reasoning-oriented AutoViVQA benchmark, the selected budget of 50 visual tokens
-gives two main results. Training only the bridge (1.35\% of the parameters) raises the F1 of Vintern-1B from 17.6 to 54.6, comparable to the published F1 of the fine-tuned
-Vintern-1B (53.8), whose decoder reads 1{,}792 visual tokens per image, 36 times more than ours. Training a lightweight decoder
-LoRA together with the bridge (1.57\% of the parameters) raises F1 further to 58.2. At a fixed number of global tokens, adding local tokens improves F1 far more than increasing the
-global tokens from 8 to 14, and on
-four other Vietnamese VQA datasets the model with local tokens outperforms a global-only model
-with a decoder LoRA.
+Vision--language models (VLMs) such as Vintern-1B bring strong multimodal abilities to
+Vietnamese, but adapting them to a new Visual Question Answering (VQA) benchmark usually means
+fine-tuning on many high-resolution image tiles or training a new architecture. We propose
+\textbf{ViBridge-VQA}, which improves Vintern-1B without updating any of its pre-trained weights.
+From a single image view, the frozen decoder receives \emph{global} tokens, produced by a small
+trainable bridge from the \texttt{[CLS]} vector, and \emph{local} tokens, produced by Vintern-1B's
+own pre-aligned projector and pooled to a budget chosen as the knee of the accuracy--cost Pareto
+front. On the reasoning-oriented AutoViVQA benchmark, ViBridge-VQA trains 1.35\% of the
+parameters and reaches an F1 of 54.6, comparable to the fine-tuned Vintern-1B, while its decoder
+reads 36 times fewer visual tokens; a lightweight decoder LoRA raises F1 to 58.2. Reusing the
+pre-trained projector proves more effective than learning a new connector, and the local tokens
+complement decoder adaptation and transfer to four other Vietnamese VQA datasets.
 
 \keywords{Vietnamese Visual Question Answering \and Vision--Language Models \and
 Parameter-Efficient Learning \and Visual Token Budget \and Generative VQA}

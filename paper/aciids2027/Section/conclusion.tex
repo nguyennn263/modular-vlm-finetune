@@ -2,19 +2,16 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-In this work, we introduced \textbf{ViBridge-VQA}, a parameter-efficient approach that
-improves the Vietnamese VLM Vintern-1B for generative VQA without updating any of its
-pre-trained weights, by giving its frozen decoder trainable global tokens from the
-\texttt{[CLS]} vector and local tokens from the pre-trained projector. With 14 global and 36
-local tokens, the knee of the accuracy--cost Pareto front on validation, training only the
-bridge raises F1 on AutoViVQA from 17.6 to 54.6, comparable to the published F1 of the fine-tuned Vintern-1B, and training a lightweight decoder LoRA with it raises F1 to 58.2.
-Adding local tokens improves F1 far more than increasing the global tokens from 8 to 14, and they complement decoder
-adaptation.
+In this work, we introduced \textbf{ViBridge-VQA}, which improves the Vietnamese VLM Vintern-1B
+for generative VQA without updating any of its pre-trained weights. Our results show that, for a
+VLM whose projector is already aligned with its decoder, reusing this projector with a small
+number of pooled local tokens is more effective than learning a new connector from limited data,
+that the number of tokens can be chosen with an explicit accuracy--cost criterion, and that the
+local tokens complement decoder adaptation rather than replace it.
 
-The task-specific ViMoE-VQA still reaches a higher F1, and
-accuracy had not saturated at the 144 local tokens available at our resolution.
+The task-specific ViMoE-VQA still reaches a higher F1, and accuracy had not saturated at the 144
+local tokens available at our resolution.
 
-Overall, an existing Vietnamese VLM can be improved substantially by choosing which visual
-tokens its frozen decoder receives, and how many, with an explicit accuracy--cost criterion.
-The code and the image-disjoint split are available at
-\url{https://github.com/nguyennn263/modular-vlm-finetune}. 
+Overall, an existing Vietnamese VLM can be improved substantially by choosing which visual tokens
+its frozen decoder receives, and how many. The code and the image-disjoint split are available at
+\url{https://github.com/nguyennn263/modular-vlm-finetune}.

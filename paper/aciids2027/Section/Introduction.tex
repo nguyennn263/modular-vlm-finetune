@@ -43,19 +43,17 @@ in the representation it was trained to read. \emph{Global} tokens are produced 
 \texttt{[CLS]} vector by a small trainable bridge and add the scene-level information that
 Vintern-1B ignores. Only this bridge is trained. Because every additional token
 increases inference cost, we treat the number of global and local tokens as a budget
-and select it as the knee of the accuracy--cost Pareto front. As a result, ViBridge-VQA with 14 global and 36 local tokens reaches an F1 comparable to the published fine-tuned Vintern-1B while its decoder reads 36 times fewer visual tokens and none of its weights is updated.
+and select it as the knee of the accuracy--cost Pareto front. As a result, ViBridge-VQA matches the published fine-tuned Vintern-1B while its decoder reads far
+fewer visual tokens and none of its weights is updated.
 
 In summary, our main contributions are as follows:
 \begin{itemize}
   \item We propose \textbf{ViBridge-VQA}, a global--local bridge that improves a frozen
-  Vietnamese VLM by combining trainable global tokens with local tokens from its own
-  pre-trained projector. With 50 visual tokens, it raises the F1 of Vintern-1B on AutoViVQA from 17.6 (zero-shot) to
-  54.6 when only the bridge is trained (1.35\% of the parameters), and to 58.2 when a
-  lightweight decoder LoRA is trained with it (1.57\%).
-  \item We study the \textbf{visual token budget} systematically over eight
-  configurations and three random seeds, and select it on the validation split as the knee of the accuracy--cost Pareto front. The
-  choice is the same for every metric and for cost measured in tokens or in runtime.
-  \item We \textbf{analyse where the gains come from}: adding local tokens improves F1 far more than increasing the global tokens from 8 to 14, local tokens from the
-  pre-trained projector work better than a learned compressor, they complement decoder
-  adaptation, and they improve results on four other Vietnamese VQA datasets.
+  Vietnamese VLM by combining trainable global tokens with local tokens from its own pre-trained
+  projector, and that can be combined with a lightweight decoder LoRA.
+  \item We treat the number of visual tokens as an explicit \textbf{accuracy--cost budget} and
+  select it on the validation split as the knee of the Pareto front.
+  \item We \textbf{analyse where the gains come from}: local tokens matter far more than global
+  ones, reusing the pre-trained projector works better than learning a new connector, local
+  tokens complement decoder adaptation, and they transfer to other Vietnamese VQA datasets.
 \end{itemize}

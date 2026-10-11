@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Full-image re-evaluation of the Multi-Token num_tokens sweep (g = 6, 10..20).
+"""Full-image re-evaluation of the Multi-Token num_tokens sweep (g = 4, 6, 10..20).
 
 The sweep (scripts/parallel/token_sweep.py, branch feat/bridge-design-ablation, Sept 2026) was
 evaluated with the old first-tile generation input (--gen-image first_tile). The g=8 runs were
 re-evaluated on the full image by input_diag.py; this does the same for g = 10..20 with the
 identical command (eval-only, --n-tiles 1 --pooled-input default --gen-image full). Checkpoints:
-the public per-run datasets mvlm-toksweep-ckpt-<label> (last_model.pt), except tok6 / tok10 / tok12 at
+the public per-run datasets mvlm-toksweep-ckpt-<label> (last_model.pt), except tok4 / tok6 / tok10 / tok12 at
 seed 42, which live only in their training kernels' output (mounted through kernel_sources, so
 those two run on the owning account). tok20-s3407 is unreachable (its account is gone).
 MultiTokenMLP is identical on both branches; at one tile the pooled input is the CLS token, as in
@@ -27,6 +27,9 @@ DOCKER_IMAGE = ("gcr.io/kaggle-private-byod/python@sha256:"
 
 # tag -> (num_tokens, account, dataset_source or None, kernel_source or None, splits)
 JOBS = {
+    "g4-s42":    (4, "acc16", None, "nguynrichard/mvlm-toksweep-tok4", ["val"]),
+    "g4-s123":   (4, "acc17", "nguyennn263/mvlm-toksweep-ckpt-tok4-s123", None, ["val"]),
+    "g4-s3407":  (4, "acc17", "nguyennn251/mvlm-toksweep-ckpt-tok4-s3407", None, ["val"]),
     "g6-s42":    (6, "acc14", None, "nguyendinhdoanh/mvlm-toksweep-tok6", ["val"]),
     "g6-s123":   (6, "acc13", "kffddk/mvlm-toksweep-ckpt-tok6-s123", None, ["val"]),
     "g6-s3407":  (6, "acc13", "avanrager/mvlm-toksweep-ckpt-tok6-s3407", None, ["val"]),
@@ -35,7 +38,7 @@ JOBS = {
     "g10-s3407": (10, "acc3", "nguyennn251/mvlm-toksweep-ckpt-tok10-s3407", None, ["val"]),
     "g12-s42":   (12, "acc12", None, "kffddk/mvlm-toksweep-tok12", ["val"]),
     "g12-s123":  (12, "acc12", "nguyendinhdoanh/mvlm-toksweep-ckpt-tok12-s123", None, ["val"]),
-    "g12-s3407": (12, "acc16", "nguynrichard/mvlm-toksweep-ckpt-tok12-s3407", None, ["val"]),
+    "g12-s3407": (12, "acc15", "nguynrichard/mvlm-toksweep-ckpt-tok12-s3407", None, ["val"]),
     "g14-s42":   (14, "acc1", "nguyennn263/mvlm-toksweep-ckpt-tok14", None, ["val", "test"]),
     "g14-s123":  (14, "acc1", "lelynhan/mvlm-toksweep-ckpt-tok14-s123", None, ["val", "test"]),
     "g14-s3407": (14, "acc16", "nguynrichard/mvlm-toksweep-ckpt-tok14-s3407", None, ["val", "test"]),

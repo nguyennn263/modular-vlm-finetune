@@ -14,6 +14,11 @@
     "outputs/input_diag/l3ep-s123-t1-full/out/l3ep-s123-t1-full/text_predictions_epoch_1.json",
     "outputs/input_diag/l3ep-s3407-t1-full/out/l3ep-s3407-t1-full/text_predictions_epoch_1.json"
    ],
+   "g8-k36": [
+    "outputs/train_gl/gl-g8-k36-s42_eval/out/val/text_predictions_epoch_1.json",
+    "outputs/train_gl/gl-g8-k36-s123_eval/out/val/text_predictions_epoch_1.json",
+    "outputs/train_gl/gl-g8-k36-s3407_eval/out/val/text_predictions_epoch_1.json"
+   ],
    "g14-k36": [
     "outputs/train_gl/gl-g14-k36-s42_eval/out/val/text_predictions_epoch_1.json",
     "outputs/train_gl/gl-g14-k36-s123_eval/out/val/text_predictions_epoch_1.json",
@@ -124,6 +129,54 @@
    "n": 5463,
    "f1": 54.781628121202424,
    "std": 0.21519045635071987
+  },
+  "n_seeds": 3
+ },
+ "g8-k36": {
+  "action": {
+   "n": 391,
+   "f1": 47.113147440738835,
+   "std": 0.5197132292396124
+  },
+  "causal": {
+   "n": 692,
+   "f1": 45.07948652474101,
+   "std": 0.7910111136096598
+  },
+  "context": {
+   "n": 145,
+   "f1": 39.59169813733708,
+   "std": 0.432966996116844
+  },
+  "counting": {
+   "n": 689,
+   "f1": 67.20475192173305,
+   "std": 1.0018278658427358
+  },
+  "recognition": {
+   "n": 1016,
+   "f1": 54.87343386718097,
+   "std": 0.7358556019181096
+  },
+  "relational": {
+   "n": 1662,
+   "f1": 56.331690430607026,
+   "std": 0.3355727656914423
+  },
+  "spatial": {
+   "n": 802,
+   "f1": 51.79116539337311,
+   "std": 0.816316935342197
+  },
+  "yesno": {
+   "n": 66,
+   "f1": 63.25119325119324,
+   "std": 0.502854709557876
+  },
+  "ALL": {
+   "n": 5463,
+   "f1": 54.31940093963507,
+   "std": 0.4065533977923504
   },
   "n_seeds": 3
  },

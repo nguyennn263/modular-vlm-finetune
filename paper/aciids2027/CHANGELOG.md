@@ -1,5 +1,28 @@
 # Paper changelog (ACIIDS 2027, ViBridge-VQA)
 
+## 2026-10-12 (review round 3)
+
+- **Different split => "comparable", not "above".** Abstract, intro, §4.3, conclusion: our F1
+  (54.6) is "comparable to the published F1 (53.8)" of the fine-tuned Vintern-1B.
+- **"conservative" removed.** §4.1 only describes our F1 (per-question best-of-5 reference,
+  averaged; harmonic mean of averaged P/R would be 55.95). We do not know how the baselines chose
+  references.
+- **One reason for g.** §3.2: g in {8,14} are the candidates (8 = global-only model, 14 = best of a
+  preliminary 4-20 sweep under an earlier protocol); the pair (g,k) is selected only by the knee.
+  §4.4 no longer says "so we use g=14".
+- **Clean local-token comparisons at fixed g=8** (no g14-k0 run exists): +3.6 F1 overall (54.32 vs
+  50.74), per category recognition +10.3, spatial +5.0, action +3.7 (per_category.py now includes
+  g8-k36). Fig. 2b bars: global only, g=8 k=36, global + LoRA, g=14 k=36 + LoRA; numbers = g8-k36
+  minus global only. §4.5 uses +3.6/+5.4 (g=8, k=36/144) instead of the g14 comparison.
+- **Related work:** DeCo, TokenPacker, LLaVA-PruMerge, FastV (arXiv entries).
+- **Vintern tokens:** with the official tiling (max 6 + thumbnail), all 2,910 test images get 7
+  views = 1,792 tokens (computed from image sizes with Vintern's dynamic_preprocess).
+- Fixes: "(52.69--53.47), Even" -> "."; \showtodofalse; a4paper (still 15 pages); Table 1 no
+  longer scaled (scriptsize, no +-, 7 pt instead of 5.8 pt); Fig. 2 redrawn narrower than the text
+  width so it is not scaled down; TOPSIS shortened; remaining inferential sentences replaced by
+  the numbers they rest on.
+- ViMoE-VQA reference left as "to appear" (publication status unknown).
+
 ## 2026-10-12 (later) — only claims we can verify
 
 Rule (user): state what we have; leave out what we do not know.

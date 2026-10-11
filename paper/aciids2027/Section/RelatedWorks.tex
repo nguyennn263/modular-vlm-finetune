@@ -34,9 +34,13 @@ The number of visual tokens largely determines the cost of the decoder. Inferenc
 scaling of VLMs~\cite{li2024inferenceoptimal} shows that a few tokens can suffice for many
 tasks, and Matryoshka multimodal models~\cite{cai2024matryoshka} train a model to work at
 several nested pooled token budgets and show that the required budget depends on the task.
-These approaches train or re-train the model for each budget. In contrast, we keep the model
-frozen and obtain each budget simply by pooling the output of the frozen projector, and we
-choose among budgets with explicit criteria, namely the knee of the Pareto
+Other work reduces the visual tokens directly: DeCo~\cite{yao2024deco} replaces the Q-Former with
+adaptive average pooling of the patch tokens and reports better results,
+TokenPacker~\cite{li2024tokenpacker} learns a compact projector, and
+LLaVA-PruMerge~\cite{shang2024prumerge} and FastV~\cite{chen2024fastv} prune or merge visual
+tokens of an existing model. Like DeCo, we rely on simple average pooling, but we apply it to
+the output of a projector that is already pre-trained, keep the whole VLM frozen, and choose
+among budgets with explicit criteria, namely the knee of the Pareto
 front~\cite{satopaa2011kneedle} and TOPSIS~\cite{hwang1981topsis}. Parameter-efficient
 methods such as adapters~\cite{houlsby2019adapters}, prefix tuning~\cite{li2021prefix} and
 LoRA~\cite{hu2022lora} reduce the cost of adaptation from the other side, by training a small

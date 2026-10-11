@@ -16,12 +16,12 @@ import matplotlib.pyplot as plt
 OUT = Path(__file__).parent
 D = json.loads((OUT.parent / "analysis" / "gl_results.json").read_text())
 P = json.loads((OUT.parent / "analysis" / "per_category.json").read_text())
-plt.rcParams.update({"font.family": "serif", "font.size": 8, "axes.spines.top": False,
+plt.rcParams.update({"font.family": "serif", "font.size": 6.8, "axes.spines.top": False,
                      "axes.spines.right": False, "pdf.fonttype": 42})
 BLUE, ORANGE, GREY, INK = "#2a6fb0", "#c96a1c", "#6b7078", "#333333"
 MT8, MT8_LORA = 50.74, 54.78           # Multi-Token 8, val F1: bridge only (4 seeds), + LoRA 3 ep (3 seeds)
 
-fig, (a, b) = plt.subplots(1, 2, figsize=(6.8, 2.6), gridspec_kw={"width_ratios": [1.15, 1]})
+fig, (a, b) = plt.subplots(1, 2, figsize=(4.42, 2.6), gridspec_kw={"width_ratios": [1.0, 1.0]})
 
 # (a) val F1 against the number of visual tokens (g + k), log scale
 for g, colour in ((8, ORANGE), (14, BLUE)):
@@ -30,49 +30,47 @@ for g, colour in ((8, ORANGE), (14, BLUE)):
     ys = [p["val"]["f1"][0] for p in pts]
     sd = [p["val"]["f1"][1] for p in pts]
     a.errorbar(xs, ys, yerr=sd, color=colour, lw=1.6, marker="o", ms=4, capsize=1.5,
-               elinewidth=0.6, label=f"$g={g}$ global + $k$ local")
+               elinewidth=0.6, label=f"$g$={g}, $k$ local")
     for x, y, k in zip(xs, ys, (1, 9, 36, 144)):
         if g == 14:
             a.annotate(f"$k$={k}", (x, y), textcoords="offset points", xytext=(4, -9),
                        fontsize=6, color=BLUE, ha="left")
-a.axhline(MT8, color=GREY, lw=0.9, ls=(0, (4, 2)))
-a.text(160, MT8 - 0.15, "global only ($g$=8)", fontsize=6, color=INK, va="top", ha="right")
-a.axhline(MT8_LORA, color=GREY, lw=0.9, ls=(0, (1, 1.5)))
-a.text(8.3, MT8_LORA + 0.12, "global only + LoRA (3 ep)", fontsize=6, color=INK, va="bottom")
+a.axhline(MT8, color=GREY, lw=0.9, ls=(0, (4, 2)), label="global only")
+a.axhline(MT8_LORA, color=GREY, lw=0.9, ls=(0, (1, 1.5)), label="global + LoRA")
 L = D["g14-k36+lora1"]                  # selected budget + decoder LoRA (1 epoch)
 a.errorbar([L["tokens"]], [L["val"]["f1"][0]], yerr=[L["val"]["f1"][1]], color=BLUE, marker="*", ms=9,
-           ls="none", capsize=1.5, elinewidth=0.6, label="$g=14$, $k=36$ + decoder LoRA (1 ep)")
+           ls="none", capsize=1.5, elinewidth=0.6, label="$g$=14, $k$=36 + LoRA")
 knee = D["configs"]["g14-k36"]          # circled; named in the caption
 a.scatter([knee["tokens"]], [knee["val"]["f1"][0]], s=70, facecolors="none", edgecolors=INK, lw=0.9, zorder=5)
 a.set_xscale("log")
-a.set_xticks([8, 15, 23, 50, 158]); a.set_xticklabels(["8", "15", "23", "50", "158"])
-a.set_xlabel("visual tokens to the decoder ($g+k$, log scale)")
+a.set_xticks([8, 15, 50, 158]); a.set_xticklabels(["8", "15", "50", "158"])
+a.set_xlabel("visual tokens ($g+k$, log scale)")
 a.set_ylabel("F1 (val)")
-a.set_ylim(49.5, 59.3)
-a.legend(frameon=False, fontsize=6.5, loc="upper left")
-a.set_title("(a) Accuracy against visual tokens", fontsize=8)
+a.set_ylim(49.5, 59.3); a.set_yticks([50, 52, 54, 56, 58])
+a.legend(frameon=False, fontsize=5.8, loc="upper center", bbox_to_anchor=(0.5, -0.24), ncol=2, handlelength=1.3, columnspacing=0.6)
+a.set_title("(a) F1 against visual tokens", fontsize=7)
 
-# (b) val F1 by reasoning type (all seeds); numbers: ViBridge-VQA (k=36, no LoRA) minus global only
+# (b) val F1 by reasoning type (all seeds); numbers: g=8 + 36 local minus global only (same g)
 order = sorted((c for c in P["g14-k36"] if c != "ALL" and isinstance(P["g14-k36"][c], dict)),
                key=lambda c: -P["g14-k36"][c]["n"])
 label = {"yesno": "yes/no"}
 y = list(range(len(order)))[::-1]
 h = 0.21
-SERIES = (("global_only", dict(facecolor="white", edgecolor=GREY, lw=0.8), "global only ($g$=8)"),
-          ("global_only+lora3ep", dict(color=ORANGE), "global only + LoRA (3 ep)"),
-          ("g14-k36", dict(color=BLUE), "ViBridge-VQA ($g$=14, $k$=36)"),
-          ("g14-k36+lora1", dict(facecolor=BLUE, edgecolor="white", hatch="////", lw=0), "ViBridge-VQA + LoRA (1 ep)"))
+SERIES = (("global_only", dict(facecolor="white", edgecolor=GREY, lw=0.8), "global only"),
+          ("g8-k36", dict(color=BLUE), "$g$=8, $k$=36"),
+          ("global_only+lora3ep", dict(color=ORANGE), "global + LoRA"),
+          ("g14-k36+lora1", dict(facecolor=BLUE, edgecolor="white", hatch="////", lw=0), "$g$=14, $k$=36 + LoRA"))   # ViBridge-VQA = g=14, k=36
 for i, (key, kw, lab) in enumerate(SERIES):
     b.barh([k + (1.5 - i) * h for k in y], [P[key][c]["f1"] for c in order], h, label=lab, **kw)
 for k, c in zip(y, order):
-    gain = P["g14-k36"][c]["f1"] - P["global_only"][c]["f1"]
+    gain = P["g8-k36"][c]["f1"] - P["global_only"][c]["f1"]
     top = max(P[key][c]["f1"] for key, _, _ in SERIES)
-    b.text(top + 0.6, k - 0.5 * h, f"{gain:+.1f}", va="center", fontsize=6, color=INK)
+    b.text(top + 0.6, k + 0.5 * h, f"{gain:+.1f}", va="center", fontsize=6, color=BLUE)
 b.set_yticks(y)
-b.set_yticklabels([f"{label.get(c, c)} ({P['g14-k36'][c]['n']})" for c in order], fontsize=6.5)
-b.set_xlim(30, 76); b.set_xlabel("F1 (val)")
-b.legend(frameon=False, fontsize=6, loc="upper center", bbox_to_anchor=(0.42, -0.27), ncol=2)
-b.set_title("(b) By reasoning type (gain of local tokens)", fontsize=8)
+b.set_yticklabels([f"{label.get(c, c)} ({P['g14-k36'][c]['n']})" for c in order], fontsize=6.3)
+b.set_xlim(30, 76); b.set_xticks([30, 40, 50, 60, 70]); b.set_xlabel("F1 (val)")
+b.legend(frameon=False, fontsize=5.8, loc="upper center", bbox_to_anchor=(0.35, -0.24), ncol=2, columnspacing=0.6, handlelength=1.2)
+b.set_title("(b) F1 by reasoning type", fontsize=7)
 
 fig.tight_layout(w_pad=1.5)
 fig.savefig(OUT / "fig_results.pdf", bbox_inches="tight")

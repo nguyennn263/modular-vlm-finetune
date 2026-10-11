@@ -106,31 +106,32 @@ F1 and 0.95 for CIDEr, and test F1 is at most 0.6 points below validation F1.
 
 \begin{table}[t]
 \centering
-\caption{Effect of the token budget ($\times100$, mean over three seeds, $\pm$ std for F1). Tokens:
-visual tokens passed to the decoder; Time: minutes to evaluate the 10{,}931 validation and test questions on one Tesla T4. The selected budget is in bold.}
+\caption{Effect of the token budget on the validation set ($\times100$, mean $\pm$ std over three
+seeds; global only, $g=8$: four seeds). Tokens: visual tokens passed to the decoder; Time:
+minutes to evaluate the validation and test questions on one Tesla T4. The selected budget is in
+bold.}
 \label{tab:budget}
-\scriptsize
-\setlength{\tabcolsep}{4.5pt}
-\begin{tabular}{rrrrrrrr}
+\footnotesize
+\setlength{\tabcolsep}{2.4pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{rrrrrrrrr}
 \toprule
- & & & & \multicolumn{2}{c}{Validation} & \multicolumn{2}{c}{Test} \\
-\cmidrule(lr){5-6}\cmidrule(lr){7-8}
-$g$ & $k$ & Tokens & Time & F1 & CIDEr & F1 & CIDEr \\
+$g$ & $k$ & Tokens & Time & BLEU & METEOR & ROUGE-L & CIDEr & F1 \\
 \midrule
-8 & 0 & 8 & -- & \pms{50.74}{.17} & 99.07 & \pms{50.47}{.22} & 96.19 \\
-14 & 0 & 14 & -- & \prov{\pms{50.67}{.08}} & \prov{99.83} & -- & -- \\
+8 & 0 & 8 & -- & \pms{16.88}{.23} & \pms{41.38}{.21} & \pms{49.03}{.12} & \pms{99.07}{.47} & \pms{50.74}{.17} \\
+14 & 0 & 14 & -- & \prov{\pms{16.81}{.22}} & \prov{\pms{41.34}{.23}} & \prov{\pms{48.91}{.11}} & \prov{\pms{99.83}{.53}} & \prov{\pms{50.67}{.08}} \\
 \midrule
-8 & 1 & 9 & 57.0 & \pms{51.03}{.12} & 99.27 & \pms{50.71}{.16} & 96.90 \\
-8 & 9 & 17 & 59.2 & \pms{52.82}{.11} & 106.11 & \pms{52.11}{.25} & 101.30 \\
-8 & 36 & 44 & 60.6 & \pms{54.32}{.41} & 111.88 & \pms{53.82}{.22} & 107.67 \\
-8 & 144 & 152 & 71.2 & \pms{56.15}{.08} & 119.05 & \pms{55.20}{.07} & 114.13 \\
+8 & 1 & 9 & 57.0 & \pms{16.54}{.27} & \pms{41.37}{.11} & \pms{49.21}{.13} & \pms{99.27}{.58} & \pms{51.03}{.12} \\
+8 & 9 & 17 & 59.2 & \pms{17.58}{.03} & \pms{43.56}{.20} & \pms{50.96}{.05} & \pms{106.11}{.55} & \pms{52.82}{.11} \\
+8 & 36 & 44 & 60.6 & \pms{18.22}{.39} & \pms{45.31}{.42} & \pms{52.48}{.43} & \pms{111.88}{1.43} & \pms{54.32}{.41} \\
+8 & 144 & 152 & 71.2 & \pms{19.82}{.00} & \pms{47.51}{.05} & \pms{54.21}{.06} & \pms{119.05}{.25} & \pms{56.15}{.08} \\
 \midrule
-14 & 1 & 15 & 58.8 & \pms{51.67}{.25} & 101.66 & \pms{51.67}{.12} & 99.53 \\
-14 & 9 & 23 & 57.7 & \pms{52.98}{.08} & 106.02 & \pms{52.76}{.28} & 103.63 \\
-\textbf{14} & \textbf{36} & \textbf{50} & \textbf{60.0} & \pms{\textbf{54.96}}{.28} & \textbf{113.29} & \pms{\textbf{54.56}}{.19} & \textbf{110.58} \\
-14 & 144 & 158 & 70.2 & \pms{56.61}{.04} & 120.71 & \pms{56.04}{.19} & 116.74 \\
+14 & 1 & 15 & 58.8 & \pms{17.30}{.36} & \pms{42.36}{.19} & \pms{49.93}{.24} & \pms{101.66}{1.11} & \pms{51.67}{.25} \\
+14 & 9 & 23 & 57.7 & \pms{17.83}{.23} & \pms{43.71}{.13} & \pms{51.17}{.10} & \pms{106.02}{.80} & \pms{52.98}{.08} \\
+\textbf{14} & \textbf{36} & \textbf{50} & \textbf{60.0} & \pms{\textbf{18.73}}{.23} & \pms{\textbf{46.01}}{.42} & \pms{\textbf{53.10}}{.27} & \pms{\textbf{113.29}}{1.01} & \pms{\textbf{54.96}}{.28} \\
+14 & 144 & 158 & 70.2 & \pms{20.18}{.13} & \pms{48.00}{.05} & \pms{54.70}{.05} & \pms{120.71}{.12} & \pms{56.61}{.04} \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 \begin{figure}[t]
@@ -175,31 +176,35 @@ slower (Table~\ref{tab:budget}).
 
 \begin{table}[t]
 \centering
-\caption{Source of the visual tokens, without and with a decoder LoRA (validation, $\times100$,
-mean over three seeds, $\pm$ std for F1; $^\ast$one seed). Params: trained bridge parameters; the
-LoRA adds 2.16M and is trained jointly with the bridge for one epoch.}
+\caption{Source of the visual tokens, without and with a decoder LoRA (validation, $\times100$, mean
+$\pm$ std over three seeds; Multi-Token: four seeds; $^\ast$one seed). Params: trained bridge
+parameters. Best results per block are in bold.}
 \label{tab:bridges}
-\scriptsize
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{lrrrrrr}
+\footnotesize
+\setlength{\tabcolsep}{2.4pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lrrrrrrr}
 \toprule
- & & & \multicolumn{2}{c}{Bridge only} & \multicolumn{2}{c}{+ decoder LoRA} \\
-\cmidrule(lr){4-5}\cmidrule(lr){6-7}
-Visual tokens from & Tokens & Params & F1 & CIDEr & F1 & CIDEr \\
+Visual tokens from & Tokens & Params & BLEU & METEOR & ROUGE-L & CIDEr & F1 \\
 \midrule
-\multicolumn{7}{l}{\emph{Global vector (\texttt{[CLS]})}} \\
-\quad Residual & 1 & 4.86M & \pms{46.02}{.36} & 86.48 & \pms{52.69}{.14} & 104.25 \\
-\quad Multi-Token & 8 & 7.35M & \pms{50.74}{.17} & 99.07 & \pms{53.47}{.17} & 106.68 \\
-\multicolumn{7}{l}{\emph{Learned compression of the patch tokens}} \\
-\quad Tile-Attention & 8 & 4.14M & \pms{45.14}{.92} & 84.14 & 52.82$^\ast$ & 104.72$^\ast$ \\
-\quad Light Q-Former & 8 & 27.6M & \pms{47.06}{.66} & 88.07 & \pms{53.21}{.14} & 106.26 \\
-\quad Full Q-Former & 16 & 69.4M & \pms{46.84}{.47} & 87.74 & \pms{53.29}{.29} & 106.50 \\
+\multicolumn{8}{l}{\emph{Bridge only (two epochs)}} \\
+\quad Residual & 1 & 4.86M & \pms{12.98}{.15} & \pms{36.86}{.31} & \pms{44.23}{.38} & \pms{86.48}{.77} & \pms{46.02}{.36} \\
+\quad Multi-Token & 8 & 7.35M & \pms{16.88}{.23} & \pms{41.38}{.21} & \pms{49.03}{.12} & \pms{99.07}{.47} & \pms{50.74}{.17} \\
+\quad Tile-Attention & 8 & 4.14M & \pms{12.34}{.32} & \pms{36.11}{.73} & \pms{43.28}{.95} & \pms{84.14}{1.40} & \pms{45.14}{.92} \\
+\quad Light Q-Former & 8 & 27.6M & \pms{13.99}{.33} & \pms{37.57}{.60} & \pms{45.37}{.63} & \pms{88.07}{1.89} & \pms{47.06}{.66} \\
+\quad Full Q-Former & 16 & 69.4M & \pms{13.76}{.36} & \pms{37.43}{.34} & \pms{45.10}{.41} & \pms{87.74}{1.24} & \pms{46.84}{.47} \\
+\quad ViBridge-VQA ($k$=36) & 50 & 12.86M & \pms{18.73}{.23} & \pms{46.01}{.42} & \pms{53.10}{.27} & \pms{113.29}{1.01} & \pms{54.96}{.28} \\
+\quad ViBridge-VQA ($k$=144) & 158 & 12.86M & \pms{\textbf{20.18}}{.13} & \pms{\textbf{48.00}}{.05} & \pms{\textbf{54.70}}{.05} & \pms{\textbf{120.71}}{.12} & \pms{\textbf{56.61}}{.04} \\
 \midrule
-\multicolumn{7}{l}{\emph{Global vector + pre-trained projector (ViBridge-VQA, $g=14$)}} \\
-\quad $k=36$ & 50 & 12.86M & \pms{54.96}{.28} & 113.29 & \pms{\textbf{58.21}}{.16} & \textbf{124.88} \\
-\quad $k=144$ & 158 & 12.86M & \pms{\textbf{56.61}}{.04} & \textbf{120.71} & -- & -- \\
+\multicolumn{8}{l}{\emph{+ decoder LoRA (one joint epoch, 2.16M parameters)}} \\
+\quad Residual & 1 & 4.86M & \pms{18.94}{.36} & \pms{43.33}{.33} & \pms{51.04}{.13} & \pms{104.25}{.93} & \pms{52.69}{.14} \\
+\quad Multi-Token & 8 & 7.35M & \pms{19.72}{.09} & \pms{44.11}{.23} & \pms{51.79}{.15} & \pms{106.68}{.69} & \pms{53.47}{.17} \\
+\quad Tile-Attention$^\ast$ & 8 & 4.14M & 19.13 & 43.44 & 51.25 & 104.72 & 52.82 \\
+\quad Light Q-Former & 8 & 27.6M & \pms{19.92}{.31} & \pms{43.77}{.19} & \pms{51.54}{.13} & \pms{106.26}{.73} & \pms{53.21}{.14} \\
+\quad Full Q-Former & 16 & 69.4M & \pms{19.57}{.25} & \pms{43.96}{.21} & \pms{51.62}{.30} & \pms{106.50}{1.04} & \pms{53.29}{.29} \\
+\quad ViBridge-VQA ($k$=36) & 50 & 12.86M & \pms{\textbf{22.27}}{.17} & \pms{\textbf{49.55}}{.06} & \pms{\textbf{56.42}}{.14} & \pms{\textbf{124.88}}{.75} & \pms{\textbf{58.21}}{.16} \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 \paragraph{Where should the visual tokens come from?}
@@ -246,22 +251,22 @@ word in common with any reference from 9.6\% to 8.0\% (6.8\% with LoRA).
 
 \begin{table}[t]
 \centering
-\caption{F1 on Vietnamese VQA datasets not used for training ($\times100$; mean of three random
-samples of about 1{,}000 test questions, standard deviation $\le 1.5$; our models: seed 42).
+\caption{F1 on Vietnamese VQA datasets not used for training ($\times100$; mean $\pm$ std over three
+random samples of about 1{,}000 test questions; our models: seed 42).
 Best results are in bold.}
 \label{tab:ood}
 \small
-\setlength{\tabcolsep}{4pt}
+\setlength{\tabcolsep}{3pt}
 \begin{tabular}{lrrrrr}
 \toprule
 Model & ViTextVQA & OpenViVQA & ViVQA-X & ViVQA & Avg. \\
 \midrule
-Vintern-1B, zero-shot & 32.01 & \textbf{58.40} & 14.52 & 23.90 & 32.21 \\
-Global only + LoRA & 3.96 & 21.56 & 15.89 & 31.48 & 18.22 \\
+Vintern-1B, zero-shot & \pms{32.01}{.31} & \pms{\textbf{58.40}}{.80} & \pms{14.52}{.47} & \pms{23.90}{.24} & 32.21 \\
+Global only + LoRA & \pms{3.96}{.09} & \pms{21.56}{.48} & \pms{15.89}{.65} & \pms{31.48}{1.15} & 18.22 \\
 \midrule
-ViBridge-VQA & 15.14 & 28.24 & 24.91 & 42.68 & 27.74 \\
-ViBridge-VQA, $k=144$ & \textbf{33.26} & 35.89 & \textbf{27.89} & \textbf{44.95} & \textbf{35.50} \\
-ViBridge-VQA + LoRA & 15.39 & 28.99 & 27.64 & 44.76 & 29.20 \\
+ViBridge-VQA & \pms{15.14}{.47} & \pms{28.24}{.79} & \pms{24.91}{.14} & \pms{42.68}{1.52} & 27.74 \\
+ViBridge-VQA, $k=144$ & \pms{\textbf{33.26}}{.67} & \pms{35.89}{.80} & \pms{\textbf{27.89}}{.13} & \pms{\textbf{44.95}}{.90} & \textbf{35.50} \\
+ViBridge-VQA + LoRA & \pms{15.39}{.39} & \pms{28.99}{.51} & \pms{27.64}{.11} & \pms{44.76}{1.21} & 29.20 \\
 \bottomrule
 \end{tabular}
 \end{table}

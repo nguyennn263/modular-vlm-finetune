@@ -1,11 +1,11 @@
 \section{Experiments}
 \label{sec:exp}
 
-After comparing ViBridge-VQA with existing systems (Section~\ref{sec:main}), we answer four
-questions: whether reusing the pre-trained projector is better than learning a new connector
-(Section~\ref{sec:rq-source}), how many visual tokens are needed (Section~\ref{sec:budget-results}),
-whether local tokens complement decoder adaptation (Section~\ref{sec:analysis}), and whether the
-gains transfer to other datasets (Section~\ref{sec:ood}).
+After comparing ViBridge-VQA with existing systems (Section~\ref{sec:main}), we study where the
+visual tokens should come from (Section~\ref{sec:rq-source}), how many are needed
+(Section~\ref{sec:budget-results}), how they interact with decoder adaptation
+(Section~\ref{sec:analysis}), and how the models generalise to other datasets
+(Section~\ref{sec:ood}).
 
 
 
@@ -105,7 +105,7 @@ trains only 1.57\% of its parameters. With the same one-epoch LoRA, ViBridge-VQA
 versus 53.47; Table~\ref{tab:bridges}). Our models are stable across seeds: on the test split, the standard deviation is at most 0.19 for
 F1 and 0.95 for CIDEr, and test F1 is at most 0.6 points below validation F1.
 
-\subsection{Is Reusing the Projector Better than Learning a New Connector?}
+\subsection{Source of the Visual Tokens}
 \label{sec:rq-source}
 
 \begin{table}[!tb]
@@ -140,7 +140,8 @@ Visual tokens from & Tokens & Params & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
 \end{tabular}}
 \end{table}
 
-Yes. Table~\ref{tab:bridges} compares three sources of visual tokens: the global \texttt{[CLS]}
+Reusing the pre-trained projector is more effective than learning a new connector.
+Table~\ref{tab:bridges} compares three sources of visual tokens: the global \texttt{[CLS]}
 vector (a one-token \emph{Residual} bridge or the \emph{Multi-Token} bridge of
 Eq.~\eqref{eq:bridge}), a learned compression of the patches (\emph{Tile-Attention} with eight
 learned queries, or a light or full Q-Former~\cite{li2023blip2}), and our local tokens from the
@@ -152,7 +153,7 @@ tokens with that of the projector's tokens (cosine, feature distillation) or by 
 decoder's answer distribution obtained with the projector's tokens (KL, output distillation), gives 50.35 and 50.46 F1, slightly below
 its 50.74.
 
-\subsection{How Many Visual Tokens Are Needed?}
+\subsection{Visual Token Budget}
 \label{sec:budget-results}
 
 \begin{table}[!tb]
@@ -195,8 +196,8 @@ orange: $g=8$ with local tokens; blue: $g=14$ (ViBridge-VQA).}
 \label{fig:results}
 \end{figure}
 
-About 50 visual tokens, 14 global and 36 local, give the best compromise between accuracy and
-cost. Table~\ref{tab:budget} and Fig.~\ref{fig:results}a vary the number of global tokens
+The best compromise between accuracy and cost is reached with 50 visual tokens, 14 global and 36
+local. Table~\ref{tab:budget} and Fig.~\ref{fig:results}a vary the number of global tokens
 $g\in\{8,14\}$ and of local tokens $k\in\{1,9,36,144\}$. Local tokens have by far the larger
 effect: at $g=14$, going from 1 to 144 local tokens adds 4.9 F1 and 19.1 CIDEr on validation,
 whereas going from 8 to 14 global tokens adds only 0.2--0.6 F1 at a fixed $k$. Accuracy keeps
@@ -226,11 +227,10 @@ tokens, about 191 GMACs) instead of seven $448\times448$ views (362 GMACs each),
 computation. Within our own budgets, 144 local tokens instead of 36 make evaluation about 17\%
 slower (Table~\ref{tab:budget}).
 
-\subsection{Do Local Tokens Complement Decoder Adaptation?}
+\subsection{Local Tokens and Decoder Adaptation}
 \label{sec:analysis}
 
-Yes: local tokens mainly improve perception, a decoder LoRA mainly improves reasoning answers, and
-the two gains add up. A decoder LoRA improves every bridge without local tokens and brings them within 0.8 F1 of one
+Local tokens and a decoder LoRA improve different aspects of the answers, and their gains add up. A decoder LoRA improves every bridge without local tokens and brings them within 0.8 F1 of one
 another (52.69--53.47). Even after this adaptation, all of them remain below ViBridge-VQA with a frozen
 decoder. Decoder adaptation is therefore not needed to surpass them, but it is still
 useful: in the same one-epoch joint training, it adds 3.3 F1 to ViBridge-VQA, more than the
@@ -268,7 +268,7 @@ Adding the decoder LoRA turns it into the precise answer, for instance that the 
 \emph{the phone} and that the helmets are worn \emph{to protect their heads}, in
 line with the gains of decoder adaptation on causal and yes/no questions described above.
 
-\subsection{Do the Gains Transfer to Other Datasets?}
+\subsection{Generalisation to Other Datasets}
 \label{sec:ood}
 
 \begin{table}[!tb]
@@ -305,7 +305,8 @@ Model & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
 \end{tabular}
 \end{table}
 
-Yes on general-domain questions, while reading scene text requires more local tokens.
+The gains carry over to general-domain questions, whereas reading scene text requires more local
+tokens.
 Table~\ref{tab:ood} reports results on three Vietnamese VQA datasets whose questions were not used
 for training: the scene-text dataset ViTextVQA~\cite{nguyen2025vitextvqa} and the general-domain
 ViVQA-X~\cite{vivqax2025} and ViVQA~\cite{tran2021vivqa}. ViVQA and ViVQA-X are built on COCO

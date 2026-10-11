@@ -54,7 +54,7 @@ plus a thumbnail.
 \caption{Performance on the AutoViVQA test set ($\times100$). Baselines: results reported in AutoViVQA~\cite{autovivqa2026} and ViMoE-VQA~\cite{vimoevqa}
 (ViMoE-VQA: mean of five seeds). Ours: ViBridge-VQA ($g=14$, $k=36$, 50 visual tokens) without and with a one-epoch decoder LoRA,
 image-disjoint split (Section~\ref{sec:data}), mean over three seeds, share of trained parameters in
-parentheses; standard deviations in Section~\ref{sec:main}. R-L: ROUGE-L, MET.: METEOR. Bold: best Acc, P, R and F1.}
+parentheses; standard deviations in Section~\ref{sec:main}. R-L: ROUGE-L, MET.: METEOR. Bold: best per column.}
 \label{tab:main}
 \scriptsize
 \setlength{\tabcolsep}{1.85pt}
@@ -64,7 +64,7 @@ parentheses; standard deviations in Section~\ref{sec:main}. R-L: ROUGE-L, MET.: 
 \midrule
 \multirow{4}{*}{\shortstack[l]{Fine-\\tuned}}
  & ViT5\_ViT & 7.97 & 46.84 & 50.33 & 48.52 & 4.13 & 46.89 & 31.02 & 72.68 \\
- & BARTPhoBEiT & 8.81 & 45.30 & 46.48 & 45.88 & 43.29 & 44.83 & 24.57 & 188.96 \\
+ & BARTPhoBEiT & 8.81 & 45.30 & 46.48 & 45.88 & \textbf{43.29} & 44.83 & 24.57 & \textbf{188.96} \\
  & Vintern-1B & 13.01 & 52.47 & 55.12 & 53.76 & 6.11 & 51.93 & 35.25 & 72.84 \\
  & ViMoE-VQA & 9.55 & \textbf{62.89} & 58.60 & \textbf{60.69} & 12.54 & 47.12 & 39.10 & 88.76 \\
 \midrule
@@ -77,7 +77,7 @@ parentheses; standard deviations in Section~\ref{sec:main}. R-L: ROUGE-L, MET.: 
 \midrule
 \multirow{2}{*}{Ours}
  & ViBridge-VQA (1.35\%) & 11.75 & 55.36 & 56.56 & 54.56 & 18.52 & 52.64 & 45.53 & 110.58 \\
- & ViBridge-VQA + LoRA (1.57\%) & \textbf{14.67} & 59.02 & 59.96 & 58.17 & 22.53 & 56.25 & 49.32 & 122.88 \\
+ & ViBridge-VQA + LoRA (1.57\%) & \textbf{14.67} & 59.02 & 59.96 & 58.17 & 22.53 & \textbf{56.25} & \textbf{49.32} & 122.88 \\
 \bottomrule
 \end{tabular}
 \end{table}

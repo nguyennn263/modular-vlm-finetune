@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Full-image re-evaluation of the Multi-Token num_tokens sweep (g = 10..20).
+"""Full-image re-evaluation of the Multi-Token num_tokens sweep (g = 6, 10..20).
 
 The sweep (scripts/parallel/token_sweep.py, branch feat/bridge-design-ablation, Sept 2026) was
 evaluated with the old first-tile generation input (--gen-image first_tile). The g=8 runs were
 re-evaluated on the full image by input_diag.py; this does the same for g = 10..20 with the
 identical command (eval-only, --n-tiles 1 --pooled-input default --gen-image full). Checkpoints:
-the public per-run datasets mvlm-toksweep-ckpt-<label> (last_model.pt), except tok10 / tok12 at
+the public per-run datasets mvlm-toksweep-ckpt-<label> (last_model.pt), except tok6 / tok10 / tok12 at
 seed 42, which live only in their training kernels' output (mounted through kernel_sources, so
 those two run on the owning account). tok20-s3407 is unreachable (its account is gone).
 MultiTokenMLP is identical on both branches; at one tile the pooled input is the CLS token, as in
@@ -27,6 +27,9 @@ DOCKER_IMAGE = ("gcr.io/kaggle-private-byod/python@sha256:"
 
 # tag -> (num_tokens, account, dataset_source or None, kernel_source or None, splits)
 JOBS = {
+    "g6-s42":    (6, "acc14", None, "nguyendinhdoanh/mvlm-toksweep-tok6", ["val"]),
+    "g6-s123":   (6, "acc13", "kffddk/mvlm-toksweep-ckpt-tok6-s123", None, ["val"]),
+    "g6-s3407":  (6, "acc13", "avanrager/mvlm-toksweep-ckpt-tok6-s3407", None, ["val"]),
     "g10-s42":   (10, "acc11", None, "chalicetrncthnh/mvlm-toksweep-tok10", ["val"]),
     "g10-s123":  (10, "acc3", "nguyennn2603/mvlm-toksweep-ckpt-tok10-s123", None, ["val"]),
     "g10-s3407": (10, "acc3", "nguyennn251/mvlm-toksweep-ckpt-tok10-s3407", None, ["val"]),
@@ -53,12 +56,14 @@ def _cells(tag: str, n: int, splits: list[str]) -> list[dict]:
         _clone_cell(BRANCH),
         _code("!bash setup_kaggle.sh 2>&1 | tail -5"),
         _code("!python scripts/phase0_build_data.py 2>&1 | tail -6"),
-        # exactly one last_model.pt is mounted (the run's dataset or training-kernel output);
-        # copied to /tmp so the eval's results/ dir is writable and the .pt stays out of the output
-        _code("import glob, os, shutil",
-              "src = [p for p in glob.glob('/kaggle/input/**/last_model.pt', recursive=True)]",
-              "print(src)",
-              "assert len(src) == 1, 'expected exactly one last_model.pt: ' + repr(src)",
+        # the run's last_model.pt: one file in a dataset; training-kernel outputs hold it twice
+        # (two directories) -- use it only if every copy is byte-identical. Copied to /tmp so
+        # the eval's results/ dir is writable and the .pt stays out of the output
+        _code("import glob, hashlib, os, shutil",
+              "src = sorted(glob.glob('/kaggle/input/**/last_model.pt', recursive=True))",
+              "md5 = {p: hashlib.md5(open(p, 'rb').read()).hexdigest() for p in src}",
+              "print(md5)",
+              "assert src and len(set(md5.values())) == 1, 'missing or differing last_model.pt: ' + repr(md5)",
               f"os.makedirs('{CK}', exist_ok=True)",
               f"shutil.copy(src[0], '{CK}/model.pt')",
               f"print('ckpt ready', src[0], os.path.getsize('{CK}/model.pt'))"),

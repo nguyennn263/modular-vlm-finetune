@@ -115,7 +115,6 @@ bold.}
 \label{tab:budget}
 \footnotesize
 \setlength{\tabcolsep}{2.4pt}
-\resizebox{\textwidth}{!}{%
 \begin{tabular}{rrrrrrrrr}
 \toprule
 $g$ & $k$ & Tokens & Time & BLEU & METEOR & ROUGE-L & CIDEr & F1 \\
@@ -133,7 +132,7 @@ $g$ & $k$ & Tokens & Time & BLEU & METEOR & ROUGE-L & CIDEr & F1 \\
 \textbf{14} & \textbf{36} & \textbf{50} & \textbf{60.0} & \pms{\textbf{18.73}}{.23} & \pms{\textbf{46.01}}{.42} & \pms{\textbf{53.10}}{.27} & \pms{\textbf{113.29}}{1.01} & \pms{\textbf{54.96}}{.28} \\
 14 & 144 & 158 & 70.2 & \pms{20.18}{.13} & \pms{48.00}{.05} & \pms{54.70}{.05} & \pms{120.71}{.12} & \pms{56.61}{.04} \\
 \bottomrule
-\end{tabular}}
+\end{tabular}
 \end{table}
 
 \begin{figure}[t]
@@ -230,6 +229,45 @@ We varied the Multi-Token bridge from $g=4$ to $g=20$ tokens (three seeds each).
 rose from \prov{48.5} at $g=4$ to \prov{49.6} at $g=8$ and \prov{50.7} at $g=14$, and stayed
 between \prov{50.4} and \prov{50.6} for $g=16$--$20$.
 
+\begin{table}[t]
+\centering
+\caption{Results on Vietnamese VQA datasets not used for training ($\times100$, mean $\pm$ std over
+three random samples of about 1{,}000 test questions; our models: seed 42). Best results per
+dataset are in bold.}
+\label{tab:ood}
+\scriptsize
+\setlength{\tabcolsep}{2.6pt}
+\begin{tabular}{lrrrrr}
+\toprule
+Model & BLEU & METEOR & ROUGE-L & CIDEr & F1 \\
+\midrule
+\multicolumn{6}{l}{\emph{ViTextVQA}} \\
+\quad Vintern-1B, zero-shot & \pms{4.94}{.18} & \pms{26.50}{.54} & \pms{20.89}{.25} & \pms{\textbf{195.62}}{2.35} & \pms{32.01}{.31} \\
+\quad Global only + LoRA & \pms{0.15}{.01} & \pms{2.61}{.16} & \pms{3.74}{.12} & \pms{15.64}{.92} & \pms{3.96}{.09} \\
+\quad ViBridge-VQA + LoRA & \pms{1.03}{.15} & \pms{11.17}{.26} & \pms{14.41}{.33} & \pms{70.07}{1.33} & \pms{15.39}{.39} \\
+\quad ViBridge-VQA ($k$=144) & \pms{\textbf{6.24}}{.48} & \pms{\textbf{27.33}}{.93} & \pms{\textbf{31.65}}{.73} & \pms{190.30}{6.71} & \pms{\textbf{33.26}}{.67} \\
+\midrule
+\multicolumn{6}{l}{\emph{OpenViVQA}} \\
+\quad Vintern-1B, zero-shot & \pms{\textbf{22.36}}{.82} & \pms{\textbf{51.24}}{1.06} & \pms{\textbf{48.83}}{.90} & \pms{\textbf{411.63}}{11.11} & \pms{\textbf{58.40}}{.80} \\
+\quad Global only + LoRA & \pms{1.67}{.15} & \pms{13.08}{.37} & \pms{20.98}{.52} & \pms{83.21}{2.37} & \pms{21.56}{.48} \\
+\quad ViBridge-VQA + LoRA & \pms{1.41}{.12} & \pms{18.99}{.33} & \pms{28.19}{.50} & \pms{130.46}{2.43} & \pms{28.99}{.51} \\
+\quad ViBridge-VQA ($k$=144) & \pms{2.77}{.30} & \pms{25.06}{.68} & \pms{34.64}{.78} & \pms{187.00}{5.08} & \pms{35.89}{.80} \\
+\midrule
+\multicolumn{6}{l}{\emph{ViVQA-X}} \\
+\quad Vintern-1B, zero-shot & \pms{0.06}{.01} & \pms{11.96}{.41} & \pms{8.98}{.32} & \pms{50.13}{2.83} & \pms{14.52}{.47} \\
+\quad Global only + LoRA & \pms{0.18}{.02} & \pms{9.08}{.57} & \pms{11.94}{.49} & \pms{42.12}{2.92} & \pms{15.89}{.65} \\
+\quad ViBridge-VQA + LoRA & \pms{0.33}{.05} & \pms{\textbf{19.24}}{.14} & \pms{21.98}{.13} & \pms{\textbf{95.29}}{1.51} & \pms{27.64}{.11} \\
+\quad ViBridge-VQA ($k$=144) & \pms{\textbf{0.39}}{.13} & \pms{18.55}{.11} & \pms{\textbf{22.02}}{.26} & \pms{92.22}{2.31} & \pms{\textbf{27.89}}{.13} \\
+\midrule
+\multicolumn{6}{l}{\emph{ViVQA}} \\
+\quad Vintern-1B, zero-shot & \pms{0.27}{.02} & \pms{17.84}{.19} & \pms{15.78}{.25} & \pms{78.63}{2.07} & \pms{23.90}{.24} \\
+\quad Global only + LoRA & \pms{0.25}{.09} & \pms{21.92}{.82} & \pms{31.48}{1.16} & \pms{84.94}{2.87} & \pms{31.48}{1.15} \\
+\quad ViBridge-VQA + LoRA & \pms{\textbf{0.63}}{.02} & \pms{36.98}{1.28} & \pms{44.74}{1.22} & \pms{183.60}{7.17} & \pms{44.76}{1.21} \\
+\quad ViBridge-VQA ($k$=144) & \pms{0.59}{.17} & \pms{\textbf{37.28}}{.61} & \pms{\textbf{44.95}}{.90} & \pms{\textbf{191.28}}{2.17} & \pms{\textbf{44.95}}{.90} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \subsection{Analysis by Reasoning Type and Error Analysis}
 \label{sec:analysis}
 
@@ -251,41 +289,22 @@ word in common with any reference from 9.6\% to 8.0\% (6.8\% with LoRA).
 \subsection{Generalisation to Other Datasets}
 \label{sec:ood}
 
-\begin{table}[t]
-\centering
-\caption{F1 on Vietnamese VQA datasets not used for training ($\times100$; mean $\pm$ std over three
-random samples of about 1{,}000 test questions; our models: seed 42).
-Best results are in bold.}
-\label{tab:ood}
-\small
-\setlength{\tabcolsep}{3pt}
-\begin{tabular}{lrrrrr}
-\toprule
-Model & ViTextVQA & OpenViVQA & ViVQA-X & ViVQA & Avg. \\
-\midrule
-Vintern-1B, zero-shot & \pms{32.01}{.31} & \pms{\textbf{58.40}}{.80} & \pms{14.52}{.47} & \pms{23.90}{.24} & 32.21 \\
-Global only + LoRA & \pms{3.96}{.09} & \pms{21.56}{.48} & \pms{15.89}{.65} & \pms{31.48}{1.15} & 18.22 \\
-\midrule
-ViBridge-VQA & \pms{15.14}{.47} & \pms{28.24}{.79} & \pms{24.91}{.14} & \pms{42.68}{1.52} & 27.74 \\
-ViBridge-VQA, $k=144$ & \pms{\textbf{33.26}}{.67} & \pms{35.89}{.80} & \pms{\textbf{27.89}}{.13} & \pms{\textbf{44.95}}{.90} & \textbf{35.50} \\
-ViBridge-VQA + LoRA & \pms{15.39}{.39} & \pms{28.99}{.51} & \pms{27.64}{.11} & \pms{44.76}{1.21} & 29.20 \\
-\bottomrule
-\end{tabular}
-\end{table}
 
-Table~\ref{tab:ood} reports F1 on four Vietnamese VQA datasets that were not used for training:
-the scene-text datasets ViTextVQA~\cite{nguyen2025vitextvqa} and
+
+Table~\ref{tab:ood} reports results on four Vietnamese VQA datasets that were not used for
+training: the scene-text datasets ViTextVQA~\cite{nguyen2025vitextvqa} and
 OpenViVQA~\cite{nguyen2023openvivqa}, and the general-domain ViVQA-X~\cite{vivqax2025} and
-ViVQA~\cite{tran2021vivqa}. Local tokens bring the largest gains on scene text, where the
-global-only model largely fails: on ViTextVQA, 144 local tokens raise F1 from 3.96 to 33.26, on
-par with the zero-shot Vintern-1B, which reads up to seven $448\times448$ views instead of one
-$336\times336$ view. On the general-domain datasets, ViBridge-VQA outperforms both reference
-models, and the decoder LoRA brings the 36-token model close to the 144-token one. Averaged over
-the four datasets, ViBridge-VQA with 144 local tokens obtains the highest F1.
+ViVQA~\cite{tran2021vivqa}. We evaluate our final model, ViBridge-VQA + LoRA with 50 visual
+tokens, and the 144-token ViBridge-VQA. Both clearly outperform the global-only model and, on the
+general-domain datasets, the zero-shot Vintern-1B (F1 44.8 and 45.0 against 23.9 on ViVQA).
+Scene text benefits most from more local tokens: on ViTextVQA, the 144-token model reaches 33.3
+F1, on par with Vintern-1B, which reads up to seven $448\times448$ views instead of one
+$336\times336$ view. Averaged over the four datasets, the 144-token model obtains the highest F1
+(35.5, against 32.2 for Vintern-1B).
 
 \subsection{Qualitative Analysis}
 
-\begin{figure}[!tb]
+\begin{figure}[tp]
 \centering
 \includegraphics[width=\linewidth]{fig_qualitative}
 \caption{Qualitative examples from the AutoViVQA validation set (seed 42). Q: question,

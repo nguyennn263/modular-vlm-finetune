@@ -24,7 +24,10 @@ from ood_full import _free_slots
 
 SMOKE = "--smoke" in sys.argv
 GL = "--gl" in sys.argv
-SET = "gl" if GL else "qfx"
+# --tla (2026-10-13): Tile-Attention + decoder LoRA (joint, 1 epoch) at seeds 123/3407, so the one
+# seed-42-only cell of the bridges table (expa-lora16:tile_attention:s42) gets three seeds
+TLA = "--tla" in sys.argv
+SET = "gl" if GL else ("tla" if TLA else "qfx")
 PREFIX = f"{SET}-smoke" if SMOKE else SET
 GL_GLOBAL = [8, 14]
 GL_GRIDS = [1, 3, 6, 12]                    # k = grid^2 = 1 / 9 / 36 / 144 local tokens
@@ -84,6 +87,15 @@ def _chains() -> dict[str, list[dict]]:
                     {"name": "eval", "bridge": "global_local", "eval": True, "splits": ["val", "test"],
                      "eval_flags": f" {flags}"},
                 ]
+        return chains
+    if TLA:
+        for s in [123, 3407]:
+            chains[f"{PREFIX}-lora-s{s}"] = [
+                {"name": "ep1", "bridge": "tile_attention",
+                 "cmd": f"python -m src.cli.train --bridge tile_attention --seed {s} --epochs 1 --lora --lora-r 16 "
+                        f"{TRAIN}{LIMIT} --output-dir {CK}"},
+                {"name": "eval", "bridge": "tile_attention", "eval": True},
+            ]
         return chains
     for s in SEEDS:
         chains[f"{PREFIX}-plain-s{s}"] = [

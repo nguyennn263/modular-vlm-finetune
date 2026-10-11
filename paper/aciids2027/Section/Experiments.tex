@@ -60,14 +60,15 @@ plus a thumbnail.
 \centering
 \caption{Performance on the AutoViVQA test set ($\times100$). Baselines: results reported in AutoViVQA~\cite{autovivqa2026} and ViMoE-VQA~\cite{vimoevqa}
 (ViMoE-VQA: mean of five seeds). Ours: ViBridge-VQA ($g=14$, $k=36$, 50 visual tokens) without and with a one-epoch decoder LoRA,
-image-disjoint split (Section~\ref{sec:data}), mean over three seeds with the standard deviation below, share of trained
-parameters in parentheses. R-L: ROUGE-L, MET.: METEOR. Bold: best per column.}
+image-disjoint split (Section~\ref{sec:data}), mean over three seeds with the standard deviation below, 1.35\% and 1.57\% of the parameters
+trained. Bold: best per column.}
 \label{tab:main}
 \scriptsize
 \setlength{\tabcolsep}{1.85pt}
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{llrrrrrrrr}
 \toprule
-& Model & Acc & P & R & F1 & BLEU & R-L & MET. & CIDEr \\
+& Model & Accuracy & Precision & Recall & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
 \midrule
 \multirow{4}{*}{\shortstack[l]{Fine-\\tuned}}
  & ViT5\_ViT & 7.97 & 46.84 & 50.33 & 48.52 & 4.13 & 46.89 & 31.02 & 72.68 \\
@@ -83,12 +84,12 @@ parameters in parentheses. R-L: ROUGE-L, MET.: METEOR. Bold: best per column.}
  & GPT-5 & 10.84 & 47.20 & 55.20 & 50.89 & 6.07 & 47.30 & 33.34 & 84.20 \\
 \midrule
 \multirow{4}{*}{Ours}
- & ViBridge-VQA (1.35\%) & 11.75 & 55.36 & 56.56 & 54.56 & 18.52 & 52.64 & 45.53 & 110.58 \\
+ & ViBridge-VQA & 11.75 & 55.36 & 56.56 & 54.56 & 18.52 & 52.64 & 45.53 & 110.58 \\
  & & {\tiny $\pm$0.21} & {\tiny $\pm$0.21} & {\tiny $\pm$0.21} & {\tiny $\pm$0.19} & {\tiny $\pm$0.18} & {\tiny $\pm$0.19} & {\tiny $\pm$0.33} & {\tiny $\pm$0.95} \\[1pt]
- & ViBridge-VQA + LoRA (1.57\%) & \textbf{14.67} & 59.02 & 59.96 & 58.17 & \textbf{22.53} & \textbf{56.25} & \textbf{49.32} & 122.88 \\
+ & ViBridge-VQA + LoRA & \textbf{14.67} & 59.02 & 59.96 & 58.17 & \textbf{22.53} & \textbf{56.25} & \textbf{49.32} & 122.88 \\
  & & {\tiny $\pm$0.30} & {\tiny $\pm$0.12} & {\tiny $\pm$0.33} & {\tiny $\pm$0.19} & {\tiny $\pm$0.11} & {\tiny $\pm$0.22} & {\tiny $\pm$0.37} & {\tiny $\pm$0.93} \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 Table~\ref{tab:main} compares ViBridge-VQA with fine-tuned multimodal models and zero-shot
@@ -120,7 +121,7 @@ parameters. Best results per block are in bold.}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{lrrrrrrr}
 \toprule
-Visual tokens from & Tokens & Params & F1 & BLEU & R-L & MET. & CIDEr \\
+Visual tokens from & Tokens & Params & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
 \midrule
 \multicolumn{8}{l}{\emph{Bridge only (two epochs)}} \\
 \quad Residual & 1 & 4.86M & \pms{46.02}{.36} & \pms{12.98}{.15} & \pms{44.23}{.38} & \pms{36.86}{.31} & \pms{86.48}{.77} \\
@@ -128,8 +129,7 @@ Visual tokens from & Tokens & Params & F1 & BLEU & R-L & MET. & CIDEr \\
 \quad Tile-Attention & 8 & 4.14M & \pms{45.14}{.92} & \pms{12.34}{.32} & \pms{43.28}{.95} & \pms{36.11}{.73} & \pms{84.14}{1.40} \\
 \quad Light Q-Former & 8 & 27.6M & \pms{47.06}{.66} & \pms{13.99}{.33} & \pms{45.37}{.63} & \pms{37.57}{.60} & \pms{88.07}{1.89} \\
 \quad Full Q-Former & 16 & 69.4M & \pms{46.84}{.47} & \pms{13.76}{.36} & \pms{45.10}{.41} & \pms{37.43}{.34} & \pms{87.74}{1.24} \\
-\quad ViBridge-VQA ($k$=36) & 50 & 12.86M & \pms{54.96}{.28} & \pms{18.73}{.23} & \pms{53.10}{.27} & \pms{46.01}{.42} & \pms{113.29}{1.01} \\
-\quad ViBridge-VQA ($k$=144) & 158 & 12.86M & \pms{\textbf{56.61}}{.04} & \pms{\textbf{20.18}}{.13} & \pms{\textbf{54.70}}{.05} & \pms{\textbf{48.00}}{.05} & \pms{\textbf{120.71}}{.12} \\
+\quad ViBridge-VQA ($k$=36) & 50 & 12.86M & \pms{\textbf{54.96}}{.28} & \pms{\textbf{18.73}}{.23} & \pms{\textbf{53.10}}{.27} & \pms{\textbf{46.01}}{.42} & \pms{\textbf{113.29}}{1.01} \\
 \midrule
 \multicolumn{8}{l}{\emph{+ decoder LoRA (one joint epoch, 2.16M parameters)}} \\
 \quad Residual & 1 & 4.86M & \pms{52.69}{.14} & \pms{18.94}{.36} & \pms{51.04}{.13} & \pms{43.33}{.33} & \pms{104.25}{.93} \\
@@ -166,7 +166,7 @@ bold.}
 \setlength{\tabcolsep}{2.4pt}
 \begin{tabular}{rrrrrrrrr}
 \toprule
-$g$ & $k$ & Tokens & Time & F1 & BLEU & R-L & MET. & CIDEr \\
+$g$ & $k$ & Tokens & Time & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
 \midrule
 8 & 0 & 8 & -- & \pms{50.74}{.17} & \pms{16.88}{.23} & \pms{49.03}{.12} & \pms{41.38}{.21} & \pms{99.07}{.47} \\
 14 & 0 & 14 & -- & \prov{\pms{50.67}{.08}} & \prov{\pms{16.81}{.22}} & \prov{\pms{48.91}{.11}} & \prov{\pms{41.34}{.23}} & \prov{\pms{99.83}{.53}} \\
@@ -278,7 +278,7 @@ dataset are in bold.}
 \setlength{\tabcolsep}{2.6pt}
 \begin{tabular}{lrrrrr}
 \toprule
-Model & F1 & BLEU & R-L & MET. & CIDEr \\
+Model & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
 \midrule
 \multicolumn{6}{l}{\emph{ViTextVQA}} \\
 \quad Vintern-1B, zero-shot & \pms{32.01}{.31} & \pms{4.94}{.18} & \pms{20.89}{.25} & \pms{26.50}{.54} & \pms{\textbf{195.62}}{2.35} \\

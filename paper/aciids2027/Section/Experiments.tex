@@ -125,6 +125,7 @@ deviation for F1; global only: four seeds). Tokens: visual tokens passed to the 
 $g$ & $k$ & Tokens & Time & F1 & CIDEr & F1 & CIDEr \\
 \midrule
 8 & 0 & 8 & -- & \pms{50.74}{.17} & 99.07 & \pms{50.47}{.22} & 96.19 \\
+14 & 0 & 14 & -- & \prov{\pms{50.67}{.08}} & \prov{99.83} & -- & -- \\
 \midrule
 8 & 1 & 9 & 57.0 & \pms{51.03}{.12} & 99.27 & \pms{50.71}{.16} & 96.90 \\
 8 & 9 & 17 & 59.2 & \pms{52.82}{.11} & 106.11 & \pms{52.11}{.25} & 101.30 \\
@@ -228,10 +229,9 @@ useful: in the same one-epoch joint training, it adds 3.3 F1 to ViBridge-VQA, mo
 2.7 F1 it adds to the Multi-Token bridge. Distilling the projector into the global-only bridge instead lowers F1 by 0.3--0.4 points.
 
 \paragraph{Number of global tokens.}
-We varied the Multi-Token bridge from $g=4$ to $g=20$ tokens (three seeds each). In this sweep,
-generation used the first $448\times448$ tile of the image, so its values are lower than those of
-the other tables and are compared only with each other. Validation F1 rose from 48.5 at $g=4$ to
-49.6 at $g=8$ and 50.7 at $g=14$, and stayed between 50.4 and 50.6 for $g=16$--$20$.
+We varied the Multi-Token bridge from $g=4$ to $g=20$ tokens (three seeds each). Validation F1
+rose from \prov{48.5} at $g=4$ to \prov{49.6} at $g=8$ and \prov{50.7} at $g=14$, and stayed
+between \prov{50.4} and \prov{50.6} for $g=16$--$20$.
 
 \subsection{Analysis by Reasoning Type and Error Analysis}
 \label{sec:analysis}

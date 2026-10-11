@@ -1,5 +1,16 @@
 # Paper changelog (ACIIDS 2027, ViBridge-VQA)
 
+## 2026-10-13 — REVIEW DRAFT with provisional numbers (\prov)
+
+Provisional values, wrapped in \prov{} (plain text), come from the OLD first-tile evaluation of the
+num_tokens sweep (plans/bridge-design-ablation.md); they must be replaced by the full-image
+re-evaluation (scripts/parallel/tok_full.py, 23 Kaggle jobs) before submission:
+- §4.5 "Number of global tokens": 48.5 (g4), 49.6 (g8), 50.7 (g14), 50.4-50.6 (g16-20).
+- Table 2 row g=14, k=0: val F1 50.67 +- .08, CIDEr 99.83 (test: pending, shown as --).
+Known inconsistency in this draft: the g=8 value in §4.5 (49.6, tile) differs from Table 2's g=8,
+k=0 (50.74, full image); the g=14, k=0 row is tile-evaluated and so not comparable with the rows
+above/below it. Still pending: Tile-Attention + LoRA seeds 123/3407 (train_queue --tla).
+
 ## 2026-10-13 — global-token sweep shown
 
 - §4.5 "Number of global tokens": Multi-Token bridge g = 4..20, 3 seeds each

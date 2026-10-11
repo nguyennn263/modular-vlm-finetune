@@ -286,12 +286,6 @@ Model & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
 \quad ViBridge-VQA + LoRA & \pms{15.39}{.39} & \pms{1.03}{.15} & \pms{14.41}{.33} & \pms{11.17}{.26} & \pms{70.07}{1.33} \\
 \quad ViBridge-VQA ($k$=144) & \pms{\textbf{33.26}}{.67} & \pms{\textbf{6.24}}{.48} & \pms{\textbf{31.65}}{.73} & \pms{\textbf{27.33}}{.93} & \pms{190.30}{6.71} \\
 \midrule
-\multicolumn{6}{l}{\emph{OpenViVQA}} \\
-\quad Vintern-1B, zero-shot & \pms{\textbf{58.40}}{.80} & \pms{\textbf{22.36}}{.82} & \pms{\textbf{48.83}}{.90} & \pms{\textbf{51.24}}{1.06} & \pms{\textbf{411.63}}{11.11} \\
-\quad Global-only + LoRA & \pms{21.56}{.48} & \pms{1.67}{.15} & \pms{20.98}{.52} & \pms{13.08}{.37} & \pms{83.21}{2.37} \\
-\quad ViBridge-VQA + LoRA & \pms{28.99}{.51} & \pms{1.41}{.12} & \pms{28.19}{.50} & \pms{18.99}{.33} & \pms{130.46}{2.43} \\
-\quad ViBridge-VQA ($k$=144) & \pms{35.89}{.80} & \pms{2.77}{.30} & \pms{34.64}{.78} & \pms{25.06}{.68} & \pms{187.00}{5.08} \\
-\midrule
 \multicolumn{6}{l}{\emph{ViVQA-X}} \\
 \quad Vintern-1B, zero-shot & \pms{14.52}{.47} & \pms{0.06}{.01} & \pms{8.98}{.32} & \pms{11.96}{.41} & \pms{50.13}{2.83} \\
 \quad Global-only + LoRA & \pms{15.89}{.65} & \pms{0.18}{.02} & \pms{11.94}{.49} & \pms{9.08}{.57} & \pms{42.12}{2.92} \\
@@ -307,13 +301,12 @@ Model & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
 \end{tabular}
 \end{table}
 
-Largely yes. Table~\ref{tab:ood} reports results on four Vietnamese VQA datasets that were not used for
-training: the scene-text datasets ViTextVQA~\cite{nguyen2025vitextvqa} and
-OpenViVQA~\cite{nguyen2023openvivqa}, and the general-domain ViVQA-X~\cite{vivqax2025} and
-ViVQA~\cite{tran2021vivqa}. We evaluate our final model, ViBridge-VQA + LoRA with 50 visual
+Largely yes. Table~\ref{tab:ood} reports results on three Vietnamese VQA datasets that were not used for
+training: the scene-text dataset ViTextVQA~\cite{nguyen2025vitextvqa} and the general-domain
+ViVQA-X~\cite{vivqax2025} and ViVQA~\cite{tran2021vivqa}. We evaluate our final model, ViBridge-VQA + LoRA with 50 visual
 tokens, and ViBridge-VQA ($k$=144). Both clearly outperform Global-only and, on the
 general-domain datasets, the zero-shot Vintern-1B (F1 44.8 and 45.0 against 23.9 on ViVQA).
 Scene text benefits most from more local tokens: on ViTextVQA, ViBridge-VQA ($k$=144) reaches 33.3
 F1, on par with Vintern-1B, which reads up to seven $448\times448$ views instead of one
-$336\times336$ view. Averaged over the four datasets, ViBridge-VQA ($k$=144) obtains the highest F1
-(35.5, against 32.2 for Vintern-1B).
+$336\times336$ view. Averaged over the three datasets, ViBridge-VQA ($k$=144) obtains the highest F1 (35.4, against
+23.5 for Vintern-1B), followed by ViBridge-VQA + LoRA (29.3).

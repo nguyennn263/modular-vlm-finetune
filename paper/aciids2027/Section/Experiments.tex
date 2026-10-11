@@ -107,8 +107,7 @@ F1 and 0.95 for CIDEr, and test F1 is at most 0.6 points below validation F1.
 \begin{table}[t]
 \centering
 \caption{Effect of the token budget ($\times100$, mean over three seeds, $\pm$ std for F1). Tokens:
-visual tokens passed to the decoder; Time: minutes to evaluate the 10{,}931 validation and test
-questions. The selected budget is in bold.}
+visual tokens passed to the decoder; Time: minutes to evaluate the 10{,}931 validation and test questions on one Tesla T4. The selected budget is in bold.}
 \label{tab:budget}
 \scriptsize
 \setlength{\tabcolsep}{4.5pt}
@@ -154,8 +153,8 @@ increasing with $k$, but the gain per token falls from 0.07 F1 between 23 and 50
 between 50 and 158 tokens, so additional tokens bring diminishing returns.
 
 Since accuracy grows with every added token, all configurations lie on the Pareto front of
-accuracy against tokens, and we select its knee (Section~\ref{sec:budget}). On validation, the
-knee is $g=14$, $k=36$ for all eight metrics, and TOPSIS with equal weights on accuracy and cost
+accuracy against tokens, and we select its knee (Section~\ref{sec:budget}). On validation, the knee is $g=14$, $k=36$ for all eight metrics, whether cost is counted in visual
+tokens or in evaluation time on the T4, and TOPSIS with equal weights on accuracy and cost
 makes the same choice; the knee on the test split, computed only as a post-hoc check, is the
 same. This budget is a compromise rather than the most accurate configuration: $k=144$ is 1.7 F1
 higher, but the selected budget obtains 72\% of its gain over the global-only model with 32\% of

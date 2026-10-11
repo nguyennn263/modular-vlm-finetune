@@ -22,7 +22,7 @@
 %  - Error analysis (answer length, zero/partial/full F1): analysis/error_analysis.json
 %    <- analysis/error_analysis.py on exp/eval-input-diagnostic @e1f487a (val split).
 
-\documentclass[runningheads]{llncs}
+\documentclass[runningheads,a4paper]{llncs}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
@@ -49,7 +49,7 @@
 \setlength{\abovecaptionskip}{4pt}
 
 % Set to 0 for the submission build: hides every \todo{}.
-\newif\ifshowtodo \showtodotrue
+\newif\ifshowtodo \showtodofalse
 \newcommand{\todo}[1]{\ifshowtodo\textcolor{red}{[TODO: #1]}\fi}
 \newcommand{\dF}{$\Delta$F1}
 % mean with a small std: \pms{50.74}{0.17}
@@ -102,9 +102,10 @@ image view: \emph{global} tokens, produced by a small trainable bridge from the
 Vintern-1B's own pre-aligned projector and pooled to a chosen budget. We treat the
 number of tokens as an accuracy--cost trade-off and select it on validation data as the knee of the
 Pareto front. On the reasoning-oriented AutoViVQA benchmark, the selected budget of 50 visual tokens
-gives two main results. Training only the bridge (1.35\% of the parameters) raises the F1 of Vintern-1B from 17.6 to 54.6, above the published fine-tuned Vintern-1B,
-which reads up to 36 times more visual tokens. Training a lightweight decoder
-LoRA together with the bridge (1.57\% of the parameters) raises F1 further to 58.2. Adding local tokens improves F1 far more than increasing the global tokens from 8 to 14, and on
+gives two main results. Training only the bridge (1.35\% of the parameters) raises the F1 of Vintern-1B from 17.6 to 54.6, comparable to the published F1 of the fine-tuned
+Vintern-1B (53.8), which reads up to 36 times more visual tokens. Training a lightweight decoder
+LoRA together with the bridge (1.57\% of the parameters) raises F1 further to 58.2. At a fixed number of global tokens, adding local tokens improves F1 far more than increasing the
+global tokens from 8 to 14, and on
 four other Vietnamese VQA datasets the model with local tokens outperforms a global-only model
 with a decoder LoRA.
 

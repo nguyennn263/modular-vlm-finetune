@@ -2,8 +2,8 @@
 
 Every model is averaged over all of its seeds, so that the figure and the text compare like
 with like: global only (Multi-Token, g=8; seeds 42/123/2026/3407, outputs/input_diag/mt-*),
-global only + LoRA 3 ep (seeds 42/123/3407, outputs/input_diag/l3ep-*), ViBridge-VQA g14-k36,
-g14-k144 and g14-k36 + LoRA 1 ep (seeds 42/123/3407, outputs/train_gl/). Scores use
+global only + LoRA 3 ep (seeds 42/123/3407, outputs/input_diag/l3ep-*), ViBridge-VQA g8-k36 (clean local-token effect
+at fixed g=8), g14-k36, g14-k144 and g14-k36 + LoRA 1 ep (seeds 42/123/3407, outputs/train_gl/). Scores use
 metrics.vqa_metrics.score_answers on the questions of each category. Run from a checkout of
 exp/eval-input-diagnostic:
 
@@ -35,6 +35,7 @@ def main() -> None:
     files = {
         "global_only": [diag / f"mt-s{s}-t1-full/out/mt-s{s}-t1-full/{pred}" for s in (42, 123, 2026, 3407)],
         "global_only+lora3ep": [diag / f"l3ep-s{s}-t1-full/out/l3ep-s{s}-t1-full/{pred}" for s in SEEDS],
+        "g8-k36": [gl / f"gl-g8-k36-s{s}_eval/out/val/{pred}" for s in SEEDS],
         "g14-k36": [gl / f"gl-g14-k36-s{s}_eval/out/val/{pred}" for s in SEEDS],
         "g14-k144": [next(gl.glob(f"gl-g14-k144*-s{s}_eval")) / f"out/val/{pred}" for s in SEEDS],
         "g14-k36+lora1": [gl / f"gl-g14-k36-lora1-s{s}_eval/out/val/{pred}" for s in SEEDS],

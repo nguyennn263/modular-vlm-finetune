@@ -90,7 +90,7 @@ where $W_a\in\mathbb{R}^{896\times1024}$ and $W_e\in\mathbb{R}^{(g-1)896\times10
 head produces an \emph{anchor} token, and the second produces $g-1$ complementary tokens that
 present the global content to the decoder from different learned directions. The bridge has
 $1025\cdot896\cdot g$ parameters, i.e., 12{,}857{,}600 for $g=14$, and its $g$ tokens are
-placed before the prompt. We consider $g\in\{8,14\}$: $g=8$ is our Global-only model, and $g=14$ gave the highest F1 when the Global-only bridge was varied from 4 to 20 tokens
+placed before the prompt. We consider $g\in\{8,14\}$: $g=8$ is our Global-only model, and $g=14$ is where F1 stopped increasing when the Global-only bridge was varied from 4 to 20 tokens
 (Section~\ref{sec:budget-results}). The final pair $(g,k)$ is selected with the criterion of
 Section~\ref{sec:budget}.
 

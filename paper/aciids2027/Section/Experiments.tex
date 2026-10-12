@@ -112,7 +112,7 @@ F1 and 0.95 for CIDEr, and test F1 is at most 0.6 points below validation F1.
 \begin{table}[!tb]
 \centering
 \caption{Source of the visual tokens, without and with a decoder LoRA (validation, $\times100$, mean
-$\pm$ std over three seeds; Multi-Token: four seeds; $^\ast$one seed). Params: trained bridge
+$\pm$ std over three seeds; Multi-Token: four seeds). Params: trained bridge
 parameters. Best results per block are in bold.}
 \label{tab:bridges}
 \footnotesize
@@ -133,7 +133,7 @@ Visual tokens from & Tokens & Params & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
 \multicolumn{8}{l}{\emph{+ decoder LoRA (one joint epoch, 2.16M parameters)}} \\
 \quad Residual & 1 & 4.86M & \pms{52.69}{.14} & \pms{18.94}{.36} & \pms{51.04}{.13} & \pms{43.33}{.33} & \pms{104.25}{.93} \\
 \quad Multi-Token & 8 & 7.35M & \pms{53.47}{.17} & \pms{19.72}{.09} & \pms{51.79}{.15} & \pms{44.11}{.23} & \pms{106.68}{.69} \\
-\quad Tile-Attention$^\ast$ & 8 & 4.14M & 52.82 & 19.13 & 51.25 & 43.44 & 104.72 \\
+\quad Tile-Attention & 8 & 4.14M & \pms{52.80}{.06} & \pms{19.27}{.16} & \pms{51.16}{.06} & \pms{43.41}{.05} & \pms{104.81}{.14} \\
 \quad Light Q-Former & 8 & 27.6M & \pms{53.21}{.14} & \pms{19.92}{.31} & \pms{51.54}{.13} & \pms{43.77}{.19} & \pms{106.26}{.73} \\
 \quad Full Q-Former & 16 & 69.4M & \pms{53.29}{.29} & \pms{19.57}{.25} & \pms{51.62}{.30} & \pms{43.96}{.21} & \pms{106.50}{1.04} \\
 \quad ViBridge-VQA ($k$=36) & 50 & 12.86M & \pms{\textbf{58.21}}{.16} & \pms{\textbf{22.27}}{.17} & \pms{\textbf{56.42}}{.14} & \pms{\textbf{49.55}}{.06} & \pms{\textbf{124.88}}{.75} \\
@@ -171,7 +171,7 @@ bold.}
 $g$ & $k$ & Tokens & Time & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
 \midrule
 8 & 0 & 8 & -- & \pms{50.74}{.17} & \pms{16.88}{.23} & \pms{49.03}{.12} & \pms{41.38}{.21} & \pms{99.07}{.47} \\
-14 & 0 & 14 & -- & \prov{\pms{50.67}{.08}} & \prov{\pms{16.81}{.22}} & \prov{\pms{48.91}{.11}} & \prov{\pms{41.34}{.23}} & \prov{\pms{99.83}{.53}} \\
+14 & 0 & 14 & -- & \pms{51.56}{.08} & \pms{17.76}{.01} & \pms{49.86}{.05} & \pms{42.14}{.17} & \pms{101.18}{.52} \\
 \midrule
 8 & 1 & 9 & 57.0 & \pms{51.03}{.12} & \pms{16.54}{.27} & \pms{49.21}{.13} & \pms{41.37}{.11} & \pms{99.27}{.58} \\
 8 & 9 & 17 & 59.2 & \pms{52.82}{.11} & \pms{17.58}{.03} & \pms{50.96}{.05} & \pms{43.56}{.20} & \pms{106.11}{.55} \\
@@ -201,7 +201,7 @@ The best compromise between accuracy and cost is reached with 50 visual tokens, 
 local. Table~\ref{tab:budget} and Fig.~\ref{fig:results}a vary the number of global tokens
 $g\in\{8,14\}$ and of local tokens $k\in\{1,9,36,144\}$. Local tokens have by far the larger
 effect: at $g=14$, going from 1 to 144 local tokens adds 4.9 F1 and 19.1 CIDEr on validation,
-whereas going from 8 to 14 global tokens adds only 0.2--0.6 F1 at a fixed $k$. Accuracy keeps
+whereas going from 8 to 14 global tokens adds only 0.2--0.8 F1 at a fixed $k$. Accuracy keeps
 increasing with $k$, but the gain per token falls from 0.07 F1 between 23 and 50 tokens to 0.015
 between 50 and 158 tokens, so additional tokens bring diminishing returns.
 
@@ -216,9 +216,9 @@ higher, but the selected budget obtains 72\% of its gain over Global-only with 3
 its tokens.
 
 \paragraph{Number of global tokens.}
-We varied the Multi-Token bridge from $g=4$ to $g=20$ tokens (three seeds each). Validation F1
-rose from \prov{48.5} at $g=4$ to \prov{49.6} at $g=8$ and \prov{50.7} at $g=14$, and stayed
-between \prov{50.4} and \prov{50.6} for $g=16$--$20$.
+We varied the Multi-Token bridge from $g=4$ to $g=20$ tokens (three seeds each; two for
+$g=20$). Validation F1 rose from 49.0 at $g=4$ to 50.7 at $g=8$ and 51.6 at $g=14$, and stayed
+between 51.2 and 51.6 for $g=16$--$20$, so more than 14 global tokens did not improve it further.
 
 \paragraph{Computational cost.}
 ViBridge-VQA reduces the cost in two places. Its decoder reads 50 visual tokens, whereas the

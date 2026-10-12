@@ -1,5 +1,17 @@
 # Paper changelog (ACIIDS 2027, ViBridge-VQA)
 
+## 2026-10-13 — full-image numbers for the global-token sweep
+
+- Global-only sweep g = 4..20 re-evaluated on the full image (scripts/parallel/tok_full.py on
+  exp/eval-input-diagnostic; three seeds, g=20 two -- the third checkpoint's account is gone).
+  Val F1: g4 48.98, g6 49.58, g8 50.74, g10 51.01, g12 51.10, g14 51.56, g16 51.20, g18 51.26,
+  g20 51.60. All \prov values replaced and the \prov macro removed.
+- Table 3 row g=14, k=0: 51.56/17.76/49.86/42.14/101.18 (+- .08/.01/.05/.17/.52); text: F1 rises
+  to g=14 and then stays flat (51.2-51.6); 8->14 global tokens adds 0.2-0.8 F1 at fixed k.
+- §3.2: g=14 is where F1 stopped increasing (no longer "highest F1": g=20 is 51.60 on two seeds).
+- Table 2: Tile-Attention + LoRA now three seeds (42/123/3407): 52.80+-.06 F1, 104.81+-.14 CIDEr;
+  one-seed marker removed.
+
 ## 2026-10-13 — review round 5
 
 - §4 reorganised around the research questions, each opening with its answer: 4.3 Main Results;

@@ -3780,6 +3780,406 @@
       "pushed_at": "2026-10-09",
       "dataset": "vivqa",
       "status": "done"
+    },
+    "tokfull:g14-s42": {
+      "account": "acc1",
+      "kernel": "nguyennn263/mvlm-tokfull-g14-s42",
+      "status": "done",
+      "pushed_at": "2026-10-11T22:28:44",
+      "collected": false,
+      "num_tokens": 14,
+      "ckpt": "nguyennn263/mvlm-toksweep-ckpt-tok14",
+      "splits": [
+        "val",
+        "test"
+      ],
+      "gen_image": "full"
+    },
+    "tokfull:g4-s42": {
+      "account": "acc16",
+      "kernel": "nguynrichard/mvlm-tokfull-g4-s42",
+      "status": "done",
+      "pushed_at": "2026-10-11T22:33:30",
+      "collected": false,
+      "num_tokens": 4,
+      "ckpt": "nguynrichard/mvlm-toksweep-tok4",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "tokfull:g4-s123": {
+      "account": "acc17",
+      "kernel": "nguyentrongdoanh/mvlm-tokfull-g4-s123",
+      "status": "done",
+      "pushed_at": "2026-10-11T22:33:35",
+      "collected": false,
+      "num_tokens": 4,
+      "ckpt": "nguyennn263/mvlm-toksweep-ckpt-tok4-s123",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "tokfull:g4-s3407": {
+      "account": "acc17",
+      "kernel": "nguyentrongdoanh/mvlm-tokfull-g4-s3407",
+      "status": "done",
+      "pushed_at": "2026-10-11T22:33:39",
+      "collected": false,
+      "num_tokens": 4,
+      "ckpt": "nguyennn251/mvlm-toksweep-ckpt-tok4-s3407",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "tokfull:g6-s42": {
+      "account": "acc14",
+      "kernel": "nguyendinhdoanh/mvlm-tokfull-g6-s42",
+      "status": "done",
+      "pushed_at": "2026-10-11T22:33:43",
+      "collected": false,
+      "num_tokens": 6,
+      "ckpt": "nguyendinhdoanh/mvlm-toksweep-tok6",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "tokfull:g6-s123": {
+      "account": "acc13",
+      "kernel": "avanrager/mvlm-tokfull-g6-s123",
+      "status": "done",
+      "pushed_at": "2026-10-11T22:33:47",
+      "collected": false,
+      "num_tokens": 6,
+      "ckpt": "kffddk/mvlm-toksweep-ckpt-tok6-s123",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "tokfull:g6-s3407": {
+      "account": "acc13",
+      "kernel": "avanrager/mvlm-tokfull-g6-s3407",
+      "status": "done",
+      "pushed_at": "2026-10-11T22:33:52",
+      "collected": false,
+      "num_tokens": 6,
+      "ckpt": "avanrager/mvlm-toksweep-ckpt-tok6-s3407",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "tokfull:g10-s42": {
+      "account": "acc11",
+      "kernel": "chalicetrncthnh/mvlm-tokfull-g10-s42",
+      "status": "done",
+      "pushed_at": "2026-10-11T22:33:57",
+      "collected": false,
+      "num_tokens": 10,
+      "ckpt": "chalicetrncthnh/mvlm-toksweep-tok10",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "tokfull:g10-s123": {
+      "account": "acc3",
+      "kernel": "nguyennn2603/mvlm-tokfull-g10-s123",
+      "status": "done",
+      "pushed_at": "2026-10-11T22:34:00",
+      "collected": false,
+      "num_tokens": 10,
+      "ckpt": "nguyennn2603/mvlm-toksweep-ckpt-tok10-s123",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "tokfull:g10-s3407": {
+      "account": "acc3",
+      "kernel": "nguyennn2603/mvlm-tokfull-g10-s3407",
+      "status": "done",
+      "pushed_at": "2026-10-11T22:34:04",
+      "collected": false,
+      "num_tokens": 10,
+      "ckpt": "nguyennn251/mvlm-toksweep-ckpt-tok10-s3407",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "tokfull:g12-s42": {
+      "account": "acc12",
+      "kernel": "kffddk/mvlm-tokfull-g12-s42",
+      "status": "done",
+      "pushed_at": "2026-10-11T22:34:09",
+      "collected": false,
+      "num_tokens": 12,
+      "ckpt": "kffddk/mvlm-toksweep-tok12",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "tokfull:g12-s123": {
+      "account": "acc12",
+      "kernel": "kffddk/mvlm-tokfull-g12-s123",
+      "status": "done",
+      "pushed_at": "2026-10-11T22:34:12",
+      "collected": false,
+      "num_tokens": 12,
+      "ckpt": "nguyendinhdoanh/mvlm-toksweep-ckpt-tok12-s123",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "tokfull:g12-s3407": {
+      "account": "acc15",
+      "kernel": "duongcubu/mvlm-tokfull-g12-s3407",
+      "status": "done",
+      "pushed_at": "2026-10-11T22:34:16",
+      "collected": false,
+      "num_tokens": 12,
+      "ckpt": "nguynrichard/mvlm-toksweep-ckpt-tok12-s3407",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "tokfull:g14-s123": {
+      "account": "acc1",
+      "kernel": "nguyennn263/mvlm-tokfull-g14-s123",
+      "status": "running",
+      "pushed_at": "2026-10-11T22:34:20",
+      "collected": false,
+      "num_tokens": 14,
+      "ckpt": "lelynhan/mvlm-toksweep-ckpt-tok14-s123",
+      "splits": [
+        "val",
+        "test"
+      ],
+      "gen_image": "full"
+    },
+    "tokfull:g14-s3407": {
+      "account": "acc16",
+      "kernel": "nguynrichard/mvlm-tokfull-g14-s3407",
+      "status": "done",
+      "pushed_at": "2026-10-11T22:34:25",
+      "collected": false,
+      "num_tokens": 14,
+      "ckpt": "nguynrichard/mvlm-toksweep-ckpt-tok14-s3407",
+      "splits": [
+        "val",
+        "test"
+      ],
+      "gen_image": "full"
+    },
+    "tokfull:g16-s42": {
+      "account": "acc2",
+      "kernel": "nguyennn2501/mvlm-tokfull-g16-s42",
+      "status": "done",
+      "pushed_at": "2026-10-11T22:34:29",
+      "collected": false,
+      "num_tokens": 16,
+      "ckpt": "nguyennn263/mvlm-toksweep-ckpt-tok16",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "tokfull:g16-s123": {
+      "account": "acc2",
+      "kernel": "nguyennn2501/mvlm-tokfull-g16-s123",
+      "status": "done",
+      "pushed_at": "2026-10-11T22:34:33",
+      "collected": false,
+      "num_tokens": 16,
+      "ckpt": "nguyennn2501/mvlm-toksweep-ckpt-tok16-s123",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "tokfull:g16-s3407": {
+      "account": "acc5",
+      "kernel": "nguyennguyen263/mvlm-tokfull-g16-s3407",
+      "status": "done",
+      "pushed_at": "2026-10-11T22:34:37",
+      "collected": false,
+      "num_tokens": 16,
+      "ckpt": "nguyennguyen263/mvlm-toksweep-ckpt-tok16-s3407",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "tokfull:g18-s42": {
+      "account": "acc11",
+      "kernel": "chalicetrncthnh/mvlm-tokfull-g18-s42",
+      "status": "done",
+      "pushed_at": "2026-10-11T22:34:41",
+      "collected": false,
+      "num_tokens": 18,
+      "ckpt": "chalicetrncthnh/mvlm-toksweep-ckpt-tok18",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "tokfull:g18-s123": {
+      "account": "acc5",
+      "kernel": "nguyennguyen263/mvlm-tokfull-g18-s123",
+      "status": "done",
+      "pushed_at": "2026-10-11T22:34:46",
+      "collected": false,
+      "num_tokens": 18,
+      "ckpt": "nguyennguyen263/mvlm-toksweep-ckpt-tok18-s123",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "tokfull:g18-s3407": {
+      "account": "acc10",
+      "kernel": "giapht/mvlm-tokfull-g18-s3407",
+      "status": "done",
+      "pushed_at": "2026-10-11T22:34:51",
+      "collected": false,
+      "num_tokens": 18,
+      "ckpt": "giapht/mvlm-toksweep-ckpt-tok18-s3407",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "tokfull:g20-s42": {
+      "account": "acc10",
+      "kernel": "giapht/mvlm-tokfull-g20-s42",
+      "status": "done",
+      "pushed_at": "2026-10-11T22:34:55",
+      "collected": false,
+      "num_tokens": 20,
+      "ckpt": "tinquc220300nguyn/mvlm-toksweep-ckpt-tok20",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "tokfull:g20-s123": {
+      "account": "acc7",
+      "kernel": "tinquc220300nguyn/mvlm-tokfull-g20-s123",
+      "status": "done",
+      "pushed_at": "2026-10-11T22:35:00",
+      "collected": false,
+      "num_tokens": 20,
+      "ckpt": "tinquc220300nguyn/mvlm-toksweep-ckpt-tok20-s123",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "tla-lora-s123:ep1": {
+      "account": "acc20",
+      "kernel": "mephistodr/mvlm-tla-lora-s123-ep1",
+      "status": "done",
+      "pushed_at": "2026-10-11T22:56:46",
+      "chain": "tla-lora-s123",
+      "phase": 0
+    },
+    "tla-lora-s3407:ep1": {
+      "account": "acc20",
+      "kernel": "mephistodr/mvlm-tla-lora-s3407-ep1",
+      "status": "done",
+      "pushed_at": "2026-10-11T22:56:53",
+      "chain": "tla-lora-s3407",
+      "phase": 0
+    },
+    "tla-lora-s123:eval": {
+      "account": "acc20",
+      "kernel": "mephistodr/mvlm-tla-lora-s123-eval",
+      "status": "done",
+      "pushed_at": "2026-10-12T08:02:45",
+      "chain": "tla-lora-s123",
+      "phase": 1
+    },
+    "tla-lora-s3407:eval": {
+      "account": "acc20",
+      "kernel": "mephistodr/mvlm-tla-lora-s3407-eval",
+      "status": "done",
+      "pushed_at": "2026-10-12T08:02:55",
+      "chain": "tla-lora-s3407",
+      "phase": 1
+    },
+    "tokfull:g10-s123-r2": {
+      "account": "acc18",
+      "kernel": "bellahaii/mvlm-tokfull-g10-s123-r2",
+      "status": "done",
+      "pushed_at": "2026-10-12T08:19:46",
+      "collected": false,
+      "num_tokens": 10,
+      "ckpt": "nguyennn2603/mvlm-toksweep-ckpt-tok10-s123",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "tokfull:g10-s3407-r2": {
+      "account": "acc18",
+      "kernel": "bellahaii/mvlm-tokfull-g10-s3407-r2",
+      "status": "done",
+      "pushed_at": "2026-10-12T08:19:50",
+      "collected": false,
+      "num_tokens": 10,
+      "ckpt": "nguyennn251/mvlm-toksweep-ckpt-tok10-s3407",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "tokfull:g12-s123-r2": {
+      "account": "acc19",
+      "kernel": "katekathi/mvlm-tokfull-g12-s123-r2",
+      "status": "done",
+      "pushed_at": "2026-10-12T08:19:54",
+      "collected": false,
+      "num_tokens": 12,
+      "ckpt": "nguyendinhdoanh/mvlm-toksweep-ckpt-tok12-s123",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "tokfull:g14-s123-r2": {
+      "account": "acc19",
+      "kernel": "katekathi/mvlm-tokfull-g14-s123-r2",
+      "status": "done",
+      "pushed_at": "2026-10-12T08:19:59",
+      "collected": false,
+      "num_tokens": 14,
+      "ckpt": "lelynhan/mvlm-toksweep-ckpt-tok14-s123",
+      "splits": [
+        "val",
+        "test"
+      ],
+      "gen_image": "full"
+    },
+    "tokfull:g6-s42-r2": {
+      "account": "acc14",
+      "kernel": "nguyendinhdoanh/mvlm-tokfull-g6-s42-r2",
+      "status": "done",
+      "pushed_at": "2026-10-12T08:20:04",
+      "collected": false,
+      "num_tokens": 6,
+      "ckpt": "nguyendinhdoanh/mvlm-toksweep-tok6",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
     }
   }
 }

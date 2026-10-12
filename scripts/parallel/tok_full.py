@@ -51,6 +51,17 @@ JOBS = {
     "g20-s42":   (20, "acc10", "tinquc220300nguyn/mvlm-toksweep-ckpt-tok20", None, ["val"]),
     "g20-s123":  (20, "acc7", "tinquc220300nguyn/mvlm-toksweep-ckpt-tok20-s123", None, ["val"]),
 }
+# 2026-10-12: six kernels were still RUNNING after ~9.5h (an eval takes ~1h); relaunch under new
+# kernel names on accounts with free slots, leaving the old kernels alone (first to finish wins)
+RETRY = {
+    "g10-s123-r2": (10, "acc18", "nguyennn2603/mvlm-toksweep-ckpt-tok10-s123", None, ["val"]),
+    "g10-s3407-r2": (10, "acc18", "nguyennn251/mvlm-toksweep-ckpt-tok10-s3407", None, ["val"]),
+    "g12-s123-r2": (12, "acc19", "nguyendinhdoanh/mvlm-toksweep-ckpt-tok12-s123", None, ["val"]),
+    "g14-s123-r2": (14, "acc19", "lelynhan/mvlm-toksweep-ckpt-tok14-s123", None, ["val", "test"]),
+    "g6-s42-r2": (6, "acc14", None, "nguyendinhdoanh/mvlm-toksweep-tok6", ["val"]),
+}
+if "--retry" in sys.argv:
+    JOBS = RETRY
 CK = "/tmp/ck/multi_token"
 
 
@@ -143,6 +154,6 @@ def cmd_collect() -> None:
 
 if __name__ == "__main__":
     if sys.argv[1] == "launch":
-        cmd_launch(sys.argv[2:] or None)
+        cmd_launch([a for a in sys.argv[2:] if not a.startswith("--")] or None)
     else:
         cmd_collect()

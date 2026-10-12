@@ -1,5 +1,12 @@
 # Paper changelog (ACIIDS 2027, ViBridge-VQA)
 
+## 2026-10-13 — Global-only stays at g=8, compared with g=14 too
+
+- §3.2: g=8 is the Global-only model because it matches the eight learned queries of
+  Tile-Attention and the light Q-Former (Table 2). No Global-only g=14 + LoRA run exists.
+- §4.5: against the g=14, k=0 bridge (51.56), the 36 local tokens add 3.4 F1 and the selected
+  budget obtains 67% of the k=144 gain (72% against g=8).
+
 ## 2026-10-13 — full-image numbers for the global-token sweep
 
 - Global-only sweep g = 4..20 re-evaluated on the full image (scripts/parallel/tok_full.py on

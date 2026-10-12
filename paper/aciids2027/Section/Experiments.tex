@@ -213,7 +213,8 @@ loading. TOPSIS with equal weights on accuracy and cost
 makes the same choice; the knee on the test split, computed only as a post-hoc check, is the
 same. This budget is a compromise rather than the most accurate configuration: $k=144$ is 1.7 F1
 higher, but the selected budget obtains 72\% of its gain over Global-only with 32\% of
-its tokens.
+its tokens. Against the 14-token Global-only bridge ($g=14$, $k=0$), the 36 local tokens add 3.4 F1
+(51.56 to 54.96), and the selected budget still obtains 67\% of the gain of $k=144$.
 
 \paragraph{Number of global tokens.}
 We varied the Multi-Token bridge from $g=4$ to $g=20$ tokens (three seeds each; two for

@@ -1,5 +1,15 @@
 # Paper changelog (ACIIDS 2027, ViBridge-VQA)
 
+## 2026-10-15 — §4 rewritten in the concise ViMoE-VQA (KES) style
+
+- Captions one or two sentences ("Performance comparison on the AutoViVQA test set. ... Best results
+  per column are in bold. All values x100."); Fig. 1-3 captions shortened (legends are in the figures).
+- §4 intro paragraph dropped; results as short italic-headed paragraphs that state the finding and
+  its numbers: 4.4 "Reusing the projector works best", "Local tokens and LoRA are complementary"
+  (moved from 4.6); 4.5 "Local tokens matter more than global tokens", "Selected budget",
+  "Number of global tokens", "Computational cost"; 4.6 renamed "Analysis".
+- Unused name ViBridge-VQA (k=144) removed from the setup. All numbers unchanged. 14 pages.
+
 ## 2026-10-13 — Global-only stays at g=8, compared with g=14 too
 
 - §3.2: g=8 is the Global-only model because it matches the eight learned queries of

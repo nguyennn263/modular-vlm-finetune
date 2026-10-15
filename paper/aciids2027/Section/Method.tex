@@ -68,10 +68,9 @@ resolution this yields a $12\times12$ grid of 144 region tokens. ViBridge-VQA us
 \node[train, minimum height=3.5mm, minimum width=5mm] (lt) at (11.35,-3.95) {};
 \node[anchor=west] at (lt.east) {trained};
 \end{tikzpicture}}
-\caption{Overview of ViBridge-VQA compared with the official fine-tuning of Vintern-1B.
-(a) The official recipe encodes up to seven views and adapts the decoder with LoRA.
-(b) ViBridge-VQA encodes one view; a trainable bridge maps the \texttt{[CLS]} vector to $g$ global
-tokens, and the frozen projector gives $k$ pooled local tokens (selected: $g=14$, $k=36$).}
+\caption{Overview of (a) the official fine-tuning of Vintern-1B, which encodes up to seven views,
+and (b) ViBridge-VQA, which encodes one view and passes $g$ global and $k$ local tokens to the
+frozen decoder (selected: $g=14$, $k=36$).}
 \label{fig:arch}
 \end{figure}
 

@@ -12,11 +12,9 @@ adapting the model, it changes the visual input of its decoder.
 As shown in Fig.~\ref{fig:arch}, ViBridge-VQA keeps the three components of Vintern-1B: the
 InternViT-300M vision encoder (24 layers, width 1024), its two-layer MLP projector $P$, and the
 Qwen2.5-0.5B-Instruct decoder (24 layers, width 896). Each image is resized to one
-$336\times336$ view, i.e., $24\times24$ patches of $14\times14$ pixels. InternViT was pre-trained
-at $448\times448$ and bicubically interpolates its position embeddings to this resolution. This
-roughly halves the encoder cost (191 instead of 362 GMACs per view). The encoder returns one
-vector per patch and a global \texttt{[CLS]} vector $v\in\mathbb{R}^{1024}$. Vintern-1B uses only
-the patch vectors. It merges every $2\times2$ block of neighbouring patches into one
+$336\times336$ view, i.e., $24\times24$ patches of $14\times14$ pixels. InternViT, pre-trained at $448\times448$, bicubically interpolates its position embeddings to
+this resolution, which roughly halves the encoder cost (191 instead of 362 GMACs per view). The encoder returns one
+vector per patch and a global \texttt{[CLS]} vector $v\in\mathbb{R}^{1024}$. Vintern-1B uses only the patch vectors: it merges every $2\times2$ block of neighbouring patches into one
 4096-dimensional vector (pixel shuffle). The projector $P$, pre-trained to align the two
 backbones, maps each merged vector into the decoder input space. At our resolution, this yields a
 $12\times12$ grid of 144 region tokens. ViBridge-VQA uses both outputs of the encoder.
@@ -83,9 +81,9 @@ decoder. A small trainable bridge $g_\phi$ expands it into $g$ tokens with two l
   \label{eq:bridge}
 \end{equation}
 where $W_a\in\mathbb{R}^{896\times1024}$ and $W_e\in\mathbb{R}^{(g-1)896\times1024}$. The first
-head produces an \emph{anchor} token. The second produces $g-1$ complementary tokens that present
+head produces an \emph{anchor} token, and the second produces $g-1$ complementary tokens that present
 the global content from different learned directions. The bridge has $1025\cdot896\cdot g$
-parameters, i.e., 12{,}857{,}600 for $g=14$. Its $g$ tokens are placed before the prompt. We
+parameters, i.e., 12{,}857{,}600 for $g=14$, and its $g$ tokens are placed before the prompt. We
 consider $g\in\{8,14\}$. Our Global-only model uses $g=8$, which matches the eight learned queries
 of the Tile-Attention and light Q-Former bridges it is compared with
 (Section~\ref{sec:rq-source}). Beyond $g=14$, F1 stops increasing when the Global-only bridge is
@@ -95,15 +93,13 @@ with the criterion of Section~\ref{sec:budget}.
 \subsection{Local Tokens}
 \label{sec:local}
 
-To give the decoder region-level detail, ViBridge-VQA also passes local tokens. They are taken
-directly from the 144 region tokens of the frozen projector $P$. To control their number, we
+To give the decoder region-level detail, ViBridge-VQA also passes local tokens taken directly from the 144 region tokens of the frozen projector $P$. To control their number, we
 average-pool the $12\times12$ grid to an $s\times s$ grid, so that $k=s^2$ with
 $s\in\{1,3,6,12\}$. Thus $k=144$ keeps every region token, and $k=36$ averages each $2\times2$
 block. The pooled tokens replace the embeddings of $k$ image-context placeholders inside
-Vintern-1B's own image slot, \texttt{<img>}\,$\cdots$\,\texttt{</img>}, in the prompt. They come
-from the pre-trained projector rather than from a newly learned projection. The local tokens
-therefore stay in the representation that the decoder was trained to read, and no parameters
-are needed to produce them.
+Vintern-1B's own image slot, \texttt{<img>}\,$\cdots$\,\texttt{</img>}, in the prompt. Because they come from the pre-trained projector rather than from a newly learned projection,
+the local tokens stay in the representation that the decoder was trained to read. Producing them
+requires no parameters.
 
 \subsection{Training Objective}
 \label{sec:training}
@@ -117,23 +113,20 @@ answer tokens:
 \end{equation}
 where $x$ denotes the merged patch vectors. ViBridge-VQA can also be combined with decoder
 adaptation. In that variant, a rank-16 LoRA~\cite{hu2022lora} on the query, key, value and output
-projections of every decoder layer is trained jointly with the bridge. It adds 2{,}162{,}688
-parameters. Throughout the paper, percentages of trained parameters are relative to all
-parameters of the model. These are the frozen components of Vintern-1B (about 0.94B, including the
+projections of every decoder layer is trained jointly with the bridge and adds 2{,}162{,}688 parameters. Throughout the paper, percentages of trained parameters are relative to all parameters of the model, which comprise the frozen components of Vintern-1B (about 0.94B, including the
 vision encoder, projector, embeddings and output layer) plus the trained modules. With $g=14$, the
 bridge alone trains 12.86M parameters (1.35\%), and the bridge with LoRA 15.02M (1.57\%).
 
 \subsection{Choosing the Token Budget}
 \label{sec:budget}
 
-The cost of the decoder grows with the number of visual tokens $g+k$. We therefore treat the pair
+Since the cost of the decoder grows with the number of visual tokens $g+k$, we treat the pair
 $(g,k)$ as a budget to be chosen. In our experiments, F1 increases with every added token among
 the configurations with local tokens. All of them thus lie on the accuracy--token Pareto front,
 and the front alone does not single one out. We therefore select its
 \emph{knee}~\cite{satopaa2011kneedle}, the point after which additional tokens bring diminishing
 returns. We first normalise cost $c$ and accuracy $a$ to $[0,1]$ over the front. The knee is the
 configuration that maximises $\hat a - \hat c$, i.e., the one furthest above the line joining the
-cheapest and the most accurate configuration. The knee is computed on the validation split only.
-We check the choice with the multi-criteria method TOPSIS~\cite{hwang1981topsis}, also on
+cheapest and the most accurate configuration. The knee is computed on the validation split only, and we check the choice with the multi-criteria method TOPSIS~\cite{hwang1981topsis}, also on
 validation. Test results are computed for every configuration only to be reported, and no choice
 is based on them.

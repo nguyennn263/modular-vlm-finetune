@@ -1,5 +1,11 @@
 # Paper changelog (ACIIDS 2027, ViBridge-VQA)
 
+## 2026-10-16 — smoother short sentences
+
+- Re-read the whole paper after the short-sentence rewrite and joined ~40 choppy pairs
+  ("X does A. It does B.") with relative clauses, "and/but/whereas" or a colon, still without
+  semicolons (introduction opening, connectors, related work, method, §4). Content unchanged. 14 pages.
+
 ## 2026-10-16 — short sentences throughout (ViMoE-VQA rhythm)
 
 - Measured: ViMoE-VQA experiments ~21 words/sentence, almost no semicolons; ours was ~37 with

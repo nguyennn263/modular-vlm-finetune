@@ -1,5 +1,13 @@
 # Paper changelog (ACIIDS 2027, ViBridge-VQA)
 
+## 2026-10-16 — short sentences throughout (ViMoE-VQA rhythm)
+
+- Measured: ViMoE-VQA experiments ~21 words/sentence, almost no semicolons; ours was ~37 with
+  21 sentences over 30 words. Rewrote abstract, introduction, related work, method, experiments
+  and conclusion: one idea per sentence, numbers in parentheses after the metric, no semicolons.
+  Now ~14-16 words/sentence, at most two sentences over 30 words per section.
+- Content, numbers and citations unchanged (citation list diffed). Abstract 160 words. 14 pages.
+
 ## 2026-10-15 — §4 rewritten in the concise ViMoE-VQA (KES) style
 
 - Captions one or two sentences ("Performance comparison on the AutoViVQA test set. ... Best results

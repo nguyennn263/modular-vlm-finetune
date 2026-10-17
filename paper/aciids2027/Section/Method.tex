@@ -135,7 +135,8 @@ $(g,k)$ as a budget to be chosen. In our experiments, F1 increases with every ad
 the configurations with local tokens. All of them thus lie on the accuracy--token Pareto front,
 and the front alone does not single one out. We therefore select its
 \emph{knee}~\cite{satopaa2011kneedle}, the point after which additional tokens bring diminishing
-returns. We first normalise cost $c$ and accuracy $a$ to $[0,1]$ over the front. The knee is the
+returns. Here the accuracy $a$ is the validation F1 and the cost $c$ is the number of visual
+tokens. We first normalise $c$ and $a$ to $[0,1]$ over the front. The knee is the
 configuration that maximises $\hat a - \hat c$, i.e., the one furthest above the line joining the
 cheapest and the most accurate configuration. The knee is computed on the validation split only, and we check the choice with the multi-criteria method TOPSIS~\cite{hwang1981topsis}, also on
 validation. Test results are computed for every configuration only to be reported, and no choice

@@ -15,8 +15,10 @@ about 0.5 points.
 \paragraph{Metrics.}
 Following AutoViVQA and ViMoE-VQA, we report Accuracy (exact match), word-level Precision, Recall
 and F1, BLEU~\cite{papineni2002bleu}, ROUGE-L~\cite{lin2004rouge},
-METEOR~\cite{banerjee2005meteor} and CIDEr~\cite{vedantam2015cider}. All metrics are computed
-against the five reference answers.
+METEOR~\cite{banerjee2005meteor} and CIDEr~\cite{vedantam2015cider}, all against the five reference
+answers. For each question, Precision, Recall and F1 compare the sets of words of the answer and of
+the reference that gives the highest F1, and are then averaged over questions. Accuracy counts
+the answers identical to one of the references, ignoring case.
 
 \subsection{Experimental Setup}
 
@@ -46,9 +48,9 @@ bridge of Eq.~\eqref{eq:bridge} with $g=8$ and no local tokens, without and with
 
 \begin{table}[t]
 \centering
-\caption{Performance comparison on the AutoViVQA test set. Baseline results are taken from
-AutoViVQA~\cite{autovivqa2026} and ViMoE-VQA~\cite{vimoevqa}; ours are the mean $\pm$ std over
-three seeds. Best results per column are in bold. All values $\times100$.}
+\caption{Performance comparison on the AutoViVQA test set. Baseline results are as reported in
+AutoViVQA~\cite{autovivqa2026} and ViMoE-VQA~\cite{vimoevqa} on the original AutoViVQA split; ours
+are the mean $\pm$ std over three seeds on our image-disjoint split (Section~\ref{sec:data}). Best results per column are in bold. All values $\times100$.}
 \label{tab:main}
 \scriptsize
 \setlength{\tabcolsep}{1.85pt}
@@ -145,8 +147,9 @@ trained with the same recipe. The third source is our local tokens from the pre-
 global tokens (ViBridge-VQA).
 
 \paragraph{Reusing the projector works best.} Without LoRA, the learned compressions stay \prov{1.9}--\prov{11.9} F1 below Multi-Token, despite up to
-$9.4\times$ more parameters. Patch-pool also averages encoder tokens, but through a newly learned
-projection, and reaches only \prov{38.80} F1. In contrast, adding 36 or
+$9.4\times$ more parameters. Patch-pool, a minimal baseline that averages bands of consecutive encoder tokens after a newly
+learned projection, reaches only \prov{38.80} F1. It differs from our local tokens in the pooling
+(eight 1D bands instead of a 2D grid) as well as in the projection. In contrast, adding 36 or
 144 local tokens to Multi-Token ($g=8$) raises F1 by 3.58 and 5.41 (Table~\ref{tab:budget}). We
 also tried to distil the projector into Global-only. A cosine loss between the mean tokens of the bridge and of the projector gives 50.35 F1, and a KL
 loss between the answer distributions obtained with each gives 50.46. Neither reaches the 50.74
@@ -287,5 +290,5 @@ questions concern images of our training split, with different questions. ViBrid
 + LoRA beats Global-only + LoRA on all three datasets, and the zero-shot Vintern-1B on
 ViVQA-X (27.64 versus 14.52 F1) and ViVQA (44.76 versus 23.90). On scene text, Vintern-1B stays ahead (32.01 versus 15.39), as it reads up to seven $448\times448$
 views. With all 144 local tokens, ViBridge-VQA (without LoRA, seed 42) is on par with it
-(33.26 F1), so this gap comes from the token budget. Averaged over the three
+(33.26 F1), suggesting that the gap comes mainly from the token budget. Averaged over the three
 datasets, our model reaches 29.3 F1, against 23.5 for Vintern-1B.

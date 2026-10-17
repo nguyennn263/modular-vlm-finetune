@@ -31,7 +31,11 @@ TLA = "--tla" in sys.argv
 # recipe (feat/bridge-design-ablation: one kernel, --epochs 2, batch 8) -> val eval (--gen-image full)
 XB = "--xb" in sys.argv
 XB_BRIDGES = {"cab": ("conv_abstractor", " --bridge-num-tokens 9"), "ppm": ("patch_pool_mean", "")}
-XB_ASSIGN = {"cab-s123": "acc1", "cab-s3407": "acc2", "ppm-s123": "acc4", "ppm-s3407": "acc5"}
+XB_ASSIGN = {"cab-s123": "acc1", "cab-s3407": "acc2", "ppm-s123": "acc4", "ppm-s3407": "acc5",
+             "cab-s3407r2": "acc11"}
+# --xb-retry (2026-10-18 02:05): cab-s3407 sat QUEUED for ~3h on acc2 -- a copy under a new chain
+# name on another account (first to finish is used); only the retry chains are handled
+XB_RETRY = "--xb-retry" in sys.argv
 SET = "gl" if GL else ("tla" if TLA else ("xb" if XB else "qfx"))
 PREFIX = f"{SET}-smoke" if SMOKE else SET
 GL_GLOBAL = [8, 14]
@@ -101,7 +105,10 @@ def _chains() -> dict[str, list[dict]]:
     if XB:
         for name, (bridge, flags) in XB_BRIDGES.items():
             for s in [123, 3407]:
-                chains[f"{PREFIX}-{name}-s{s}"] = [
+                if XB_RETRY and (name, s) != ("cab", 3407):
+                    continue
+                suffix = "r2" if XB_RETRY else ""
+                chains[f"{PREFIX}-{name}-s{s}{suffix}"] = [
                     {"name": "train", "bridge": bridge,
                      "cmd": f"python -m src.cli.train --bridge {bridge}{flags} --seed {s} --epochs 2 "
                             f"{TRAIN}{LIMIT} --output-dir {CK}"},

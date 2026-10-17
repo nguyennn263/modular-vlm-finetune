@@ -216,8 +216,30 @@ select this budget. $k=144$ is 1.65 F1 higher, but $k=36$ obtains 72\% of its ga
 Global-only with 32\% of its tokens. Against the 14-token Global-only bridge, the 36 local tokens
 add 3.40 F1 (51.56 to 54.96), or 67\% of the gain of $k=144$.
 
-\paragraph{Number of global tokens.} We varied the Multi-Token bridge from $g=4$ to $g=20$ (three
-seeds, two for $g=20$). Validation F1 rises from 48.98 ($g=4$) to 50.74 ($g=8$) and 51.56 ($g=14$), then stays between 51.20 and 51.60 for $g=16$--$20$.
+\begin{table}[!tb]
+\centering
+\caption{Global-only bridge with $g$ tokens and no local tokens, on the validation set (mean $\pm$
+std over three seeds, four for $g=8$; $^\dagger$two seeds). The selected $g$ is in bold. All values
+$\times100$.}
+\label{tab:gsweep}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{rrrcrrr}
+\toprule
+$g$ & F1 & CIDEr & \hspace{6pt} & $g$ & F1 & CIDEr \\
+\cmidrule{1-3}\cmidrule{5-7}
+4 & \pms{48.98}{.52} & \pms{93.56}{1.42} & & \textbf{14} & \pms{\textbf{51.56}}{.08} & \pms{\textbf{101.18}}{.52} \\
+6 & \pms{49.58}{.47} & \pms{95.51}{1.59} & & 16 & \pms{51.20}{.39} & \pms{100.29}{.95} \\
+8 & \pms{50.74}{.17} & \pms{99.07}{.47} & & 18 & \pms{51.26}{.73} & \pms{100.46}{2.02} \\
+10 & \pms{51.01}{.10} & \pms{99.20}{.25} & & 20$^\dagger$ & \pms{51.60}{.08} & \pms{101.29}{.22} \\
+12 & \pms{51.10}{.13} & \pms{99.26}{.54} & &  & &  \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Number of global tokens.} Table~\ref{tab:gsweep} varies the Multi-Token bridge from $g=4$ to $g=20$ (three
+seeds, two for $g=20$). Validation F1 rises from 48.98 ($g=4$) to 50.74 ($g=8$) and 51.56 ($g=14$), then stays between 51.20 and 51.60 for $g=16$--$20$. CIDEr follows the same trend, so we combine the local tokens with $g=14$ and,
+as the Global-only reference, $g=8$.
 
 \paragraph{Computational cost.} The decoder reads 50 visual tokens, against 1{,}792 for the
 official tiling (seven views per test image). The encoder processes one $336\times336$ view (191

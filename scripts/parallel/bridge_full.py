@@ -26,7 +26,11 @@ DOCKER_IMAGE = ("gcr.io/kaggle-private-byod/python@sha256:"
 JOBS = {
     "convabs-s42": ("conv_abstractor", "acc8", "lelynhan/mvlm-convabs-m9", ["val"]),
     "poolmean-s42": ("patch_pool_mean", "acc13", "avanrager/mvlm-poolabl-mean", ["val"]),
+    # 2026-10-17: local tokens only (g = 0, k = 36) with nothing trained -- Vintern-1B reading the
+    # 36 pooled projector tokens zero-shot; no checkpoint (the bridge has no trainable weights)
+    "g0k36-notrain": ("global_local", "acc17", None, ["val"]),
 }
+EXTRA_FLAGS = {"g0k36-notrain": " --bridge-num-tokens 0 --local-grid 6"}
 CK = "/tmp/ck/bridge"
 
 
@@ -36,6 +40,9 @@ def _cells(tag: str, bridge: str, splits: list[str]) -> list[dict]:
         _clone_cell(BRANCH),
         _code("!bash setup_kaggle.sh 2>&1 | tail -5"),
         _code("!python scripts/phase0_build_data.py 2>&1 | tail -6"),
+    ]
+    if tag not in EXTRA_FLAGS:
+        cells += [
         # the run's last_model.pt: one file in a dataset; training-kernel outputs hold it twice
         # (two directories) -- use it only if every copy is byte-identical. Copied to /tmp so
         # the eval's results/ dir is writable and the .pt stays out of the output
@@ -47,16 +54,21 @@ def _cells(tag: str, bridge: str, splits: list[str]) -> list[dict]:
               f"os.makedirs('{CK}', exist_ok=True)",
               f"shutil.copy(src[0], '{CK}/model.pt')",
               f"print('ckpt ready', src[0], os.path.getsize('{CK}/model.pt'))"),
-    ]
+        ]
+    else:
+        cells.append(_code(f"!mkdir -p {CK}"))
+    ckpt = "none" if tag in EXTRA_FLAGS else f"{CK}/model.pt"
+    flags = EXTRA_FLAGS.get(tag, "")
     for split in splits:
         cells += [
             _code(f"!python -m src.cli.evaluate --bridge {bridge} "
                   f"--split-dir data/splits --split {split} --n-tiles 1 --pooled-input default "
-                  f"--gen-image full --checkpoint {CK}/model.pt --output {CK}/eval_{split}.json "
+                  f"--gen-image full --checkpoint {ckpt}{flags} --output {CK}/eval_{split}.json "
                   f"|| echo failed > /tmp/cell_failed",
                   "import os",
                   "assert not os.path.exists('/tmp/cell_failed'), 'evaluate failed'"),
             _code("import glob, os, shutil",
+                  f"os.makedirs('{CK}', exist_ok=True)",
                   f"out = '/kaggle/working/out/{tag}/{split}'",
                   "os.makedirs(out, exist_ok=True)",
                   f"shutil.copy('{CK}/eval_{split}.json', out)",
@@ -85,7 +97,7 @@ def cmd_launch(only: list[str] | None) -> None:
             "language": "python", "kernel_type": "notebook", "is_private": True,
             "enable_gpu": True, "enable_internet": True, "docker_image": DOCKER_IMAGE,
             "dataset_sources": ["nguynrichard/auto-vqabest"],
-            "kernel_sources": [kern],
+            "kernel_sources": [kern] if kern else [],
         }, indent=2))
         _kaggle(acc, "kernels", "push", "-p", str(wd))
         _register(led, job, acc, kid, {"bridge": bridge, "ckpt": kern, "splits": splits,

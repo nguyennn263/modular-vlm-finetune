@@ -24,7 +24,9 @@ def _parser() -> argparse.ArgumentParser:
         description="Evaluate a trained bridge checkpoint on a data split.",
     )
     p.add_argument("--bridge", required=True, choices=BRIDGES)
-    p.add_argument("--checkpoint", required=True, help="Path to a *.pt checkpoint (bridge_state).")
+    p.add_argument("--checkpoint", required=True,
+                   help="Path to a *.pt checkpoint (bridge_state), or 'none' for a bridge with no "
+                        "trainable parameters (global_local with --bridge-num-tokens 0).")
     p.add_argument("--split", default="val", choices=["train", "val", "test"])
     p.add_argument("--split-dir", default=None, dest="split_dir",
                    help="Use data/splits/<split>.jsonl (grouped split, carries `category`) "
@@ -88,7 +90,8 @@ def run(args: argparse.Namespace) -> dict:
         train_cfg["model_name"], torch_dtype=torch.bfloat16,
         low_cpu_mem_usage=False, trust_remote_code=True,
     ).eval()
-    ckpt = torch.load(args.checkpoint, map_location="cpu", weights_only=False)
+    no_ckpt = args.checkpoint == "none"
+    ckpt = {} if no_ckpt else torch.load(args.checkpoint, map_location="cpu", weights_only=False)
     lora_cfg = train_cfg.get("lora") if isinstance(train_cfg, dict) else None
     if "lora_state" in ckpt and not lora_cfg:
         lora_cfg = {}  # checkpoint has LoRA -> rebuild the adapter to load into
@@ -98,7 +101,12 @@ def run(args: argparse.Namespace) -> dict:
         lora=lora_cfg,
     )
 
-    model.bridge.load_state_dict(ckpt.get("bridge_state", ckpt))
+    if no_ckpt:
+        # nothing was trained: only valid when the bridge has no trainable weights to load
+        n_trainable = sum(p.numel() for p in model.bridge.parameters() if p.requires_grad)
+        assert n_trainable == 0, f"--checkpoint none but the bridge has {n_trainable} trainable parameters"
+    else:
+        model.bridge.load_state_dict(ckpt.get("bridge_state", ckpt))
     if "lora_state" in ckpt and hasattr(model, "load_lora_state_dict"):
         model.load_lora_state_dict(ckpt["lora_state"])
         print("[ckpt] loaded LoRA adapter")
@@ -109,7 +117,8 @@ def run(args: argparse.Namespace) -> dict:
     # non-empty, and its generation-metric helper reads self.val_dataset — so pass
     # `chosen` in both slots. We never call trainer.train() here.
     tc = TrainConfig(model_name=train_cfg["model_name"],
-                     output_dir=str(Path(args.checkpoint).parent), n_tiles=args.n_tiles,
+                     output_dir=str(Path(args.output).parent if no_ckpt and args.output
+                                    else Path(args.checkpoint).parent), n_tiles=args.n_tiles,
                      gen_image=args.gen_image)
     trainer = BridgeTrainer(model, chosen, chosen, tc)
 
@@ -125,7 +134,7 @@ def run(args: argparse.Namespace) -> dict:
     except Exception as exc:  # generation metrics are best-effort
         report["generation_metrics_error"] = repr(exc)
 
-    ckpt_dir = Path(args.checkpoint).parent
+    ckpt_dir = Path(args.output).parent if no_ckpt and args.output else Path(args.checkpoint).parent
     out = Path(args.output or ckpt_dir / f"eval_{args.split}.json")
     out.write_text(json.dumps(report, indent=2, default=str))
 

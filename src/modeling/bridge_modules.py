@@ -877,6 +877,8 @@ class GlobalLocalBridge(nn.Module):
     - local : patches -> pixel_shuffle_v2 -> mlp1 -> (B, S*S, hidden_dim) on an S x S grid
               (S = 12 at 336px), then 2D average pooling to local_grid x local_grid,
               row-major. local_grid = S keeps every token, 0 drops the local path.
+    - num_tokens = 0 drops the global path (local-only ablation): global is then an empty
+      (B, 0, hidden_dim) tensor and the bridge has no trainable parameters.
 
     forward returns (global, local); local is None when local_grid == 0.
     """
@@ -884,8 +886,9 @@ class GlobalLocalBridge(nn.Module):
     def __init__(self, mlp1: nn.Module, vision_dim: int = 1024, hidden_dim: int = 896,
                  num_tokens: int = 14, local_grid: int = 12, **kwargs):
         super().__init__()
-        self.global_tokens = MultiTokenMLP(in_features=vision_dim, out_features=hidden_dim,
-                                           num_tokens=num_tokens)
+        self.hidden_dim = hidden_dim
+        self.global_tokens = (MultiTokenMLP(in_features=vision_dim, out_features=hidden_dim,
+                                            num_tokens=num_tokens) if num_tokens > 0 else None)
         self.mlp1 = mlp1
         for p in self.mlp1.parameters():
             p.requires_grad = False
@@ -909,6 +912,9 @@ class GlobalLocalBridge(nn.Module):
 
     def forward(self, x: torch.Tensor):
         """x: (B, 1+P, vision_dim), CLS first -> (global (B, num_tokens, hidden), local or None)."""
-        glob = self.global_tokens(x[:, 0])
+        if self.global_tokens is not None:
+            glob = self.global_tokens(x[:, 0])
+        else:
+            glob = x.new_zeros(x.shape[0], 0, self.hidden_dim)
         local = self.local_tokens(x[:, 1:]) if self.local_grid > 0 else None
         return glob, local

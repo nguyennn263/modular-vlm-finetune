@@ -117,8 +117,8 @@ Visual tokens from & Tokens & Params & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
 \quad Tile-Attention & 8 & 4.14M & \pms{45.14}{.92} & \pms{12.34}{.32} & \pms{43.28}{.95} & \pms{36.11}{.73} & \pms{84.14}{1.40} \\
 \quad Light Q-Former & 8 & 27.6M & \pms{47.06}{.66} & \pms{13.99}{.33} & \pms{45.37}{.63} & \pms{37.57}{.60} & \pms{88.07}{1.89} \\
 \quad Full Q-Former & 16 & 69.4M & \pms{46.84}{.47} & \pms{13.76}{.36} & \pms{45.10}{.41} & \pms{37.43}{.34} & \pms{87.74}{1.24} \\
-\quad C-Abstractor$^\dagger$ & 9 & 19.87M & \prov{48.87} & \prov{15.49} & \prov{47.16} & \prov{39.85} & \prov{95.62} \\
-\quad Patch-pool$^\dagger$ & 8 & 0.92M & \prov{38.80} & \prov{9.74} & \prov{36.89} & \prov{29.45} & \prov{68.76} \\
+\quad C-Abstractor$^\dagger$ & 9 & 19.87M & \prov{49.12} & \prov{15.46} & \prov{47.39} & \prov{39.83} & \prov{95.01} \\
+\quad Patch-pool$^\dagger$ & 8 & 0.92M & \prov{45.53} & \prov{12.02} & \prov{43.59} & \prov{36.58} & \prov{86.12} \\
 \quad Local tokens only, untrained$^\dagger$ & 36 & 0 & \prov{xx.xx} & \prov{xx.xx} & \prov{xx.xx} & \prov{xx.xx} & \prov{xx.xx} \\
 \quad ViBridge-VQA ($k$=36) & 50 & 12.86M & \pms{\textbf{54.96}}{.28} & \pms{\textbf{18.73}}{.23} & \pms{\textbf{53.10}}{.27} & \pms{\textbf{46.01}}{.42} & \pms{\textbf{113.29}}{1.01} \\
 \midrule
@@ -147,14 +147,14 @@ linearly and averages consecutive tokens into eight. All bridges are randomly in
 and trained with the same recipe on the same questions. The third source is our local tokens from the pre-trained projector, used alone ($g=0$) or with
 global tokens (ViBridge-VQA).
 
-\paragraph{Reusing the projector works best.} Without LoRA, the learned compressions stay \prov{1.9}--\prov{11.9} F1 below Global-only, despite up to
+\paragraph{Reusing the projector works best.} Without LoRA, the learned compressions stay \prov{1.6}--\prov{5.6} F1 below Global-only, despite up to
 $9.4\times$ more parameters. Patch-pool, a minimal baseline that averages bands of consecutive encoder tokens after a newly
-learned projection, reaches only \prov{38.80} F1. It differs from our local tokens in the pooling
+learned projection, reaches \prov{45.53} F1. It differs from our local tokens in the pooling
 (eight 1D bands instead of a 2D grid) as well as in the projection. In contrast, adding 36 or
 144 local tokens to Global-only ($g=8$) raises F1 by 3.58 and 5.41 (Table~\ref{tab:budget}).
 The projector also wins at a similar number of tokens: 17 tokens ($g=8$, $k=9$) give 52.82 F1,
 against 46.84 for the 16-token full Q-Former, and 9 tokens ($g=8$, $k=1$) give 51.03, against
-\prov{48.87} for the 9-token C-Abstractor. We
+\prov{49.12} for the 9-token C-Abstractor. We
 also tried to distil the projector into Global-only. A cosine loss between the mean tokens of the bridge and of the projector gives 50.35 F1, and a KL
 loss between the answer distributions obtained with each gives 50.46. Neither reaches the 50.74
 obtained without distillation.

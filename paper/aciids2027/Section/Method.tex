@@ -30,7 +30,7 @@ $12\times12$ grid of 144 region tokens. ViBridge-VQA uses both outputs of the en
   arr/.style={-{Latex[length=1.5mm]}, thick, black!70},
   lbl/.style={font=\small\bfseries, anchor=west}]
 % x positions of the columns (cm), shared by (a) and (b)
-\def\xa{0.8}\def\xb{3.0}\def\xs{5.4}\def\xm{7.6}\def\xp{9.45}\def\xt{11.15}\def\xe{12.95}\def\xf{14.75}
+\def\xa{0.8}\def\xb{3.0}\def\xs{5.4}\def\xm{7.6}\def\xp{9.45}\def\xt{11.15}\def\xe{13.25}\def\xf{15.05}
 % ---- (a) official fine-tuning of Vintern-1B
 \node[lbl] at (-0.05,1.0) {(a) Vintern-1B, official fine-tuning};
 \node[data] (img1) at (\xa,0) {image\\$\le$6 tiles\\+ thumbnail};
@@ -47,12 +47,12 @@ $12\times12$ grid of 144 region tokens. ViBridge-VQA uses both outputs of the en
 \node[lbl] at (-0.05,-1.05) {(b) ViBridge-VQA (ours)};
 \node[data] (img2) at (\xa,-2.7) {image\\1 view\\($336^2$)};
 \node[frozen] (vit2) at (\xb,-2.7) {InternViT\\300M};
-\node[train] (br) at ($(\xs,-1.95)!0.5!(\xm,-1.95)$) {\textbf{global bridge}\\(\texttt{[CLS]}$\to g$)};
+\node[train] (br) at ($(\xs,-1.95)!0.5!(\xm,-1.95)$) {\textbf{global bridge}\\(\texttt{[CLS]}$\to g$ tokens)};
 \node[frozen] (ps2) at (\xs,-3.45) {pixel shuffle\\($2{\times}2$ merge)};
 \node[frozen] (mlp2) at (\xm,-3.45) {MLP\\projector};
 \node[frozen] (pool) at (\xp,-3.45) {avg.\ pool\\($144{\to}k$)};
-\node[data] (tg) at (\xt,-1.95) {$g$ global\\tokens};
-\node[data] (tl) at (\xt,-3.45) {$k$ local\\tokens};
+\node[data] (tg) at (\xt,-1.95) {$g{=}14$ global\\tokens};
+\node[data] (tl) at (\xt,-3.45) {$k{=}36$ local\\tokens};
 \node[frozen] (llm2) at (\xe,-2.7) {Qwen2.5\\0.5B};
 \node[data] (ans2) at (\xf,-2.7) {answer};
 \draw[arr] (img2) -- (vit2);
@@ -66,16 +66,17 @@ $12\times12$ grid of 144 region tokens. ViBridge-VQA uses both outputs of the en
 \draw[arr] (tl.east) -- ++(0.15,0) |- (llm2.west);
 \draw[arr] (llm2) -- (ans2);
 % legend
-\node[frozen, minimum height=3.5mm, minimum width=5mm] (lf) at (12.35,-4.35) {};
+\node[frozen, minimum height=3.5mm, minimum width=5mm] (lf) at (12.65,-4.35) {};
 \node[anchor=west] at (lf.east) {frozen};
-\node[train, minimum height=3.5mm, minimum width=5mm] (lt) at (13.95,-4.35) {};
+\node[train, minimum height=3.5mm, minimum width=5mm] (lt) at (14.25,-4.35) {};
 \node[anchor=west] at (lt.east) {trained};
 \end{tikzpicture}}
 \caption{Overview of (a) the official fine-tuning of Vintern-1B, which encodes up to seven views,
 and (b) ViBridge-VQA, which encodes one view. In both, the pixel shuffle merges each $2\times2$
 block of patches and the pre-trained MLP projector maps it to the decoder space, which gives 144
 region tokens for our $336\times336$ view. ViBridge-VQA average-pools them to $k$ local tokens and
-adds $g$ global tokens from the \texttt{[CLS]} vector (selected: $g=14$, $k=36$).}
+adds $g$ global tokens from the \texttt{[CLS]} vector. The selected budget, $g=14$ and $k=36$, gives
+50 visual tokens.}
 \label{fig:arch}
 \end{figure}
 

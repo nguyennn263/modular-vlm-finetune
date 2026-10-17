@@ -1,5 +1,16 @@
 # Paper changelog (ACIIDS 2027, ViBridge-VQA)
 
+## 2026-10-17 -- Table 3 Time column re-measured
+
+- The old Time column was the span between the first and last logger timestamps of each eval
+  kernel: validation loss pass + validation generation + one model load (the test run's logs carry
+  no timestamps), not "validation and test" as the caption said. It is now the generation time of
+  the 5,463 validation answers (tqdm elapsed, greedy, batch 2, one T4), mean over seeds, for every
+  row including k = 0 (analysis/eval_time.py -> eval_time.json). The teacher-forced loss pass is
+  not inference and was slower for the global-only runs (29-33 vs 22 min).
+- k <= 36: 33.9-37.2 min (within run-to-run noise); k = 144: 41.1-41.7. k=144 vs k=36: +15%
+  (was "17%"). The knee is still g=14, k=36 for all eight metrics on val and test with this cost.
+
 ## 2026-10-17 — final check of the PDF and the numbers
 
 - Every number re-checked against analysis/*.json (Tables 1-4, §4.3-4.7 derived values, split

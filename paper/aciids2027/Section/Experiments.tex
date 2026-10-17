@@ -119,7 +119,7 @@ Visual tokens from & Tokens & Params & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
 \quad Full Q-Former & 16 & 69.4M & \pms{46.84}{.47} & \pms{13.76}{.36} & \pms{45.10}{.41} & \pms{37.43}{.34} & \pms{87.74}{1.24} \\
 \quad C-Abstractor$^\dagger$ & 9 & 19.87M & \prov{49.12} & \prov{15.46} & \prov{47.39} & \prov{39.83} & \prov{95.01} \\
 \quad Patch-pool$^\dagger$ & 8 & 0.92M & \prov{45.53} & \prov{12.02} & \prov{43.59} & \prov{36.58} & \prov{86.12} \\
-\quad Local tokens only, untrained$^\dagger$ & 36 & 0 & \prov{xx.xx} & \prov{xx.xx} & \prov{xx.xx} & \prov{xx.xx} & \prov{xx.xx} \\
+\quad Local tokens only, untrained$^\dagger$ & 36 & 0 & 27.55 & 2.47 & 20.82 & 34.50 & 67.20 \\
 \quad ViBridge-VQA ($k$=36) & 50 & 12.86M & \pms{\textbf{54.96}}{.28} & \pms{\textbf{18.73}}{.23} & \pms{\textbf{53.10}}{.27} & \pms{\textbf{46.01}}{.42} & \pms{\textbf{113.29}}{1.01} \\
 \midrule
 \multicolumn{8}{l}{\emph{+ decoder LoRA (one joint epoch, 2.16M parameters)}} \\
@@ -163,8 +163,9 @@ obtained without distillation.
 without local tokens reach 52.69--53.47 F1, below ViBridge-VQA with a frozen decoder (54.96).
 Trained for three epochs, Global-only + LoRA reaches 54.78, on par with it. The same one-epoch
 LoRA adds 3.25 F1 to ViBridge-VQA, more than the 2.73 it adds to Global-only. Without global
-tokens ($g=0$), the local tokens give \prov{xx.xx} F1 with nothing trained and \prov{xx.xx} with the
-same LoRA, against 58.21 with the 14 global tokens.
+tokens ($g=0$), the local tokens give 27.55 F1 with nothing trained, as the frozen model answers in long
+sentences (24.8 words on average), and \prov{xx.xx} with the same LoRA, against 58.21 with the 14
+global tokens.
 
 \subsection{Visual Token Budget}
 \label{sec:budget-results}

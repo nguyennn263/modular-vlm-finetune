@@ -84,7 +84,8 @@ are the mean $\pm$ std over three seeds on our image-disjoint split (Section~\re
 Table~\ref{tab:main} compares ViBridge-VQA with the baselines. Without updating any weight of
 Vintern-1B, ViBridge-VQA raises its F1 from 17.55 (zero-shot) to 54.56. This is comparable to the fine-tuned Vintern-1B (53.76), even on our stricter image-disjoint split
 (Section~\ref{sec:data}), while the decoder reads 50 instead of 1{,}792 visual tokens and only
-1.35\% of the parameters are trained. Only Accuracy is lower (11.75 versus 13.01).
+1.35\% of the parameters are trained. Only Accuracy is lower (11.75 versus 13.01). On test, the bridge alone with the same 14 global
+tokens reaches 51.02 F1 ($\pm$0.10), so the 36 local tokens add 3.54 F1.
 
 Adding a decoder LoRA raises F1 to 58.17 (+3.61), with 1.57\% of the parameters trained. It also
 gives the best Accuracy (14.67), BLEU (22.53), ROUGE-L (56.25) and METEOR (49.32). ViMoE-VQA,

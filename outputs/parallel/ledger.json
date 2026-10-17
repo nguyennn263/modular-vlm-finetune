@@ -4180,6 +4180,32 @@
         "val"
       ],
       "gen_image": "full"
+    },
+    "bridgefull:convabs-s42": {
+      "account": "acc8",
+      "kernel": "lelynhan/mvlm-bridgefull-convabs-s42",
+      "status": "running",
+      "pushed_at": "2026-10-17T22:13:23",
+      "collected": false,
+      "bridge": "conv_abstractor",
+      "ckpt": "lelynhan/mvlm-convabs-m9",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "bridgefull:poolmean-s42": {
+      "account": "acc13",
+      "kernel": "avanrager/mvlm-bridgefull-poolmean-s42",
+      "status": "running",
+      "pushed_at": "2026-10-17T22:13:27",
+      "collected": false,
+      "bridge": "patch_pool_mean",
+      "ckpt": "avanrager/mvlm-poolabl-mean",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
     }
   }
 }

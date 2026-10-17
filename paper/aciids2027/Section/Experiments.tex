@@ -127,10 +127,16 @@ Visual tokens from & Tokens & Params & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
 \end{tabular}}
 \end{table}
 
-Table~\ref{tab:bridges} compares three sources of visual tokens: the \texttt{[CLS]} vector
-(\emph{Residual} and \emph{Multi-Token}), learned compressions of the patches
-(\emph{Tile-Attention}, light and full Q-Former~\cite{li2023blip2}), and our local tokens from the
-pre-trained projector.
+Table~\ref{tab:bridges} compares three sources of visual tokens. Two bridges read the
+\texttt{[CLS]} vector: \emph{Residual} maps it to one token with a linear layer plus a residual
+MLP, and \emph{Multi-Token} is the bridge of Eq.~\eqref{eq:bridge} with $g=8$. Three bridges
+learn to compress the 577 encoder tokens. \emph{Tile-Attention} projects them linearly, refines
+them with one self-attention layer and reads them with eight learned queries. The light
+Q-Former~\cite{li2023blip2} refines seven learned queries with two transformer layers that attend
+to the projected tokens, and adds one token from their mean. The full Q-Former uses 15 queries
+and four layers that also attend to the question. All bridges are randomly initialised and
+trained with the same recipe. The third source is our local tokens from the pre-trained
+projector.
 
 \paragraph{Reusing the projector works best.} Without LoRA, the learned compressions stay
 3.7--5.6 F1 below Multi-Token, despite up to $9.4\times$ more parameters. In contrast, adding 36 or
@@ -139,9 +145,10 @@ also tried to distil the projector into Global-only. A cosine loss between the m
 loss between the answer distributions obtained with each gives 50.46. Neither reaches the 50.74
 obtained without distillation.
 
-\paragraph{Local tokens and LoRA are complementary.} With a decoder LoRA, all bridges without
-local tokens reach 52.69--53.47 F1, but they still stay below ViBridge-VQA with a frozen decoder
-(54.96). The same LoRA adds 3.25 F1 to ViBridge-VQA, more than the 2.73 it adds to Multi-Token.
+\paragraph{Local tokens and LoRA are complementary.} With a one-epoch decoder LoRA, all bridges
+without local tokens reach 52.69--53.47 F1, below ViBridge-VQA with a frozen decoder (54.96).
+Trained for three epochs, Global-only + LoRA reaches 54.78, on par with it. The same one-epoch
+LoRA adds 3.25 F1 to ViBridge-VQA, more than the 2.73 it adds to Multi-Token.
 
 \subsection{Visual Token Budget}
 \label{sec:budget-results}
@@ -270,6 +277,7 @@ ViTextVQA~\cite{nguyen2025vitextvqa} focuses on scene text, while ViVQA-X~\cite{
 ViVQA~\cite{tran2021vivqa} are general-domain datasets on COCO images. About 10\% of their sampled
 questions concern images of our training split, with different questions. ViBridge-VQA ($k$=36)
 + LoRA beats Global-only + LoRA on all three datasets, and the zero-shot Vintern-1B on
-ViVQA-X (27.64 versus 14.52 F1) and ViVQA (44.76 versus 23.90). On scene text, Vintern-1B stays
-ahead (32.01 versus 15.39), as it reads up to seven $448\times448$ views. Averaged over the three
+ViVQA-X (27.64 versus 14.52 F1) and ViVQA (44.76 versus 23.90). On scene text, Vintern-1B stays ahead (32.01 versus 15.39), as it reads up to seven $448\times448$
+views. With all 144 local tokens, ViBridge-VQA (without LoRA, seed 42) is on par with it
+(33.26 F1), so this gap comes from the token budget. Averaged over the three
 datasets, our model reaches 29.3 F1, against 23.5 for Vintern-1B.

@@ -279,7 +279,8 @@ and the helmets are worn \emph{to protect their heads}.
 \begin{table}[!tb]
 \centering
 \caption{Cross-dataset results (mean $\pm$ std over three samples of about 1{,}000 test
-questions, one training seed). Best results per dataset are in bold. All values $\times100$.}
+questions, one training seed). ViBridge-VQA ($k$=144): all 144 local tokens, no LoRA. Best results
+per dataset are in bold. All values $\times100$.}
 \label{tab:ood}
 \scriptsize
 \setlength{\tabcolsep}{1.6pt}
@@ -288,19 +289,22 @@ questions, one training seed). Best results per dataset are in bold. All values 
 Model & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
 \midrule
 \multicolumn{6}{l}{\emph{ViTextVQA}} \\
-\quad Vintern-1B, zero-shot & \pms{\textbf{32.01}}{.31} & \pms{\textbf{4.94}}{.18} & \pms{\textbf{20.89}}{.25} & \pms{\textbf{26.50}}{.54} & \pms{\textbf{195.62}}{2.35} \\
+\quad Vintern-1B, zero-shot & \pms{32.01}{.31} & \pms{4.94}{.18} & \pms{20.89}{.25} & \pms{26.50}{.54} & \pms{\textbf{195.62}}{2.35} \\
 \quad Global-only + LoRA & \pms{3.96}{.09} & \pms{0.15}{.01} & \pms{3.74}{.12} & \pms{2.61}{.16} & \pms{15.64}{.92} \\
 \quad ViBridge-VQA ($k$=36) + LoRA & \pms{15.39}{.39} & \pms{1.03}{.15} & \pms{14.41}{.33} & \pms{11.17}{.26} & \pms{70.07}{1.33} \\
+\quad ViBridge-VQA ($k$=144) & \pms{\textbf{33.26}}{.67} & \pms{\textbf{6.24}}{.48} & \pms{\textbf{31.65}}{.73} & \pms{\textbf{27.33}}{.93} & \pms{190.30}{6.71} \\
 \midrule
 \multicolumn{6}{l}{\emph{ViVQA-X}} \\
 \quad Vintern-1B, zero-shot & \pms{14.52}{.47} & \pms{0.06}{.01} & \pms{8.98}{.32} & \pms{11.96}{.41} & \pms{50.13}{2.83} \\
 \quad Global-only + LoRA & \pms{15.89}{.65} & \pms{0.18}{.02} & \pms{11.94}{.49} & \pms{9.08}{.57} & \pms{42.12}{2.92} \\
-\quad ViBridge-VQA ($k$=36) + LoRA & \pms{\textbf{27.64}}{.11} & \pms{\textbf{0.33}}{.05} & \pms{\textbf{21.98}}{.13} & \pms{\textbf{19.24}}{.14} & \pms{\textbf{95.29}}{1.51} \\
+\quad ViBridge-VQA ($k$=36) + LoRA & \pms{27.64}{.11} & \pms{0.33}{.05} & \pms{21.98}{.13} & \pms{\textbf{19.24}}{.14} & \pms{\textbf{95.29}}{1.51} \\
+\quad ViBridge-VQA ($k$=144) & \pms{\textbf{27.89}}{.13} & \pms{\textbf{0.39}}{.13} & \pms{\textbf{22.02}}{.26} & \pms{18.55}{.11} & \pms{92.22}{2.31} \\
 \midrule
 \multicolumn{6}{l}{\emph{ViVQA}} \\
 \quad Vintern-1B, zero-shot & \pms{23.90}{.24} & \pms{0.27}{.02} & \pms{15.78}{.25} & \pms{17.84}{.19} & \pms{78.63}{2.07} \\
 \quad Global-only + LoRA & \pms{31.48}{1.15} & \pms{0.25}{.09} & \pms{31.48}{1.16} & \pms{21.92}{.82} & \pms{84.94}{2.87} \\
-\quad ViBridge-VQA ($k$=36) + LoRA & \pms{\textbf{44.76}}{1.21} & \pms{\textbf{0.63}}{.02} & \pms{\textbf{44.74}}{1.22} & \pms{\textbf{36.98}}{1.28} & \pms{\textbf{183.60}}{7.17} \\
+\quad ViBridge-VQA ($k$=36) + LoRA & \pms{44.76}{1.21} & \pms{\textbf{0.63}}{.02} & \pms{44.74}{1.22} & \pms{36.98}{1.28} & \pms{183.60}{7.17} \\
+\quad ViBridge-VQA ($k$=144) & \pms{\textbf{44.95}}{.90} & \pms{0.59}{.17} & \pms{\textbf{44.95}}{.90} & \pms{\textbf{37.28}}{.61} & \pms{\textbf{191.28}}{2.17} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -308,9 +312,11 @@ Model & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
 Table~\ref{tab:ood} tests the models on three Vietnamese VQA datasets not used for training.
 ViTextVQA~\cite{nguyen2025vitextvqa} focuses on scene text, while ViVQA-X~\cite{vivqax2025} and
 ViVQA~\cite{tran2021vivqa} are general-domain datasets on COCO images. About 10\% of their sampled
-questions concern images of our training split, with different questions. ViBridge-VQA ($k$=36)
-+ LoRA beats Global-only + LoRA on all three datasets, and the zero-shot Vintern-1B on
-ViVQA-X (27.64 versus 14.52 F1) and ViVQA (44.76 versus 23.90). On scene text, Vintern-1B stays ahead (32.01 versus 15.39), as it reads up to seven $448\times448$
-views. With all 144 local tokens, ViBridge-VQA (without LoRA, seed 42) is on par with it
-(33.26 F1), suggesting that the gap comes mainly from the token budget. Averaged over the three
-datasets, our model reaches 29.3 F1, against 23.5 for Vintern-1B.
+questions concern images of our training split, with different questions. On the general-domain datasets, ViBridge-VQA ($k$=36) + LoRA clearly outperforms Global-only +
+LoRA and the zero-shot Vintern-1B (F1 27.64 versus 14.52 on ViVQA-X, 44.76 versus 23.90 on ViVQA).
+Scene text needs more local tokens. With 36 of them, the model stays far below Vintern-1B (15.39
+versus 32.01 F1), whereas ViBridge-VQA ($k$=144) is on par with it (33.26) while reading one view
+instead of up to seven, suggesting that the gap comes mainly from the token budget. ViBridge-VQA
+($k$=144) is also the best or on par on the general-domain datasets. Averaged over the three
+datasets, F1 is 35.4 for ViBridge-VQA ($k$=144) and 29.3 for ViBridge-VQA ($k$=36) + LoRA,
+against 23.5 for Vintern-1B.

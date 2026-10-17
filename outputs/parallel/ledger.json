@@ -4210,7 +4210,7 @@
     "bridgefull:g0k36-notrain": {
       "account": "acc17",
       "kernel": "nguyentrongdoanh/mvlm-bridgefull-g0k36-notrain",
-      "status": "running",
+      "status": "error-empty-optimizer",
       "pushed_at": "2026-10-17T22:18:08",
       "collected": false,
       "bridge": "global_local",
@@ -4242,6 +4242,38 @@
       "status": "running",
       "pushed_at": "2026-10-17T22:18:42",
       "chain": "gl-g0-k36-lora1-s3407",
+      "phase": 0
+    },
+    "xb-cab-s123:train": {
+      "account": "acc1",
+      "kernel": "nguyennn263/mvlm-xb-cab-s123-train",
+      "status": "running",
+      "pushed_at": "2026-10-17T23:12:17",
+      "chain": "xb-cab-s123",
+      "phase": 0
+    },
+    "xb-cab-s3407:train": {
+      "account": "acc2",
+      "kernel": "nguyennn2501/mvlm-xb-cab-s3407-train",
+      "status": "running",
+      "pushed_at": "2026-10-17T23:12:25",
+      "chain": "xb-cab-s3407",
+      "phase": 0
+    },
+    "xb-ppm-s123:train": {
+      "account": "acc4",
+      "kernel": "nguyennn251/mvlm-xb-ppm-s123-train",
+      "status": "running",
+      "pushed_at": "2026-10-17T23:12:32",
+      "chain": "xb-ppm-s123",
+      "phase": 0
+    },
+    "xb-ppm-s3407:train": {
+      "account": "acc5",
+      "kernel": "nguyennguyen263/mvlm-xb-ppm-s3407-train",
+      "status": "running",
+      "pushed_at": "2026-10-17T23:12:42",
+      "chain": "xb-ppm-s3407",
       "phase": 0
     }
   }

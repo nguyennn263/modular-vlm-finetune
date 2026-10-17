@@ -29,8 +29,10 @@ JOBS = {
     # 2026-10-17: local tokens only (g = 0, k = 36) with nothing trained -- Vintern-1B reading the
     # 36 pooled projector tokens zero-shot; no checkpoint (the bridge has no trainable weights)
     "g0k36-notrain": ("global_local", "acc17", None, ["val"]),
+    # first attempt died in BridgeTrainer (AdamW on an empty parameter list), fixed in ec52b61
+    "g0k36-notrain-r2": ("global_local", "acc18", None, ["val"]),
 }
-EXTRA_FLAGS = {"g0k36-notrain": " --bridge-num-tokens 0 --local-grid 6"}
+EXTRA_FLAGS = {t: " --bridge-num-tokens 0 --local-grid 6" for t in ("g0k36-notrain", "g0k36-notrain-r2")}
 CK = "/tmp/ck/bridge"
 
 

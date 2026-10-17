@@ -392,6 +392,12 @@ class BridgeTrainer:
         logger.info(f"Trainable parameters: {trainable_count:,} ({100*trainable_count/total_params:.2f}%)")
         logger.info(f"Frozen parameters: {total_params - trainable_count:,}")
         
+        # Nothing to train (global_local with g = 0 and no LoRA, evaluated as is): no optimizer
+        if not trainable_params:
+            self.optimizer = self.scheduler = None
+            logger.info("No trainable parameters: optimizer and scheduler skipped (evaluation only)")
+            return
+
         # Optimizer
         self.optimizer = AdamW(
             trainable_params,

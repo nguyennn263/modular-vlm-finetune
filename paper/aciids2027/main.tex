@@ -102,8 +102,8 @@ weights. From a single image view, the frozen decoder receives two kinds of visu
 \emph{Global} tokens are produced from the \texttt{[CLS]} vector by a small trainable bridge.
 \emph{Local} tokens come from Vintern-1B's own pre-aligned projector and are pooled to a budget
 chosen as the knee of the accuracy--cost Pareto front. On the reasoning-oriented AutoViVQA
-benchmark, ViBridge-VQA trains 1.35\% of the parameters and reaches 54.6 F1, comparable to the
-fine-tuned Vintern-1B, with 36 times fewer visual tokens. Adding a lightweight decoder LoRA raises F1 to 58.2. Our analysis shows that reusing the pre-trained projector is more effective than learning a new connector. The
+benchmark, ViBridge-VQA trains 1.35\% of the parameters and reaches 54.6 F1 on a stricter image-disjoint
+split, comparable to the fine-tuned Vintern-1B, with 36 times fewer visual tokens. Adding a lightweight decoder LoRA raises F1 to 58.2. Our analysis shows that reusing the pre-trained projector is more effective than learning a new connector. The
 local tokens also complement decoder adaptation, and their gain carries over to three other
 Vietnamese VQA datasets.
 

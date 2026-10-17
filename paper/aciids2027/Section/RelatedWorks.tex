@@ -33,8 +33,8 @@ Matryoshka multimodal models~\cite{cai2024matryoshka} work at several nested poo
 show that the required budget depends on the task. Other work reduces the visual tokens directly.
 DeCo~\cite{yao2024deco} replaces the Q-Former with adaptive average pooling of the patch tokens
 and reports better results. TokenPacker~\cite{li2024tokenpacker} learns a compact projector,
-while LLaVA-PruMerge~\cite{shang2024prumerge} and FastV~\cite{chen2024fastv} prune or merge the
-visual tokens of an existing model. Like DeCo, we use simple average pooling, but we apply it to the output of an already pre-trained projector and keep the whole VLM frozen. We also choose
+while LLaVA-PruMerge~\cite{shang2024prumerge} and FastV~\cite{chen2024fastv} prune or merge the visual tokens of an existing model, and VisionZip~\cite{yang2025visionzip}
+keeps those that receive the most attention from the \texttt{[CLS]} token. Like DeCo, we use simple average pooling, but we apply it to the output of an already pre-trained projector and keep the whole VLM frozen. We also choose
 the budget with explicit criteria: the knee of the Pareto front~\cite{satopaa2011kneedle} and
 TOPSIS~\cite{hwang1981topsis}. Parameter-efficient methods such as
 adapters~\cite{houlsby2019adapters}, prefix tuning~\cite{li2021prefix} and LoRA~\cite{hu2022lora}

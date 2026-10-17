@@ -14,8 +14,7 @@ InternViT-300M vision encoder (24 layers, width 1024), its two-layer MLP project
 Qwen2.5-0.5B-Instruct decoder (24 layers, width 896). Each image is resized to one
 $336\times336$ view, i.e., $24\times24$ patches of $14\times14$ pixels. InternViT, pre-trained at $448\times448$, bicubically interpolates its position embeddings to
 this resolution, which roughly halves the encoder cost (191 instead of 362 GMACs per view). The encoder returns one
-vector per patch and a global \texttt{[CLS]} vector $v\in\mathbb{R}^{1024}$. Vintern-1B uses only the patch vectors: it merges every $2\times2$ block of neighbouring patches into one
-4096-dimensional vector (pixel shuffle). The projector $P$, pre-trained to align the two
+vector per patch and a global \texttt{[CLS]} vector $v\in\mathbb{R}^{1024}$. Vintern-1B uses only the patch vectors: it merges every $2\times2$ block of neighbouring patches into one 4096-dimensional vector (pixel shuffle~\cite{chen2024internvl15}). The projector $P$, pre-trained to align the two
 backbones, maps each merged vector into the decoder input space. At our resolution, this yields a
 $12\times12$ grid of 144 region tokens. ViBridge-VQA uses both outputs of the encoder.
 
@@ -93,12 +92,12 @@ decoder. A small trainable bridge $f_\phi$ expands it into $g$ tokens with two l
 where $W_a\in\mathbb{R}^{896\times1024}$ and $W_e\in\mathbb{R}^{(g-1)896\times1024}$. The first
 head produces an \emph{anchor} token, and the second produces $g-1$ complementary tokens that present
 the global content from different learned directions. The bridge has $1025\cdot896\cdot g$
-parameters, i.e., 12{,}857{,}600 for $g=14$, and its $g$ tokens are placed before the prompt. We
-consider $g\in\{8,14\}$. Our Global-only model uses $g=8$, which matches the eight learned queries
-of the Tile-Attention and light Q-Former bridges it is compared with
-(Section~\ref{sec:rq-source}). Beyond $g=14$, F1 stops increasing when the Global-only bridge is
-varied from 4 to 20 tokens (Section~\ref{sec:budget-results}). The final pair $(g,k)$ is selected
-with the criterion of Section~\ref{sec:budget}.
+parameters, i.e., 12{,}857{,}600 for $g=14$, and its $g$ tokens are placed before the prompt. To choose $g$, we varied the bridge alone from 4 to 20 tokens. F1 stops increasing at $g=14$
+(Section~\ref{sec:budget-results}), which we use in ViBridge-VQA. We keep $g=8$ for our
+Global-only model, as it matches the eight learned queries of the Tile-Attention and light
+Q-Former bridges it is compared with (Section~\ref{sec:rq-source}). The local tokens are combined
+with both values, and the final pair $(g,k)$ is selected with the criterion of
+Section~\ref{sec:budget}.
 
 \subsection{Local Tokens}
 \label{sec:local}

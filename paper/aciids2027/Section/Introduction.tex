@@ -13,7 +13,8 @@ setting.
 
 However, building a strong model for a new Vietnamese benchmark is still expensive. The common recipe fine-tunes an existing VLM: the fine-tuned Vintern-1B baseline of AutoViVQA adds LoRA
 adapters to the language model and splits each image into up to six high-resolution tiles plus a
-thumbnail. As a result, its decoder reads up to 1{,}792 visual tokens per image. Another option is a
+thumbnail. On AutoViVQA images this gives seven views, so its decoder reads 1{,}792 visual tokens per
+image. Another option is a
 task-specific architecture, such as ViMoE-VQA~\cite{vimoevqa} with its sparse mixture-of-experts
 fusion module. A cheaper option is to keep the whole VLM frozen and train only a small connector, which
 usually follows one of two designs. A \emph{global-only bridge} maps the global image vector to a

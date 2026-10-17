@@ -27,7 +27,12 @@ GL = "--gl" in sys.argv
 # --tla (2026-10-13): Tile-Attention + decoder LoRA (joint, 1 epoch) at seeds 123/3407, so the one
 # seed-42-only cell of the bridges table (expa-lora16:tile_attention:s42) gets three seeds
 TLA = "--tla" in sys.argv
-SET = "gl" if GL else ("tla" if TLA else "qfx")
+# --xb (2026-10-17): C-Abstractor and Patch-pool (mean) at seeds 123/3407 -- the September seed-42
+# recipe (feat/bridge-design-ablation: one kernel, --epochs 2, batch 8) -> val eval (--gen-image full)
+XB = "--xb" in sys.argv
+XB_BRIDGES = {"cab": ("conv_abstractor", " --bridge-num-tokens 9"), "ppm": ("patch_pool_mean", "")}
+XB_ASSIGN = {"cab-s123": "acc1", "cab-s3407": "acc2", "ppm-s123": "acc4", "ppm-s3407": "acc5"}
+SET = "gl" if GL else ("tla" if TLA else ("xb" if XB else "qfx"))
 PREFIX = f"{SET}-smoke" if SMOKE else SET
 GL_GLOBAL = [8, 14]
 GL_GRIDS = [1, 3, 6, 12]                    # k = grid^2 = 1 / 9 / 36 / 144 local tokens
@@ -91,6 +96,16 @@ def _chains() -> dict[str, list[dict]]:
                     {"name": "ep2", "bridge": "global_local", "cmd": f"{base} --epochs 2 --resume PREV"},
                     {"name": "eval", "bridge": "global_local", "eval": True, "splits": ["val", "test"],
                      "eval_flags": f" {flags}"},
+                ]
+        return chains
+    if XB:
+        for name, (bridge, flags) in XB_BRIDGES.items():
+            for s in [123, 3407]:
+                chains[f"{PREFIX}-{name}-s{s}"] = [
+                    {"name": "train", "bridge": bridge,
+                     "cmd": f"python -m src.cli.train --bridge {bridge}{flags} --seed {s} --epochs 2 "
+                            f"{TRAIN}{LIMIT} --output-dir {CK}"},
+                    {"name": "eval", "bridge": bridge, "eval": True, "eval_flags": flags},
                 ]
         return chains
     if TLA:
@@ -206,7 +221,7 @@ def cmd_fill() -> None:
             pending = True
             if f"{chain}:{phases[nxt]['name']}" in jobs:
                 continue                      # that phase is running (or failed, reported above)
-            pinned = GL_ASSIGN.get(chain.removeprefix(PREFIX + "-")) if GL else None
+            pinned = (GL_ASSIGN if GL else XB_ASSIGN if XB else {}).get(chain.removeprefix(PREFIX + "-"))
             if acc is None and pinned:        # chain start on its assigned account
                 acc = pinned if _free_slots(pinned) > 0 else None
                 if acc is None:

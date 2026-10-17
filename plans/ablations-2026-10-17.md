@@ -19,3 +19,9 @@ Outputs: `outputs/bridge_full/<tag>/`, `outputs/train_gl/gl-g0-k36-lora1-s*_eval
    sequence into 8 tokens (bands, not 2D blocks; CLS included) -- describe it as such.
 4. g=0 + LoRA is compared with ViBridge-VQA (k=36) + LoRA (58.21 val / 58.17 test); the untrained g=0
    number shows what the frozen VLM does with the local tokens alone.
+
+## Added 2026-10-17 23:10: extra seeds for C-Abstractor / Patch-pool (mean)
+`train_queue.py fill --xb`: chains xb-{cab,ppm}-s{123,3407} on acc1 / acc2 / acc4 / acc5, each
+train (September recipe: --epochs 2 in one kernel, batch 8, same split; in-training text metrics
+off) -> val eval (--gen-image full). With the re-scored seed-42 runs this gives three seeds, so
+the two Table 2 rows get mean +- std and lose the one-run marker.

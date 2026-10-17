@@ -25,7 +25,8 @@ The vision encoder, projector and decoder come from Vintern-1B-v3.5~\cite{doan20
 stay frozen. We train with AdamW (learning rate $2\times10^{-4}$, effective batch size 8) on the
 first reference answer. ViBridge-VQA is trained for two epochs, after which the validation loss and CIDEr stop improving, and the variants with a decoder
 LoRA for one joint epoch.
-Global-only + LoRA is also trained for three epochs, its best setting (+1.3 validation F1).
+Global-only + LoRA, used in Fig.~\ref{fig:results} and Table~\ref{tab:ood}, is trained for three
+epochs, its best setting (+1.3 validation F1 over one epoch).
 Decoding is greedy, with at most 50 new tokens, and every model fits on one 16\,GB NVIDIA T4. Each configuration is trained with three seeds
 (42, 123, 3407), and we report the mean $\pm$ std. The token budget is selected on validation, and the test split is used only for the final report.
 
@@ -89,8 +90,7 @@ which trains its fusion module and decoder on AutoViVQA, keeps the best Precisio
 same one-epoch LoRA, ViBridge-VQA is 4.74 validation F1 above Global-only (58.21 versus 53.47,
 Table~\ref{tab:bridges}).
 
-Results are stable across seeds: on test, the std is at most 0.19 for F1 and 0.95 for CIDEr, and
-test F1 is within 0.6 of validation F1.
+Results are stable across seeds: on test, the std is at most 0.19 for F1 and 0.95 for CIDEr, and test F1 is within 0.4 of validation F1.
 
 \subsection{Source of the Visual Tokens}
 \label{sec:rq-source}
@@ -216,7 +216,7 @@ questions and on causal and relational questions, which have the longest answers
 words). ViBridge-VQA ($k$=36) + LoRA is the best of the four models on seven of the eight types,
 all but yes/no.
 
-\paragraph{Error analysis.} Our answers are as long as the references (4.3 words on average), and most of them (77--81\%) partially overlap the closest reference. Compared with Global-only,
+\paragraph{Error analysis.} On validation, our answers are as long as the references (4.3 words on average), and most of them (77--81\%) partially overlap the closest reference. Compared with Global-only,
 ViBridge-VQA raises exact matches (F1 = 1) from 9.7\% to 13.3\%. It also lowers answers with no word
 in common with any reference from 9.6\% to 8.0\% (6.8\% with LoRA).
 

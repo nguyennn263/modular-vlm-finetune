@@ -74,10 +74,10 @@ frozen decoder (selected: $g=14$, $k=36$).}
 \label{sec:bridge}
 
 The \texttt{[CLS]} vector summarises the whole scene, but Vintern-1B never passes it to the
-decoder. A small trainable bridge $g_\phi$ expands it into $g$ tokens with two linear heads:
+decoder. A small trainable bridge $f_\phi$ expands it into $g$ tokens with two linear heads:
 \begin{equation}
-  g_\phi(v) = \big[\,W_a v + b_a;\ \mathrm{reshape}_{(g-1)\times 896}(W_e v + b_e)\,\big]
-  \in \mathbb{R}^{g\times 896}.
+  f_\phi(v) = \big[\,W_a v + b_a;\ \mathrm{reshape}_{(g-1)\times 896}(W_e v + b_e)\,\big]
+  \in \mathbb{R}^{g\times 896},
   \label{eq:bridge}
 \end{equation}
 where $W_a\in\mathbb{R}^{896\times1024}$ and $W_e\in\mathbb{R}^{(g-1)896\times1024}$. The first
@@ -108,7 +108,7 @@ Only the bridge parameters $\phi$ are trained. The vision encoder, the projector
 remain frozen, and no adapter is added to the decoder. We minimise the cross-entropy of the
 answer tokens:
 \begin{equation}
-  \mathcal{L} = -\sum_{t=1}^{T} \log p\big(y_t \mid y_{<t},\, g_\phi(v),\, \mathrm{pool}_s(P(x)),\, q\big),
+  \mathcal{L} = -\sum_{t=1}^{T} \log p\big(y_t \mid y_{<t},\, f_\phi(v),\, \mathrm{pool}_s(P(x)),\, q\big),
   \label{eq:ce}
 \end{equation}
 where $x$ denotes the merged patch vectors. ViBridge-VQA can also be combined with decoder

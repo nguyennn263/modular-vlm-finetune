@@ -1,5 +1,13 @@
 # Paper changelog (ACIIDS 2027, ViBridge-VQA)
 
+## 2026-10-17 — final check of the PDF and the numbers
+
+- Every number re-checked against analysis/*.json (Tables 1-4, §4.3-4.7 derived values, split
+  counts, parameter counts, GMACs, per-category and error-analysis claims): all consistent.
+- Fixed: test F1 within 0.4 (not 0.6) of validation F1 now that k=144 is not in Table 1; bridge
+  renamed f_phi (g is the number of tokens); comma after Eq. 1; Global-only + LoRA (Fig. 2,
+  Table 4) defined as the three-epoch model; error analysis marked as validation; conclusion tense.
+
 ## 2026-10-16 — smoother short sentences
 
 - Re-read the whole paper after the short-sentence rewrite and joined ~40 choppy pairs

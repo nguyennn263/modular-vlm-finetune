@@ -4184,7 +4184,7 @@
     "bridgefull:convabs-s42": {
       "account": "acc8",
       "kernel": "lelynhan/mvlm-bridgefull-convabs-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-17T22:13:23",
       "collected": false,
       "bridge": "conv_abstractor",
@@ -4197,7 +4197,7 @@
     "bridgefull:poolmean-s42": {
       "account": "acc13",
       "kernel": "avanrager/mvlm-bridgefull-poolmean-s42",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-17T22:13:27",
       "collected": false,
       "bridge": "patch_pool_mean",
@@ -4274,6 +4274,27 @@
       "status": "running",
       "pushed_at": "2026-10-17T23:12:42",
       "chain": "xb-ppm-s3407",
+      "phase": 0
+    },
+    "bridgefull:g0k36-notrain-r2": {
+      "account": "acc18",
+      "kernel": "bellahaii/mvlm-bridgefull-g0k36-notrain-r2",
+      "status": "running",
+      "pushed_at": "2026-10-18T01:59:13",
+      "collected": false,
+      "bridge": "global_local",
+      "ckpt": null,
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "xb-cab-s3407r2:train": {
+      "account": "acc11",
+      "kernel": "chalicetrncthnh/mvlm-xb-cab-s3407r2-train",
+      "status": "running",
+      "pushed_at": "2026-10-18T02:02:32",
+      "chain": "xb-cab-s3407r2",
       "phase": 0
     }
   }

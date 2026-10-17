@@ -4279,7 +4279,7 @@
     "bridgefull:g0k36-notrain-r2": {
       "account": "acc18",
       "kernel": "bellahaii/mvlm-bridgefull-g0k36-notrain-r2",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-18T01:59:13",
       "collected": false,
       "bridge": "global_local",

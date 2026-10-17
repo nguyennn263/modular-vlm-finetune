@@ -53,6 +53,9 @@
 \newif\ifshowtodo \showtodofalse
 \newcommand{\todo}[1]{\ifshowtodo\textcolor{red}{[TODO: #1]}\fi}
 \newcommand{\dF}{$\Delta$F1}
+% \prov{x}: PROVISIONAL value (old first-tile eval, or xx.xx for a run still going), printed as plain
+% text; replace every \prov when the 2026-10-17 jobs land (plans/ablations-2026-10-17.md; grep \prov).
+\newcommand{\prov}[1]{#1}
 % mean with a small std: \pms{50.74}{0.17}
 \newcommand{\pms}[2]{#1\,{\scriptsize$\pm$#2}}
 % corresponding-author envelope, as in the ACIIDS 2026 paper

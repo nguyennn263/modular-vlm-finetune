@@ -98,7 +98,7 @@ Results are stable across seeds: on test, the std is at most 0.19 for F1 and 0.9
 \begin{table}[!tb]
 \centering
 \caption{Comparison of visual-token sources on the validation set (mean $\pm$ std over three
-seeds, four for Multi-Token). Params: trained bridge parameters. Best results per block are in
+seeds, four for Multi-Token; $^\dagger$one run). Params: trained bridge parameters. Best results per block are in
 bold. All values $\times100$.}
 \label{tab:bridges}
 \footnotesize
@@ -114,6 +114,9 @@ Visual tokens from & Tokens & Params & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
 \quad Tile-Attention & 8 & 4.14M & \pms{45.14}{.92} & \pms{12.34}{.32} & \pms{43.28}{.95} & \pms{36.11}{.73} & \pms{84.14}{1.40} \\
 \quad Light Q-Former & 8 & 27.6M & \pms{47.06}{.66} & \pms{13.99}{.33} & \pms{45.37}{.63} & \pms{37.57}{.60} & \pms{88.07}{1.89} \\
 \quad Full Q-Former & 16 & 69.4M & \pms{46.84}{.47} & \pms{13.76}{.36} & \pms{45.10}{.41} & \pms{37.43}{.34} & \pms{87.74}{1.24} \\
+\quad C-Abstractor$^\dagger$ & 9 & 19.87M & \prov{48.87} & \prov{15.49} & \prov{47.16} & \prov{39.85} & \prov{95.62} \\
+\quad Patch-pool$^\dagger$ & 8 & 0.92M & \prov{38.80} & \prov{9.74} & \prov{36.89} & \prov{29.45} & \prov{68.76} \\
+\quad Local tokens only, untrained$^\dagger$ & 36 & 0 & \prov{xx.xx} & \prov{xx.xx} & \prov{xx.xx} & \prov{xx.xx} & \prov{xx.xx} \\
 \quad ViBridge-VQA ($k$=36) & 50 & 12.86M & \pms{\textbf{54.96}}{.28} & \pms{\textbf{18.73}}{.23} & \pms{\textbf{53.10}}{.27} & \pms{\textbf{46.01}}{.42} & \pms{\textbf{113.29}}{1.01} \\
 \midrule
 \multicolumn{8}{l}{\emph{+ decoder LoRA (one joint epoch, 2.16M parameters)}} \\
@@ -122,6 +125,7 @@ Visual tokens from & Tokens & Params & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
 \quad Tile-Attention & 8 & 4.14M & \pms{52.80}{.06} & \pms{19.27}{.16} & \pms{51.16}{.06} & \pms{43.41}{.05} & \pms{104.81}{.14} \\
 \quad Light Q-Former & 8 & 27.6M & \pms{53.21}{.14} & \pms{19.92}{.31} & \pms{51.54}{.13} & \pms{43.77}{.19} & \pms{106.26}{.73} \\
 \quad Full Q-Former & 16 & 69.4M & \pms{53.29}{.29} & \pms{19.57}{.25} & \pms{51.62}{.30} & \pms{43.96}{.21} & \pms{106.50}{1.04} \\
+\quad Local tokens only & 36 & 0 & \prov{\pms{xx.xx}{.xx}} & \prov{\pms{xx.xx}{.xx}} & \prov{\pms{xx.xx}{.xx}} & \prov{\pms{xx.xx}{.xx}} & \prov{\pms{xx.xx}{.xx}} \\
 \quad ViBridge-VQA ($k$=36) & 50 & 12.86M & \pms{\textbf{58.21}}{.16} & \pms{\textbf{22.27}}{.17} & \pms{\textbf{56.42}}{.14} & \pms{\textbf{49.55}}{.06} & \pms{\textbf{124.88}}{.75} \\
 \bottomrule
 \end{tabular}}
@@ -129,17 +133,20 @@ Visual tokens from & Tokens & Params & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
 
 Table~\ref{tab:bridges} compares three sources of visual tokens. Two bridges read the
 \texttt{[CLS]} vector: \emph{Residual} maps it to one token with a linear layer plus a residual
-MLP, and \emph{Multi-Token} is the bridge of Eq.~\eqref{eq:bridge} with $g=8$. Three bridges
-learn to compress the 577 encoder tokens. \emph{Tile-Attention} projects them linearly, refines
+MLP, and \emph{Multi-Token} is the bridge of Eq.~\eqref{eq:bridge} with $g=8$. Five bridges learn to compress the 577 encoder tokens. \emph{Tile-Attention} projects them linearly, refines
 them with one self-attention layer and reads them with eight learned queries. The light
 Q-Former~\cite{li2023blip2} refines seven learned queries with two transformer layers that attend
 to the projected tokens, and adds one token from their mean. The full Q-Former uses 15 queries
-and four layers that also attend to the question. All bridges are randomly initialised and
-trained with the same recipe. The third source is our local tokens from the pre-trained
-projector.
+and four layers that also attend to the question. C-Abstractor~\cite{cha2024honeybee} applies two
+residual convolution blocks, pools the token grid to $3\times3$ and applies two more blocks. It
+uses 9 tokens, far fewer than the 144 or more of Honeybee. \emph{Patch-pool} projects each token
+linearly and averages consecutive tokens into eight. All bridges are randomly initialised and
+trained with the same recipe. The third source is our local tokens from the pre-trained projector, used alone ($g=0$) or with
+global tokens (ViBridge-VQA).
 
-\paragraph{Reusing the projector works best.} Without LoRA, the learned compressions stay
-3.7--5.6 F1 below Multi-Token, despite up to $9.4\times$ more parameters. In contrast, adding 36 or
+\paragraph{Reusing the projector works best.} Without LoRA, the learned compressions stay \prov{1.9}--\prov{11.9} F1 below Multi-Token, despite up to
+$9.4\times$ more parameters. Patch-pool also averages encoder tokens, but through a newly learned
+projection, and reaches only \prov{38.80} F1. In contrast, adding 36 or
 144 local tokens to Multi-Token ($g=8$) raises F1 by 3.58 and 5.41 (Table~\ref{tab:budget}). We
 also tried to distil the projector into Global-only. A cosine loss between the mean tokens of the bridge and of the projector gives 50.35 F1, and a KL
 loss between the answer distributions obtained with each gives 50.46. Neither reaches the 50.74
@@ -148,7 +155,9 @@ obtained without distillation.
 \paragraph{Local tokens and LoRA are complementary.} With a one-epoch decoder LoRA, all bridges
 without local tokens reach 52.69--53.47 F1, below ViBridge-VQA with a frozen decoder (54.96).
 Trained for three epochs, Global-only + LoRA reaches 54.78, on par with it. The same one-epoch
-LoRA adds 3.25 F1 to ViBridge-VQA, more than the 2.73 it adds to Multi-Token.
+LoRA adds 3.25 F1 to ViBridge-VQA, more than the 2.73 it adds to Multi-Token. Without global
+tokens ($g=0$), the local tokens give \prov{xx.xx} F1 with nothing trained and \prov{xx.xx} with the
+same LoRA, against 58.21 with the 14 global tokens.
 
 \subsection{Visual Token Budget}
 \label{sec:budget-results}

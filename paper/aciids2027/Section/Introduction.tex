@@ -23,9 +23,8 @@ limited Vietnamese data.
 Vintern-1B offers a third option. Its projector is already pre-trained to map image regions into
 the input space of the decoder, so this alignment need not be learned again. The model also
 discards the global \texttt{[CLS]} vector of its encoder, which summarises the whole scene. We
-therefore ask two questions. With limited labelled data, is reusing the pre-trained alignment more
-effective than learning a new connector? And how many global and local tokens does the frozen
-decoder need?
+therefore ask whether, with limited labelled data, reusing this alignment beats learning a new
+connector, and how many global and local tokens the frozen decoder needs.
 
 We propose \textbf{ViBridge-VQA}, which feeds the frozen decoder of Vintern-1B two complementary
 kinds of visual tokens from a single image view. \emph{Local} tokens reuse the frozen projector,

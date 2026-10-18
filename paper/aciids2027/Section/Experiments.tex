@@ -13,8 +13,8 @@ question has five short free-form answers and a reasoning type. After removing 2
 question-level one, which raises the F1 of Global-only by about 0.5 points.
 
 \paragraph{Metrics.}
-Following AutoViVQA and ViMoE-VQA, we report Accuracy, word-level Precision, Recall and F1,
-BLEU~\cite{papineni2002bleu}, ROUGE-L~\cite{lin2004rouge}, METEOR~\cite{banerjee2005meteor} and
+Following AutoViVQA and ViMoE-VQA, we report Accuracy (Acc), word-level Precision (Prec), Recall (Rec) and F1,
+BLEU~\cite{papineni2002bleu}, ROUGE-L (R-L)~\cite{lin2004rouge}, METEOR (MET)~\cite{banerjee2005meteor} and
 CIDEr~\cite{vedantam2015cider} against the five references. Precision, Recall and F1 compare the
 word sets of the answer and of the reference with the highest F1, and are averaged over questions.
 Accuracy is the share of answers identical to a reference, ignoring case; BLEU is corpus-level BLEU-4 on
@@ -37,7 +37,7 @@ $\pm$ std.
 Table~\ref{tab:main} compares with two groups of models: (1) fine-tuned on AutoViVQA:
 ViT5\_ViT, BARTPhoBEiT~\cite{tran2023bartphobeitpretrainedsequencetosequenceimage}, Vintern-1B and
 ViMoE-VQA~\cite{vimoevqa}, and (2) zero-shot: Vintern-1B, LLaMA~3.2, Gemini~2.0 and 2.5
-Flash, and GPT-5. Their results are taken from the AutoViVQA and ViMoE-VQA papers. The fine-tuned
+Flash, and GPT-5. The fine-tuned
 Vintern-1B follows the official recipe: six $448\times448$ tiles plus a thumbnail per test image
 and a rank-16 LoRA on the language model for one epoch. The analysis also uses
 \emph{Global-only}, the bridge of Eq.~\eqref{eq:bridge} with $g=8$ and no local tokens, with and
@@ -53,33 +53,30 @@ without a decoder LoRA. Our models are \emph{ViBridge-VQA ($k$=36)}, with $g=14$
 ViMoE-VQA~\cite{vimoevqa}; ours are mean $\pm$ std over three seeds on the image-disjoint test
 split. Best per column in bold. All values $\times100$.}
 \label{tab:main}
-\scriptsize
-\setlength{\tabcolsep}{1.85pt}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{llrrrrrrrr}
+\footnotesize
+\setlength{\tabcolsep}{2pt}
+\begin{tabular}{lrrrrrrrr}
 \toprule
-& Model & Accuracy & Precision & Recall & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
+Model & Acc & Prec & Rec & F1 & BLEU & R-L & MET & CIDEr \\
 \midrule
-\multirow{4}{*}{\shortstack[l]{Fine-\\tuned}}
- & ViT5\_ViT & 7.97 & 46.84 & 50.33 & 48.52 & 4.13 & 46.89 & 31.02 & 72.68 \\
- & BARTPhoBEiT & 8.81 & 45.30 & 46.48 & 45.88 & 4.33 & 44.83 & 24.57 & \textbf{188.96} \\
- & Vintern-1B & 13.01 & 52.47 & 55.12 & 53.76 & 6.11 & 51.93 & 35.25 & 72.84 \\
- & ViMoE-VQA & 9.55 & \textbf{62.89} & 58.60 & \textbf{60.69} & 12.54 & 47.12 & 39.10 & 88.76 \\
+\multicolumn{9}{l}{\emph{Fine-tuned}} \\
+\quad ViT5\_ViT & 7.97 & 46.84 & 50.33 & 48.52 & 4.13 & 46.89 & 31.02 & 72.68 \\
+\quad BARTPhoBEiT & 8.81 & 45.30 & 46.48 & 45.88 & 4.33 & 44.83 & 24.57 & \textbf{188.96} \\
+\quad Vintern-1B & 13.01 & 52.47 & 55.12 & 53.76 & 6.11 & 51.93 & 35.25 & 72.84 \\
+\quad ViMoE-VQA & 9.55 & \textbf{62.89} & 58.60 & \textbf{60.69} & 12.54 & 47.12 & 39.10 & 88.76 \\
 \midrule
-\multirow{5}{*}{\shortstack[l]{Zero-\\shot}}
- & Vintern-1B & 0.12 & 17.52 & 19.87 & 17.55 & 1.91 & 25.84 & 23.93 & 8.54 \\
- & LLaMA 3.2 & 0.36 & 23.96 & 73.71 & 36.16 & 3.62 & 36.11 & 30.01 & 62.84 \\
- & Gemini 2.0 F. & 0.55 & 27.20 & 74.10 & 39.79 & 4.41 & 39.60 & 31.72 & 74.42 \\
- & Gemini 2.5 F. & 0.22 & 24.43 & \textbf{76.66} & 24.75 & 0.39 & 37.27 & 31.22 & 71.90 \\
- & GPT-5 & 10.84 & 47.20 & 55.20 & 50.89 & 6.07 & 47.30 & 33.34 & 84.20 \\
+\multicolumn{9}{l}{\emph{Zero-shot}} \\
+\quad Vintern-1B & 0.12 & 17.52 & 19.87 & 17.55 & 1.91 & 25.84 & 23.93 & 8.54 \\
+\quad LLaMA 3.2 & 0.36 & 23.96 & 73.71 & 36.16 & 3.62 & 36.11 & 30.01 & 62.84 \\
+\quad Gemini 2.0 F. & 0.55 & 27.20 & 74.10 & 39.79 & 4.41 & 39.60 & 31.72 & 74.42 \\
+\quad Gemini 2.5 F. & 0.22 & 24.43 & \textbf{76.66} & 24.75 & 0.39 & 37.27 & 31.22 & 71.90 \\
+\quad GPT-5 & 10.84 & 47.20 & 55.20 & 50.89 & 6.07 & 47.30 & 33.34 & 84.20 \\
 \midrule
-\multirow{4}{*}{Ours}
- & ViBridge-VQA ($k$=36) & 11.75 & 55.36 & 56.56 & 54.56 & 18.52 & 52.64 & 45.53 & 110.58 \\
- & & {\tiny $\pm$0.21} & {\tiny $\pm$0.21} & {\tiny $\pm$0.21} & {\tiny $\pm$0.19} & {\tiny $\pm$0.18} & {\tiny $\pm$0.19} & {\tiny $\pm$0.33} & {\tiny $\pm$0.95} \\[1pt]
-   & ViBridge-VQA ($k$=36) + LoRA & \textbf{14.67} & 59.02 & 59.96 & 58.17 & \textbf{22.53} & \textbf{56.25} & \textbf{49.32} & 122.88 \\
- & & {\tiny $\pm$0.30} & {\tiny $\pm$0.12} & {\tiny $\pm$0.33} & {\tiny $\pm$0.19} & {\tiny $\pm$0.11} & {\tiny $\pm$0.22} & {\tiny $\pm$0.37} & {\tiny $\pm$0.93} \\
+\multicolumn{9}{l}{\emph{Ours} ($g=14$, $k=36$)} \\
+\quad ViBridge-VQA & \pms{11.75}{.21} & \pms{55.36}{.21} & \pms{56.56}{.21} & \pms{54.56}{.19} & \pms{18.52}{.18} & \pms{52.64}{.19} & \pms{45.53}{.33} & \pms{110.58}{.95} \\
+\quad ViBridge-VQA + LoRA & \pms{\textbf{14.67}}{.30} & \pms{59.02}{.12} & \pms{59.96}{.33} & \pms{58.17}{.19} & \pms{\textbf{22.53}}{.11} & \pms{\textbf{56.25}}{.22} & \pms{\textbf{49.32}}{.37} & \pms{122.88}{.93} \\
 \bottomrule
-\end{tabular}}
+\end{tabular}
 \end{table}
 
 \paragraph{ViBridge-VQA is on par with the fine-tuned Vintern-1B.}
@@ -100,27 +97,26 @@ of validation F1.
 
 \begin{table}[!tb]
 \centering
-\caption{Sources of visual tokens with a frozen decoder, on validation. Params: trained
-parameters. Best trained model in bold. All values $\times100$.}
+\caption{Sources of visual tokens with a frozen decoder, on validation. Below each name: number
+of visual tokens and trained parameters. Best trained model in bold. All values $\times100$.}
 \label{tab:bridges}
-\scriptsize
-\setlength{\tabcolsep}{1.8pt}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{lrrrrrrrrrr}
+\footnotesize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{lrrrrrrrr}
 \toprule
-Visual tokens from & Tokens & Params & Accuracy & Precision & Recall & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
+Source & Acc & Prec & Rec & F1 & BLEU & R-L & MET & CIDEr \\
 \midrule
-Residual & 1 & 4.86M & \pms{5.63}{.59} & \pms{46.31}{.34} & \pms{48.79}{.33} & \pms{46.02}{.36} & \pms{12.98}{.15} & \pms{44.23}{.38} & \pms{36.86}{.31} & \pms{86.48}{.77} \\
-Global-only & 8 & 7.35M & \pms{9.21}{.05} & \pms{51.54}{.15} & \pms{52.48}{.21} & \pms{50.74}{.17} & \pms{16.88}{.23} & \pms{49.03}{.12} & \pms{41.38}{.21} & \pms{99.07}{.47} \\
-Tile-Attention & 8 & 4.14M & \pms{4.99}{1.10} & \pms{45.49}{1.10} & \pms{48.05}{.60} & \pms{45.14}{.92} & \pms{12.34}{.32} & \pms{43.28}{.95} & \pms{36.11}{.73} & \pms{84.14}{1.40} \\
-Light Q-Former & 8 & 27.6M & \pms{6.94}{.32} & \pms{47.74}{.80} & \pms{49.18}{.51} & \pms{47.06}{.66} & \pms{13.99}{.33} & \pms{45.37}{.63} & \pms{37.57}{.60} & \pms{88.07}{1.89} \\
-Full Q-Former & 16 & 69.4M & \pms{6.97}{.33} & \pms{47.42}{.70} & \pms{49.02}{.35} & \pms{46.84}{.47} & \pms{13.76}{.36} & \pms{45.10}{.41} & \pms{37.43}{.34} & \pms{87.74}{1.24} \\
-C-Abstractor & 9 & 19.87M & \pms{8.04}{.07} & \pms{49.41}{.32} & \pms{50.93}{.32} & \pms{48.86}{.33} & \pms{15.27}{.13} & \pms{47.17}{.33} & \pms{39.60}{.33} & \pms{94.05}{1.32} \\
-Patch-pool & 8 & 0.92M & \pms{5.58}{.27} & \pms{46.11}{.39} & \pms{48.52}{.49} & \pms{45.78}{.44} & \pms{12.71}{.49} & \pms{43.99}{.47} & \pms{36.69}{.46} & \pms{85.83}{1.43} \\
-Local tokens only, untrained & 36 & 0 & 0.00 & 18.07 & 68.17 & 27.55 & 2.47 & 20.82 & 34.50 & 67.20 \\
-\textbf{ViBridge-VQA} ($k$=36) & 50 & 12.86M & \pms{\textbf{12.38}}{.22} & \pms{\textbf{55.86}}{.21} & \pms{\textbf{56.72}}{.33} & \pms{\textbf{54.96}}{.28} & \pms{\textbf{18.73}}{.23} & \pms{\textbf{53.10}}{.27} & \pms{\textbf{46.01}}{.42} & \pms{\textbf{113.29}}{1.01} \\
+\mname{Residual}{1 token, 4.86M} & \pms{5.63}{.59} & \pms{46.31}{.34} & \pms{48.79}{.33} & \pms{46.02}{.36} & \pms{12.98}{.15} & \pms{44.23}{.38} & \pms{36.86}{.31} & \pms{86.48}{.77} \\
+\mname{Global-only}{8 tokens, 7.35M} & \pms{9.21}{.05} & \pms{51.54}{.15} & \pms{52.48}{.21} & \pms{50.74}{.17} & \pms{16.88}{.23} & \pms{49.03}{.12} & \pms{41.38}{.21} & \pms{99.07}{.47} \\
+\mname{Tile-Attention}{8 tokens, 4.14M} & \pms{4.99}{1.10} & \pms{45.49}{1.10} & \pms{48.05}{.60} & \pms{45.14}{.92} & \pms{12.34}{.32} & \pms{43.28}{.95} & \pms{36.11}{.73} & \pms{84.14}{1.40} \\
+\mname{Light Q-Former}{8 tokens, 27.6M} & \pms{6.94}{.32} & \pms{47.74}{.80} & \pms{49.18}{.51} & \pms{47.06}{.66} & \pms{13.99}{.33} & \pms{45.37}{.63} & \pms{37.57}{.60} & \pms{88.07}{1.89} \\
+\mname{Full Q-Former}{16 tokens, 69.4M} & \pms{6.97}{.33} & \pms{47.42}{.70} & \pms{49.02}{.35} & \pms{46.84}{.47} & \pms{13.76}{.36} & \pms{45.10}{.41} & \pms{37.43}{.34} & \pms{87.74}{1.24} \\
+\mname{C-Abstractor}{9 tokens, 19.87M} & \pms{8.04}{.07} & \pms{49.41}{.32} & \pms{50.93}{.32} & \pms{48.86}{.33} & \pms{15.27}{.13} & \pms{47.17}{.33} & \pms{39.60}{.33} & \pms{94.05}{1.32} \\
+\mname{Patch-pool}{8 tokens, 0.92M} & \pms{5.58}{.27} & \pms{46.11}{.39} & \pms{48.52}{.49} & \pms{45.78}{.44} & \pms{12.71}{.49} & \pms{43.99}{.47} & \pms{36.69}{.46} & \pms{85.83}{1.43} \\
+\mname{Local only, untrained}{36 tokens, no parameters} & 0.00 & 18.07 & 68.17 & 27.55 & 2.47 & 20.82 & 34.50 & 67.20 \\
+\mname{\textbf{ViBridge-VQA}}{50 tokens, 12.86M} & \pms{\textbf{12.38}}{.22} & \pms{\textbf{55.86}}{.21} & \pms{\textbf{56.72}}{.33} & \pms{\textbf{54.96}}{.28} & \pms{\textbf{18.73}}{.23} & \pms{\textbf{53.10}}{.27} & \pms{\textbf{46.01}}{.42} & \pms{\textbf{113.29}}{1.01} \\
 \bottomrule
-\end{tabular}}
+\end{tabular}
 \end{table}
 
 Table~\ref{tab:bridges} compares three sources of visual tokens. \emph{Residual} (one token) and
@@ -131,7 +127,7 @@ the full one also reads the question), C-Abstractor~\cite{cha2024honeybee} (conv
 around a $3\times3$ pooling, 9 tokens instead of the 144 or more of Honeybee) and
 \emph{Patch-pool} (a linear projection averaged into eight bands). All are randomly initialised, as
 a new connector would be for a low-resource task, and trained with the same recipe. The third
-source is our local tokens, alone or with global tokens (ViBridge-VQA).
+source is our local tokens.
 
 \paragraph{Learned compressors fall short.}
 The five learned compressors stay 1.9--5.6 F1 below Global-only, despite up to $9.4\times$ more
@@ -146,9 +142,8 @@ similar number of tokens, the projector wins with fewer trained parameters: 17 t
 $k=9$) give 52.82 F1 against 46.84 for the 16-token full Q-Former, and 9 tokens ($g=8$, $k=1$) give
 51.03 against 48.86 for the 9-token C-Abstractor. Pooling alone is not the reason: Patch-pool
 averages the encoder tokens after a newly learned projection and reaches only 45.78 F1.
-Distilling the projector into Global-only does not help: a cosine loss between the mean tokens of
-the bridge and of the projector gives 50.35 F1, and a KL loss between their answer distributions
-50.46, both below the 50.74 obtained without distillation. Without any trained part, the 36 local
+Distilling the projector into Global-only does not help either: 50.35 F1 with a cosine loss on the
+mean tokens and 50.46 with a KL loss on the answers, against 50.74 without distillation. Without any trained part, the 36 local
 tokens give only 27.55 F1, as the frozen model answers in long sentences (24.8 words on average).
 
 \subsection{Token Budget}
@@ -159,12 +154,11 @@ tokens give only 27.55 F1, as the frozen model answers in long sentences (24.8 w
 \caption{Effect of the token budget, on validation. Time: minutes to generate all validation
 answers on one T4. Selected budget in bold. All values $\times100$.}
 \label{tab:budget}
-\scriptsize
-\setlength{\tabcolsep}{1.8pt}
-\resizebox{\textwidth}{!}{%
+\footnotesize
+\setlength{\tabcolsep}{2.5pt}
 \begin{tabular}{rrrrrrrrrrrr}
 \toprule
-$g$ & $k$ & Tokens & Time & Accuracy & Precision & Recall & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
+$g$ & $k$ & Tokens & Time & Acc & Prec & Rec & F1 & BLEU & R-L & MET & CIDEr \\
 \midrule
 8 & 0 & 8 & 33.9 & \pms{9.21}{.05} & \pms{51.54}{.15} & \pms{52.48}{.21} & \pms{50.74}{.17} & \pms{16.88}{.23} & \pms{49.03}{.12} & \pms{41.38}{.21} & \pms{99.07}{.47} \\
 14 & 0 & 14 & 37.2 & \pms{9.74}{.21} & \pms{52.47}{.11} & \pms{53.16}{.14} & \pms{51.56}{.08} & \pms{17.76}{.01} & \pms{49.86}{.05} & \pms{42.14}{.17} & \pms{101.18}{.52} \\
@@ -179,7 +173,7 @@ $g$ & $k$ & Tokens & Time & Accuracy & Precision & Recall & F1 & BLEU & ROUGE-L 
 \textbf{14} & \textbf{36} & \textbf{50} & \textbf{35.8} & \pms{\textbf{12.38}}{.22} & \pms{\textbf{55.86}}{.21} & \pms{\textbf{56.72}}{.33} & \pms{\textbf{54.96}}{.28} & \pms{\textbf{18.73}}{.23} & \pms{\textbf{53.10}}{.27} & \pms{\textbf{46.01}}{.42} & \pms{\textbf{113.29}}{1.01} \\
 14 & 144 & 158 & 41.1 & \pms{14.19}{.36} & \pms{57.36}{.07} & \pms{58.58}{.03} & \pms{56.61}{.04} & \pms{20.18}{.13} & \pms{54.70}{.05} & \pms{48.00}{.05} & \pms{120.71}{.12} \\
 \bottomrule
-\end{tabular}}
+\end{tabular}
 \end{table}
 
 \begin{figure}[!tb]
@@ -198,8 +192,7 @@ At $g=14$, going from 1 to 144 local tokens adds 4.94 F1 and 19.05 CIDEr, wherea
 50 tokens) to 0.015 F1 (50 to 158 tokens).
 
 \paragraph{The knee is $g=14$, $k=36$.}
-Since F1 grows with every added token, all configurations with local tokens lie on the
-accuracy--token Pareto front. Its knee (Section~\ref{sec:budget}, Fig.~\ref{fig:results}b) is
+The knee of the Pareto front (Section~\ref{sec:budget}, Fig.~\ref{fig:results}b) is
 $g=14$, $k=36$ for every metric, and also with generation time as the cost; TOPSIS and a post-hoc
 knee on test agree. $k=144$ is 1.65 F1 higher, but $k=36$ obtains 72\% of its gain over
 Global-only (67\% over the 14-token bridge of Table~\ref{tab:gsweep}) with 32\% of its tokens.
@@ -209,12 +202,11 @@ Global-only (67\% over the 14-token bridge of Table~\ref{tab:gsweep}) with 32\% 
 \caption{Global-only with $g$ tokens, on validation. Selected $g$ in bold. All values
 $\times100$.}
 \label{tab:gsweep}
-\scriptsize
-\setlength{\tabcolsep}{1.8pt}
-\resizebox{\textwidth}{!}{%
+\footnotesize
+\setlength{\tabcolsep}{2.5pt}
 \begin{tabular}{rrrrrrrrr}
 \toprule
-$g$ & Accuracy & Precision & Recall & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
+$g$ & Acc & Prec & Rec & F1 & BLEU & R-L & MET & CIDEr \\
 \midrule
 4 & \pms{7.77}{.27} & \pms{49.57}{.48} & \pms{51.07}{.57} & \pms{48.98}{.52} & \pms{15.17}{.48} & \pms{47.23}{.58} & \pms{39.50}{.59} & \pms{93.56}{1.42} \\
 6 & \pms{8.38}{.39} & \pms{50.34}{.53} & \pms{51.43}{.43} & \pms{49.58}{.47} & \pms{15.67}{.29} & \pms{47.91}{.48} & \pms{40.09}{.50} & \pms{95.51}{1.59} \\
@@ -225,14 +217,13 @@ $g$ & Accuracy & Precision & Recall & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
 16 & \pms{9.44}{.37} & \pms{51.99}{.58} & \pms{52.91}{.22} & \pms{51.20}{.39} & \pms{17.29}{.63} & \pms{49.53}{.36} & \pms{41.88}{.31} & \pms{100.29}{.95} \\
 18 & \pms{9.45}{.45} & \pms{52.13}{.72} & \pms{52.88}{.69} & \pms{51.26}{.73} & \pms{17.41}{.54} & \pms{49.56}{.68} & \pms{41.81}{.69} & \pms{100.46}{2.02} \\
 \bottomrule
-\end{tabular}}
+\end{tabular}
 \end{table}
 
 \paragraph{Global tokens peak at $g=14$.}
 Table~\ref{tab:gsweep} and Fig.~\ref{fig:results}a vary $g$ from 4 to 18 for Global-only.
 Validation F1 rises from 48.98 ($g=4$) to 50.74 ($g=8$) and 51.56 ($g=14$), then falls to 51.20
-and 51.26 at $g=16$ and 18, and CIDEr follows the same trend. We therefore combine the local tokens
-with $g=14$, and keep $g=8$ as the Global-only reference.
+and 51.26 at $g=16$ and 18; CIDEr follows the same trend.
 
 \paragraph{Fewer visual tokens, one encoder pass.}
 Compared with the official tiling, ViBridge-VQA reduces the visual tokens at the decoder input
@@ -248,12 +239,11 @@ $k=144$ makes generation about 15\% slower than $k=36$.
 \caption{Effect of a rank-16 decoder LoRA (2.16M parameters, one joint epoch), on test. Bridge
 parameters: 7.35M for Global-only, 12.86M for ViBridge-VQA. Best in bold. All values $\times100$.}
 \label{tab:lora}
-\scriptsize
-\setlength{\tabcolsep}{1.8pt}
-\resizebox{\textwidth}{!}{%
+\footnotesize
+\setlength{\tabcolsep}{1.7pt}
 \begin{tabular}{lrrrrrrrr}
 \toprule
-Model & Accuracy & Precision & Recall & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
+Model & Acc & Prec & Rec & F1 & BLEU & R-L & MET & CIDEr \\
 \midrule
 Global-only & \pms{8.86}{.37} & \pms{51.19}{.20} & \pms{52.37}{.21} & \pms{50.48}{.22} & \pms{16.24}{.43} & \pms{48.70}{.19} & \pms{41.10}{.29} & \pms{96.20}{1.10} \\
 Global-only + LoRA & \pms{10.47}{.22} & \pms{53.95}{.04} & \pms{54.72}{.07} & \pms{53.10}{.05} & \pms{19.00}{.16} & \pms{51.29}{.08} & \pms{43.63}{.16} & \pms{104.44}{.45} \\
@@ -261,7 +251,7 @@ Global-only + LoRA & \pms{10.47}{.22} & \pms{53.95}{.04} & \pms{54.72}{.07} & \p
 ViBridge-VQA & \pms{11.75}{.21} & \pms{55.36}{.21} & \pms{56.56}{.21} & \pms{54.56}{.19} & \pms{18.52}{.18} & \pms{52.64}{.19} & \pms{45.53}{.33} & \pms{110.58}{.95} \\
 \textbf{ViBridge-VQA + LoRA} & \pms{\textbf{14.67}}{.30} & \pms{\textbf{59.02}}{.12} & \pms{\textbf{59.96}}{.33} & \pms{\textbf{58.17}}{.19} & \pms{\textbf{22.53}}{.11} & \pms{\textbf{56.25}}{.22} & \pms{\textbf{49.32}}{.37} & \pms{\textbf{122.88}}{.93} \\
 \bottomrule
-\end{tabular}}
+\end{tabular}
 \end{table}
 
 \paragraph{LoRA gains more with local tokens.}
@@ -284,7 +274,7 @@ ViBridge-VQA over Global-only (right column).}
 \end{figure}
 
 \paragraph{Local tokens help most on visible content.}
-Fig.~\ref{fig:types} breaks down validation F1 by reasoning type. ViBridge-VQA adds 11.0 F1 over
+In Fig.~\ref{fig:types}, ViBridge-VQA adds 11.0 F1 over
 Global-only on recognition, 6.4 on action and 5.8 on spatial questions, and beats Global-only +
 LoRA on these types without adapting the decoder. Decoder adaptation helps more on causal and
 relational questions, which have the longest reference answers (5.0 and 5.6 words), and on the 66 yes/no
@@ -319,12 +309,11 @@ using \emph{the phone}, and the helmets are worn \emph{to protect their heads}.
 \caption{Cross-dataset results (mean $\pm$ std over three samples of about 1{,}000 test
 questions, 510 for ViVQA; one training seed). Best per dataset in bold. All values $\times100$.}
 \label{tab:ood}
-\scriptsize
+\footnotesize
 \setlength{\tabcolsep}{1.6pt}
-\resizebox{\textwidth}{!}{%
 \begin{tabular}{lrrrrrrrr}
 \toprule
-Model & Accuracy & Precision & Recall & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
+Model & Acc & Prec & Rec & F1 & BLEU & R-L & MET & CIDEr \\
 \midrule
 \multicolumn{9}{l}{\emph{ViVQA}} \\
 \quad Vintern-1B, zero-shot & \pms{0.00}{.00} & \pms{16.01}{.18} & \pms{\textbf{60.80}}{1.17} & \pms{23.90}{.24} & \pms{0.27}{.02} & \pms{15.78}{.25} & \pms{17.84}{.19} & \pms{78.63}{2.07} \\
@@ -340,11 +329,11 @@ Model & Accuracy & Precision & Recall & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
 \quad \textbf{ViBridge-VQA} & \pms{7.40}{.28} & \pms{20.68}{.16} & \pms{41.32}{.26} & \pms{24.91}{.14} & \pms{\textbf{0.34}}{.12} & \pms{19.38}{.25} & \pms{16.00}{.21} & \pms{79.51}{1.15} \\
 \quad \textbf{ViBridge-VQA} + LoRA & \pms{\textbf{8.11}}{.33} & \pms{\textbf{23.07}}{.18} & \pms{44.57}{.06} & \pms{\textbf{27.64}}{.11} & \pms{0.33}{.05} & \pms{\textbf{21.98}}{.13} & \pms{\textbf{19.24}}{.14} & \pms{\textbf{95.29}}{1.51} \\
 \bottomrule
-\end{tabular}}
+\end{tabular}
 \end{table}
 
 Table~\ref{tab:ood} evaluates the models on ViVQA-X~\cite{vivqax2025} and
 ViVQA~\cite{tran2021vivqa}, two Vietnamese VQA datasets not used for training. Even without LoRA, ViBridge-VQA outperforms Global-only + LoRA and the zero-shot
 Vintern-1B (F1 24.91 versus 15.89 and 14.52 on ViVQA-X; 42.68 versus 31.48 and 23.90 on ViVQA), and
-LoRA raises its F1 to 27.64 and 44.76. Zero-shot Vintern-1B keeps the highest Recall only because it answers in long
-sentences, which also gives it near-zero Accuracy.
+LoRA raises its F1 to 27.64 and 44.76. Zero-shot Vintern-1B keeps the highest Recall only by answering in long sentences,
+hence its near-zero Accuracy.

@@ -13,8 +13,7 @@ As shown in Fig.~\ref{fig:arch}, ViBridge-VQA keeps the three components of Vint
 InternViT-300M vision encoder (24 layers, width 1024), its two-layer MLP projector $P$ and the
 Qwen2.5-0.5B-Instruct decoder (24 layers, width 896). Each image is resized to one
 $336\times336$ view, i.e., $24\times24$ patches of $14\times14$ pixels. InternViT, pre-trained at
-$448\times448$, bicubically interpolates its position embeddings to this resolution, which roughly
-halves the encoder cost (191 instead of 362 GMACs per view). The encoder returns one vector per
+$448\times448$, bicubically interpolates its position embeddings to this resolution. The encoder returns one vector per
 patch and a global \texttt{[CLS]} vector $v\in\mathbb{R}^{1024}$. Vintern-1B uses only the patch
 vectors: pixel shuffle~\cite{chen2024internvl15} merges each $2\times2$ block of patches into one
 4096-dimensional vector, and $P$, pre-trained to align the two backbones, maps it into the decoder
@@ -111,9 +110,8 @@ global content along different learned directions. The bridge has $1025\cdot896\
 parameters (12{,}857{,}600 for $g=14$), and its tokens are placed before the prompt. When the
 bridge alone is varied from 4 to 18 tokens, F1 peaks at $g=14$
 (Section~\ref{sec:budget-results}), the value used in ViBridge-VQA. Our Global-only model keeps
-$g=8$, matching the eight learned queries of the Tile-Attention and light Q-Former bridges it is
-compared with (Section~\ref{sec:rq-source}). Local tokens are combined with both values, and the
-pair $(g,k)$ is selected as in Section~\ref{sec:budget}.
+$g=8$, matching the eight queries of Tile-Attention and the light Q-Former
+(Section~\ref{sec:rq-source}).
 
 \subsection{Local Tokens}
 \label{sec:local}
@@ -138,8 +136,7 @@ decoder stay frozen. We minimise the cross-entropy of the answer tokens:
 where $x$ denotes the merged patch vectors. Optionally, ViBridge-VQA is combined with decoder
 adaptation: a rank-16 LoRA~\cite{hu2022lora} on the query, key, value and output projections of
 every decoder layer, trained jointly with the bridge, adds 2{,}162{,}688 parameters. Percentages of
-trained parameters are relative to all parameters of the model: the frozen Vintern-1B (about
-0.94B, including the encoder, projector, embeddings and output layer) plus the trained modules.
+trained parameters are relative to all model parameters (the frozen 0.94B plus the trained ones).
 With $g=14$, the bridge trains 12.86M parameters (1.35\%), and the bridge with LoRA 15.02M
 (1.57\%).
 

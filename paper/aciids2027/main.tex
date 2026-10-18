@@ -57,7 +57,9 @@
 % text; replace every \prov when the 2026-10-17 jobs land (plans/ablations-2026-10-17.md; grep \prov).
 \newcommand{\prov}[1]{#1}
 % mean with a small std: \pms{50.74}{0.17}
-\newcommand{\pms}[2]{#1\,{\scriptsize$\pm$#2}}
+\newcommand{\pms}[2]{\begin{tabular}[t]{@{}r@{}}#1\\[-4.5pt]{\tiny$\pm$#2}\end{tabular}}
+% row name with a small second line: \mname{Full Q-Former}{16 tokens, 69.4M}
+\newcommand{\mname}[2]{\begin{tabular}[t]{@{}l@{}}#1\\[-4.5pt]{\tiny #2}\end{tabular}}
 % corresponding-author envelope, as in the ACIIDS 2026 paper
 \newcommand{\mygraphic}[1]{\includegraphics[height=#1]{drawing.pdf}}
 \newcommand{\myenv}{(\raisebox{0pt}{\mygraphic{.6em}})}

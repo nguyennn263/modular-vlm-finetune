@@ -10,7 +10,7 @@ question has five short free-form answers and a reasoning type. After removing 2
 (image, question) pairs and 97 questions without a reasoning label, we split the remaining
 36{,}707 questions 70/15/15 by image (seed 42), so no test image is seen in training: 25{,}776 /
 5{,}463 / 5{,}468 questions on 13{,}579 / 2{,}909 / 2{,}910 images. This split is stricter than a
-question-level one, which raises the F1 of Global-only by about 0.5 points.
+question-level one, on which Global-only scores about 0.5 F1 higher.
 
 \paragraph{Metrics.}
 Following AutoViVQA and ViMoE-VQA, we report Accuracy (Acc), word-level Precision (Prec), Recall (Rec) and F1,
@@ -27,7 +27,7 @@ The encoder, projector and decoder come from Vintern-1B-v3.5~\cite{doan2024vinte
 frozen. We train with AdamW (learning rate $2\times10^{-4}$, effective batch size 8) on the first
 reference answer. Bridges are trained for two epochs, after which the validation loss and CIDEr
 stop improving. Models with a decoder LoRA are trained for one epoch, with the bridge (if any) and
-the LoRA learned jointly from scratch; Global-only + LoRA is also reported after three epochs, its
+the LoRA learned jointly from scratch. Global-only + LoRA is also reported after three epochs, its
 best setting, which Table~\ref{tab:ood} and Fig.~\ref{fig:types} use. Decoding is greedy with at
 most 50 new tokens, and every model fits on one 16\,GB NVIDIA T4. Each configuration is trained
 with three seeds (42, 123, 3407), four for Global-only (adding 2026), and tables report mean
@@ -41,8 +41,8 @@ Flash, and GPT-5. The fine-tuned
 Vintern-1B follows the official recipe: six $448\times448$ tiles plus a thumbnail per test image
 and a rank-16 LoRA on the language model for one epoch. The analysis also uses
 \emph{Global-only}, the bridge of Eq.~\eqref{eq:bridge} with $g=8$ and no local tokens, with and
-without a decoder LoRA. Our models are \emph{ViBridge-VQA ($k$=36)}, with $g=14$, and
-\emph{ViBridge-VQA ($k$=36) + LoRA}.
+without a decoder LoRA. Our models are \emph{ViBridge-VQA} ($g=14$, $k=36$) and
+\emph{ViBridge-VQA + LoRA}.
 
 \subsection{Main Results}
 \label{sec:main}
@@ -141,7 +141,7 @@ local tokens to Global-only ($g=8$) raises F1 by 3.58 and 5.41 (Table~\ref{tab:b
 similar number of tokens, the projector wins with fewer trained parameters: 17 tokens ($g=8$,
 $k=9$) give 52.82 F1 against 46.84 for the 16-token full Q-Former, and 9 tokens ($g=8$, $k=1$) give
 51.03 against 48.86 for the 9-token C-Abstractor. Pooling alone is not the reason: Patch-pool
-averages the encoder tokens after a newly learned projection and reaches only 45.78 F1.
+also averages, but after a new projection, and reaches only 45.78 F1.
 Distilling the projector into Global-only does not help either: 50.35 F1 with a cosine loss on the
 mean tokens and 50.46 with a KL loss on the answers, against 50.74 without distillation. Without any trained part, the 36 local
 tokens give only 27.55 F1, as the frozen model answers in long sentences (24.8 words on average).
@@ -257,9 +257,9 @@ ViBridge-VQA & \pms{11.75}{.21} & \pms{55.36}{.21} & \pms{56.56}{.21} & \pms{54.
 \paragraph{LoRA gains more with local tokens.}
 ViBridge-VQA + LoRA is the best model on every metric of Table~\ref{tab:lora} (58.17 F1, 122.88
 CIDEr), and LoRA gains more on ViBridge-VQA than on Global-only for all eight metrics (+3.61 versus
-+2.62 F1, +12.31 versus +8.24 CIDEr). Without local tokens, LoRA lifts Global-only only to 53.10
-F1 (54.52 after three epochs), below ViBridge-VQA with a frozen decoder. With LoRA, Residual, Tile-Attention and the two
-Q-Formers reach only 52.69--53.29 validation F1. With a frozen decoder, the global bridge is essential: it lifts the
++2.62 F1, +12.31 versus +8.24 CIDEr). Without local tokens, LoRA lifts Global-only to 53.10 F1
+(54.52 after three epochs), still below ViBridge-VQA with a frozen decoder (54.56); Residual,
+Tile-Attention and the two Q-Formers with LoRA reach 52.69--53.29 validation F1. With a frozen decoder, the global bridge is essential: it lifts the
 local tokens from 27.55 to 54.96 validation F1.
 
 \subsection{Analysis}
@@ -291,8 +291,8 @@ reference (F1 = 0) from 9.6\% to 8.0\%; with LoRA, these reach 15.7\% and
 \begin{figure}[!tb]
 \centering
 \includegraphics[width=\linewidth]{fig_qualitative}
-\caption{Validation examples. GT: one of the five references; Ours: ViBridge-VQA ($k$=36);
-Ours+LoRA: ViBridge-VQA ($k$=36) + LoRA.}
+\caption{Validation examples. GT: one of the five references; Ours: ViBridge-VQA; Ours+LoRA:
+ViBridge-VQA + LoRA.}
 \label{fig:qual}
 \end{figure}
 

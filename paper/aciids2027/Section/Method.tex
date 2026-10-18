@@ -109,7 +109,7 @@ head gives an \emph{anchor} token, and the second gives $g-1$ complementary toke
 global content along different learned directions. The bridge has $1025\cdot896\cdot g$
 parameters (12{,}857{,}600 for $g=14$), and its tokens are placed before the prompt. When the
 bridge alone is varied from 4 to 18 tokens, F1 peaks at $g=14$
-(Section~\ref{sec:budget-results}), the value used in ViBridge-VQA. Our Global-only model keeps
+(Section~\ref{sec:budget-results}), the value used in ViBridge-VQA. Our Global-only baseline uses
 $g=8$, matching the eight queries of Tile-Attention and the light Q-Former
 (Section~\ref{sec:rq-source}).
 
@@ -146,8 +146,7 @@ With $g=14$, the bridge trains 12.86M parameters (1.35\%), and the bridge with L
 The cost of the decoder grows with the number of visual tokens $g+k$, so we treat the pair $(g,k)$
 as a budget. Among the configurations with local tokens, F1 increases with every added token in our
 experiments, so all of them lie on the accuracy--token Pareto front, which alone does not single
-one out. We
-therefore select its \emph{knee}~\cite{satopaa2011kneedle}, after which additional tokens bring
+one out. We therefore select its \emph{knee}~\cite{satopaa2011kneedle}, after which additional tokens bring
 diminishing returns. With accuracy $a$ the validation F1 and cost $c$ the number of visual tokens,
 both normalised to $[0,1]$ over the front, the knee maximises $\hat a - \hat c$, i.e., it lies
 furthest above the line joining the cheapest and the most accurate configuration. We check the

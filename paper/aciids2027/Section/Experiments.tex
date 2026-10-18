@@ -17,7 +17,7 @@ Following AutoViVQA and ViMoE-VQA, we report Accuracy, word-level Precision, Rec
 BLEU~\cite{papineni2002bleu}, ROUGE-L~\cite{lin2004rouge}, METEOR~\cite{banerjee2005meteor} and
 CIDEr~\cite{vedantam2015cider} against the five references. Precision, Recall and F1 compare the
 word sets of the answer and of the reference with the highest F1, and are averaged over questions.
-Accuracy counts answers identical to a reference, ignoring case; BLEU is corpus-level BLEU-4 on
+Accuracy is the share of answers identical to a reference, ignoring case; BLEU is corpus-level BLEU-4 on
 whitespace tokens.
 
 \subsection{Setup}
@@ -31,8 +31,7 @@ the LoRA learned jointly from scratch; Global-only + LoRA is also reported after
 best setting, which Table~\ref{tab:ood} and Fig.~\ref{fig:types} use. Decoding is greedy with at
 most 50 new tokens, and every model fits on one 16\,GB NVIDIA T4. Each configuration is trained
 with three seeds (42, 123, 3407), four for Global-only (adding 2026), and tables report mean
-$\pm$ std. The token budget is selected on validation; the test split is used only for the final
-report.
+$\pm$ std.
 
 \paragraph{Baselines.}
 Table~\ref{tab:main} compares with two groups of models: (1) fine-tuned on AutoViVQA:
@@ -84,7 +83,7 @@ $\times100$.}
 \end{tabular}}
 \end{table}
 
-\paragraph{ViBridge-VQA matches the fine-tuned Vintern-1B.}
+\paragraph{ViBridge-VQA is on par with the fine-tuned Vintern-1B.}
 Without updating any weight of Vintern-1B, ViBridge-VQA raises its F1 from 17.55 (zero-shot) to
 54.56 (Table~\ref{tab:main}). This is comparable to the fine-tuned Vintern-1B (53.76), even on our
 stricter split, while the decoder reads 50 instead of 1{,}792 visual tokens and only 1.35\% of the
@@ -265,8 +264,8 @@ ViBridge-VQA & \pms{11.75}{.21} & \pms{55.36}{.21} & \pms{56.56}{.21} & \pms{54.
 ViBridge-VQA + LoRA is the best model on every metric of Table~\ref{tab:lora} (58.17 F1, 122.88
 CIDEr), and LoRA gains more on ViBridge-VQA than on Global-only for all eight metrics (+3.61 versus
 +2.62 F1, +12.31 versus +8.24 CIDEr). Without local tokens, LoRA lifts Global-only only to 53.10
-F1 (54.52 after three epochs), below ViBridge-VQA with a frozen decoder, and the other bridges reach
-52.69--53.29 validation F1. With a frozen decoder, the global bridge is essential: it lifts the
+F1 (54.52 after three epochs), below ViBridge-VQA with a frozen decoder. With LoRA, Residual, Tile-Attention and the two
+Q-Formers reach only 52.69--53.29 validation F1. With a frozen decoder, the global bridge is essential: it lifts the
 local tokens from 27.55 to 54.96 validation F1.
 
 \subsection{Analysis}
@@ -284,7 +283,7 @@ ViBridge-VQA over Global-only (right column).}
 Fig.~\ref{fig:types} breaks down validation F1 by reasoning type. ViBridge-VQA adds 11.0 F1 over
 Global-only on recognition, 6.4 on action and 5.8 on spatial questions, and beats Global-only +
 LoRA on these types without adapting the decoder. Decoder adaptation helps more on causal and
-relational questions, which have the longest answers (5.0 and 5.6 words), and on the 66 yes/no
+relational questions, which have the longest reference answers (5.0 and 5.6 words), and on the 66 yes/no
 questions. ViBridge-VQA + LoRA is the best of the four models on seven of the eight types, all but
 yes/no.
 
@@ -344,6 +343,6 @@ Table~\ref{tab:ood} evaluates the models on ViVQA-X~\cite{vivqax2025} and
 ViVQA~\cite{tran2021vivqa}, two Vietnamese VQA datasets on COCO images not used for training.
 About 10\% of the sampled questions concern images of our training split, with different
 questions. Even without LoRA, ViBridge-VQA outperforms Global-only + LoRA and the zero-shot
-Vintern-1B (F1 24.91 versus 14.52 on ViVQA-X, 42.68 versus 23.90 on ViVQA), and LoRA raises its F1
-to 27.64 and 44.76. Zero-shot Vintern-1B keeps the highest Recall only because it answers in long
+Vintern-1B (F1 24.91 versus 15.89 and 14.52 on ViVQA-X; 42.68 versus 31.48 and 23.90 on ViVQA), and
+LoRA raises its F1 to 27.64 and 44.76. Zero-shot Vintern-1B keeps the highest Recall only because it answers in long
 sentences, which also gives it near-zero Accuracy.

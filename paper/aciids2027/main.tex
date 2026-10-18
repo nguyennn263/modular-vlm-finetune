@@ -103,7 +103,7 @@ tokens, produced from the \texttt{[CLS]} vector by a small trainable bridge, and
 tokens from Vintern-1B's own pre-aligned projector, pooled to a budget chosen as the knee of the
 accuracy--cost Pareto front. On the reasoning-oriented AutoViVQA benchmark, ViBridge-VQA trains
 1.35\% of the parameters and reaches 54.6 F1 on a stricter image-disjoint split, comparable to the
-fine-tuned Vintern-1B with 36 times fewer visual tokens. A lightweight decoder LoRA raises F1 to
+fine-tuned Vintern-1B while its decoder reads 36 times fewer visual tokens. A lightweight decoder LoRA raises F1 to
 58.2. Reusing the pre-trained projector beats learning a new connector, and the gain of the local
 tokens carries over to two other Vietnamese VQA datasets.
 

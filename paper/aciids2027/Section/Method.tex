@@ -108,8 +108,8 @@ decoder. A small trainable bridge $f_\phi$ expands it into $g$ tokens with two l
 where $W_a\in\mathbb{R}^{896\times1024}$ and $W_e\in\mathbb{R}^{(g-1)896\times1024}$. The first
 head gives an \emph{anchor} token, and the second gives $g-1$ complementary tokens that present the
 global content along different learned directions. The bridge has $1025\cdot896\cdot g$
-parameters (12{,}857{,}600 for $g=14$), and its tokens are placed before the prompt. Varying the
-bridge alone from 4 to 18 tokens, F1 stops increasing at $g=14$
+parameters (12{,}857{,}600 for $g=14$), and its tokens are placed before the prompt. When the
+bridge alone is varied from 4 to 18 tokens, F1 peaks at $g=14$
 (Section~\ref{sec:budget-results}), the value used in ViBridge-VQA. Our Global-only model keeps
 $g=8$, matching the eight learned queries of the Tile-Attention and light Q-Former bridges it is
 compared with (Section~\ref{sec:rq-source}). Local tokens are combined with both values, and the

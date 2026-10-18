@@ -259,7 +259,15 @@ metrics (+3.61 versus +2.62 F1, +12.31 versus +8.24 CIDEr). Without local tokens
 \subsection{Analysis}
 \label{sec:analysis}
 
-\paragraph{Reasoning types.} We also break down validation F1 by reasoning type. Local tokens help most when the answer is visible in the image: ViBridge-VQA adds 11.0 F1 over
+\begin{figure}[!tb]
+\centering
+\includegraphics[width=\linewidth]{fig_types}
+\caption{Validation F1 by reasoning type (number of questions), sorted by the gain of ViBridge-VQA
+over Global-only (numbers).}
+\label{fig:types}
+\end{figure}
+
+\paragraph{Reasoning types.} Fig.~\ref{fig:types} breaks down validation F1 by reasoning type. Local tokens help most when the answer is visible in the image: ViBridge-VQA adds 11.0 F1 over
 Global-only on recognition, 6.4 on action and 5.8 on spatial questions, and beats Global-only +
 LoRA on these types without adapting the decoder. Decoder adaptation helps more on causal and relational questions, which have the longest
 answers (5.0 and 5.6 words), and on the 66 yes/no questions. ViBridge-VQA ($k$=36) + LoRA is the best of the four models on seven of the eight types,

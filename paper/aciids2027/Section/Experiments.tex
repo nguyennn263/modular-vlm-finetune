@@ -27,8 +27,7 @@ The vision encoder, projector and decoder come from Vintern-1B-v3.5~\cite{doan20
 stay frozen. We train with AdamW (learning rate $2\times10^{-4}$, effective batch size 8) on the
 first reference answer. Bridges are trained for two epochs, after which the validation loss and
 CIDEr stop improving. Models with a decoder LoRA are trained for one epoch, with the bridge, if
-any, and the LoRA learned jointly from scratch. Global-only + LoRA is also reported after three epochs, its best setting, which Fig.~\ref{fig:results}
-and Table~\ref{tab:ood} use.
+any, and the LoRA learned jointly from scratch. Global-only + LoRA is also reported after three epochs, its best setting, which Table~\ref{tab:ood} and the per-type analysis use.
 Decoding is greedy, with at most 50 new tokens, and every model fits on one 16\,GB NVIDIA T4. Each configuration is trained with three seeds (42, 123, 3407), four for Global-only (adding
 2026), and tables report the mean $\pm$ std. The token budget is selected on validation, and the test split is used only for the final report.
 
@@ -175,21 +174,20 @@ $g$ & $k$ & Tokens & Time & Accuracy & Precision & Recall & F1 & BLEU & ROUGE-L 
 \begin{figure}[!tb]
 \centering
 \includegraphics[width=\linewidth]{fig_results}
-\caption{(a) Validation F1 of ViBridge-VQA ($g=14$) against the number of local tokens $k$
-(circle: selected budget; star: with LoRA). (b) Validation F1 by reasoning type (number of
-questions), sorted by the gain of ViBridge-VQA over Global-only.}
+\caption{How the budget is chosen (validation F1). (a) The bridge alone with $g$ global tokens:
+F1 is highest at $g=14$. (b) The eight configurations with local tokens: the knee is the one
+furthest above the line joining the cheapest and the most accurate configuration.}
 \label{fig:results}
 \end{figure}
 
-\paragraph{Local tokens matter more than global tokens.} Table~\ref{tab:budget} and
-Fig.~\ref{fig:results}a vary the number of local tokens $k\in\{1,9,36,144\}$, with $g\in\{8,14\}$
-in Table~\ref{tab:budget}. At $g=14$, going from 1 to
+\paragraph{Local tokens matter more than global tokens.} Table~\ref{tab:budget} and Fig.~\ref{fig:results}b vary $g\in\{8,14\}$ and $k\in\{1,9,36,144\}$. At $g=14$, going from 1 to
 144 local tokens adds 4.94 F1 and 19.05 CIDEr, whereas going from 8 to 14 global tokens adds only
 0.2--0.8 F1 at a fixed $k$. The gain per token falls from 0.07 F1 (23 to 50 tokens) to 0.015 F1
 (50 to 158 tokens).
 
 \paragraph{Selected budget.} F1 grows with every added token, so all configurations with local
-tokens lie on the accuracy--token Pareto front. Its knee (Section~\ref{sec:budget}) is $g=14$,
+tokens lie on the accuracy--token Pareto front. Its knee (Section~\ref{sec:budget},
+Fig.~\ref{fig:results}b) is $g=14$,
 $k=36$ for every metric and also with generation time as the cost. TOPSIS and the post-hoc knee
 on test agree. $k=144$ is 1.65 F1 higher, but $k=36$ obtains 72\% of its gain over Global-only
 (67\% over the 14-token bridge of Table~\ref{tab:gsweep}) with 32\% of its tokens.
@@ -219,7 +217,7 @@ $g$ & Accuracy & Precision & Recall & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
 \end{tabular}}
 \end{table}
 
-\paragraph{Number of global tokens.} Table~\ref{tab:gsweep} varies the number of global tokens of Global-only from $g=4$ to $g=18$. Validation F1 rises from
+\paragraph{Number of global tokens.} Table~\ref{tab:gsweep} and Fig.~\ref{fig:results}a vary the number of global tokens of Global-only from $g=4$ to $g=18$. Validation F1 rises from
 48.98 ($g=4$) to 50.74 ($g=8$) and 51.56 ($g=14$), then drops to 51.20 and 51.26 at $g=16$ and 18. CIDEr follows the same trend, so we combine the local tokens with $g=14$ and,
 as the Global-only reference, $g=8$.
 
@@ -269,8 +267,7 @@ metrics (+3.61 versus +2.62 F1, +12.31 versus +8.24 CIDEr). Without local tokens
 \subsection{Analysis}
 \label{sec:analysis}
 
-\paragraph{Reasoning types.} Fig.~\ref{fig:results}b breaks down validation F1 by reasoning
-type. Local tokens help most when the answer is visible in the image: ViBridge-VQA adds 11.0 F1 over
+\paragraph{Reasoning types.} We also break down validation F1 by reasoning type. Local tokens help most when the answer is visible in the image: ViBridge-VQA adds 11.0 F1 over
 Global-only on recognition, 6.4 on action and 5.8 on spatial questions, and beats Global-only +
 LoRA on these types without adapting the decoder. Decoder adaptation helps more on causal and relational questions, which have the longest
 answers (5.0 and 5.6 words), and on the 66 yes/no questions. ViBridge-VQA ($k$=36) + LoRA is the best of the four models on seven of the eight types,

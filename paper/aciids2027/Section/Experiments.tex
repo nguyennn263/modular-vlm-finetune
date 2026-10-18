@@ -6,11 +6,13 @@
 
 \paragraph{Dataset.}
 We use AutoViVQA~\cite{autovivqa2026}, built on MS COCO images~\cite{lin2015coco}, where each
-question has five short free-form answers and a reasoning type. After removing 273 duplicated
-(image, question) pairs and 97 questions without a reasoning label, we split the remaining
-36{,}707 questions 70/15/15 by image (seed 42), so no test image is seen in training: 25{,}776 /
-5{,}463 / 5{,}468 questions on 13{,}579 / 2{,}909 / 2{,}910 images. This split is stricter than a
-question-level one: it lowers the F1 of Global-only by about 0.5 points.
+question has five short free-form answers and a reasoning type. Its original 80/20 division is
+made by question, so 2{,}941 of the 7{,}416 evaluation questions (40\%) concern images also seen
+in training. We instead split by image. After removing 273 duplicated (image, question) pairs and
+97 questions without a reasoning label, the remaining 36{,}707 questions are split 70/15/15 by
+image (seed 42), so no test image is seen in training: 25{,}776 / 5{,}463 / 5{,}468 questions on
+13{,}579 / 2{,}909 / 2{,}910 images. This split is stricter: a random question-level split raises
+the F1 of Global-only by about 0.5 points.
 
 \paragraph{Metrics.}
 Following AutoViVQA and ViMoE-VQA, we report Accuracy, word-level Precision, Recall and F1,
@@ -49,10 +51,9 @@ without a decoder LoRA. Our models are \emph{ViBridge-VQA ($k$=36)}, with $g=14$
 
 \begin{table}[t]
 \centering
-\caption{Results on the AutoViVQA test set. Baselines are as reported in
-AutoViVQA~\cite{autovivqa2026} and ViMoE-VQA~\cite{vimoevqa} on the original split; ours are mean
-$\pm$ std over three seeds on our image-disjoint split. Best per column in bold. All values
-$\times100$.}
+\caption{Results on AutoViVQA. Baselines are as reported in AutoViVQA~\cite{autovivqa2026} and
+ViMoE-VQA~\cite{vimoevqa} on the original split; ours are mean $\pm$ std over three seeds on the
+stricter image-disjoint test split. Best per column in bold. All values $\times100$.}
 \label{tab:main}
 \scriptsize
 \setlength{\tabcolsep}{1.85pt}
@@ -85,8 +86,8 @@ $\times100$.}
 
 \paragraph{ViBridge-VQA is on par with the fine-tuned Vintern-1B.}
 Without updating any weight of Vintern-1B, ViBridge-VQA raises its F1 from 17.55 (zero-shot) to
-54.56 (Table~\ref{tab:main}). This is comparable to the fine-tuned Vintern-1B (53.76), even on our
-stricter split, while the decoder reads 50 instead of 1{,}792 visual tokens and only 1.35\% of the
+54.56 (Table~\ref{tab:main}). This is comparable to the fine-tuned Vintern-1B (53.76), although none of our test images is
+seen in training, while the decoder reads 50 instead of 1{,}792 visual tokens and only 1.35\% of the
 parameters are trained. Only Accuracy is lower (11.75 versus 13.01). On test, the bridge alone
 with the same 14 global tokens reaches 51.02 F1 ($\pm$0.10), so the 36 local tokens add 3.54 F1.
 

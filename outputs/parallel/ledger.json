@@ -4247,7 +4247,7 @@
     "xb-cab-s123:train": {
       "account": "acc1",
       "kernel": "nguyennn263/mvlm-xb-cab-s123-train",
-      "status": "running",
+      "status": "cancelled-12h-cap at step 5600/6444 (epoch 2 redone by xb-cab-s123c)",
       "pushed_at": "2026-10-17T23:12:17",
       "chain": "xb-cab-s123",
       "phase": 0
@@ -4320,6 +4320,32 @@
       "pushed_at": "2026-10-18T06:15:37",
       "chain": "gl-g0-k36-lora1-s3407",
       "phase": 1
+    },
+    "bridgefull:ppm-s123-st6400": {
+      "account": "acc4",
+      "kernel": "nguyennn251/mvlm-bridgefull-ppm-s123-st6400",
+      "status": "running",
+      "pushed_at": "2026-10-18T11:18:46",
+      "collected": false,
+      "bridge": "patch_pool_mean",
+      "ckpt": "nguyennn251/mvlm-xb-ppm-s123-train",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "bridgefull:ppm-s3407-st6400": {
+      "account": "acc5",
+      "kernel": "nguyennguyen263/mvlm-bridgefull-ppm-s3407-st6400",
+      "status": "running",
+      "pushed_at": "2026-10-18T11:18:51",
+      "collected": false,
+      "bridge": "patch_pool_mean",
+      "ckpt": "nguyennguyen263/mvlm-xb-ppm-s3407-train",
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
     }
   }
 }

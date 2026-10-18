@@ -32,3 +32,6 @@ now takes ~5h on Kaggle T4 (the September seed-42 run took 4.9h for both epochs)
 step_6400.pt checkpoints are scored by `bridge_full.py` (ppm-s{123,3407}-st6400): the cosine
 learning rate is ~2e-8 at step 6400, so the 44 missing steps (0.7%) change the weights negligibly.
 The same applies to the C-Abstractor chains if they are cancelled.
+C-Abstractor seed 123 was cancelled at step 5600/6444 (LR still ~4% of its peak, 13% of the
+steps missing), too early to score. Epoch 2 is redone from its end-of-epoch-1 last_model.pt
+(`train_queue.py fill --xb --xb-resume`, chain xb-cab-s123c on acc1, mid-epoch validation off).

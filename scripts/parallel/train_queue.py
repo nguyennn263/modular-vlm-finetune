@@ -36,6 +36,12 @@ XB_ASSIGN = {"cab-s123": "acc1", "cab-s3407": "acc2", "ppm-s123": "acc4", "ppm-s
 # --xb-retry (2026-10-18 02:05): cab-s3407 sat QUEUED for ~3h on acc2 -- a copy under a new chain
 # name on another account (first to finish is used); only the retry chains are handled
 XB_RETRY = "--xb-retry" in sys.argv
+# --xb-resume (2026-10-18 11:25): train kernels cancelled at the 12h cap too early to use a periodic
+# checkpoint get epoch 2 redone from their end-of-epoch-1 last_model.pt (optimizer + LR schedule
+# restored by --resume) in a new kernel, with the mid-epoch validation pass off (--eval-steps
+# 100000: monitoring only -- last_model.pt is what gets scored); chain -> previous kernel
+XB_RESUME = "--xb-resume" in sys.argv
+XB_RESUME_PREV = {"xb-cab-s123c": ("acc1", "nguyennn263/mvlm-xb-cab-s123-train")}
 SET = "gl" if GL else ("tla" if TLA else ("xb" if XB else "qfx"))
 PREFIX = f"{SET}-smoke" if SMOKE else SET
 GL_GLOBAL = [8, 14]
@@ -101,6 +107,16 @@ def _chains() -> dict[str, list[dict]]:
                     {"name": "eval", "bridge": "global_local", "eval": True, "splits": ["val", "test"],
                      "eval_flags": f" {flags}"},
                 ]
+        return chains
+    if XB and XB_RESUME:
+        for chain in XB_RESUME_PREV:
+            name, seed = chain.split("-")[1], int(chain.split("-s")[1].rstrip("c"))
+            bridge, flags = XB_BRIDGES[name]
+            cmd = (f"python -m src.cli.train --bridge {bridge}{flags} --seed {seed} --epochs 2 "
+                   f"{TRAIN.replace('--eval-steps 800', '--eval-steps 100000')}{LIMIT} --output-dir {CK} "
+                   f"--resume PREV")
+            chains[chain] = [{"name": "ep2", "bridge": bridge, "cmd": cmd},
+                             {"name": "eval", "bridge": bridge, "eval": True, "eval_flags": flags}]
         return chains
     if XB:
         for name, (bridge, flags) in XB_BRIDGES.items():
@@ -233,6 +249,15 @@ def cmd_fill() -> None:
                 acc = pinned if _free_slots(pinned) > 0 else None
                 if acc is None:
                     continue
+            elif acc is None and XB_RESUME and chain in XB_RESUME_PREV:   # resume: on the old kernel's account
+                acc, prev = XB_RESUME_PREV[chain]
+                if _free_slots(acc) == 0:
+                    continue
+                try:
+                    _launch(acc, chain, 0, phases, prev)
+                except Exception as exc:
+                    print(f"[error] {chain}:{phases[0]['name']} on {acc}: {exc}", flush=True)
+                continue
             elif acc is None:                 # chain start: any account with a free slot
                 acc = next((a for a in accounts if _free_slots(a) > 0), None)
             elif _free_slots(acc) == 0:

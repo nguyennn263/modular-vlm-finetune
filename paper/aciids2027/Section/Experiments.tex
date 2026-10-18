@@ -5,20 +5,39 @@
 \label{sec:data}
 
 \paragraph{Dataset.}
+\begin{wraptable}[10]{r}{0.47\linewidth}
+\vspace{-22pt}
+\centering
+\caption{Our AutoViVQA split.}
+\label{tab:data}
+\footnotesize
+\setlength{\tabcolsep}{2pt}
+\begin{tabular}{lrrrr}
+\toprule
+ & Train & Val & Test & Total \\
+\midrule
+Images & 13{,}579 & 2{,}909 & 2{,}910 & 19{,}398 \\
+Questions & 25{,}776 & 5{,}463 & 5{,}468 & 36{,}707 \\
+\midrule
+\multicolumn{4}{l}{Answers per question} & 5 \\
+\multicolumn{4}{l}{Mean answer length (words)} & 4.3 \\
+\multicolumn{4}{l}{Reasoning types / levels} & 8 / 5 \\
+\bottomrule
+\end{tabular}
+\end{wraptable}
 We use AutoViVQA~\cite{autovivqa2026}, built on MS COCO images~\cite{lin2015coco}, where each
-question has five short free-form answers and a reasoning type. After removing 273 duplicated
-(image, question) pairs and 97 questions without a reasoning label, we split the remaining
-36{,}707 questions 70/15/15 by image (seed 42), so no test image is seen in training: 25{,}776 /
-5{,}463 / 5{,}468 questions on 13{,}579 / 2{,}909 / 2{,}910 images. This split is stricter than a
-question-level one, on which Global-only scores about 0.5 F1 higher.
+question has five short free-form answers, a reasoning type and a reasoning level. After removing
+273 duplicated (image, question) pairs and 97 questions without a reasoning label, we split the
+remaining questions 70/15/15 by image (seed 42), so no test image is seen in training
+(Table~\ref{tab:data}). This split is stricter than a question-level one, on which Global-only
+scores about 0.5 F1 higher.
 
 \paragraph{Metrics.}
 Following AutoViVQA and ViMoE-VQA, we report Accuracy (Acc), word-level Precision (Prec), Recall (Rec) and F1,
 BLEU~\cite{papineni2002bleu}, ROUGE-L (R-L)~\cite{lin2004rouge}, METEOR (MET)~\cite{banerjee2005meteor} and
 CIDEr~\cite{vedantam2015cider} against the five references. Precision, Recall and F1 compare the
-word sets of the answer and of the reference with the highest F1, and are averaged over questions.
-Accuracy is the share of answers identical to a reference, ignoring case; BLEU is corpus-level BLEU-4 on
-whitespace tokens.
+word sets of the answer and of its closest reference, averaged over questions. Accuracy is the
+share of answers identical to a reference; BLEU is corpus-level BLEU-4.
 
 \subsection{Setup}
 
@@ -83,12 +102,12 @@ Model & Acc & Prec & Rec & F1 & BLEU & R-L & MET & CIDEr \\
 Without updating any weight of Vintern-1B, ViBridge-VQA raises its F1 from 17.55 (zero-shot) to
 54.56 (Table~\ref{tab:main}). This is comparable to the reported 53.76 of the fine-tuned Vintern-1B, on a stricter split, while the decoder
 receives 50 instead of 1{,}792 visual tokens and only 1.35\% of the parameters are trained. On test, the bridge alone
-with the same 14 global tokens reaches 51.02 F1 ($\pm$0.10), so the 36 local tokens add 3.54 F1.
+with the same 14 global tokens reaches 51.02 F1 ($\pm$0.10), so local tokens add 3.54 F1.
 
 \paragraph{LoRA adds 3.6 F1.}
 With a decoder LoRA, ViBridge-VQA reaches 58.17 F1 (+3.61) with 1.57\% of the parameters trained,
 and gives the best Accuracy (14.67), BLEU (22.53), ROUGE-L (56.25) and METEOR (49.32). Results
-are stable across seeds (test std of F1 at most 0.19) and splits (test F1 within 0.4 of validation).
+are stable across seeds (test std of F1 at most 0.19) and splits (test within 0.4 F1 of validation).
 
 \subsection{Token Sources}
 \label{sec:rq-source}
@@ -221,7 +240,7 @@ $g$ & Acc & Prec & Rec & F1 & BLEU & R-L & MET & CIDEr \\
 \paragraph{Global tokens peak at $g=14$.}
 Table~\ref{tab:gsweep} and Fig.~\ref{fig:results}a vary $g$ from 4 to 18 for Global-only.
 Validation F1 rises from 48.98 ($g=4$) to 50.74 ($g=8$) and 51.56 ($g=14$), then falls to 51.20
-and 51.26 at $g=16$ and 18; CIDEr follows the same trend.
+and 51.26 at $g=16$ and 18; CIDEr follows.
 
 \paragraph{Fewer visual tokens, one encoder pass.}
 Compared with the official tiling, ViBridge-VQA reduces the visual tokens at the decoder input
@@ -334,5 +353,4 @@ Table~\ref{tab:ood} applies the models, trained on AutoViVQA only, to ViVQA-X~\c
 and ViVQA~\cite{tran2021vivqa} without further training. For each dataset, we draw three random samples of about 1{,}000
 test questions (seeds 42, 123, 3407) and score every model on the same questions. Zero-shot Vintern-1B uses six tiles. Even without LoRA, ViBridge-VQA outperforms Global-only + LoRA and the zero-shot
 Vintern-1B (F1 24.91 versus 15.89 and 14.52 on ViVQA-X; 42.68 versus 31.48 and 23.90 on ViVQA), and
-LoRA raises its F1 to 27.64 and 44.76. Zero-shot Vintern-1B keeps the highest Recall only by answering in long sentences,
-hence its near-zero Accuracy.
+LoRA raises its F1 to 27.64 and 44.76. Zero-shot Vintern-1B keeps the highest Recall only by answering in long sentences.

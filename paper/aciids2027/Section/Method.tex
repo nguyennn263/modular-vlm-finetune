@@ -122,9 +122,8 @@ To give the decoder region-level detail, ViBridge-VQA also passes local tokens t
 the 144 region tokens of $P$. We average-pool the $12\times12$ grid to an $s\times s$ grid, so
 $k=s^2$ with $s\in\{1,3,6,12\}$: $k=144$ keeps every region token, and $k=36$ averages each
 $2\times2$ block. The pooled tokens replace the embeddings of $k$ placeholders inside Vintern-1B's
-own image slot, \texttt{<img>}\,$\cdots$\,\texttt{</img>}. Because they come from the pre-trained
-projector rather than a new projection, they stay in the representation that the decoder was
-trained to read, and they need no parameters.
+own image slot, \texttt{<img>}\,$\cdots$\,\texttt{</img>}. Coming from the pre-trained projector, they
+stay in the representation that the decoder was trained to read and need no parameters.
 
 \subsection{Training}
 \label{sec:training}

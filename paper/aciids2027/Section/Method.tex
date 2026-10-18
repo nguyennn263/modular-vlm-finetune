@@ -38,12 +38,18 @@ $12\times12$ grid of 144 region tokens. ViBridge-VQA uses both outputs of the en
 \node[frozen] (vit1) at (\xb,0) {InternViT\\300M};
 \node[frozen] (ps1) at (\xs,0) {pixel shuffle\\($2{\times}2$ merge)};
 \node[frozen] (mlp1) at (\xm,0) {MLP\\projector};
-\node[data, font=\footnotesize] (tok1) at (\xt,0) {$\le$1{,}792\\tokens + $q$};
-\node[frozen] (llm1) at (\xe,0) {Qwen2.5\\0.5B + \textcolor{green!45!black}{\textbf{LoRA}}};
-\node[data] (ans1) at (\xf,0) {answer};
+\node[tok] (tok1) at (\xt,0) {$\le$1{,}792 visual\\(in \texttt{<img>} slot)};
+\node[tok] (tq1) at (\xt,-0.85) {question $q$};
+\node[draw=black!45, dashed, rounded corners=2pt, fit=(tok1)(tq1), inner sep=2.5pt,
+      label={[font=\scriptsize, text=black!70]above:decoder input}] (din1) {};
+\node[data] (q1) at (\xa,-0.85) {question};
+\node[frozen] (llm1) at (\xe,-0.42) {Qwen2.5\\0.5B + \textcolor{green!45!black}{\textbf{LoRA}}};
+\node[data] (ans1) at (\xf,-0.42) {answer};
 \draw[arr] (img1) -- (vit1); \draw[arr] (vit1) -- (ps1); \draw[arr] (ps1) -- (mlp1);
 \draw[arr] (mlp1) -- node[above, font=\scriptsize, text=black!70] {256 per view} (tok1);
-\draw[arr] (tok1) -- (llm1); \draw[arr] (llm1) -- (ans1);
+\draw[arr] (q1) -- (tq1);
+\draw[arr] (din1.east |- llm1) -- (llm1.west); \draw[arr] (llm1) -- (ans1);
+\begin{scope}[yshift=-0.95cm]
 % ---- (b) ViBridge-VQA
 \node[lbl] at (-0.05,-1.05) {(b) ViBridge-VQA (ours)};
 \node[data] (img2) at (\xa,-2.7) {image\\1 view\\($336^2$)};
@@ -76,6 +82,7 @@ $12\times12$ grid of 144 region tokens. ViBridge-VQA uses both outputs of the en
 \node[anchor=west] at (lf.east) {frozen};
 \node[train, minimum height=3.5mm, minimum width=5mm] (lt) at (15.1,-1.05) {};
 \node[anchor=west] at (lt.east) {trained};
+\end{scope}
 \end{tikzpicture}}
 \caption{Overview of (a) the official fine-tuning of Vintern-1B, which encodes up to seven views,
 and (b) ViBridge-VQA, which encodes one view. In both, the pixel shuffle merges each $2\times2$

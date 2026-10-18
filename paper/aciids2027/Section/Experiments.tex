@@ -333,8 +333,7 @@ Model & Acc & Prec & Rec & F1 & BLEU & R-L & MET & CIDEr \\
 
 Table~\ref{tab:ood} applies the models, trained on AutoViVQA only, to ViVQA-X~\cite{vivqax2025}
 and ViVQA~\cite{tran2021vivqa} without further training. For each dataset, we draw three random samples of about 1{,}000
-test questions (seeds 42, 123, 3407) and score every model on the same questions; for ViVQA, we keep the questions on COCO
-train2014 images (about 510). Zero-shot Vintern-1B uses six tiles. Even without LoRA, ViBridge-VQA outperforms Global-only + LoRA and the zero-shot
+test questions (seeds 42, 123, 3407) and score every model on the same questions. Zero-shot Vintern-1B uses six tiles. Even without LoRA, ViBridge-VQA outperforms Global-only + LoRA and the zero-shot
 Vintern-1B (F1 24.91 versus 15.89 and 14.52 on ViVQA-X; 42.68 versus 31.48 and 23.90 on ViVQA), and
 LoRA raises its F1 to 27.64 and 44.76. Zero-shot Vintern-1B keeps the highest Recall only by answering in long sentences,
 hence its near-zero Accuracy.

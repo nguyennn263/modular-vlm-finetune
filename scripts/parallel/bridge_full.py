@@ -49,8 +49,13 @@ JOBS.update({
 })
 DATASET = {"ppm-s123-st6400-ds": "nguyennn251/mvlm-ppm-s123-st6400",
            "ppm-s3407-st6400-ds": "nguyennguyen263/mvlm-ppm-s3407-st6400"}
+# 2026-10-18 14:05: both C-Abstractor seed-3407 copies (acc2, acc11) were cancelled at the 12h cap
+# at step 6400/6444 too; the original (acc2) run's step_6400.pt is scored
+JOBS["cab-s3407-st6400-ds"] = ("conv_abstractor", "acc2", None, ["val"])
+DATASET["cab-s3407-st6400-ds"] = "nguyennn2501/mvlm-cab-s3407-st6400"
 CKPT_NAME = {t: "step_6400.pt" for t in ("ppm-s123-st6400", "ppm-s3407-st6400",
-                                          "ppm-s123-st6400-ds", "ppm-s3407-st6400-ds")}
+                                          "ppm-s123-st6400-ds", "ppm-s3407-st6400-ds",
+                                          "cab-s3407-st6400-ds")}
 CK = "/tmp/ck/bridge"
 
 

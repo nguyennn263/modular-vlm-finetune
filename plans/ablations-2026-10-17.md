@@ -39,3 +39,6 @@ Kaggle does not mount the output of a cancelled kernel, so these checkpoints wer
 uploaded as private datasets: nguyennn251/mvlm-ppm-s123-st6400, nguyennguyen263/mvlm-ppm-s3407-st6400
 (step_6400.pt) and nguyennn263/mvlm-cab-s123-ep1 (epoch-1 last_model.pt). Jobs: bridge_full
 ppm-s{123,3407}-st6400-ds; train_queue --xb --xb-resume chain xb-cab-s123d.
+C-Abstractor seed 3407: both copies (acc2, acc11) cancelled at the 12h cap at step 6400/6444; the
+two step_6400.pt differ slightly (GPU non-determinism); the original acc2 run is used, uploaded as
+nguyennn2501/mvlm-cab-s3407-st6400 and scored by bridge_full cab-s3407-st6400-ds.

@@ -4255,7 +4255,7 @@
     "xb-cab-s3407:train": {
       "account": "acc2",
       "kernel": "nguyennn2501/mvlm-xb-cab-s3407-train",
-      "status": "running",
+      "status": "cancelled-12h-cap at step 6400/6444 (acc2 step_6400.pt scored)",
       "pushed_at": "2026-10-17T23:12:25",
       "chain": "xb-cab-s3407",
       "phase": 0
@@ -4292,7 +4292,7 @@
     "xb-cab-s3407r2:train": {
       "account": "acc11",
       "kernel": "chalicetrncthnh/mvlm-xb-cab-s3407r2-train",
-      "status": "running",
+      "status": "cancelled-12h-cap at step 6400/6444 (acc2 step_6400.pt scored)",
       "pushed_at": "2026-10-18T02:02:32",
       "chain": "xb-cab-s3407r2",
       "phase": 0

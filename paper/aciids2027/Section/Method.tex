@@ -31,7 +31,7 @@ $12\times12$ grid of 144 region tokens. ViBridge-VQA uses both outputs of the en
   tok/.style={draw=black!45, rounded corners=1.5pt, fill=white, font=\footnotesize, align=center,
               minimum width=2.1cm, minimum height=6.5mm, inner sep=1.5pt}]
 % x positions of the columns (cm), shared by (a) and (b)
-\def\xa{0.8}\def\xb{3.0}\def\xs{5.4}\def\xm{7.6}\def\xp{9.45}\def\xt{11.5}\def\xe{13.65}\def\xf{15.45}
+\def\xa{0.8}\def\xb{3.0}\def\xs{5.4}\def\xm{7.6}\def\xp{9.4}\def\xt{11.75}\def\xe{14.1}\def\xf{15.9}
 % ---- (a) official fine-tuning of Vintern-1B
 \node[lbl] at (-0.05,1.0) {(a) Vintern-1B, official fine-tuning};
 \node[data] (img1) at (\xa,0) {image\\$\le$6 tiles\\+ thumbnail};
@@ -66,15 +66,15 @@ $12\times12$ grid of 144 region tokens. ViBridge-VQA uses both outputs of the en
 \draw[thick, black!70] (vit2.east) -- (fork);
 \draw[arr] (fork) |- node[pos=0.72, above, font=\scriptsize, text=black!70] {\texttt{[CLS]}} (br.west);
 \draw[arr] (fork) |- (ps2.west);
-\node[font=\scriptsize, text=black!70, anchor=north] at (vit2.south) {576 patches + \texttt{[CLS]}};
+\node[font=\scriptsize, text=black!70, anchor=north, align=center] at (vit2.south) {576 patches\\+ \texttt{[CLS]}};
 \draw[arr] (ps2) -- (mlp2); \draw[arr] (mlp2) -- (pool);
 \draw[arr] (br) -- (tg); \draw[arr] (pool) -- (tl); \draw[arr] (q2) -- (tq);
 \draw[arr] (din.east |- llm2) -- (llm2.west);
 \draw[arr] (llm2) -- (ans2);
 % legend
-\node[frozen, minimum height=3.5mm, minimum width=5mm] (lf) at (13.05,-1.05) {};
+\node[frozen, minimum height=3.5mm, minimum width=5mm] (lf) at (13.5,-1.05) {};
 \node[anchor=west] at (lf.east) {frozen};
-\node[train, minimum height=3.5mm, minimum width=5mm] (lt) at (14.65,-1.05) {};
+\node[train, minimum height=3.5mm, minimum width=5mm] (lt) at (15.1,-1.05) {};
 \node[anchor=west] at (lt.east) {trained};
 \end{tikzpicture}}
 \caption{Overview of (a) the official fine-tuning of Vintern-1B, which encodes up to seven views,

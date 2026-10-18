@@ -1,0 +1,19 @@
+{
+  "experiment": "conv_abstractor",
+  "best_val_loss": 1.552776006793557,
+  "best_model_path": "/kaggle/working/ck/conv_abstractor/best_model.pt",
+  "global_step": 6444,
+  "training_duration": "5:05:19.355794",
+  "training_duration_hours": 5.088709942777777,
+  "epochs_trained": 2,
+  "batch_size": 8,
+  "learning_rate": 0.0002,
+  "early_stopping_enabled": false,
+  "results_files": {
+    "epoch_results": "/kaggle/working/ck/conv_abstractor/results/epoch_results.csv",
+    "training_logs": "/kaggle/working/ck/conv_abstractor/results/training_20261018_043734.log",
+    "summary": "/kaggle/working/ck/conv_abstractor/results/summary.json",
+    "text_metrics_all_epochs": "/kaggle/working/ck/conv_abstractor/results/text_metrics_all_epochs.jsonl",
+    "metrics_summary": "/kaggle/working/ck/conv_abstractor/results/final_metrics_summary.json"
+  }
+}

@@ -4384,7 +4384,7 @@
     "xb-cab-s123d:ep2": {
       "account": "acc1",
       "kernel": "nguyennn263/mvlm-xb-cab-s123d-ep2",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-18T11:31:34",
       "chain": "xb-cab-s123d",
       "phase": 0
@@ -4401,6 +4401,14 @@
         "val"
       ],
       "gen_image": "full"
+    },
+    "xb-cab-s123d:eval": {
+      "account": "acc1",
+      "kernel": "nguyennn263/mvlm-xb-cab-s123d-eval",
+      "status": "done",
+      "pushed_at": "2026-10-18T16:47:37",
+      "chain": "xb-cab-s123d",
+      "phase": 1
     }
   }
 }

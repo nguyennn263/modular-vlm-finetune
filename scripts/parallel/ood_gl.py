@@ -24,11 +24,18 @@ ACC = next(a.split("=", 1)[1] for a in sys.argv if a.startswith("--acc="))
 DATASETS = ["vitextvqa", "openvivqa", "vivqax", "vivqa"]
 SEEDS = [42, 123, 3407]
 LORA = "--lora" in sys.argv
+# --local-lora (2026-10-18): local tokens only (g = 0, k = 36) + decoder LoRA, seed 42, private
+# dataset nguyennn2603/mvlm-gl-g0lora-ckpt (optimizer state stripped); OpenViVQA is no longer reported
+LOCAL_LORA = "--local-lora" in sys.argv
+if LOCAL_LORA:
+    DATASETS = ["vitextvqa", "vivqax", "vivqa"]
 # name -> (local_grid, checkpoint file in the private dataset)
-MODELS = ({"k36lora": (6, "gl-g14-k36-lora1-s42.pt")} if LORA else
+MODELS = ({"g0lora": (6, "gl-g0-k36-lora1-s42.pt")} if LOCAL_LORA else
+          {"k36lora": (6, "gl-g14-k36-lora1-s42.pt")} if LORA else
           {"k36": (6, "gl-g14-k36-s42.pt"), "k144": (12, "gl-g14-k144-s42.pt")})
-CKPT_DS = "mvlm-gl-lora-ckpt" if LORA else "mvlm-gl-ckpt"
-JOB = "ood-gllora" if LORA else "ood-gl"
+NTOK = 0 if LOCAL_LORA else 14
+CKPT_DS = "mvlm-gl-g0lora-ckpt" if LOCAL_LORA else ("mvlm-gl-lora-ckpt" if LORA else "mvlm-gl-ckpt")
+JOB = "ood-glg0lora" if LOCAL_LORA else ("ood-gllora" if LORA else "ood-gl")
 FINISHED = ("COMPLETE", "ERROR", "CANCEL_ACKNOWLEDGED")
 
 
@@ -52,7 +59,7 @@ def _cells(dataset: str) -> list[dict]:
             res = f"/tmp/res/{tag}/{m}"
             cells.append(_checked(
                 f"python experiments/ood-eval/eval_ours_ood.py --data {data}/ours.jsonl --images-dir {data}/images "
-                f"--bridge global_local --bridge-num-tokens 14 --local-grid {grid} "
+                f"--bridge global_local --bridge-num-tokens {NTOK} --local-grid {grid} "
                 f"--checkpoint /tmp/ck/{m}.pt --gen-image full --output-dir {res} 2>&1 | tail -25; "
                 f"test -s {res}/results/text_predictions_epoch_1.json"))
             cells.append(_code(f"os.makedirs('{out}/{m}', exist_ok=True)",
@@ -102,7 +109,7 @@ def cmd_collect() -> None:
         if "COMPLETE" not in st:
             print(f"[wait] {job}: {st.strip()[-40:]}")
             continue
-        dst = ROOT / "outputs" / ("ood_gl_lora" if LORA else "ood_gl") / job.split(":", 1)[1]
+        dst = ROOT / "outputs" / ("ood_gl_g0lora" if LOCAL_LORA else "ood_gl_lora" if LORA else "ood_gl") / job.split(":", 1)[1]
         _kaggle(j["account"], "kernels", "output", j["kernel"], "--file-pattern", r".*\.(json|jsonl|log)$",
                 "-p", str(dst), check=False)
         evs = sorted(dst.rglob("eval_ood.json"))

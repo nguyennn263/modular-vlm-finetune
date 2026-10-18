@@ -41,7 +41,16 @@ JOBS.update({
     "ppm-s123-st6400": ("patch_pool_mean", "acc4", "nguyennn251/mvlm-xb-ppm-s123-train", ["val"]),
     "ppm-s3407-st6400": ("patch_pool_mean", "acc5", "nguyennguyen263/mvlm-xb-ppm-s3407-train", ["val"]),
 })
-CKPT_NAME = {"ppm-s123-st6400": "step_6400.pt", "ppm-s3407-st6400": "step_6400.pt"}
+# Kaggle does not mount the output of a cancelled kernel (the first two jobs found no file), so the
+# checkpoints were uploaded as private datasets and are mounted from there
+JOBS.update({
+    "ppm-s123-st6400-ds": ("patch_pool_mean", "acc4", None, ["val"]),
+    "ppm-s3407-st6400-ds": ("patch_pool_mean", "acc5", None, ["val"]),
+})
+DATASET = {"ppm-s123-st6400-ds": "nguyennn251/mvlm-ppm-s123-st6400",
+           "ppm-s3407-st6400-ds": "nguyennguyen263/mvlm-ppm-s3407-st6400"}
+CKPT_NAME = {t: "step_6400.pt" for t in ("ppm-s123-st6400", "ppm-s3407-st6400",
+                                          "ppm-s123-st6400-ds", "ppm-s3407-st6400-ds")}
 CK = "/tmp/ck/bridge"
 
 
@@ -107,7 +116,7 @@ def cmd_launch(only: list[str] | None) -> None:
             "id": kid, "title": slug[:50], "code_file": "worker.ipynb",
             "language": "python", "kernel_type": "notebook", "is_private": True,
             "enable_gpu": True, "enable_internet": True, "docker_image": DOCKER_IMAGE,
-            "dataset_sources": ["nguynrichard/auto-vqabest"],
+            "dataset_sources": ["nguynrichard/auto-vqabest"] + ([DATASET[tag]] if tag in DATASET else []),
             "kernel_sources": [kern] if kern else [],
         }, indent=2))
         _kaggle(acc, "kernels", "push", "-p", str(wd))

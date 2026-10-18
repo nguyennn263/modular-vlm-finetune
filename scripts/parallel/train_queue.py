@@ -42,6 +42,9 @@ XB_RETRY = "--xb-retry" in sys.argv
 # 100000: monitoring only -- last_model.pt is what gets scored); chain -> previous kernel
 XB_RESUME = "--xb-resume" in sys.argv
 XB_RESUME_PREV = {"xb-cab-s123c": ("acc1", "nguyennn263/mvlm-xb-cab-s123-train")}
+# Kaggle does not mount a cancelled kernel's output (xb-cab-s123c:ep2 found nothing), so the
+# epoch-1 checkpoint is mounted from a private dataset instead
+XB_RESUME_DS = {"xb-cab-s123d": ("acc1", "nguyennn263/mvlm-cab-s123-ep1")}
 SET = "gl" if GL else ("tla" if TLA else ("xb" if XB else "qfx"))
 PREFIX = f"{SET}-smoke" if SMOKE else SET
 GL_GLOBAL = [8, 14]
@@ -109,8 +112,8 @@ def _chains() -> dict[str, list[dict]]:
                 ]
         return chains
     if XB and XB_RESUME:
-        for chain in XB_RESUME_PREV:
-            name, seed = chain.split("-")[1], int(chain.split("-s")[1].rstrip("c"))
+        for chain in XB_RESUME_DS:
+            name, seed = chain.split("-")[1], int(chain.split("-s")[1].rstrip("cd"))
             bridge, flags = XB_BRIDGES[name]
             cmd = (f"python -m src.cli.train --bridge {bridge}{flags} --seed {seed} --epochs 2 "
                    f"{TRAIN.replace('--eval-steps 800', '--eval-steps 100000')}{LIMIT} --output-dir {CK} "
@@ -167,7 +170,8 @@ def _cells(phase: dict, has_prev: bool) -> list[dict]:
              _code("!python scripts/phase0_build_data.py 2>&1 | tail -4")]
     if has_prev:  # previous phase's checkpoint, mounted read-only through kernel_sources
         cells.append(_code("import glob, os, shutil",
-                           f"prev = sorted(glob.glob('/kaggle/input/**/{b}/last_model.pt', recursive=True))",
+                           f"prev = (sorted(glob.glob('/kaggle/input/**/{b}/last_model.pt', recursive=True))"
+                           " or sorted(glob.glob('/kaggle/input/**/last_model.pt', recursive=True)))",
                            "assert prev, 'previous phase checkpoint not found: ' + repr(os.listdir('/kaggle/input'))",
                            "os.makedirs('/tmp/prev', exist_ok=True); shutil.copy(prev[0], '/tmp/prev/last_model.pt')",
                            "print('prev ckpt', prev[0])"))
@@ -188,18 +192,19 @@ def _cells(phase: dict, has_prev: bool) -> list[dict]:
     return cells
 
 
-def _launch(acc: str, chain: str, idx: int, phases: list[dict], prev_kernel: str | None) -> None:
+def _launch(acc: str, chain: str, idx: int, phases: list[dict], prev_kernel: str | None,
+            dataset: str | None = None) -> None:
     phase = phases[idx]
     slug = f"mvlm-{chain}-{phase['name']}"
     kid = f"{_user(acc)}/{slug}"
     wd = ROOT / "outputs" / "parallel" / "workers" / slug
     wd.mkdir(parents=True, exist_ok=True)
-    (wd / "worker.ipynb").write_text(json.dumps(_nb(_cells(phase, prev_kernel is not None))))
+    (wd / "worker.ipynb").write_text(json.dumps(_nb(_cells(phase, prev_kernel is not None or dataset is not None))))
     (wd / "kernel-metadata.json").write_text(json.dumps({
         "id": kid, "title": slug[:50], "code_file": "worker.ipynb",
         "language": "python", "kernel_type": "notebook", "is_private": True,
         "enable_gpu": True, "enable_internet": True, "docker_image": DOCKER_IMAGE,
-        "dataset_sources": ["nguynrichard/auto-vqabest"],
+        "dataset_sources": ["nguynrichard/auto-vqabest"] + ([dataset] if dataset else []),
         "kernel_sources": [prev_kernel] if prev_kernel else [],
     }, indent=2))
     _kaggle(acc, "kernels", "push", "-p", str(wd))
@@ -249,12 +254,12 @@ def cmd_fill() -> None:
                 acc = pinned if _free_slots(pinned) > 0 else None
                 if acc is None:
                     continue
-            elif acc is None and XB_RESUME and chain in XB_RESUME_PREV:   # resume: on the old kernel's account
-                acc, prev = XB_RESUME_PREV[chain]
+            elif acc is None and XB_RESUME and chain in XB_RESUME_DS:   # resume from a dataset checkpoint
+                acc, ds = XB_RESUME_DS[chain]
                 if _free_slots(acc) == 0:
                     continue
                 try:
-                    _launch(acc, chain, 0, phases, prev)
+                    _launch(acc, chain, 0, phases, None, dataset=ds)
                 except Exception as exc:
                     print(f"[error] {chain}:{phases[0]['name']} on {acc}: {exc}", flush=True)
                 continue

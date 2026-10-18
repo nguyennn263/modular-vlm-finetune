@@ -4324,7 +4324,7 @@
     "bridgefull:ppm-s123-st6400": {
       "account": "acc4",
       "kernel": "nguyennn251/mvlm-bridgefull-ppm-s123-st6400",
-      "status": "running",
+      "status": "error-cancelled-kernel-not-mountable",
       "pushed_at": "2026-10-18T11:18:46",
       "collected": false,
       "bridge": "patch_pool_mean",
@@ -4337,7 +4337,7 @@
     "bridgefull:ppm-s3407-st6400": {
       "account": "acc5",
       "kernel": "nguyennguyen263/mvlm-bridgefull-ppm-s3407-st6400",
-      "status": "running",
+      "status": "error-cancelled-kernel-not-mountable",
       "pushed_at": "2026-10-18T11:18:51",
       "collected": false,
       "bridge": "patch_pool_mean",
@@ -4346,6 +4346,14 @@
         "val"
       ],
       "gen_image": "full"
+    },
+    "xb-cab-s123c:ep2": {
+      "account": "acc1",
+      "kernel": "nguyennn263/mvlm-xb-cab-s123c-ep2",
+      "status": "error-cancelled-kernel-not-mountable",
+      "pushed_at": "2026-10-18T11:21:18",
+      "chain": "xb-cab-s123c",
+      "phase": 0
     }
   }
 }

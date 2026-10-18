@@ -27,9 +27,11 @@ $12\times12$ grid of 144 region tokens. ViBridge-VQA uses both outputs of the en
   train/.style={draw=green!45!black, rounded corners=2pt, fill=green!12, thick, minimum height=8mm, align=center},
   data/.style={align=center, text=black!80},
   arr/.style={-{Latex[length=1.5mm]}, thick, black!70},
-  lbl/.style={font=\small\bfseries, anchor=west}]
+  lbl/.style={font=\small\bfseries, anchor=west},
+  tok/.style={draw=black!45, rounded corners=1.5pt, fill=white, font=\footnotesize, align=center,
+              minimum width=2.1cm, minimum height=6.5mm, inner sep=1.5pt}]
 % x positions of the columns (cm), shared by (a) and (b)
-\def\xa{0.8}\def\xb{3.0}\def\xs{5.4}\def\xm{7.6}\def\xp{9.45}\def\xt{11.15}\def\xe{13.25}\def\xf{15.05}
+\def\xa{0.8}\def\xb{3.0}\def\xs{5.4}\def\xm{7.6}\def\xp{9.45}\def\xt{11.5}\def\xe{13.65}\def\xf{15.45}
 % ---- (a) official fine-tuning of Vintern-1B
 \node[lbl] at (-0.05,1.0) {(a) Vintern-1B, official fine-tuning};
 \node[data] (img1) at (\xa,0) {image\\$\le$6 tiles\\+ thumbnail};
@@ -50,32 +52,37 @@ $12\times12$ grid of 144 region tokens. ViBridge-VQA uses both outputs of the en
 \node[frozen] (ps2) at (\xs,-3.45) {pixel shuffle\\($2{\times}2$ merge)};
 \node[frozen] (mlp2) at (\xm,-3.45) {MLP\\projector};
 \node[frozen] (pool) at (\xp,-3.45) {avg.\ pool\\($144{\to}k$)};
-\node[data] (tg) at (\xt,-1.95) {$g{=}14$ global\\tokens};
-\node[data] (tl) at (\xt,-3.45) {$k{=}36$ local\\tokens};
-\node[frozen] (llm2) at (\xe,-2.7) {Qwen2.5\\0.5B};
-\node[data] (ans2) at (\xf,-2.7) {answer};
+% decoder input, in prompt order: global tokens (prefix), local tokens (image slot), question
+\node[tok, fill=green!8, draw=green!45!black] (tg) at (\xt,-1.95) {$g{=}14$ global\\(prefix)};
+\node[tok] (tl) at (\xt,-3.45) {$k{=}36$ local\\(in \texttt{<img>} slot)};
+\node[tok] (tq) at (\xt,-4.3) {question $q$};
+\node[draw=black!45, dashed, rounded corners=2pt, fit=(tg)(tl)(tq), inner sep=2.5pt,
+      label={[font=\scriptsize, text=black!70]above:decoder input}] (din) {};
+\node[data] (q2) at (\xa,-4.3) {question};
+\node[frozen] (llm2) at (\xe,-3.1) {Qwen2.5\\0.5B};
+\node[data] (ans2) at (\xf,-3.1) {answer};
 \draw[arr] (img2) -- (vit2);
 \coordinate (fork) at ($(vit2.east)+(0.3,0)$);
 \draw[thick, black!70] (vit2.east) -- (fork);
 \draw[arr] (fork) |- node[pos=0.72, above, font=\scriptsize, text=black!70] {\texttt{[CLS]}} (br.west);
 \draw[arr] (fork) |- (ps2.west);
+\node[font=\scriptsize, text=black!70, anchor=north] at (vit2.south) {576 patches + \texttt{[CLS]}};
 \draw[arr] (ps2) -- (mlp2); \draw[arr] (mlp2) -- (pool);
-\draw[arr] (br) -- (tg); \draw[arr] (pool) -- (tl);
-\draw[arr] (tg.east) -- ++(0.15,0) |- (llm2.west);
-\draw[arr] (tl.east) -- ++(0.15,0) |- (llm2.west);
+\draw[arr] (br) -- (tg); \draw[arr] (pool) -- (tl); \draw[arr] (q2) -- (tq);
+\draw[arr] (din.east |- llm2) -- (llm2.west);
 \draw[arr] (llm2) -- (ans2);
 % legend
-\node[frozen, minimum height=3.5mm, minimum width=5mm] (lf) at (12.65,-4.35) {};
+\node[frozen, minimum height=3.5mm, minimum width=5mm] (lf) at (13.05,-1.05) {};
 \node[anchor=west] at (lf.east) {frozen};
-\node[train, minimum height=3.5mm, minimum width=5mm] (lt) at (14.25,-4.35) {};
+\node[train, minimum height=3.5mm, minimum width=5mm] (lt) at (14.65,-1.05) {};
 \node[anchor=west] at (lt.east) {trained};
 \end{tikzpicture}}
 \caption{Overview of (a) the official fine-tuning of Vintern-1B, which encodes up to seven views,
 and (b) ViBridge-VQA, which encodes one view. In both, the pixel shuffle merges each $2\times2$
 block of patches and the pre-trained MLP projector maps it to the decoder space, which gives 144
-region tokens for our $336\times336$ view. ViBridge-VQA average-pools them to $k$ local tokens and
-adds $g$ global tokens from the \texttt{[CLS]} vector. The selected budget, $g=14$ and $k=36$, gives
-50 visual tokens.}
+region tokens for our $336\times336$ view. ViBridge-VQA average-pools them to $k$ local tokens, placed in Vintern-1B's image slot, and
+places $g$ global tokens from the \texttt{[CLS]} vector before the prompt. The selected budget,
+$g=14$ and $k=36$, gives 50 visual tokens.}
 \label{fig:arch}
 \end{figure}
 

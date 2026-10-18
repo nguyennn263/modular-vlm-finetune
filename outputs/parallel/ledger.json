@@ -4388,6 +4388,19 @@
       "pushed_at": "2026-10-18T11:31:34",
       "chain": "xb-cab-s123d",
       "phase": 0
+    },
+    "bridgefull:cab-s3407-st6400-ds": {
+      "account": "acc2",
+      "kernel": "nguyennn2501/mvlm-bridgefull-cab-s3407-st6400-ds",
+      "status": "done",
+      "pushed_at": "2026-10-18T14:08:34",
+      "collected": false,
+      "bridge": "conv_abstractor",
+      "ckpt": null,
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
     }
   }
 }

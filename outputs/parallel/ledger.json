@@ -4223,7 +4223,7 @@
     "gl-g0-k36-lora1-s42:ep1": {
       "account": "acc3",
       "kernel": "nguyennn2603/mvlm-gl-g0-k36-lora1-s42-ep1",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-17T22:18:27",
       "chain": "gl-g0-k36-lora1-s42",
       "phase": 0
@@ -4231,7 +4231,7 @@
     "gl-g0-k36-lora1-s123:ep1": {
       "account": "acc10",
       "kernel": "giapht/mvlm-gl-g0-k36-lora1-s123-ep1",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-17T22:18:35",
       "chain": "gl-g0-k36-lora1-s123",
       "phase": 0
@@ -4239,7 +4239,7 @@
     "gl-g0-k36-lora1-s3407:ep1": {
       "account": "acc7",
       "kernel": "tinquc220300nguyn/mvlm-gl-g0-k36-lora1-s3407-ep1",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-17T22:18:42",
       "chain": "gl-g0-k36-lora1-s3407",
       "phase": 0
@@ -4296,6 +4296,30 @@
       "pushed_at": "2026-10-18T02:02:32",
       "chain": "xb-cab-s3407r2",
       "phase": 0
+    },
+    "gl-g0-k36-lora1-s42:eval": {
+      "account": "acc3",
+      "kernel": "nguyennn2603/mvlm-gl-g0-k36-lora1-s42-eval",
+      "status": "done",
+      "pushed_at": "2026-10-18T06:00:10",
+      "chain": "gl-g0-k36-lora1-s42",
+      "phase": 1
+    },
+    "gl-g0-k36-lora1-s123:eval": {
+      "account": "acc10",
+      "kernel": "giapht/mvlm-gl-g0-k36-lora1-s123-eval",
+      "status": "done",
+      "pushed_at": "2026-10-18T06:05:21",
+      "chain": "gl-g0-k36-lora1-s123",
+      "phase": 1
+    },
+    "gl-g0-k36-lora1-s3407:eval": {
+      "account": "acc7",
+      "kernel": "tinquc220300nguyn/mvlm-gl-g0-k36-lora1-s3407-eval",
+      "status": "running",
+      "pushed_at": "2026-10-18T06:15:37",
+      "chain": "gl-g0-k36-lora1-s3407",
+      "phase": 1
     }
   }
 }

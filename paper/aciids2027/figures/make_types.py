@@ -26,10 +26,12 @@ h = 0.2
 for i, (m, kw, lab) in enumerate(MODELS):
     ax.barh([y + (1.5 - i) * h for y in range(len(order))], [P[m][c]["f1"] for c in order], h,
             label=lab, **kw)
+GX = 86                               # a separate column, outside the bars: gain of ViBridge-VQA over Global-only
 for y, c in enumerate(order):
     gain = P["g14-k36"][c]["f1"] - P["global_only"][c]["f1"]
-    top = max(P[m][c]["f1"] for m, _, _ in MODELS)
-    ax.text(top + 0.8, y, f"{gain:+.1f}", va="center", fontsize=6, color=BLUE)
+    ax.text(GX, y, f"{gain:+.1f}", va="center", ha="center", fontsize=6, color=BLUE, clip_on=False)
+ax.text(GX, len(order) - 0.35, "gain vs.\nGlobal-only", va="bottom", ha="center", fontsize=5.6,
+        color=BLUE, clip_on=False)
 ax.set_yticks(range(len(order)))
 ax.set_yticklabels([f"{label.get(c, c)} ({P['g14-k36'][c]['n']})" for c in order], fontsize=6.2)
 ax.set_xlabel("F1 (val)")
@@ -37,7 +39,7 @@ ax.set_xlim(0, 80)
 ax.grid(axis="x", color="#eeeeee", lw=0.6); ax.set_axisbelow(True)
 handles, labels = ax.get_legend_handles_labels()
 ax.legend(handles[::-1], labels[::-1], frameon=False, fontsize=5.8, loc="center left",
-          bbox_to_anchor=(1.0, 0.5), handlelength=1.2)
+          bbox_to_anchor=(1.17, 0.5), handlelength=1.2)
 fig.tight_layout()
 fig.savefig(OUT / "fig_types.pdf", bbox_inches="tight")
 fig.savefig(OUT / "fig_types.png", dpi=200, bbox_inches="tight")

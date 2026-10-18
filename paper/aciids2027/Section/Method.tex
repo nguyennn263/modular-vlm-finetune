@@ -13,7 +13,8 @@ As shown in Fig.~\ref{fig:arch}, ViBridge-VQA keeps the three components of Vint
 InternViT-300M vision encoder (24 layers, width 1024), its two-layer MLP projector $P$ and the
 Qwen2.5-0.5B-Instruct decoder (24 layers, width 896). Each image is resized to one
 $336\times336$ view, i.e., $24\times24$ patches of $14\times14$ pixels. InternViT, pre-trained at
-$448\times448$, bicubically interpolates its position embeddings to this resolution. The encoder returns one vector per
+$448\times448$, bicubically interpolates its position embeddings to this resolution, which roughly
+halves the encoder cost (191 instead of 362 GMACs). The encoder returns one vector per
 patch and a global \texttt{[CLS]} vector $v\in\mathbb{R}^{1024}$. Vintern-1B uses only the patch
 vectors: pixel shuffle~\cite{chen2024internvl15} merges each $2\times2$ block of patches into one
 4096-dimensional vector, and $P$, pre-trained to align the two backbones, maps it into the decoder

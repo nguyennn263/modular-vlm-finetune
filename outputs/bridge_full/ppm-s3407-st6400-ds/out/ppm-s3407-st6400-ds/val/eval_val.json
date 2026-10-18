@@ -1,0 +1,22 @@
+{
+  "split": "val",
+  "n": 5463,
+  "bridge": "patch_pool_mean",
+  "n_tiles": 1,
+  "checkpoint": "/tmp/ck/bridge/model.pt",
+  "pooled_input": "default",
+  "gen_image": "full",
+  "loss": 1.6398258907488639,
+  "num_samples": 5463,
+  "perplexity": 5.154272079467773,
+  "accuracy": 0.05930807248764415,
+  "exact_match": 0.061870766977850995,
+  "bleu": 0.13172131718752675,
+  "rouge_l": 0.44659340359373706,
+  "meteor": 0.37299503570931375,
+  "cider": 0.8741822965050021,
+  "precision": 0.4665780575720169,
+  "recall": 0.491442701643141,
+  "f1": 0.46391525103860376,
+  "wups": 0.05930807248764415
+}

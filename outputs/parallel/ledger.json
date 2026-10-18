@@ -4354,6 +4354,40 @@
       "pushed_at": "2026-10-18T11:21:18",
       "chain": "xb-cab-s123c",
       "phase": 0
+    },
+    "bridgefull:ppm-s123-st6400-ds": {
+      "account": "acc4",
+      "kernel": "nguyennn251/mvlm-bridgefull-ppm-s123-st6400-ds",
+      "status": "done",
+      "pushed_at": "2026-10-18T11:31:08",
+      "collected": false,
+      "bridge": "patch_pool_mean",
+      "ckpt": null,
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "bridgefull:ppm-s3407-st6400-ds": {
+      "account": "acc5",
+      "kernel": "nguyennguyen263/mvlm-bridgefull-ppm-s3407-st6400-ds",
+      "status": "done",
+      "pushed_at": "2026-10-18T11:31:13",
+      "collected": false,
+      "bridge": "patch_pool_mean",
+      "ckpt": null,
+      "splits": [
+        "val"
+      ],
+      "gen_image": "full"
+    },
+    "xb-cab-s123d:ep2": {
+      "account": "acc1",
+      "kernel": "nguyennn263/mvlm-xb-cab-s123d-ep2",
+      "status": "running",
+      "pushed_at": "2026-10-18T11:31:34",
+      "chain": "xb-cab-s123d",
+      "phase": 0
     }
   }
 }

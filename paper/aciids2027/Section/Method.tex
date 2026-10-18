@@ -66,6 +66,7 @@ $12\times12$ grid of 144 region tokens. ViBridge-VQA uses both outputs of the en
       label={[font=\scriptsize, text=black!70]above:decoder input}] (din) {};
 \node[data] (q2) at (\xa,-4.3) {question};
 \node[frozen] (llm2) at (\xe,-3.1) {Qwen2.5\\0.5B};
+\node[font=\scriptsize, text=green!45!black, anchor=north, align=center] at (llm2.south) {+ LoRA\\(optional)};
 \node[data] (ans2) at (\xf,-3.1) {answer};
 \draw[arr] (img2) -- (vit2);
 \coordinate (fork) at ($(vit2.east)+(0.3,0)$);
@@ -88,8 +89,8 @@ $12\times12$ grid of 144 region tokens. ViBridge-VQA uses both outputs of the en
 and (b) ViBridge-VQA, which encodes one view. In both, the pixel shuffle merges each $2\times2$
 block of patches and the pre-trained MLP projector maps it to the decoder space, which gives 144
 region tokens for our $336\times336$ view. ViBridge-VQA average-pools them to $k$ local tokens, placed in Vintern-1B's image slot, and
-places $g$ global tokens from the \texttt{[CLS]} vector before the prompt. The selected budget,
-$g=14$ and $k=36$, gives 50 visual tokens.}
+places $g$ global tokens from the \texttt{[CLS]} vector before the prompt. The selected budget, $g=14$ and $k=36$, gives 50 visual tokens. The decoder stays frozen, and
+a LoRA can optionally be added.}
 \label{fig:arch}
 \end{figure}
 

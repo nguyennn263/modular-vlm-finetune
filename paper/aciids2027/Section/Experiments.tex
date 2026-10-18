@@ -27,10 +27,10 @@ The vision encoder, projector and decoder come from Vintern-1B-v3.5~\cite{doan20
 stay frozen. We train with AdamW (learning rate $2\times10^{-4}$, effective batch size 8) on the
 first reference answer. Bridges are trained for two epochs, after which the validation loss and
 CIDEr stop improving. Models with a decoder LoRA are trained for one epoch, with the bridge, if
-any, and the LoRA learned jointly from scratch. Global-only + LoRA is also reported after three
-epochs, its best setting.
-Decoding is greedy, with at most 50 new tokens, and every model fits on one 16\,GB NVIDIA T4. Each configuration is trained with three seeds
-(42, 123, 3407), and we report the mean $\pm$ std. The token budget is selected on validation, and the test split is used only for the final report.
+any, and the LoRA learned jointly from scratch. Global-only + LoRA is also reported after three epochs, its best setting, which Fig.~\ref{fig:results}
+and Table~\ref{tab:ood} use.
+Decoding is greedy, with at most 50 new tokens, and every model fits on one 16\,GB NVIDIA T4. Each configuration is trained with three seeds (42, 123, 3407), four for Global-only (adding
+2026), and tables report the mean $\pm$ std. The token budget is selected on validation, and the test split is used only for the final report.
 
 \paragraph{Baselines.}
 Table~\ref{tab:main} compares with two groups. (1) Multimodal models fine-tuned on AutoViVQA: ViT5\_ViT,
@@ -97,8 +97,7 @@ Results are stable across seeds: on test, the std is at most 0.19 for F1 and 0.9
 
 \begin{table}[!tb]
 \centering
-\caption{Comparison of visual-token sources with a frozen decoder, on the validation set (mean
-$\pm$ std over three seeds, four for Global-only; $^\dagger$one run). Params: trained bridge parameters. Best results among trained models are in bold. All values $\times100$.}
+\caption{Comparison of visual-token sources with a frozen decoder, on the validation set. Params: trained bridge parameters. Best results among trained models are in bold. All values $\times100$.}
 \label{tab:bridges}
 \scriptsize
 \setlength{\tabcolsep}{1.8pt}
@@ -114,7 +113,7 @@ Light Q-Former & 8 & 27.6M & \pms{6.94}{.32} & \pms{47.74}{.80} & \pms{49.18}{.5
 Full Q-Former & 16 & 69.4M & \pms{6.97}{.33} & \pms{47.42}{.70} & \pms{49.02}{.35} & \pms{46.84}{.47} & \pms{13.76}{.36} & \pms{45.10}{.41} & \pms{37.43}{.34} & \pms{87.74}{1.24} \\
 C-Abstractor & 9 & 19.87M & \pms{8.04}{.07} & \pms{49.41}{.32} & \pms{50.93}{.32} & \pms{48.86}{.33} & \pms{15.27}{.13} & \pms{47.17}{.33} & \pms{39.60}{.33} & \pms{94.05}{1.32} \\
 Patch-pool & 8 & 0.92M & \pms{5.58}{.27} & \pms{46.11}{.39} & \pms{48.52}{.49} & \pms{45.78}{.44} & \pms{12.71}{.49} & \pms{43.99}{.47} & \pms{36.69}{.46} & \pms{85.83}{1.43} \\
-Local tokens only, untrained$^\dagger$ & 36 & 0 & 0.00 & 18.07 & 68.17 & 27.55 & 2.47 & 20.82 & 34.50 & 67.20 \\
+Local tokens only, untrained & 36 & 0 & 0.00 & 18.07 & 68.17 & 27.55 & 2.47 & 20.82 & 34.50 & 67.20 \\
 \textbf{ViBridge-VQA} ($k$=36) & 50 & 12.86M & \pms{\textbf{12.38}}{.22} & \pms{\textbf{55.86}}{.21} & \pms{\textbf{56.72}}{.33} & \pms{\textbf{54.96}}{.28} & \pms{\textbf{18.73}}{.23} & \pms{\textbf{53.10}}{.27} & \pms{\textbf{46.01}}{.42} & \pms{\textbf{113.29}}{1.01} \\
 \bottomrule
 \end{tabular}}
@@ -147,8 +146,7 @@ tokens give only 27.55 F1, as the frozen model answers in long sentences (24.8 w
 
 \begin{table}[!tb]
 \centering
-\caption{Effect of the token budget on the validation set (mean $\pm$ std over three seeds, four
-for $g=8$, $k=0$). Time: minutes to generate the validation answers on one T4. The selected budget is
+\caption{Effect of the token budget on the validation set. Time: minutes to generate the validation answers on one T4. The selected budget is
 in bold. All values $\times100$.}
 \label{tab:budget}
 \scriptsize
@@ -178,8 +176,7 @@ $g$ & $k$ & Tokens & Time & Accuracy & Precision & Recall & F1 & BLEU & ROUGE-L 
 \centering
 \includegraphics[width=\linewidth]{fig_results}
 \caption{(a) Validation F1 against the number of visual tokens (circle: selected budget).
-(b) Validation F1 by reasoning type (number of questions); numbers: gain of 36 local tokens at $g=8$, the $g$ of Global-only. Global-only + LoRA: three
-epochs.}
+(b) Validation F1 by reasoning type (number of questions); numbers: gain of 36 local tokens at $g=8$, the $g$ of Global-only.}
 \label{fig:results}
 \end{figure}
 
@@ -234,7 +231,7 @@ GMACs) instead of seven $448\times448$ views (362 GMACs each), 13 times less com
 \begin{table}[!tb]
 \centering
 \caption{Effect of a rank-16 decoder LoRA (2.16M parameters, one joint epoch unless stated) on
-the test set (mean $\pm$ std over three seeds, four for frozen Global-only). Gain: change from the
+the test set. Gain: change from the
 frozen decoder. Bridge parameters in parentheses. Best results are in bold. All values $\times100$.}
 \label{tab:lora}
 \scriptsize
@@ -301,7 +298,7 @@ and the helmets are worn \emph{to protect their heads}.
 \begin{table}[!tb]
 \centering
 \caption{Cross-dataset results (mean $\pm$ std over three samples of about 1{,}000 test questions, 510 for ViVQA,
-one training seed; Global-only + LoRA: three epochs). ViBridge-VQA ($k$=144): $g=14$ with all 144 local tokens, the most accurate budget of
+one training seed). ViBridge-VQA ($k$=144): $g=14$ with all 144 local tokens, the most accurate budget of
 Table~\ref{tab:budget}, without LoRA. Best results
 per dataset are in bold. All values $\times100$.}
 \label{tab:ood}

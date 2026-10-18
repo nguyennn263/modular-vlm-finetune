@@ -4263,7 +4263,7 @@
     "xb-ppm-s123:train": {
       "account": "acc4",
       "kernel": "nguyennn251/mvlm-xb-ppm-s123-train",
-      "status": "running",
+      "status": "cancelled-12h-cap (step_6400.pt scored by bridge_full)",
       "pushed_at": "2026-10-17T23:12:32",
       "chain": "xb-ppm-s123",
       "phase": 0
@@ -4271,7 +4271,7 @@
     "xb-ppm-s3407:train": {
       "account": "acc5",
       "kernel": "nguyennguyen263/mvlm-xb-ppm-s3407-train",
-      "status": "running",
+      "status": "cancelled-12h-cap (step_6400.pt scored by bridge_full)",
       "pushed_at": "2026-10-17T23:12:42",
       "chain": "xb-ppm-s3407",
       "phase": 0

@@ -25,3 +25,10 @@ Outputs: `outputs/bridge_full/<tag>/`, `outputs/train_gl/gl-g0-k36-lora1-s*_eval
 train (September recipe: --epochs 2 in one kernel, batch 8, same split; in-training text metrics
 off) -> val eval (--gen-image full). With the re-scored seed-42 runs this gives three seeds, so
 the two Table 2 rows get mean +- std and lose the one-run marker.
+
+## 2026-10-18 11:20: Patch-pool seeds 123/3407 hit the 12h cap
+Both train kernels were cancelled with epoch 2 at 3178/3222 (global step 6400/6444); one epoch
+now takes ~5h on Kaggle T4 (the September seed-42 run took 4.9h for both epochs). Their
+step_6400.pt checkpoints are scored by `bridge_full.py` (ppm-s{123,3407}-st6400): the cosine
+learning rate is ~2e-8 at step 6400, so the 44 missing steps (0.7%) change the weights negligibly.
+The same applies to the C-Abstractor chains if they are cancelled.

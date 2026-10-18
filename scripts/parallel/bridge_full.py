@@ -33,6 +33,15 @@ JOBS = {
     "g0k36-notrain-r2": ("global_local", "acc18", None, ["val"]),
 }
 EXTRA_FLAGS = {t: " --bridge-num-tokens 0 --local-grid 6" for t in ("g0k36-notrain", "g0k36-notrain-r2")}
+# 2026-10-18: the seed-123/3407 Patch-pool chains (train_queue --xb) were cancelled at the 12h cap
+# with epoch 2 at step 3178/3222 (global step 6400/6444). Their last periodic checkpoint,
+# step_6400.pt, is scored: the cosine schedule has the learning rate at ~2e-8 there, so the 44
+# missing steps (0.7%) leave the weights essentially unchanged.
+JOBS.update({
+    "ppm-s123-st6400": ("patch_pool_mean", "acc4", "nguyennn251/mvlm-xb-ppm-s123-train", ["val"]),
+    "ppm-s3407-st6400": ("patch_pool_mean", "acc5", "nguyennguyen263/mvlm-xb-ppm-s3407-train", ["val"]),
+})
+CKPT_NAME = {"ppm-s123-st6400": "step_6400.pt", "ppm-s3407-st6400": "step_6400.pt"}
 CK = "/tmp/ck/bridge"
 
 
@@ -49,10 +58,10 @@ def _cells(tag: str, bridge: str, splits: list[str]) -> list[dict]:
         # (two directories) -- use it only if every copy is byte-identical. Copied to /tmp so
         # the eval's results/ dir is writable and the .pt stays out of the output
         _code("import glob, hashlib, os, shutil",
-              "src = sorted(glob.glob('/kaggle/input/**/last_model.pt', recursive=True))",
+              f"src = sorted(glob.glob('/kaggle/input/**/{CKPT_NAME.get(tag, 'last_model.pt')}', recursive=True))",
               "md5 = {p: hashlib.md5(open(p, 'rb').read()).hexdigest() for p in src}",
               "print(md5)",
-              "assert src and len(set(md5.values())) == 1, 'missing or differing last_model.pt: ' + repr(md5)",
+              "assert src and len(set(md5.values())) == 1, 'missing or differing checkpoint: ' + repr(md5)",
               f"os.makedirs('{CK}', exist_ok=True)",
               f"shutil.copy(src[0], '{CK}/model.pt')",
               f"print('ckpt ready', src[0], os.path.getsize('{CK}/model.pt'))"),

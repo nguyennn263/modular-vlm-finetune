@@ -51,7 +51,7 @@ without a decoder LoRA. Our models are \emph{ViBridge-VQA ($k$=36)}, with $g=14$
 \centering
 \caption{Results on AutoViVQA. Baselines are as reported in AutoViVQA~\cite{autovivqa2026} and
 ViMoE-VQA~\cite{vimoevqa}; ours are mean $\pm$ std over three seeds on the image-disjoint test
-split. Best per column in bold. All values $\times100$.}
+split. In bold: the best baseline per column, or our results that exceed it. All values $\times100$.}
 \label{tab:main}
 \footnotesize
 \setlength{\tabcolsep}{2pt}
@@ -73,7 +73,7 @@ Model & Acc & Prec & Rec & F1 & BLEU & R-L & MET & CIDEr \\
 \quad GPT-5 & 10.84 & 47.20 & 55.20 & 50.89 & 6.07 & 47.30 & 33.34 & 84.20 \\
 \midrule
 \multicolumn{9}{l}{\emph{Ours} ($g=14$, $k=36$)} \\
-\quad ViBridge-VQA & \pms{11.75}{.21} & \pms{55.36}{.21} & \pms{56.56}{.21} & \pms{54.56}{.19} & \pms{18.52}{.18} & \pms{52.64}{.19} & \pms{45.53}{.33} & \pms{110.58}{.95} \\
+\quad ViBridge-VQA & \pms{11.75}{.21} & \pms{55.36}{.21} & \pms{56.56}{.21} & \pms{54.56}{.19} & \pms{\textbf{18.52}}{.18} & \pms{\textbf{52.64}}{.19} & \pms{\textbf{45.53}}{.33} & \pms{110.58}{.95} \\
 \quad ViBridge-VQA + LoRA & \pms{\textbf{14.67}}{.30} & \pms{59.02}{.12} & \pms{59.96}{.33} & \pms{58.17}{.19} & \pms{\textbf{22.53}}{.11} & \pms{\textbf{56.25}}{.22} & \pms{\textbf{49.32}}{.37} & \pms{122.88}{.93} \\
 \bottomrule
 \end{tabular}

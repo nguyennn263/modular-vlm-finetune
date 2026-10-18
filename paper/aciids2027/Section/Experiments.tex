@@ -81,7 +81,7 @@ Model & Acc & Prec & Rec & F1 & BLEU & R-L & MET & CIDEr \\
 
 \paragraph{ViBridge-VQA is on par with the fine-tuned Vintern-1B.}
 Without updating any weight of Vintern-1B, ViBridge-VQA raises its F1 from 17.55 (zero-shot) to
-54.56 (Table~\ref{tab:main}). This is comparable to the fine-tuned Vintern-1B (53.76) on a stricter split, while the decoder
+54.56 (Table~\ref{tab:main}). This is comparable to the reported 53.76 of the fine-tuned Vintern-1B, on a stricter split, while the decoder
 receives 50 instead of 1{,}792 visual tokens and only 1.35\% of the parameters are trained. Only Accuracy is lower (11.75 versus 13.01). On test, the bridge alone
 with the same 14 global tokens reaches 51.02 F1 ($\pm$0.10), so the 36 local tokens add 3.54 F1.
 
@@ -122,8 +122,8 @@ Source & Acc & Prec & Rec & F1 & BLEU & R-L & MET & CIDEr \\
 Table~\ref{tab:bridges} compares three sources of visual tokens. \emph{Residual} (one token) and
 \emph{Global-only} (Eq.~\eqref{eq:bridge}, $g=8$) read the \texttt{[CLS]} vector. Five bridges
 learn to compress the 577 encoder tokens: \emph{Tile-Attention} (self-attention and eight learned
-queries), the light and full Q-Former~\cite{li2023blip2} (7 and 15 queries, two and four layers;
-the full one also reads the question), C-Abstractor~\cite{cha2024honeybee} (convolution blocks
+queries), the light and full Q-Former~\cite{li2023blip2} (7 and 15 learned queries plus an anchor
+token from the mean encoder feature; two and four layers; the full one also reads the question), C-Abstractor~\cite{cha2024honeybee} (convolution blocks
 around a $3\times3$ pooling, 9 tokens instead of the 144 or more of Honeybee) and
 \emph{Patch-pool} (a linear projection averaged into eight bands). All are randomly initialised, as
 a new connector would be for a low-resource task, and trained with the same recipe. The third
@@ -193,8 +193,8 @@ At $g=14$, going from 1 to 144 local tokens adds 4.94 F1 and 19.05 CIDEr, wherea
 
 \paragraph{The knee is $g=14$, $k=36$.}
 The knee of the Pareto front (Section~\ref{sec:budget}, Fig.~\ref{fig:results}b) is
-$g=14$, $k=36$ for every metric, and also with generation time as the cost; TOPSIS and a post-hoc
-knee on test agree. $k=144$ is 1.65 F1 higher, but $k=36$ obtains 72\% of its gain over
+$g=14$, $k=36$ for each of the eight validation metrics, and also with generation time as the
+cost. TOPSIS with equal weights also ranks it first. $k=144$ is 1.65 F1 higher, but $k=36$ obtains 72\% of its gain over
 Global-only (67\% over the 14-token bridge of Table~\ref{tab:gsweep}) with 32\% of its tokens.
 
 \begin{table}[!tb]
@@ -306,7 +306,7 @@ using \emph{the phone}, and the helmets are worn \emph{to protect their heads}.
 
 \begin{table}[!tb]
 \centering
-\caption{Cross-dataset results (mean $\pm$ std over three samples of about 1{,}000 test
+\caption{Cross-dataset results (mean $\pm$ std over three test samples of about 1{,}000
 questions, 510 for ViVQA; one training seed). Best per dataset in bold. All values $\times100$.}
 \label{tab:ood}
 \footnotesize
@@ -333,7 +333,10 @@ Model & Acc & Prec & Rec & F1 & BLEU & R-L & MET & CIDEr \\
 \end{table}
 
 Table~\ref{tab:ood} evaluates the models on ViVQA-X~\cite{vivqax2025} and
-ViVQA~\cite{tran2021vivqa}, two Vietnamese VQA datasets not used for training. Even without LoRA, ViBridge-VQA outperforms Global-only + LoRA and the zero-shot
+ViVQA~\cite{tran2021vivqa}, two Vietnamese VQA datasets not used for training. All models are trained on AutoViVQA only and
+applied without further training. For each dataset, we draw three random samples of about 1{,}000
+test questions (seeds 42, 123, 3407) and score every model on the same questions; zero-shot
+Vintern-1B uses its official six-tile input. Even without LoRA, ViBridge-VQA outperforms Global-only + LoRA and the zero-shot
 Vintern-1B (F1 24.91 versus 15.89 and 14.52 on ViVQA-X; 42.68 versus 31.48 and 23.90 on ViVQA), and
 LoRA raises its F1 to 27.64 and 44.76. Zero-shot Vintern-1B keeps the highest Recall only by answering in long sentences,
 hence its near-zero Accuracy.

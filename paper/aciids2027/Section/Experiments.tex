@@ -101,7 +101,7 @@ Results are stable across seeds: on test, the std is at most 0.19 for F1 and 0.9
 \begin{table}[!tb]
 \centering
 \caption{Comparison of visual-token sources on the validation set (mean $\pm$ std over three
-seeds, four for Global-only; $^\dagger$one run). Params: trained bridge parameters. Best results per block are in
+seeds, four for Global-only without LoRA; $^\dagger$one run). Params: trained bridge parameters. Best results per block are in
 bold. All values $\times100$.}
 \label{tab:bridges}
 \footnotesize
@@ -111,7 +111,7 @@ bold. All values $\times100$.}
 \toprule
 Visual tokens from & Tokens & Params & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
 \midrule
-\multicolumn{8}{l}{\emph{Bridge only (two epochs)}} \\
+\multicolumn{8}{l}{\emph{Without decoder LoRA}} \\
 \quad Residual & 1 & 4.86M & \pms{46.02}{.36} & \pms{12.98}{.15} & \pms{44.23}{.38} & \pms{36.86}{.31} & \pms{86.48}{.77} \\
 \quad Global-only & 8 & 7.35M & \pms{50.74}{.17} & \pms{16.88}{.23} & \pms{49.03}{.12} & \pms{41.38}{.21} & \pms{99.07}{.47} \\
 \quad Tile-Attention & 8 & 4.14M & \pms{45.14}{.92} & \pms{12.34}{.32} & \pms{43.28}{.95} & \pms{36.11}{.73} & \pms{84.14}{1.40} \\

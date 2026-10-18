@@ -4316,7 +4316,7 @@
     "gl-g0-k36-lora1-s3407:eval": {
       "account": "acc7",
       "kernel": "tinquc220300nguyn/mvlm-gl-g0-k36-lora1-s3407-eval",
-      "status": "running",
+      "status": "done",
       "pushed_at": "2026-10-18T06:15:37",
       "chain": "gl-g0-k36-lora1-s3407",
       "phase": 1

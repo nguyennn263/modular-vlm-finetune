@@ -175,13 +175,15 @@ $g$ & $k$ & Tokens & Time & Accuracy & Precision & Recall & F1 & BLEU & ROUGE-L 
 \begin{figure}[!tb]
 \centering
 \includegraphics[width=\linewidth]{fig_results}
-\caption{(a) Validation F1 against the number of visual tokens (circle: selected budget).
-(b) Validation F1 by reasoning type (number of questions); numbers: gain of 36 local tokens at $g=8$, the $g$ of Global-only.}
+\caption{(a) Validation F1 of ViBridge-VQA ($g=14$) against the number of local tokens $k$
+(circle: selected budget; star: with LoRA). (b) Validation F1 by reasoning type (number of
+questions), sorted by the gain of ViBridge-VQA over Global-only.}
 \label{fig:results}
 \end{figure}
 
 \paragraph{Local tokens matter more than global tokens.} Table~\ref{tab:budget} and
-Fig.~\ref{fig:results}a vary $g\in\{8,14\}$ and $k\in\{1,9,36,144\}$. At $g=14$, going from 1 to
+Fig.~\ref{fig:results}a vary the number of local tokens $k\in\{1,9,36,144\}$, with $g\in\{8,14\}$
+in Table~\ref{tab:budget}. At $g=14$, going from 1 to
 144 local tokens adds 4.94 F1 and 19.05 CIDEr, whereas going from 8 to 14 global tokens adds only
 0.2--0.8 F1 at a fixed $k$. The gain per token falls from 0.07 F1 (23 to 50 tokens) to 0.015 F1
 (50 to 158 tokens).
@@ -268,9 +270,9 @@ metrics (+3.61 versus +2.62 F1, +12.31 versus +8.24 CIDEr). Without local tokens
 \label{sec:analysis}
 
 \paragraph{Reasoning types.} Fig.~\ref{fig:results}b breaks down validation F1 by reasoning
-type. Local tokens help most when the answer is visible in the image: at $g=8$, 36 local tokens
-add 10.3 F1 on recognition, 5.0 on spatial and 3.7 on action questions. On these types, the
-frozen-decoder model even beats Global-only + LoRA. Decoder adaptation helps more on causal and relational questions, which have the longest
+type. Local tokens help most when the answer is visible in the image: ViBridge-VQA adds 11.0 F1 over
+Global-only on recognition, 6.4 on action and 5.8 on spatial questions, and beats Global-only +
+LoRA on these types without adapting the decoder. Decoder adaptation helps more on causal and relational questions, which have the longest
 answers (5.0 and 5.6 words), and on the 66 yes/no questions. ViBridge-VQA ($k$=36) + LoRA is the best of the four models on seven of the eight types,
 all but yes/no.
 

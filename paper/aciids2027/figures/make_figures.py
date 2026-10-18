@@ -30,16 +30,16 @@ for g, colour in ((8, ORANGE), (14, BLUE)):
     ys = [p["val"]["f1"][0] for p in pts]
     sd = [p["val"]["f1"][1] for p in pts]
     a.errorbar(xs, ys, yerr=sd, color=colour, lw=1.6, marker="o", ms=4, capsize=1.5,
-               elinewidth=0.6, label=f"$g$={g}, $k$ local")
+               elinewidth=0.6, label=("ViBridge-VQA ($g$=14)" if g == 14 else "Global-only + local ($g$=8)"))
     for x, y, k in zip(xs, ys, (1, 9, 36, 144)):
         if g == 14:
             a.annotate(f"$k$={k}", (x, y), textcoords="offset points", xytext=(4, -9),
                        fontsize=6, color=BLUE, ha="left")
 a.axhline(MT8, color=GREY, lw=0.9, ls=(0, (4, 2)), label="Global-only")
-a.axhline(MT8_LORA, color=GREY, lw=0.9, ls=(0, (1, 1.5)), label="Global-only + LoRA")
+a.axhline(MT8_LORA, color=GREY, lw=0.9, ls=(0, (1, 1.5)), label="Global-only + LoRA (3 ep.)")
 L = D["g14-k36+lora1"]                  # selected budget + decoder LoRA (1 epoch)
 a.errorbar([L["tokens"]], [L["val"]["f1"][0]], yerr=[L["val"]["f1"][1]], color=BLUE, marker="*", ms=9,
-           ls="none", capsize=1.5, elinewidth=0.6, label="$g$=14, $k$=36 + LoRA")
+           ls="none", capsize=1.5, elinewidth=0.6, label="ViBridge-VQA + LoRA")
 knee = D["configs"]["g14-k36"]          # circled; named in the caption
 a.scatter([knee["tokens"]], [knee["val"]["f1"][0]], s=70, facecolors="none", edgecolors=INK, lw=0.9, zorder=5)
 a.set_xscale("log")
@@ -47,7 +47,7 @@ a.set_xticks([8, 15, 50, 158]); a.set_xticklabels(["8", "15", "50", "158"])
 a.set_xlabel("visual tokens ($g+k$, log scale)")
 a.set_ylabel("F1 (val)")
 a.set_ylim(49.5, 59.3); a.set_yticks([50, 52, 54, 56, 58])
-a.legend(frameon=False, fontsize=5.8, loc="upper center", bbox_to_anchor=(0.5, -0.24), ncol=2, handlelength=1.3, columnspacing=0.6)
+a.legend(frameon=False, fontsize=5.6, loc="upper center", bbox_to_anchor=(0.42, -0.24), ncol=2, handlelength=1.2, columnspacing=0.5)
 a.set_title("(a) F1 against visual tokens", fontsize=7)
 
 # (b) val F1 by reasoning type (all seeds); numbers: g=8 + 36 local minus global only (same g)
@@ -57,9 +57,9 @@ label = {"yesno": "yes/no"}
 y = list(range(len(order)))[::-1]
 h = 0.21
 SERIES = (("global_only", dict(facecolor="white", edgecolor=GREY, lw=0.8), "Global-only"),
-          ("global_only+lora3ep", dict(color=GREY), "Global-only + LoRA"),
-          ("g8-k36", dict(color=ORANGE), "$g$=8, $k$=36"),
-          ("g14-k36+lora1", dict(facecolor=BLUE, edgecolor="white", hatch="////", lw=0), "ViBridge-VQA (k=36) + LoRA"))   # colours as in (a): grey = global only, orange = g=8, blue = g=14
+          ("global_only+lora3ep", dict(color=GREY), "Global-only + LoRA (3 ep.)"),
+          ("g8-k36", dict(color=ORANGE), "Global-only + 36 local"),
+          ("g14-k36+lora1", dict(facecolor=BLUE, edgecolor="white", hatch="////", lw=0), "ViBridge-VQA + LoRA"))   # colours as in (a): grey = global only, orange = g=8, blue = g=14
 for i, (key, kw, lab) in enumerate(SERIES):
     b.barh([k + (1.5 - i) * h for k in y], [P[key][c]["f1"] for c in order], h, label=lab, **kw)
 for k, c in zip(y, order):
@@ -69,7 +69,7 @@ for k, c in zip(y, order):
 b.set_yticks(y)
 b.set_yticklabels([f"{label.get(c, c)} ({P['g14-k36'][c]['n']})" for c in order], fontsize=6.3)
 b.set_xlim(0, 80); b.set_xticks([0, 20, 40, 60, 80]); b.set_xlabel("F1 (val)")
-b.legend(frameon=False, fontsize=5.8, loc="upper center", bbox_to_anchor=(0.35, -0.24), ncol=2, columnspacing=0.6, handlelength=1.2)
+b.legend(frameon=False, fontsize=5.6, loc="upper center", bbox_to_anchor=(0.45, -0.24), ncol=2, columnspacing=0.5, handlelength=1.2)
 b.set_title("(b) F1 by reasoning type", fontsize=7)
 
 fig.tight_layout(w_pad=1.5)

@@ -89,8 +89,7 @@ with the same 14 global tokens reaches 51.02 F1 ($\pm$0.10), so the 36 local tok
 With a decoder LoRA, ViBridge-VQA reaches 58.17 F1 (+3.61) with 1.57\% of the parameters trained,
 and gives the best Accuracy (14.67), BLEU (22.53), ROUGE-L (56.25) and METEOR (49.32). ViMoE-VQA,
 which trains its fusion module and decoder on AutoViVQA, keeps the best Precision and F1. Results
-are stable: on test, the std is at most 0.19 for F1 and 0.95 for CIDEr, and test F1 is within 0.4
-of validation F1.
+are stable across seeds (test std of F1 at most 0.19) and splits (test F1 within 0.4 of validation).
 
 \subsection{Token Sources}
 \label{sec:rq-source}
@@ -119,14 +118,14 @@ Source & Acc & Prec & Rec & F1 & BLEU & R-L & MET & CIDEr \\
 \end{tabular}
 \end{table}
 
-Table~\ref{tab:bridges} compares three sources of visual tokens. \emph{Residual} (one token) and
-\emph{Global-only} (Eq.~\eqref{eq:bridge}, $g=8$) read the \texttt{[CLS]} vector. Five bridges
+Table~\ref{tab:bridges} compares three sources of visual tokens. \emph{Residual} (one token: a linear projection plus a two-layer MLP
+correction) and \emph{Global-only} (Eq.~\eqref{eq:bridge}, $g=8$) read the \texttt{[CLS]} vector. Five bridges
 learn to compress the 577 encoder tokens: \emph{Tile-Attention} (self-attention and eight learned
 queries), the light and full Q-Former~\cite{li2023blip2} (7 and 15 learned queries plus an anchor
-token from the mean encoder feature; two and four layers; the full one also reads the question), C-Abstractor~\cite{cha2024honeybee} (convolution blocks
-around a $3\times3$ pooling, 9 tokens instead of the 144 or more of Honeybee) and
-\emph{Patch-pool} (a linear projection averaged into eight bands). All are randomly initialised, as
-a new connector would be for a low-resource task, and trained with the same recipe. The third
+token from the mean encoder feature; two and four layers; the full one also reads the question), C-Abstractor~\cite{cha2024honeybee} (convolutions around a
+$3\times3$ pooling, 9 tokens) and
+\emph{Patch-pool} (a linear projection averaged into eight bands). All are randomly initialised and
+trained with the same recipe. The third
 source is our local tokens.
 
 \paragraph{Learned compressors fall short.}
@@ -143,8 +142,7 @@ $k=9$) give 52.82 F1 against 46.84 for the 16-token full Q-Former, and 9 tokens 
 51.03 against 48.86 for the 9-token C-Abstractor. Pooling alone is not the reason: Patch-pool
 also averages, but after a new projection, and reaches only 45.78 F1.
 Distilling the projector into Global-only does not help either: 50.35 F1 with a cosine loss on the
-mean tokens and 50.46 with a KL loss on the answers, against 50.74 without distillation. Without any trained part, the 36 local
-tokens give only 27.55 F1, as the frozen model answers in long sentences (24.8 words on average).
+mean tokens and 50.46 with a KL loss on the answers, against 50.74 without distillation.
 
 \subsection{Token Budget}
 \label{sec:budget-results}
@@ -257,10 +255,11 @@ ViBridge-VQA & \pms{11.75}{.21} & \pms{55.36}{.21} & \pms{56.56}{.21} & \pms{54.
 \paragraph{LoRA gains more with local tokens.}
 ViBridge-VQA + LoRA is the best model on every metric of Table~\ref{tab:lora} (58.17 F1, 122.88
 CIDEr), and LoRA gains more on ViBridge-VQA than on Global-only for all eight metrics (+3.61 versus
-+2.62 F1, +12.31 versus +8.24 CIDEr). Without local tokens, LoRA lifts Global-only to 53.10 F1
-(54.52 after three epochs), still below ViBridge-VQA with a frozen decoder (54.56); Residual,
-Tile-Attention and the two Q-Formers with LoRA reach 52.69--53.29 validation F1. With a frozen decoder, the global bridge is essential: it lifts the
-local tokens from 27.55 to 54.96 validation F1.
++2.62 F1, +12.31 versus +8.24 CIDEr). Without local tokens, LoRA lifts Global-only to 53.10 F1,
+below ViBridge-VQA with a frozen decoder (54.56), and only matches it after three epochs (54.52);
+Residual, Tile-Attention and the two Q-Formers with LoRA reach 52.69--53.29 validation F1. With a
+frozen decoder, a trained bridge is needed: local tokens alone give 27.55 F1, mostly because the
+decoder then answers in long sentences (24.8 words on average).
 
 \subsection{Analysis}
 \label{sec:analysis}
@@ -332,11 +331,10 @@ Model & Acc & Prec & Rec & F1 & BLEU & R-L & MET & CIDEr \\
 \end{tabular}
 \end{table}
 
-Table~\ref{tab:ood} evaluates the models on ViVQA-X~\cite{vivqax2025} and
-ViVQA~\cite{tran2021vivqa}, two Vietnamese VQA datasets not used for training. All models are trained on AutoViVQA only and
-applied without further training. For each dataset, we draw three random samples of about 1{,}000
-test questions (seeds 42, 123, 3407) and score every model on the same questions; zero-shot
-Vintern-1B uses its official six-tile input. Even without LoRA, ViBridge-VQA outperforms Global-only + LoRA and the zero-shot
+Table~\ref{tab:ood} applies the models, trained on AutoViVQA only, to ViVQA-X~\cite{vivqax2025}
+and ViVQA~\cite{tran2021vivqa} without further training. For each dataset, we draw three random samples of about 1{,}000
+test questions (seeds 42, 123, 3407) and score every model on the same questions; for ViVQA, only about half of the
+sampled COCO images could be retrieved (about 510 questions). Zero-shot Vintern-1B uses six tiles. Even without LoRA, ViBridge-VQA outperforms Global-only + LoRA and the zero-shot
 Vintern-1B (F1 24.91 versus 15.89 and 14.52 on ViVQA-X; 42.68 versus 31.48 and 23.90 on ViVQA), and
 LoRA raises its F1 to 27.64 and 44.76. Zero-shot Vintern-1B keeps the highest Recall only by answering in long sentences,
 hence its near-zero Accuracy.

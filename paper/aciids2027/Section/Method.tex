@@ -36,11 +36,11 @@ of the encoder.
 \def\xa{0.8}\def\xb{3.0}\def\xs{5.4}\def\xm{7.6}\def\xp{9.4}\def\xt{11.75}\def\xe{14.1}\def\xf{15.9}
 % ---- (a) official fine-tuning of Vintern-1B
 \node[lbl] at (-0.05,1.0) {(a) Vintern-1B, official fine-tuning};
-\node[data] (img1) at (\xa,0) {image\\$\le$6 tiles\\+ thumbnail};
+\node[data] (img1) at (\xa,0) {image\\6 tiles\\+ thumbnail};
 \node[frozen] (vit1) at (\xb,0) {InternViT\\300M};
 \node[frozen] (ps1) at (\xs,0) {pixel shuffle\\($2{\times}2$ merge)};
 \node[frozen] (mlp1) at (\xm,0) {MLP\\projector};
-\node[tok] (tok1) at (\xt,0) {$\le$1{,}792 visual\\(in \texttt{<img>} slot)};
+\node[tok] (tok1) at (\xt,0) {1{,}792 visual\\(in \texttt{<img>} slot)};
 \node[tok] (tq1) at (\xt,-0.85) {question $q$};
 \node[draw=black!45, dashed, rounded corners=2pt, fit=(tok1)(tq1), inner sep=2.5pt,
       label={[font=\scriptsize, text=black!70]above:decoder input}] (din1) {};
@@ -87,7 +87,8 @@ of the encoder.
 \node[anchor=west] at (lt.east) {trained};
 \end{scope}
 \end{tikzpicture}}
-\caption{Overview. (a) Official fine-tuning of Vintern-1B on up to seven views. (b) ViBridge-VQA on
+\caption{Overview. (a) Official fine-tuning of Vintern-1B, with six tiles plus a thumbnail for
+every AutoViVQA test image. (b) ViBridge-VQA on
 one view: $k$ local tokens, average-pooled from the 144 region tokens of the frozen projector, fill
 the image slot, and $g$ global tokens from \texttt{[CLS]} precede the prompt. The selected budget
 is $g=14$, $k=36$ (50 tokens). The decoder stays frozen; a LoRA is optional.}

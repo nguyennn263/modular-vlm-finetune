@@ -17,7 +17,7 @@ ViMoE-VQA~\cite{vimoevqa} instead designs a task-specific mixture-of-experts fus
 cheaper option keeps the VLM frozen and trains only a small connector, usually of one of two
 designs. A \emph{global-only bridge} maps the global image vector to a few tokens: it is cheap but
 loses small objects, printed text and spatial relations. A \emph{learned patch compressor}, such as
-a Q-Former, keeps these details but must learn a new mapping to the decoder, which is hard with
+a Q-Former, keeps these details but must learn a new mapping to the decoder, which can be hard with
 limited Vietnamese data.
 
 Vintern-1B offers a third option. Its projector is already pre-trained to map image regions into
@@ -43,6 +43,6 @@ decoder 36 times fewer visual tokens. Our contributions are:
   validation as the knee of the Pareto front.
   \item An \textbf{analysis of where the gains come from}: in our setup, reusing the pre-aligned
   projector is more data-efficient than learning a new connector, and beats learned connectors with up to $9.4\times$ more parameters (by 6.0 F1 over a
-  Q-Former at a similar number of tokens); local tokens matter more than global ones; and they also
+  Q-Former at a similar number of tokens); local tokens contribute more than global ones; and they also
   help on two other Vietnamese VQA datasets.
 \end{itemize}

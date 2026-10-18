@@ -4,7 +4,8 @@
 We introduced \textbf{ViBridge-VQA}, which improves Vintern-1B for generative Vietnamese VQA
 without updating any of its pre-trained weights. For a VLM whose projector is already aligned
 with its decoder, our results support three findings. First, reusing this projector with a few
-pooled local tokens is more effective than learning a new connector from limited data. Second, the
+pooled local tokens is more effective than learning a new connector from limited data in our
+experiments. Second, the
 number of visual tokens can be chosen with an explicit accuracy--cost criterion. Third, local
 tokens complement decoder adaptation rather than replace it: ViBridge-VQA with a decoder LoRA gives
 the best result.
@@ -12,6 +13,6 @@ the best result.
 Future work will apply ViBridge-VQA to more Vietnamese VQA datasets and to higher-resolution
 views, which offer more local tokens.
 
-Overall, an existing Vietnamese VLM can be improved substantially by choosing which visual tokens
+Overall, an existing Vietnamese VLM can be improved by choosing which visual tokens
 its frozen decoder receives, and how many. The code and the image-disjoint split are available at
 \url{https://github.com/nguyennn263/modular-vlm-finetune}.

@@ -129,8 +129,8 @@ source is our local tokens.
 
 \paragraph{Learned compressors fall short.}
 The five learned compressors stay 1.9--5.6 F1 below Global-only, despite up to $9.4\times$ more
-parameters. With limited data, a new mapping from patches to the decoder is hard to learn, and
-more capacity does not help: the 69.4M-parameter full Q-Former is no better than the 27.6M light
+parameters. With limited data, a new mapping from patches to the decoder appears hard to learn, and
+more capacity does not help here: the 69.4M-parameter full Q-Former is no better than the 27.6M light
 one.
 
 \paragraph{Reusing the pre-aligned projector is more data-efficient.}
@@ -183,7 +183,7 @@ accurate one.}
 \label{fig:results}
 \end{figure}
 
-\paragraph{Local tokens matter more than global tokens.}
+\paragraph{Local tokens contribute more than global tokens.}
 Table~\ref{tab:budget} and Fig.~\ref{fig:results}b vary $g\in\{8,14\}$ and $k\in\{1,9,36,144\}$.
 At $g=14$, going from 1 to 144 local tokens adds 4.94 F1 and 19.05 CIDEr, whereas going from 8 to
 14 global tokens adds only 0.2--0.8 F1 at a fixed $k$. The gain per token falls from 0.07 F1 (23 to
@@ -294,7 +294,7 @@ ViBridge-VQA + LoRA.}
 \label{fig:qual}
 \end{figure}
 
-\paragraph{LoRA makes answers precise.}
+\paragraph{LoRA makes answers more precise.}
 In Fig.~\ref{fig:qual}, ViBridge-VQA already finds the relevant content, such as the driver's
 phone or the helmets, but its answers are vague. The decoder LoRA makes them precise: the driver is
 using \emph{the phone}, and the helmets are worn \emph{to protect their heads}.

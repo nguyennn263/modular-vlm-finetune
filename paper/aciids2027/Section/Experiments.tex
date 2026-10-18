@@ -229,30 +229,22 @@ GMACs) instead of seven $448\times448$ views (362 GMACs each), 13 times less com
 
 \begin{table}[!tb]
 \centering
-\caption{Effect of a rank-16 decoder LoRA (2.16M parameters, one joint epoch unless stated) on
-the test set. Gain: change from the
-frozen decoder. Bridge parameters in parentheses. Best results are in bold. All values $\times100$.}
+\caption{Effect of a rank-16 decoder LoRA (2.16M parameters, one joint epoch) on the test set.
+Trained bridge parameters: 7.35M for Global-only, 12.86M for ViBridge-VQA. Best results are in
+bold. All values $\times100$.}
 \label{tab:lora}
 \scriptsize
 \setlength{\tabcolsep}{1.8pt}
 \resizebox{\textwidth}{!}{%
-\begin{tabular}{llrrrrrrrr}
+\begin{tabular}{lrrrrrrrr}
 \toprule
-Model & Decoder & Accuracy & Precision & Recall & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
+Model & Accuracy & Precision & Recall & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
 \midrule
-\multirow{7}{*}{\shortstack[l]{Global-only\\(7.35M)}} & frozen & 8.86 & 51.19 & 52.37 & 50.48 & 16.24 & 48.70 & 41.10 & 96.20 \\
- & & {\tiny $\pm$0.37} & {\tiny $\pm$0.20} & {\tiny $\pm$0.21} & {\tiny $\pm$0.22} & {\tiny $\pm$0.43} & {\tiny $\pm$0.19} & {\tiny $\pm$0.29} & {\tiny $\pm$1.10} \\[1pt]
- & + LoRA & 10.47 & 53.95 & 54.72 & 53.10 & 19.00 & 51.29 & 43.63 & 104.44 \\
- & & {\tiny $\pm$0.22} & {\tiny $\pm$0.04} & {\tiny $\pm$0.07} & {\tiny $\pm$0.05} & {\tiny $\pm$0.16} & {\tiny $\pm$0.08} & {\tiny $\pm$0.16} & {\tiny $\pm$0.45} \\[1pt]
- & \textit{gain} & \textcolor{green!45!black}{+1.61} & \textcolor{green!45!black}{+2.76} & \textcolor{green!45!black}{+2.35} & \textcolor{green!45!black}{+2.62} & \textcolor{green!45!black}{+2.76} & \textcolor{green!45!black}{+2.59} & \textcolor{green!45!black}{+2.53} & \textcolor{green!45!black}{+8.24} \\[1pt]
- & + LoRA, 3 ep. & 11.40 & 55.37 & 56.16 & 54.52 & 20.97 & 52.68 & 45.08 & 108.43 \\
- & & {\tiny $\pm$0.24} & {\tiny $\pm$0.18} & {\tiny $\pm$0.09} & {\tiny $\pm$0.14} & {\tiny $\pm$0.29} & {\tiny $\pm$0.21} & {\tiny $\pm$0.14} & {\tiny $\pm$0.67} \\[1pt]
+Global-only & \pms{8.86}{.37} & \pms{51.19}{.20} & \pms{52.37}{.21} & \pms{50.48}{.22} & \pms{16.24}{.43} & \pms{48.70}{.19} & \pms{41.10}{.29} & \pms{96.20}{1.10} \\
+Global-only + LoRA & \pms{10.47}{.22} & \pms{53.95}{.04} & \pms{54.72}{.07} & \pms{53.10}{.05} & \pms{19.00}{.16} & \pms{51.29}{.08} & \pms{43.63}{.16} & \pms{104.44}{.45} \\
 \midrule
-\multirow{5}{*}{\shortstack[l]{\textbf{ViBridge-}\\\textbf{VQA}\\(12.86M)}} & frozen & 11.75 & 55.36 & 56.56 & 54.56 & 18.52 & 52.64 & 45.53 & 110.58 \\
- & & {\tiny $\pm$0.21} & {\tiny $\pm$0.21} & {\tiny $\pm$0.21} & {\tiny $\pm$0.19} & {\tiny $\pm$0.18} & {\tiny $\pm$0.19} & {\tiny $\pm$0.33} & {\tiny $\pm$0.95} \\[1pt]
- & \textbf{+ LoRA} & \textbf{14.67} & \textbf{59.02} & \textbf{59.96} & \textbf{58.17} & \textbf{22.53} & \textbf{56.25} & \textbf{49.32} & \textbf{122.88} \\
- & & {\tiny $\pm$0.30} & {\tiny $\pm$0.12} & {\tiny $\pm$0.33} & {\tiny $\pm$0.19} & {\tiny $\pm$0.11} & {\tiny $\pm$0.22} & {\tiny $\pm$0.37} & {\tiny $\pm$0.93} \\[1pt]
- & \textit{gain} & \textcolor{green!45!black}{+2.92} & \textcolor{green!45!black}{+3.66} & \textcolor{green!45!black}{+3.40} & \textcolor{green!45!black}{+3.61} & \textcolor{green!45!black}{+4.01} & \textcolor{green!45!black}{+3.61} & \textcolor{green!45!black}{+3.79} & \textcolor{green!45!black}{+12.31} \\
+ViBridge-VQA & \pms{11.75}{.21} & \pms{55.36}{.21} & \pms{56.56}{.21} & \pms{54.56}{.19} & \pms{18.52}{.18} & \pms{52.64}{.19} & \pms{45.53}{.33} & \pms{110.58}{.95} \\
+\textbf{ViBridge-VQA + LoRA} & \pms{\textbf{14.67}}{.30} & \pms{\textbf{59.02}}{.12} & \pms{\textbf{59.96}}{.33} & \pms{\textbf{58.17}}{.19} & \pms{\textbf{22.53}}{.11} & \pms{\textbf{56.25}}{.22} & \pms{\textbf{49.32}}{.37} & \pms{\textbf{122.88}}{.93} \\
 \bottomrule
 \end{tabular}}
 \end{table}

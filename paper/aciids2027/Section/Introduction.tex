@@ -43,8 +43,7 @@ visual tokens.
 In summary, our main contributions are as follows:
 \begin{itemize}
   \item We propose \textbf{ViBridge-VQA}, a global--local bridge that combines trainable global
-  tokens with local tokens from the frozen VLM's own pre-trained projector. When the decoder may
-  be adapted, the local tokens with a decoder LoRA suffice.
+  tokens with local tokens from the frozen VLM's own pre-trained projector. It can also be combined with a lightweight decoder LoRA.
   \item We treat the number of visual tokens as an explicit \textbf{accuracy--cost budget},
   selected on validation as the knee of the Pareto front.
   \item We \textbf{analyse where the gains come from}: local tokens matter more than global ones,

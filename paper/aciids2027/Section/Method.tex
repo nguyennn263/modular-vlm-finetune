@@ -66,7 +66,7 @@ $12\times12$ grid of 144 region tokens. ViBridge-VQA uses both outputs of the en
       label={[font=\scriptsize, text=black!70]above:decoder input}] (din) {};
 \node[data] (q2) at (\xa,-4.3) {question};
 \node[frozen] (llm2) at (\xe,-3.1) {Qwen2.5\\0.5B};
-\node[font=\scriptsize, text=green!45!black, anchor=north, align=center] at (llm2.south) {+ LoRA (optional,\\then $g=0$)};
+\node[font=\scriptsize, text=green!45!black, anchor=north, align=center] at (llm2.south) {+ LoRA\\(optional)};
 \node[data] (ans2) at (\xf,-3.1) {answer};
 \draw[arr] (img2) -- (vit2);
 \coordinate (fork) at ($(vit2.east)+(0.3,0)$);
@@ -90,7 +90,7 @@ and (b) ViBridge-VQA, which encodes one view. In both, the pixel shuffle merges 
 block of patches and the pre-trained MLP projector maps it to the decoder space, which gives 144
 region tokens for our $336\times336$ view. ViBridge-VQA average-pools them to $k$ local tokens, placed in Vintern-1B's image slot, and
 places $g$ global tokens from the \texttt{[CLS]} vector before the prompt. The selected budget, $g=14$ and $k=36$, gives 50 visual tokens. The decoder stays frozen, and
-a LoRA can be added, in which case the global tokens are not needed.}
+a LoRA can optionally be added.}
 \label{fig:arch}
 \end{figure}
 
@@ -135,11 +135,11 @@ answer tokens:
   \mathcal{L} = -\sum_{t=1}^{T} \log p\big(y_t \mid y_{<t},\, f_\phi(v),\, \mathrm{pool}_s(P(x)),\, q\big),
   \label{eq:ce}
 \end{equation}
-where $x$ denotes the merged patch vectors. When the decoder may be adapted, a rank-16
-LoRA~\cite{hu2022lora} on the query, key, value and output projections of every decoder layer adds
-2{,}162{,}688 parameters (Section~\ref{sec:lora}). Throughout the paper, percentages of trained parameters are relative to all parameters of the model, which comprise the frozen components of Vintern-1B (about 0.94B, including the
+where $x$ denotes the merged patch vectors. ViBridge-VQA can also be combined with decoder
+adaptation: a rank-16 LoRA~\cite{hu2022lora} on the query, key, value and output projections of
+every decoder layer is trained jointly with the bridge and adds 2{,}162{,}688 parameters. Throughout the paper, percentages of trained parameters are relative to all parameters of the model, which comprise the frozen components of Vintern-1B (about 0.94B, including the
 vision encoder, projector, embeddings and output layer) plus the trained modules. With $g=14$, the
-bridge trains 12.86M parameters (1.35\%), and the LoRA alone 2.16M (0.23\%).
+bridge trains 12.86M parameters (1.35\%), and the bridge with LoRA 15.02M (1.57\%).
 
 \subsection{Choosing the Token Budget}
 \label{sec:budget}

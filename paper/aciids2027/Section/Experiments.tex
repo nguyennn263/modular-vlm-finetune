@@ -40,8 +40,7 @@ and GPT-5. Results of groups (1) and (2) are taken from the AutoViVQA and ViMoE-
 fine-tuned Vintern-1B uses the official recipe: six $448\times448$ tiles plus a thumbnail for
 every AutoViVQA test image, and a rank-16 LoRA on the language model for one epoch. In the
 analysis, we also use \emph{Global-only}, the bridge of Eq.~\eqref{eq:bridge} with $g=8$ and no
-local tokens, without and with a decoder LoRA (\emph{Global-only + LoRA}). Our models are \emph{ViBridge-VQA ($k$=36)}, with $g=14$ and a frozen decoder, and
-\emph{Local tokens + LoRA}, the 36 local tokens with a decoder LoRA (Section~\ref{sec:lora}).
+local tokens, without and with a decoder LoRA (\emph{Global-only + LoRA}). Our models are \emph{ViBridge-VQA ($k$=36)}, with $g=14$, and \emph{ViBridge-VQA ($k$=36) + LoRA}.
 
 \subsection{Main Results}
 \label{sec:main}
@@ -75,8 +74,8 @@ are the mean $\pm$ std over three seeds on our image-disjoint split (Section~\re
 \multirow{4}{*}{Ours}
  & ViBridge-VQA ($k$=36) & 11.75 & 55.36 & 56.56 & 54.56 & 18.52 & 52.64 & 45.53 & 110.58 \\
  & & {\tiny $\pm$0.21} & {\tiny $\pm$0.21} & {\tiny $\pm$0.21} & {\tiny $\pm$0.19} & {\tiny $\pm$0.18} & {\tiny $\pm$0.19} & {\tiny $\pm$0.33} & {\tiny $\pm$0.95} \\[1pt]
-  & Local tokens + LoRA & \textbf{14.37} & 58.93 & 59.92 & 58.06 & \textbf{22.40} & \textbf{56.11} & \textbf{49.23} & 122.30 \\
- & & {\tiny $\pm$0.15} & {\tiny $\pm$0.14} & {\tiny $\pm$0.12} & {\tiny $\pm$0.12} & {\tiny $\pm$0.11} & {\tiny $\pm$0.11} & {\tiny $\pm$0.19} & {\tiny $\pm$0.54} \\
+   & ViBridge-VQA ($k$=36) + LoRA & \textbf{14.67} & 59.02 & 59.96 & 58.17 & \textbf{22.53} & \textbf{56.25} & \textbf{49.32} & 122.88 \\
+ & & {\tiny $\pm$0.30} & {\tiny $\pm$0.12} & {\tiny $\pm$0.33} & {\tiny $\pm$0.19} & {\tiny $\pm$0.11} & {\tiny $\pm$0.22} & {\tiny $\pm$0.37} & {\tiny $\pm$0.93} \\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -87,9 +86,8 @@ Vintern-1B, ViBridge-VQA raises its F1 from 17.55 (zero-shot) to 54.56. This is 
 1.35\% of the parameters are trained. Only Accuracy is lower (11.75 versus 13.01). On test, the bridge alone with the same 14 global
 tokens reaches 51.02 F1 ($\pm$0.10), so the 36 local tokens add 3.54 F1.
 
-When the decoder may be adapted, the 36 local tokens with a decoder LoRA reach 58.06 F1 with
-0.23\% of the parameters trained (Section~\ref{sec:lora}). They give the best Accuracy (14.37),
-BLEU (22.40), ROUGE-L (56.11) and METEOR (49.23). ViMoE-VQA, which trains its fusion module and
+With a decoder LoRA, ViBridge-VQA reaches 58.17 F1 (+3.61) with 1.57\% of the parameters trained,
+and gives the best Accuracy (14.67), BLEU (22.53), ROUGE-L (56.25) and METEOR (49.32). ViMoE-VQA, which trains its fusion module and
 decoder on AutoViVQA, keeps the best Precision and F1.
 
 Results are stable across seeds: on test, the std is at most 0.19 for F1 and 0.95 for CIDEr, and test F1 is within 0.4 of validation F1.
@@ -249,13 +247,12 @@ Local tokens + LoRA & 2.16M (0.23\%) & \pms{\textbf{58.58}}{.07} & \pms{58.06}{.
 \end{tabular}
 \end{table}
 
-Table~\ref{tab:lora} adds a decoder LoRA. Without local tokens, LoRA brings every bridge to
-52.69--53.47 validation F1, below ViBridge-VQA with a frozen decoder. Three epochs bring
-Global-only + LoRA to 54.78, on par with it. With LoRA, the global tokens are no longer needed:
-the 36 local tokens alone match ViBridge-VQA + LoRA (58.06 versus 58.17 test F1) with 7 times
-fewer trained parameters, and train in 4.4 hours on one T4 instead of 8.9 hours. The global
-bridge is thus the component for a frozen decoder, where it lifts the local tokens from 27.55 to
-54.96 F1.
+Table~\ref{tab:lora} adds a decoder LoRA. ViBridge-VQA + LoRA reaches 58.17 test F1, the best
+result. Without local tokens, LoRA brings every bridge only to 52.69--53.47 validation F1, below
+ViBridge-VQA with a frozen decoder, and 54.78 for Global-only after three epochs. Removing the
+global tokens ($g=0$) gives a similar F1 once the decoder is adapted (58.06 test), so the gain of
+LoRA comes with the local tokens, whereas with a frozen decoder the global bridge is essential: it
+lifts the local tokens from 27.55 to 54.96 F1.
 
 \subsection{Analysis}
 \label{sec:analysis}

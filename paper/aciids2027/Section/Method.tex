@@ -38,7 +38,7 @@ $12\times12$ grid of 144 region tokens. ViBridge-VQA uses both outputs of the en
 \node[frozen] (vit1) at (\xb,0) {InternViT\\300M};
 \node[frozen] (ps1) at (\xs,0) {pixel shuffle\\($2{\times}2$ merge)};
 \node[frozen] (mlp1) at (\xm,0) {MLP\\projector};
-\node[data] (tok1) at (\xt,0) {$\le$1{,}792\\tokens};
+\node[data, font=\footnotesize] (tok1) at (\xt,0) {$\le$1{,}792\\tokens + $q$};
 \node[frozen] (llm1) at (\xe,0) {Qwen2.5\\0.5B + \textcolor{green!45!black}{\textbf{LoRA}}};
 \node[data] (ans1) at (\xf,0) {answer};
 \draw[arr] (img1) -- (vit1); \draw[arr] (vit1) -- (ps1); \draw[arr] (ps1) -- (mlp1);

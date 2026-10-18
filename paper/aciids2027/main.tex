@@ -95,16 +95,17 @@ Vietnam National University, Ho Chi Minh City, Vietnam\\
 
 \begin{abstract}
 Vision--language models (VLMs) such as Vintern-1B bring strong multimodal abilities to
-Vietnamese. However, adapting them to a new Visual Question Answering (VQA) benchmark usually
-requires fine-tuning on many high-resolution image tiles or training a new architecture. We
-propose \textbf{ViBridge-VQA}, which improves Vintern-1B without updating any of its pre-trained
-weights. From a single image view, the frozen decoder receives two kinds of visual tokens.
-\emph{Global} tokens are produced from the \texttt{[CLS]} vector by a small trainable bridge.
-\emph{Local} tokens come from Vintern-1B's own pre-aligned projector and are pooled to a budget
-chosen as the knee of the accuracy--cost Pareto front. On the reasoning-oriented AutoViVQA
-benchmark, ViBridge-VQA trains 1.35\% of the parameters and reaches 54.6 F1 on a stricter image-disjoint
-split, comparable to the fine-tuned Vintern-1B, with 36 times fewer visual tokens. Adding a lightweight decoder LoRA raises F1 to 58.2. Reusing the pre-trained projector is more effective than learning a new
-connector, and the gain of the local tokens carries over to two other Vietnamese VQA datasets.
+Vietnamese, but adapting them to a new Visual Question Answering (VQA) benchmark usually requires
+fine-tuning on many high-resolution image tiles or training a new architecture. We propose
+\textbf{ViBridge-VQA}, which improves Vintern-1B without updating any of its pre-trained weights.
+From a single image view, the frozen decoder receives two kinds of visual tokens: \emph{global}
+tokens, produced from the \texttt{[CLS]} vector by a small trainable bridge, and \emph{local}
+tokens from Vintern-1B's own pre-aligned projector, pooled to a budget chosen as the knee of the
+accuracy--cost Pareto front. On the reasoning-oriented AutoViVQA benchmark, ViBridge-VQA trains
+1.35\% of the parameters and reaches 54.6 F1 on a stricter image-disjoint split, comparable to the
+fine-tuned Vintern-1B with 36 times fewer visual tokens. A lightweight decoder LoRA raises F1 to
+58.2. Reusing the pre-trained projector beats learning a new connector, and the gain of the local
+tokens carries over to two other Vietnamese VQA datasets.
 
 \keywords{Vietnamese Visual Question Answering \and Vision--Language Models \and
 Parameter-Efficient Learning \and Visual Token Budget \and Generative VQA}

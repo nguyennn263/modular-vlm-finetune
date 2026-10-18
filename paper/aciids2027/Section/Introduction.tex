@@ -2,51 +2,47 @@
 \label{sec:intro}
 
 Visual Question Answering (VQA) asks a model to answer a natural-language question about an
-image. The task has advanced rapidly with large vision--language models (VLMs) such as
-BLIP-2~\cite{li2023blip2}, Flamingo~\cite{alayrac2022flamingo} and
-LLaVA~\cite{liu2023visualinstructiontuning}, which connect a pre-trained vision encoder to a
-pre-trained language model to generate free-form answers. Vietnamese has followed this trend with
-the open model Vintern-1B~\cite{doan2024vintern1b}, which connects an InternViT-300M encoder~\cite{chen2024internvl} to
-a Qwen2.5-0.5B decoder~\cite{qwen2025qwen25}. Benchmarks such as ViVQA~\cite{tran2021vivqa} and
-the reasoning-oriented AutoViVQA~\cite{autovivqa2026} measure progress in this low-resource
-setting.
+image. Large vision--language models (VLMs) such as BLIP-2~\cite{li2023blip2},
+Flamingo~\cite{alayrac2022flamingo} and LLaVA~\cite{liu2023visualinstructiontuning} generate
+free-form answers by connecting a pre-trained vision encoder to a pre-trained language model. For
+Vietnamese, the open Vintern-1B~\cite{doan2024vintern1b} connects an InternViT-300M
+encoder~\cite{chen2024internvl} to a Qwen2.5-0.5B decoder~\cite{qwen2025qwen25}, and benchmarks
+such as ViVQA~\cite{tran2021vivqa} and the reasoning-oriented AutoViVQA~\cite{autovivqa2026}
+measure progress in this low-resource setting.
 
-However, building a strong model for a new Vietnamese benchmark is still expensive. The common recipe fine-tunes an existing VLM: the fine-tuned Vintern-1B baseline of AutoViVQA adds LoRA
-adapters to the language model and splits each image into up to six high-resolution tiles plus a
-thumbnail. On the AutoViVQA test images this gives seven views, so its decoder reads 1{,}792 visual tokens
-per image. Another option is a
-task-specific architecture, such as ViMoE-VQA~\cite{vimoevqa} with its sparse mixture-of-experts
-fusion module. A cheaper option is to keep the whole VLM frozen and train only a small connector, which
-usually follows one of two designs. A \emph{global-only bridge} maps the global image vector to a
-few tokens, which is cheap but loses local details such as small objects, printed text and
-spatial relations. A \emph{learned patch compressor}, such as a Q-Former, keeps these details but must learn a new mapping from visual features to the decoder, which is difficult with
+Adapting such a model to a new benchmark remains expensive. The fine-tuned Vintern-1B baseline of
+AutoViVQA adds LoRA adapters to the language model and splits each test image into six
+high-resolution tiles plus a thumbnail, so its decoder reads 1{,}792 visual tokens per image.
+ViMoE-VQA~\cite{vimoevqa} instead designs a task-specific mixture-of-experts fusion module. A
+cheaper option keeps the VLM frozen and trains only a small connector, usually of one of two
+designs. A \emph{global-only bridge} maps the global image vector to a few tokens: it is cheap but
+loses small objects, printed text and spatial relations. A \emph{learned patch compressor}, such as
+a Q-Former, keeps these details but must learn a new mapping to the decoder, which is hard with
 limited Vietnamese data.
 
-Vintern-1B already offers a third option: its projector was pre-trained to map image regions into
-the input space of the decoder, so this alignment does not need to be learned again. Meanwhile,
-the model discards the global \texttt{[CLS]} vector of its encoder, which summarises the whole
-scene. We therefore study two questions. With limited labelled data, is reusing the pre-trained
-alignment of a VLM more effective than learning a new connector? And how many global and local
-tokens does the frozen decoder need?
+Vintern-1B offers a third option. Its projector is already pre-trained to map image regions into
+the input space of the decoder, so this alignment need not be learned again. The model also
+discards the global \texttt{[CLS]} vector of its encoder, which summarises the whole scene. We
+therefore ask two questions. With limited labelled data, is reusing the pre-trained alignment more
+effective than learning a new connector? And how many global and local tokens does the frozen
+decoder need?
 
-To this end, we propose \textbf{ViBridge-VQA}, which gives the frozen decoder of Vintern-1B two
-complementary kinds of visual tokens from a single image view. \emph{Local} tokens reuse the
-frozen projector, average-pooled to a chosen budget and placed in the original image slot. The
-decoder thus receives region features in the representation it was trained to read.
-\emph{Global} tokens, produced from the \texttt{[CLS]} vector by a small trainable bridge,
-add the scene-level information that Vintern-1B ignores. This bridge is the only trained part,
-so Vintern-1B itself stays unchanged and can be shared across tasks. Since every
-additional token increases inference cost, we treat the number of tokens as a budget and select it as the knee of the accuracy--cost Pareto front. ViBridge-VQA performs on par with the
-fine-tuned Vintern-1B without updating any of its weights, while its decoder reads far fewer
-visual tokens.
-
-In summary, our main contributions are as follows:
+We propose \textbf{ViBridge-VQA}, which feeds the frozen decoder of Vintern-1B two complementary
+kinds of visual tokens from a single image view. \emph{Local} tokens reuse the frozen projector,
+average-pooled to a chosen budget and placed in the original image slot, so the decoder reads
+region features in the representation it was trained on. \emph{Global} tokens, produced from the
+\texttt{[CLS]} vector by a small trainable bridge, add the scene-level information that Vintern-1B
+ignores. The bridge is the only trained part, so Vintern-1B stays unchanged and can be shared
+across tasks. As every token adds inference cost, we treat the number of tokens as a budget and
+select the knee of the accuracy--cost Pareto front. ViBridge-VQA performs on par with the
+fine-tuned Vintern-1B without updating any of its weights, while its decoder reads 36 times fewer
+visual tokens. Our contributions are:
 \begin{itemize}
-  \item We propose \textbf{ViBridge-VQA}, a global--local bridge that combines trainable global
-  tokens with local tokens from the frozen VLM's own pre-trained projector. It can also be combined with a lightweight decoder LoRA.
-  \item We treat the number of visual tokens as an explicit \textbf{accuracy--cost budget},
-  selected on validation as the knee of the Pareto front.
-  \item We \textbf{analyse where the gains come from}: local tokens matter more than global ones,
-  reusing the projector beats learning a new connector, and the gain of the local tokens
+  \item \textbf{ViBridge-VQA}, a global--local bridge that combines trainable global tokens with
+  local tokens from the frozen projector of the VLM, optionally with a lightweight decoder LoRA.
+  \item An explicit \textbf{accuracy--cost budget} for the number of visual tokens, selected on
+  validation as the knee of the Pareto front.
+  \item An \textbf{analysis of where the gains come from}: local tokens matter more than global
+  ones, reusing the projector beats learning a new connector, and the gain of the local tokens
   carries over to other Vietnamese VQA datasets.
 \end{itemize}

@@ -2,17 +2,19 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-In this work, we introduced \textbf{ViBridge-VQA}, which improves the Vietnamese VLM Vintern-1B
-for generative VQA without updating any of its pre-trained weights. Our results support three
-findings for a VLM whose projector is already aligned with its decoder. First, reusing this
-projector with a few pooled local tokens is more effective than learning a new connector from
-limited data. Second, the number of tokens can be chosen with an explicit accuracy--cost
-criterion. Third, the local tokens complement decoder adaptation rather than replace it, and ViBridge-VQA
-with a decoder LoRA gives the best result.
+We introduced \textbf{ViBridge-VQA}, which improves the Vietnamese VLM Vintern-1B for generative
+VQA without updating any of its pre-trained weights. For a VLM whose projector is already aligned
+with its decoder, our results support three findings. First, reusing this projector with a few
+pooled local tokens is more effective than learning a new connector from limited data. Second, the
+number of visual tokens can be chosen with an explicit accuracy--cost criterion. Third, local
+tokens complement decoder adaptation rather than replace it: ViBridge-VQA with a decoder LoRA gives
+the best result.
 
-Our study also has limitations. We train on a single dataset, AutoViVQA, and the task-specific ViMoE-VQA still reaches a higher F1. The comparison with published results
-is also limited, as they were obtained on the original AutoViVQA split. Without decoder adaptation, the exact-match accuracy of
-ViBridge-VQA stays below that of the fine-tuned Vintern-1B. Finally, accuracy has not saturated at the 144 local tokens available at our resolution.
+Our study has limitations. We train on a single dataset, AutoViVQA, where the task-specific
+ViMoE-VQA still reaches a higher F1, and the published baselines were obtained on the original
+split rather than ours. Without decoder adaptation, the exact-match accuracy of ViBridge-VQA stays
+below that of the fine-tuned Vintern-1B, and accuracy has not saturated at the 144 local tokens
+available at our resolution.
 
 Overall, an existing Vietnamese VLM can be improved substantially by choosing which visual tokens
 its frozen decoder receives, and how many. The code and the image-disjoint split are available at

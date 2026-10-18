@@ -34,7 +34,8 @@ complementary kinds of visual tokens from a single image view. \emph{Local} toke
 frozen projector, average-pooled to a chosen budget and placed in the original image slot. The
 decoder thus receives region features in the representation it was trained to read.
 \emph{Global} tokens, produced from the \texttt{[CLS]} vector by a small trainable bridge,
-add the scene-level information that Vintern-1B ignores. This bridge is the only trained part. Since every
+add the scene-level information that Vintern-1B ignores. This bridge is the only trained part,
+so Vintern-1B itself stays unchanged and can be shared across tasks. Since every
 additional token increases inference cost, we treat the number of tokens as a budget and select it as the knee of the accuracy--cost Pareto front. ViBridge-VQA performs on par with the
 fine-tuned Vintern-1B without updating any of its weights, while its decoder reads far fewer
 visual tokens.
@@ -42,11 +43,11 @@ visual tokens.
 In summary, our main contributions are as follows:
 \begin{itemize}
   \item We propose \textbf{ViBridge-VQA}, a global--local bridge that combines trainable global
-  tokens with local tokens from the frozen VLM's own pre-trained projector. It can also be used
-  together with a lightweight decoder LoRA.
+  tokens with local tokens from the frozen VLM's own pre-trained projector. When the decoder may
+  be adapted, the local tokens with a decoder LoRA suffice.
   \item We treat the number of visual tokens as an explicit \textbf{accuracy--cost budget},
   selected on validation as the knee of the Pareto front.
   \item We \textbf{analyse where the gains come from}: local tokens matter more than global ones,
-  reusing the projector beats learning a new connector, and local tokens complement decoder
-  adaptation, and their gain carries over to other Vietnamese VQA datasets.
+  reusing the projector beats learning a new connector, and the gain of the local tokens
+  carries over to other Vietnamese VQA datasets.
 \end{itemize}

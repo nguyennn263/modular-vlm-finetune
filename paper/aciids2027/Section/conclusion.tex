@@ -7,7 +7,8 @@ for generative VQA without updating any of its pre-trained weights. Our results 
 findings for a VLM whose projector is already aligned with its decoder. First, reusing this
 projector with a few pooled local tokens is more effective than learning a new connector from
 limited data. Second, the number of tokens can be chosen with an explicit accuracy--cost
-criterion. Third, the local tokens complement decoder adaptation rather than replace it.
+criterion. Third, the global bridge is needed with a frozen decoder, whereas with a decoder LoRA the
+local tokens alone suffice, with 0.23\% of the parameters trained.
 
 Our study also has limitations. We train on a single dataset, AutoViVQA, and the task-specific ViMoE-VQA still reaches a higher F1. The comparison with published results
 is also limited, as they were obtained on the original AutoViVQA split. Without decoder adaptation, the exact-match accuracy of

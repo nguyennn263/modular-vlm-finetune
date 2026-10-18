@@ -33,9 +33,9 @@ region features in the representation it was trained on. \emph{Global} tokens, p
 \texttt{[CLS]} vector by a small trainable bridge, add the scene-level information that Vintern-1B
 ignores. The bridge is the only trained part, so Vintern-1B stays unchanged and can be shared
 across tasks. As every token adds inference cost, we treat the number of tokens as a budget and
-select the knee of the accuracy--cost Pareto front. ViBridge-VQA performs on par with the
-fine-tuned Vintern-1B without updating any of its weights, while feeding its decoder 36 times
-fewer visual tokens. The key is pre-alignment: at a similar number of tokens, global tokens plus
+select the knee of the accuracy--cost Pareto front. Without updating any weight of Vintern-1B,
+ViBridge-VQA reaches an F1 close to that reported for its fine-tuned version, while feeding its
+decoder 36 times fewer visual tokens. The key is pre-alignment: at a similar number of tokens, global tokens plus
 the projector's local tokens beat a learned Q-Former by 6.0 F1 and a C-Abstractor by 2.2 F1. Our contributions are:
 \begin{itemize}
   \item \textbf{ViBridge-VQA}, a global--local bridge that combines trainable global tokens with
@@ -44,5 +44,5 @@ the projector's local tokens beat a learned Q-Former by 6.0 F1 and a C-Abstracto
   validation as the knee of the Pareto front.
   \item An \textbf{analysis of where the gains come from}: reusing the pre-aligned projector beats
   learned connectors with up to $9.4\times$ more parameters, local tokens matter more than global
-  ones, and their gain carries over to other Vietnamese VQA datasets.
+  ones, and they also help on two other Vietnamese VQA datasets.
 \end{itemize}

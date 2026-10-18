@@ -79,7 +79,7 @@ Model & Acc & Prec & Rec & F1 & BLEU & R-L & MET & CIDEr \\
 \end{tabular}
 \end{table}
 
-\paragraph{ViBridge-VQA is on par with the fine-tuned Vintern-1B.}
+\paragraph{ViBridge-VQA nears fine-tuned performance.}
 Without updating any weight of Vintern-1B, ViBridge-VQA raises its F1 from 17.55 (zero-shot) to
 54.56 (Table~\ref{tab:main}). This is comparable to the reported 53.76 of the fine-tuned Vintern-1B, on a stricter split, while the decoder
 receives 50 instead of 1{,}792 visual tokens and only 1.35\% of the parameters are trained. Only Accuracy is lower (11.75 versus 13.01). On test, the bridge alone
@@ -301,7 +301,7 @@ In Fig.~\ref{fig:qual}, ViBridge-VQA already finds the relevant content, such as
 phone or the helmets, but its answers are vague. The decoder LoRA makes them precise: the driver is
 using \emph{the phone}, and the helmets are worn \emph{to protect their heads}.
 
-\subsection{Cross-Dataset Generalisation}
+\subsection{Cross-Dataset Results}
 \label{sec:ood}
 
 \begin{table}[!tb]

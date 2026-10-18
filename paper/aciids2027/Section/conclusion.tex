@@ -12,8 +12,7 @@ with a decoder LoRA gives the best result.
 
 Our study also has limitations. We train on a single dataset, AutoViVQA, and the task-specific ViMoE-VQA still reaches a higher F1. The comparison with published results
 is also limited, as they were obtained on the original AutoViVQA split. Without decoder adaptation, the exact-match accuracy of
-ViBridge-VQA stays below that of the fine-tuned Vintern-1B. With 50 visual tokens, it also reads scene text much worse than Vintern-1B, a gap that closes
-with all 144 local tokens. Finally, accuracy has not saturated at the 144 local tokens available at our resolution.
+ViBridge-VQA stays below that of the fine-tuned Vintern-1B. Finally, accuracy has not saturated at the 144 local tokens available at our resolution.
 
 Overall, an existing Vietnamese VLM can be improved substantially by choosing which visual tokens
 its frozen decoder receives, and how many. The code and the image-disjoint split are available at

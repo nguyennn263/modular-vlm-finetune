@@ -13,28 +13,31 @@ P = json.loads((OUT.parent / "analysis" / "per_category.json").read_text())
 plt.rcParams.update({"font.family": "serif", "font.size": 6.8, "axes.spines.top": False,
                      "axes.spines.right": False, "pdf.fonttype": 42})
 BLUE, GREY = "#2a6fb0", "#6b7078"
-MODELS = (("global_only", dict(marker="o", mfc="white", mec=GREY, ms=4.5), "Global-only"),
-          ("global_only+lora3ep", dict(marker="s", mfc=GREY, mec=GREY, ms=4.2), "Global-only + LoRA"),
-          ("g14-k36", dict(marker="o", mfc=BLUE, mec=BLUE, ms=4.8), "ViBridge-VQA"),
-          ("g14-k36+lora1", dict(marker="*", mfc=BLUE, mec=BLUE, ms=8), "ViBridge-VQA + LoRA"))
+MODELS = (("global_only", dict(facecolor="white", edgecolor=GREY, lw=0.8), "Global-only"),
+          ("global_only+lora3ep", dict(color="#a9adb3"), "Global-only + LoRA"),
+          ("g14-k36", dict(color="#8fb7de"), "ViBridge-VQA"),
+          ("g14-k36+lora1", dict(color=BLUE), "ViBridge-VQA + LoRA"))
 label = {"yesno": "yes/no"}
 cats = [c for c in P["g14-k36"] if c != "ALL" and isinstance(P["g14-k36"][c], dict)]
 order = sorted(cats, key=lambda c: P["g14-k36"][c]["f1"] - P["global_only"][c]["f1"])   # largest gain on top
 
-fig, ax = plt.subplots(figsize=(4.6, 1.75))
+fig, ax = plt.subplots(figsize=(4.6, 2.35))
+h = 0.2
+for i, (m, kw, lab) in enumerate(MODELS):
+    ax.barh([y + (1.5 - i) * h for y in range(len(order))], [P[m][c]["f1"] for c in order], h,
+            label=lab, **kw)
 for y, c in enumerate(order):
-    vals = [P[m][c]["f1"] for m, _, _ in MODELS]
-    ax.plot([min(vals), max(vals)], [y, y], color="#d0d3d8", lw=2.4, zorder=1, solid_capstyle="round")
-    for (m, kw, lab), v in zip(MODELS, vals):
-        ax.plot([v], [y], ls="none", zorder=3, label=lab if y == 0 else None, **kw)
     gain = P["g14-k36"][c]["f1"] - P["global_only"][c]["f1"]
-    ax.text(max(vals) + 0.8, y, f"{gain:+.1f}", va="center", fontsize=5.8, color=BLUE)
+    top = max(P[m][c]["f1"] for m, _, _ in MODELS)
+    ax.text(top + 0.8, y, f"{gain:+.1f}", va="center", fontsize=6, color=BLUE)
 ax.set_yticks(range(len(order)))
 ax.set_yticklabels([f"{label.get(c, c)} ({P['g14-k36'][c]['n']})" for c in order], fontsize=6.2)
 ax.set_xlabel("F1 (val)")
-ax.set_xlim(35, 76)
+ax.set_xlim(0, 80)
 ax.grid(axis="x", color="#eeeeee", lw=0.6); ax.set_axisbelow(True)
-ax.legend(frameon=False, fontsize=5.8, loc="center left", bbox_to_anchor=(1.0, 0.5), handlelength=1.0)
+handles, labels = ax.get_legend_handles_labels()
+ax.legend(handles[::-1], labels[::-1], frameon=False, fontsize=5.8, loc="center left",
+          bbox_to_anchor=(1.0, 0.5), handlelength=1.2)
 fig.tight_layout()
 fig.savefig(OUT / "fig_types.pdf", bbox_inches="tight")
 fig.savefig(OUT / "fig_types.png", dpi=200, bbox_inches="tight")

@@ -41,8 +41,8 @@ decoder 36 times fewer visual tokens. Our contributions are:
   local tokens from the frozen projector of the VLM, optionally with a lightweight decoder LoRA.
   \item An explicit \textbf{accuracy--cost budget} for the number of visual tokens, selected on
   validation as the knee of the Pareto front.
-  \item An \textbf{analysis of where the gains come from}: pre-alignment is the key, as reusing the
-  projector beats learned connectors with up to $9.4\times$ more parameters (by 6.0 F1 over a
+  \item An \textbf{analysis of where the gains come from}: in our setup, reusing the pre-aligned
+  projector is more data-efficient than learning a new connector, and beats learned connectors with up to $9.4\times$ more parameters (by 6.0 F1 over a
   Q-Former at a similar number of tokens); local tokens matter more than global ones; and they also
   help on two other Vietnamese VQA datasets.
 \end{itemize}

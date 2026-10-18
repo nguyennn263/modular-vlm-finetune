@@ -133,8 +133,9 @@ parameters. With limited data, a new mapping from patches to the decoder is hard
 more capacity does not help: the 69.4M-parameter full Q-Former is no better than the 27.6M light
 one.
 
-\paragraph{Pre-alignment is the key.}
-The same patch features help once they pass through the pre-trained projector. Adding 36 or 144
+\paragraph{Reusing the pre-aligned projector is more data-efficient.}
+Our results suggest that, under this setup, the same patch features help once they pass through
+the pre-trained projector. Adding 36 or 144
 local tokens to Global-only ($g=8$) raises F1 by 3.58 and 5.41 (Table~\ref{tab:budget}). At a
 similar number of tokens, the projector wins with fewer trained parameters: 17 tokens ($g=8$,
 $k=9$) give 52.82 F1 against 46.84 for the 16-token full Q-Former, and 9 tokens ($g=8$, $k=1$) give

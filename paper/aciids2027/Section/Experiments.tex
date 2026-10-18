@@ -118,7 +118,7 @@ Visual tokens from & Tokens & Params & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
 \quad Light Q-Former & 8 & 27.6M & \pms{47.06}{.66} & \pms{13.99}{.33} & \pms{45.37}{.63} & \pms{37.57}{.60} & \pms{88.07}{1.89} \\
 \quad Full Q-Former & 16 & 69.4M & \pms{46.84}{.47} & \pms{13.76}{.36} & \pms{45.10}{.41} & \pms{37.43}{.34} & \pms{87.74}{1.24} \\
 \quad C-Abstractor$^\dagger$ & 9 & 19.87M & \prov{49.12} & \prov{15.46} & \prov{47.39} & \prov{39.83} & \prov{95.01} \\
-\quad Patch-pool$^\dagger$ & 8 & 0.92M & \prov{45.53} & \prov{12.02} & \prov{43.59} & \prov{36.58} & \prov{86.12} \\
+\quad Patch-pool & 8 & 0.92M & \pms{45.78}{.44} & \pms{12.71}{.49} & \pms{43.99}{.47} & \pms{36.69}{.46} & \pms{85.83}{1.43} \\
 \quad Local tokens only, untrained$^\dagger$ & 36 & 0 & 27.55 & 2.47 & 20.82 & 34.50 & 67.20 \\
 \quad ViBridge-VQA ($k$=36) & 50 & 12.86M & \pms{\textbf{54.96}}{.28} & \pms{\textbf{18.73}}{.23} & \pms{\textbf{53.10}}{.27} & \pms{\textbf{46.01}}{.42} & \pms{\textbf{113.29}}{1.01} \\
 \midrule
@@ -149,7 +149,7 @@ global tokens (ViBridge-VQA).
 
 \paragraph{Reusing the projector works best.} Without LoRA, the learned compressions stay \prov{1.6}--\prov{5.6} F1 below Global-only, despite up to
 $9.4\times$ more parameters. Patch-pool, a minimal baseline that averages bands of consecutive encoder tokens after a newly
-learned projection, reaches \prov{45.53} F1. It differs from our local tokens in the pooling
+learned projection, reaches 45.78 F1. It differs from our local tokens in the pooling
 (eight 1D bands instead of a 2D grid) as well as in the projection. In contrast, adding 36 or
 144 local tokens to Global-only ($g=8$) raises F1 by 3.58 and 5.41 (Table~\ref{tab:budget}).
 The projector also wins at a similar number of tokens: 17 tokens ($g=8$, $k=9$) give 52.82 F1,

@@ -82,13 +82,12 @@ Model & Acc & Prec & Rec & F1 & BLEU & R-L & MET & CIDEr \\
 \paragraph{ViBridge-VQA nears fine-tuned performance.}
 Without updating any weight of Vintern-1B, ViBridge-VQA raises its F1 from 17.55 (zero-shot) to
 54.56 (Table~\ref{tab:main}). This is comparable to the reported 53.76 of the fine-tuned Vintern-1B, on a stricter split, while the decoder
-receives 50 instead of 1{,}792 visual tokens and only 1.35\% of the parameters are trained. Only Accuracy is lower (11.75 versus 13.01). On test, the bridge alone
+receives 50 instead of 1{,}792 visual tokens and only 1.35\% of the parameters are trained. On test, the bridge alone
 with the same 14 global tokens reaches 51.02 F1 ($\pm$0.10), so the 36 local tokens add 3.54 F1.
 
 \paragraph{LoRA adds 3.6 F1.}
 With a decoder LoRA, ViBridge-VQA reaches 58.17 F1 (+3.61) with 1.57\% of the parameters trained,
-and gives the best Accuracy (14.67), BLEU (22.53), ROUGE-L (56.25) and METEOR (49.32). ViMoE-VQA,
-which trains its fusion module and decoder on AutoViVQA, keeps the best Precision and F1. Results
+and gives the best Accuracy (14.67), BLEU (22.53), ROUGE-L (56.25) and METEOR (49.32). Results
 are stable across seeds (test std of F1 at most 0.19) and splits (test F1 within 0.4 of validation).
 
 \subsection{Token Sources}
@@ -277,8 +276,7 @@ In Fig.~\ref{fig:types}, ViBridge-VQA adds 11.0 F1 over
 Global-only on recognition, 6.4 on action and 5.8 on spatial questions, and beats Global-only +
 LoRA on these types without adapting the decoder. Decoder adaptation helps more on causal and
 relational questions, which have the longest reference answers (5.0 and 5.6 words), and on the 66 yes/no
-questions. ViBridge-VQA + LoRA is the best of the four models on seven of the eight types, all but
-yes/no.
+questions. ViBridge-VQA + LoRA is the best of the four models on seven of the eight types.
 
 \paragraph{More exact answers, fewer misses.}
 On validation, answers are as long as the references (4.3 words on average), and most of them

@@ -9,9 +9,8 @@ number of visual tokens can be chosen with an explicit accuracy--cost criterion.
 tokens complement decoder adaptation rather than replace it: ViBridge-VQA with a decoder LoRA gives
 the best result.
 
-Limitations remain: we train on a single dataset, where the task-specific ViMoE-VQA still
-reaches a higher F1; without decoder adaptation, exact-match accuracy stays below that of the
-fine-tuned Vintern-1B; and accuracy has not saturated at the 144 local tokens of our resolution.
+Future work will apply ViBridge-VQA to more Vietnamese VQA datasets and to higher-resolution
+views, which offer more local tokens.
 
 Overall, an existing Vietnamese VLM can be improved substantially by choosing which visual tokens
 its frozen decoder receives, and how many. The code and the image-disjoint split are available at

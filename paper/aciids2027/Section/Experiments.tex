@@ -128,8 +128,8 @@ Visual tokens from & Tokens & Params & F1 & BLEU & ROUGE-L & METEOR & CIDEr \\
 \quad Tile-Attention & 8 & 4.14M & \pms{52.80}{.06} & \pms{19.27}{.16} & \pms{51.16}{.06} & \pms{43.41}{.05} & \pms{104.81}{.14} \\
 \quad Light Q-Former & 8 & 27.6M & \pms{53.21}{.14} & \pms{19.92}{.31} & \pms{51.54}{.13} & \pms{43.77}{.19} & \pms{106.26}{.73} \\
 \quad Full Q-Former & 16 & 69.4M & \pms{53.29}{.29} & \pms{19.57}{.25} & \pms{51.62}{.30} & \pms{43.96}{.21} & \pms{106.50}{1.04} \\
-\quad Local tokens only & 36 & 0 & \prov{\pms{xx.xx}{.xx}} & \prov{\pms{xx.xx}{.xx}} & \prov{\pms{xx.xx}{.xx}} & \prov{\pms{xx.xx}{.xx}} & \prov{\pms{xx.xx}{.xx}} \\
-\quad ViBridge-VQA ($k$=36) & 50 & 12.86M & \pms{\textbf{58.21}}{.16} & \pms{\textbf{22.27}}{.17} & \pms{\textbf{56.42}}{.14} & \pms{\textbf{49.55}}{.06} & \pms{\textbf{124.88}}{.75} \\
+\quad Local tokens only & 36 & 0 & \pms{\textbf{58.58}}{.07} & \pms{\textbf{22.69}}{.04} & \pms{\textbf{56.73}}{.09} & \pms{\textbf{50.11}}{.10} & \pms{\textbf{126.25}}{.26} \\
+\quad ViBridge-VQA ($k$=36) & 50 & 12.86M & \pms{58.21}{.16} & \pms{22.27}{.17} & \pms{56.42}{.14} & \pms{49.55}{.06} & \pms{124.88}{.75} \\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -164,8 +164,9 @@ without local tokens reach 52.69--53.47 F1, below ViBridge-VQA with a frozen dec
 Trained for three epochs, Global-only + LoRA reaches 54.78, on par with it. The same one-epoch
 LoRA adds 3.25 F1 to ViBridge-VQA, more than the 2.73 it adds to Global-only. Without global
 tokens ($g=0$), the local tokens give 27.55 F1 with nothing trained, as the frozen model answers in long
-sentences (24.8 words on average), and \prov{xx.xx} with the same LoRA, against 58.21 with the 14
-global tokens.
+sentences (24.8 words on average), and 58.58 with the same LoRA, on par with the 58.21 obtained with the 14 global tokens (58.06
+versus 58.17 on test). The global tokens are therefore needed when the decoder is frozen, where
+they are the only trained part, but not once the decoder is adapted.
 
 \subsection{Visual Token Budget}
 \label{sec:budget-results}

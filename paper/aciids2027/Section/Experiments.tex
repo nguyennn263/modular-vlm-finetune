@@ -25,40 +25,41 @@ Questions & 25{,}776 & 5{,}463 & 5{,}468 & 36{,}707 \\
 \bottomrule
 \end{tabular}
 \end{wraptable}
-We use AutoViVQA~\cite{autovivqa2026}, built on MS COCO images~\cite{lin2015coco}, where each
-question has five short free-form answers, a reasoning type and a reasoning level. After removing
+We use AutoViVQA~\cite{autovivqa2026}, which is built on MS COCO images~\cite{lin2015coco}. Each
+question has five short free-form answers, a reasoning type, and a reasoning level. After removing
 273 duplicated (image, question) pairs and 97 questions without a reasoning label, we split the
-remaining questions 70/15/15 by image (seed 42), so no test image is seen in training
-(Table~\ref{tab:data}). This split is stricter than a question-level one, on which Global-only
-scores about 0.5 F1 higher.
+remaining questions by image into 70/15/15 subsets (seed 42), ensuring that no test image appears
+in training (Table~\ref{tab:data}). This split is stricter than a question-level split, on which
+Global-only scores roughly 0.5 F1 higher.
 
 \paragraph{Metrics.}
-Following AutoViVQA and ViMoE-VQA, we report Accuracy (Acc), word-level Precision (Prec), Recall (Rec) and F1,
-BLEU~\cite{papineni2002bleu}, ROUGE-L (R-L)~\cite{lin2004rouge}, METEOR (MET)~\cite{banerjee2005meteor} and
-CIDEr~\cite{vedantam2015cider} against the five references. Precision, Recall and F1 compare the
-word sets of the answer and of its closest reference, averaged over questions. Accuracy is the
-share of answers identical to a reference; BLEU is corpus-level BLEU-4.
+Following AutoViVQA and ViMoE-VQA, we report Accuracy (Acc), word-level Precision (Prec), Recall
+(Rec), F1, BLEU~\cite{papineni2002bleu}, ROUGE-L (R-L)~\cite{lin2004rouge},
+METEOR (MET)~\cite{banerjee2005meteor}, and CIDEr~\cite{vedantam2015cider} against the five
+references. Precision, Recall, and F1 are computed from the word sets of each answer and its
+closest reference, then averaged over questions. Accuracy is the proportion of answers identical to
+at least one reference; BLEU is corpus-level BLEU-4.
 
 \subsection{Setup}
 
 \paragraph{Implementation details.}
-The encoder, projector and decoder come from Vintern-1B-v3.5~\cite{doan2024vintern1b} and stay
-frozen. We train with AdamW (learning rate $2\times10^{-4}$, effective batch size 8) on the first
-reference answer. Bridges are trained for two epochs, after which the validation loss and CIDEr
-stop improving. Models with a decoder LoRA are trained for one epoch, with the bridge (if any) and
-the LoRA learned jointly from scratch. Global-only + LoRA is also reported after three epochs, its
-best setting, which Table~\ref{tab:ood} and Fig.~\ref{fig:types} use. Decoding is greedy with at
-most 50 new tokens, and every model fits on one 16\,GB NVIDIA T4. Each configuration is trained
-with three seeds (42, 123, 3407), four for Global-only (adding 2026), and tables report mean
-$\pm$ std.
+The encoder, projector, and decoder are taken from Vintern-1B-v3.5~\cite{doan2024vintern1b} and
+remain frozen. We train with AdamW (learning rate $2\times10^{-4}$; effective batch size 8) on the
+first reference answer. Bridges are trained for two epochs, after which validation loss and CIDEr
+no longer improve. Models with a decoder LoRA are trained for one epoch, with the bridge (if any)
+and LoRA learned jointly from scratch. We also report Global-only + LoRA after three epochs, its
+best setting; Table~\ref{tab:ood} and Fig.~\ref{fig:types} use this version. We use greedy
+decoding with at most 50 new tokens, and every model fits on a single 16\,GB NVIDIA T4. Each
+configuration is trained with three seeds (42, 123, 3407), except Global-only, which uses four
+(including 2026); tables report mean $\pm$ std.
 
 \paragraph{Baselines.}
-Table~\ref{tab:main} compares with two groups of models: (1) fine-tuned on AutoViVQA:
+Table~\ref{tab:main} compares ViBridge-VQA with two groups of models: (1) models fine-tuned on
+AutoViVQA:
 ViT5\_ViT, BARTPhoBEiT~\cite{tran2023bartphobeitpretrainedsequencetosequenceimage}, Vintern-1B and
-ViMoE-VQA~\cite{vimoevqa}, and (2) zero-shot: Vintern-1B, LLaMA~3.2, Gemini~2.0 and 2.5
-Flash, and GPT-5. The fine-tuned
-Vintern-1B follows the official recipe: six $448\times448$ tiles plus a thumbnail per test image
-and a rank-16 LoRA on the language model for one epoch. The analysis also uses
+ViMoE-VQA~\cite{vimoevqa}, and (2) zero-shot models: Vintern-1B, LLaMA~3.2, Gemini~2.0 and 2.5
+Flash, and GPT-5. Fine-tuned Vintern-1B follows the official recipe: six $448\times448$ tiles plus
+a thumbnail per test image and a rank-16 LoRA on the language model for one epoch. The analysis also uses
 \emph{Global-only}, the bridge of Eq.~\eqref{eq:bridge} with $g=8$ and no local tokens, with and
 without a decoder LoRA. Our models are \emph{ViBridge-VQA} ($g=14$, $k=36$) and
 \emph{ViBridge-VQA + LoRA}.
@@ -99,15 +100,17 @@ Model & Acc & Prec & Rec & F1 & BLEU & R-L & MET & CIDEr \\
 \end{table}
 
 \paragraph{ViBridge-VQA nears fine-tuned performance.}
-Without updating any weight of Vintern-1B, ViBridge-VQA raises its F1 from 17.55 (zero-shot) to
-54.56 (Table~\ref{tab:main}). This is comparable to the reported 53.76 of the fine-tuned Vintern-1B, on a stricter split, while the decoder
-receives 50 instead of 1{,}792 visual tokens and only 1.35\% of the parameters are trained. On test, the bridge alone
-with the same 14 global tokens reaches 51.02 F1 ($\pm$0.10), so local tokens add 3.54 F1.
+Without updating any Vintern-1B weight, ViBridge-VQA raises F1 from 17.55 (zero-shot) to 54.56
+(Table~\ref{tab:main}). This is comparable to the reported 53.76 of fine-tuned Vintern-1B despite
+a stricter split, while the decoder receives 50 rather than 1{,}792 visual tokens and only 1.35\%
+of the parameters are trained. On the test set, the bridge alone with the same 14 global tokens
+reaches 51.02 F1 ($\pm$0.10), indicating that local tokens add 3.54 F1.
 
 \paragraph{LoRA adds 3.6 F1.}
-With a decoder LoRA, ViBridge-VQA reaches 58.17 F1 (+3.61) with 1.57\% of the parameters trained,
-and gives the best Accuracy (14.67), BLEU (22.53), ROUGE-L (56.25) and METEOR (49.32). Results
-are stable across seeds (test std of F1 at most 0.19) and splits (test within 0.4 F1 of validation).
+With a decoder LoRA, ViBridge-VQA reaches 58.17 F1 (+3.61) while training 1.57\% of the
+parameters, and achieves the best Accuracy (14.67), BLEU (22.53), ROUGE-L (56.25), and METEOR
+(49.32). Results are stable across seeds (test F1 std of at most 0.19) and splits (test F1 is
+within 0.4 of validation).
 
 \subsection{Token Sources}
 \label{sec:rq-source}
@@ -136,15 +139,15 @@ Source & Acc & Prec & Rec & F1 & BLEU & R-L & MET & CIDEr \\
 \end{tabular}
 \end{table}
 
-Table~\ref{tab:bridges} compares three sources of visual tokens. \emph{Residual} (one token: a linear projection plus a two-layer MLP
-correction) and \emph{Global-only} (Eq.~\eqref{eq:bridge}, $g=8$) read the \texttt{[CLS]} vector. Five bridges
-learn to compress the 577 encoder tokens: \emph{Tile-Attention} (self-attention and eight learned
-queries), the light and full Q-Former~\cite{li2023blip2} (7 and 15 learned queries plus an anchor
-token from the mean encoder feature; two and four layers; the full one also reads the question), C-Abstractor~\cite{cha2024honeybee} (convolutions around a
-$3\times3$ pooling, 9 tokens) and
+Table~\ref{tab:bridges} compares three sources of visual tokens. \emph{Residual} (one token: a
+linear projection plus a two-layer MLP correction) and \emph{Global-only}
+(Eq.~\eqref{eq:bridge}, $g=8$) read the \texttt{[CLS]} vector. Five learned bridges compress the
+577 encoder tokens: \emph{Tile-Attention} (self-attention and eight learned queries); the light
+and full Q-Former~\cite{li2023blip2} (7 and 15 learned queries, respectively, plus an anchor token
+from the mean encoder feature; two and four layers; the full model also reads the question);
+C-Abstractor~\cite{cha2024honeybee} (convolutions around $3\times3$ pooling; 9 tokens); and
 \emph{Patch-pool} (a linear projection averaged into eight bands). All are randomly initialised and
-trained with the same recipe. The third
-source is our local tokens.
+trained with the same recipe. The third source is our local tokens.
 
 \paragraph{Learned compressors fall short.}
 The five learned compressors stay 1.9--5.6 F1 below Global-only, despite up to $9.4\times$ more
@@ -209,10 +212,11 @@ At $g=14$, going from 1 to 144 local tokens adds 4.94 F1 and 19.05 CIDEr, wherea
 50 tokens) to 0.015 F1 (50 to 158 tokens).
 
 \paragraph{The knee is $g=14$, $k=36$.}
-The knee of the Pareto front (Section~\ref{sec:budget}, Fig.~\ref{fig:results}b) is
-$g=14$, $k=36$ for each of the eight validation metrics, and also with generation time as the
-cost. TOPSIS with equal weights also ranks it first. $k=144$ is 1.65 F1 higher, but $k=36$ obtains 72\% of its gain over
-Global-only (67\% over the 14-token bridge of Table~\ref{tab:gsweep}) with 32\% of its tokens.
+For each of the eight validation metrics, the knee of the Pareto front
+(Section~\ref{sec:budget}, Fig.~\ref{fig:results}b) is $g=14$, $k=36$; the same configuration is
+selected when generation time is used as the cost. Equal-weight TOPSIS also ranks it first.
+Although $k=144$ is 1.65 F1 higher, $k=36$ captures 72\% of its gain over Global-only (67\% over
+the 14-token bridge in Table~\ref{tab:gsweep}) using 32\% of its tokens.
 
 \begin{table}[!tb]
 \centering
@@ -239,8 +243,8 @@ $g$ & Acc & Prec & Rec & F1 & BLEU & R-L & MET & CIDEr \\
 
 \paragraph{Global tokens peak at $g=14$.}
 Table~\ref{tab:gsweep} and Fig.~\ref{fig:results}a vary $g$ from 4 to 18 for Global-only.
-Validation F1 rises from 48.98 ($g=4$) to 50.74 ($g=8$) and 51.56 ($g=14$), then falls to 51.20
-and 51.26 at $g=16$ and 18; CIDEr follows.
+Validation F1 rises from 48.98 ($g=4$) to 50.74 ($g=8$) and 51.56 ($g=14$), then declines to
+51.20 and 51.26 at $g=16$ and 18, respectively; CIDEr shows the same pattern.
 
 \paragraph{Fewer visual tokens, one encoder pass.}
 Compared with the official tiling, ViBridge-VQA reduces the visual tokens at the decoder input
@@ -349,8 +353,10 @@ Model & Acc & Prec & Rec & F1 & BLEU & R-L & MET & CIDEr \\
 \end{tabular}
 \end{table}
 
-Table~\ref{tab:ood} applies the models, trained on AutoViVQA only, to ViVQA-X~\cite{vivqax2025}
-and ViVQA~\cite{tran2021vivqa} without further training. For each dataset, we draw three random samples of about 1{,}000
-test questions (seeds 42, 123, 3407) and score every model on the same questions. Zero-shot Vintern-1B uses six tiles. Even without LoRA, ViBridge-VQA outperforms Global-only + LoRA and the zero-shot
-Vintern-1B (F1 24.91 versus 15.89 and 14.52 on ViVQA-X; 42.68 versus 31.48 and 23.90 on ViVQA), and
-LoRA raises its F1 to 27.64 and 44.76. Zero-shot Vintern-1B keeps the highest Recall only by answering in long sentences.
+Table~\ref{tab:ood} evaluates models trained only on AutoViVQA on ViVQA-X~\cite{vivqax2025} and
+ViVQA~\cite{tran2021vivqa}, without further training. For each dataset, we draw three random
+samples of approximately 1{,}000 test questions (seeds 42, 123, 3407) and evaluate every model on
+the same questions. Zero-shot Vintern-1B uses six tiles. Even without LoRA, ViBridge-VQA
+outperforms Global-only + LoRA and zero-shot Vintern-1B (F1: 24.91 versus 15.89 and 14.52 on
+ViVQA-X; 42.68 versus 31.48 and 23.90 on ViVQA); LoRA further raises F1 to 27.64 and 44.76.
+Zero-shot Vintern-1B attains the highest Recall only by producing long sentences.

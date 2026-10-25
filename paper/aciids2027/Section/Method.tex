@@ -1,25 +1,24 @@
 \section{Proposed Method}
 \label{sec:method}
 
-We formulate VQA as conditional answer generation: given an image $I$ and a Vietnamese question
-$q$, the model generates a short free-form answer $y=(y_1,\dots,y_T)$. ViBridge-VQA keeps every
-pre-trained weight of Vintern-1B~\cite{doan2024vintern1b} frozen and changes only the visual input
-of its decoder.
+We formulate VQA as conditional answer generation: given image $I$ and Vietnamese question $q$,
+the model generates a short free-form answer $y=(y_1,\dots,y_T)$. ViBridge-VQA freezes all
+pre-trained weights of Vintern-1B~\cite{doan2024vintern1b} and changes only the decoder's visual
+input.
 
 \subsection{Architecture}
 \label{sec:encoding}
 
-As shown in Fig.~\ref{fig:arch}, ViBridge-VQA keeps the three components of Vintern-1B: the
-InternViT-300M vision encoder (24 layers, width 1024), its two-layer MLP projector $P$ and the
+As shown in Fig.~\ref{fig:arch}, ViBridge-VQA retains Vintern-1B's three components: the
+InternViT-300M vision encoder (24 layers, width 1024), two-layer MLP projector $P$, and
 Qwen2.5-0.5B-Instruct decoder (24 layers, width 896). Each image is resized to one
-$336\times336$ view, i.e., $24\times24$ patches of $14\times14$ pixels. InternViT, pre-trained at
-$448\times448$, bicubically interpolates its position embeddings to this resolution, which roughly
-halves the encoder cost (191 instead of 362 GMACs). The encoder returns one vector per
-patch and a global \texttt{[CLS]} vector $v\in\mathbb{R}^{1024}$. Vintern-1B uses only the patch
-vectors: pixel shuffle~\cite{chen2024internvl15} merges each $2\times2$ block of patches into one
-4096-dimensional vector, and $P$, pre-trained to align the two backbones, maps it into the decoder
-input space. This yields a $12\times12$ grid of 144 region tokens. ViBridge-VQA uses both outputs
-of the encoder.
+$336\times336$ view ($24\times24$ patches of $14\times14$ pixels). InternViT, pre-trained at
+$448\times448$, bicubically interpolates its position embeddings, roughly halving encoder cost
+(191 rather than 362 GMACs). The encoder returns patch vectors and a global \texttt{[CLS]} vector
+$v\in\mathbb{R}^{1024}$. Vintern-1B uses only the patch vectors: pixel
+shuffle~\cite{chen2024internvl15} merges each $2\times2$ block into a 4096-dimensional vector,
+which the pre-trained $P$ maps into decoder input space. This yields a $12\times12$ grid of 144
+region tokens. ViBridge-VQA uses both encoder outputs.
 
 \begin{figure}[t]
 \centering
@@ -99,7 +98,7 @@ is $g=14$, $k=36$ (50 tokens). The decoder stays frozen; a LoRA is optional.}
 \subsection{Global Tokens}
 \label{sec:bridge}
 
-The \texttt{[CLS]} vector summarises the whole scene, but Vintern-1B never passes it to the
+The \texttt{[CLS]} vector summarises the entire scene, but Vintern-1B never passes it to the
 decoder. A small trainable bridge $f_\phi$ expands it into $g$ tokens with two linear heads:
 \begin{equation}
   f_\phi(v) = \big[\,W_a v + b_a;\ \mathrm{reshape}_{(g-1)\times 896}(W_e v + b_e)\,\big]
@@ -107,8 +106,8 @@ decoder. A small trainable bridge $f_\phi$ expands it into $g$ tokens with two l
   \label{eq:bridge}
 \end{equation}
 where $W_a\in\mathbb{R}^{896\times1024}$ and $W_e\in\mathbb{R}^{(g-1)896\times1024}$. The first
-head gives an \emph{anchor} token, and the second gives $g-1$ complementary tokens that present the
-global content along different learned directions. The bridge has $1025\cdot896\cdot g$
+head produces an \emph{anchor} token, and the second produces $g-1$ complementary tokens that
+represent global content along different learned directions. The bridge has $1025\cdot896\cdot g$
 parameters (12{,}857{,}600 for $g=14$), and its tokens are placed before the prompt. When the
 bridge alone is varied from 4 to 18 tokens, F1 peaks at $g=14$
 (Section~\ref{sec:budget-results}), the value used in ViBridge-VQA. Our Global-only baseline uses
@@ -118,39 +117,37 @@ $g=8$, matching the eight output tokens of Tile-Attention and the light Q-Former
 \subsection{Local Tokens}
 \label{sec:local}
 
-To give the decoder region-level detail, ViBridge-VQA also passes local tokens taken directly from
-the 144 region tokens of $P$. We average-pool the $12\times12$ grid to an $s\times s$ grid, so
-$k=s^2$ with $s\in\{1,3,6,12\}$: $k=144$ keeps every region token, and $k=36$ averages each
-$2\times2$ block. The pooled tokens replace the embeddings of $k$ placeholders inside Vintern-1B's
-own image slot, \texttt{<img>}\,$\cdots$\,\texttt{</img>}. Coming from the pre-trained projector, they
-stay in the representation that the decoder was trained to read and need no parameters.
+To provide region-level detail, ViBridge-VQA passes local tokens directly from the 144 region
+tokens of $P$. We average-pool the $12\times12$ grid to an $s\times s$ grid, where
+$k=s^2$ and $s\in\{1,3,6,12\}$: $k=144$ keeps every region token, whereas $k=36$ averages each
+$2\times2$ block. These tokens replace $k$ placeholders in Vintern-1B's image slot,
+\texttt{<img>}\,$\cdots$\,\texttt{</img>}. They require no parameters and remain in the
+representation the decoder was trained to read.
 
 \subsection{Training}
 \label{sec:training}
 
-By default, only the bridge parameters $\phi$ are trained; the encoder, the projector and the
-decoder stay frozen. We minimise the cross-entropy of the answer tokens:
+By default, only bridge parameters $\phi$ are trained; the encoder, projector, and decoder remain
+frozen. We minimise answer-token cross-entropy:
 \begin{equation}
   \mathcal{L} = -\sum_{t=1}^{T} \log p\big(y_t \mid y_{<t},\, f_\phi(v),\, \mathrm{pool}_s(P(x)),\, q\big),
   \label{eq:ce}
 \end{equation}
-where $x$ denotes the merged patch vectors. Optionally, ViBridge-VQA is combined with decoder
-adaptation: a rank-16 LoRA~\cite{hu2022lora} on the query, key, value and output projections of
-every decoder layer, trained jointly with the bridge, adds 2{,}162{,}688 parameters. Percentages of
-trained parameters are relative to all model parameters (the frozen 0.94B plus the trained ones).
-With $g=14$, the bridge trains 12.86M parameters (1.35\%), and the bridge with LoRA 15.02M
-(1.57\%).
+where $x$ denotes merged patch vectors. Optionally, a rank-16
+LoRA~\cite{hu2022lora} on every decoder layer's query, key, value, and output projections is
+trained jointly with the bridge, adding 2{,}162{,}688 parameters. Percentages are relative to all
+model parameters (the frozen 0.94B plus trained parameters). With $g=14$, the bridge trains
+12.86M parameters (1.35\%); adding LoRA raises this to 15.02M (1.57\%).
 
 \subsection{Budget Selection}
 \label{sec:budget}
 
-The cost of the decoder grows with the number of visual tokens $g+k$, so we treat the pair $(g,k)$
-as a budget. Among the configurations with local tokens, F1 increases with every added token in our
-experiments, so all of them lie on the accuracy--token Pareto front, which alone does not single
-one out. We therefore select its \emph{knee}~\cite{satopaa2011kneedle}, after which additional tokens bring
-diminishing returns. With accuracy $a$ the validation F1 and cost $c$ the number of visual tokens,
-both normalised to $[0,1]$ over the front, the knee maximises $\hat a - \hat c$, i.e., it lies
-furthest above the line joining the cheapest and the most accurate configuration. We check the
-choice with TOPSIS~\cite{hwang1981topsis}, which weighs accuracy (F1, CIDEr, METEOR) and cost
-(tokens, evaluation time, trained parameters, seed variance) equally. Both criteria use validation
-only, and the code with all rankings is released with the paper.
+Decoder cost grows with the visual-token count $g+k$, so we treat $(g,k)$ as a budget. In our
+experiments, F1 increases with each added local token, placing all such configurations on the
+accuracy--token Pareto front. We select its \emph{knee}~\cite{satopaa2011kneedle}, where returns
+diminish. With validation F1 $a$ and token cost $c$, both normalised to $[0,1]$, the knee maximises
+$\hat a-\hat c$.
+Equivalently, it is furthest above the line joining the cheapest and most accurate configurations.
+We confirm the choice with equal-weight TOPSIS~\cite{hwang1981topsis} over accuracy (F1, CIDEr,
+METEOR) and cost (tokens, evaluation time, trained parameters, seed variance). Both use validation
+data only; code for all rankings is released with the paper.

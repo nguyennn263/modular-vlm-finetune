@@ -98,16 +98,16 @@ Vietnam National University, Ho Chi Minh City, Vietnam\\
 
 \begin{abstract}
 Adapting vision--language models (VLMs) such as Vintern-1B to a new Vietnamese Visual Question
-Answering (VQA) benchmark usually requires fine-tuning on many high-resolution image tiles or
-training a new architecture. We propose \textbf{ViBridge-VQA}, which improves Vintern-1B without
-updating any of its pre-trained weights. From a single image view, the frozen decoder receives
-\emph{global} tokens, produced from the \texttt{[CLS]} vector by a small trainable bridge, and
-\emph{local} tokens from Vintern-1B's own pre-aligned projector, pooled to a budget chosen as the
-knee of the accuracy--cost Pareto front. On the AutoViVQA benchmark, ViBridge-VQA trains 1.35\% of
-the parameters, feeds its decoder 36 times fewer visual tokens than the official fine-tuning and
-reaches 54.6 F1 on an image-disjoint split; a lightweight decoder LoRA raises F1 to 58.2. Reusing
-the pre-trained projector outperforms the learned connectors we test, and the local tokens also help on two
-other Vietnamese VQA datasets.
+Answering (VQA) benchmark typically requires fine-tuning on many high-resolution image tiles or a
+new architecture. We propose \textbf{ViBridge-VQA}, which improves Vintern-1B without updating its
+pre-trained weights. From a single image view, the frozen decoder receives \emph{global} tokens
+from the \texttt{[CLS]} vector through a small trainable bridge, and \emph{local} tokens from
+Vintern-1B's pre-aligned projector, pooled to a budget chosen at the knee of the accuracy--cost
+Pareto front. On
+AutoViVQA, ViBridge-VQA trains 1.35\% of the parameters, uses 36 times fewer visual tokens than
+official fine-tuning, and achieves 54.6 F1 on an image-disjoint split; a lightweight decoder LoRA
+raises F1 to 58.2. Reusing the pre-trained projector outperforms the learned connectors evaluated
+here, and local tokens also improve results on two other Vietnamese VQA datasets.
 
 \keywords{Visual Question Answering \and Vietnamese \and Vision--Language Models \and
 Visual Token Compression \and Parameter-Efficient Adaptation}

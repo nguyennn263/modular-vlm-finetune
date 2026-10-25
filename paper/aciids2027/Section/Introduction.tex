@@ -5,8 +5,9 @@ Visual Question Answering (VQA) asks a model to answer a natural-language questi
 image. Large vision--language models (VLMs) such as BLIP-2~\cite{li2023blip2},
 Flamingo~\cite{alayrac2022flamingo} and LLaVA~\cite{liu2023visualinstructiontuning} generate
 free-form answers by connecting a pre-trained vision encoder to a pre-trained language model. For
-Vietnamese, the open Vintern-1B~\cite{doan2024vintern1b} connects an InternViT-300M
-encoder~\cite{chen2024internvl} to a Qwen2.5-0.5B decoder~\cite{qwen2025qwen25}, and benchmarks
+Vietnamese, the open Vintern-1B~\cite{doan2024vintern1b} connects InternViT-300M, a distilled
+InternVL encoder~\cite{chen2024internvl}, to a small Qwen decoder (Qwen2.5-0.5B~\cite{qwen2025qwen25}
+in the v3.5 release we use), and benchmarks
 such as ViVQA~\cite{tran2021vivqa} and the reasoning-oriented AutoViVQA~\cite{autovivqa2026}
 measure progress in this low-resource setting.
 

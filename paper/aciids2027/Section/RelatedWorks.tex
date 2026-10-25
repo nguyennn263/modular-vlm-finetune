@@ -23,14 +23,15 @@ BLIP-2's Q-Former~\cite{li2023blip2} compresses patch features with learned quer
 188M-parameter module pre-trained on millions of image--text pairs.
 LLaVA~\cite{liu2023visualinstructiontuning,liu2024llava15} preserves locality by projecting every
 patch token, at the cost of hundreds of decoder tokens. Honeybee~\cite{cha2024honeybee} proposes
-locality-preserving abstractors, while InternVL~\cite{chen2024internvl}, Vintern-1B's basis,
+locality-preserving abstractors, while InternVL~\cite{chen2024internvl15,chen2024internvl}, Vintern-1B's basis,
 merges neighbouring patches before projection. All learn the patch-to-decoder mapping during
 large-scale pre-training. ViBridge-VQA instead reuses that mapping and trains only a 12.9M-parameter
 global bridge on roughly 26k task questions.
 
 \paragraph{Visual token budget.}
 The number of visual tokens largely determines decoder cost. Inference-optimal scaling
-of VLMs~\cite{li2024inferenceoptimal} shows that a few tokens can suffice for many tasks, and
+of VLMs~\cite{li2024inferenceoptimal} shows that very few visual tokens can suffice for visual
+reasoning, and
 Matryoshka multimodal models~\cite{cai2024matryoshka} show with nested pooled budgets that the
 required budget depends on the task. Other work reduces the tokens directly:
 DeCo~\cite{yao2024deco} replaces the Q-Former with adaptive average pooling of the patch tokens,
